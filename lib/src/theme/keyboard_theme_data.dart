@@ -61,6 +61,7 @@ class KeyboardThemeData {
     this.borderWidth = 0,
     this.fontFamily,
     this.labelWeight = FontWeight.w500,
+    this.labelFontVariations = const [],
     this.labelScale = 1.0,
     this.showHints = true,
     this.motion = const MotionSpec(),
@@ -145,6 +146,10 @@ class KeyboardThemeData {
   /// Bundled family (e.g. 'GoogleSansFlex'); null = system font.
   final String? fontFamily;
   final FontWeight labelWeight;
+
+  /// Variable-font axes for key labels (e.g. wght, ROND for Google Sans Flex).
+  /// Apply via TextStyle.fontVariations.
+  final List<FontVariation> labelFontVariations;
   final double labelScale;
   final bool showHints;
   final MotionSpec motion;
