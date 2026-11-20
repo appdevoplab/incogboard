@@ -59,10 +59,24 @@ class GestureTrailController extends ChangeNotifier {
 
 /// Paints the swipe trail. Placeholder: a plain polyline.
 class GestureTrailLayer extends StatelessWidget {
-  const GestureTrailLayer({super.key, required this.controller, required this.theme});
+  const GestureTrailLayer({
+    super.key,
+    required this.controller,
+    required this.theme,
+    this.trailWidth = 6,
+    this.fadeMs = 300,
+    this.showTrail = true,
+    this.showPreview = true,
+  });
 
   final GestureTrailController controller;
   final KeyboardThemeData theme;
+
+  /// From SwipeSettings.
+  final double trailWidth;
+  final int fadeMs;
+  final bool showTrail;
+  final bool showPreview;
 
   @override
   Widget build(BuildContext context) => IgnorePointer(

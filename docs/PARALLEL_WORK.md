@@ -24,6 +24,9 @@ Myna is built in waves. In each wave, several agents work at the same time, each
    - Anything learned from typing is stored only via `SecureBlobStore`.
    - Respect `InputFieldInfo.isSensitive` and `allowsLearning`.
 5. **Dependencies:** none beyond `pubspec.yaml`. If you truly need one, request it in your report with its license and a confirmation that it has no network code.
+   - **Exception:** Wave 1-D may add *only* the `fonts:` block under `flutter:` in `pubspec.yaml`.
+   - **Exception:** Wave 1-E may edit `android/app/build.gradle.kts`, `proguard-rules.pro` and `res/xml/method.xml`.
+   - **Third-party code or data:** write source URL, version, license and attribution to `docs/notices/<your-area>.md`. The orchestrator merges these into `THIRD_PARTY_NOTICES.md`.
 6. **Quality bar before you report done:**
    - `dart format --line-length 120 <your paths>`
    - `flutter analyze` (zero issues)
