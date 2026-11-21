@@ -34,8 +34,20 @@ android {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.getByName("debug")
+
+            // R8 also strips android.util.Log.d/v/i (see proguard-rules.pro): no debug logging in shipped builds.
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
+}
+
+dependencies {
+    // Inline autofill chip styling (UiVersions). Pure UI helpers, Apache-2.0, no network code.
+    implementation("androidx.autofill:autofill:1.3.0")
+
+    testImplementation("junit:junit:4.13.2")
 }
 
 kotlin {
