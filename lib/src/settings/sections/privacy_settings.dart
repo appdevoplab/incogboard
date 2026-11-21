@@ -12,6 +12,7 @@ class PrivacySettings {
     this.hideFromScreenshots = false,
     this.appLock = false,
     this.appLockTimeoutSeconds = 60,
+    this.personalShortcuts = true,
   });
 
   factory PrivacySettings.fromJson(Json j) => PrivacySettings(
@@ -21,6 +22,7 @@ class PrivacySettings {
     hideFromScreenshots: jBool(j, 'hideFromScreenshots', false),
     appLock: jBool(j, 'appLock', false),
     appLockTimeoutSeconds: jInt(j, 'appLockTimeoutSeconds', 60).clamp(0, 3600),
+    personalShortcuts: jBool(j, 'personalShortcuts', true),
   );
 
   /// Learn new words and phrases (always off in password/incognito fields).
@@ -37,6 +39,9 @@ class PrivacySettings {
   final bool appLock;
   final int appLockTimeoutSeconds;
 
+  /// Offer the personal shortcuts ("omw" -> "on my way") in the suggestion strip.
+  final bool personalShortcuts;
+
   Json toJson() => {
     'learning': learning,
     'incognito': incognito,
@@ -44,6 +49,7 @@ class PrivacySettings {
     'hideFromScreenshots': hideFromScreenshots,
     'appLock': appLock,
     'appLockTimeoutSeconds': appLockTimeoutSeconds,
+    'personalShortcuts': personalShortcuts,
   };
 
   PrivacySettings copyWith({
@@ -53,6 +59,7 @@ class PrivacySettings {
     bool? hideFromScreenshots,
     bool? appLock,
     int? appLockTimeoutSeconds,
+    bool? personalShortcuts,
   }) => PrivacySettings(
     learning: learning ?? this.learning,
     incognito: incognito ?? this.incognito,
@@ -60,5 +67,6 @@ class PrivacySettings {
     hideFromScreenshots: hideFromScreenshots ?? this.hideFromScreenshots,
     appLock: appLock ?? this.appLock,
     appLockTimeoutSeconds: appLockTimeoutSeconds ?? this.appLockTimeoutSeconds,
+    personalShortcuts: personalShortcuts ?? this.personalShortcuts,
   );
 }
