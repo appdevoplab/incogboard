@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.graphics.Paint
 import android.os.Build
 import app.myna.keyboard.security.SecureStore
+import app.myna.keyboard.security.SecureStoreException
 import java.io.File
 
 internal enum class EngineRole { IME, APP }
@@ -18,7 +19,8 @@ internal class PlatformHostApiImpl(
     private val role: EngineRole,
 ) : PlatformHostApi {
 
-    private val store by lazy { SecureStore(context) }
+    // One store per process: both engines must share its lock.
+    private val store by lazy { SecureStore.get(context) }
 
     override fun getSystemColors(): SystemColorsMessage? {
         if (Build.VERSION.SDK_INT < 31) return null
@@ -34,13 +36,21 @@ internal class PlatformHostApiImpl(
         return SystemColorsMessage(palettes, context.isNightMode())
     }
 
-    override fun secureRead(name: String): ByteArray? = store.read(name)
+    /** Null when missing, corrupt, or the device is locked (the keyboard still works without it). */
+    override fun secureRead(name: String): ByteArray? = secure { store.read(name) }
 
-    override fun secureWrite(name: String, data: ByteArray) = store.write(name, data)
+    /** Throws a PlatformException (code `secure_store_*`) when the data could not be saved. */
+    override fun secureWrite(name: String, data: ByteArray) = secure { store.write(name, data) }
 
-    override fun secureDelete(name: String) = store.delete(name)
+    override fun secureDelete(name: String) = secure { store.delete(name) }
 
-    override fun secureWipeAll() = store.wipeAll()
+    override fun secureWipeAll() = secure { store.wipeAll() }
+
+    private inline fun <T> secure(block: () -> T): T = try {
+        block()
+    } catch (e: SecureStoreException) {
+        throw FlutterError(e.code, e.message, null)
+    }
 
     override fun hasInternetPermission(): Boolean {
         @Suppress("DEPRECATION")
