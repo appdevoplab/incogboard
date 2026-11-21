@@ -117,11 +117,7 @@ class FakeGestureDecoder implements GestureDecoder {
   }
 
   @override
-  Future<List<Suggestion>> decode(
-    GesturePath path, {
-    List<String> previousWords = const [],
-    int maxResults = 6,
-  }) async {
+  Future<List<Suggestion>> decode(GesturePath path, {List<String> previousWords = const [], int maxResults = 6}) async {
     decoded.add(path);
     decodedContext.add(List.of(previousWords));
     return [for (final w in result) Suggestion(w, kind: SuggestionKind.gesture)];
@@ -141,16 +137,14 @@ class FakeGestureDecoder implements GestureDecoder {
 }
 
 /// Reads `assets/<path>` from the repository on disk (tests run from the project root).
+/// Reads are synchronous so widget tests (fake async) can await them.
 class DiskPackRepository implements PackRepository {
   @override
-  Future<ByteData> load(String path) async {
-    final bytes = await File('assets/$path').readAsBytes();
-    return ByteData.sublistView(bytes);
-  }
+  Future<ByteData> load(String path) async => ByteData.sublistView(File('assets/$path').readAsBytesSync());
 
   @override
-  Future<String> loadString(String path) => File('assets/$path').readAsString();
+  Future<String> loadString(String path) => Future.value(File('assets/$path').readAsStringSync());
 
   @override
-  Future<bool> exists(String path) async => File('assets/$path').exists();
+  Future<bool> exists(String path) async => File('assets/$path').existsSync();
 }
