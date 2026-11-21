@@ -21,6 +21,33 @@ import 'keyboard_page.dart';
 /// One-shot shift, caps lock, or off.
 enum ShiftState { off, once, caps }
 
+/// Receives typed keys instead of the editor while a panel (for example emoji search) has focus.
+/// Set [InputController.redirect]; clear it when the panel closes.
+abstract interface class KeyRedirect {
+  /// A character key, already cased, or a popup alternative.
+  void onText(String text);
+  void onSpace();
+  void onBackspace();
+  void onEnter();
+}
+
+/// What a [SuggestionDecorator] sees.
+@immutable
+class SuggestionQuery {
+  const SuggestionQuery({required this.composing, required this.previousWords, required this.field});
+
+  /// The word being typed; empty for next-word predictions.
+  final String composing;
+
+  /// Up to 3 committed words before the cursor, oldest first.
+  final List<String> previousWords;
+  final InputFieldInfo field;
+}
+
+/// Adds or reorders suggestions from another source (emoji, personal shortcuts). [base] is best
+/// first. Return a new list; it must be cheap (runs on every key press, budget 1 ms).
+typedef SuggestionDecorator = List<Suggestion> Function(List<Suggestion> base, SuggestionQuery query);
+
 /// What the suggestion strip shows.
 @immutable
 class SuggestionBarState {
@@ -125,6 +152,16 @@ class InputController {
   final ValueNotifier<ShiftState> shift = ValueNotifier(ShiftState.off);
   final ValueNotifier<KeyboardPage> page = ValueNotifier(KeyboardPage.letters);
   final ValueNotifier<SuggestionBarState> bar = ValueNotifier(SuggestionBarState.empty);
+
+  // ---- Wave 2 seams (orchestrator-owned) --------------------------------
+
+  /// While non-null, character, space, enter and backspace keys go here instead of the editor,
+  /// and swipe typing is off. Shift and page keys still work.
+  final ValueNotifier<KeyRedirect?> redirect = ValueNotifier(null);
+
+  /// Extra suggestion sources, applied in order after the predictor. Only consulted where
+  /// suggestions are allowed (never in password or no-suggestion fields).
+  final List<SuggestionDecorator> decorators = [];
 
   // ---- Private state ----------------------------------------------------
 
@@ -422,6 +459,12 @@ class InputController {
   /// A character key (already cased by the view) or a popup alternative.
   void onText(String text, {TouchPoint? point}) {
     if (text.isEmpty) return;
+    final r = redirect.value;
+    if (r != null) {
+      r.onText(text);
+      _consumeShift();
+      return;
+    }
     _begin();
     try {
       _lastCorrection = null;
@@ -552,6 +595,8 @@ class InputController {
 
   /// The space key.
   void onSpace() {
+    final r = redirect.value;
+    if (r != null) return r.onSpace();
     _begin();
     try {
       _lastCorrection = null;
@@ -632,6 +677,8 @@ class InputController {
 
   /// The enter / action key.
   void onEnter() {
+    final r = redirect.value;
+    if (r != null) return r.onEnter();
     _begin();
     try {
       _lastCorrection = null;
@@ -656,6 +703,7 @@ class InputController {
 
   /// Long-press on enter in a multi-line field.
   void onEnterLongPress() {
+    if (redirect.value != null) return;
     final f = field.value;
     if (_raw || !f.enterInsertsNewline || f.editorActionId == 0) return;
     _begin();
@@ -670,6 +718,8 @@ class InputController {
   // ---- Backspace --------------------------------------------------------
 
   void onBackspace() {
+    final r = redirect.value;
+    if (r != null) return r.onBackspace();
     _begin();
     try {
       _space = _SpaceState.none;
@@ -741,6 +791,8 @@ class InputController {
 
   /// Backspace held for a long time: deletes a whole word (Wave 2 also uses this for swipe-to-delete).
   void deleteWordBackward() {
+    final r = redirect.value;
+    if (r != null) return r.onBackspace();
     _begin();
     try {
       _space = _SpaceState.none;
@@ -815,6 +867,44 @@ class InputController {
     unawaited(_resyncContext());
   }
 
+  // ---- Panel editing API (Wave 2 seams) ----------------------------------
+
+  /// Inserts literal text at the cursor (an emoji, a clipboard item). A word being typed is kept
+  /// as typed first. Works in every field type, including passwords (no learning happens).
+  void insertText(String text) {
+    if (text.isEmpty) return;
+    _begin();
+    try {
+      _lastCorrection = null;
+      _lastSwipe = null;
+      _commitLiteral(text);
+      _consumeShift();
+    } finally {
+      _end();
+    }
+    unawaited(_refreshCaps());
+  }
+
+  /// Ends composing (the word stays as typed). Call before editing through [editor] directly.
+  void finishComposing() {
+    if (_composing.isEmpty) return;
+    _begin();
+    try {
+      _commitComposingAsTyped();
+      _updateSuggestions();
+    } finally {
+      _end();
+    }
+  }
+
+  /// Raw editor access for panels (selection, key events, context-menu actions). Call
+  /// [finishComposing] first and [resyncAfterExternalEdit] after, so the controller's mirror of
+  /// the text stays right.
+  InputSink get editor => _input;
+
+  /// Re-reads the text around the cursor after a panel changed it through [editor].
+  void resyncAfterExternalEdit() => _onExternalChange();
+
   // ---- Suggestions ------------------------------------------------------
 
   void _setBar(SuggestionBarState s) => bar.value = s;
@@ -842,7 +932,7 @@ class InputController {
       _lastResult = result;
       _setBar(
         SuggestionBarState(
-          suggestions: result.suggestions,
+          suggestions: _decorate(result.suggestions, _composing),
           autoCorrection: _canAutoCorrect(_composing) ? result.autoCorrection : null,
           isComposing: true,
           typedWordUnknown: !_predictor.isKnownWord(_composing),
@@ -854,11 +944,28 @@ class InputController {
     // Next-word predictions are prose ("The", "I", "Thanks"): only in fields where autocorrect is allowed,
     // never in email, URL, filter or similar fields.
     if (s.nextWordPrediction && _smartField) {
-      _setBar(SuggestionBarState(suggestions: _predictor.predictNext(List.of(_previous))));
+      _setBar(SuggestionBarState(suggestions: _decorate(_predictor.predictNext(List.of(_previous)), '')));
     } else {
       _setBar(SuggestionBarState.empty);
     }
   }
+
+  List<Suggestion> _decorate(List<Suggestion> base, String composing) {
+    if (decorators.isEmpty) return base;
+    final q = SuggestionQuery(composing: composing, previousWords: List.unmodifiable(_previous), field: field.value);
+    var out = base;
+    for (final d in decorators) {
+      try {
+        out = d(out, q);
+      } on Object catch (e) {
+        MynaLog.w('Input', 'suggestion decorator failed', e.runtimeType);
+      }
+    }
+    return out;
+  }
+
+  /// Emoji and multi-word phrases (personal shortcuts) are inserted but never learned as words.
+  bool _learnable(Suggestion s) => s.kind != SuggestionKind.emoji && !s.text.contains(' ');
 
   /// A tap on a suggestion in the strip.
   void onSuggestionPicked(Suggestion s) {
@@ -872,20 +979,29 @@ class InputController {
       }
       _lastCorrection = null;
       _lastSwipe = null;
-      if (_composing.isNotEmpty) {
+      if (_composing.isNotEmpty && s.kind == SuggestionKind.emoji) {
+        // "pizza" + 🍕 -> "pizza 🍕 ": the typed word stays and the emoji follows it.
+        _commitComposingAsTyped();
+        _send(_input.commitText(' ${s.text} '));
+        _mirrorAppend(' ${s.text} ');
+      } else if (_composing.isNotEmpty) {
         final word = s.text;
         _composing = '';
         _taps.clear();
         _lastResult = SuggestionResult.empty;
         _send(_input.commitText('$word '));
         _mirrorAppend('$word ');
-        _learn(word);
+        if (_learnable(s)) {
+          _learn(word);
+        } else {
+          _pushPrevious(word);
+        }
       } else {
         final prev = _prevChar;
         final lead = prev != null && prev != ' ' && prev != '\n' && _rules.isWordChar(prev) ? ' ' : '';
         _send(_input.commitText('$lead${s.text} '));
         _mirrorAppend('$lead${s.text} ');
-        _learn(s.text);
+        if (_learnable(s)) _learn(s.text);
       }
       _space = _SpaceState.autoAfterPick;
       _consumeShift();
@@ -921,7 +1037,7 @@ class InputController {
   /// Decodes and commits a swiped path. Safe to call without checking the
   /// field: sensitive and raw fields ignore it.
   Future<void> commitSwipe(GesturePath path) async {
-    if (_sensitive || _raw || !settings.swipe.enabled) return;
+    if (_sensitive || _raw || !settings.swipe.enabled || redirect.value != null) return;
     final candidates = await _decoder.decode(path, previousWords: List.of(_previous));
     if (candidates.isEmpty) return;
     _begin();
@@ -959,5 +1075,6 @@ class InputController {
     shift.dispose();
     page.dispose();
     bar.dispose();
+    redirect.dispose();
   }
 }

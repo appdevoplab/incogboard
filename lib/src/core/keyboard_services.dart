@@ -30,6 +30,7 @@ class KeyboardServices {
     required this.predictor,
     required this.gestureDecoder,
     this.rulesFor = languageRulesFor,
+    this.dataDirectory,
   });
 
   /// Edits the focused field.
@@ -47,6 +48,10 @@ class KeyboardServices {
   final GestureDecoder gestureDecoder;
   final LanguageRulesResolver rulesFor;
 
+  /// App-private, no-backup directory for plain data files. Custom themes and their images live in
+  /// `<dataDirectory>/themes`. Null in tests.
+  final String? dataDirectory;
+
   static Future<KeyboardServices> create() async {
     final host = ImeHostApi();
     final platform = PlatformHostApi();
@@ -54,7 +59,10 @@ class KeyboardServices {
 
     final dataDir = await platform.getDataDirectory();
     final settings = await SettingsStore.open(directory: dataDir, notifyOther: platform.notifySettingsChanged);
-    events.settingsChanged.listen((_) => unawaited(settings.reload()));
+    // 'data.*' ids are encrypted-data changes (KeyboardSession handles them), not settings.
+    events.settingsChanged.listen((sections) {
+      if (sections.any((s) => !s.startsWith('data.'))) unawaited(settings.reload());
+    });
 
     final secure = PlatformSecureBlobStore(platform);
     final packs = BundledPackRepository();
@@ -71,6 +79,7 @@ class KeyboardServices {
       lexicons: lexicons,
       predictor: createTextPredictor(packs: packs, lexicons: lexicons, store: secure),
       gestureDecoder: createGestureDecoder(lexicons: lexicons),
+      dataDirectory: dataDir,
     );
 
     // Kotlin may have delivered onStartInputView before Dart attached: resync.

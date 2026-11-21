@@ -209,6 +209,10 @@ abstract interface class TextPredictor {
   Future<void> flush();
   Future<void> clearLearnedData();
 
+  /// The settings app changed the stored learned data (editor, wipe, backup restore): discard
+  /// unsaved in-memory changes and read it again. Triggered by [DataSections.learned].
+  Future<void> reloadLearnedData();
+
   /// Drop caches on memory pressure.
   void trimMemory();
 }

@@ -16,6 +16,12 @@ import io.flutter.plugin.common.StandardMethodCodec
 import io.flutter.plugin.common.StandardMessageCodec
 import java.io.ByteArrayOutputStream
 import java.nio.ByteBuffer
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 private object MessagesPigeonUtils {
 
   fun createConnectionError(channelName: String): FlutterError {
@@ -769,6 +775,57 @@ data class FeedbackConfigMessage (
   }
 }
 
+/**
+ * One blob in the encrypted store (for the privacy center's "what is stored" list).
+ *
+ * Generated class from Pigeon that represents data sent in messages.
+ */
+data class SecureBlobInfo (
+  /** The name passed to secureWrite. */
+  val name: String,
+  /** Encrypted size on disk, including the last-good backup copy. */
+  val sizeBytes: Long,
+  val modifiedMillis: Long
+)
+ {
+  companion object {
+    fun fromList(pigeonVar_list: List<Any?>): SecureBlobInfo {
+      val name = pigeonVar_list[0] as String
+      val sizeBytes = pigeonVar_list[1] as Long
+      val modifiedMillis = pigeonVar_list[2] as Long
+      return SecureBlobInfo(name, sizeBytes, modifiedMillis)
+    }
+  }
+  fun toList(): List<Any?> {
+    return listOf(
+      name,
+      sizeBytes,
+      modifiedMillis,
+    )
+  }
+  override fun equals(other: Any?): Boolean {
+    if (other == null || other.javaClass != javaClass) {
+      return false
+    }
+    if (this === other) {
+      return true
+    }
+    val other = other as SecureBlobInfo
+    return MessagesPigeonUtils.deepEquals(this.name, other.name) && MessagesPigeonUtils.deepEquals(this.sizeBytes, other.sizeBytes) && MessagesPigeonUtils.deepEquals(this.modifiedMillis, other.modifiedMillis)
+  }
+
+  override fun hashCode(): Int {
+    var result = javaClass.hashCode()
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.name)
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.sizeBytes)
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.modifiedMillis)
+    return result
+  }
+  override fun toString(): String {
+    return "SecureBlobInfo(name=$name, sizeBytes=$sizeBytes, modifiedMillis=$modifiedMillis)"
+  }
+}
+
 /** Generated class from Pigeon that represents data sent in messages. */
 data class AppInfoMessage (
   val packageName: String,
@@ -891,6 +948,11 @@ private open class MessagesPigeonCodec : StandardMessageCodec() {
       }
       142.toByte() -> {
         (readValue(buffer) as? List<Any?>)?.let {
+          SecureBlobInfo.fromList(it)
+        }
+      }
+      143.toByte() -> {
+        (readValue(buffer) as? List<Any?>)?.let {
           AppInfoMessage.fromList(it)
         }
       }
@@ -951,14 +1013,19 @@ private open class MessagesPigeonCodec : StandardMessageCodec() {
         stream.write(141)
         writeValue(stream, value.toList())
       }
-      is AppInfoMessage -> {
+      is SecureBlobInfo -> {
         stream.write(142)
+        writeValue(stream, value.toList())
+      }
+      is AppInfoMessage -> {
+        stream.write(143)
         writeValue(stream, value.toList())
       }
       else -> super.writeValue(stream, value)
     }
   }
 }
+
 
 /**
  * Registered only on the keyboard (IME) engine.
@@ -990,6 +1057,16 @@ interface ImeHostApi {
   fun switchToNextInputMethod(onlyCurrentIme: Boolean): Boolean
   fun showInputMethodPicker()
   fun openSettings(route: String?)
+  /**
+   * The keyboard's background colour (ARGB) where it meets the navigation bar, so Kotlin can pick
+   * dark or light navigation-bar icons (API 30+). Call when the theme changes.
+   */
+  fun setNavigationBarStyle(backgroundArgb: Long)
+  /**
+   * The user-visible name of the app the keyboard is typing into. The IME can see the app it is
+   * bound to without QUERY_ALL_PACKAGES. Null when unknown.
+   */
+  fun getAppLabel(packageName: String): String?
   /**
    * Where the suggestion strip is, so Kotlin can overlay Android inline
    * autofill suggestions there. null hides them.
@@ -1422,6 +1499,41 @@ interface ImeHostApi {
         }
       }
       run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.myna.ImeHostApi.setNavigationBarStyle$separatedMessageChannelSuffix", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val backgroundArgbArg = args[0] as Long
+            val wrapped: List<Any?> = try {
+              api.setNavigationBarStyle(backgroundArgbArg)
+              listOf(null)
+            } catch (exception: Throwable) {
+              MessagesPigeonUtils.wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.myna.ImeHostApi.getAppLabel$separatedMessageChannelSuffix", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val packageNameArg = args[0] as String
+            val wrapped: List<Any?> = try {
+              listOf(api.getAppLabel(packageNameArg))
+            } catch (exception: Throwable) {
+              MessagesPigeonUtils.wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
         val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.myna.ImeHostApi.setInlineSuggestionsArea$separatedMessageChannelSuffix", codec)
         if (api != null) {
           channel.setMessageHandler { message, reply ->
@@ -1606,6 +1718,8 @@ interface PlatformHostApi {
   fun secureWrite(name: String, data: ByteArray)
   fun secureDelete(name: String)
   fun secureWipeAll()
+  /** Every blob currently stored, with sizes. Never returns contents. */
+  fun secureList(): List<SecureBlobInfo>
   /**
    * True if the installed package requests android.permission.INTERNET
    * (expected: false for release builds).
@@ -1715,6 +1829,21 @@ interface PlatformHostApi {
         }
       }
       run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.myna.PlatformHostApi.secureList$separatedMessageChannelSuffix", codec, taskQueue)
+        if (api != null) {
+          channel.setMessageHandler { _, reply ->
+            val wrapped: List<Any?> = try {
+              listOf(api.secureList())
+            } catch (exception: Throwable) {
+              MessagesPigeonUtils.wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
         val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.myna.PlatformHostApi.hasInternetPermission$separatedMessageChannelSuffix", codec)
         if (api != null) {
           channel.setMessageHandler { _, reply ->
@@ -1809,6 +1938,26 @@ interface AppHostApi {
   fun showInputMethodPicker()
   /** FLAG_SECURE + no recents thumbnail for sensitive screens. */
   fun setSecureScreen(secure: Boolean)
+  /**
+   * The settings route the activity was started with (from the keyboard's toolbar or a
+   * notification), or null. Returns it once, then null. Later routes arrive via
+   * AppFlutterApi.onOpenRoute.
+   */
+  fun takeLaunchRoute(): String?
+  /** ACTION_CREATE_DOCUMENT. Returns the content URI, or null if the user cancelled. */
+  suspend fun createDocument(suggestedName: String, mimeType: String): String?
+  /** ACTION_OPEN_DOCUMENT. Returns the content URI, or null if the user cancelled. */
+  suspend fun openDocument(mimeTypes: List<String>): String?
+  fun writeDocument(uri: String, data: ByteArray)
+  /** Throws (code `too_large`) when the document is bigger than [maxBytes]. */
+  fun readDocument(uri: String, maxBytes: Long): ByteArray
+  /** Encrypts [plain] into the complete .mynabackup file bytes. */
+  fun sealBackup(plain: ByteArray, passphrase: String): ByteArray
+  /**
+   * Decrypts a .mynabackup file. Returns null for a wrong passphrase or a damaged file;
+   * throws (code `unsupported_version`) for a newer format.
+   */
+  fun openBackup(sealed: ByteArray, passphrase: String): ByteArray?
 
   companion object {
     /** The codec used by AppHostApi. */
@@ -1819,6 +1968,7 @@ interface AppHostApi {
     @JvmOverloads
     fun setUp(binaryMessenger: BinaryMessenger, api: AppHostApi?, messageChannelSuffix: String = "") {
       val separatedMessageChannelSuffix = if (messageChannelSuffix.isNotEmpty()) ".$messageChannelSuffix" else ""
+      val taskQueue = binaryMessenger.makeBackgroundTaskQueue()
       run {
         val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.myna.AppHostApi.isMynaEnabled$separatedMessageChannelSuffix", codec)
         if (api != null) {
@@ -1890,6 +2040,133 @@ interface AppHostApi {
             val wrapped: List<Any?> = try {
               api.setSecureScreen(secureArg)
               listOf(null)
+            } catch (exception: Throwable) {
+              MessagesPigeonUtils.wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.myna.AppHostApi.takeLaunchRoute$separatedMessageChannelSuffix", codec)
+        if (api != null) {
+          channel.setMessageHandler { _, reply ->
+            val wrapped: List<Any?> = try {
+              listOf(api.takeLaunchRoute())
+            } catch (exception: Throwable) {
+              MessagesPigeonUtils.wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.myna.AppHostApi.createDocument$separatedMessageChannelSuffix", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val suggestedNameArg = args[0] as String
+            val mimeTypeArg = args[1] as String
+            CoroutineScope(Dispatchers.Main).launch {
+              val wrapped: List<Any?> = try {
+                listOf(api.createDocument(suggestedNameArg, mimeTypeArg))
+              } catch (exception: Throwable) {
+                MessagesPigeonUtils.wrapError(exception)
+              }
+              reply.reply(wrapped)
+            }
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.myna.AppHostApi.openDocument$separatedMessageChannelSuffix", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val mimeTypesArg = args[0] as List<String>
+            CoroutineScope(Dispatchers.Main).launch {
+              val wrapped: List<Any?> = try {
+                listOf(api.openDocument(mimeTypesArg))
+              } catch (exception: Throwable) {
+                MessagesPigeonUtils.wrapError(exception)
+              }
+              reply.reply(wrapped)
+            }
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.myna.AppHostApi.writeDocument$separatedMessageChannelSuffix", codec, taskQueue)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val uriArg = args[0] as String
+            val dataArg = args[1] as ByteArray
+            val wrapped: List<Any?> = try {
+              api.writeDocument(uriArg, dataArg)
+              listOf(null)
+            } catch (exception: Throwable) {
+              MessagesPigeonUtils.wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.myna.AppHostApi.readDocument$separatedMessageChannelSuffix", codec, taskQueue)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val uriArg = args[0] as String
+            val maxBytesArg = args[1] as Long
+            val wrapped: List<Any?> = try {
+              listOf(api.readDocument(uriArg, maxBytesArg))
+            } catch (exception: Throwable) {
+              MessagesPigeonUtils.wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.myna.AppHostApi.sealBackup$separatedMessageChannelSuffix", codec, taskQueue)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val plainArg = args[0] as ByteArray
+            val passphraseArg = args[1] as String
+            val wrapped: List<Any?> = try {
+              listOf(api.sealBackup(plainArg, passphraseArg))
+            } catch (exception: Throwable) {
+              MessagesPigeonUtils.wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.myna.AppHostApi.openBackup$separatedMessageChannelSuffix", codec, taskQueue)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val sealedArg = args[0] as ByteArray
+            val passphraseArg = args[1] as String
+            val wrapped: List<Any?> = try {
+              listOf(api.openBackup(sealedArg, passphraseArg))
             } catch (exception: Throwable) {
               MessagesPigeonUtils.wrapError(exception)
             }
@@ -2146,6 +2423,24 @@ class AppFlutterApi(private val binaryMessenger: BinaryMessenger, private val me
     val channelName = "dev.flutter.pigeon.myna.AppFlutterApi.onSettingsChanged$separatedMessageChannelSuffix"
     val channel = BasicMessageChannel<Any?>(binaryMessenger, channelName, codec)
     channel.send(listOf(sectionsArg)) {
+      if (it is List<*>) {
+        if (it.size > 1) {
+          callback(Result.failure(FlutterError(it[0] as String, it[1] as String, it[2] as String?)))
+        } else {
+          callback(Result.success(Unit))
+        }
+      } else {
+        callback(Result.failure(MessagesPigeonUtils.createConnectionError(channelName)))
+      } 
+    }
+  }
+  /** The running settings activity was asked to show [route] (onNewIntent). */
+  fun onOpenRoute(routeArg: String, callback: (Result<Unit>) -> Unit)
+{
+    val separatedMessageChannelSuffix = if (messageChannelSuffix.isNotEmpty()) ".$messageChannelSuffix" else ""
+    val channelName = "dev.flutter.pigeon.myna.AppFlutterApi.onOpenRoute$separatedMessageChannelSuffix"
+    val channel = BasicMessageChannel<Any?>(binaryMessenger, channelName, codec)
+    channel.send(listOf(routeArg)) {
       if (it is List<*>) {
         if (it.size > 1) {
           callback(Result.failure(FlutterError(it[0] as String, it[1] as String, it[2] as String?)))

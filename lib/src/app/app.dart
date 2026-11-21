@@ -2,11 +2,14 @@
 //
 // OWNER: Wave 2-A (settings app). Wave 0 placeholder: setup steps, privacy
 // proof and a test field. Keep MynaSettingsApp's constructor stable.
+// main() wraps it in AppScope, so `AppScope.of(context)` works everywhere.
 import 'dart:async';
 
 import 'package:material_ui/material_ui.dart';
 
 import '../bridge/messages.g.dart';
+import 'privacy/privacy_center_screen.dart';
+import 'themes/theme_gallery_screen.dart';
 
 class MynaSettingsApp extends StatelessWidget {
   const MynaSettingsApp({super.key});
@@ -108,6 +111,20 @@ class _SetupScreenState extends State<_SetupScreen> {
                     ? 'Debug build: network allowed for development tools'
                     : 'No internet permission: Myna cannot send anything',
               ),
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.palette_outlined),
+            title: const Text('Themes'),
+            onTap: () => unawaited(
+              Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const ThemeGalleryScreen())),
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.shield_outlined),
+            title: const Text('Privacy'),
+            onTap: () => unawaited(
+              Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const PrivacyCenterScreen())),
             ),
           ),
         ],

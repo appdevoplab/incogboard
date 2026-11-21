@@ -24,6 +24,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.core.graphics.ColorUtils
 import app.myna.keyboard.MynaApplication
 import app.myna.keyboard.bridge.EngineRole
 import app.myna.keyboard.bridge.ImeFlutterApi
@@ -317,15 +318,26 @@ class MynaImeService : InputMethodService() {
         }
     }
 
+    /** The keyboard background where it meets the navigation bar (ARGB), sent by Dart; null until then. */
+    private var navBarBackground: Int? = null
+
+    internal fun setNavigationBarBackground(argb: Int) {
+        if (navBarBackground == argb) return
+        navBarBackground = argb
+        applyNavBarAppearance()
+    }
+
     /**
      * Dark navigation-bar icons on a light keyboard and light icons on a dark one (API 30+). Uses the
-     * system night mode until Dart can supply the exact keyboard background (requested in the report).
+     * keyboard background from Dart when known, else the system night mode.
      */
     private fun applyNavBarAppearance() {
         if (Build.VERSION.SDK_INT < 30) return
         try {
             val controller = window?.window?.insetsController ?: return
-            val lightIcons = if (isNightMode()) 0 else WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
+            val bg = navBarBackground
+            val darkBackground = if (bg != null) ColorUtils.calculateLuminance(bg) < 0.5 else isNightMode()
+            val lightIcons = if (darkBackground) 0 else WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
             controller.setSystemBarsAppearance(lightIcons, WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS)
         } catch (e: Exception) {
             Log.w(TAG, "nav bar appearance failed: ${e.javaClass.simpleName}")

@@ -46,6 +46,10 @@ internal class PlatformHostApiImpl(
 
     override fun secureWipeAll() = secure { store.wipeAll() }
 
+    override fun secureList(): List<SecureBlobInfo> = secure {
+        store.list().map { SecureBlobInfo(it.name, it.sizeBytes, it.modifiedMillis) }
+    }
+
     private inline fun <T> secure(block: () -> T): T = try {
         block()
     } catch (e: SecureStoreException) {

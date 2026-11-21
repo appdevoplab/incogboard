@@ -263,6 +263,8 @@ class KeyboardViewController {
     if (!_s.swipe.enabled || _touches.length != 1) return false;
     if (_input.currentField.isSensitive || _input.currentField.isRawKeyMode) return false;
     if (_input.page.value != KeyboardPage.letters) return false;
+    // A panel's search box has the keys: no swipe typing into it.
+    if (_input.redirect.value != null) return false;
     final out = t.key.def.output;
     return t.key.def.isCharacter && out != null && _letterRe.hasMatch(out);
   }

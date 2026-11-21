@@ -712,6 +712,55 @@ class FeedbackConfigMessage {
   }
 }
 
+/// One blob in the encrypted store (for the privacy center's "what is stored" list).
+class SecureBlobInfo {
+  SecureBlobInfo({required this.name, required this.sizeBytes, required this.modifiedMillis});
+
+  /// The name passed to secureWrite.
+  String name;
+
+  /// Encrypted size on disk, including the last-good backup copy.
+  int sizeBytes;
+
+  int modifiedMillis;
+
+  List<Object?> _toList() {
+    return <Object?>[name, sizeBytes, modifiedMillis];
+  }
+
+  Object encode() {
+    return _toList();
+  }
+
+  static SecureBlobInfo decode(Object result) {
+    result as List<Object?>;
+    return SecureBlobInfo(name: result[0]! as String, sizeBytes: result[1]! as int, modifiedMillis: result[2]! as int);
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  bool operator ==(Object other) {
+    if (other is! SecureBlobInfo || other.runtimeType != runtimeType) {
+      return false;
+    }
+    if (identical(this, other)) {
+      return true;
+    }
+    return _deepEquals(name, other.name) &&
+        _deepEquals(sizeBytes, other.sizeBytes) &&
+        _deepEquals(modifiedMillis, other.modifiedMillis);
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  int get hashCode => _deepHash(<Object?>[runtimeType, ..._toList()]);
+
+  @override
+  String toString() {
+    return 'SecureBlobInfo(name: $name, sizeBytes: $sizeBytes, modifiedMillis: $modifiedMillis)';
+  }
+}
+
 class AppInfoMessage {
   AppInfoMessage({
     required this.packageName,
@@ -822,8 +871,11 @@ class _PigeonCodec extends StandardMessageCodec {
     } else if (value is FeedbackConfigMessage) {
       buffer.putUint8(141);
       writeValue(buffer, value.encode());
-    } else if (value is AppInfoMessage) {
+    } else if (value is SecureBlobInfo) {
       buffer.putUint8(142);
+      writeValue(buffer, value.encode());
+    } else if (value is AppInfoMessage) {
+      buffer.putUint8(143);
       writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
@@ -864,6 +916,8 @@ class _PigeonCodec extends StandardMessageCodec {
       case 141:
         return FeedbackConfigMessage.decode(readValue(buffer)!);
       case 142:
+        return SecureBlobInfo.decode(readValue(buffer)!);
+      case 143:
         return AppInfoMessage.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
@@ -1281,6 +1335,40 @@ class ImeHostApi {
     _extractReplyValueOrThrow(pigeonVar_replyList, pigeonVar_channelName, isNullValid: true);
   }
 
+  /// The keyboard's background colour (ARGB) where it meets the navigation bar, so Kotlin can pick
+  /// dark or light navigation-bar icons (API 30+). Call when the theme changes.
+  Future<void> setNavigationBarStyle(int backgroundArgb) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.myna.ImeHostApi.setNavigationBarStyle$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[backgroundArgb]);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    _extractReplyValueOrThrow(pigeonVar_replyList, pigeonVar_channelName, isNullValid: true);
+  }
+
+  /// The user-visible name of the app the keyboard is typing into. The IME can see the app it is
+  /// bound to without QUERY_ALL_PACKAGES. Null when unknown.
+  Future<String?> getAppLabel(String packageName) async {
+    final pigeonVar_channelName = 'dev.flutter.pigeon.myna.ImeHostApi.getAppLabel$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[packageName]);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: true,
+    );
+    return pigeonVar_replyValue as String?;
+  }
+
   /// Where the suggestion strip is, so Kotlin can overlay Android inline
   /// autofill suggestions there. null hides them.
   Future<void> setInlineSuggestionsArea(RectMessage? area) async {
@@ -1514,6 +1602,24 @@ class PlatformHostApi {
     _extractReplyValueOrThrow(pigeonVar_replyList, pigeonVar_channelName, isNullValid: true);
   }
 
+  /// Every blob currently stored, with sizes. Never returns contents.
+  Future<List<SecureBlobInfo>> secureList() async {
+    final pigeonVar_channelName = 'dev.flutter.pigeon.myna.PlatformHostApi.secureList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
+    return (pigeonVar_replyValue! as List<Object?>).cast<SecureBlobInfo>();
+  }
+
   /// True if the installed package requests android.permission.INTERNET
   /// (expected: false for release builds).
   Future<bool> hasInternetPermission() async {
@@ -1688,6 +1794,129 @@ class AppHostApi {
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[secure]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
     _extractReplyValueOrThrow(pigeonVar_replyList, pigeonVar_channelName, isNullValid: true);
+  }
+
+  /// The settings route the activity was started with (from the keyboard's toolbar or a
+  /// notification), or null. Returns it once, then null. Later routes arrive via
+  /// AppFlutterApi.onOpenRoute.
+  Future<String?> takeLaunchRoute() async {
+    final pigeonVar_channelName = 'dev.flutter.pigeon.myna.AppHostApi.takeLaunchRoute$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: true,
+    );
+    return pigeonVar_replyValue as String?;
+  }
+
+  /// ACTION_CREATE_DOCUMENT. Returns the content URI, or null if the user cancelled.
+  Future<String?> createDocument(String suggestedName, String mimeType) async {
+    final pigeonVar_channelName = 'dev.flutter.pigeon.myna.AppHostApi.createDocument$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[suggestedName, mimeType]);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: true,
+    );
+    return pigeonVar_replyValue as String?;
+  }
+
+  /// ACTION_OPEN_DOCUMENT. Returns the content URI, or null if the user cancelled.
+  Future<String?> openDocument(List<String> mimeTypes) async {
+    final pigeonVar_channelName = 'dev.flutter.pigeon.myna.AppHostApi.openDocument$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[mimeTypes]);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: true,
+    );
+    return pigeonVar_replyValue as String?;
+  }
+
+  Future<void> writeDocument(String uri, Uint8List data) async {
+    final pigeonVar_channelName = 'dev.flutter.pigeon.myna.AppHostApi.writeDocument$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[uri, data]);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    _extractReplyValueOrThrow(pigeonVar_replyList, pigeonVar_channelName, isNullValid: true);
+  }
+
+  /// Throws (code `too_large`) when the document is bigger than [maxBytes].
+  Future<Uint8List> readDocument(String uri, int maxBytes) async {
+    final pigeonVar_channelName = 'dev.flutter.pigeon.myna.AppHostApi.readDocument$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[uri, maxBytes]);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
+    return pigeonVar_replyValue! as Uint8List;
+  }
+
+  /// Encrypts [plain] into the complete .mynabackup file bytes.
+  Future<Uint8List> sealBackup(Uint8List plain, String passphrase) async {
+    final pigeonVar_channelName = 'dev.flutter.pigeon.myna.AppHostApi.sealBackup$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[plain, passphrase]);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
+    return pigeonVar_replyValue! as Uint8List;
+  }
+
+  /// Decrypts a .mynabackup file. Returns null for a wrong passphrase or a damaged file;
+  /// throws (code `unsupported_version`) for a newer format.
+  Future<Uint8List?> openBackup(Uint8List sealed, String passphrase) async {
+    final pigeonVar_channelName = 'dev.flutter.pigeon.myna.AppHostApi.openBackup$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[sealed, passphrase]);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: true,
+    );
+    return pigeonVar_replyValue as Uint8List?;
   }
 }
 
@@ -2049,6 +2278,9 @@ abstract class AppFlutterApi {
 
   Future<void> onSettingsChanged(List<String> sections);
 
+  /// The running settings activity was asked to show [route] (onNewIntent).
+  Future<void> onOpenRoute(String route);
+
   static void setUp(AppFlutterApi? api, {BinaryMessenger? binaryMessenger, String messageChannelSuffix = ''}) {
     messageChannelSuffix = messageChannelSuffix.isNotEmpty ? '.$messageChannelSuffix' : '';
     {
@@ -2065,6 +2297,31 @@ abstract class AppFlutterApi {
           final List<String> arg_sections = (args[0]! as List<Object?>).cast<String>();
           try {
             await api.onSettingsChanged(arg_sections);
+            return wrapResponse(empty: true);
+          } on PlatformException catch (e) {
+            return wrapResponse(error: e);
+          } catch (e) {
+            return wrapResponse(
+              error: PlatformException(code: 'error', message: e.toString()),
+            );
+          }
+        });
+      }
+    }
+    {
+      final pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.myna.AppFlutterApi.onOpenRoute$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
+      if (api == null) {
+        pigeonVar_channel.setMessageHandler(null);
+      } else {
+        pigeonVar_channel.setMessageHandler((Object? message) async {
+          final List<Object?> args = message! as List<Object?>;
+          final String arg_route = args[0]! as String;
+          try {
+            await api.onOpenRoute(arg_route);
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);

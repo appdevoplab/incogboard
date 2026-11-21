@@ -11,6 +11,7 @@ import '../../core/input_field_info.dart';
 import '../../engine/contracts.dart';
 import '../../theme/keyboard_theme_data.dart';
 import '../input/input_controller.dart';
+import '../panels/keyboard_panel.dart' show StripChip;
 import 'keyboard_hooks.dart';
 import 'keyboard_metrics.dart';
 
@@ -40,6 +41,7 @@ class SuggestionStrip extends StatelessWidget {
     required this.onPick,
     required this.onOpenSettings,
     this.hooks = const KeyboardHooks(),
+    this.chips,
   });
 
   final KeyboardThemeData theme;
@@ -52,6 +54,9 @@ class SuggestionStrip extends StatelessWidget {
   final ValueChanged<Suggestion> onPick;
   final VoidCallback onOpenSettings;
   final KeyboardHooks hooks;
+
+  /// Chips shown instead of the toolbar when nothing is suggested (never in sensitive fields).
+  final ValueListenable<List<StripChip>>? chips;
 
   TextStyle _style(Color color, {bool bold = false}) => TextStyle(
     color: color,
@@ -68,16 +73,21 @@ class SuggestionStrip extends StatelessWidget {
     if (field.isSensitive) {
       content = _PrivateChip(theme: theme, style: _style(theme.suggestionText));
     } else if (suggestionsEnabled && field.allowsSuggestions) {
-      content = ValueListenableBuilder<SuggestionBarState>(
-        valueListenable: bar,
-        builder: (context, state, _) {
+      final c = chips;
+      content = ListenableBuilder(
+        listenable: c == null ? bar : Listenable.merge([bar, c]),
+        builder: (context, _) {
+          final state = bar.value;
+          // Chips (recent copy, undo) beat next-word predictions, never a word being typed or swiped.
+          final typing = state.isComposing || state.fromSwipe || state.autoCorrection != null;
+          if (!typing && c != null && c.value.isNotEmpty) return _chipRow(c.value.take(3).toList());
           final slots = arrangeSlots(state);
           if (slots.every((s) => s == null)) return _toolbar();
           return _slots(state, slots);
         },
       );
     } else {
-      content = _toolbar();
+      content = _toolbarOrChips();
     }
     return SizedBox(
       height: KeyboardMetrics.stripHeight,
@@ -148,6 +158,62 @@ class SuggestionStrip extends StatelessWidget {
     );
   }
 
+  Widget _toolbarOrChips() {
+    final c = chips;
+    if (c == null) return _toolbar();
+    return ValueListenableBuilder<List<StripChip>>(
+      valueListenable: c,
+      builder: (context, list, _) => list.isEmpty ? _toolbar() : _chipRow(list.take(3).toList()),
+    );
+  }
+
+  Widget _chipRow(List<StripChip> list) => Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      for (final chip in list)
+        Flexible(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            child: Semantics(
+              button: true,
+              label: chip.semanticLabel ?? chip.label,
+              excludeSemantics: true,
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: chip.onTap,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: theme.suggestionHighlightFill,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (chip.icon != null) ...[
+                          Icon(chip.icon, size: 16, color: theme.suggestionHighlightText),
+                          const SizedBox(width: 6),
+                        ],
+                        Flexible(
+                          child: Text(
+                            chip.label,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: _style(theme.suggestionHighlightText).copyWith(fontSize: 14),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+    ],
+  );
+
   Widget _toolbar() {
     Widget button(IconData icon, String label, VoidCallback? onTap) => Expanded(
       child: Semantics(
@@ -171,6 +237,8 @@ class SuggestionStrip extends StatelessWidget {
       children: [
         button(Icons.emoji_emotions_outlined, 'Emoji', hooks.onEmoji),
         button(Icons.content_paste, 'Clipboard', hooks.onClipboard),
+        if (hooks.onEditing != null) button(Icons.text_fields, 'Text editing', hooks.onEditing),
+        if (hooks.onModes != null) button(Icons.open_in_full, 'Keyboard modes', hooks.onModes),
         button(Icons.palette_outlined, 'Themes', hooks.onTheme),
         button(Icons.settings_outlined, 'Settings', onOpenSettings),
       ],

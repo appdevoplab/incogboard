@@ -24,11 +24,15 @@ import 'theme_spec.dart';
 ///
 /// An unknown `appearance.themeId` falls back to Myna Dynamic. Results are
 /// cached on the inputs, so calling this on every build is cheap.
+///
+/// [customThemesDirectory] is where custom themes are stored (`<dataDirectory>/themes`); Wave 2-C
+/// makes custom theme ids resolve from it. Null in tests and before Wave 2-C, which uses presets only.
 KeyboardThemeData resolveKeyboardTheme({
   required AppearanceSettings appearance,
   required SystemColorsMessage? systemColors,
   required bool systemDark,
   required bool disableAnimations,
+  String? customThemesDirectory,
 }) {
   final spec = ThemePresets.byId(appearance.themeId);
   return _cache.resolve(

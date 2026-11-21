@@ -10,14 +10,18 @@ import 'package:flutter/foundation.dart';
 import '../bridge/messages.g.dart';
 import '../core/input_field_info.dart';
 import '../core/keyboard_services.dart';
+import '../core/data_sections.dart';
 import '../core/log.dart';
+import '../core/seen_apps.dart';
 import '../engine/contracts.dart';
+import '../engine/suggest/text_predictor.dart' show MynaTextPredictor;
 import '../settings/myna_settings.dart';
 import 'input/input_controller.dart';
 import 'input/keyboard_page.dart';
 import 'layout/layout_engine.dart';
 import 'layout/layout_model.dart';
 import 'layout/layout_repository.dart';
+import 'panels/keyboard_panel.dart';
 
 class KeyboardSession {
   KeyboardSession(this.services) {
@@ -29,6 +33,7 @@ class KeyboardSession {
       rulesFor: services.rulesFor,
     );
     layouts = LayoutRepository(services.packs);
+    seenApps = SeenAppsStore(services.secureStore);
     _start();
   }
 
@@ -41,6 +46,64 @@ class KeyboardSession {
 
   /// Material You palette from the system (null before it is fetched or below Android 12).
   final ValueNotifier<SystemColorsMessage?> systemColors = ValueNotifier(null);
+
+  // ---- Wave 2 seams (orchestrator-owned) --------------------------------
+
+  /// The open panel, or null for the normal strip and keys.
+  final ValueNotifier<KeyboardPanel?> panel = ValueNotifier(null);
+
+  /// Chips for the strip, highest priority first (see [StripChip]).
+  final ValueNotifier<List<StripChip>> stripChips = ValueNotifier(const []);
+
+  /// Apps the keyboard was used in (for the incognito picker).
+  late final SeenAppsStore seenApps;
+
+  final Map<String, Timer> _chipTimers = {};
+  String? _ownPackage;
+
+  /// Shows [panel] (replacing any open one). Ignored in sensitive fields.
+  void openPanel(KeyboardPanel next) {
+    if (_disposed || input.currentField.isSensitive) return;
+    final old = panel.value;
+    if (identical(old, next)) return;
+    input.redirect.value = null;
+    panel.value = next;
+    if (next.placement == PanelPlacement.strip) input.redirect.value = next.keyRedirect;
+    if (old != null) _notifyClosed(old);
+  }
+
+  void closePanel() {
+    final old = panel.value;
+    if (old == null) return;
+    input.redirect.value = null;
+    panel.value = null;
+    _notifyClosed(old);
+  }
+
+  void _notifyClosed(KeyboardPanel p) {
+    try {
+      p.onClosed();
+    } on Object catch (e) {
+      MynaLog.w('Keyboard', 'panel close failed', e.runtimeType);
+    }
+  }
+
+  /// Adds or replaces (same id) a strip chip.
+  void showChip(StripChip chip) {
+    if (_disposed) return;
+    _chipTimers.remove(chip.id)?.cancel();
+    final list = [...stripChips.value.where((c) => c.id != chip.id), chip]
+      ..sort((a, b) => b.priority.compareTo(a.priority));
+    stripChips.value = List.unmodifiable(list);
+    final ttl = chip.expiresAfter;
+    if (ttl != null) _chipTimers[chip.id] = Timer(ttl, () => removeChip(chip.id));
+  }
+
+  void removeChip(String id) {
+    _chipTimers.remove(id)?.cancel();
+    if (_disposed || !stripChips.value.any((c) => c.id == id)) return;
+    stripChips.value = List.unmodifiable(stripChips.value.where((c) => c.id != id));
+  }
 
   final List<StreamSubscription<Object?>> _subs = [];
   final Map<String, KeyboardLayoutDef> _variantCache = {};
@@ -57,10 +120,13 @@ class KeyboardSession {
     _subs
       ..add(
         e.startInput.listen((ev) {
+          if (!ev.restarting || ev.field.isSensitive) closePanel();
           unawaited(input.startInput(ev.field, restarting: ev.restarting));
           _applySecure(ev.field);
+          if (!ev.restarting) unawaited(_recordApp(ev.field));
         }),
       )
+      ..add(e.settingsChanged.listen(_onDataChanged))
       ..add(e.selection.listen(input.onSelectionChanged))
       ..add(e.finishInput.listen((_) => input.finishInput()))
       ..add(e.trimMemory.listen((_) => _trimMemory()))
@@ -69,6 +135,7 @@ class KeyboardSession {
     services.settings.addListener(_onSettings);
 
     _pushFeedback();
+    _applyBlockOffensive();
     _applySecure(e.field.value);
     unawaited(input.startInput(e.field.value));
     unawaited(_refreshSystemColors());
@@ -101,7 +168,40 @@ class KeyboardSession {
   }
 
   void _onWindowVisible() {
-    if (!services.events.windowVisible.value) unawaited(services.predictor.flush());
+    if (services.events.windowVisible.value) return;
+    closePanel();
+    unawaited(services.predictor.flush());
+    unawaited(seenApps.flush());
+  }
+
+  /// The settings app changed stored data: reload what the keyboard keeps in memory.
+  void _onDataChanged(List<String> sections) {
+    if (DataSections.affects(sections, DataSections.learned)) {
+      unawaited(
+        services.predictor.reloadLearnedData().catchError(
+          (Object e) => MynaLog.w('Keyboard', 'learned reload failed', e.runtimeType),
+        ),
+      );
+    }
+    if (DataSections.affects(sections, DataSections.seenApps)) seenApps.invalidate();
+  }
+
+  /// Remembers the app for the incognito picker: never while incognito, never Myna itself.
+  Future<void> _recordApp(InputFieldInfo field) async {
+    final pkg = field.packageName;
+    if (pkg == null || pkg.isEmpty || input.isIncognito) return;
+    try {
+      _ownPackage ??= (await services.platform.getAppInfo()).packageName;
+    } on Object {
+      return;
+    }
+    if (pkg == _ownPackage || _disposed) return;
+    await seenApps.record(pkg, labelOf: () => services.host.getAppLabel(pkg));
+  }
+
+  void _applyBlockOffensive() {
+    final p = services.predictor;
+    if (p is MynaTextPredictor) p.blockOffensive = services.settings.value.typing.blockOffensiveWords;
   }
 
   void _trimMemory() {
@@ -111,6 +211,7 @@ class KeyboardSession {
 
   void _onSettings() {
     _pushFeedback();
+    _applyBlockOffensive();
     _applySecure(input.currentField);
     input.refreshSuggestions();
     _variantCache.clear();
@@ -216,6 +317,14 @@ class KeyboardSession {
     }
     services.events.windowVisible.removeListener(_onWindowVisible);
     services.settings.removeListener(_onSettings);
+    closePanel();
+    for (final t in _chipTimers.values) {
+      t.cancel();
+    }
+    _chipTimers.clear();
+    unawaited(seenApps.flush());
+    panel.dispose();
+    stripChips.dispose();
     input.dispose();
     layoutVersion.dispose();
     systemColors.dispose();

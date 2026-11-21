@@ -46,6 +46,9 @@ android {
 dependencies {
     // Inline autofill chip styling (UiVersions). Pure UI helpers, Apache-2.0, no network code.
     implementation("androidx.autofill:autofill:1.3.0")
+    // Pigeon's @async host methods are generated as suspend functions. Already on the classpath
+    // through AndroidX (same version); pinned so the generated bindings don't rely on that. Apache-2.0.
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0")
 
     testImplementation("junit:junit:4.13.2")
 }

@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// OWNER: Wave 1-A (keyboard view). The keyboard UI shown in the IME window.
-// Keep the KeyboardApp constructor compatible (keyboard_main.dart depends on it).
+// OWNER: orchestrator since Wave 2 (Wave 1-A wrote it). The keyboard UI shown
+// in the IME window. Features (panels, modes) plug in through [KeyboardFeature];
+// a feature's [KeyboardFrame] decides the window layout (one-handed, floating).
 import 'dart:async';
 import 'dart:io';
 
@@ -14,20 +15,23 @@ import '../settings/myna_settings.dart';
 import '../theme/keyboard_theme_data.dart';
 import '../theme/theme_resolver.dart';
 import 'keyboard_session.dart';
-import 'view/keyboard_hooks.dart';
+import 'panels/keyboard_panel.dart';
 import 'view/keyboard_metrics.dart';
 import 'view/keyboard_view.dart';
 
-export 'view/keyboard_hooks.dart' show KeyboardHooks;
+export 'panels/keyboard_panel.dart';
 export 'view/keyboard_metrics.dart' show KeyboardMetrics;
 
 class KeyboardApp extends StatefulWidget {
-  const KeyboardApp({super.key, required this.services, this.hooks = const KeyboardHooks()});
+  const KeyboardApp({super.key, required this.services, this.hooks = const KeyboardHooks(), this.features = const []});
 
   final KeyboardServices services;
 
-  /// Wave 2 attaches panels (emoji, clipboard, themes) and drag gestures here.
+  /// Hooks that win over the features' hooks (tests use this).
   final KeyboardHooks hooks;
+
+  /// Attached in order once the session exists (see keyboard_main.dart).
+  final List<KeyboardFeature> features;
 
   @override
   State<KeyboardApp> createState() => _KeyboardAppState();
@@ -35,7 +39,10 @@ class KeyboardApp extends StatefulWidget {
 
 class _KeyboardAppState extends State<KeyboardApp> {
   late final KeyboardSession _session;
-  double? _requestedHeight;
+  late final KeyboardHooks _hooks;
+  KeyboardFrame? _frame;
+  WindowLayoutMessage? _sentLayout;
+  int? _sentNavBarArgb;
 
   // Theme cache: resolving can be expensive, so only redo it when an input changed.
   KeyboardThemeData? _theme;
@@ -50,6 +57,16 @@ class _KeyboardAppState extends State<KeyboardApp> {
   void initState() {
     super.initState();
     _session = KeyboardSession(s);
+    final featureHooks = <KeyboardHooks>[widget.hooks];
+    for (final f in widget.features) {
+      try {
+        featureHooks.add(f.attach(_session));
+        _frame ??= f.frame;
+      } on Object catch (e) {
+        MynaLog.w('Keyboard', 'feature attach failed', e.runtimeType);
+      }
+    }
+    _hooks = KeyboardHooks.merge(featureHooks);
     s.settings.addListener(_rebuild);
     s.events.metrics.addListener(_rebuild);
     _session.systemColors.addListener(_rebuild);
@@ -64,6 +81,13 @@ class _KeyboardAppState extends State<KeyboardApp> {
     s.settings.removeListener(_rebuild);
     s.events.metrics.removeListener(_rebuild);
     _session.systemColors.removeListener(_rebuild);
+    for (final f in widget.features) {
+      try {
+        f.detach();
+      } on Object catch (e) {
+        MynaLog.w('Keyboard', 'feature detach failed', e.runtimeType);
+      }
+    }
     _session.dispose();
     super.dispose();
   }
@@ -91,21 +115,58 @@ class _KeyboardAppState extends State<KeyboardApp> {
       systemColors: colors,
       systemDark: dark,
       disableAnimations: reduce,
+      customThemesDirectory: s.dataDirectory == null ? null : '${s.dataDirectory}/themes',
     );
   }
 
-  /// Dart owns the total window height: content plus the bottom inset Flutter applies.
-  void _syncWindowHeight(double total) {
-    if (total == _requestedHeight) return;
-    _requestedHeight = total;
+  static bool _sameLayout(WindowLayoutMessage a, WindowLayoutMessage b) {
+    final ra = a.floatingRect;
+    final rb = b.floatingRect;
+    final sameRect =
+        (ra == null && rb == null) ||
+        (ra != null &&
+            rb != null &&
+            ra.left == rb.left &&
+            ra.top == rb.top &&
+            ra.width == rb.width &&
+            ra.height == rb.height);
+    return a.mode == b.mode && a.heightDp == b.heightDp && sameRect;
+  }
+
+  /// Dart owns the window layout: the total docked height (content plus the bottom inset Flutter
+  /// applies) or the floating rect. Sent only when it changes.
+  void _syncWindowLayout(WindowLayoutMessage layout) {
+    final last = _sentLayout;
+    if (last != null && _sameLayout(last, layout)) return;
+    _sentLayout = layout;
     try {
       unawaited(
-        s.host
-            .setWindowLayout(WindowLayoutMessage(mode: WindowMode.docked, heightDp: total))
-            .catchError((Object e) => MynaLog.w('Keyboard', 'window layout failed', e.runtimeType)),
+        s.host.setWindowLayout(layout).catchError((Object e) {
+          _sentLayout = null;
+          MynaLog.w('Keyboard', 'window layout failed', e.runtimeType);
+        }),
       );
     } on Object catch (e) {
+      _sentLayout = null;
       MynaLog.w('Keyboard', 'window layout failed', e.runtimeType);
+    }
+  }
+
+  /// Lets Kotlin pick light or dark navigation-bar icons for the keyboard's background.
+  void _syncNavigationBar(KeyboardThemeData theme) {
+    final argb = theme.background.toARGB32();
+    if (argb == _sentNavBarArgb) return;
+    _sentNavBarArgb = argb;
+    try {
+      unawaited(
+        s.host.setNavigationBarStyle(argb).catchError((Object e) {
+          _sentNavBarArgb = null;
+          MynaLog.w('Keyboard', 'navigation bar style failed', e.runtimeType);
+        }),
+      );
+    } on Object catch (e) {
+      _sentNavBarArgb = null;
+      MynaLog.w('Keyboard', 'navigation bar style failed', e.runtimeType);
     }
   }
 
@@ -113,26 +174,49 @@ class _KeyboardAppState extends State<KeyboardApp> {
   Widget build(BuildContext context) {
     final settings = s.settings.value;
     final theme = _resolveTheme(context);
+    _syncNavigationBar(theme);
     final landscape = s.events.metrics.value?.isLandscape ?? false;
     final inset = MediaQuery.viewPaddingOf(context).bottom;
-    _syncWindowHeight(KeyboardMetrics.totalHeight(settings, landscape: landscape, bottomInset: inset));
+    final keyboard = KeyboardView(session: _session, theme: theme, settings: settings, hooks: _hooks);
+    final background = _Background(theme: theme);
+
+    final frame = _frame;
+    final Widget content;
+    if (frame != null) {
+      final info = FrameInfo(
+        settings: settings,
+        theme: theme,
+        screenSize: MediaQuery.sizeOf(context),
+        landscape: landscape,
+        bottomInset: inset,
+        contentHeight: KeyboardMetrics.stripHeight + KeyboardMetrics.rowsHeight(settings, landscape: landscape),
+      );
+      final result = frame.build(context, info, keyboard: keyboard, background: background);
+      _syncWindowLayout(result.layout);
+      content = result.child;
+    } else {
+      _syncWindowLayout(
+        WindowLayoutMessage(
+          mode: WindowMode.docked,
+          heightDp: KeyboardMetrics.totalHeight(settings, landscape: landscape, bottomInset: inset),
+        ),
+      );
+      content = Stack(
+        fit: StackFit.expand,
+        children: [
+          background,
+          Padding(
+            padding: EdgeInsets.only(bottom: inset),
+            child: Align(alignment: Alignment.topCenter, child: keyboard),
+          ),
+        ],
+      );
+    }
     return Directionality(
       textDirection: TextDirection.ltr,
       child: DefaultTextStyle(
         style: const TextStyle(decoration: TextDecoration.none),
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            _Background(theme: theme),
-            Padding(
-              padding: EdgeInsets.only(bottom: inset),
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: KeyboardView(session: _session, theme: theme, settings: settings, hooks: widget.hooks),
-              ),
-            ),
-          ],
-        ),
+        child: content,
       ),
     );
   }

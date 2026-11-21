@@ -164,9 +164,22 @@ internal class ImeHostApiImpl(private val service: MynaImeService) : ImeHostApi 
 
     override fun openSettings(route: String?) {
         val intent = Intent(service, SettingsActivity::class.java)
-            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            // SINGLE_TOP: a running settings app gets onNewIntent (route via AppFlutterApi.onOpenRoute)
+            // instead of being recreated with a fresh Flutter engine.
+            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
         if (route != null) intent.putExtra(EXTRA_ROUTE, route)
         service.startActivity(intent)
+    }
+
+    override fun setNavigationBarStyle(backgroundArgb: Long) =
+        service.setNavigationBarBackground(backgroundArgb.toInt())
+
+    /** The IME can see the app it is bound to (package visibility), so no extra permission is needed. */
+    override fun getAppLabel(packageName: String): String? = try {
+        val pm = service.packageManager
+        pm.getApplicationLabel(pm.getApplicationInfo(packageName, 0)).toString()
+    } catch (e: Exception) {
+        null
     }
 
     override fun setInlineSuggestionsArea(area: RectMessage?) = service.setInlineSuggestionsArea(area)
