@@ -220,8 +220,12 @@ class InputController {
 
   String? get _prevChar => _before.isEmpty ? null : _before.characters.last;
 
-  bool _isLetter(String c) => RegExp(r'^[\p{L}\p{M}]', unicode: true).hasMatch(c);
-  bool _isDigit(String c) => RegExp(r'^\p{Nd}', unicode: true).hasMatch(c);
+  static final RegExp _letterRe = RegExp(r'^[\p{L}\p{M}]', unicode: true);
+  static final RegExp _digitRe = RegExp(r'^\p{Nd}', unicode: true);
+  static final RegExp _camelRe = RegExp(r'\p{Ll}\p{Lu}', unicode: true);
+
+  bool _isLetter(String c) => _letterRe.hasMatch(c);
+  bool _isDigit(String c) => _digitRe.hasMatch(c);
 
   List<String> _wordsOf(String text) {
     final rules = _rules;
@@ -462,7 +466,7 @@ class InputController {
     // Never touch handles, tags, paths and camelCase tokens.
     final before = _prevChar;
     if (before == '@' || before == '#' || before == '/') return false;
-    if (RegExp(r'\p{Ll}\p{Lu}', unicode: true).hasMatch(word)) return false;
+    if (_camelRe.hasMatch(word)) return false;
     return true;
   }
 

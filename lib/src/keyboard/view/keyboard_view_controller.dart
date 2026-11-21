@@ -80,6 +80,8 @@ class KeyboardViewController {
   final Map<int, _Touch> _touches = {};
   bool _previewBusy = false;
 
+  static final RegExp _letterRe = RegExp(r'^\p{L}$', unicode: true);
+
   bool get hasActiveTouches => _touches.isNotEmpty;
 
   MynaSettings get _s => _settings();
@@ -262,7 +264,7 @@ class KeyboardViewController {
     if (_input.currentField.isSensitive || _input.currentField.isRawKeyMode) return false;
     if (_input.page.value != KeyboardPage.letters) return false;
     final out = t.key.def.output;
-    return t.key.def.isCharacter && out != null && RegExp(r'^\p{L}$', unicode: true).hasMatch(out);
+    return t.key.def.isCharacter && out != null && _letterRe.hasMatch(out);
   }
 
   void _startGesture(_Touch t, int ms) {
