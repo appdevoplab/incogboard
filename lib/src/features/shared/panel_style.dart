@@ -54,7 +54,7 @@ class PanelButton extends StatefulWidget {
   final Color fill;
   final Color pressedFill;
   final double? width;
-  final double height;
+  final double? height;
   final BorderRadius? radius;
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
