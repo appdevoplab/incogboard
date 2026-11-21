@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:flutter_test/flutter_test.dart';
@@ -52,11 +53,30 @@ void main() {
       expect(byOut['y']!.popup, ['6', 'ý', 'ÿ']);
     });
 
-    test('qwerty bottom row: symbols, comma, space, period, enter; period popup', () async {
+    test('qwerty bottom row: symbols, emoji, comma, space, period, enter; period popup', () async {
       final l = await load('qwerty');
       final bottom = l.rows.last.keys;
-      expect(bottom.map((k) => k.type), [KeyType.symbols, KeyType.comma, KeyType.space, KeyType.period, KeyType.enter]);
-      expect(bottom[3].popup, [',', '?', '!', "'", '"', ':', ';', '-', '(', ')', '@', '#']);
+      expect(bottom.map((k) => k.type), [
+        KeyType.symbols,
+        KeyType.emoji,
+        KeyType.comma,
+        KeyType.space,
+        KeyType.period,
+        KeyType.enter,
+      ]);
+      expect(bottom[4].popup, [',', '?', '!', "'", '"', ':', ';', '-', '(', ')', '@', '#']);
+    });
+
+    test('the emoji key sits between ?123 and the comma in qwerty and symbols, taking its width from space', () async {
+      for (final id in ['qwerty', 'symbols']) {
+        final bottom = (await load(id)).rows.last.keys;
+        final i = bottom.indexWhere((k) => k.type == KeyType.emoji);
+        expect(i, 1, reason: id);
+        expect(bottom[i].width, 1, reason: id);
+        expect(bottom[i + 1].type, KeyType.comma, reason: id);
+        final space = bottom.firstWhere((k) => k.type == KeyType.space);
+        expect(space.width, 4, reason: id);
+      }
     });
 
     test('symbols and symbols2 contain the required characters', () async {
@@ -116,7 +136,7 @@ void main() {
       final l = LayoutVariants.forField(base, PreferredPage.email);
       final bottom = l.rows.last.keys;
       expect(bottom.any((k) => k.type == KeyType.comma), isFalse);
-      expect(bottom[1].output, '@');
+      expect(bottom[2].output, '@');
       final dotCom = bottom.firstWhere((k) => k.output == '.com');
       expect(dotCom.popup, [
         '.net',
@@ -137,8 +157,19 @@ void main() {
 
     test('url: / replaces the comma and a .com key is added', () async {
       final l = LayoutVariants.forField(await load('qwerty'), PreferredPage.url);
-      expect(l.rows.last.keys[1].output, '/');
+      expect(l.rows.last.keys[2].output, '/');
       expect(l.rows.last.keys.any((k) => k.output == '.com'), isTrue);
+    });
+
+    test('emoji key stays next to ?123 in email and url fields (the @ and .com keys are kept)', () async {
+      final base = await load('qwerty');
+      for (final page in [PreferredPage.email, PreferredPage.url]) {
+        final bottom = LayoutVariants.forField(base, page).rows.last.keys;
+        expect(bottom.map((k) => k.type).take(2), [KeyType.symbols, KeyType.emoji], reason: page.name);
+        expect(bottom.any((k) => k.type == KeyType.emoji), isTrue, reason: page.name);
+        expect(bottom.any((k) => k.output == '.com'), isTrue, reason: page.name);
+        expect(bottom.any((k) => k.type == KeyType.space), isTrue, reason: page.name);
+      }
     });
 
     test('ordinary fields keep the layout', () async {
@@ -198,8 +229,9 @@ void main() {
       final home = l.rows[1].keys;
       expect(home.first.rect.left, closeTo(18, 1e-9), reason: '0.5 units of 36 px');
       final bottom = l.rows[3].keys;
-      final space = bottom[2];
-      expect(space.rect.width, closeTo(5 * 36, 1e-9));
+      final space = bottom[3];
+      expect(space.def.type, KeyType.space);
+      expect(space.rect.width, closeTo(4 * 36, 1e-9));
       expect(bottom[0].rect.width, closeTo(1.5 * 36, 1e-9));
     });
 
@@ -262,6 +294,94 @@ void main() {
       final l = KeyboardLayoutEngine.layout(const KeyboardLayoutDef(id: 'x', name: 'x', rows: []), size);
       expect(l.keys, isEmpty);
       expect(l.hitTest(const Offset(1, 1)), isNull);
+    });
+  });
+
+  group('split and compact layouts', () {
+    const tablet = Size(800, 280);
+
+    test('split: each half keeps its keys, the centre gap is 20% of the width, nothing overlaps', () async {
+      final l = KeyboardLayoutEngine.layout(await load('qwerty'), tablet, keyGap: 6, split: true);
+      final mid = tablet.width / 2;
+      // The top row is 10 units wide, so its gap is exactly 20% (plus the 3 dp inset on each key).
+      final top = l.rows.first.keys;
+      expect(top[5].rect.left - top[4].rect.right, closeTo(tablet.width * 0.2 + 6, 1e-6));
+      expect(top[4].rect.right, lessThan(mid));
+      expect(top[5].rect.left, greaterThan(mid));
+      for (final row in l.rows) {
+        for (var i = 0; i < row.keys.length; i++) {
+          for (var j = i + 1; j < row.keys.length; j++) {
+            expect(row.keys[i].rect.overlaps(row.keys[j].rect), isFalse, reason: 'row ${row.keys[i].row}');
+          }
+        }
+      }
+      for (final k in l.keys) {
+        expect(k.rect.left, greaterThanOrEqualTo(0));
+        expect(k.rect.right, lessThanOrEqualTo(tablet.width + 1e-9));
+        expect(k.cell.contains(k.rect.center), isTrue);
+      }
+    });
+
+    test('split: top row is q..t on the left and y..p on the right, with a touch in the gap picking a side', () async {
+      final l = KeyboardLayoutEngine.layout(await load('qwerty'), tablet, keyGap: 6, split: true);
+      final top = l.rows.first.keys.map((k) => k.def.output).toList();
+      expect(top, ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p']);
+      final mid = tablet.width / 2;
+      final y = l.rows.first.keys.first.rect.center.dy;
+      expect(l.hitTest(Offset(mid - 2, y))!.def.output, 't');
+      expect(l.hitTest(Offset(mid + 2, y))!.def.output, 'y');
+      expect(l.hitTest(Offset(150, y))!.def.output, 'e');
+      expect(l.hitTest(Offset(tablet.width * 0.75, y))!.def.output, 'u');
+    });
+
+    test('split: the space bar becomes two halves that both type a space, and there are no dead zones', () async {
+      final l = KeyboardLayoutEngine.layout(await load('qwerty'), tablet, keyGap: 6, split: true);
+      final spaces = l.keys.where((k) => k.def.type == KeyType.space).toList();
+      expect(spaces, hasLength(2));
+      expect(spaces.first.rect.center.dx, lessThan(tablet.width / 2));
+      expect(spaces.last.rect.center.dx, greaterThan(tablet.width / 2));
+      expect(spaces.first.rect.width, closeTo(spaces.last.rect.width, 1e-9));
+      for (var x = 0.0; x < tablet.width; x += 5) {
+        for (var y = 0.0; y < tablet.height; y += 5) {
+          final k = l.hitTest(Offset(x, y));
+          expect(k!.cell.contains(Offset(x, y)), isTrue, reason: '($x, $y)');
+        }
+      }
+    });
+
+    test('split: geometry still maps every letter, and each letter stays on its side of the gap', () async {
+      final l = KeyboardLayoutEngine.layout(await load('qwerty'), tablet, keyGap: 6, split: true);
+      final g = l.toGeometry();
+      expect(g.keys.length, 26);
+      final mid = tablet.width / 2;
+      expect(g.keys['q']!.center.dx, lessThan(mid));
+      expect(g.keys['p']!.center.dx, greaterThan(mid));
+      expect(g.keys['a']!.center.dx, lessThan(mid));
+      expect(g.keys['l']!.center.dx, greaterThan(mid));
+    });
+
+    test('split is off by default: letters keep the single centred row', () async {
+      final l = KeyboardLayoutEngine.layout(await load('qwerty'), tablet, keyGap: 6);
+      final top = l.rows.first.keys;
+      expect(top.first.rect.left, lessThan(tablet.width / 2));
+      expect(top.last.rect.right, greaterThan(tablet.width / 2));
+      expect(l.keys.where((k) => k.def.type == KeyType.space), hasLength(1));
+    });
+
+    test('compact: keys are no taller than 44 dp, and the rows still reach the bottom', () async {
+      const landscape = Size(640, 200);
+      final l = KeyboardLayoutEngine.layout(await load('qwerty'), landscape, keyGap: 6, compact: true);
+      expect(l.rows.first.bottom - l.rows.first.top, lessThanOrEqualTo(kCompactKeyHeight + 1e-9));
+      expect(l.rows[1].bottom - l.rows[1].top, lessThanOrEqualTo(kCompactKeyHeight + 1e-9));
+      expect(l.rows.last.bottom, closeTo(landscape.height, 1e-9));
+      expect(l.hitTest(Offset(10, landscape.height - 2))!.row, 3);
+    });
+
+    test('compact leaves a tall area alone when the keys already fit', () async {
+      const short = Size(640, 120);
+      final plain = KeyboardLayoutEngine.layout(await load('qwerty'), short, keyGap: 6);
+      final compact = KeyboardLayoutEngine.layout(await load('qwerty'), short, keyGap: 6, compact: true);
+      expect(compact.rows.first.bottom, closeTo(plain.rows.first.bottom, 1e-9));
     });
   });
 }
