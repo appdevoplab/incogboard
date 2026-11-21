@@ -1,18 +1,19 @@
 # Handoff: continue from here after /clear
 
-State as of 2026-11-20 evening:
+State as of 2026-11-21:
 - Wave 0 is done.
-- Wave 1 agents are running in git worktrees.
+- The 2026-11-20 Wave 1 run stopped at ~7:35 PM with nothing committed (only D left partial files, now committed as 43ccb56 on `worktree-agent-a2c0d90e867cfe9f5`; remove that branch after D merges).
+- Wave 1 relaunched 2026-11-21, all five agents on **Sonnet, high effort** (user's rule for parallel agents).
 
 ## Wave 1 agent branches
 
 | Agent | Area | Brief | Branch / worktree |
 |---|---|---|---|
-| A | Keyboard view and input controller | `docs/waves/wave1/A-keyboard.md` | `worktree-agent-ac8c015e786297f8c` |
-| B | Text engine (dictionary, autocorrect, learning) | `docs/waves/wave1/B-text-engine.md` | `worktree-agent-ac029b572bc20073e` |
-| C | Gesture (swipe) typing | `docs/waves/wave1/C-gesture.md` | `worktree-agent-ae8c6008f8608dbc9` |
-| D | Themes and design (Sonnet) | `docs/waves/wave1/D-themes.md` | `worktree-agent-a2c0d90e867cfe9f5` |
-| E | Android platform layer (Sonnet) | `docs/waves/wave1/E-android.md` | `worktree-agent-ad19bb1c74a0797b9` |
+| A | Keyboard view and input controller | `docs/waves/wave1/A-keyboard.md` | `worktree-agent-a6033f0711c517d9c` |
+| B | Text engine (dictionary, autocorrect, learning) | `docs/waves/wave1/B-text-engine.md` | `worktree-agent-abda128f420f55e3e` |
+| C | Gesture (swipe) typing | `docs/waves/wave1/C-gesture.md` | `worktree-agent-adf9954afab5911c2` |
+| D | Themes and design | `docs/waves/wave1/D-themes.md` | `worktree-agent-a65096cdba8e7fa46` |
+| E | Android platform layer | `docs/waves/wave1/E-android.md` | `worktree-agent-adf3571a94e9746c2` |
 
 The worktrees live in `.claude/worktrees/agent-<id>`. Agents commit early and often on their branch.
 
@@ -36,7 +37,7 @@ The worktrees live in `.claude/worktrees/agent-<id>`. Agents commit early and of
 
 - A personal TECNO phone is connected over USB. Always set `$env:ANDROID_SERIAL='emulator-5554'`, and never install on the phone without asking.
 - The emulator AVD is `Medium_Phone_API_37.0`. It needs `adb shell settings put secure show_ime_with_hard_keyboard 1` once.
-- The usage limit hit once with 5 parallel Opus agents. Use Sonnet for routine agents.
+- The usage limit hit with 5 parallel Opus agents. Launch every parallel agent with `model: sonnet`, `effort: high`.
 
 ## Open questions for the user
 
