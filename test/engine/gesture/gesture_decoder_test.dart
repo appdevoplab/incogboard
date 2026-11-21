@@ -281,7 +281,7 @@ void main() {
         'preview: p50=${percentile(ms, 0.5).toStringAsFixed(2)} ms p95=${percentile(ms, 0.95).toStringAsFixed(2)} ms '
         'top1 hits=$hits/${sample.length}',
       );
-      expect(percentile(ms, 0.95), lessThan(25), reason: "target is ~10 ms on a phone; desktop is far faster");
+      expect(percentile(ms, 0.95), lessThan(25), reason: 'target is ~10 ms on a phone; desktop is far faster');
       expect(hits, greaterThan(sample.length * 0.6));
       expect(await decoder.preview(const GesturePath([])), isNull);
     });

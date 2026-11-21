@@ -203,6 +203,16 @@ void main() {
       expect(h.controller.bar.value.suggestions, isEmpty);
     });
 
+    test('no next-word predictions in email or URL fields, but typed-word suggestions stay', () async {
+      for (final v in [AndroidInputType.textVariationEmailAddress, AndroidInputType.textVariationUri]) {
+        final h = Harness();
+        await h.start(textField(variation: v));
+        expect(h.controller.bar.value.suggestions, isEmpty, reason: 'variation $v');
+        await h.type('hel');
+        expect(h.controller.bar.value.suggestions, isNotEmpty, reason: 'variation $v');
+      }
+    });
+
     test('no suggestions in fields that forbid them', () async {
       final h = Harness();
       await h.start(textField(flags: AndroidInputType.textFlagNoSuggestions));
