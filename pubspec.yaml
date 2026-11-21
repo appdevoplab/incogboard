@@ -70,6 +70,13 @@ flutter:
     - assets/dict/
     - assets/themes/
 
+  # Bundled variable font (SIL OFL 1.1, see docs/notices/themes.md). Axes:
+  # opsz, wdth, wght (1..1000), ROND (0..100), slnt.
+  fonts:
+    - family: GoogleSansFlex
+      fonts:
+        - asset: assets/fonts/GoogleSansFlex.ttf
+
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
