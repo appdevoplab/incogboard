@@ -3,7 +3,7 @@
 State as of 2026-11-21 (evening):
 - **Waves 0, 1 and 2 are done and merged on `main`.** Wave 2 merged in the order B, C, D, E, A (merge commits `8254315`..`7f365f6`), then follow-ups `3f24ce1` and `9235155`. Agent worktrees and branches are removed.
 - Checks on `main`: `flutter analyze` 0 issues, `flutter test` 788 pass, Android JVM tests 46 pass, emulator smoke test passed, release gate passes.
-- Next: Wave 3 (languages and voice), see `docs/waves/README.md`. Write its briefs first.
+- Next: Wave 3 (languages and voice), see `docs/waves/README.md`. Write its briefs first. The offline translator is planned in `docs/waves/translator.md`.
 - **User decisions for Wave 2 (2026-11-21):**
   - clipboard history on by default
   - the incognito picker lists "apps you've typed in" (encrypted `seen_apps` blob)
@@ -36,7 +36,6 @@ State as of 2026-11-21 (evening):
 - Seen once and not reproduced: after a backspace that reverted an autocorrection, swipe-delete Undo restored "don't " instead of "dont".
 - Open decisions for the user:
   - The toolbar (clipboard, editing, modes, themes, settings) shows only when the strip has nothing to suggest. Ordinary text fields always show predictions, even when empty, so there the panels are reachable only through the emoji key.
-  - Translator like Gboard's, offline only (asked 2026-11-21): needs on-device models, see the answer in the session.
   - Panel tab and modes-bar buttons are 44 dp tall (the strip height is fixed), below the 48 dp rule.
   - The About source link appears only with `--dart-define=MYNA_SOURCE_URL=<url>`, so it needs the GitHub username.
   - Email/URL layouts keep the emoji key next to ?123 (`LayoutVariants.forField`).

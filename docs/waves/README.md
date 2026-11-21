@@ -83,6 +83,8 @@
   - Mascot poses (wave, lock, sing, sleep).
   - Play 512 icon, feature graphic, store screenshots template.
 
+- **Translator (added 2026-11-21):** offline English ↔ es/fr/de/pt/hi/ru, a translate panel plus translate-selection, models in separate packs. Plan: `docs/waves/translator.md`. Schedule it with voice (same NDK and pack work).
+
 ## Wave 4: CJK and polish (4)
 
 - **A:** Chinese pinyin, as a Dart lattice converter:
