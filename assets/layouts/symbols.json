@@ -188,12 +188,16 @@
      "width": 1.5
     },
     {
+     "type": "emoji",
+     "width": 1
+    },
+    {
      "type": "comma",
      "output": ","
     },
     {
      "type": "space",
-     "width": 5
+     "width": 4
     },
     {
      "type": "period",
