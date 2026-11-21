@@ -123,6 +123,34 @@ class KeyDef {
 
   bool get isCharacter => type == KeyType.character;
 
+  /// Copy with some fields replaced (Wave 1-A helper; does not change the JSON format).
+  KeyDef copyWith({
+    KeyType? type,
+    String? output,
+    String? label,
+    String? shiftedOutput,
+    String? shiftedLabel,
+    String? hint,
+    bool clearHint = false,
+    List<String>? popup,
+    double? width,
+    Map<String, String>? flick,
+    String? code,
+    String? id,
+  }) => KeyDef(
+    type: type ?? this.type,
+    output: output ?? this.output,
+    label: label ?? this.label,
+    shiftedOutput: shiftedOutput ?? this.shiftedOutput,
+    shiftedLabel: shiftedLabel ?? this.shiftedLabel,
+    hint: clearHint ? null : (hint ?? this.hint),
+    popup: popup ?? this.popup,
+    width: width ?? this.width,
+    flick: flick ?? this.flick,
+    code: code ?? this.code,
+    id: id ?? this.id,
+  );
+
   String? outputFor({required bool shifted}) {
     if (!shifted) return output;
     return shiftedOutput ?? output?.toUpperCase();
@@ -153,6 +181,9 @@ class KeyRowDef {
   final double padding;
 
   double get totalUnits => keys.fold<double>(0, (sum, k) => sum + k.width) + padding * 2;
+
+  KeyRowDef copyWith({List<KeyDef>? keys, double? height, double? padding}) =>
+      KeyRowDef(keys: keys ?? this.keys, height: height ?? this.height, padding: padding ?? this.padding);
 }
 
 @immutable
@@ -187,4 +218,18 @@ class KeyboardLayoutDef {
   final List<KeyRowDef> rows;
 
   Iterable<KeyDef> get keys => rows.expand((r) => r.keys);
+
+  KeyboardLayoutDef copyWith({
+    String? id,
+    String? name,
+    List<KeyRowDef>? rows,
+    String? script,
+    TextDirection? direction,
+  }) => KeyboardLayoutDef(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    rows: rows ?? this.rows,
+    script: script ?? this.script,
+    direction: direction ?? this.direction,
+  );
 }
