@@ -106,7 +106,7 @@ class EmojiKeywordTable {
   final Map<int, String> shortNames;
 }
 
-/// Decodes emoji.gz (gzipped JSON). Expects the format written by tool/build_emoji.dart.
+/// Decodes emoji.dat (gzipped JSON). Expects the format written by tool/build_emoji.dart.
 EmojiData decodeEmojiData(Uint8List gz) {
   final json = jsonDecode(utf8.decode(gzip.decode(gz))) as Map<String, Object?>;
   if (json['format'] != 1) throw const FormatException('unsupported emoji format');
@@ -131,7 +131,7 @@ EmojiData decodeEmojiData(Uint8List gz) {
   return EmojiData(unicodeVersion: json['unicode']! as String, groups: groups, subgroups: subgroups, items: items);
 }
 
-/// Decodes `keywords_LANG.gz`: `[short]` lines `ref TAB name`, then `[keys]` lines
+/// Decodes `keywords_LANG.dat`: `[short]` lines `ref TAB name`, then `[keys]` lines
 /// `keyword TAB refs`, where refs are base-36 deltas from the previous ref.
 EmojiKeywordTable decodeKeywordTable(String lang, Uint8List gz) {
   final text = utf8.decode(gzip.decode(gz));
