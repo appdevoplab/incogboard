@@ -778,6 +778,20 @@ class InputController {
     }
   }
 
+  /// The Tab key (hardware-style key event).
+  void sendTab() {
+    _begin();
+    try {
+      _commitComposingAsTyped();
+      _space = _SpaceState.none;
+      _lastCorrection = null;
+      _lastSwipe = null;
+      _send(_input.sendDownUpKeyEvent(AndroidKeyCode.tab));
+    } finally {
+      _end();
+    }
+  }
+
   /// Moves the cursor by [delta] characters (hook for Wave 2's space-bar cursor control).
   void moveCursor(int delta) {
     if (delta == 0) return;

@@ -1,237 +1,164 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// OWNER: Wave 1-A (keyboard view). Wave 0 placeholder: a minimal QWERTY that
-// proves the Flutter-in-IME pipeline end to end. Keep the KeyboardApp
-// constructor signature stable (keyboard_main.dart depends on it).
+// OWNER: Wave 1-A (keyboard view). The keyboard UI shown in the IME window.
+// Keep the KeyboardApp constructor compatible (keyboard_main.dart depends on it).
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/widgets.dart';
 
 import '../bridge/messages.g.dart';
-import '../core/input_field_info.dart';
 import '../core/keyboard_services.dart';
-import '../engine/contracts.dart';
+import '../core/log.dart';
+import '../settings/myna_settings.dart';
 import '../theme/keyboard_theme_data.dart';
 import '../theme/theme_resolver.dart';
+import 'keyboard_session.dart';
+import 'view/keyboard_hooks.dart';
+import 'view/keyboard_metrics.dart';
+import 'view/keyboard_view.dart';
 
-/// Content height (dp) excluding the navigation-bar inset.
-const double kPlaceholderKeyboardHeight = 284;
+export 'view/keyboard_hooks.dart' show KeyboardHooks;
+export 'view/keyboard_metrics.dart' show KeyboardMetrics;
 
 class KeyboardApp extends StatefulWidget {
-  const KeyboardApp({super.key, required this.services});
+  const KeyboardApp({super.key, required this.services, this.hooks = const KeyboardHooks()});
 
   final KeyboardServices services;
+
+  /// Wave 2 attaches panels (emoji, clipboard, themes) and drag gestures here.
+  final KeyboardHooks hooks;
 
   @override
   State<KeyboardApp> createState() => _KeyboardAppState();
 }
 
 class _KeyboardAppState extends State<KeyboardApp> {
-  KeyboardServices get s => widget.services;
-  bool _shift = true;
-  String _word = '';
-  List<Suggestion> _suggestions = const [];
-
-  static const _rows = ['qwertyuiop', 'asdfghjkl', 'zxcvbnm'];
+  late final KeyboardSession _session;
   double? _requestedHeight;
 
-  /// Dart owns the total window height: content + the bottom inset Flutter applies.
-  void _syncWindowHeight(double bottomInset) {
-    final total = kPlaceholderKeyboardHeight + bottomInset;
-    if (total == _requestedHeight) return;
-    _requestedHeight = total;
-    unawaited(s.host.setWindowLayout(WindowLayoutMessage(mode: WindowMode.docked, heightDp: total)));
-  }
+  // Theme cache: resolving can be expensive, so only redo it when an input changed.
+  KeyboardThemeData? _theme;
+  AppearanceSettings? _themeAppearance;
+  SystemColorsMessage? _themeColors;
+  bool? _themeDark;
+  bool? _themeReduce;
+
+  KeyboardServices get s => widget.services;
 
   @override
   void initState() {
     super.initState();
-    unawaited(s.predictor.setActiveLanguages(['en']));
-    s.events.startInput.listen((e) {
-      if (e.inputView) setState(_resetForField);
-    });
+    _session = KeyboardSession(s);
+    s.settings.addListener(_rebuild);
+    s.events.metrics.addListener(_rebuild);
+    _session.systemColors.addListener(_rebuild);
   }
 
-  void _resetForField() {
-    _word = '';
-    _suggestions = const [];
-    _shift = s.events.field.value.capSentences || s.events.field.value.capWords;
+  void _rebuild() {
+    if (mounted) setState(() {});
   }
 
-  void _letter(String c) {
-    final out = _shift ? c.toUpperCase() : c;
-    unawaited(s.input.commitText(out));
-    unawaited(s.host.performHaptic(HapticKind.keyTap));
-    setState(() {
-      _word += out;
-      _shift = false;
-      _suggestions = s.predictor.suggest(TypingContext(composing: _word)).suggestions;
-    });
+  @override
+  void dispose() {
+    s.settings.removeListener(_rebuild);
+    s.events.metrics.removeListener(_rebuild);
+    _session.systemColors.removeListener(_rebuild);
+    _session.dispose();
+    super.dispose();
   }
 
-  void _space() {
-    unawaited(s.input.commitText(' '));
-    setState(() {
-      _word = '';
-      _suggestions = const [];
-    });
-  }
-
-  void _backspace() {
-    unawaited(s.input.sendDownUpKeyEvent(AndroidKeyCode.del));
-    setState(() {
-      if (_word.isNotEmpty) _word = _word.substring(0, _word.length - 1);
-      _suggestions = _word.isEmpty ? const [] : s.predictor.suggest(TypingContext(composing: _word)).suggestions;
-    });
-  }
-
-  void _enter() {
-    final field = s.events.field.value;
-    if (field.enterInsertsNewline) {
-      unawaited(s.input.commitText('\n'));
-    } else {
-      unawaited(s.input.performEditorAction(field.editorActionId));
+  KeyboardThemeData _resolveTheme(BuildContext context) {
+    final appearance = s.settings.value.appearance;
+    final colors = _session.systemColors.value;
+    final metrics = s.events.metrics.value;
+    final dark = metrics?.isNightMode ?? MediaQuery.platformBrightnessOf(context) == Brightness.dark;
+    final reduce = MediaQuery.disableAnimationsOf(context);
+    final cached = _theme;
+    if (cached != null &&
+        identical(appearance, _themeAppearance) &&
+        identical(colors, _themeColors) &&
+        dark == _themeDark &&
+        reduce == _themeReduce) {
+      return cached;
     }
-    setState(() => _word = '');
+    _themeAppearance = appearance;
+    _themeColors = colors;
+    _themeDark = dark;
+    _themeReduce = reduce;
+    return _theme = resolveKeyboardTheme(
+      appearance: appearance,
+      systemColors: colors,
+      systemDark: dark,
+      disableAnimations: reduce,
+    );
   }
 
-  void _pick(Suggestion suggestion) {
-    unawaited(s.input.deleteSurroundingText(_word.length, 0));
-    unawaited(s.input.commitText('${suggestion.text} '));
-    setState(() {
-      _word = '';
-      _suggestions = const [];
-    });
+  /// Dart owns the total window height: content plus the bottom inset Flutter applies.
+  void _syncWindowHeight(double total) {
+    if (total == _requestedHeight) return;
+    _requestedHeight = total;
+    try {
+      unawaited(
+        s.host
+            .setWindowLayout(WindowLayoutMessage(mode: WindowMode.docked, heightDp: total))
+            .catchError((Object e) => MynaLog.w('Keyboard', 'window layout failed', e.runtimeType)),
+      );
+    } on Object catch (e) {
+      MynaLog.w('Keyboard', 'window layout failed', e.runtimeType);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final metrics = s.events.metrics.value;
-    final theme = resolveKeyboardTheme(
-      appearance: s.settings.value.appearance,
-      systemColors: null,
-      systemDark: metrics?.isNightMode ?? false,
-      disableAnimations: MediaQuery.of(context).disableAnimations,
-    );
-    final bottomInset = MediaQuery.of(context).viewPadding.bottom;
-    _syncWindowHeight(bottomInset);
+    final settings = s.settings.value;
+    final theme = _resolveTheme(context);
+    final landscape = s.events.metrics.value?.isLandscape ?? false;
+    final inset = MediaQuery.viewPaddingOf(context).bottom;
+    _syncWindowHeight(KeyboardMetrics.totalHeight(settings, landscape: landscape, bottomInset: inset));
     return Directionality(
       textDirection: TextDirection.ltr,
-      child: ColoredBox(
-        color: theme.background,
-        child: Padding(
-          padding: EdgeInsets.only(bottom: bottomInset),
-          child: Column(
-            children: [
-              SizedBox(
-                height: 44,
-                child: _SuggestionStrip(theme: theme, suggestions: _suggestions, onPick: _pick),
+      child: DefaultTextStyle(
+        style: const TextStyle(decoration: TextDecoration.none),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            _Background(theme: theme),
+            Padding(
+              padding: EdgeInsets.only(bottom: inset),
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: KeyboardView(session: _session, theme: theme, settings: settings, hooks: widget.hooks),
               ),
-              for (final row in _rows)
-                _row([
-                  for (final c in row.split(''))
-                    _Key(label: _shift ? c.toUpperCase() : c, theme: theme, onTap: () => _letter(c)),
-                ], theme),
-              _row([
-                _Key(
-                  label: _shift ? '⇧' : '⇧',
-                  theme: theme,
-                  flex: 3,
-                  function: true,
-                  onTap: () => setState(() => _shift = !_shift),
-                ),
-                _Key(label: ',', theme: theme, flex: 2, onTap: () => unawaited(s.input.commitText(','))),
-                _Key(label: 'Myna', theme: theme, flex: 9, space: true, onTap: _space),
-                _Key(label: '.', theme: theme, flex: 2, onTap: () => unawaited(s.input.commitText('.'))),
-                _Key(label: '⌫', theme: theme, flex: 3, function: true, onTap: _backspace),
-                _Key(label: '↵', theme: theme, flex: 3, action: true, onTap: _enter),
-              ], theme),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
-
-  Widget _row(List<Widget> keys, KeyboardThemeData theme) => SizedBox(
-    height: 56,
-    child: Padding(
-      padding: EdgeInsets.symmetric(horizontal: theme.keyGap / 2),
-      child: Row(children: keys),
-    ),
-  );
 }
 
-class _SuggestionStrip extends StatelessWidget {
-  const _SuggestionStrip({required this.theme, required this.suggestions, required this.onPick});
+/// Solid colour, gradient or image (with dim). Also fills the area under the navigation bar.
+class _Background extends StatelessWidget {
+  const _Background({required this.theme});
 
   final KeyboardThemeData theme;
-  final List<Suggestion> suggestions;
-  final ValueChanged<Suggestion> onPick;
-
-  @override
-  Widget build(BuildContext context) => Row(
-    children: [
-      for (final sug in suggestions.take(3))
-        Expanded(
-          child: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () => onPick(sug),
-            child: Center(
-              child: Text(sug.text, style: TextStyle(color: theme.suggestionText, fontSize: 17), maxLines: 1),
-            ),
-          ),
-        ),
-    ],
-  );
-}
-
-class _Key extends StatelessWidget {
-  const _Key({
-    required this.label,
-    required this.theme,
-    required this.onTap,
-    this.flex = 2,
-    this.function = false,
-    this.action = false,
-    this.space = false,
-  });
-
-  final String label;
-  final KeyboardThemeData theme;
-  final VoidCallback onTap;
-  final int flex;
-  final bool function;
-  final bool action;
-  final bool space;
 
   @override
   Widget build(BuildContext context) {
-    final style = action
-        ? theme.actionKey
-        : function
-        ? theme.functionKey
-        : space
-        ? theme.spaceKey
-        : theme.letterKey;
-    return Expanded(
-      flex: flex,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: onTap,
-        child: Padding(
-          padding: EdgeInsets.all(theme.keyGap / 2),
-          child: DecoratedBox(
-            decoration: BoxDecoration(color: style.fill, borderRadius: BorderRadius.circular(22)),
-            child: Center(
-              child: Text(
-                label,
-                style: TextStyle(color: style.label, fontSize: space ? 14 : 22),
-              ),
+    final path = theme.backgroundImagePath;
+    return DecoratedBox(
+      decoration: BoxDecoration(color: theme.background, gradient: theme.backgroundGradient),
+      child: path == null
+          ? null
+          : Stack(
+              fit: StackFit.expand,
+              children: [
+                Image.file(File(path), fit: BoxFit.cover, errorBuilder: (_, _, _) => const SizedBox.shrink()),
+                if (theme.backgroundImageDim > 0)
+                  ColoredBox(color: Color.fromRGBO(0, 0, 0, theme.backgroundImageDim.clamp(0.0, 1.0))),
+              ],
             ),
-          ),
-        ),
-      ),
     );
   }
 }
