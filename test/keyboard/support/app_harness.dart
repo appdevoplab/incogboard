@@ -68,7 +68,18 @@ class AppHarness {
     when(() => host.showInputMethodPicker()).thenAnswer((_) async {});
     when(() => host.openSettings(any())).thenAnswer((_) async {});
     when(() => host.switchToNextInputMethod(any())).thenAnswer((_) async => true);
+    when(() => host.setNavigationBarStyle(any())).thenAnswer((_) async {});
+    when(() => host.getAppLabel(any())).thenAnswer((_) async => null);
     when(() => platform.getSystemColors()).thenAnswer((_) async => null);
+    when(() => platform.getAppInfo()).thenAnswer(
+      (_) async => AppInfoMessage(
+        packageName: 'app.myna.keyboard',
+        versionName: '0',
+        versionCode: 0,
+        sdkInt: 37,
+        isDebugBuild: true,
+      ),
+    );
     events = ImeEvents();
     editor.onSelectionChanged = (m) => unawaited(events.onUpdateSelection(m));
     store = SettingsStore.memory(settings);
@@ -98,12 +109,16 @@ class AppHarness {
   /// Size of the test window in dp.
   static const Size window = Size(360, 700);
 
-  Future<void> pump(WidgetTester tester, {KeyboardHooks hooks = const KeyboardHooks()}) async {
+  Future<void> pump(
+    WidgetTester tester, {
+    KeyboardHooks hooks = const KeyboardHooks(),
+    List<KeyboardFeature> features = const [],
+  }) async {
     tester.view.devicePixelRatio = 1;
     tester.view.physicalSize = window;
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
-    await tester.pumpWidget(KeyboardApp(services: services, hooks: hooks));
+    await tester.pumpWidget(KeyboardApp(services: services, hooks: hooks, features: features));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 20));
   }

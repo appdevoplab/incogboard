@@ -90,6 +90,11 @@ class FakePredictor implements TextPredictor {
   @override
   Future<void> clearLearnedData() async {}
 
+  int reloads = 0;
+
+  @override
+  Future<void> reloadLearnedData() async => reloads++;
+
   @override
   void trimMemory() {}
 }

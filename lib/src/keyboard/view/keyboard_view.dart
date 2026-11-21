@@ -18,8 +18,8 @@ import '../input/keyboard_page.dart';
 import '../keyboard_session.dart';
 import '../layout/layout_engine.dart';
 import '../layout/layout_model.dart';
+import '../panels/keyboard_panel.dart';
 import 'key_press_animator.dart';
-import 'keyboard_hooks.dart';
 import 'keyboard_metrics.dart';
 import 'keyboard_view_controller.dart';
 import 'keys_painter.dart';
@@ -62,7 +62,7 @@ class _KeyboardViewState extends State<KeyboardView> with SingleTickerProviderSt
       animator: _animator,
       host: s.services.host,
       settings: () => s.services.settings.value,
-      hooks: widget.hooks,
+      hooks: _hooks,
     );
     // A new page or field replaces the keys under the finger: drop active touches.
     s.input.page.addListener(_view.cancelAll);
@@ -73,7 +73,7 @@ class _KeyboardViewState extends State<KeyboardView> with SingleTickerProviderSt
   void didUpdateWidget(KeyboardView old) {
     super.didUpdateWidget(old);
     _animator.motion = widget.theme.motion;
-    _view.hooks = widget.hooks;
+    _view.hooks = _hooks;
   }
 
   @override
@@ -86,6 +86,16 @@ class _KeyboardViewState extends State<KeyboardView> with SingleTickerProviderSt
     super.dispose();
   }
 
+  /// The toolbar's Themes button opens the settings app's theme gallery unless a feature overrides it.
+  KeyboardHooks get _hooks {
+    final h = widget.hooks;
+    if (h.onTheme != null) return h;
+    return KeyboardHooks.merge([
+      h,
+      KeyboardHooks(onTheme: () => unawaited(_openSettings(widget.session, route: 'themes'))),
+    ]);
+  }
+
   @override
   Widget build(BuildContext context) {
     final s = widget.session;
@@ -93,67 +103,92 @@ class _KeyboardViewState extends State<KeyboardView> with SingleTickerProviderSt
     final settings = widget.settings;
     final landscape = s.services.events.metrics.value?.isLandscape ?? false;
     final rowsHeight = KeyboardMetrics.rowsHeight(settings, landscape: landscape);
+    final hooks = _hooks;
     return LayoutBuilder(
       builder: (context, constraints) {
         _view
           ..viewSize = Size(constraints.maxWidth, KeyboardMetrics.stripHeight + rowsHeight)
           ..keyAreaTop = KeyboardMetrics.stripHeight;
+        final width = constraints.maxWidth;
+        final strip = ValueListenableBuilder<InputFieldInfo>(
+          valueListenable: s.input.field,
+          builder: (context, field, _) => SuggestionStrip(
+            theme: theme,
+            bar: s.input.bar,
+            field: field,
+            suggestionsEnabled: settings.typing.showSuggestions,
+            incognito: s.input.isIncognito,
+            hooks: hooks,
+            chips: s.stripChips,
+            onPick: (suggestion) {
+              s.input.onSuggestionPicked(suggestion);
+              if (settings.feedback.haptics) unawaited(_hapticQuiet(s));
+            },
+            onOpenSettings: () => unawaited(_openSettings(s)),
+          ),
+        );
+        Widget panelArea(KeyboardPanel p, double height) => SizedBox(
+          width: width,
+          height: height,
+          child: Builder(
+            builder: (context) =>
+                p.build(context, PanelContext(session: s, theme: theme, settings: settings, size: Size(width, height))),
+          ),
+        );
         return SizedBox(
           height: KeyboardMetrics.stripHeight + rowsHeight,
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: [
-              Column(
+          child: ValueListenableBuilder<KeyboardPanel?>(
+            valueListenable: s.panel,
+            builder: (context, panel, _) {
+              if (panel != null && panel.placement == PanelPlacement.full) {
+                return panelArea(panel, KeyboardMetrics.stripHeight + rowsHeight);
+              }
+              return Stack(
+                clipBehavior: Clip.none,
                 children: [
-                  ValueListenableBuilder<InputFieldInfo>(
-                    valueListenable: s.input.field,
-                    builder: (context, field, _) => SuggestionStrip(
-                      theme: theme,
-                      bar: s.input.bar,
-                      field: field,
-                      suggestionsEnabled: settings.typing.showSuggestions,
-                      incognito: s.input.isIncognito,
-                      hooks: widget.hooks,
-                      onPick: (suggestion) {
-                        s.input.onSuggestionPicked(suggestion);
-                        if (settings.feedback.haptics) unawaited(_hapticQuiet(s));
-                      },
-                      onOpenSettings: () => unawaited(_openSettings(s)),
-                    ),
+                  Column(
+                    children: [
+                      if (panel != null && panel.placement == PanelPlacement.strip)
+                        panelArea(panel, KeyboardMetrics.stripHeight)
+                      else
+                        strip,
+                      SizedBox(
+                        height: rowsHeight,
+                        child: panel != null && panel.placement == PanelPlacement.keys
+                            ? panelArea(panel, rowsHeight)
+                            : ListenableBuilder(
+                                listenable: Listenable.merge([s.input.page, s.input.field, s.layoutVersion]),
+                                builder: (context, _) {
+                                  final field = s.input.field.value;
+                                  final page = s.input.page.value;
+                                  return KeyboardKeysArea(
+                                    session: s,
+                                    theme: theme,
+                                    settings: settings,
+                                    field: field,
+                                    page: page,
+                                    layoutDef: s.layoutFor(page, field, settings),
+                                    viewController: _view,
+                                    animator: _animator,
+                                    trail: _trail,
+                                  );
+                                },
+                              ),
+                      ),
+                    ],
                   ),
-                  SizedBox(
-                    height: rowsHeight,
-                    child: ListenableBuilder(
-                      listenable: Listenable.merge([s.input.page, s.input.field, s.layoutVersion]),
-                      builder: (context, _) {
-                        final field = s.input.field.value;
-                        final page = s.input.page.value;
-                        return KeyboardKeysArea(
-                          session: s,
-                          theme: theme,
-                          settings: settings,
-                          field: field,
-                          page: page,
-                          layoutDef: s.layoutFor(page, field, settings),
-                          viewController: _view,
-                          animator: _animator,
-                          trail: _trail,
-                        );
-                      },
+                  Positioned.fill(
+                    child: IgnorePointer(
+                      child: RepaintBoundary(
+                        child: CustomPaint(
+                          painter: PopupPainter(state: _view.popup, theme: theme),
+                        ),
+                      ),
                     ),
                   ),
                 ],
-              ),
-              Positioned.fill(
-                child: IgnorePointer(
-                  child: RepaintBoundary(
-                    child: CustomPaint(
-                      painter: PopupPainter(state: _view.popup, theme: theme),
-                    ),
-                  ),
-                ),
-              ),
-            ],
+              );
+            },
           ),
         );
       },
@@ -168,9 +203,9 @@ class _KeyboardViewState extends State<KeyboardView> with SingleTickerProviderSt
     }
   }
 
-  Future<void> _openSettings(KeyboardSession s) async {
+  Future<void> _openSettings(KeyboardSession s, {String? route}) async {
     try {
-      await s.services.host.openSettings(null);
+      await s.services.host.openSettings(route);
     } on Object {
       // Nothing to do: the settings activity may be unavailable.
     }

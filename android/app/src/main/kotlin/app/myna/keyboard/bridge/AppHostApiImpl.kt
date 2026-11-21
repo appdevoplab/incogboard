@@ -9,8 +9,16 @@ import android.provider.Settings
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 
-/** Calls for the settings-app engine. */
-internal class AppHostApiImpl(private val activity: Activity) : AppHostApi {
+/**
+ * Calls for the settings-app engine.
+ *
+ * OWNER: orchestrator, except the backup section at the bottom, which Wave 2-B implements
+ * (Storage Access Framework documents and .mynabackup crypto; put helpers in `security/backup/`).
+ */
+internal class AppHostApiImpl(
+    private val activity: Activity,
+    private val launchRoute: () -> String?,
+) : AppHostApi {
 
     private val imm get() = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
@@ -35,4 +43,23 @@ internal class AppHostApiImpl(private val activity: Activity) : AppHostApi {
             if (Build.VERSION.SDK_INT >= 33) activity.setRecentsScreenshotEnabled(!secure)
         }
     }
+
+    override fun takeLaunchRoute(): String? = launchRoute()
+
+    // ---- Backup files and crypto: Wave 2-B ---------------------------------------------
+
+    // Pigeon runs these suspend functions on Dispatchers.Main.
+    override suspend fun createDocument(suggestedName: String, mimeType: String): String? = throw notImplemented()
+
+    override suspend fun openDocument(mimeTypes: List<String>): String? = throw notImplemented()
+
+    override fun writeDocument(uri: String, data: ByteArray): Unit = throw notImplemented()
+
+    override fun readDocument(uri: String, maxBytes: Long): ByteArray = throw notImplemented()
+
+    override fun sealBackup(plain: ByteArray, passphrase: String): ByteArray = throw notImplemented()
+
+    override fun openBackup(sealed: ByteArray, passphrase: String): ByteArray? = throw notImplemented()
+
+    private fun notImplemented() = FlutterError("unimplemented", "backup is implemented in Wave 2-B", null)
 }

@@ -704,6 +704,24 @@ class MynaTextPredictor implements TextPredictor {
     }
   }
 
+  /// The settings app edited or wiped the learned blobs: drop unsaved in-memory changes and read
+  /// them again for the active languages.
+  @override
+  Future<void> reloadLearnedData() async {
+    _saveTimer?.cancel();
+    _saveTimer = null;
+    _learned.clear();
+    _sessionNoCorrect.clear();
+    for (final a in _active.toList()) {
+      try {
+        _learned[a.id] = LearnedData.decode(a.id, await _store.read(_blobName(a.id)));
+      } on Object catch (e) {
+        _learned[a.id] = LearnedData(a.id);
+        MynaLog.w('learn', 'could not reload learned data', e.runtimeType);
+      }
+    }
+  }
+
   @override
   Future<void> clearLearnedData() async {
     _saveTimer?.cancel();

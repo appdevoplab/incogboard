@@ -177,6 +177,18 @@ enum ContextMenuAction {
   stopSelectingText,
 }
 
+/// One blob in the encrypted store (for the privacy center's "what is stored" list).
+class SecureBlobInfo {
+  SecureBlobInfo({required this.name, required this.sizeBytes, required this.modifiedMillis});
+
+  /// The name passed to secureWrite.
+  String name;
+
+  /// Encrypted size on disk, including the last-good backup copy.
+  int sizeBytes;
+  int modifiedMillis;
+}
+
 class AppInfoMessage {
   AppInfoMessage({
     required this.packageName,
@@ -227,6 +239,14 @@ abstract class ImeHostApi {
   void showInputMethodPicker();
   void openSettings(String? route);
 
+  /// The keyboard's background colour (ARGB) where it meets the navigation bar, so Kotlin can pick
+  /// dark or light navigation-bar icons (API 30+). Call when the theme changes.
+  void setNavigationBarStyle(int backgroundArgb);
+
+  /// The user-visible name of the app the keyboard is typing into. The IME can see the app it is
+  /// bound to without QUERY_ALL_PACKAGES. Null when unknown.
+  String? getAppLabel(String packageName);
+
   /// Where the suggestion strip is, so Kotlin can overlay Android inline
   /// autofill suggestions there. null hides them.
   void setInlineSuggestionsArea(RectMessage? area);
@@ -263,6 +283,10 @@ abstract class PlatformHostApi {
   @TaskQueue(type: TaskQueueType.serialBackgroundThread)
   void secureWipeAll();
 
+  /// Every blob currently stored, with sizes. Never returns contents.
+  @TaskQueue(type: TaskQueueType.serialBackgroundThread)
+  List<SecureBlobInfo> secureList();
+
   /// True if the installed package requests android.permission.INTERNET
   /// (expected: false for release builds).
   bool hasInternetPermission();
@@ -288,6 +312,40 @@ abstract class AppHostApi {
 
   /// FLAG_SECURE + no recents thumbnail for sensitive screens.
   void setSecureScreen(bool secure);
+
+  /// The settings route the activity was started with (from the keyboard's toolbar or a
+  /// notification), or null. Returns it once, then null. Later routes arrive via
+  /// AppFlutterApi.onOpenRoute.
+  String? takeLaunchRoute();
+
+  // Backup files (Storage Access Framework, no storage permission) -- Wave 2-B ------
+
+  /// ACTION_CREATE_DOCUMENT. Returns the content URI, or null if the user cancelled.
+  @async
+  String? createDocument(String suggestedName, String mimeType);
+
+  /// ACTION_OPEN_DOCUMENT. Returns the content URI, or null if the user cancelled.
+  @async
+  String? openDocument(List<String> mimeTypes);
+
+  @TaskQueue(type: TaskQueueType.serialBackgroundThread)
+  void writeDocument(String uri, Uint8List data);
+
+  /// Throws (code `too_large`) when the document is bigger than [maxBytes].
+  @TaskQueue(type: TaskQueueType.serialBackgroundThread)
+  Uint8List readDocument(String uri, int maxBytes);
+
+  // Backup crypto (.mynabackup): PBKDF2-HMAC-SHA256, 600k iterations, random salt,
+  // AES-256-GCM -- Wave 2-B ------------------------------------------------------
+
+  /// Encrypts [plain] into the complete .mynabackup file bytes.
+  @TaskQueue(type: TaskQueueType.serialBackgroundThread)
+  Uint8List sealBackup(Uint8List plain, String passphrase);
+
+  /// Decrypts a .mynabackup file. Returns null for a wrong passphrase or a damaged file;
+  /// throws (code `unsupported_version`) for a newer format.
+  @TaskQueue(type: TaskQueueType.serialBackgroundThread)
+  Uint8List? openBackup(Uint8List sealed, String passphrase);
 }
 
 // ---------------------------------------------------------------------------
@@ -328,4 +386,8 @@ abstract class ImeFlutterApi {
 abstract class AppFlutterApi {
   @asyncCallback
   void onSettingsChanged(List<String> sections);
+
+  /// The running settings activity was asked to show [route] (onNewIntent).
+  @asyncCallback
+  void onOpenRoute(String route);
 }

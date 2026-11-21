@@ -118,6 +118,22 @@ class SecureStore(private val dir: File, private val keys: KeyProvider) {
         File(dir, name + TMP_SUFFIX).delete()
     }
 
+    /** Name, encrypted size (blob plus its last-good backup) and modification time of every blob. */
+    @Synchronized
+    fun list(): List<BlobInfo> {
+        val files = dir.listFiles() ?: return emptyList()
+        return files
+            .filter { it.name.endsWith(".bin") }
+            .map { f ->
+                val name = f.name.removeSuffix(".bin")
+                val bak = File(dir, name + BAK_SUFFIX)
+                BlobInfo(name, f.length() + (if (bak.exists()) bak.length() else 0L), f.lastModified())
+            }
+            .sortedBy { it.name }
+    }
+
+    data class BlobInfo(val name: String, val sizeBytes: Long, val modifiedMillis: Long)
+
     /** Deletes every blob and destroys the key, so stale copies can never be decrypted. */
     @Synchronized
     fun wipeAll() {

@@ -8,10 +8,12 @@ import 'package:material_ui/material_ui.dart';
 
 import 'keyboard_main.dart';
 import 'src/app/app.dart';
+import 'src/app/app_services.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MynaSettingsApp());
+  final services = await AppServices.create();
+  runApp(AppScope(services: services, child: const MynaSettingsApp()));
 }
 
 @pragma('vm:entry-point')
