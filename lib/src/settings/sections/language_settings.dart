@@ -10,6 +10,7 @@ class LanguageSettings {
     this.active = 'en',
     this.layouts = const {'en': 'qwerty'},
     this.multilingual = true,
+    this.onboardingDone = false,
   });
 
   factory LanguageSettings.fromJson(Json j) {
@@ -21,6 +22,7 @@ class LanguageSettings {
       active: safeEnabled.contains(active) ? active : safeEnabled.first,
       layouts: jStringMap(j, 'layouts', const {'en': 'qwerty'}),
       multilingual: jBool(j, 'multilingual', true),
+      onboardingDone: jBool(j, 'onboardingDone', false),
     );
   }
 
@@ -36,17 +38,28 @@ class LanguageSettings {
   /// Blend up to 3 enabled languages that share the active layout's script.
   final bool multilingual;
 
-  Json toJson() => {'enabled': enabled, 'active': active, 'layouts': layouts, 'multilingual': multilingual};
+  /// Set when the settings app's first-run setup reached its last step.
+  final bool onboardingDone;
+
+  Json toJson() => {
+    'enabled': enabled,
+    'active': active,
+    'layouts': layouts,
+    'multilingual': multilingual,
+    'onboardingDone': onboardingDone,
+  };
 
   LanguageSettings copyWith({
     List<String>? enabled,
     String? active,
     Map<String, String>? layouts,
     bool? multilingual,
+    bool? onboardingDone,
   }) => LanguageSettings(
     enabled: enabled ?? this.enabled,
     active: active ?? this.active,
     layouts: layouts ?? this.layouts,
     multilingual: multilingual ?? this.multilingual,
+    onboardingDone: onboardingDone ?? this.onboardingDone,
   );
 }
