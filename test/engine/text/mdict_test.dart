@@ -68,7 +68,8 @@ void main() {
       expect(lex.entries(limit: 3), hasLength(3));
       // Most frequent first.
       final probs = entries.map((e) => e.logProb).toList();
-      expect(probs, orderedEquals([...probs]..sort((a, b) => b.compareTo(a))));
+      final sortedProbs = [...probs]..sort((double a, double b) => b.compareTo(a));
+      expect(probs, orderedEquals(sortedProbs));
     });
 
     test('bigram lookup with stupid backoff', () {
@@ -136,7 +137,7 @@ void main() {
       expect(lex.logProb('the')!, greaterThan(lex.logProb('hello')!));
       final thank = lex.idOf('thank');
       expect(lex.successors(thank).map((s) => lex.wordOf(s.$1)), contains('you'));
-      expect(lex.corrections["dont"], "don't");
+      expect(lex.corrections['dont'], "don't");
       expect(lex.corrections['im'], "I'm");
       expect(lex.corrections['youre'], "you're");
       // No junk keys.

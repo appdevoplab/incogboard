@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+// ignore_for_file: prefer_initializing_formals
 //
 // Runtime reader for the MDICT format (see mdict_format.dart). The whole
 // dictionary lives in a few typed-data views over one buffer; there is no
@@ -134,6 +135,9 @@ class MdictLexicon implements Lexicon {
   late final Uint32List _bigramStart;
   Lexicon? _delegate;
   Int32List? _freqOrder;
+
+  /// True when bigrams come from another [Lexicon] rather than this file.
+  bool get hasDelegate => _delegate != null;
 
   /// Approximate bytes held by this lexicon.
   int get memoryBytes =>

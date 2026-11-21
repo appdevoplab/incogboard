@@ -21,7 +21,7 @@
 import 'dart:io';
 import 'dart:math' as math;
 
-import 'package:myna/src/engine/dictionary/mdict_format.dart';
+import 'package:myna/src/engine/dictionary/english_contractions.dart';
 import 'package:myna/src/engine/dictionary/mdict_writer.dart';
 import 'package:myna/src/engine/dictionary/text_fold.dart';
 
@@ -36,52 +36,10 @@ class _Entry {
   final List<String> shortcuts = [];
 }
 
-/// Apostrophe-less contractions that are always corrected, in addition to the
-/// "whitelist" shortcuts found in the AOSP list. (Real words such as "ill",
-/// "well", "were" and "lets" are deliberately absent.)
-const Map<String, String> kEnglishContractions = {
-  'i': 'I',
-  'im': "I'm",
-  "i'm": "I'm",
-  "i'll": "I'll",
-  "i'd": "I'd",
-  "i've": "I've",
-  'ive': "I've",
-  'dont': "don't",
-  'doesnt': "doesn't",
-  'didnt': "didn't",
-  'isnt': "isn't",
-  'arent': "aren't",
-  'wasnt': "wasn't",
-  'werent': "weren't",
-  'hasnt': "hasn't",
-  'havent': "haven't",
-  'hadnt': "hadn't",
-  'wouldnt': "wouldn't",
-  'couldnt': "couldn't",
-  'shouldnt': "shouldn't",
-  'mustnt': "mustn't",
-  'cant': "can't",
-  'wont': "won't",
-  'youre': "you're",
-  'youve': "you've",
-  'youll': "you'll",
-  'theyre': "they're",
-  'theyve': "they've",
-  'theyll': "they'll",
-  'weve': "we've",
-  'thats': "that's",
-  'whats': "what's",
-  'itll': "it'll",
-  'couldve': "could've",
-  'wouldve': "would've",
-  'shouldve': "should've",
-};
-
 final RegExp _wordPattern = RegExp(r"^\p{L}[\p{L}\p{M}'\-]*$", unicode: true);
 
 String? _cleanWord(String raw) {
-  var w = normalizeNfc(raw.trim().replaceAll('’', "'"));
+  final w = normalizeNfc(raw.trim().replaceAll('’', "'"));
   if (w.isEmpty || w.length > 40) return null;
   if (!_wordPattern.hasMatch(w)) return null;
   if (w.endsWith("'") || w.endsWith('-') || w.contains("''") || w.contains('--')) return null;
