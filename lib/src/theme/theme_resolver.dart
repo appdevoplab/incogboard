@@ -3,6 +3,7 @@
 // Resolves the keyboard theme to paint: preset (ThemeSpec) + appearance
 // settings + system colours -> KeyboardThemeData. Synchronous and cached.
 import 'dart:collection';
+import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart' show listEquals;
@@ -11,6 +12,7 @@ import 'package:material_ui/material_ui.dart';
 import '../bridge/messages.g.dart';
 import '../design/design.dart';
 import '../settings/sections/appearance_settings.dart';
+import 'custom/custom_theme_store.dart';
 import 'keyboard_theme_data.dart';
 import 'presets.dart';
 import 'scheme_builder.dart';
@@ -25,8 +27,9 @@ import 'theme_spec.dart';
 /// An unknown `appearance.themeId` falls back to Myna Dynamic. Results are
 /// cached on the inputs, so calling this on every build is cheap.
 ///
-/// [customThemesDirectory] is where custom themes are stored (`<dataDirectory>/themes`); Wave 2-C
-/// makes custom theme ids resolve from it. Null in tests and before Wave 2-C, which uses presets only.
+/// [customThemesDirectory] is where custom themes are stored (`<dataDirectory>/themes`). A
+/// `custom:<uuid>` id is read from there; a missing or broken theme falls back to Myna Dynamic.
+/// Null (tests, or no data directory) means custom ids cannot be resolved.
 KeyboardThemeData resolveKeyboardTheme({
   required AppearanceSettings appearance,
   required SystemColorsMessage? systemColors,
@@ -34,25 +37,56 @@ KeyboardThemeData resolveKeyboardTheme({
   required bool disableAnimations,
   String? customThemesDirectory,
 }) {
-  final spec = ThemePresets.byId(appearance.themeId);
+  final spec = specForId(appearance.themeId, customThemesDirectory);
+  final dark = _isDark(appearance.darkMode, systemDark);
   return _cache.resolve(
     _ThemeKey(
-      specId: spec.id,
-      dark: _isDark(appearance.darkMode, systemDark),
+      spec: spec,
+      revision: appearance.customThemeRevision,
+      dark: dark,
       pureBlack: appearance.pureBlack,
       contrast: appearance.contrast,
       palettes: spec.colorSource == ThemeColorSource.dynamic ? systemColors?.palettes : null,
       disableAnimations: disableAnimations,
     ),
     () => resolveKeyboardThemeFromSpec(
-      spec,
-      dark: _isDark(appearance.darkMode, systemDark),
+      withAbsoluteImage(spec, customThemesDirectory),
+      dark: dark,
       pureBlack: appearance.pureBlack,
       contrast: appearance.contrast,
       palettes: systemColors?.palettes,
       disableAnimations: disableAnimations,
     ),
   );
+}
+
+/// The spec for a theme id: a preset, or a custom theme read from [customThemesDirectory].
+/// Unknown presets, and custom themes that are missing or broken, give Myna Dynamic.
+ThemeSpec specForId(String themeId, String? customThemesDirectory) {
+  if (CustomThemeIds.isCustom(themeId)) {
+    final dir = customThemesDirectory;
+    final spec = dir == null ? null : CustomThemeStore.readSpecSync(dir, themeId);
+    return spec ?? ThemePresets.mynaDynamic;
+  }
+  return ThemePresets.byId(themeId);
+}
+
+/// [spec] with its background image turned into an absolute path (the keyboard paints it with
+/// `Image.file`). A photo that is missing, or whose path is not `images/<uuid>.png`, becomes a
+/// solid background, so a bad file never breaks the keyboard.
+ThemeSpec withAbsoluteImage(ThemeSpec spec, String? themesDirectory) {
+  final bg = spec.background;
+  if (bg.type != ThemeBackgroundType.image) return spec;
+  final rel = bg.imagePath;
+  final dir = themesDirectory;
+  if (dir == null || rel == null || !CustomThemeStore.imageRelativePattern.hasMatch(rel)) {
+    return spec.copyWith(background: const ThemeBackgroundSpec());
+  }
+  final absolute = '$dir${Platform.pathSeparator}${rel.replaceAll('/', Platform.pathSeparator)}';
+  if (!File(absolute).existsSync()) {
+    return spec.copyWith(background: const ThemeBackgroundSpec());
+  }
+  return spec.copyWith(background: bg.copyWith(imagePath: absolute));
 }
 
 bool _isDark(DarkModePreference pref, bool systemDark) =>
@@ -237,14 +271,16 @@ Gradient? _gradient(ThemeSpec spec, ColorScheme s) {
 
 class _ThemeKey {
   _ThemeKey({
-    required this.specId,
+    required this.spec,
+    required this.revision,
     required this.dark,
     required this.pureBlack,
     required this.contrast,
     required this.palettes,
     required this.disableAnimations,
   }) : _hash = Object.hash(
-         specId,
+         spec,
+         revision,
          dark,
          pureBlack,
          contrast,
@@ -252,7 +288,9 @@ class _ThemeKey {
          palettes == null ? 0 : Object.hashAll(palettes),
        );
 
-  final String specId;
+  /// The whole spec, not just its id: a custom theme edited in place must not hit a stale entry.
+  final ThemeSpec spec;
+  final int revision;
   final bool dark;
   final bool pureBlack;
   final ContrastPreference contrast;
@@ -264,7 +302,8 @@ class _ThemeKey {
   bool operator ==(Object other) =>
       other is _ThemeKey &&
       other._hash == _hash &&
-      other.specId == specId &&
+      other.spec == spec &&
+      other.revision == revision &&
       other.dark == dark &&
       other.pureBlack == pureBlack &&
       other.contrast == contrast &&

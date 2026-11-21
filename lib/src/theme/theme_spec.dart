@@ -56,7 +56,8 @@ class ThemeBackgroundSpec {
   /// Degrees, 0 = left to right, 90 = top to bottom.
   final double gradientAngle;
 
-  /// App-private file path of the pre-blurred image.
+  /// The pre-rendered image, relative to the themes folder (`images/<uuid>.png`) in the stored
+  /// JSON. The resolver turns it into an absolute path before the keyboard paints it.
   final String? imagePath;
 
   /// Blur radius used when the image was prepared (editor metadata).
@@ -64,6 +65,22 @@ class ThemeBackgroundSpec {
 
   /// Dim amount 0..1 painted over the image.
   final double dim;
+
+  ThemeBackgroundSpec copyWith({
+    ThemeBackgroundType? type,
+    List<int>? gradientColors,
+    double? gradientAngle,
+    String? imagePath,
+    double? blur,
+    double? dim,
+  }) => ThemeBackgroundSpec(
+    type: type ?? this.type,
+    gradientColors: gradientColors ?? this.gradientColors,
+    gradientAngle: gradientAngle ?? this.gradientAngle,
+    imagePath: imagePath ?? this.imagePath,
+    blur: blur ?? this.blur,
+    dim: dim ?? this.dim,
+  );
 
   Json toJson() => {
     'type': type.name,

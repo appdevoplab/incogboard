@@ -16,6 +16,7 @@ class AppearanceSettings {
     this.contrast = ContrastPreference.standard,
     this.heightScale = 1.0,
     this.landscapeHeightScale = 1.0,
+    this.customThemeRevision = 0,
   });
 
   factory AppearanceSettings.fromJson(Json j) => AppearanceSettings(
@@ -25,15 +26,20 @@ class AppearanceSettings {
     contrast: jEnum(j, 'contrast', ContrastPreference.values, ContrastPreference.standard),
     heightScale: jDouble(j, 'heightScale', 1.0).clamp(0.7, 1.5),
     landscapeHeightScale: jDouble(j, 'landscapeHeightScale', 1.0).clamp(0.6, 1.5),
+    customThemeRevision: jInt(j, 'customThemeRevision', 0).clamp(0, 1 << 30),
   );
 
-  /// Preset id or custom theme id (custom themes live in their own files).
+  /// Preset id or custom theme id (`custom:<uuid>`; custom themes live in their own files).
   final String themeId;
   final DarkModePreference darkMode;
   final bool pureBlack;
   final ContrastPreference contrast;
   final double heightScale;
   final double landscapeHeightScale;
+
+  /// Bumped whenever a custom theme is saved or deleted. The keyboard re-resolves when this
+  /// object changes, so a theme edited while in use takes effect at once.
+  final int customThemeRevision;
 
   Json toJson() => {
     'themeId': themeId,
@@ -42,6 +48,7 @@ class AppearanceSettings {
     'contrast': contrast.name,
     'heightScale': heightScale,
     'landscapeHeightScale': landscapeHeightScale,
+    'customThemeRevision': customThemeRevision,
   };
 
   AppearanceSettings copyWith({
@@ -51,6 +58,7 @@ class AppearanceSettings {
     ContrastPreference? contrast,
     double? heightScale,
     double? landscapeHeightScale,
+    int? customThemeRevision,
   }) => AppearanceSettings(
     themeId: themeId ?? this.themeId,
     darkMode: darkMode ?? this.darkMode,
@@ -58,5 +66,6 @@ class AppearanceSettings {
     contrast: contrast ?? this.contrast,
     heightScale: heightScale ?? this.heightScale,
     landscapeHeightScale: landscapeHeightScale ?? this.landscapeHeightScale,
+    customThemeRevision: customThemeRevision ?? this.customThemeRevision,
   );
 }
