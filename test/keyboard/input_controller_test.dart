@@ -387,7 +387,11 @@ void main() {
     test('a custom action id wins', () async {
       final h = Harness();
       await h.start(
-        const InputFieldInfo(inputType: AndroidInputType.classText, imeOptions: AndroidImeOptions.actionGo, actionId: 42),
+        const InputFieldInfo(
+          inputType: AndroidInputType.classText,
+          imeOptions: AndroidImeOptions.actionGo,
+          actionId: 42,
+        ),
       );
       h.controller.onEnter();
       expect(h.editor.editorActions, [42]);
@@ -487,7 +491,9 @@ void main() {
     });
 
     test('incognito indicator', () async {
-      final h = Harness(settings: const MynaSettings(privacy: PrivacySettings(incognitoApps: ['com.bank'])));
+      final h = Harness(
+        settings: const MynaSettings(privacy: PrivacySettings(incognitoApps: ['com.bank'])),
+      );
       await h.start(textField(pkg: 'com.bank'));
       expect(h.controller.isIncognito, isTrue);
     });
