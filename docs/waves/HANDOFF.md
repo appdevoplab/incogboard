@@ -1,43 +1,67 @@
 # Handoff: continue from here after /clear
 
 State as of 2026-11-21:
-- Wave 0 is done.
-- The 2026-11-20 Wave 1 run stopped at ~7:35 PM with nothing committed (only D left partial files, now committed as 43ccb56 on `worktree-agent-a2c0d90e867cfe9f5`; remove that branch after D merges).
-- Wave 1 relaunched 2026-11-21, all five agents on **Sonnet, high effort** (user's rule for parallel agents).
+- Waves 0 and 1 are done and merged on `main` (last commit `d91f663`). No agent worktrees or branches are left.
+- Next: Wave 2 (product). Outline in `docs/waves/README.md`; its briefs are not written yet.
 
-## Wave 1 agent branches
+## Wave 1 result
 
-| Agent | Area | Brief | Branch / worktree |
-|---|---|---|---|
-| A | Keyboard view and input controller | `docs/waves/wave1/A-keyboard.md` | `worktree-agent-a6033f0711c517d9c` |
-| B | Text engine (dictionary, autocorrect, learning) | `docs/waves/wave1/B-text-engine.md` | `worktree-agent-abda128f420f55e3e` |
-| C | Gesture (swipe) typing | `docs/waves/wave1/C-gesture.md` | `worktree-agent-adf9954afab5911c2` |
-| D | Themes and design | `docs/waves/wave1/D-themes.md` | `worktree-agent-a65096cdba8e7fa46` |
-| E | Android platform layer | `docs/waves/wave1/E-android.md` | `worktree-agent-adf3571a94e9746c2` |
+- Checks on merged `main`: `flutter analyze` 0 issues, `flutter test` 464 pass, Android JVM tests 31 pass.
+- Release build: `flutter build apk --release --split-per-abi` gives arm64 at 21.1 MB. The permission gate passes: VIBRATE plus androidx.core's app-private `DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION`, and no INTERNET.
+- Emulator smoke test (API 37), all pass:
+  - typing, with autocorrect ("teh"→"the", "i dont"→"I don't")
+  - the suggestion strip
+  - swipe ("hello", "world", "keyboard")
+  - password field: no autocorrect, and the keyboard is black in screenshots
+  - email/URL layouts and no autocorrect there
+  - light and dark themes
+- Fixed during the merge: empty email/URL fields showed prose next-word predictions ("The / I / Thanks").
+- Approved by the user: `androidx.autofill:autofill:1.3.0`, which styles the inline autofill chips.
 
-The worktrees live in `.claude/worktrees/agent-<id>`. Agents commit early and often on their branch.
+## Carry into Wave 2 briefs (agent reports)
 
-## Next steps
+- **Contract (E):** add an optional Dart→Kotlin call carrying the keyboard background colour, so nav-bar icon contrast does not follow system night mode.
+- **Settings (B):** wire `TypingSettings.blockOffensiveWords` to `MynaTextPredictor.blockOffensive`. The default is true on both sides today.
+- **Themes (D):**
+  - Custom themes load only through `resolveKeyboardThemeFromSpec`; the editor must register them by id.
+  - The trail width and fade are not in the theme spec.
+  - Image backgrounds must paint the `dim` toward black.
+- **Keyboard (A), not done yet:**
+  - emoji, voice and globe keys
+  - per-user touch offset, long-press on a suggestion, and cut/copy chips
+  - hardware-keyboard mode, tablet width cap, RTL layouts, and reopening a word after backspace
+  - active languages fixed to `['en']` until Wave 3
+- **Gesture (C):**
+  - Only one template set is cached, so rotating the screen rebuilds it.
+  - Accuracy was measured on synthetic English swipes only.
+  - Indic and Chinese need a romanisation path (Wave 3).
+- **Unverified on a device:**
+  - inline autofill chips
+  - floating mode (`FlutterTextureView` swap)
+  - the engine-restart watchdog
+  - Keystore when the device is locked
+  - the font's `ROND` axis
+- **Line endings:** agents A and E committed CRLF files, which were normalised before the merge. Tell every Wave 2 agent to write LF only. Consider a `.gitattributes` with `* text=auto eol=lf`; 13 older files on main are still CRLF.
+- Agents put their own model name in the `Co-Authored-By` line, not the Opus line in `COMMON.md`.
 
-1. **Check progress of each branch:**
-   - `git worktree list`
-   - `git log --oneline main..<branch>`
-   - `git -C <worktree> status --short`
-2. **If an agent is still running**, wait. If it stopped unfinished:
-   - Commit its leftover files on its branch.
-   - Launch a fresh agent with `isolation: worktree`. Tell it to first `git merge <old-branch>`, then finish its brief file.
-3. **Merge in order E, D, B, C, A** using the checklist in `docs/waves/README.md`:
-   - Analyze, test, build.
-   - Smoke-test on emulator-5554.
-   - Run the release permission gate.
-4. **Remove merged worktrees and branches:** `git worktree remove --force <path>` and `git branch -d <branch>`. The worktrees are locked, so unlock them first.
-5. **Continue with Waves 2–5** from `docs/waves/README.md`. Write each brief as a file, then launch agents with a short prompt that points at it.
+## How to run a wave
+
+1. Write each brief as a file under `docs/waves/wave<N>/`, with a `COMMON.md`.
+2. Launch ≤5 agents with `isolation: worktree`, `model: sonnet` and `effort: high` (user's rule), and a short prompt that points at the brief.
+3. Before merging, check each branch:
+   - `git log main..<branch>`
+   - `git diff --stat` against `--ignore-cr-at-eol` to spot line-ending churn
+   - cross-branch file overlap
+4. Merge with the checklist in `docs/waves/README.md`.
+5. Remove worktrees: unlock, then `git worktree remove --force`, then `git branch -d`.
+6. If an agent stops unfinished, commit its leftovers on its branch. Then relaunch it and tell it to `git merge <old-branch>` first.
 
 ## Cautions
 
-- A personal TECNO phone is connected over USB. Always set `$env:ANDROID_SERIAL='emulator-5554'`, and never install on the phone without asking.
+- A personal TECNO phone may be connected over USB. Always set `$env:ANDROID_SERIAL='emulator-5554'`, and never install on the phone without asking.
 - The emulator AVD is `Medium_Phone_API_37.0`. It needs `adb shell settings put secure show_ime_with_hard_keyboard 1` once.
-- The usage limit hit with 5 parallel Opus agents. Launch every parallel agent with `model: sonnet`, `effort: high`.
+- `adb` is not on PATH. Use `. .\tool\adb_ime.ps1` (`Invoke-Adb`) or `$env:ANDROID_HOME\platform-tools\adb.exe`.
+- Reinstalling the APK while a field is focused hides the keyboard. Tap the field again.
 
 ## Open questions for the user
 
