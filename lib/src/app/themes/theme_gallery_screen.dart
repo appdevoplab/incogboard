@@ -275,6 +275,8 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
           child: CarouselView(
             itemExtent: 232,
             itemSnapping: true,
+            // The cards handle their own taps (and menus); the default splash layer would cover them.
+            enableSplash: false,
             children: [
               for (final preset in ThemePresets.all)
                 ThemeCard(
@@ -294,6 +296,8 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
           child: CarouselView(
             itemExtent: 232,
             itemSnapping: true,
+            // The cards handle their own taps (and menus); the default splash layer would cover them.
+            enableSplash: false,
             children: [
               for (final spec in _custom)
                 ThemeCard(

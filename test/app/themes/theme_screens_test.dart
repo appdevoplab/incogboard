@@ -136,6 +136,23 @@ void main() {
       await tester.pumpWidget(const SizedBox());
     });
 
+    testWidgets('real taps reach the cards: a preset selects, Create opens the editor', (tester) async {
+      // CarouselView covers its items with an InkWell unless enableSplash is false; on a device the
+      // cards then never saw a tap. These taps go through hit testing like a finger.
+      await _pumpGallery(tester);
+      final second = ThemePresets.all[1];
+      await tester.tap(find.text(second.name).first);
+      await _settle(tester);
+      expect(_services.settings.value.appearance.themeId, second.id);
+
+      await tester.ensureVisible(find.text('Create theme'));
+      await _settle(tester);
+      await tester.tap(find.text('Create theme'));
+      await _settle(tester);
+      expect(find.byType(ThemeEditorScreen), findsOneWidget);
+      await tester.pumpWidget(const SizedBox());
+    });
+
     testWidgets('dark mode, pure black and contrast write the appearance', (tester) async {
       await _pumpGallery(tester);
       await tester.tap(find.text('Dark'));

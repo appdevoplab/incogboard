@@ -187,7 +187,7 @@ class _BackupScreenState extends State<BackupScreen> {
                     contentPadding: EdgeInsets.zero,
                     value: chosen.contains(section),
                     title: Text(section.label),
-                    subtitle: Text(_countText(section, summary)),
+                    subtitle: Text(_countText(section, summary, restoring: true)),
                     onChanged: (v) => setDialog(() {
                       if (v ?? false) {
                         chosen.add(section);
@@ -285,13 +285,18 @@ class _BackupScreenState extends State<BackupScreen> {
     return '${local.year}-${two(local.month)}-${two(local.day)}';
   }
 
-  String _countText(BackupSection section, BackupSummary? s) {
+  /// [restoring]: the restore dialog ticks every section the file holds, so the export-only note on
+  /// the clipboard (off by default) does not apply there.
+  String _countText(BackupSection section, BackupSummary? s, {bool restoring = false}) {
     if (s == null) return 'Unlock your phone to see the count';
     return switch (section) {
       BackupSection.settings => 'Theme, languages, typing and privacy choices',
       BackupSection.learned => '${plural(s.learnedWords, 'word')} in ${plural(s.learnedLanguages, 'language')}',
       BackupSection.shortcuts => plural(s.shortcuts, 'shortcut'),
-      BackupSection.clipboard => '${plural(s.clipboardItems, 'pinned item')}. Off unless you turn it on.',
+      BackupSection.clipboard =>
+        restoring
+            ? plural(s.clipboardItems, 'pinned item')
+            : '${plural(s.clipboardItems, 'pinned item')}. Off unless you turn it on.',
       BackupSection.emoji => s.emojiBytes == 0 ? 'Nothing yet' : formatBytes(s.emojiBytes),
       BackupSection.themes => '${plural(s.themes, 'file')} · ${formatBytes(s.themeBytes)}',
     };
