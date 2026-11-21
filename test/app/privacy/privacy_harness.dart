@@ -6,7 +6,6 @@ import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:myna/src/app/app_services.dart';
 import 'package:myna/src/security/app_auth.dart';
 import 'package:myna/src/settings/myna_settings.dart';
