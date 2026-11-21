@@ -60,3 +60,9 @@ void stubPlatform(MockPlatform platform, FakeBlobStore store, {String dataDirect
 void registerSecurityFallbacks() {
   registerFallbackValue(<String>[]);
 }
+
+/// Stubs the settings-app host API and the change notification every screen sends.
+void stubApp(MockAppHost app, MockPlatform platform) {
+  when(() => app.setSecureScreen(any())).thenAnswer((_) async {});
+  when(() => platform.notifySettingsChanged(any())).thenAnswer((_) async {});
+}
