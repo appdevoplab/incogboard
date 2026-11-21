@@ -5,6 +5,7 @@
 // a feature's [KeyboardFrame] decides the window layout (one-handed, floating).
 import 'dart:async';
 import 'dart:io';
+import 'dart:math' as math;
 
 import 'package:flutter/widgets.dart';
 
@@ -170,6 +171,15 @@ class _KeyboardAppState extends State<KeyboardApp> {
     }
   }
 
+  /// The real screen in dp. MediaQuery here is the IME window, which is only as tall as the keyboard,
+  /// so modes that size their own window (floating) need the display size from the window metrics.
+  Size _screenSize(BuildContext context) {
+    final m = s.events.metrics.value;
+    final view = MediaQuery.sizeOf(context);
+    if (m == null || m.density <= 0) return view;
+    return Size(view.width, math.max(view.height, m.screenHeightPx / m.density));
+  }
+
   @override
   Widget build(BuildContext context) {
     final settings = s.settings.value;
@@ -187,7 +197,7 @@ class _KeyboardAppState extends State<KeyboardApp> {
       final info = FrameInfo(
         settings: settings,
         theme: theme,
-        screenSize: MediaQuery.sizeOf(context),
+        screenSize: _screenSize(context),
         landscape: landscape,
         bottomInset: inset,
         contentHeight: KeyboardMetrics.contentHeight(settings, landscape: landscape, compact: compact),
