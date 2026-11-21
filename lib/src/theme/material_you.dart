@@ -23,7 +23,7 @@ bool isValidSystemPalettes(List<int> palettes) {
 Color systemTone(List<int> palettes, SystemPalette palette, int androidTone) {
   final i = androidTones.indexOf(androidTone);
   if (i < 0) throw ArgumentError.value(androidTone, 'androidTone');
-  return Color(palettes[palette.index * androidTones.length + i] | 0xFF000000);
+  return Color((palettes[palette.index * androidTones.length + i] & 0xFFFFFFFF) | 0xFF000000);
 }
 
 /// Material tone (0..100) of a system palette. Tones between the 13 delivered
