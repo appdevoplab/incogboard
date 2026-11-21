@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math' as math;
 import 'dart:typed_data';
@@ -109,6 +110,61 @@ void main() {
       final lex = MdictLexicon.fromLexicon(_small());
       expect(lex.logProb('thank'), isNotNull);
     });
+  });
+
+  group('build_dictionary tool', () {
+    test('turns a .combined list into a loadable dictionary', () async {
+      final dir = Directory.systemTemp.createTempSync('myna_dict_test');
+      addTearDown(() => dir.deleteSync(recursive: true));
+      final input = File('${dir.path}/tiny.combined')
+        ..writeAsStringSync(
+          [
+            'dictionary=main:en_us,locale=en_US,description=English (US),date=1,version=54',
+            ' word=the,f=200,flags=,originalFreq=200',
+            '  bigram=other,f=1',
+            ' word=other,f=150,flags=,originalFreq=150',
+            ' word=damn,f=120,flags=,originalFreq=120,possibly_offensive=true',
+            ' word=Hello,f=130,flags=,originalFreq=130',
+            ' word=hello,f=100,flags=,originalFreq=100',
+            ' word=café,f=90,flags=,originalFreq=90',
+            ' word=ai.type,f=25,flags=hand-added,originalFreq=25',
+            ' word=http://x.y,f=60,flags=,originalFreq=60',
+            ' word=MP3,f=60,flags=abbreviation,originalFreq=60',
+            ' word=q,f=80,flags=,originalFreq=80',
+            ' word=im,f=0,not_a_word=true',
+            "  shortcut=I'm,f=whitelist",
+            ' word=cant,f=70,flags=,originalFreq=73',
+            "  shortcut=can't,f=whitelist",
+            '',
+          ].join('\n'),
+          encoding: utf8,
+        );
+      final out = '${dir.path}/tiny.mdict';
+      final result = await Process.run('dart', [
+        'run',
+        'tool/build_dictionary.dart',
+        '--input',
+        input.path,
+        '--lang',
+        'en',
+        '--out',
+        out,
+      ], runInShell: Platform.isWindows);
+      expect(result.exitCode, 0, reason: '${result.stdout}${result.stderr}');
+      final lex = MdictLexicon.fromBytes(File(out).readAsBytesSync());
+      final words = lex.entries().map((e) => e.word).toList();
+      expect(words, containsAll(['the', 'other', 'damn', 'hello', 'cant']));
+      expect(words, isNot(contains('ai.type')));
+      expect(words, isNot(contains('MP3')));
+      expect(words, isNot(contains('q')));
+      expect(words.where((w) => w.toLowerCase() == 'hello'), hasLength(1)); // case variants merge
+      expect(lex.entries().firstWhere((e) => e.word == 'damn').isOffensive, isTrue);
+      expect(lex.logProb('the')!, greaterThan(lex.logProb('other')!));
+      expect(lex.bigramBetween(lex.idOf('the'), lex.idOf('other')), isNotNull);
+      expect(lex.corrections['im'], "I'm");
+      expect(lex.corrections['cant'], "can't");
+      expect(lex.corrections['dont'], "don't"); // built-in English contractions
+    }, timeout: const Timeout(Duration(minutes: 2)));
   });
 
   group('shipped English dictionary', () {

@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import 'dart:typed_data';
-import 'dart:ui' show Offset;
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:myna/src/core/input_field_info.dart';

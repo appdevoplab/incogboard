@@ -2,6 +2,9 @@
 //
 // Loads dictionaries (`dict/<lang>.mdict`) through the [PackRepository] and
 // keeps the recently used ones warm.
+import 'dart:isolate';
+import 'dart:typed_data';
+
 import '../../core/log.dart';
 import '../../packs/pack_repository.dart';
 import '../contracts.dart';
@@ -44,7 +47,15 @@ class MdictLexiconSource implements LexiconSource {
     final path = 'dict/$language.mdict';
     if (await packs.exists(path)) {
       final data = await packs.load(path);
-      lexicon = MdictLexicon.fromBytes(data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
+      final bytes = Uint8List.fromList(data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
+      Uint8List raw;
+      try {
+        // Inflate off the UI isolate so the first keyboard show does not hitch.
+        raw = await Isolate.run(() => inflateMdict(bytes));
+      } on Object {
+        raw = inflateMdict(bytes);
+      }
+      lexicon = MdictLexicon.fromBytes(raw);
     } else if (language == 'en') {
       // Keeps the keyboard usable if the asset is missing from a build.
       MynaLog.w('dict', 'en.mdict missing, using the starter word list');
