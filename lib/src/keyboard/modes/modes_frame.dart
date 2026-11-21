@@ -300,28 +300,34 @@ class _HeightBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final percent = (plan.scale * 100).round();
-    return Row(
-      children: [
-        Expanded(
-          child: _DragArea(
-            label: 'Drag to change keyboard height',
-            icon: Icons.unfold_more,
-            theme: theme,
-            onStart: controller.heightDragStart,
-            onUpdate: (o) => controller.heightDragUpdate(o.dy),
-            onEnd: controller.heightDragEnd,
-          ),
-        ),
-        Text(
-          'Height $percent%',
-          maxLines: 1,
-          style: TextStyle(fontSize: 14, color: theme.suggestionText, decoration: TextDecoration.none),
-        ),
-        const SizedBox(width: 8),
-        _Pill(label: 'Reset', theme: theme, onTap: controller.resetHeight),
-        _Pill(label: 'Done', theme: theme, onTap: controller.endResize),
-        const SizedBox(width: 6),
-      ],
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // The percentage goes first on narrow cards (60% floating width), so the buttons always fit.
+        final showPercent = constraints.maxWidth >= 300;
+        return Row(
+          children: [
+            Expanded(
+              child: _DragArea(
+                label: 'Drag to change keyboard height',
+                icon: Icons.unfold_more,
+                theme: theme,
+                onStart: controller.heightDragStart,
+                onUpdate: (o) => controller.heightDragUpdate(o.dy),
+                onEnd: controller.heightDragEnd,
+              ),
+            ),
+            if (showPercent)
+              Text(
+                '$percent%',
+                maxLines: 1,
+                style: TextStyle(fontSize: 13, color: theme.suggestionText, decoration: TextDecoration.none),
+              ),
+            _Pill(label: 'Reset', theme: theme, onTap: controller.resetHeight),
+            _Pill(label: 'Done', theme: theme, onTap: controller.endResize),
+            const SizedBox(width: 6),
+          ],
+        );
+      },
     );
   }
 }
@@ -441,11 +447,11 @@ class _Pill extends StatelessWidget {
           child: Container(
             constraints: const BoxConstraints(minWidth: 48, minHeight: 36),
             alignment: Alignment.center,
-            padding: const EdgeInsets.symmetric(horizontal: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
             decoration: BoxDecoration(color: theme.suggestionHighlightFill, borderRadius: BorderRadius.circular(18)),
             child: Text(
               label,
-              style: TextStyle(fontSize: 14, color: theme.suggestionHighlightText, decoration: TextDecoration.none),
+              style: TextStyle(fontSize: 13, color: theme.suggestionHighlightText, decoration: TextDecoration.none),
             ),
           ),
         ),
