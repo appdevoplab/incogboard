@@ -21,7 +21,26 @@
 
 ## Wave 2: product (5 agents)
 
-Before launching: `flutter pub add image_picker local_auth`. Then extend Pigeon as requested by Wave 1 reports, for example nav-bar colours.
+**Status:**
+- The setup is done (commit `bcdcc10`): image_picker and local_auth, the Pigeon additions, and the keyboard and settings-app seams with 18 seam tests.
+- Briefs are in `docs/waves/wave2/`; ownership is in `docs/PARALLEL_WORK.md`.
+- Launch with `model: sonnet`, `effort: high` and `isolation: worktree`, using a short prompt that points at `COMMON.md` plus the agent's brief.
+
+**Merge order:** B, C, D, E, A. A goes last because its shell links to everyone's screens.
+
+**After merging:**
+- Wire anything B reports for `SettingsActivity` (document pickers).
+- Replace stubs if an agent left one.
+- Run the Wave 1 checklist, plus emulator checks:
+  - onboarding
+  - theme photo and a custom theme in the keyboard
+  - emoji panel and search
+  - the clipboard chip after copying in another app
+  - the editing keys
+  - one-handed, floating and resize
+  - cursor drag and backspace swipe
+  - app lock and backup round trip
+  - privacy center sizes and wipe
 
 | Agent | Owns | Brief |
 |---|---|---|

@@ -1,8 +1,16 @@
 # Handoff: continue from here after /clear
 
 State as of 2026-11-21:
-- Waves 0 and 1 are done and merged on `main` (last commit `d91f663`). No agent worktrees or branches are left.
-- Next: Wave 2 (product). Outline in `docs/waves/README.md`; its briefs are not written yet.
+- Waves 0 and 1 are done and merged on `main`.
+- **The Wave 2 setup is committed** (`bcdcc10`): deps, Pigeon additions and integration seams. 482 tests pass, the emulator smoke test passed, and the release gate passes.
+- **The Wave 2 briefs are written:** `docs/waves/wave2/COMMON.md` plus `A-settings.md`, `B-privacy.md`, `C-themes.md`, `D-panels.md` and `E-modes.md`. Ownership is in `docs/PARALLEL_WORK.md`.
+- **Next:** launch the 5 Wave 2 agents (Sonnet, high effort, worktrees), then merge B, C, D, E, A per `docs/waves/README.md`.
+- **User decisions for Wave 2 (2026-11-21):**
+  - clipboard history on by default
+  - the incognito picker lists "apps you've typed in" (encrypted `seen_apps` blob)
+  - emoji keywords for all 17 languages
+  - app lock offered in the privacy center only
+- **Release permissions now:** VIBRATE, USE_BIOMETRIC, USE_FINGERPRINT (from local_auth; needed for the Android 8.x fingerprint path) and androidx.core's app-private receiver permission. No INTERNET.
 
 ## Wave 1 result
 
@@ -18,7 +26,7 @@ State as of 2026-11-21:
 - Fixed during the merge: empty email/URL fields showed prose next-word predictions ("The / I / Thanks").
 - Approved by the user: `androidx.autofill:autofill:1.3.0`, which styles the inline autofill chips.
 
-## Carry into Wave 2 briefs (agent reports)
+## Wave 1 carry-over (now covered by the Wave 2 setup and briefs)
 
 - **Contract (E):** add an optional Dart→Kotlin call carrying the keyboard background colour, so nav-bar icon contrast does not follow system night mode.
 - **Settings (B):** wire `TypingSettings.blockOffensiveWords` to `MynaTextPredictor.blockOffensive`. The default is true on both sides today.
@@ -61,6 +69,8 @@ State as of 2026-11-21:
 - A personal TECNO phone may be connected over USB. Always set `$env:ANDROID_SERIAL='emulator-5554'`, and never install on the phone without asking.
 - The emulator AVD is `Medium_Phone_API_37.0`. It needs `adb shell settings put secure show_ime_with_hard_keyboard 1` once.
 - `adb` is not on PATH. Use `. .\tool\adb_ime.ps1` (`Invoke-Adb`) or `$env:ANDROID_HOME\platform-tools\adb.exe`.
+- In PowerShell, `bash` means WSL, which isn't installed. Run `tool/check_release_permissions.sh` through the Git Bash tool.
+- Pigeon output must be reformatted: `dart format --line-length 120 lib/src/bridge/messages.g.dart`. Otherwise the whole file shows as changed.
 - Reinstalling the APK while a field is focused hides the keyboard. Tap the field again.
 
 ## Open questions for the user
