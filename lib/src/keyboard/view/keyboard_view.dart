@@ -101,8 +101,13 @@ class _KeyboardViewState extends State<KeyboardView> with SingleTickerProviderSt
     final s = widget.session;
     final theme = widget.theme;
     final settings = widget.settings;
-    final landscape = s.services.events.metrics.value?.isLandscape ?? false;
-    final rowsHeight = KeyboardMetrics.rowsHeight(settings, landscape: landscape);
+    final metrics = s.services.events.metrics.value;
+    final landscape = metrics?.isLandscape ?? false;
+    final rowsHeight = KeyboardMetrics.rowsHeight(
+      settings,
+      landscape: landscape,
+      compact: KeyboardMetrics.isCompact(metrics),
+    );
     final hooks = _hooks;
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -244,6 +249,8 @@ class KeyboardKeysArea extends StatefulWidget {
 class _KeyboardKeysAreaState extends State<KeyboardKeysArea> {
   final KeyTextCache _text = KeyTextCache();
   LaidOutKeyboard? _laid;
+  bool _laidSplit = false;
+  bool _laidCompact = false;
   LaidOutKeyboard? _notified;
   KeyboardThemeData? _themeOfCache;
 
@@ -251,9 +258,20 @@ class _KeyboardKeysAreaState extends State<KeyboardKeysArea> {
     final def = widget.layoutDef;
     if (def == null) return null;
     final gap = widget.theme.keyGap;
+    final split = KeyboardMetrics.isSplit(widget.settings, size.width);
+    final compact = KeyboardMetrics.isCompact(widget.session.services.events.metrics.value);
     final cur = _laid;
-    if (cur != null && identical(cur.layout, def) && cur.size == size && cur.keyGap == gap) return cur;
-    return _laid = KeyboardLayoutEngine.layout(def, size, keyGap: gap);
+    if (cur != null &&
+        identical(cur.layout, def) &&
+        cur.size == size &&
+        cur.keyGap == gap &&
+        _laidSplit == split &&
+        _laidCompact == compact) {
+      return cur;
+    }
+    _laidSplit = split;
+    _laidCompact = compact;
+    return _laid = KeyboardLayoutEngine.layout(def, size, keyGap: gap, split: split, compact: compact);
   }
 
   @override

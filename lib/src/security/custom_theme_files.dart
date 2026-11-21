@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
 // Custom themes are plain files in `<dataDirectory>/themes` (JSON specs plus optional background
-// images). This class is the only place that touches that folder from the settings app, so the
-// name rules are enforced in one spot. Names never contain a path separator or "..".
+// images in its `images/` subfolder, as `CustomThemeStore` writes them). This class is the only
+// place that touches that folder from the settings app, so the name rules are enforced in one spot.
+// A name is a safe basename, or `images/` plus a safe image basename; never "..".
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -25,6 +26,8 @@ class CustomThemeFiles {
   factory CustomThemeFiles.forDataDirectory(String dataDirectory) =>
       CustomThemeFiles('$dataDirectory${Platform.pathSeparator}themes');
 
+  /// Subfolder for background photos, matching `CustomThemeStore.imagesFolder`.
+  static const String imagesFolder = 'images';
   static const int maxJsonBytes = 256 * 1024;
   static const int maxImageBytes = 8 * 1024 * 1024;
   static const Set<String> _jsonExtensions = {'json'};
@@ -35,6 +38,11 @@ class CustomThemeFiles {
 
   /// True for a file name Myna will write or export: a safe basename with a known extension.
   static bool isSafeName(String name) {
+    const prefix = '$imagesFolder/';
+    if (name.startsWith(prefix)) {
+      final base = name.substring(prefix.length);
+      return _namePattern.hasMatch(base) && !base.contains('..') && isImageName(base);
+    }
     if (!_namePattern.hasMatch(name)) return false;
     if (name.contains('..')) return false;
     final ext = _extension(name);
@@ -52,12 +60,18 @@ class CustomThemeFiles {
   static int maxBytesFor(String name) => isImageName(name) ? maxImageBytes : maxJsonBytes;
 
   Future<List<CustomThemeFile>> list() async {
-    final dir = Directory(directory);
-    if (!await dir.exists()) return const [];
     final out = <CustomThemeFile>[];
+    await _listInto(Directory(directory), '', out);
+    await _listInto(Directory('$directory${Platform.pathSeparator}$imagesFolder'), '$imagesFolder/', out);
+    out.sort((a, b) => a.name.compareTo(b.name));
+    return out;
+  }
+
+  Future<void> _listInto(Directory dir, String prefix, List<CustomThemeFile> out) async {
+    if (!await dir.exists()) return;
     await for (final entity in dir.list(followLinks: false)) {
       if (entity is! File) continue;
-      final name = entity.uri.pathSegments.last;
+      final name = '$prefix${entity.uri.pathSegments.last}';
       try {
         final stat = await entity.stat();
         out.add(
@@ -67,8 +81,6 @@ class CustomThemeFiles {
         MynaLog.w('Themes', 'stat failed', e.runtimeType);
       }
     }
-    out.sort((a, b) => a.name.compareTo(b.name));
-    return out;
   }
 
   Future<int> totalBytes() async {
@@ -90,9 +102,8 @@ class CustomThemeFiles {
   Future<void> write(String name, Uint8List bytes) async {
     if (!isSafeName(name)) throw ArgumentError.value(name, 'name', 'unsafe theme file name');
     if (bytes.length > maxBytesFor(name)) throw ArgumentError.value(bytes.length, 'bytes', 'theme file too large');
-    final dir = Directory(directory);
-    if (!await dir.exists()) await dir.create(recursive: true);
     final target = File('$directory${Platform.pathSeparator}$name');
+    if (!await target.parent.exists()) await target.parent.create(recursive: true);
     final tmp = File('${target.path}.tmp');
     await tmp.writeAsBytes(bytes, flush: true);
     await tmp.rename(target.path);

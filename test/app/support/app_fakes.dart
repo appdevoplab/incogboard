@@ -2,6 +2,8 @@
 //
 // Fakes for the settings app's widget tests: mocked host APIs (mocktail) and a mocked settings
 // store, so no file or platform channel is touched.
+import 'dart:io';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -50,6 +52,9 @@ class AppFakes {
       ),
     );
     when(() => platform.notifySettingsChanged(any())).thenAnswer((_) async {});
+    // Never created: the theme gallery treats a missing themes folder as "no custom themes".
+    when(() => platform.getDataDirectory())
+        .thenAnswer((_) async => '${Directory.systemTemp.path}/myna_app_fakes_missing');
 
     when(() => store.value).thenReturn(settings);
     when(() => store.update(any(), sections: any(named: 'sections'))).thenAnswer((_) async {});

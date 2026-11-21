@@ -151,8 +151,12 @@ class KeyboardViewController {
     _feedbackDown(key.def);
     _showPreview(key);
     if (key.def.type == KeyType.backspace) {
-      t.committed = true;
-      _input.onBackspace();
+      // With swipe-delete on, the first delete waits for touch-up (or the first repeat), so a
+      // swipe that starts on backspace never removes a character first.
+      if (!(_s.swipe.backspaceSwipeDelete && hooks.onBackspaceDrag != null)) {
+        t.committed = true;
+        _input.onBackspace();
+      }
       _scheduleRepeat(t, 400);
     } else if (_hasLongPress(key)) {
       t.longPress = Timer(Duration(milliseconds: _s.typing.longPressDelayMs), () => _longPress(t));
@@ -412,6 +416,7 @@ class KeyboardViewController {
 
   void _repeatTick(_Touch t) {
     if (_touches[t.pointer] != t || t.hookDrag) return;
+    t.committed = true;
     final wordMode = t.heldMs >= 2000;
     if (wordMode) {
       _input.deleteWordBackward();
