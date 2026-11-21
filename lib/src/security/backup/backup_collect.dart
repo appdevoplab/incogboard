@@ -22,9 +22,10 @@ class BackupLockedException implements Exception {
   String toString() => 'BackupLockedException';
 }
 
-/// The clipboard blob's layout. Owned by the clipboard feature; this codec assumes a JSON list of
-/// `{"text": String, "ts": int, "pinned": bool}`. [decodeEntries] returns null for any other layout,
-/// so a restore never overwrites a clipboard it does not understand.
+/// The clipboard blob's layout, owned by the clipboard feature (`ClipboardStore`):
+/// `{"v": 1, "items": [{"id": String, "text": String, "time": int, "pinned": bool}]}` with times in
+/// epoch milliseconds. [decodeEntries] returns null for any other layout, so a restore never
+/// overwrites a clipboard it does not understand.
 abstract final class ClipboardBackupCodec {
   static const int maxItems = BackupLimits.maxClipboardItems;
 
@@ -32,15 +33,17 @@ abstract final class ClipboardBackupCodec {
     if (bytes == null) return const [];
     try {
       final json = jsonDecode(utf8.decode(bytes));
-      if (json is! List) return null;
+      if (json is! Map || json['v'] != 1) return null;
+      final items = json['items'];
+      if (items is! List) return null;
       final out = <({String text, int ts, bool pinned})>[];
-      for (final item in json) {
+      for (final item in items) {
         if (item is! Map) return null;
         final text = item['text'];
-        final ts = item['ts'];
-        final pinned = item['pinned'];
-        if (text is! String || ts is! int || pinned is! bool) return null;
-        out.add((text: text, ts: ts, pinned: pinned));
+        final time = item['time'];
+        final pinned = item['pinned'] ?? false;
+        if (text is! String || time is! num || pinned is! bool) return null;
+        out.add((text: text, ts: time.toInt(), pinned: pinned));
       }
       return out;
     } on Object {
@@ -56,11 +59,15 @@ abstract final class ClipboardBackupCodec {
     ];
   }
 
+  /// Item ids only need to be unique within the list; the keyboard reloads the history after a restore.
   static Uint8List encode(List<({String text, int ts, bool pinned})> entries) => Uint8List.fromList(
     utf8.encode(
-      jsonEncode([
-        for (final e in entries) {'text': e.text, 'ts': e.ts, 'pinned': e.pinned},
-      ]),
+      jsonEncode({
+        'v': 1,
+        'items': [
+          for (final (i, e) in entries.indexed) {'id': '${e.ts}-r$i', 'text': e.text, 'time': e.ts, 'pinned': e.pinned},
+        ],
+      }),
     ),
   );
 }

@@ -254,18 +254,29 @@ void main() {
   });
 
   group('backspace swipe-to-delete', () {
-    // The backspace key deletes one character when it goes down (the view's behaviour), so the swipe
-    // starts from the text as it is after that first delete: 'one two thre', cursor at 12.
+    // With swipe-delete on, backspace deletes nothing when it goes down; a tap deletes on release.
+    testWidgets('a tap still deletes one character, on release', (tester) async {
+      final run = await boot(tester, text: 'one two three');
+      final h = run.h;
+      final keys = KeyFinder(tester, qwerty);
+      final g = await tester.startGesture(keys.type(KeyType.backspace));
+      await tester.pump();
+      expect(h.editor.text, 'one two three', reason: 'nothing is deleted on touch-down');
+      await g.up();
+      await tester.pump();
+      expect(h.editor.text, 'one two thre');
+    });
+
     testWidgets('dragging left selects whole words, releasing deletes them and undo puts them back', (tester) async {
       final run = await boot(tester, text: 'one two three');
       final h = run.h;
       final keys = KeyFinder(tester, qwerty);
       final g = await tester.startGesture(keys.type(KeyType.backspace));
       await tester.pump();
-      expect(h.editor.text, 'one two thre');
+      expect(h.editor.text, 'one two three');
       await g.moveBy(const Offset(-30, 0));
       await tester.pump();
-      expect((h.editor.selectionStart, h.editor.selectionEnd), (8, 12), reason: 'one word: "thre"');
+      expect((h.editor.selectionStart, h.editor.selectionEnd), (8, 13), reason: 'one word: "three"');
       await g.up();
       await tester.pump();
       expect(h.editor.text, 'one two ');
@@ -273,8 +284,8 @@ void main() {
 
       await tap(tester, find.text('Undo'));
       await tester.pump();
-      expect(h.editor.text, 'one two thre');
-      expect(h.editor.selectionStart, 12, reason: 'the cursor is back at the end');
+      expect(h.editor.text, 'one two three');
+      expect(h.editor.selectionStart, 13, reason: 'the cursor is back at the end');
       expect(find.text('Undo'), findsNothing);
     });
 
@@ -289,10 +300,10 @@ void main() {
       expect(h.editor.selectionStart, 8);
       await g.moveBy(const Offset(30, 0));
       await tester.pump();
-      expect((h.editor.selectionStart, h.editor.selectionEnd), (12, 12), reason: 'the selection is restored');
+      expect((h.editor.selectionStart, h.editor.selectionEnd), (13, 13), reason: 'the selection is restored');
       await g.up();
       await tester.pump();
-      expect(h.editor.text, 'one two thre');
+      expect(h.editor.text, 'one two three');
       expect(find.text('Undo'), findsNothing);
     });
   });

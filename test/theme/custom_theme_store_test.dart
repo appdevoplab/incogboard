@@ -184,7 +184,6 @@ void main() {
   });
 
   group('resolution by id', () {
-
     test('specForId: custom ids read the file; missing, broken or malformed give Myna Dynamic', () async {
       await CustomThemeStore(themes).write(_spec(name: 'Saved'));
       expect(specForId('custom:$kUuid', themes).name, 'Saved');

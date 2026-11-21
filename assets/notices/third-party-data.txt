@@ -5,7 +5,7 @@
 | English dictionary (`assets/dict/en.mdict`) | Apache-2.0 | Copyright (c) 2008, The Android Open Source Project (Wave 1-B, details below) |
 | Latin accent-fold table in `lib/src/engine/dictionary/text_fold.dart` | Unicode License v3 | Generated from the Unicode Character Database, Unicode, Inc. (https://www.unicode.org/license.txt). No Unicode data files are shipped. |
 | Google Sans Flex font (`assets/fonts/GoogleSansFlex.ttf`) | SIL OFL 1.1 | Copyright 2015 Google LLC / The Google Sans Flex Authors (Wave 1-D, details below) |
-| _Unicode emoji list and CLDR annotations_ | Unicode License v3 | Unicode, Inc. (Wave 2-D) |
+| Emoji list and CLDR annotations (`assets/emoji/`) | Unicode License v3 | (c) Unicode, Inc. (Wave 2-D, details below) |
 
 ### English dictionary
 
@@ -22,4 +22,11 @@
 - Integrity: git blob SHA-1 `1d8d8ae5a7c6d0e48312d2a0a478bad92caee73a` (TTF) and `3e50f6cb72e58f01997d1e608195e8fdbc0eb8b4` (`OFL.txt`), identical to google/fonts.
 - Bundled unmodified under its own name, so the Reserved Font Name clause is respected. Declared in `pubspec.yaml` as family `GoogleSansFlex`; never downloaded at runtime.
 - Non-Latin scripts fall back to the device's Noto fonts.
+
+### Emoji data
+
+- Built offline by `tool/build_emoji.dart` into `assets/emoji/`: `emoji.gz` (2,338 base emoji with English names, Unicode versions and skin-tone variants) and `keywords_<lang>.gz` (keyword index and CLDR short names) for 17 languages: en, es, fr, de, pt, id, hi, mr, bn, ta, te, ar, ur, ru, uk, zh, ja. About 1.8 MB in total.
+- Sources: Unicode Emoji 18.0 `emoji-test.txt` (https://unicode.org/Public/emoji/latest/emoji-test.txt, file dated 2026-04-30) and CLDR release-49 `common/annotations` and `annotationsDerived` (https://github.com/unicode-org/cldr/tree/release-49, published 2026-10-21).
+- License: Unicode License v3 (https://www.unicode.org/license.txt). Unicode, CLDR and their data are (c) Unicode, Inc.
+- Modifications: reshaped only (skin-tone variants grouped under their base emoji, keywords indexed). Never downloaded at runtime.
 

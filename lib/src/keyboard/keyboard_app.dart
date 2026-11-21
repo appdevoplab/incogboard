@@ -176,6 +176,7 @@ class _KeyboardAppState extends State<KeyboardApp> {
     final theme = _resolveTheme(context);
     _syncNavigationBar(theme);
     final landscape = s.events.metrics.value?.isLandscape ?? false;
+    final compact = KeyboardMetrics.isCompact(s.events.metrics.value);
     final inset = MediaQuery.viewPaddingOf(context).bottom;
     final keyboard = KeyboardView(session: _session, theme: theme, settings: settings, hooks: _hooks);
     final background = _Background(theme: theme);
@@ -189,7 +190,7 @@ class _KeyboardAppState extends State<KeyboardApp> {
         screenSize: MediaQuery.sizeOf(context),
         landscape: landscape,
         bottomInset: inset,
-        contentHeight: KeyboardMetrics.stripHeight + KeyboardMetrics.rowsHeight(settings, landscape: landscape),
+        contentHeight: KeyboardMetrics.contentHeight(settings, landscape: landscape, compact: compact),
       );
       final result = frame.build(context, info, keyboard: keyboard, background: background);
       _syncWindowLayout(result.layout);
@@ -198,7 +199,7 @@ class _KeyboardAppState extends State<KeyboardApp> {
       _syncWindowLayout(
         WindowLayoutMessage(
           mode: WindowMode.docked,
-          heightDp: KeyboardMetrics.totalHeight(settings, landscape: landscape, bottomInset: inset),
+          heightDp: KeyboardMetrics.totalHeight(settings, landscape: landscape, bottomInset: inset, compact: compact),
         ),
       );
       content = Stack(

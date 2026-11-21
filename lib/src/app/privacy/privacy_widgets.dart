@@ -3,29 +3,16 @@
 // Small widgets shared by the privacy screens.
 import 'package:material_ui/material_ui.dart';
 
-/// The mascot's place at the top of the privacy screens. Wave 2-A's MynaMascot is not on this
-/// branch yet, so an icon stands in. Replace the body when it lands.
+import '../onboarding/myna_mascot.dart';
+
+/// The mascot at the top of the privacy screens.
 class PrivacyMascotSlot extends StatelessWidget {
   const PrivacyMascotSlot({super.key, this.size = 72});
 
   final double size;
 
   @override
-  Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    return Semantics(
-      label: 'Myna privacy mascot',
-      image: true,
-      excludeSemantics: true,
-      child: Container(
-        width: size,
-        height: size,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(color: scheme.primaryContainer, shape: BoxShape.circle),
-        child: Icon(Icons.shield_outlined, size: size * 0.5, color: scheme.onPrimaryContainer),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => MynaMascot(size: size, label: 'Myna privacy mascot');
 }
 
 /// A status card: a green card for good news, an error card for problems, neutral otherwise.

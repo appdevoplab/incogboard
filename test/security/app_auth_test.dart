@@ -1,4 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:myna/src/security/app_auth.dart';
@@ -75,6 +78,25 @@ void main() {
       expect(CustomThemeFiles.isSafeName('run.exe'), isFalse);
       expect(CustomThemeFiles.isSafeName('noextension'), isFalse);
       expect(CustomThemeFiles.isSafeName(''), isFalse);
+    });
+
+    test('photos in the images folder are safe, nothing else under it is', () {
+      expect(CustomThemeFiles.isSafeName('images/0b1c2d3e-0000-4000-8000-000000000000.png'), isTrue);
+      expect(CustomThemeFiles.isSafeName('images/a.json'), isFalse);
+      expect(CustomThemeFiles.isSafeName('images/../a.png'), isFalse);
+      expect(CustomThemeFiles.isSafeName('images/a/b.png'), isFalse);
+      expect(CustomThemeFiles.isSafeName('other/a.png'), isFalse);
+    });
+
+    test('lists, reads and writes photos in the images folder', () async {
+      final root = await Directory.systemTemp.createTemp('myna_theme_files');
+      addTearDown(() => root.delete(recursive: true));
+      final files = CustomThemeFiles(root.path);
+      await files.write('t.json', Uint8List.fromList([1]));
+      await files.write('images/t.png', Uint8List.fromList([2, 3]));
+      expect([for (final f in await files.list()) f.name], ['images/t.png', 't.json']);
+      expect(await files.read('images/t.png'), [2, 3]);
+      expect(await files.totalBytes(), 3);
     });
   });
 }

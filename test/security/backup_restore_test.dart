@@ -236,9 +236,12 @@ void main() {
 
     test('clipboard merge adds pinned items without duplicates', () async {
       store.blobs[DataBlobs.clipboard] = _bytes(
-        jsonEncode([
-          {'text': 'kept', 'ts': 1, 'pinned': false},
-        ]),
+        jsonEncode({
+          'v': 1,
+          'items': [
+            {'id': '1-0', 'text': 'kept', 'time': 1, 'pinned': false},
+          ],
+        }),
       );
       final report = await restorer.apply(
         const BackupContents(
@@ -306,10 +309,13 @@ void main() {
       final platform = MockPlatform();
       stubPlatform(platform, store);
       store.blobs[DataBlobs.clipboard] = _bytes(
-        jsonEncode([
-          {'text': 'pin', 'ts': 1, 'pinned': true},
-          {'text': 'temp', 'ts': 2, 'pinned': false},
-        ]),
+        jsonEncode({
+          'v': 1,
+          'items': [
+            {'id': '1-0', 'text': 'pin', 'time': 1, 'pinned': true},
+            {'id': '2-1', 'text': 'temp', 'time': 2, 'pinned': false},
+          ],
+        }),
       );
       final collector = BackupCollector(
         store: store,
