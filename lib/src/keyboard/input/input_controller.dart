@@ -851,7 +851,9 @@ class InputController {
       return;
     }
     _lastResult = SuggestionResult.empty;
-    if (s.nextWordPrediction) {
+    // Next-word predictions are prose ("The", "I", "Thanks"): only in fields where autocorrect is allowed,
+    // never in email, URL, filter or similar fields.
+    if (s.nextWordPrediction && _smartField) {
       _setBar(SuggestionBarState(suggestions: _predictor.predictNext(List.of(_previous))));
     } else {
       _setBar(SuggestionBarState.empty);
