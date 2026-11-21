@@ -15,6 +15,13 @@ import 'mdict_format.dart';
 import 'mdict_writer.dart';
 import 'text_fold.dart';
 
+/// Inflates an `MDZ1` file to the raw payload (cheap to run in an isolate).
+/// Raw payloads are returned unchanged.
+Uint8List inflateMdict(Uint8List bytes) {
+  if (bytes.length < 4 || ascii.decode(bytes.sublist(0, 4), allowInvalid: true) != kMdictMagicZlib) return bytes;
+  return Uint8List.fromList(ZLibCodec().decode(Uint8List.sublistView(bytes, 4)));
+}
+
 class MdictLexicon implements Lexicon {
   MdictLexicon._({
     required this.language,

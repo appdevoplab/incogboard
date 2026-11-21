@@ -68,7 +68,17 @@ Uint8List buildMdict(DictSource source, {bool compress = false}) {
     if (w.surface.isEmpty) continue;
     final key = foldKey(w.surface, stripAccents: source.foldAccents);
     final old = best[key];
-    if (old == null || w.logProb > old.logProb) best[key] = w;
+    if (old == null) {
+      best[key] = w;
+      continue;
+    }
+    // Case/accent variants of one key share the highest probability; the
+    // spelling shown is the lower-case one if there is one (sentence-initial
+    // capitals are noise), otherwise the more frequent.
+    final newLower = w.surface == w.surface.toLowerCase();
+    final oldLower = old.surface == old.surface.toLowerCase();
+    final DictWord shown = newLower != oldLower ? (newLower ? w : old) : (w.logProb > old.logProb ? w : old);
+    best[key] = DictWord(shown.surface, w.logProb > old.logProb ? w.logProb : old.logProb, offensive: shown.offensive);
   }
   final keys = best.keys.toList()..sort();
   final n = keys.length;
