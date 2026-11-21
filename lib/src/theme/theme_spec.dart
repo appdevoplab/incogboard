@@ -133,6 +133,25 @@ class ThemeAccentOverrides {
   final int? trailStart;
   final int? trailEnd;
 
+  /// Changes the given fields. [clearPopup] and [clearTrail] reset the group to "from scheme".
+  ThemeAccentOverrides copyWith({
+    int? popupFill,
+    int? popupLabel,
+    int? popupSelectedFill,
+    int? popupSelectedLabel,
+    int? trailStart,
+    int? trailEnd,
+    bool clearPopup = false,
+    bool clearTrail = false,
+  }) => ThemeAccentOverrides(
+    popupFill: clearPopup ? null : popupFill ?? this.popupFill,
+    popupLabel: clearPopup ? null : popupLabel ?? this.popupLabel,
+    popupSelectedFill: clearPopup ? null : popupSelectedFill ?? this.popupSelectedFill,
+    popupSelectedLabel: clearPopup ? null : popupSelectedLabel ?? this.popupSelectedLabel,
+    trailStart: clearTrail ? null : trailStart ?? this.trailStart,
+    trailEnd: clearTrail ? null : trailEnd ?? this.trailEnd,
+  );
+
   Json toJson() => {
     if (popupFill != null) 'popupFill': popupFill,
     if (popupLabel != null) 'popupLabel': popupLabel,
