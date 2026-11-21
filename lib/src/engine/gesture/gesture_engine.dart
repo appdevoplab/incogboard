@@ -19,14 +19,16 @@ import 'template_index.dart';
 /// Tunable constants of the scoring model.
 class GestureTuning {
   const GestureTuning({
-    this.sigmaLocation = 0.4,
+    this.sigmaLocation = 0.3,
     this.sigmaShape = 0.4,
-    this.lambda = 0.35,
+    this.lambda = 0.3,
     this.endpointRadius = 1.2,
     this.minLengthRatio = 0.5,
     this.maxLengthRatio = 2.2,
     this.boundsTolerance = 1.6,
     this.maxMeanLocation = 1.8,
+    this.endWeight = 6,
+    this.sigmaEnd = 0.6,
     this.previewBucketCap = 90,
     this.previewEndpointRadius = 1.0,
   });
@@ -48,6 +50,13 @@ class GestureTuning {
   /// Allowed deviation of the bounding box, in key widths.
   final double boundsTolerance;
 
+  /// Extra weight of the first and last points of the location channel: the
+  /// first and last keys are the ones a finger hits most reliably.
+  final double endWeight;
+
+  /// Spread (in key widths) of the Gaussian on the first/last point distance.
+  final double sigmaEnd;
+
   /// Hard cut-off for the mean location distance, in key widths.
   final double maxMeanLocation;
 
@@ -57,10 +66,11 @@ class GestureTuning {
 }
 
 class GestureEngine {
-  GestureEngine({this.tuning = const GestureTuning()});
+  GestureEngine({this.tuning = const GestureTuning()}) : _weights = _pointWeights(tuning.endWeight);
 
   final GestureTuning tuning;
 
+  final Float64List _weights;
   GestureKeys? _keys;
   TemplateSet? _base;
   TemplateSet? _extras;
@@ -198,9 +208,10 @@ class GestureEngine {
     final tol = tuning.boundsTolerance * kw;
     final invSigL2 = 1.0 / (2 * tuning.sigmaLocation * tuning.sigmaLocation);
     final invSigS2 = 1.0 / (2 * tuning.sigmaShape * tuning.sigmaShape);
+    final invSigE2 = 1.0 / (2 * tuning.sigmaEnd * tuning.sigmaEnd);
     final lambda = tuning.lambda;
     final invKw = 1.0 / kw;
-    final maxLocSum = tuning.maxMeanLocation * kw * kGesturePoints;
+    final maxLocSum = tuning.maxMeanLocation * kw;
     const checkA = 20, checkB = 40;
 
     for (var it = from; it < to; it++) {
@@ -227,13 +238,13 @@ class GestureEngine {
         final tx = pts[base + i * 2] * invQ;
         final ty = pts[base + i * 2 + 1] * invQ;
         final dx = _rx[i] - tx, dy = _ry[i] - ty;
-        locSum += math.sqrt(dx * dx + dy * dy);
+        locSum += _weights[i] * math.sqrt(dx * dx + dy * dy);
         final sx = (tx - tcx) * invTd - _gnx[i];
         final sy = (ty - tcy) * invTd - _gny[i];
         shapeSum += math.sqrt(sx * sx + sy * sy);
         if (i == checkA || i == checkB) {
           // The final mean location can only be >= partial/64.
-          final lm = locSum * invKw / kGesturePoints;
+          final lm = locSum * invKw;
           if (locSum > maxLocSum || lpTerm - lm * lm * invSigL2 < thresh) {
             pruned = true;
             break;
@@ -241,10 +252,16 @@ class GestureEngine {
         }
       }
       if (pruned) continue;
-      final loc = locSum * invKw / kGesturePoints;
+      final loc = locSum * invKw;
       if (loc > tuning.maxMeanLocation) continue;
       final shape = shapeSum / kGesturePoints * td * invKw;
-      final geo = -(loc * loc * invSigL2 + shape * shape * invSigS2);
+      // The finger lands on the first and lifts on the last key precisely: score both ends on their own.
+      final e0x = (_rx[0] - pts[base] * invQ) * invKw, e0y = (_ry[0] - pts[base + 1] * invQ) * invKw;
+      final last = base + (kGesturePoints - 1) * 2;
+      final e1x = (_rx[kGesturePoints - 1] - pts[last] * invQ) * invKw;
+      final e1y = (_ry[kGesturePoints - 1] - pts[last + 1] * invQ) * invKw;
+      final endTerm = (e0x * e0x + e0y * e0y + e1x * e1x + e1y * e1y) * invSigE2;
+      final geo = -(loc * loc * invSigL2 + shape * shape * invSigS2 + endTerm);
       final score = geo + lpTerm;
       if (score > top.threshold) {
         top.offer(set.words[t], set.language[t], geo, set.logProb[t], set.learned, score);
@@ -286,4 +303,19 @@ class _TopK {
   }
 
   List<RawCandidate> results() => List.of(_items);
+}
+
+/// Per-point weights of the location channel (sum to 1), heavier at both ends.
+Float64List _pointWeights(double endWeight) {
+  final w = Float64List(kGesturePoints);
+  var sum = 0.0;
+  for (var i = 0; i < kGesturePoints; i++) {
+    final fromEnd = math.min(i, kGesturePoints - 1 - i);
+    w[i] = 1 + endWeight * math.exp(-fromEnd / 6);
+    sum += w[i];
+  }
+  for (var i = 0; i < kGesturePoints; i++) {
+    w[i] /= sum;
+  }
+  return w;
 }
