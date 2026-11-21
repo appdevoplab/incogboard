@@ -1,38 +1,38 @@
 # Handoff: continue from here after /clear
 
-State as of 2026-11-21:
-- Waves 0 and 1 are done and merged on `main`.
-- **The Wave 2 setup is committed** (`bcdcc10`): deps, Pigeon additions and integration seams. 482 tests pass, the emulator smoke test passed, and the release gate passes.
-- **The Wave 2 briefs are written:** `docs/waves/wave2/COMMON.md` plus `A-settings.md`, `B-privacy.md`, `C-themes.md`, `D-panels.md` and `E-modes.md`. Ownership is in `docs/PARALLEL_WORK.md`.
-- **Wave 2 agents relaunched 2026-11-21 at 3 PM on Haiku, high effort** (the user's new rule). The first Sonnet launch hit the 5-hour usage limit before changing anything. They work in `.claude/worktrees/agent-<id>`:
-
-  | Agent | Branch |
-  |---|---|
-  | A settings | `worktree-agent-a515b739ac5f148ff` |
-  | B privacy | `worktree-agent-a71dfb98893eda54f` |
-  | C themes | `worktree-agent-a0b14899291deeb30` |
-  | D panels | `worktree-agent-a8b8e5778d29ca903` |
-  | E modes | `worktree-agent-a11af2d621e17b2b8` |
-
-  **Relaunched again 2026-11-21 (evening):** the 3 PM run also stopped with no commits or edits. New branches (each first merges its old one):
-
-  | Agent | Branch |
-  |---|---|
-  | A settings | `worktree-agent-aa0675f1822502b9b` |
-  | B privacy | `worktree-agent-aa85a143d79081023` |
-  | C themes | `worktree-agent-ab2c58978d55113ff` |
-  | D panels | `worktree-agent-a83889688141ebfd1` |
-  | E modes | `worktree-agent-a6c3bd99d0431fea0` |
-
-  The old empty branches above can be removed after the merge.
-
-  Next: review each branch (line endings, ownership), then merge in the order B, C, D, E, A per `docs/waves/README.md`. If one stopped unfinished, commit its leftovers and relaunch it with `git merge <old-branch>` first.
+State as of 2026-11-21 (evening):
+- **Waves 0, 1 and 2 are done and merged on `main`.** Wave 2 merged in the order B, C, D, E, A (merge commits `8254315`..`7f365f6`), then follow-ups `3f24ce1` and `9235155`. Agent worktrees and branches are removed.
+- Checks on `main`: `flutter analyze` 0 issues, `flutter test` 787 pass, Android JVM tests 46 pass, emulator smoke test passed, release gate passes.
+- Next: Wave 3 (languages and voice), see `docs/waves/README.md`. Write its briefs first.
 - **User decisions for Wave 2 (2026-11-21):**
   - clipboard history on by default
   - the incognito picker lists "apps you've typed in" (encrypted `seen_apps` blob)
   - emoji keywords for all 17 languages
   - app lock offered in the privacy center only
-- **Release permissions now:** VIBRATE, USE_BIOMETRIC, USE_FINGERPRINT (from local_auth; needed for the Android 8.x fingerprint path) and androidx.core's app-private receiver permission. No INTERNET.
+- **Release permissions now:** VIBRATE, USE_BIOMETRIC, USE_FINGERPRINT (from local_auth; needed for the Android 8.x fingerprint path) and androidx.core's app-private receiver permission. No INTERNET. Release arm64 APK: 25.4 MB.
+
+## Wave 2 result
+
+- The Wave 2 agents ran on Haiku (high effort). The first two launches stopped with nothing done; the third finished all five in 13 to 55 minutes. Every branch stayed inside its ownership, with LF line endings and no overlapping files.
+- Fixed while merging:
+  - **Backup vs clipboard:** B's codec expected `{text, ts, pinned}` but D stores `{v:1, items:[{id,text,time,pinned}]}`. Backups would have dropped pinned clips. The codec now uses D's layout.
+  - **Backup vs theme photos:** C keeps photos in `themes/images/<uuid>.png`; B's file list only read `themes/`. `CustomThemeFiles` now includes `images/`.
+  - **Emoji assets:** Android's packager strips `.gz` and inflates the file, so the panel said "Emoji are not available" on the device. The files are now `assets/emoji/*.dat`. Host tests could not catch this.
+  - E's requests: split (>= 600 dp, setting on) and compact (landscape phone, 44 dp rows) are wired in `keyboard_view.dart` and `KeyboardMetrics`. With swipe-delete on, backspace deletes on release instead of touch-down.
+  - Privacy screens use `MynaMascot`. The emoji notice is folded into `THIRD_PARTY_NOTICES.md` and `assets/notices/third-party-data.txt`.
+- Emulator smoke test (API 37), all pass:
+  - typing and autocorrect ("teh i dont" → "the I don't"); password field (no autocorrect, black screenshot); email/URL layouts with the toolbar
+  - backspace tap, swipe-delete of one word and its Undo chip
+  - emoji panel (index 73 ms, 19 emoji hidden by the glyph check) and inserting an emoji
+  - modes bar and one-handed left, swap and full-width
+  - settings app: onboarding end to end, Home, privacy center sizes, theme gallery, dark theme reaching the keyboard
+- Seen once and not reproduced: after a backspace that reverted an autocorrection, swipe-delete Undo restored "don't " instead of "dont".
+- Not checked on the emulator yet: clipboard chip after copying in another app, emoji search, editing panel, floating mode and resize, space-bar cursor drag, app lock (biometric/PIN), backup export and import through the SAF pickers, wipe, theme editor with a photo, split on a tablet, compact landscape.
+- Open decisions for the user:
+  - Panel tab and modes-bar buttons are 44 dp tall (the strip height is fixed), below the 48 dp rule.
+  - The About source link appears only with `--dart-define=MYNA_SOURCE_URL=<url>`, so it needs the GitHub username.
+  - Email/URL layouts keep the emoji key next to ?123 (`LayoutVariants.forField`).
+  - The recent-copy chip is hidden in incognito (not in the brief).
 
 ## Wave 1 result
 
