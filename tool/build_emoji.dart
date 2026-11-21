@@ -9,10 +9,10 @@
 // see docs/notices/emoji.md for the exact versions, URLs and sizes.
 //
 // Output:
-//   emoji.gz               gzipped JSON: groups, subgroups and every base emoji in display order.
+//   emoji.dat               gzipped JSON: groups, subgroups and every base emoji in display order.
 //                          An item is [text, unicodeVersion x10, group, subgroup, englishName, tones?].
 //                          `tones` holds the five skin-tone variants (null where Unicode has none).
-//   keywords_<lang>.gz     gzipped JSON per language: `short` [[ref, shortName]...] and `keys`
+//   keywords_<lang>.dat     gzipped JSON per language: `short` [[ref, shortName]...] and `keys`
 //                          {keyword: [ref...]}. A ref is item * 6 + tone (tone 0 = the base emoji).
 import 'dart:convert';
 import 'dart:io';
@@ -52,8 +52,8 @@ Future<void> main(List<String> args) async {
   );
 
   final emojiBytes = encodeGz(utf8.encode(jsonEncode(catalog.toJson())));
-  final sizes = <String, int>{'emoji.gz': emojiBytes.length};
-  File('${out.path}/emoji.gz').writeAsBytesSync(emojiBytes);
+  final sizes = <String, int>{'emoji.dat': emojiBytes.length};
+  File('${out.path}/emoji.dat').writeAsBytesSync(emojiBytes);
 
   for (final lang in emojiLanguages) {
     final annotations = await _fetchCached(
@@ -66,7 +66,7 @@ Future<void> main(List<String> args) async {
     );
     final index = buildKeywords(lang: lang, annotations: annotations, derived: derived, refs: refs);
     final bytes = encodeGz(utf8.encode(index.toText()));
-    final name = 'keywords_$lang.gz';
+    final name = 'keywords_$lang.dat';
     File('${out.path}/$name').writeAsBytesSync(bytes);
     sizes[name] = bytes.length;
     stdout.writeln('$lang: ${index.keys.length} keys, ${index.shortNames.length} short names, ${bytes.length} bytes');

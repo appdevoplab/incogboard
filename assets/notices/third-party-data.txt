@@ -25,7 +25,7 @@
 
 ### Emoji data
 
-- Built offline by `tool/build_emoji.dart` into `assets/emoji/`: `emoji.gz` (2,338 base emoji with English names, Unicode versions and skin-tone variants) and `keywords_<lang>.gz` (keyword index and CLDR short names) for 17 languages: en, es, fr, de, pt, id, hi, mr, bn, ta, te, ar, ur, ru, uk, zh, ja. About 1.8 MB in total.
+- Built offline by `tool/build_emoji.dart` into `assets/emoji/`: `emoji.dat` (2,338 base emoji with English names, Unicode versions and skin-tone variants) and `keywords_<lang>.dat` (keyword index and CLDR short names) for 17 languages: en, es, fr, de, pt, id, hi, mr, bn, ta, te, ar, ur, ru, uk, zh, ja. About 1.8 MB in total.
 - Sources: Unicode Emoji 18.0 `emoji-test.txt` (https://unicode.org/Public/emoji/latest/emoji-test.txt, file dated 2026-04-30) and CLDR release-49 `common/annotations` and `annotationsDerived` (https://github.com/unicode-org/cldr/tree/release-49, published 2026-10-21).
 - License: Unicode License v3 (https://www.unicode.org/license.txt). Unicode, CLDR and their data are (c) Unicode, Inc.
 - Modifications: reshaped only (skin-tone variants grouped under their base emoji, keywords indexed). Never downloaded at runtime.

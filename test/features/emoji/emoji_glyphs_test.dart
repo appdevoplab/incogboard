@@ -30,7 +30,7 @@ void main() {
 
   setUpAll(() {
     registerFallbackValue(<String>[]);
-    data = decodeEmojiData(File('assets/emoji/emoji.gz').readAsBytesSync());
+    data = decodeEmojiData(File('assets/emoji/emoji.dat').readAsBytesSync());
   });
 
   setUp(() {

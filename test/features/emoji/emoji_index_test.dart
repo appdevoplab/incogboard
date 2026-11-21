@@ -17,7 +17,7 @@ void main() {
   late EmojiData data;
 
   setUpAll(() {
-    data = decodeEmojiData(_asset('emoji.gz'));
+    data = decodeEmojiData(_asset('emoji.dat'));
   });
 
   group('emoji catalogue', () {
@@ -57,7 +57,7 @@ void main() {
 
   group('keyword table', () {
     test('keys are sorted and every keyword has refs', () {
-      final en = decodeKeywordTable('en', _asset('keywords_en.gz'));
+      final en = decodeKeywordTable('en', _asset('keywords_en.dat'));
       expect(en.keys.length, greaterThan(5000));
       for (var i = 1; i < en.keys.length; i++) {
         expect(en.keys[i - 1].compareTo(en.keys[i]), lessThan(0), reason: 'key ${en.keys[i]} out of order');
@@ -75,11 +75,15 @@ void main() {
     late EmojiIndex enAndEs;
 
     setUpAll(() {
-      en = buildEmojiIndex(emojiGz: _asset('emoji.gz'), languages: const ['en'], keywordGz: [_asset('keywords_en.gz')]);
+      en = buildEmojiIndex(
+        emojiGz: _asset('emoji.dat'),
+        languages: const ['en'],
+        keywordGz: [_asset('keywords_en.dat')],
+      );
       enAndEs = buildEmojiIndex(
-        emojiGz: _asset('emoji.gz'),
+        emojiGz: _asset('emoji.dat'),
         languages: const ['en', 'es'],
-        keywordGz: [_asset('keywords_en.gz'), _asset('keywords_es.gz')],
+        keywordGz: [_asset('keywords_en.dat'), _asset('keywords_es.dat')],
       );
     });
 

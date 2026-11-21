@@ -13,6 +13,8 @@ import 'package:flutter/services.dart' show rootBundle;
 import '../../core/log.dart';
 import 'emoji_index.dart';
 
+/// The files are gzip data named `.dat`: Android's asset packager strips a `.gz` suffix (and inflates
+/// the file), so `emoji.gz` would not be found by that name in the APK.
 const String emojiAssetDir = 'assets/emoji';
 
 /// Reads the raw bytes for [languages]. Injected so tests can read files from disk.
@@ -39,8 +41,8 @@ class EmojiRepository {
   /// A repository that reads [dir] (the assets folder) synchronously, for tests and tools.
   factory EmojiRepository.fromDirectory(String dir) => EmojiRepository(
     readBytes: (languages) async => (
-      emojiGz: File('$dir/emoji.gz').readAsBytesSync(),
-      keywordGz: {for (final l in languages) l: File('$dir/keywords_$l.gz').readAsBytesSync()},
+      emojiGz: File('$dir/emoji.dat').readAsBytesSync(),
+      keywordGz: {for (final l in languages) l: File('$dir/keywords_$l.dat').readAsBytesSync()},
     ),
     build: (bytes, languages) async => buildEmojiIndex(
       emojiGz: bytes.emojiGz,
@@ -109,10 +111,10 @@ Future<EmojiBytes> _readAssets(List<String> languages) async {
     return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
   }
 
-  final emoji = await read('emoji.gz');
+  final emoji = await read('emoji.dat');
   final keywords = <String, Uint8List>{};
   for (final lang in languages) {
-    keywords[lang] = await read('keywords_$lang.gz');
+    keywords[lang] = await read('keywords_$lang.dat');
   }
   return (emojiGz: emoji, keywordGz: keywords);
 }
