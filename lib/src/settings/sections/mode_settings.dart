@@ -33,7 +33,9 @@ class ModeSettings {
   final double oneHandedWidth;
   final bool floating;
 
-  /// Floating keyboard position/size as fractions of the screen.
+  /// Floating keyboard: [floatingX] and [floatingY] are fractions of the free space left beside and
+  /// above the card (0 = left or top edge, 1 = right or bottom edge), so they stay on screen after a
+  /// rotation. [floatingWidth] is the card width as a fraction of the screen.
   final double floatingX;
   final double floatingY;
   final double floatingWidth;
