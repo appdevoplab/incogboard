@@ -1,153 +1,105 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// OWNER: Wave 2-A (settings app). Wave 0 placeholder: setup steps, privacy
-// proof and a test field. Keep MynaSettingsApp's constructor stable.
-// main() wraps it in AppScope, so `AppScope.of(context)` works everywhere.
+// OWNER: Wave 2-A (settings app). The shell: Myna's brand and Material You themes, the lock gate
+// around everything, named routes (launch route and route requests from the keyboard), and the
+// first-run setup. Keep MynaSettingsApp's constructor stable. main() wraps it in AppScope.
 import 'dart:async';
 
 import 'package:material_ui/material_ui.dart';
 
-import '../bridge/messages.g.dart';
-import 'privacy/privacy_center_screen.dart';
-import 'themes/theme_gallery_screen.dart';
+import '../core/log.dart';
+import 'about/notices.dart';
+import 'app_services.dart';
+import 'privacy/app_lock_gate.dart';
+import 'routes.dart';
+import 'shell/app_router.dart';
+import 'shell/myna_theme.dart';
 
-class MynaSettingsApp extends StatelessWidget {
+class MynaSettingsApp extends StatefulWidget {
   const MynaSettingsApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    const seed = Color(0xFF6750A4);
-    return MaterialApp(
-      title: 'Myna',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: seed)),
-      darkTheme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: seed, brightness: Brightness.dark),
-      ),
-      home: const _SetupScreen(),
-    );
-  }
+  State<MynaSettingsApp> createState() => _MynaSettingsAppState();
 }
 
-class _SetupScreen extends StatefulWidget {
-  const _SetupScreen();
+class _MynaSettingsAppState extends State<MynaSettingsApp> {
+  final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
+  StreamSubscription<String>? _routeRequests;
+  AppServices? _services;
+
+  /// False until the launch route and the system colours are read.
+  bool _ready = false;
+  String _initialRoute = MynaRoutes.home;
+  List<int>? _palettes;
 
   @override
-  State<_SetupScreen> createState() => _SetupScreenState();
-}
-
-class _SetupScreenState extends State<_SetupScreen> {
-  final _app = AppHostApi();
-  final _platform = PlatformHostApi();
-  late final AppLifecycleListener _lifecycle;
-  bool _enabled = false;
-  bool _selected = false;
-  bool? _internet;
-
-  @override
-  void initState() {
-    super.initState();
-    _lifecycle = AppLifecycleListener(onResume: () => unawaited(_refresh()));
-    unawaited(_refresh());
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_services != null) return;
+    _services = AppScope.of(context);
+    unawaited(_start(_services!));
   }
 
   @override
   void dispose() {
-    _lifecycle.dispose();
+    unawaited(_routeRequests?.cancel());
     super.dispose();
   }
 
-  Future<void> _refresh() async {
-    final enabled = await _app.isMynaEnabled();
-    final selected = await _app.isMynaSelected();
-    final internet = await _platform.hasInternetPermission();
+  Future<void> _start(AppServices services) async {
+    MynaNotices.register();
+    final launch = await _read(() => services.app.takeLaunchRoute());
+    final colors = await _read(() => services.platform.getSystemColors());
     if (!mounted) return;
+    final done = services.settings.value.languages.onboardingDone;
     setState(() {
-      _enabled = enabled;
-      _selected = selected;
-      _internet = internet;
+      _initialRoute = launch ?? (done ? MynaRoutes.home : MynaRoutes.onboarding);
+      _palettes = colors?.palettes;
+      _ready = true;
     });
+    _routeRequests = services.routeRequests.listen(_openRoute);
+  }
+
+  /// A host call that may fail (the app keeps running with defaults when it does).
+  Future<T?> _read<T>(Future<T?> Function() call) async {
+    try {
+      return await call();
+    } on Object catch (e) {
+      MynaLog.w('App', 'host call failed', e.runtimeType);
+      return null;
+    }
+  }
+
+  /// The keyboard asked for a screen while the app is open: show it on top of the current one,
+  /// keeping the first page (home, or setup on first run).
+  void _openRoute(String route) {
+    final navigator = _navigatorKey.currentState;
+    if (navigator == null) return;
+    unawaited(navigator.pushNamedAndRemoveUntil(route, (r) => r.isFirst));
   }
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    return Scaffold(
-      appBar: AppBar(title: const Text('Myna')),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          _Step(
-            done: _enabled,
-            title: '1. Turn on Myna',
-            subtitle: 'Enable Myna in Android\'s keyboard settings.',
-            action: FilledButton(
-              onPressed: () => unawaited(_app.openInputMethodSettings()),
-              child: const Text('Open settings'),
-            ),
-          ),
-          _Step(
-            done: _selected,
-            title: '2. Switch to Myna',
-            subtitle: 'Choose Myna as your keyboard.',
-            action: FilledButton(
-              onPressed: () => unawaited(_app.showInputMethodPicker()),
-              child: const Text('Choose keyboard'),
-            ),
-          ),
-          const SizedBox(height: 16),
-          const TextField(
-            decoration: InputDecoration(border: OutlineInputBorder(), labelText: 'Try typing here'),
-          ),
-          const SizedBox(height: 24),
-          Card(
-            color: scheme.secondaryContainer,
-            child: ListTile(
-              leading: const Icon(Icons.lock_outline),
-              title: Text(
-                _internet == null
-                    ? 'Checking network access…'
-                    : _internet!
-                    ? 'Debug build: network allowed for development tools'
-                    : 'No internet permission: Myna cannot send anything',
-              ),
-            ),
-          ),
-          ListTile(
-            leading: const Icon(Icons.palette_outlined),
-            title: const Text('Themes'),
-            onTap: () => unawaited(
-              Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const ThemeGalleryScreen())),
-            ),
-          ),
-          ListTile(
-            leading: const Icon(Icons.shield_outlined),
-            title: const Text('Privacy'),
-            onTap: () => unawaited(
-              Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const PrivacyCenterScreen())),
-            ),
-          ),
-        ],
-      ),
+    if (!_ready) return const SizedBox.shrink();
+    final services = _services!;
+    return ListenableBuilder(
+      listenable: services.settings,
+      builder: (context, _) {
+        final contrast = contrastLevelOf(services.settings.value.appearance.contrast);
+        final palettes = _palettes;
+        return MaterialApp(
+          title: 'Myna',
+          debugShowCheckedModeBanner: false,
+          navigatorKey: _navigatorKey,
+          theme: mynaThemeData(mynaSchemeFor(Brightness.light, palettes: palettes, contrastLevel: contrast)),
+          darkTheme: mynaThemeData(mynaSchemeFor(Brightness.dark, palettes: palettes, contrastLevel: contrast)),
+          themeMode: ThemeMode.system,
+          initialRoute: _initialRoute,
+          onGenerateRoute: routeFor,
+          // The lock covers every screen, not just home.
+          builder: (context, child) => AppLockGate(child: child ?? const SizedBox.shrink()),
+        );
+      },
     );
   }
-}
-
-class _Step extends StatelessWidget {
-  const _Step({required this.done, required this.title, required this.subtitle, required this.action});
-
-  final bool done;
-  final String title;
-  final String subtitle;
-  final Widget action;
-
-  @override
-  Widget build(BuildContext context) => Card(
-    child: ListTile(
-      leading: Icon(done ? Icons.check_circle : Icons.radio_button_unchecked),
-      title: Text(title),
-      subtitle: Text(subtitle),
-      trailing: done ? null : action,
-    ),
-  );
 }

@@ -1,0 +1,25 @@
+## Data
+
+| Data | License | Attribution |
+|---|---|---|
+| English dictionary (`assets/dict/en.mdict`) | Apache-2.0 | Copyright (c) 2008, The Android Open Source Project (Wave 1-B, details below) |
+| Latin accent-fold table in `lib/src/engine/dictionary/text_fold.dart` | Unicode License v3 | Generated from the Unicode Character Database, Unicode, Inc. (https://www.unicode.org/license.txt). No Unicode data files are shipped. |
+| Google Sans Flex font (`assets/fonts/GoogleSansFlex.ttf`) | SIL OFL 1.1 | Copyright 2015 Google LLC / The Google Sans Flex Authors (Wave 1-D, details below) |
+| _Unicode emoji list and CLDR annotations_ | Unicode License v3 | Unicode, Inc. (Wave 2-D) |
+
+### English dictionary
+
+- Built by `tool/build_dictionary.dart` into Myna's own `MDICT` format: about 147k words with frequencies, flags for possibly offensive words, apostrophe corrections and about 344k next-word pairs.
+- Original list: AOSP LatinIME `dictionaries/en_US_wordlist.combined.gz` (https://android.googlesource.com/platform/packages/inputmethods/LatinIME/, branch `main`, commit `127336e9f29d69607eab55982324b210279ae8c5` checked 2026-11-21). That file has no next-word pairs.
+- Build input actually used: `wordlists/main_en_US.combined` from https://codeberg.org/Helium314/aosp-dictionaries (branch `main`, downloaded 2026-11-21). It comes from OpenBoard v1.4.5 `en_wordlist.combined.gz` (https://github.com/openboard-team/openboard/blob/v1.4.5/dictionaries/en_wordlist.combined.gz), which is the same AOSP word set (160,715 words) plus the next-word pairs.
+- License: Apache License 2.0 (LatinIME `NOTICE`), compatible with GPL-3.0-or-later.
+- Modifications: NFC-normalised and cleaned (URLs, digits and stray punctuation removed), capped to 150k words by frequency, accent-folded keys merged, frequencies converted to log probabilities, and common English contractions added.
+
+### Google Sans Flex
+
+- Files: `assets/fonts/GoogleSansFlex.ttf` (variable font, axes `opsz`, `wdth`, `wght` 1-1000, `ROND` 0-100, `slnt`) and its licence `assets/fonts/OFL.txt`.
+- Version 5.000 (upstream commit `cedf1e9`, 2026-10-09), from https://github.com/google/fonts/tree/main/ofl/googlesansflex (file `GoogleSansFlex[ROND,opsz,slnt,wdth,wght].ttf`). Upstream project: https://github.com/googlefonts/googlesans-flex.
+- Integrity: git blob SHA-1 `1d8d8ae5a7c6d0e48312d2a0a478bad92caee73a` (TTF) and `3e50f6cb72e58f01997d1e608195e8fdbc0eb8b4` (`OFL.txt`), identical to google/fonts.
+- Bundled unmodified under its own name, so the Reserved Font Name clause is respected. Declared in `pubspec.yaml` as family `GoogleSansFlex`; never downloaded at runtime.
+- Non-Latin scripts fall back to the device's Noto fonts.
+

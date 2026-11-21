@@ -32,6 +32,48 @@ class SettingsPage extends StatelessWidget {
   );
 }
 
+/// A large illustration with a title and a short line, shown under a [SettingsPage] header.
+class SettingsHero extends StatelessWidget {
+  const SettingsHero({super.key, required this.mascot, required this.title, this.subtitle});
+
+  /// Usually a `MynaMascot`.
+  final Widget mascot;
+  final String title;
+  final String? subtitle;
+
+  @override
+  Widget build(BuildContext context) {
+    final text = Theme.of(context).textTheme;
+    final scheme = Theme.of(context).colorScheme;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(color: scheme.secondaryContainer, borderRadius: BorderRadius.circular(28)),
+        child: Row(
+          children: [
+            mascot,
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title, style: text.headlineSmall?.copyWith(color: scheme.onSecondaryContainer)),
+                  if (subtitle != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 4),
+                      child: Text(subtitle!, style: text.bodyMedium?.copyWith(color: scheme.onSecondaryContainer)),
+                    ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 /// A titled group of tiles drawn as one rounded container with thin gaps between the tiles.
 class SettingsGroup extends StatelessWidget {
   const SettingsGroup({super.key, this.title, required this.children});
@@ -70,6 +112,20 @@ class SettingsGroup extends StatelessWidget {
   }
 }
 
+/// A group whose body is a free-form widget (chips, segmented buttons, text) instead of tiles.
+class SettingsPanel extends StatelessWidget {
+  const SettingsPanel({super.key, this.title, required this.child});
+
+  final String? title;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => SettingsGroup(
+    title: title,
+    children: [Padding(padding: const EdgeInsets.fromLTRB(16, 12, 16, 16), child: child)],
+  );
+}
+
 class SettingsTile extends StatelessWidget {
   const SettingsTile({
     super.key,
@@ -96,6 +152,7 @@ class SettingsTile extends StatelessWidget {
     subtitle: subtitle == null ? null : Text(subtitle!),
     trailing: trailing ?? (onTap == null ? null : const Icon(Icons.chevron_right)),
     onTap: onTap,
+    minTileHeight: 56,
     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
   );
 }
@@ -183,6 +240,7 @@ class _SliderTileState extends State<_SliderTile> {
         max: w.max,
         divisions: w.divisions,
         label: w.valueLabel?.call(v),
+        semanticFormatterCallback: w.valueLabel == null ? null : (x) => w.valueLabel!(x),
         onChanged: (x) => setState(() => _dragging = x),
         onChangeEnd: (x) {
           setState(() => _dragging = null);
@@ -192,4 +250,39 @@ class _SliderTileState extends State<_SliderTile> {
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
     );
   }
+}
+
+/// One choice for [SettingsChoiceChips].
+class ChoiceOption<T> {
+  const ChoiceOption(this.value, this.label, {this.enabled = true});
+
+  final T value;
+  final String label;
+  final bool enabled;
+}
+
+/// A wrap of single-choice chips, for short option lists (languages, expiry, themes).
+class SettingsChoiceChips<T> extends StatelessWidget {
+  const SettingsChoiceChips({super.key, required this.options, required this.selected, required this.onSelected});
+
+  final List<ChoiceOption<T>> options;
+  final T? selected;
+
+  /// Not called for disabled options or for the option already selected.
+  final ValueChanged<T> onSelected;
+
+  @override
+  Widget build(BuildContext context) => Wrap(
+    spacing: 8,
+    runSpacing: 8,
+    children: [
+      for (final o in options)
+        ChoiceChip(
+          label: Text(o.label),
+          selected: o.value == selected,
+          onSelected: o.enabled && o.value != selected ? (_) => onSelected(o.value) : null,
+          tooltip: o.enabled ? null : 'Coming in a later update',
+        ),
+    ],
+  );
 }
