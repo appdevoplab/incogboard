@@ -34,8 +34,10 @@ class KeyPressAnimator extends ChangeNotifier {
   MotionSpec get motion => _motion;
 
   set motion(MotionSpec value) {
+    if (identical(_motion, value)) return;
+    final wasEnabled = _motion.enabled;
     _motion = value;
-    if (!value.enabled) {
+    if (wasEnabled && !value.enabled) {
       _springs.clear();
       _ticker.stop();
       notifyListeners();
