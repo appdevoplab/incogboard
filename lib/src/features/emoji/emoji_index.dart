@@ -36,9 +36,16 @@ class EmojiIndex {
         final key = keys[i];
         if (!key.startsWith(q)) break;
         scanned++;
-        final score = key.length == q.length ? 3 : 1;
+        final exactKey = key.length == q.length;
         for (final ref in table.refs[i]) {
           final item = ref ~/ refStride;
+          // A short name that is the whole query ("pizza" for the pizza) outranks a keyword that merely lists it.
+          final name = table.shortNames[ref];
+          final score = name != null && name.toLowerCase() == q
+              ? 4
+              : exactKey
+              ? 3
+              : 1;
           if (score > (scores[item] ?? 0)) scores[item] = score;
         }
       }
