@@ -283,13 +283,17 @@ class _EditingPanelViewState extends State<EditingPanelView> {
       pressedFill: theme.functionKey.pressedFill,
       radius: style.radius(48),
       onTap: onTap,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 20, color: theme.functionKey.label),
-          Text(label, style: style.text(size: 11, color: theme.functionKey.label)),
-        ],
+      // FittedBox keeps the icon and caption inside the key at large font scales (1.3 and up).
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 20, color: theme.functionKey.label),
+            Text(label, maxLines: 1, style: style.text(size: 11, color: theme.functionKey.label)),
+          ],
+        ),
       ),
     );
   }

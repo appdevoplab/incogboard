@@ -115,13 +115,17 @@ class _PanelButtonState extends State<PanelButton> {
   Widget build(BuildContext context) {
     final enabled = widget.onTap != null || widget.onLongPress != null;
     final fill = _down || widget.selected ? widget.pressedFill : widget.fill;
-    final decorated = AnimatedContainer(
-      duration: const Duration(milliseconds: 70),
+    // The size is a plain SizedBox: an AnimatedContainer cannot tween between unbounded and fixed sizes
+    // when one button is reused for a different width (for example a tab switch).
+    final decorated = SizedBox(
       width: widget.width,
       height: widget.height,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(color: fill, borderRadius: widget.radius ?? BorderRadius.circular(12)),
-      child: widget.child,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 70),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(color: fill, borderRadius: widget.radius ?? BorderRadius.circular(12)),
+        child: widget.child,
+      ),
     );
     return Semantics(
       button: true,

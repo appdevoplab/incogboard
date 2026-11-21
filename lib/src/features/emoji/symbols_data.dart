@@ -161,6 +161,30 @@ const List<SymbolSection> kaomojiSections = [
     '(-_-;)',
     '(￣▽￣)',
   ]),
+  SymbolSection('Dancing and excited', [
+    'ヽ(^o^)ノ',
+    '(ノ≧∀≦)ノ',
+    '♪(´▽｀)',
+    '(☆▽☆)',
+    '＼(≧▽≦)／',
+    '(ﾉ･ω･)ﾉ',
+    '٩(◕‿◕｡)۶',
+    '(ノ^∇^)',
+    '(ﾉ´ヮ`)ﾉ',
+    '(☆_☆)',
+  ]),
+  SymbolSection('Embarrassed and nervous', [
+    '(///▽///)',
+    '(〃ω〃)',
+    '(・_・;)',
+    '(；一_一)',
+    '(°ー°〃)',
+    '(￢_￢)',
+    '(^_^;)',
+    '(>_<)',
+    '(*/ω＼*)',
+    '(⁄ ⁄•⁄ω⁄•⁄ ⁄)',
+  ]),
 ];
 
 const List<SymbolSection> symbolSections = [
