@@ -56,7 +56,8 @@ class ThemeBackgroundSpec {
   /// Degrees, 0 = left to right, 90 = top to bottom.
   final double gradientAngle;
 
-  /// App-private file path of the pre-blurred image.
+  /// The pre-rendered image, relative to the themes folder (`images/<uuid>.png`) in the stored
+  /// JSON. The resolver turns it into an absolute path before the keyboard paints it.
   final String? imagePath;
 
   /// Blur radius used when the image was prepared (editor metadata).
@@ -64,6 +65,22 @@ class ThemeBackgroundSpec {
 
   /// Dim amount 0..1 painted over the image.
   final double dim;
+
+  ThemeBackgroundSpec copyWith({
+    ThemeBackgroundType? type,
+    List<int>? gradientColors,
+    double? gradientAngle,
+    String? imagePath,
+    double? blur,
+    double? dim,
+  }) => ThemeBackgroundSpec(
+    type: type ?? this.type,
+    gradientColors: gradientColors ?? this.gradientColors,
+    gradientAngle: gradientAngle ?? this.gradientAngle,
+    imagePath: imagePath ?? this.imagePath,
+    blur: blur ?? this.blur,
+    dim: dim ?? this.dim,
+  );
 
   Json toJson() => {
     'type': type.name,
@@ -115,6 +132,25 @@ class ThemeAccentOverrides {
   final int? popupSelectedLabel;
   final int? trailStart;
   final int? trailEnd;
+
+  /// Changes the given fields. [clearPopup] and [clearTrail] reset the group to "from scheme".
+  ThemeAccentOverrides copyWith({
+    int? popupFill,
+    int? popupLabel,
+    int? popupSelectedFill,
+    int? popupSelectedLabel,
+    int? trailStart,
+    int? trailEnd,
+    bool clearPopup = false,
+    bool clearTrail = false,
+  }) => ThemeAccentOverrides(
+    popupFill: clearPopup ? null : popupFill ?? this.popupFill,
+    popupLabel: clearPopup ? null : popupLabel ?? this.popupLabel,
+    popupSelectedFill: clearPopup ? null : popupSelectedFill ?? this.popupSelectedFill,
+    popupSelectedLabel: clearPopup ? null : popupSelectedLabel ?? this.popupSelectedLabel,
+    trailStart: clearTrail ? null : trailStart ?? this.trailStart,
+    trailEnd: clearTrail ? null : trailEnd ?? this.trailEnd,
+  );
 
   Json toJson() => {
     if (popupFill != null) 'popupFill': popupFill,
