@@ -1,0 +1,116 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+//
+// OWNER: Wave 2-A. Panels: clipboard history (on/off, how long copies are kept, how many, the
+// "recent copy" chip) and emoji suggestions. Writes `clipboard` and `typing` (values only; Wave
+// 2-D owns the panels' behaviour).
+import 'package:material_ui/material_ui.dart';
+
+import '../../settings/myna_settings.dart';
+import '../common/settings_widgets.dart';
+import '../shell/settings_actions.dart';
+
+/// Expiry choices in minutes. The clipboard section clamps to a week.
+const List<ChoiceOption<int>> _expiryChoices = [
+  ChoiceOption(15, '15 minutes'),
+  ChoiceOption(60, '1 hour'),
+  ChoiceOption(1440, '1 day'),
+  ChoiceOption(10080, '1 week'),
+];
+
+class PanelsScreen extends StatelessWidget {
+  const PanelsScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) => LiveSettings(
+    builder: (context, settings) {
+      final c = settings.clipboard;
+      return SettingsPage(
+        title: 'Panels',
+        children: [
+          SettingsGroup(
+            title: 'Clipboard',
+            children: [
+              SettingsSwitchTile(
+                icon: Icons.content_paste_outlined,
+                title: 'Clipboard history',
+                subtitle: 'Keep what you copy, encrypted on this phone',
+                value: c.history,
+                onChanged: (v) => writeSettings(
+                  context,
+                  SettingsSection.clipboard,
+                  (s) => s.copyWith(clipboard: s.clipboard.copyWith(history: v)),
+                ),
+              ),
+              SettingsSwitchTile(
+                icon: Icons.push_pin_outlined,
+                title: 'Recent-copy chip',
+                subtitle: 'Offer your last copy in the suggestion bar for a minute',
+                value: c.recentChip,
+                onChanged: (v) => writeSettings(
+                  context,
+                  SettingsSection.clipboard,
+                  (s) => s.copyWith(clipboard: s.clipboard.copyWith(recentChip: v)),
+                ),
+              ),
+            ],
+          ),
+          SettingsPanel(
+            title: 'Keep unpinned copies for',
+            child: SettingsChoiceChips<int>(
+              options: _expiryChoices,
+              selected: _expiryChoices.where((o) => o.value == c.expiryMinutes).firstOrNull?.value,
+              onSelected: (minutes) => writeSettings(
+                context,
+                SettingsSection.clipboard,
+                (s) => s.copyWith(clipboard: s.clipboard.copyWith(expiryMinutes: minutes)),
+              ),
+            ),
+          ),
+          SettingsGroup(
+            children: [
+              SettingsSliderTile(
+                icon: Icons.format_list_numbered,
+                title: 'Clips to keep',
+                value: c.maxItems.toDouble(),
+                min: 5,
+                max: 100,
+                divisions: 19,
+                valueLabel: (v) => '${v.round()}',
+                onChanged: (v) => writeSettings(
+                  context,
+                  SettingsSection.clipboard,
+                  (s) => s.copyWith(clipboard: s.clipboard.copyWith(maxItems: v.round())),
+                ),
+              ),
+            ],
+          ),
+          SettingsGroup(
+            title: 'Emoji',
+            children: [
+              SettingsSwitchTile(
+                icon: Icons.emoji_emotions_outlined,
+                title: 'Emoji suggestions',
+                subtitle: 'Offer an emoji for some words in the suggestion bar',
+                value: settings.typing.emojiSuggestions,
+                onChanged: (v) => writeSettings(
+                  context,
+                  SettingsSection.typing,
+                  (s) => s.copyWith(typing: s.typing.copyWith(emojiSuggestions: v)),
+                ),
+              ),
+            ],
+          ),
+          const SettingsGroup(
+            children: [
+              SettingsTile(
+                icon: Icons.key_off_outlined,
+                title: 'Passwords are never saved',
+                subtitle: 'Copies that Android marks as sensitive are never kept.',
+              ),
+            ],
+          ),
+        ],
+      );
+    },
+  );
+}
