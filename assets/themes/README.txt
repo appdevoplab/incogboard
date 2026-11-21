@@ -46,7 +46,8 @@ ignored, and files from a newer version are read leniently.
     "type": "solid",             // "solid" | "gradient" | "image"
     "gradientColors": [ ],       // two or more ARGB ints; empty = from scheme
     "gradientAngle": 90,         // degrees; 0 = left to right, 90 = top to bottom
-    "imagePath": null,           // app-private, pre-blurred image file
+    "imagePath": null,           // "images/<uuid>.png", relative to the themes folder
+                                 // (see "Custom themes on disk" below)
     "blur": 0,                   // blur radius used when preparing the image
     "dim": 0.3                   // 0..1 dim painted over the image
   },
@@ -76,3 +77,23 @@ ThemeSpec.currentVersion; never edit an existing step.
   v0 (pre-release, no "version" key): flat keys radius, gap, border, font,
      weight, seed, scheme, motion, bgColors, bgImage, bgDim, bgBlur and a
      boolean "dynamic". Upgraded to v1 by renaming and grouping them.
+
+Custom themes on disk (Wave 2-C)
+--------------------------------
+Custom themes live in <dataDirectory>/themes, which is plain app-private data (no
+typed text, so not in SecureBlobStore):
+
+  <dataDirectory>/themes/<uuid>.json        the ThemeSpec JSON above
+  <dataDirectory>/themes/images/<uuid>.png  the photo background, cropped to the
+                                            keyboard's size and blurred (the dim is
+                                            not baked in; the keyboard paints it)
+
+Theme id: "custom:<uuid>", stored in AppearanceSettings.themeId. The uuid is an RFC
+4122 version 4 lower-case uuid; anything else is rejected, so an id can never name a
+path outside the folder. The JSON "id" always equals the file's id. "imagePath" is
+relative ("images/<uuid>.png") so a backup restored elsewhere still finds the photo;
+the resolver makes it absolute, and a missing photo turns the background solid.
+
+Writes are atomic (a .tmp file, then rename). A spec file is capped at 64 KB.
+Saving or deleting a custom theme bumps AppearanceSettings.customThemeRevision, so
+the keyboard re-reads a theme that is in use.
