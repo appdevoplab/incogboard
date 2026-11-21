@@ -7,7 +7,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:myna/src/keyboard/preview/keyboard_preview.dart';
 import 'package:myna/src/keyboard/view/keys_painter.dart';
 import 'package:myna/src/settings/myna_settings.dart';
-import 'package:myna/src/settings/sections/typing_settings.dart';
 import 'package:myna/src/theme/presets.dart';
 import 'package:myna/src/theme/theme_resolver.dart';
 
