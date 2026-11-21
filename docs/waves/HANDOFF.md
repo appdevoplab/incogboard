@@ -2,7 +2,7 @@
 
 State as of 2026-11-21 (evening):
 - **Waves 0, 1 and 2 are done and merged on `main`.** Wave 2 merged in the order B, C, D, E, A (merge commits `8254315`..`7f365f6`), then follow-ups `3f24ce1` and `9235155`. Agent worktrees and branches are removed.
-- Checks on `main`: `flutter analyze` 0 issues, `flutter test` 787 pass, Android JVM tests 46 pass, emulator smoke test passed, release gate passes.
+- Checks on `main`: `flutter analyze` 0 issues, `flutter test` 788 pass, Android JVM tests 46 pass, emulator smoke test passed, release gate passes.
 - Next: Wave 3 (languages and voice), see `docs/waves/README.md`. Write its briefs first.
 - **User decisions for Wave 2 (2026-11-21):**
   - clipboard history on by default
@@ -26,9 +26,17 @@ State as of 2026-11-21 (evening):
   - emoji panel (index 73 ms, 19 emoji hidden by the glyph check) and inserting an emoji
   - modes bar and one-handed left, swap and full-width
   - settings app: onboarding end to end, Home, privacy center sizes, theme gallery, dark theme reaching the keyboard
+- Second emulator pass (all pass after fixes): clipboard selection chips, recent-copy chip and paste, clipboard panel with pin; editing panel (paste, select all, cut, undo, redo); emoji search ("cat"); space-bar cursor drag; floating drag, pass-through taps and dock; height bar with reset; compact landscape on a phone; split on a 720 dp tablet (density 240); app lock without a screen lock (asks to set one); encrypted backup to Downloads (MYNABK header, no plain text), clipboard wipe, merge restore, keyboard reload; theme editor with Photo Picker, crop, blur and the photo theme in the keyboard.
+- Fixed in that pass:
+  - Floating window was only as tall as the docked keyboard (MediaQuery inside the IME is the window); `FrameInfo.screenSize` now uses the real screen height (`d48cb3f`).
+  - Split applied to landscape phones too; it now needs smallestScreenWidthDp >= 600 (`05e5bbe`).
+  - Theme gallery cards ignored taps on a device: `CarouselView` covers items with its own InkWell unless `enableSplash: false`. The editor could not be opened.
+  - The restore dialog showed the export-only "Off unless you turn it on" note for clipboard.
+- Not covered: app lock with a real PIN or fingerprint (the emulator has no screen lock, and setting one changes device security settings), lock timeout, FLAG_SECURE in recents, emoji skin-tone picker.
 - Seen once and not reproduced: after a backspace that reverted an autocorrection, swipe-delete Undo restored "don't " instead of "dont".
-- Not checked on the emulator yet: clipboard chip after copying in another app, emoji search, editing panel, floating mode and resize, space-bar cursor drag, app lock (biometric/PIN), backup export and import through the SAF pickers, wipe, theme editor with a photo, split on a tablet, compact landscape.
 - Open decisions for the user:
+  - The toolbar (clipboard, editing, modes, themes, settings) shows only when the strip has nothing to suggest. Ordinary text fields always show predictions, even when empty, so there the panels are reachable only through the emoji key.
+  - Translator like Gboard's, offline only (asked 2026-11-21): needs on-device models, see the answer in the session.
   - Panel tab and modes-bar buttons are 44 dp tall (the strip height is fixed), below the 48 dp rule.
   - The About source link appears only with `--dart-define=MYNA_SOURCE_URL=<url>`, so it needs the GitHub username.
   - Email/URL layouts keep the emoji key next to ?123 (`LayoutVariants.forField`).
