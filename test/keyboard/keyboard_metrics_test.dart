@@ -23,12 +23,15 @@ void main() {
     expect(KeyboardMetrics.isCompact(null), isFalse);
   });
 
-  test('split needs 600 dp and the setting', () {
+  test('split needs a tablet, a 600 dp keyboard and the setting', () {
     const s = MynaSettings();
-    expect(KeyboardMetrics.isSplit(s, 900), isTrue);
-    expect(KeyboardMetrics.isSplit(s, 599), isFalse);
+    final tablet = _metrics(landscape: true, smallestDp: 800);
+    expect(KeyboardMetrics.isSplit(s, 900, tablet), isTrue);
+    expect(KeyboardMetrics.isSplit(s, 599, tablet), isFalse);
+    expect(KeyboardMetrics.isSplit(s, 900, _metrics(landscape: true, smallestDp: 411)), isFalse, reason: 'phone');
+    expect(KeyboardMetrics.isSplit(s, 900, null), isFalse);
     final off = s.copyWith(modes: s.modes.copyWith(splitOnWideScreens: false));
-    expect(KeyboardMetrics.isSplit(off, 900), isFalse);
+    expect(KeyboardMetrics.isSplit(off, 900, tablet), isFalse);
   });
 
   test('compact caps each row at 44 dp, so the window is 4 x 44 dp of keys', () {
