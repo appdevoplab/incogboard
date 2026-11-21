@@ -14,6 +14,18 @@ State as of 2026-11-21:
   | D panels | `worktree-agent-a8b8e5778d29ca903` |
   | E modes | `worktree-agent-a11af2d621e17b2b8` |
 
+  **Relaunched again 2026-11-21 (evening):** the 3 PM run also stopped with no commits or edits. New branches (each first merges its old one):
+
+  | Agent | Branch |
+  |---|---|
+  | A settings | `worktree-agent-aa0675f1822502b9b` |
+  | B privacy | `worktree-agent-aa85a143d79081023` |
+  | C themes | `worktree-agent-ab2c58978d55113ff` |
+  | D panels | `worktree-agent-a83889688141ebfd1` |
+  | E modes | `worktree-agent-a6c3bd99d0431fea0` |
+
+  The old empty branches above can be removed after the merge.
+
   Next: review each branch (line endings, ownership), then merge in the order B, C, D, E, A per `docs/waves/README.md`. If one stopped unfinished, commit its leftovers and relaunch it with `git merge <old-branch>` first.
 - **User decisions for Wave 2 (2026-11-21):**
   - clipboard history on by default
