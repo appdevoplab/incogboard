@@ -23,8 +23,10 @@ abstract final class KeyboardMetrics {
   /// Landscape on a phone (smallest width under 600 dp): key rows are capped at [kCompactKeyHeight].
   static bool isCompact(WindowMetricsMessage? m) => m != null && m.isLandscape && m.smallestScreenWidthDp < 600;
 
-  /// Split layout: on wide keyboards (at least 600 dp) when the user allows it.
-  static bool isSplit(MynaSettings s, double widthDp) => s.modes.splitOnWideScreens && widthDp >= 600;
+  /// Split layout: tablets and unfolded foldables (smallest width at least 600 dp) whose keyboard is at
+  /// least 600 dp wide, when the user allows it. Phones in landscape get [isCompact] instead.
+  static bool isSplit(MynaSettings s, double widthDp, WindowMetricsMessage? m) =>
+      s.modes.splitOnWideScreens && widthDp >= 600 && m != null && m.smallestScreenWidthDp >= 600;
 
   static double heightScale(AppearanceSettings a, {required bool landscape}) =>
       landscape ? a.landscapeHeightScale : a.heightScale;

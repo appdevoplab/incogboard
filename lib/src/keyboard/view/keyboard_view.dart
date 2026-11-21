@@ -258,8 +258,9 @@ class _KeyboardKeysAreaState extends State<KeyboardKeysArea> {
     final def = widget.layoutDef;
     if (def == null) return null;
     final gap = widget.theme.keyGap;
-    final split = KeyboardMetrics.isSplit(widget.settings, size.width);
-    final compact = KeyboardMetrics.isCompact(widget.session.services.events.metrics.value);
+    final metrics = widget.session.services.events.metrics.value;
+    final split = KeyboardMetrics.isSplit(widget.settings, size.width, metrics);
+    final compact = KeyboardMetrics.isCompact(metrics);
     final cur = _laid;
     if (cur != null &&
         identical(cur.layout, def) &&
