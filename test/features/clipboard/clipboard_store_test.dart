@@ -159,6 +159,21 @@ void main() {
     expect(locked.writes, isEmpty);
   });
 
+  test('reload reads what the other engine wrote (the privacy center wiped or restored it)', () async {
+    final a = make();
+    await a.load();
+    a.add('from the keyboard');
+    await a.flush();
+    final b = make();
+    await b.load();
+    expect(b.items.single.text, 'from the keyboard');
+    a.clearUnpinned();
+    await a.flush();
+    b.reload();
+    await b.load(force: true);
+    expect(b.items, isEmpty);
+  });
+
   test('a blob that is not there yet is not locked', () async {
     final store = make(exists: (_) async => false);
     await store.load();

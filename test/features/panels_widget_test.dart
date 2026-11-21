@@ -224,6 +224,22 @@ void main() {
       expect(find.bySemanticsLabel('Back to keyboard'), findsNothing, reason: 'pasting closes the panel');
     });
 
+    testWidgets('a sensitive copy is never kept in the history', (tester) async {
+      final (h, _, _) = await boot(
+        tester,
+        settings: const MynaSettings(
+          typing: TypingSettings(nextWordPrediction: false),
+          clipboard: ClipboardSettings(recentChip: false),
+        ),
+      );
+      await h.events.onClipboardChanged(ClipMessage(text: 'hunter2', timestampMillis: 2, isSensitive: true));
+      await settle(tester);
+      await tap(tester, find.bySemanticsLabel('Clipboard'));
+      await settle(tester);
+      expect(find.text('hunter2'), findsNothing);
+      expect(find.textContaining('Text you copy shows up here'), findsOneWidget);
+    });
+
     testWidgets('incognito keeps nothing, and shows no chip', (tester) async {
       final (h, _, _) = await boot(
         tester,
