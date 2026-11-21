@@ -226,8 +226,9 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
   // ---------------------------------------------------------------------------
 
   Future<void> _leave([ThemeSpec? result]) async {
+    // The rebuild that lets PopScope allow the pop happens within a frame; the short delay waits for it.
     setState(() => _closing = true);
-    await WidgetsBinding.instance.endOfFrame;
+    await Future<void>.delayed(const Duration(milliseconds: 100));
     if (mounted) Navigator.of(context).pop(result);
   }
 

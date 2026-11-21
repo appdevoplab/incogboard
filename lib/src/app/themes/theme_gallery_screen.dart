@@ -108,7 +108,16 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
   );
 
   Future<void> _openEditor(String? themeId) async {
-    await Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => ThemeEditorScreen(themeId: themeId)));
+    // The route sits below the Navigator, which may be below AppScope, so the scope is passed in again here.
+    final services = _services!;
+    await Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => AppScope(
+          services: services,
+          child: ThemeEditorScreen(themeId: themeId),
+        ),
+      ),
+    );
     await _reloadCustom();
   }
 

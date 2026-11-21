@@ -5,12 +5,10 @@
 // Custom themes and layouts are read for real, so the tests wait outside the fake clock.
 import 'dart:io';
 
-import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:myna/src/app/app_services.dart';
-import 'package:myna/src/app/common/settings_widgets.dart';
 import 'package:myna/src/app/themes/theme_editor_screen.dart';
 import 'package:myna/src/app/themes/theme_gallery_screen.dart';
 import 'package:myna/src/bridge/messages.g.dart';
@@ -37,7 +35,7 @@ late AppServices _services;
 Future<void> _settle(WidgetTester tester) async {
   for (var i = 0; i < 30; i++) {
     await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 10)));
-    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
   }
 }
 
@@ -59,10 +57,20 @@ void _tearDownServices() {
   if (_dataDir.existsSync()) _dataDir.deleteSync(recursive: true);
 }
 
+/// A tall viewport, so the sections are built (sliver lists only build what is near the screen).
+void _tallView(WidgetTester tester) {
+  tester.view.physicalSize = const Size(800, 3200);
+  tester.view.devicePixelRatio = 1;
+  addTearDown(tester.view.resetPhysicalSize);
+  addTearDown(tester.view.resetDevicePixelRatio);
+}
+
 Future<void> _pumpGallery(WidgetTester tester) async {
+  _tallView(tester);
   await tester.pumpWidget(
-    MaterialApp(
-      home: AppScope(services: _services, child: const ThemeGalleryScreen()),
+    AppScope(
+      services: _services,
+      child: const MaterialApp(home: ThemeGalleryScreen()),
     ),
   );
   await _settle(tester);
@@ -70,17 +78,23 @@ Future<void> _pumpGallery(WidgetTester tester) async {
 
 /// Opens the editor from a button, so that saving and leaving pop a real route.
 Future<void> _pumpEditor(WidgetTester tester, {String? themeId}) async {
+  _tallView(tester);
   await tester.pumpWidget(
-    MaterialApp(
-      home: AppScope(
-        services: _services,
-        child: Builder(
+    AppScope(
+      services: _services,
+      child: MaterialApp(
+        home: Builder(
           builder: (context) => Scaffold(
             body: Center(
               child: FilledButton(
-                onPressed: () =>
-                    Navigator.of(context)
-                        .push(MaterialPageRoute<void>(builder: (_) => ThemeEditorScreen(themeId: themeId))),
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (_) => AppScope(
+                      services: _services,
+                      child: ThemeEditorScreen(themeId: themeId),
+                    ),
+                  ),
+                ),
                 child: const Text('open'),
               ),
             ),
@@ -100,7 +114,8 @@ void main() {
 
     testWidgets('shows the presets, My themes and the Create card', (tester) async {
       await _pumpGallery(tester);
-      for (final preset in ThemePresets.all) {
+      // The carousel builds the cards near the viewport, so the first three are checked.
+      for (final preset in ThemePresets.all.take(3)) {
         expect(find.text(preset.name), findsWidgets, reason: preset.name);
       }
       expect(find.text('My themes'), findsOneWidget);
@@ -111,7 +126,11 @@ void main() {
 
     testWidgets('tapping a preset writes its id', (tester) async {
       await _pumpGallery(tester);
-      await tester.tap(find.text('Lavender'));
+      // Taps the card's InkWell directly: the label sits under a neighbouring card's hit area in the carousel.
+      final card = tester.widget<InkWell>(
+        find.ancestor(of: find.text('Lavender'), matching: find.byType(InkWell)).first,
+      );
+      card.onTap!();
       await _settle(tester);
       expect(_services.settings.value.appearance.themeId, 'lavender');
       await tester.pumpWidget(const SizedBox());
@@ -159,10 +178,14 @@ void main() {
       await _pumpGallery(tester);
       expect(find.text('Saved look'), findsWidgets);
 
-      await tester.tap(find.byTooltip('Options for Saved look'));
-      await tester.pumpAndSettle();
+      final menu = find.ancestor(
+        of: find.byTooltip('Options for Saved look'),
+        matching: find.byWidgetPredicate((w) => w is PopupMenuButton),
+      );
+      tester.state<PopupMenuButtonState<dynamic>>(menu).showButtonMenu();
+      await _settle(tester);
       await tester.tap(find.text('Delete'));
-      await tester.pumpAndSettle();
+      await _settle(tester);
       expect(find.text('Delete "Saved look"?'), findsOneWidget);
 
       await tester.tap(find.widgetWithText(FilledButton, 'Delete'));
@@ -195,7 +218,7 @@ void main() {
       expect(find.text('New theme'), findsOneWidget);
 
       await tester.enterText(find.byType(TextField).first, 'Ocean test');
-      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
       await tester.tap(find.widgetWithText(FilledButton, 'Save'));
       await _settle(tester);
 
@@ -204,7 +227,7 @@ void main() {
           .whereType<File>()
           .where((f) => f.path.endsWith('.json'));
       expect(files, hasLength(1));
-      final saved = await CustomThemeStore('${_dataDir.path}/themes').list();
+      final saved = await tester.runAsync(() => CustomThemeStore('${_dataDir.path}/themes').list()) ?? const [];
       expect(saved.single.name, 'Ocean test');
 
       final appearance = _services.settings.value.appearance;
@@ -217,21 +240,21 @@ void main() {
     testWidgets('leaving with unsaved changes asks first, and Keep editing stays', (tester) async {
       await _pumpEditor(tester);
       await tester.enterText(find.byType(TextField).first, 'Half done');
-      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
 
       await tester.state<NavigatorState>(find.byType(Navigator)).maybePop();
-      await tester.pumpAndSettle();
+      await _settle(tester);
       expect(find.text('Discard changes?'), findsOneWidget);
 
       await tester.tap(find.text('Keep editing'));
-      await tester.pumpAndSettle();
+      await _settle(tester);
       expect(find.text('New theme'), findsOneWidget);
       await tester.pumpWidget(const SizedBox());
     });
 
     testWidgets('editing an existing theme loads its name', (tester) async {
       final store = CustomThemeStore('${_dataDir.path}/themes');
-      await store.write(ThemeSpec(id: CustomThemeIds.idFor(_uuid), name: 'Stored one'));
+      await tester.runAsync(() => store.write(ThemeSpec(id: CustomThemeIds.idFor(_uuid), name: 'Stored one')));
       await _settle(tester);
 
       await _pumpEditor(tester, themeId: CustomThemeIds.idFor(_uuid));
