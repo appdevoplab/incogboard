@@ -4,7 +4,17 @@ State as of 2026-11-21:
 - Waves 0 and 1 are done and merged on `main`.
 - **The Wave 2 setup is committed** (`bcdcc10`): deps, Pigeon additions and integration seams. 482 tests pass, the emulator smoke test passed, and the release gate passes.
 - **The Wave 2 briefs are written:** `docs/waves/wave2/COMMON.md` plus `A-settings.md`, `B-privacy.md`, `C-themes.md`, `D-panels.md` and `E-modes.md`. Ownership is in `docs/PARALLEL_WORK.md`.
-- **Next:** launch the 5 Wave 2 agents (Sonnet, high effort, worktrees), then merge B, C, D, E, A per `docs/waves/README.md`.
+- **Wave 2 agents relaunched 2026-11-21 at 3 PM on Haiku, high effort** (the user's new rule). The first Sonnet launch hit the 5-hour usage limit before changing anything. They work in `.claude/worktrees/agent-<id>`:
+
+  | Agent | Branch |
+  |---|---|
+  | A settings | `worktree-agent-a515b739ac5f148ff` |
+  | B privacy | `worktree-agent-a71dfb98893eda54f` |
+  | C themes | `worktree-agent-a0b14899291deeb30` |
+  | D panels | `worktree-agent-a8b8e5778d29ca903` |
+  | E modes | `worktree-agent-a11af2d621e17b2b8` |
+
+  Next: review each branch (line endings, ownership), then merge in the order B, C, D, E, A per `docs/waves/README.md`. If one stopped unfinished, commit its leftovers and relaunch it with `git merge <old-branch>` first.
 - **User decisions for Wave 2 (2026-11-21):**
   - clipboard history on by default
   - the incognito picker lists "apps you've typed in" (encrypted `seen_apps` blob)
@@ -55,7 +65,7 @@ State as of 2026-11-21:
 ## How to run a wave
 
 1. Write each brief as a file under `docs/waves/wave<N>/`, with a `COMMON.md`.
-2. Launch ≤5 agents with `isolation: worktree`, `model: sonnet` and `effort: high` (user's rule), and a short prompt that points at the brief.
+2. Launch ≤5 agents with `isolation: worktree`, `model: haiku` and `effort: high` (user's rule since 2026-11-21), and a short prompt that points at the brief.
 3. Before merging, check each branch:
    - `git log main..<branch>`
    - `git diff --stat` against `--ignore-cr-at-eol` to spot line-ending churn
