@@ -653,7 +653,7 @@ class InputController {
   /// Long-press on enter in a multi-line field.
   void onEnterLongPress() {
     final f = field.value;
-    if (_raw || !f.enterInsertsNewline) return;
+    if (_raw || !f.enterInsertsNewline || f.editorActionId == 0) return;
     _begin();
     try {
       _commitComposingAsTyped();
