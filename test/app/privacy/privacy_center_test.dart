@@ -13,7 +13,6 @@ import 'package:myna/src/core/data_sections.dart';
 import 'package:myna/src/engine/learn/learned_data.dart';
 import 'package:myna/src/security/app_auth.dart';
 import 'package:myna/src/security/shortcuts_store.dart';
-import 'package:myna/src/settings/myna_settings.dart';
 
 import 'privacy_harness.dart';
 
