@@ -91,6 +91,9 @@ const double highContrastRatio = 7.0;
 /// Minimum for non-text marks such as the swipe trail (WCAG 1.4.11).
 const double _graphicContrastRatio = 3.0;
 
+/// State-layer opacity blended over a key while pressed.
+const double _stateLayerAlpha = 0.14;
+
 /// Maps [scheme] and [spec] to the values the keyboard paints with. Every
 /// label/fill pair is adjusted to reach [minContrast].
 KeyboardThemeData themeFromScheme(
@@ -112,17 +115,21 @@ KeyboardThemeData themeFromScheme(
     return out;
   }
 
-  // Text/icon colour on an opaque fill, also valid while pressed.
+  // Text/icon colours on an opaque fill, valid at rest and while pressed.
   KeyStyle key(Color fill, Color label, Color hint) {
-    final pressed = blend(label.withValues(alpha: 0.14), fill);
-    Color fit(Color c) => ensureContrast(ensureContrast(c, fill, minContrast), pressed, minContrast);
+    final fit = fitLabelsToFill(fill, [label, hint], minContrast, stateLayerAlpha: _stateLayerAlpha);
     return KeyStyle(
-      fill: fill,
-      pressedFill: pressed,
-      label: fit(label),
-      hint: fit(hint),
+      fill: fit.fill,
+      pressedFill: blend(fit.labels[0].withValues(alpha: _stateLayerAlpha), fit.fill),
+      label: fit.labels[0],
+      hint: fit.labels[1],
       border: spec.borderWidth > 0 ? s.outline : null,
     );
+  }
+
+  (Color, Color) pair(Color fill, Color label) {
+    final fit = fitLabelsToFill(fill, [label], minContrast);
+    return (fit.fill, fit.labels[0]);
   }
 
   final spaceFill = blend(s.tertiaryContainer.withValues(alpha: pureBlack ? 0.22 : 0.4), s.surfaceContainerHighest);
@@ -131,8 +138,9 @@ KeyboardThemeData themeFromScheme(
   final popupFill = accent(spec.accents.popupFill, s.primaryContainer);
   final popupSelFill = accent(spec.accents.popupSelectedFill, s.primary);
 
-  final highlightFill = s.secondaryContainer;
-  final highlightText = ensureContrast(s.onSecondaryContainer, highlightFill, minContrast);
+  final popup = pair(popupFill, accent(spec.accents.popupLabel, s.onPrimaryContainer));
+  final popupSel = pair(popupSelFill, accent(spec.accents.popupSelectedLabel, s.onPrimary));
+  final highlight = pair(s.secondaryContainer, s.onSecondaryContainer);
 
   return KeyboardThemeData(
     id: spec.id,
@@ -145,13 +153,13 @@ KeyboardThemeData themeFromScheme(
     functionKey: key(s.secondaryContainer, s.onSecondaryContainer, s.onSecondaryContainer),
     actionKey: key(s.primary, s.onPrimary, s.onPrimary),
     spaceKey: key(spaceFill, s.onSurfaceVariant, s.onSurfaceVariant),
-    popupFill: popupFill,
-    popupLabel: ensureContrast(accent(spec.accents.popupLabel, s.onPrimaryContainer), popupFill, minContrast),
-    popupSelectedFill: popupSelFill,
-    popupSelectedLabel: ensureContrast(accent(spec.accents.popupSelectedLabel, s.onPrimary), popupSelFill, minContrast),
+    popupFill: popup.$1,
+    popupLabel: popup.$2,
+    popupSelectedFill: popupSel.$1,
+    popupSelectedLabel: popupSel.$2,
     suggestionText: onBackdrop(s.onSurface),
-    suggestionHighlightFill: highlightFill,
-    suggestionHighlightText: highlightText,
+    suggestionHighlightFill: highlight.$1,
+    suggestionHighlightText: highlight.$2,
     suggestionDivider: s.outlineVariant,
     toolbarIcon: onBackdrop(s.onSurfaceVariant),
     trailStart: onBackdrop(accent(spec.accents.trailStart, s.primary), _graphicContrastRatio),
