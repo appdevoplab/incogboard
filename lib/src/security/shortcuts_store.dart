@@ -49,8 +49,9 @@ abstract final class ShortcutRules {
   static const int maxTriggerLength = 32;
   static const int maxExpansionLength = 500;
 
-  /// Letters, digits and apostrophes (straight or curly), in any script.
-  static final RegExp _triggerCharacters = RegExp(r"^[\p{L}\p{N}'’]+$", unicode: true);
+  /// Letters, combining marks (Indic vowel signs and viramas), digits and apostrophes (straight or
+  /// curly), in any script.
+  static final RegExp _triggerCharacters = RegExp(r"^[\p{L}\p{M}\p{N}'’]+$", unicode: true);
 
   /// Lengths count code points, which is what the keyboard's composing text is made of.
   static ShortcutProblem? checkTrigger(String trigger) {
