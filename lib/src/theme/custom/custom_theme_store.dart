@@ -73,7 +73,7 @@ class CustomThemeStore {
 
   // Parsed specs keyed on file path, checked against the file's modified time.
   static const int _parsedCapacity = 12;
-  static final LinkedHashMap<String, (DateTime, ThemeSpec)> _parsed = LinkedHashMap();
+  static final LinkedHashMap<String, (DateTime, int, ThemeSpec)> _parsed = LinkedHashMap();
 
   /// Reads a custom theme synchronously (the keyboard resolves on the UI thread, only when the
   /// appearance changes). Returns null if the id is malformed, the file is missing, too large or
@@ -94,7 +94,7 @@ class CustomThemeStore {
         return null;
       }
       final hit = _parsed[path];
-      if (hit != null && hit.$1 == stat.modified) return hit.$2;
+      if (hit != null && hit.$1 == stat.modified && hit.$2 == stat.size) return hit.$3;
       final decoded = jsonDecode(file.readAsStringSync());
       if (decoded is! Map<String, Object?>) {
         MynaLog.w('Theme', 'custom theme file is not an object');
@@ -103,7 +103,7 @@ class CustomThemeStore {
       // The file name is the authority for the id, whatever the JSON says.
       final spec = ThemeSpec.fromJson(decoded).copyWith(id: id);
       _parsed.remove(path);
-      _parsed[path] = (stat.modified, spec);
+      _parsed[path] = (stat.modified, stat.size, spec);
       if (_parsed.length > _parsedCapacity) _parsed.remove(_parsed.keys.first);
       return spec;
     } on Object catch (e) {
@@ -145,6 +145,32 @@ class CustomThemeStore {
     _parsed.remove(path);
   }
 
+  /// The uuid of the photo named by a stored `imagePath`, or null when there is none or it is malformed.
+  static String? photoUuidOf(String? relativePath) {
+    if (relativePath == null || !imageRelativePattern.hasMatch(relativePath)) return null;
+    return relativePath.substring(imagesFolder.length + 1, relativePath.length - '.png'.length);
+  }
+
+  /// Saves a copy of [spec] called [name], under a new id, with its own copy of the photo.
+  /// Returns the saved copy. A photo that is missing turns the copy into a solid background.
+  Future<ThemeSpec> duplicate(ThemeSpec spec, String name) async {
+    final uuid = CustomThemeIds.newUuid();
+    var copy = spec.copyWith(id: CustomThemeIds.idFor(uuid), name: name);
+    final photo = photoUuidOf(spec.background.imagePath);
+    if (photo != null) {
+      final source = File(imageFileFor(photo));
+      if (source.existsSync()) {
+        final newPhoto = CustomThemeIds.newUuid();
+        await writeImage(newPhoto, await source.readAsBytes());
+        copy = copy.copyWith(background: copy.background.copyWith(imagePath: imageRelativePath(newPhoto)));
+      } else {
+        copy = copy.copyWith(background: const ThemeBackgroundSpec());
+      }
+    }
+    await write(copy);
+    return copy;
+  }
+
   /// Saves the background PNG for [uuid] (see [imageRelativePath]).
   Future<void> writeImage(String uuid, Uint8List png) async {
     if (CustomThemeIds.uuidOf(CustomThemeIds.idFor(uuid)) != uuid) {
@@ -157,13 +183,15 @@ class CustomThemeStore {
   /// Absolute path of the background image for [uuid] (it may not exist).
   String imageFileFor(String uuid) => imagePathOf(directory, uuid);
 
-  /// Deletes the spec and image of [id]. Missing files are fine.
+  /// Deletes the spec and the photo it uses. Missing files are fine.
   Future<void> delete(String id) async {
     final uuid = CustomThemeIds.uuidOf(id);
     if (uuid == null) return;
-    _parsed.remove(specPathOf(directory, uuid));
-    await _deleteIfExists(specPathOf(directory, uuid));
-    await _deleteIfExists(imagePathOf(directory, uuid));
+    final photo = photoUuidOf(readSpecSync(directory, id)?.background.imagePath);
+    final path = specPathOf(directory, uuid);
+    _parsed.remove(path);
+    await _deleteIfExists(path);
+    if (photo != null) await deleteImage(photo);
   }
 
   /// Deletes only the image of [uuid] (a replaced or abandoned photo).
