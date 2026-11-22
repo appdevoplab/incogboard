@@ -32,8 +32,11 @@ dependencies:
   collection: ^1.19.1
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   flutter_riverpod: ^3.5.0
   image_picker: ^1.2.4
+  intl: ^0.20.3
   local_auth: ^3.0.2
   material_ui: ^1.1.0
   meta: ^1.19.0
@@ -59,6 +62,8 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  # Wave 4: gen-l10n (l10n.yaml, lib/l10n/*.arb) for the settings app.
+  generate: true
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

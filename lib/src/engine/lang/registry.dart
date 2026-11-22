@@ -6,8 +6,10 @@ import '../../settings/sections/language_settings.dart';
 import '../contracts.dart';
 import '../language_rules.dart' show DefaultLanguageRules;
 import 'arabic.dart';
+import 'chinese.dart';
 import 'european.dart';
 import 'indic.dart';
+import 'japanese.dart';
 import 'language_info.dart';
 
 export 'language_info.dart';
@@ -27,6 +29,8 @@ final List<LanguageInfo> allLanguages = List.unmodifiable([
   ...europeanLanguages,
   ...indicLanguages,
   ...arabicLanguages,
+  ...chineseLanguages,
+  ...japaneseLanguages,
 ]);
 
 final Map<LanguageId, LanguageInfo> _byId = {for (final l in allLanguages) l.id: l};
@@ -49,18 +53,27 @@ LayoutChoice layoutChoiceFor(LanguageSettings settings, LanguageId language) {
 /// so English joins the blend and the Indic feature adds the native-script candidates.
 List<LanguageId> blendedLanguages(LanguageSettings settings, {int max = 3}) {
   final active = settings.active;
-  final script = layoutChoiceFor(settings, active).script;
+  final choice = layoutChoiceFor(settings, active);
+  final script = choice.script;
   final out = [active];
-  if (!settings.multilingual) return out;
+  // A composing layout (Chinese, Japanese) turns every key into candidates itself.
+  if (!settings.multilingual || choice.composes) return out;
   for (final id in settings.enabled) {
     if (out.length >= max) break;
     if (out.contains(id)) continue;
     final other = layoutChoiceFor(settings, id);
-    if (!other.transliterates && other.script == script && languageInfo(id).script == script) out.add(id);
+    if (!other.transliterates && !other.composes && other.script == script && languageInfo(id).script == script) {
+      out.add(id);
+    }
   }
   return out;
 }
 
 /// Language rules: the agent files first, English-like defaults otherwise.
 LanguageRules rulesForLanguage(LanguageId language) =>
-    europeanRules(language) ?? indicRules(language) ?? arabicRules(language) ?? DefaultLanguageRules(language);
+    europeanRules(language) ??
+    indicRules(language) ??
+    arabicRules(language) ??
+    chineseRules(language) ??
+    japaneseRules(language) ??
+    DefaultLanguageRules(language);

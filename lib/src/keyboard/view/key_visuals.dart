@@ -164,7 +164,8 @@ KeyVisual resolveKeyVisual(
         smallLabel: label.characters.length > 1,
         // Speak what the key commits now: InScript shift layers use shiftedOutput (not upper case), and
         // lowercase labels change only the label, not what is typed.
-        semantics: spokenName(def.type == KeyType.character ? outputFor(def, shifted: commitsShifted) : out),
+        semantics:
+            def.spoken ?? spokenName(def.type == KeyType.character ? outputFor(def, shifted: commitsShifted) : out),
       );
     case KeyType.shift:
       return KeyVisual(
@@ -217,6 +218,6 @@ KeyVisual resolveKeyVisual(
     case KeyType.cursorRight:
       return const KeyVisual(group: KeyGroup.function, icon: Icons.chevron_right, semantics: 'Cursor right');
     case KeyType.custom:
-      return KeyVisual(group: KeyGroup.function, label: def.label, semantics: def.label ?? 'Key');
+      return KeyVisual(group: KeyGroup.function, label: def.label, semantics: def.spoken ?? def.label ?? 'Key');
   }
 }

@@ -10,6 +10,7 @@ import 'package:material_ui/material_ui.dart';
 import '../core/log.dart';
 import 'about/notices.dart';
 import 'app_services.dart';
+import 'l10n.dart';
 import 'privacy/app_lock_gate.dart';
 import 'routes.dart';
 import 'shell/app_router.dart';
@@ -90,6 +91,9 @@ class _KoshaSettingsAppState extends State<KoshaSettingsApp> {
         return MaterialApp(
           title: 'Kosha',
           debugShowCheckedModeBanner: false,
+          // Wave 4-C fills lib/l10n/app_<locale>.arb; screens read strings with AppLocalizations.of(context).
+          localizationsDelegates: koshaLocalizationsDelegates,
+          supportedLocales: koshaSupportedLocales,
           navigatorKey: _navigatorKey,
           theme: koshaThemeData(koshaSchemeFor(Brightness.light, palettes: palettes, contrastLevel: contrast)),
           darkTheme: koshaThemeData(koshaSchemeFor(Brightness.dark, palettes: palettes, contrastLevel: contrast)),

@@ -121,6 +121,7 @@ class _PacksScreenState extends State<PacksScreen> {
         final packs = snapshot.requireData;
         final voice = packs.where((p) => p.kind == PackKind.voice).toList();
         final translation = packs.where((p) => p.kind == PackKind.translation).toList();
+        final dictionaries = packs.where((p) => p.kind == PackKind.dictionary).toList();
         final total = packs.fold<int>(0, (sum, p) => sum + p.sizeBytes);
         return SettingsPage(
           title: 'Model packs',
@@ -166,6 +167,18 @@ class _PacksScreenState extends State<PacksScreen> {
                     ]
                   : [for (final p in translation) _PackTile(pack: p, onDelete: () => _delete(p))],
             ),
+            SettingsGroup(
+              title: 'Dictionaries',
+              children: dictionaries.isEmpty
+                  ? const [
+                      SettingsTile(
+                        icon: Icons.menu_book_outlined,
+                        title: 'No dictionary packs installed',
+                        subtitle: 'Chinese and Japanese typing need a dictionary pack.',
+                      ),
+                    ]
+                  : [for (final p in dictionaries) _PackTile(pack: p, onDelete: () => _delete(p))],
+            ),
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
               child: Text(
@@ -187,7 +200,11 @@ class _PackTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ListTile(
-    leading: Icon(pack.kind == PackKind.voice ? Icons.mic_none : Icons.translate),
+    leading: Icon(switch (pack.kind) {
+      PackKind.voice => Icons.mic_none,
+      PackKind.translation => Icons.translate,
+      PackKind.dictionary => Icons.menu_book_outlined,
+    }),
     title: Text(pack.name),
     subtitle: Text(packDescription(pack)),
     contentPadding: const EdgeInsets.only(left: 16, right: 8),

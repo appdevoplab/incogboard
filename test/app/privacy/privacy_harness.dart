@@ -6,6 +6,7 @@ import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:kosha/src/app/l10n.dart';
 import 'package:kosha/src/app/app_services.dart';
 import 'package:kosha/src/security/app_auth.dart';
 import 'package:kosha/src/settings/kosha_settings.dart';
@@ -57,6 +58,7 @@ class PrivacyHarness {
   Widget host(Widget child) => AppScope(
     services: services,
     child: MaterialApp(
+      localizationsDelegates: koshaLocalizationsDelegates,
       theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF6750A4))),
       home: child,
     ),

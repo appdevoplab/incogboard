@@ -99,6 +99,21 @@ class PackStoreTest {
     }
 
     @Test
+    fun installsDictionaryPacks() {
+        val store = PackStore(root, listOf(keys.public))
+        val bytes = pack(mapOf("dict/base.bin" to byteArrayOf(7)), id = "dict-zh-rime", kind = "dictionary", languages = """["zh"]""")
+        val installed = store.install(ByteArrayInputStream(bytes))
+        assertEquals(PackManifest.KIND_DICTIONARY, installed.manifest.kind)
+        assertArrayEquals(byteArrayOf(7), File(store.dir("dict-zh-rime"), "dict/base.bin").readBytes())
+        assertEquals("dict-zh-rime", store.find("dictionary", listOf("zh"))?.manifest?.id)
+    }
+
+    @Test
+    fun rejectsUnknownKind() = expect("bad_format") {
+        PackStore(root, listOf(keys.public)).install(ByteArrayInputStream(pack(mapOf("a" to byteArrayOf(1)), kind = "code")))
+    }
+
+    @Test
     fun openRejectsEditedManifest() {
         val store = PackStore(root, listOf(keys.public))
         val p = store.install(ByteArrayInputStream(pack(mapOf("a" to byteArrayOf(1)))))
@@ -117,12 +132,19 @@ class PackStoreTest {
         }
     }
 
-    private fun pack(files: Map<String, ByteArray>, version: Int = 1, signer: KeyPair = keys): ByteArray {
+    private fun pack(
+        files: Map<String, ByteArray>,
+        version: Int = 1,
+        signer: KeyPair = keys,
+        id: String = "translate-en-es",
+        kind: String = "translation",
+        languages: String = """["en","es"]""",
+    ): ByteArray {
         val list = files.entries.joinToString(",") { (path, data) ->
             """{"path":"$path","size":${data.size},"sha256":"${sha256(data)}"}"""
         }
-        val manifest = ("""{"id":"translate-en-es","kind":"translation","name":"English → Spanish",""" +
-            """"version":$version,"languages":["en","es"],"engine":"test","license":"CC0-1.0","files":[$list]}""")
+        val manifest = ("""{"id":"$id","kind":"$kind","name":"English → Spanish",""" +
+            """"version":$version,"languages":$languages,"engine":"test","license":"CC0-1.0","files":[$list]}""")
             .toByteArray()
         val sig = Signature.getInstance("SHA256withECDSA").run {
             initSign(signer.private)

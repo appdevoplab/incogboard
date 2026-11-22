@@ -10,7 +10,7 @@ import '../contracts.dart';
 /// One keyboard layout a language can use.
 @immutable
 class LayoutChoice {
-  const LayoutChoice(this.id, this.name, {required this.script, this.transliterates = false});
+  const LayoutChoice(this.id, this.name, {required this.script, this.transliterates = false, this.composes = false});
 
   /// `assets/layouts/<id>.json`.
   final String id;
@@ -18,12 +18,16 @@ class LayoutChoice {
   /// Shown in the settings app, in English ("QWERTZ", "InScript", "Phonetic", "English letters").
   final String name;
 
-  /// ISO 15924 script the keys type: 'Latn', 'Cyrl', 'Deva', 'Beng', 'Taml', 'Telu', 'Arab'.
+  /// ISO 15924 script the keys type: 'Latn', 'Cyrl', 'Deva', 'Beng', 'Taml', 'Telu', 'Arab', 'Hira'.
   final String script;
 
   /// The keys type Latin letters that the language's transliterator turns into
   /// [LanguageInfo.script] (Indic "English letters" typing).
   final bool transliterates;
+
+  /// The keys feed a TextComposer (Wave 4: Chinese pinyin, Japanese romaji and 12-key kana), which
+  /// turns them into [LanguageInfo.script] through candidates. Nothing else is blended with it.
+  final bool composes;
 }
 
 @immutable
@@ -67,6 +71,9 @@ class LanguageInfo {
   final String? nativeDigits;
 
   bool get isRtl => script == 'Arab' || script == 'Hebr';
+
+  /// Chinese or Japanese: words are not separated by spaces.
+  bool get isCjk => script == 'Hans' || script == 'Hant' || script == 'Jpan';
 
   LayoutChoice get defaultLayout => layouts.first;
 

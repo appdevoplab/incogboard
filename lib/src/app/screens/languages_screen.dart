@@ -9,6 +9,7 @@ import '../../engine/contracts.dart' show LanguageId;
 import '../../engine/lang/registry.dart';
 import '../../settings/kosha_settings.dart';
 import '../common/settings_widgets.dart';
+import '../routes.dart';
 import '../shell/language_catalog.dart';
 import '../shell/settings_actions.dart';
 
@@ -85,6 +86,27 @@ class LanguagesScreen extends StatelessWidget {
                 ),
             ],
           ),
+          // Wave 4: options of the Chinese and Japanese input methods.
+          if (l.enabled.contains('zh') || l.enabled.contains('ja'))
+            SettingsGroup(
+              title: 'Language options',
+              children: [
+                if (l.enabled.contains('zh'))
+                  SettingsTile(
+                    icon: Icons.translate,
+                    title: '中文 (Chinese)',
+                    subtitle: 'Pinyin, Traditional characters and dictionary packs',
+                    onTap: () => Navigator.of(context).pushNamed(KoshaRoutes.chinese),
+                  ),
+                if (l.enabled.contains('ja'))
+                  SettingsTile(
+                    icon: Icons.translate,
+                    title: '日本語 (Japanese)',
+                    subtitle: 'Flick input, conversion and dictionary packs',
+                    onTap: () => Navigator.of(context).pushNamed(KoshaRoutes.japanese),
+                  ),
+              ],
+            ),
         ],
       );
     },

@@ -8,6 +8,7 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:kosha/src/app/l10n.dart';
 import 'package:kosha/src/app/app_services.dart';
 import 'package:kosha/src/app/themes/theme_editor_screen.dart';
 import 'package:kosha/src/app/themes/theme_gallery_screen.dart';
@@ -83,6 +84,7 @@ Future<void> _pumpEditor(WidgetTester tester, {String? themeId}) async {
     AppScope(
       services: _services,
       child: MaterialApp(
+        localizationsDelegates: koshaLocalizationsDelegates,
         home: Builder(
           builder: (context) => Scaffold(
             body: Center(

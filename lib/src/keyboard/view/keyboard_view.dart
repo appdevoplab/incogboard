@@ -12,6 +12,8 @@ import '../../bridge/messages.g.dart';
 import '../../core/input_field_info.dart';
 import '../../settings/kosha_settings.dart';
 import '../../theme/keyboard_theme_data.dart';
+import '../candidates/candidate_grid_panel.dart';
+import '../candidates/candidate_strip.dart';
 import '../gesture_layer/gesture_trail.dart';
 import '../input/keyboard_page.dart';
 import '../keyboard_session.dart';
@@ -124,7 +126,8 @@ class _KeyboardViewState extends State<KeyboardView> with SingleTickerProviderSt
           builder: (context, _, _) =>
               Directionality(textDirection: s.activeInfo.isRtl ? TextDirection.rtl : TextDirection.ltr, child: child),
         );
-        final strip = ValueListenableBuilder<InputFieldInfo>(
+        // Wave 4: a composer (Chinese, Japanese) with something to show replaces the suggestions.
+        final suggestions = ValueListenableBuilder<InputFieldInfo>(
           valueListenable: s.input.field,
           builder: (context, field, _) => SuggestionStrip(
             theme: theme,
@@ -140,6 +143,24 @@ class _KeyboardViewState extends State<KeyboardView> with SingleTickerProviderSt
             },
             onOpenSettings: () => unawaited(_openSettings(s)),
           ),
+        );
+        final strip = ListenableBuilder(
+          listenable: Listenable.merge([s.input.composerState, s.panel]),
+          builder: (context, _) {
+            final state = s.input.composerState.value;
+            if (state.isEmpty) return suggestions;
+            final gridOpen = s.panel.value?.id == CandidateGridPanel.panelId;
+            return CandidateStrip(
+              theme: theme,
+              state: state,
+              expanded: gridOpen,
+              onSelect: (i) {
+                s.input.selectCandidate(i);
+                if (settings.feedback.haptics) unawaited(_hapticQuiet(s));
+              },
+              onToggleGrid: () => gridOpen ? s.closePanel() : s.openPanel(CandidateGridPanel()),
+            );
+          },
         );
         Widget panelArea(KeyboardPanel p, double height) => SizedBox(
           width: width,

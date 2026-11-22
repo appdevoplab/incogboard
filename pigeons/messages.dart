@@ -208,7 +208,8 @@ class AppInfoMessage {
 // Wave 3: model packs, voice typing, translation
 // ---------------------------------------------------------------------------
 
-enum PackKind { voice, translation }
+/// Wave 4 adds `dictionary` (Chinese and Japanese conversion data, read from the pack folder).
+enum PackKind { voice, translation, dictionary }
 
 /// An installed, verified model pack (see docs/waves/wave3/COMMON.md, "Pack format").
 class PackInfoMessage {
@@ -410,6 +411,12 @@ abstract class PlatformHostApi {
   /// Installed, verified model packs (Wave 3). Never returns file contents.
   @TaskQueue(type: TaskQueueType.serialBackgroundThread)
   List<PackInfoMessage> listPacks();
+
+  /// Absolute path of an installed pack's folder, after re-verifying its signed manifest (Wave 4:
+  /// dictionary packs are read directly by Dart), or null when [id] is not installed or invalid.
+  /// Files sit at the paths the manifest lists.
+  @TaskQueue(type: TaskQueueType.serialBackgroundThread)
+  String? getPackDirectory(String id);
 }
 
 /// Registered only on the settings-app engine.

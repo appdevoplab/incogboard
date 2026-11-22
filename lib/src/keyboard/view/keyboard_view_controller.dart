@@ -39,6 +39,10 @@ class _Touch {
   bool gesture = false;
   AlternativesState? alternatives;
   bool hookDrag = false;
+
+  /// A 12-key flick key is held (Wave 4); [flickDir] is where the finger points now.
+  FlickGuideState? flick;
+  FlickDirection flickDir = FlickDirection.center;
   Timer? longPress;
   Timer? repeat;
   int heldMs = 0;
@@ -149,6 +153,11 @@ class KeyboardViewController {
     _touches[pointer] = t;
     _animator.press(key.index);
     _feedbackDown(key.def);
+    if (_isFlickKey(key.def)) {
+      t.flick = _flickGuide(key);
+      popup.value = t.flick;
+      return;
+    }
     _showPreview(key);
     if (key.def.type == KeyType.backspace) {
       // With swipe-delete on, the first delete waits for touch-up (or the first repeat), so a
@@ -162,6 +171,33 @@ class KeyboardViewController {
       t.longPress = Timer(Duration(milliseconds: _s.typing.longPressDelayMs), () => _longPress(t));
     }
   }
+
+  bool _isFlickKey(KeyDef d) => d.isCharacter && d.flick != null && d.flick!.isNotEmpty;
+
+  static FlickDirection? _flickDirNamed(String name) => switch (name) {
+    'up' => FlickDirection.up,
+    'down' => FlickDirection.down,
+    'left' => FlickDirection.left,
+    'right' => FlickDirection.right,
+    _ => null,
+  };
+
+  FlickGuideState _flickGuide(PlacedKey key) {
+    final d = key.def;
+    final labels = <FlickDirection, String>{FlickDirection.center: outputFor(d, shifted: false)};
+    d.flick!.forEach((name, text) {
+      final dir = _flickDirNamed(name);
+      if (dir != null && text.isNotEmpty) labels[dir] = text;
+    });
+    return FlickGuideState(
+      keyRect: key.rect.shift(Offset(0, keyAreaTop)),
+      labels: labels,
+      selected: FlickDirection.center,
+    );
+  }
+
+  /// What a flick key types for the finger's current direction (the centre when that way is empty).
+  String _flickText(_Touch t) => t.flick?.labels[t.flickDir] ?? outputFor(t.key.def, shifted: false);
 
   bool _hasLongPress(PlacedKey key) {
     final d = key.def;
@@ -188,7 +224,10 @@ class KeyboardViewController {
       t.gesture = false;
       t.committed = true;
     }
-    if (!t.committed && t.alternatives == null && !t.hookDrag) {
+    if (!t.committed && t.flick != null) {
+      _input.onText(_flickText(t));
+      t.committed = true;
+    } else if (!t.committed && t.alternatives == null && !t.hookDrag) {
       _commitKey(t.key, t.points.isEmpty ? t.down : t.points.last.offset);
       t.committed = true;
     }
@@ -206,6 +245,18 @@ class KeyboardViewController {
       if (idx != alt.selected) {
         t.alternatives = alt.withSelected(idx);
         popup.value = t.alternatives;
+        _haptic(HapticKind.repeatTick);
+      }
+      return;
+    }
+    final guide = t.flick;
+    if (guide != null) {
+      var dir = flickDirectionFor(pos - t.down, laid.keyWidth);
+      if (!guide.labels.containsKey(dir)) dir = FlickDirection.center;
+      if (dir != t.flickDir) {
+        t.flickDir = dir;
+        t.flick = guide.withSelected(dir);
+        popup.value = t.flick;
         _haptic(HapticKind.repeatTick);
       }
       return;
@@ -270,6 +321,8 @@ class KeyboardViewController {
     if (_input.page.value != KeyboardPage.letters) return false;
     // A panel's search box has the keys: no swipe typing into it.
     if (_input.redirect.value != null) return false;
+    // Chinese and Japanese composers take keys one by one (Wave 4); flick keys never swipe.
+    if (_input.composerActive || _isFlickKey(t.key.def)) return false;
     final out = t.key.def.output;
     return t.key.def.isCharacter && out != null && _letterRe.hasMatch(out);
   }
@@ -317,6 +370,10 @@ class KeyboardViewController {
     final alt = t.alternatives;
     if (alt != null) {
       _input.onText(alt.items[alt.selected]);
+      return;
+    }
+    if (t.flick != null) {
+      if (!t.committed) _input.onText(_flickText(t));
       return;
     }
     if (t.gesture) {
@@ -491,7 +548,8 @@ class KeyboardViewController {
       case KeyType.cursorRight:
         _input.moveCursor(1);
       case KeyType.custom:
-        break;
+        // Wave 4: composer keys (12-key dakuten toggle, small kana, ...).
+        _input.onCustomKey(d.code ?? '');
     }
   }
 

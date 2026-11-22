@@ -10,6 +10,7 @@ import '../../core/log.dart';
 import '../../theme/presets.dart';
 import '../app_services.dart';
 import '../common/settings_widgets.dart';
+import '../l10n.dart';
 import '../onboarding/kosha_mascot.dart';
 import '../routes.dart';
 import '../shell/language_catalog.dart';
@@ -77,12 +78,13 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) => LiveSettings(
     builder: (context, settings) {
       void open(String route) => unawaited(Navigator.of(context).pushNamed(route));
+      final l10n = context.l10n;
       return SettingsPage(
-        title: 'Kosha',
-        header: const SettingsHero(
-          mascot: KoshaMascot(size: 76),
-          title: 'Private typing, on this phone',
-          subtitle: 'Kosha works offline and sends nothing anywhere.',
+        title: l10n.appName,
+        header: SettingsHero(
+          mascot: const KoshaMascot(size: 76),
+          title: l10n.homeTagline,
+          subtitle: l10n.homeOfflinePromise,
         ),
         children: [
           if (_setupIncomplete)

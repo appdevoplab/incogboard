@@ -5,6 +5,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:kosha/src/app/l10n.dart';
 import 'package:kosha/src/app/screens/voice_screen.dart';
 import 'package:kosha/src/bridge/messages.g.dart';
 import 'package:kosha/src/settings/kosha_settings.dart';
@@ -58,7 +59,11 @@ void main() {
         _pack('translate-en-es', PackKind.translation, 'English to Spanish'),
       ],
     );
-    await pumpWithServices(tester, fakes.services, const MaterialApp(home: VoiceScreen()));
+    await pumpWithServices(
+      tester,
+      fakes.services,
+      const MaterialApp(localizationsDelegates: koshaLocalizationsDelegates, home: VoiceScreen()),
+    );
   }
 
   testWidgets('shows the switch, Automatic pack, language detection and the privacy line', (tester) async {

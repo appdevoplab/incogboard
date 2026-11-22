@@ -4,6 +4,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:kosha/src/app/l10n.dart';
 import 'package:kosha/src/app/translate/translate_screen.dart';
 import 'package:kosha/src/bridge/messages.g.dart';
 import 'package:kosha/src/settings/kosha_settings.dart';
@@ -29,7 +30,11 @@ void main() {
   testWidgets('shows the default pair, whether its pack is installed, and the privacy note', (tester) async {
     final f = AppFakes(settings: settings);
     when(() => f.platform.listPacks()).thenAnswer((_) async => [_pack()]);
-    await pumpWithServices(tester, f.services, const MaterialApp(home: TranslateScreen()));
+    await pumpWithServices(
+      tester,
+      f.services,
+      const MaterialApp(localizationsDelegates: koshaLocalizationsDelegates, home: TranslateScreen()),
+    );
 
     expect(find.text('Offline translation'), findsOneWidget);
     expect(find.text('English → Spanish'), findsNWidgets(2), reason: 'the default pair and the installed direction');
@@ -44,7 +49,11 @@ void main() {
       ),
     );
     when(() => f.platform.listPacks()).thenAnswer((_) async => const []);
-    await pumpWithServices(tester, f.services, const MaterialApp(home: TranslateScreen()));
+    await pumpWithServices(
+      tester,
+      f.services,
+      const MaterialApp(localizationsDelegates: koshaLocalizationsDelegates, home: TranslateScreen()),
+    );
     expect(find.text('Pack not installed. Get it in Model packs.'), findsOneWidget);
     expect(find.text('No translation packs installed'), findsOneWidget);
   });
@@ -52,7 +61,11 @@ void main() {
   testWidgets('the switch turns translation off and on', (tester) async {
     final f = AppFakes(settings: settings);
     when(() => f.platform.listPacks()).thenAnswer((_) async => const []);
-    await pumpWithServices(tester, f.services, const MaterialApp(home: TranslateScreen()));
+    await pumpWithServices(
+      tester,
+      f.services,
+      const MaterialApp(localizationsDelegates: koshaLocalizationsDelegates, home: TranslateScreen()),
+    );
 
     await tester.tap(find.byType(Switch));
     await tester.pumpAndSettle();
@@ -62,7 +75,11 @@ void main() {
   testWidgets('choosing a default pair saves it under the translate section', (tester) async {
     final f = AppFakes(settings: settings);
     when(() => f.platform.listPacks()).thenAnswer((_) async => const []);
-    await pumpWithServices(tester, f.services, const MaterialApp(home: TranslateScreen()));
+    await pumpWithServices(
+      tester,
+      f.services,
+      const MaterialApp(localizationsDelegates: koshaLocalizationsDelegates, home: TranslateScreen()),
+    );
 
     await tester.tap(find.text('English → Spanish').first);
     await tester.pumpAndSettle();

@@ -28,6 +28,9 @@ data class PackManifest(
     companion object {
         const val KIND_VOICE = "voice"
         const val KIND_TRANSLATION = "translation"
+
+        /** Wave 4: Chinese/Japanese conversion data, read by Dart from the pack folder. */
+        const val KIND_DICTIONARY = "dictionary"
         private const val MAX_FILES = 64
         private val PATH_RE = Regex("[A-Za-z0-9_-][A-Za-z0-9._-]*(/[A-Za-z0-9_-][A-Za-z0-9._-]*)*")
         private val HEX_RE = Regex("[0-9a-f]{64}")
@@ -61,7 +64,7 @@ data class PackManifest(
     private fun validate() {
         fun fail(what: String): Nothing = throw PackException("bad_format", what)
         if (!PackStore.ID_RE.matches(id)) fail("id")
-        if (kind != KIND_VOICE && kind != KIND_TRANSLATION) fail("kind")
+        if (kind != KIND_VOICE && kind != KIND_TRANSLATION && kind != KIND_DICTIONARY) fail("kind")
         if (version < 1) fail("version")
         if (languages.isEmpty() || languages.any { !LANG_RE.matches(it) }) fail("languages")
         if (kind == KIND_TRANSLATION && languages.size != 2) fail("translation languages")

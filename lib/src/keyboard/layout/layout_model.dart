@@ -68,6 +68,7 @@ class KeyDef {
     this.flick,
     this.code,
     this.id,
+    this.spoken,
   });
 
   factory KeyDef.character(String output) => KeyDef(type: KeyType.character, output: output);
@@ -92,6 +93,7 @@ class KeyDef {
       flick: (map['flick'] as Map<String, Object?>?)?.map((k, v) => MapEntry(k, v! as String)),
       code: map['code'] as String?,
       id: map['id'] as String?,
+      spoken: map['spoken'] as String?,
     );
   }
 
@@ -121,6 +123,10 @@ class KeyDef {
   final String? code;
   final String? id;
 
+  /// What TalkBack says for the key, in English (Wave 4; "Dakuten and small kana"). Defaults to
+  /// the output or label.
+  final String? spoken;
+
   bool get isCharacter => type == KeyType.character;
 
   /// Copy with some fields replaced (Wave 1-A helper; does not change the JSON format).
@@ -137,6 +143,7 @@ class KeyDef {
     Map<String, String>? flick,
     String? code,
     String? id,
+    String? spoken,
   }) => KeyDef(
     type: type ?? this.type,
     output: output ?? this.output,
@@ -149,6 +156,7 @@ class KeyDef {
     flick: flick ?? this.flick,
     code: code ?? this.code,
     id: id ?? this.id,
+    spoken: spoken ?? this.spoken,
   );
 
   String? outputFor({required bool shifted}) {

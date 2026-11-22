@@ -16,7 +16,10 @@ import '../../core/log.dart';
 import '../../engine/contracts.dart';
 import '../../engine/language_rules.dart';
 import '../../settings/kosha_settings.dart';
+import 'composer.dart';
 import 'keyboard_page.dart';
+
+export 'composer.dart';
 
 /// One-shot shift, caps lock, or off.
 enum ShiftState { off, once, caps }
@@ -136,7 +139,9 @@ class InputController {
     int Function()? clock,
   }) : _decoder = gestureDecoder,
        _language = language ?? (() => 'en'),
-       _clock = clock ?? _defaultClock();
+       _clock = clock ?? _defaultClock() {
+    composer.addListener(_onComposerSet);
+  }
 
   static int Function() _defaultClock() {
     final sw = Stopwatch()..start();
@@ -185,10 +190,31 @@ class InputController {
   /// The language whose rules apply now (the session's active language).
   LanguageId get language => _language();
 
+  // ---- Wave 4 seams (orchestrator-owned) --------------------------------
+
+  /// See [TextComposer] (composer.dart). Set by the Chinese or Japanese feature for the active
+  /// language and layout; null otherwise. Setting a new one resets the old one.
+  final ValueNotifier<TextComposer?> composer = ValueNotifier(null);
+
+  /// What the composer shows now: the candidate strip and grid listen to it. Empty without one.
+  final ValueNotifier<ComposerState> composerState = ValueNotifier(ComposerState.empty);
+
+  /// Keys go to [composer] in this field: a text field that is not a password, on a letters-first
+  /// field (not email/URL/number), and not forceAscii. A panel's [redirect] still comes first.
+  bool get composerActive {
+    if (composer.value == null) return false;
+    final f = field.value;
+    return f.kind == FieldKind.text && !f.isSensitive && !f.forceAscii && f.preferredPage == PreferredPage.letters;
+  }
+
   // ---- Private state ----------------------------------------------------
 
   String _composing = '';
   final List<KeyTap> _taps = [];
+
+  /// The composer's preedit as last sent to the editor.
+  String _shownPreedit = '';
+  TextComposer? _attachedComposer;
   SuggestionResult _lastResult = SuggestionResult.empty;
 
   /// Text just before the cursor, excluding the composing word (a mirror of the editor).
@@ -320,6 +346,7 @@ class InputController {
   Future<void> startInput(InputFieldInfo f, {bool restarting = false}) async {
     final same = restarting && f == field.value;
     final gen = ++_startGen;
+    _dropComposer(finish: false);
     field.value = f;
     _resetTransient();
     _lastEditMs = _clock();
@@ -345,6 +372,7 @@ class InputController {
   /// The connection ended: commit what is composing and forget it.
   void finishInput() {
     _startGen++;
+    _dropComposer();
     if (_composing.isNotEmpty) {
       _composing = '';
       _taps.clear();
@@ -369,7 +397,7 @@ class InputController {
   void onSelectionChanged(SelectionMessage m) {
     if (_editDepth > 0) return;
     if (_clock() - _lastEditMs < selfEventGraceMs) return;
-    if (_composing.isNotEmpty) {
+    if (_composing.isNotEmpty || _shownPreedit.isNotEmpty) {
       final consistent = m.newSelStart == m.newSelEnd && m.candidatesStart >= 0 && m.newSelStart == m.candidatesEnd;
       if (consistent) return;
     }
@@ -379,6 +407,7 @@ class InputController {
   void _onExternalChange() {
     _begin();
     try {
+      _dropComposer();
       if (_composing.isNotEmpty) {
         _composing = '';
         _taps.clear();
@@ -489,6 +518,10 @@ class InputController {
     }
     _begin();
     try {
+      if (_toComposer((c) => c.onText(text))) {
+        _consumeShift();
+        return;
+      }
       _lastCorrection = null;
       _lastSwipe = null;
       final single = text.characters.length == 1;
@@ -549,6 +582,7 @@ class InputController {
 
   /// Leaves the composing word in the editor as typed.
   void _commitComposingAsTyped() {
+    _dropComposer();
     final word = _composing;
     if (word.isEmpty) return;
     _composing = '';
@@ -627,6 +661,11 @@ class InputController {
     if (r != null) return r.onSpace();
     _begin();
     try {
+      if (_toComposer((c) => c.onSpace())) {
+        if (page.value.isSymbols) page.value = KeyboardPage.letters;
+        _consumeShift();
+        return;
+      }
       _lastCorrection = null;
       _lastSwipe = null;
       if (!_composeEnabled) {
@@ -709,6 +748,7 @@ class InputController {
     if (r != null) return r.onEnter();
     _begin();
     try {
+      if (_toComposer((c) => c.onEnter())) return;
       _lastCorrection = null;
       _lastSwipe = null;
       _commitComposingAsTyped();
@@ -750,6 +790,7 @@ class InputController {
     if (r != null) return r.onBackspace();
     _begin();
     try {
+      if (_toComposer((c) => c.onBackspace())) return;
       _space = _SpaceState.none;
       if (_raw) {
         _send(_input.sendDownUpKeyEvent(AndroidKeyCode.del));
@@ -823,6 +864,8 @@ class InputController {
     if (r != null) return r.onBackspace();
     _begin();
     try {
+      // While a composer holds text, a held backspace deletes from its buffer one step at a time.
+      if (_shownPreedit.isNotEmpty && _toComposer((c) => c.onBackspace())) return;
       _space = _SpaceState.none;
       _lastCorrection = null;
       _lastSwipe = null;
@@ -881,6 +924,14 @@ class InputController {
     if (delta == 0) return;
     _begin();
     try {
+      if (_shownPreedit.isNotEmpty) {
+        final code = delta < 0 ? ComposerKeys.cursorLeft : ComposerKeys.cursorRight;
+        var handled = true;
+        for (var i = 0; i < delta.abs() && handled; i++) {
+          handled = _toComposer((c) => c.onCustomKey(code));
+        }
+        if (handled) return;
+      }
       _commitComposingAsTyped();
       _space = _SpaceState.none;
       _lastCorrection = null;
@@ -915,7 +966,7 @@ class InputController {
 
   /// Ends composing (the word stays as typed). Call before editing through [editor] directly.
   void finishComposing() {
-    if (_composing.isEmpty) return;
+    if (_composing.isEmpty && _shownPreedit.isEmpty) return;
     _begin();
     try {
       _commitComposingAsTyped();
@@ -941,6 +992,10 @@ class InputController {
   void refreshSuggestions() => _updateSuggestions();
 
   void _updateSuggestions() {
+    if (composerActive) {
+      _setBar(SuggestionBarState(isComposing: composerState.value.isComposing));
+      return;
+    }
     final s = settings.typing;
     if (!_composeEnabled || !s.showSuggestions) {
       _lastResult = SuggestionResult.empty;
@@ -1073,7 +1128,7 @@ class InputController {
   /// Decodes and commits a swiped path. Safe to call without checking the
   /// field: sensitive and raw fields ignore it.
   Future<void> commitSwipe(GesturePath path) async {
-    if (_sensitive || _raw || !settings.swipe.enabled || redirect.value != null) return;
+    if (_sensitive || _raw || !settings.swipe.enabled || redirect.value != null || composerActive) return;
     var candidates = await _decoder.decode(path, previousWords: List.of(_previous));
     final t = swipeTransform.value;
     if (t != null) {
@@ -1114,7 +1169,123 @@ class InputController {
     }
   }
 
+  // ---- Composer (Wave 4) --------------------------------------------------
+
+  /// A `KeyType.custom` key. Only composers use them today; otherwise nothing happens.
+  void onCustomKey(String code) {
+    if (code.isEmpty || redirect.value != null) return;
+    _begin();
+    try {
+      _toComposer((c) => c.onCustomKey(code));
+    } finally {
+      _end();
+    }
+  }
+
+  /// A tap on `composerState.value.candidates[index]` (the candidate strip or grid).
+  void selectCandidate(int index) {
+    if (index < 0 || index >= composerState.value.candidates.length) return;
+    _begin();
+    try {
+      _toComposer((c) => c.selectCandidate(index));
+    } finally {
+      _end();
+    }
+  }
+
+  /// Runs one composer call. Returns false when there is no active composer or it did not take the
+  /// key, so the caller handles it as usual.
+  bool _toComposer(ComposerStep Function(TextComposer c) call) {
+    if (!composerActive) return false;
+    final c = composer.value!;
+    if (_composing.isNotEmpty) _commitComposingAsTyped();
+    ComposerStep step;
+    try {
+      step = call(c);
+    } on Object catch (e) {
+      KoshaLog.w('Input', 'composer failed', e.runtimeType);
+      _dropComposer();
+      return false;
+    }
+    if (!step.handled) return false;
+    _applyComposer(step.commit, c.state);
+    return true;
+  }
+
+  void _applyComposer(String commit, ComposerState next) {
+    _batch(() {
+      if (commit.isNotEmpty) {
+        // commitText replaces the composing region (the old preedit).
+        _send(_input.commitText(commit));
+        _mirrorAppend(commit);
+      }
+      if (next.preedit.isNotEmpty) {
+        _send(_input.setComposingText(next.preedit));
+      } else if (commit.isEmpty && _shownPreedit.isNotEmpty) {
+        _send(_input.commitText(''));
+      }
+    });
+    _shownPreedit = next.preedit;
+    _space = _SpaceState.none;
+    _lastCorrection = null;
+    _lastSwipe = null;
+    composerState.value = next;
+    _setBar(SuggestionBarState(isComposing: next.isComposing));
+  }
+
+  /// Ends the composer's buffer: the preedit stays in the field as typed (unless [finish] is false,
+  /// for a new field), and the strip clears.
+  void _dropComposer({bool finish = true}) {
+    final c = _attachedComposer;
+    if (_shownPreedit.isNotEmpty) {
+      if (finish) {
+        _send(_input.finishComposingText());
+        _mirrorAppend(_shownPreedit);
+      }
+      _shownPreedit = '';
+    }
+    if (c != null) {
+      try {
+        c.reset();
+      } on Object catch (e) {
+        KoshaLog.w('Input', 'composer reset failed', e.runtimeType);
+      }
+    }
+    if (!composerState.value.isEmpty) composerState.value = ComposerState.empty;
+  }
+
+  void _onComposerSet() {
+    final old = _attachedComposer;
+    if (identical(old, composer.value)) return;
+    _begin();
+    try {
+      _dropComposer();
+      old?.changes?.removeListener(_onComposerChanges);
+      _attachedComposer = composer.value;
+      _attachedComposer?.changes?.addListener(_onComposerChanges);
+      _updateSuggestions();
+    } finally {
+      _end();
+    }
+  }
+
+  /// The composer's state changed on its own (a dictionary finished loading).
+  void _onComposerChanges() {
+    final c = _attachedComposer;
+    if (c == null || !composerActive) return;
+    _begin();
+    try {
+      _applyComposer('', c.state);
+    } finally {
+      _end();
+    }
+  }
+
   void dispose() {
+    _attachedComposer?.changes?.removeListener(_onComposerChanges);
+    composer.removeListener(_onComposerSet);
+    composer.dispose();
+    composerState.dispose();
     field.dispose();
     shift.dispose();
     page.dispose();
