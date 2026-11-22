@@ -40,6 +40,11 @@ void main() {
           await tester.pumpAndSettle();
           expect(tester.takeException(), isNull);
           expect(tester.getSize(find.byType(KoshaMascot)), Size(size, size));
+          // The painter itself must have room: a zero-sized CustomPaint draws nothing.
+          expect(
+            tester.getSize(find.descendant(of: find.byType(KoshaMascot), matching: find.byType(CustomPaint))),
+            Size(size, size),
+          );
           expect(find.bySemanticsLabel('Kosha chest'), findsOneWidget);
           semantics.dispose();
         });
