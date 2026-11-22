@@ -13,6 +13,7 @@ import '../shared/panel_style.dart';
 import 'emoji_index.dart';
 import 'emoji_panel.dart';
 import 'emoji_store.dart';
+import '../shared/directional_icon.dart';
 
 /// Results shown next to the query.
 const int _maxResults = 40;
@@ -139,7 +140,7 @@ class _EmojiSearchViewState extends State<EmojiSearchView> {
             pressedFill: theme.suggestionHighlightFill,
             radius: BorderRadius.zero,
             onTap: _back,
-            child: Icon(Icons.arrow_back, size: 22, color: theme.toolbarIcon),
+            child: DirectionalIcon(Icons.arrow_back, size: 22, color: theme.toolbarIcon),
           ),
           ValueListenableBuilder<String>(
             valueListenable: widget.redirect.query,
