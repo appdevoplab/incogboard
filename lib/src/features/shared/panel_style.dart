@@ -189,7 +189,7 @@ class PanelSwitch extends StatelessWidget {
               child: AnimatedAlign(
                 duration: const Duration(milliseconds: 180),
                 curve: Curves.easeOutCubic,
-                alignment: value ? Alignment.centerRight : Alignment.centerLeft,
+                alignment: value ? AlignmentDirectional.centerEnd : AlignmentDirectional.centerStart,
                 child: Container(
                   width: height - 6,
                   height: height - 6,

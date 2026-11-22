@@ -15,6 +15,7 @@ import '../../theme/keyboard_theme_data.dart';
 import '../../settings/myna_settings.dart';
 import '../shared/panel_style.dart';
 import 'clipboard_store.dart';
+import '../shared/directional_icon.dart';
 
 class ClipboardPanel extends KeyboardPanel {
   ClipboardPanel({required this.session, required this.store});
@@ -149,7 +150,7 @@ class _ClipboardPanelViewState extends State<ClipboardPanelView> {
                   pressedFill: theme.suggestionHighlightFill,
                   radius: BorderRadius.zero,
                   onTap: widget.session.closePanel,
-                  child: Icon(Icons.arrow_back, size: 22, color: theme.toolbarIcon),
+                  child: DirectionalIcon(Icons.arrow_back, size: 22, color: theme.toolbarIcon),
                 ),
                 PanelSwitch(
                   value: history.history,
@@ -247,7 +248,7 @@ class _ClipboardPanelViewState extends State<ClipboardPanelView> {
           children: [
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(14, 10, 4, 10),
+                padding: const EdgeInsetsDirectional.fromSTEB(14, 10, 4, 10),
                 child: Text(
                   item.text,
                   maxLines: 3,
