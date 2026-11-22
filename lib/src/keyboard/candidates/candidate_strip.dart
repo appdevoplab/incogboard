@@ -9,6 +9,7 @@ import 'package:flutter/widgets.dart';
 import 'package:material_ui/material_ui.dart' show Icons;
 
 import '../../theme/keyboard_theme_data.dart';
+import '../a11y/candidate_labels.dart';
 import '../input/composer.dart';
 import '../view/keyboard_metrics.dart';
 
@@ -63,6 +64,7 @@ class CandidateStrip extends StatelessWidget {
               padding: const EdgeInsetsDirectional.only(start: 8, end: 4),
               child: Semantics(
                 label: 'Loading the dictionary',
+                liveRegion: true,
                 child: Icon(Icons.hourglass_empty, size: 16, color: theme.toolbarIcon),
               ),
             ),
@@ -105,7 +107,7 @@ class CandidateStrip extends StatelessWidget {
     final highlighted = i == state.highlighted;
     return Semantics(
       button: true,
-      label: 'Candidate ${c.text}${c.annotation == null ? '' : ', ${c.annotation}'}',
+      label: candidateSemanticsLabel(c, index: i, total: state.candidates.length),
       excludeSemantics: true,
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
