@@ -6,10 +6,10 @@ import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:myna/src/app/app_services.dart';
-import 'package:myna/src/security/app_auth.dart';
-import 'package:myna/src/settings/myna_settings.dart';
-import 'package:myna/src/settings/settings_store.dart';
+import 'package:kosha/src/app/app_services.dart';
+import 'package:kosha/src/security/app_auth.dart';
+import 'package:kosha/src/settings/kosha_settings.dart';
+import 'package:kosha/src/settings/settings_store.dart';
 
 import '../../security/support/fakes.dart';
 
@@ -36,7 +36,7 @@ class FakeAuth implements AppAuthenticator {
 }
 
 class PrivacyHarness {
-  PrivacyHarness({MynaSettings settings = const MynaSettings()})
+  PrivacyHarness({KoshaSettings settings = const KoshaSettings()})
     : store = FakeBlobStore(),
       platform = MockPlatform(),
       app = MockAppHost() {

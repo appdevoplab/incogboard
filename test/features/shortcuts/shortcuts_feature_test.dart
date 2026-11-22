@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myna/src/core/data_sections.dart';
-import 'package:myna/src/core/input_field_info.dart';
-import 'package:myna/src/engine/contracts.dart';
-import 'package:myna/src/features/shortcuts/shortcuts_feature.dart';
-import 'package:myna/src/keyboard/keyboard_app.dart';
-import 'package:myna/src/keyboard/keyboard_session.dart';
-import 'package:myna/src/security/shortcuts_store.dart';
-import 'package:myna/src/settings/myna_settings.dart';
+import 'package:kosha/src/core/data_sections.dart';
+import 'package:kosha/src/core/input_field_info.dart';
+import 'package:kosha/src/engine/contracts.dart';
+import 'package:kosha/src/features/shortcuts/shortcuts_feature.dart';
+import 'package:kosha/src/keyboard/keyboard_app.dart';
+import 'package:kosha/src/keyboard/keyboard_session.dart';
+import 'package:kosha/src/security/shortcuts_store.dart';
+import 'package:kosha/src/settings/kosha_settings.dart';
 
 import '../../keyboard/support/app_harness.dart';
 

@@ -14,7 +14,7 @@ import 'package:material_ui/material_ui.dart';
 import '../../core/log.dart';
 import '../../keyboard/preview/keyboard_preview.dart';
 import '../../keyboard/view/keyboard_metrics.dart';
-import '../../settings/myna_settings.dart';
+import '../../settings/kosha_settings.dart';
 import '../../theme/custom/background_image.dart';
 import '../../theme/custom/custom_theme_store.dart';
 import '../../theme/presets.dart';
@@ -133,7 +133,7 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
     try {
       _palettes = (await services.platform.getSystemColors())?.palettes;
     } on Object catch (e) {
-      MynaLog.w('Theme', 'system colours unavailable', e.runtimeType);
+      KoshaLog.w('Theme', 'system colours unavailable', e.runtimeType);
     }
     final dataDir = await services.platform.getDataDirectory();
     _themesDir = themesDirectoryFor(dataDir);
@@ -170,7 +170,7 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
     id: newCustomThemeId(),
     name: 'My theme',
     colorSource: ThemeColorSource.seed,
-    seedColor: mynaYellow,
+    seedColor: koshaYellow,
     variant: ThemeSchemeVariant.tonalSpot,
   );
 
@@ -205,7 +205,7 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
   );
 
   /// The global settings as the draft would leave them (the preview uses these).
-  MynaSettings _settingsDraft(MynaSettings base) => base.copyWith(
+  KoshaSettings _settingsDraft(KoshaSettings base) => base.copyWith(
     appearance: base.appearance.copyWith(
       darkMode: _darkMode,
       pureBlack: _pureBlack,
@@ -298,7 +298,7 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
       _isNew = false;
       _dirty = false;
     } on Object catch (e) {
-      MynaLog.w('Theme', 'save failed', e.runtimeType);
+      KoshaLog.w('Theme', 'save failed', e.runtimeType);
       if (mounted) setState(() => _saving = false);
       _snack('Could not save the theme.');
       return;
@@ -318,7 +318,7 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
     try {
       picked = await ImagePicker().pickImage(source: ImageSource.gallery);
     } on Object catch (e) {
-      MynaLog.w('Theme', 'photo picker failed', e.runtimeType);
+      KoshaLog.w('Theme', 'photo picker failed', e.runtimeType);
       _snack('The photo picker could not open.');
       return;
     }

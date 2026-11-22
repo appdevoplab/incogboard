@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// OWNER: Wave 3-T. The language-pair picker (PanelPlacement.keys): From and To chips over the Myna
+// OWNER: Wave 3-T. The language-pair picker (PanelPlacement.keys): From and To chips over the Kosha
 // languages that translate with English, a swap button, and a mark on the pairs whose pack is installed.
 // Done saves the pair in settings.translate and goes back to the translate panel.
 import 'dart:async';
@@ -11,7 +11,7 @@ import 'package:material_ui/material_ui.dart' show Icons;
 import '../../engine/lang/registry.dart';
 import '../../keyboard/keyboard_session.dart';
 import '../../keyboard/panels/keyboard_panel.dart';
-import '../../settings/myna_settings.dart';
+import '../../settings/kosha_settings.dart';
 import '../../theme/keyboard_theme_data.dart';
 import '../shared/panel_style.dart';
 import 'translate_languages.dart';

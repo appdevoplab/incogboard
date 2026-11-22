@@ -21,8 +21,8 @@ String themesDirectoryFor(String dataDirectory) => '$dataDirectory/themes';
 
 /// Seed colours offered in the editor: the brand colours and a spread of hues.
 const List<int> kSeedSwatches = [
-  0xFFF5B700, // Myna yellow
-  0xFF3E2723, // Myna brown
+  0xFFF5B700, // Kosha yellow
+  0xFF3E2723, // Kosha brown
   0xFF8F6FD8, // lavender
   0xFF0B79C4, // ocean
   0xFF2FA67F, // mint

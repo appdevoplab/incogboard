@@ -1,1 +1,1 @@
-Myna dict data. See THIRD_PARTY_NOTICES.md for sources and licenses.
+Kosha dict data. See THIRD_PARTY_NOTICES.md for sources and licenses.

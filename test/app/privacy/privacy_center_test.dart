@@ -8,11 +8,11 @@ import 'package:mocktail/mocktail.dart';
 
 import '../../security/support/fakes.dart';
 
-import 'package:myna/src/app/privacy/privacy_center_screen.dart';
-import 'package:myna/src/core/data_sections.dart';
-import 'package:myna/src/engine/learn/learned_data.dart';
-import 'package:myna/src/security/app_auth.dart';
-import 'package:myna/src/security/shortcuts_store.dart';
+import 'package:kosha/src/app/privacy/privacy_center_screen.dart';
+import 'package:kosha/src/core/data_sections.dart';
+import 'package:kosha/src/engine/learn/learned_data.dart';
+import 'package:kosha/src/security/app_auth.dart';
+import 'package:kosha/src/security/shortcuts_store.dart';
 
 import 'privacy_harness.dart';
 
@@ -49,7 +49,7 @@ void main() {
   testWidgets('shows the no-internet proof and what is stored, by name and size only', (tester) async {
     await pumpCenter(tester, FakeAuth());
 
-    expect(find.text('Myna has no internet permission. It cannot send anything.'), findsOneWidget);
+    expect(find.text('Kosha has no internet permission. It cannot send anything.'), findsOneWidget);
     expect(find.text('Learned words (English)'), findsOneWidget);
     expect(find.text('Clipboard history'), findsOneWidget);
     expect(find.textContaining('hello'), findsNothing); // never shows contents
@@ -75,7 +75,7 @@ void main() {
     final auth = FakeAuth()..answers.add(AuthOutcome.success);
     await pumpCenter(tester, auth);
 
-    final lock = find.widgetWithText(SwitchListTile, 'Lock Myna');
+    final lock = find.widgetWithText(SwitchListTile, 'Lock Kosha');
     await reveal(tester, lock);
     await tester.tap(lock);
     await tester.pumpAndSettle();
@@ -88,7 +88,7 @@ void main() {
     final auth = FakeAuth()..answers.add(AuthOutcome.cancelled);
     await pumpCenter(tester, auth);
 
-    final lock = find.widgetWithText(SwitchListTile, 'Lock Myna');
+    final lock = find.widgetWithText(SwitchListTile, 'Lock Kosha');
     await reveal(tester, lock);
     await tester.tap(lock);
     await tester.pumpAndSettle();
@@ -100,7 +100,7 @@ void main() {
     final auth = FakeAuth(secure: false);
     await pumpCenter(tester, auth);
 
-    final lock = find.widgetWithText(SwitchListTile, 'Lock Myna');
+    final lock = find.widgetWithText(SwitchListTile, 'Lock Kosha');
     await reveal(tester, lock);
     await tester.tap(lock);
     await tester.pumpAndSettle();

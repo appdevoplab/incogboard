@@ -110,7 +110,7 @@ class SelectionTranslator {
             icon: Icons.download_for_offline_outlined,
             semanticLabel: 'Get the translation pack',
             priority: translateChipPriority,
-            onTap: () => unawaited(session.services.host.openSettings(MynaRoutes.packs)),
+            onTap: () => unawaited(session.services.host.openSettings(KoshaRoutes.packs)),
           ),
         );
       } else {

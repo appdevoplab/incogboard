@@ -72,7 +72,7 @@ class IsolateGestureDecoder implements GestureDecoder {
     final next = _prepareQueue.then((_) => _doPrepare(args)).whenComplete(() => _preparing--);
     _prepareQueue = next.catchError((Object _) {});
     return next.catchError((Object e) {
-      MynaLog.w('gesture', 'prepare failed', e.runtimeType);
+      KoshaLog.w('gesture', 'prepare failed', e.runtimeType);
     });
   }
 
@@ -98,7 +98,7 @@ class IsolateGestureDecoder implements GestureDecoder {
         try {
           lexicon = await _source.load(language);
         } catch (e) {
-          MynaLog.w('gesture', 'no lexicon for a language', e.runtimeType);
+          KoshaLog.w('gesture', 'no lexicon for a language', e.runtimeType);
           continue;
         }
         final words = <String>[];
@@ -134,7 +134,7 @@ class IsolateGestureDecoder implements GestureDecoder {
       _extrasSig = extrasSig;
       _lexicons = lexicons;
       templateCount = result;
-      MynaLog.d('gesture', 'prepared $result templates in ${sw.elapsedMilliseconds} ms');
+      KoshaLog.d('gesture', 'prepared $result templates in ${sw.elapsedMilliseconds} ms');
     }
   }
 
@@ -291,7 +291,7 @@ class IsolateGestureDecoder implements GestureDecoder {
     errors.listen((Object? _) {
       // Uncaught error or exit: forget everything; the next prepare respawns.
       if (identical(_errors, errors)) {
-        MynaLog.w('gesture', 'decoder isolate stopped');
+        KoshaLog.w('gesture', 'decoder isolate stopped');
         _stopIsolate();
       }
     });
@@ -301,11 +301,11 @@ class IsolateGestureDecoder implements GestureDecoder {
         GestureIsolateInit(recv.sendPort, tuning),
         onError: errors.sendPort,
         onExit: errors.sendPort,
-        debugName: 'myna-gesture',
+        debugName: 'kosha-gesture',
       );
       _send = await ready.future.timeout(const Duration(seconds: 10));
     } catch (e) {
-      MynaLog.w('gesture', 'could not start decoder isolate', e.runtimeType);
+      KoshaLog.w('gesture', 'could not start decoder isolate', e.runtimeType);
       _stopIsolate();
     }
   }
@@ -328,7 +328,7 @@ class IsolateGestureDecoder implements GestureDecoder {
     if (ok) {
       completer.complete(message[2]);
     } else {
-      MynaLog.w('gesture', 'decoder error ${message[2]}');
+      KoshaLog.w('gesture', 'decoder error ${message[2]}');
       completer.complete(null);
     }
   }

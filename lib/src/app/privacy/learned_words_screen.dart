@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// OWNER: Wave 2-B. Review what Myna learned for one language: search, sort, forget a word, never
+// OWNER: Wave 2-B. Review what Kosha learned for one language: search, sort, forget a word, never
 // suggest it again, or clear the language. Shown with FLAG_SECURE (no screenshots, no recents).
 //
 // PRIVACY: words are displayed only here. Nothing is logged.
@@ -143,7 +143,7 @@ class _LearnedWordsScreenState extends State<LearnedWordsScreen> {
       future: _future,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return _Message(title: title, text: 'Myna could not read these words.', onRetry: _retry);
+          return _Message(title: title, text: 'Kosha could not read these words.', onRetry: _retry);
         }
         if (!snapshot.hasData) {
           return Scaffold(
@@ -155,7 +155,7 @@ class _LearnedWordsScreenState extends State<LearnedWordsScreen> {
         if (loaded.locked) {
           return _Message(
             title: title,
-            text: 'Myna cannot read these words right now. Unlock your phone, then try again.',
+            text: 'Kosha cannot read these words right now. Unlock your phone, then try again.',
             onRetry: _retry,
           );
         }
@@ -163,7 +163,7 @@ class _LearnedWordsScreenState extends State<LearnedWordsScreen> {
         if (data == null) {
           return _Message(
             title: title,
-            text: 'No words learned in this language yet. Myna learns a word after you type it a few times.',
+            text: 'No words learned in this language yet. Kosha learns a word after you type it a few times.',
           );
         }
         return _body(title, data);
@@ -281,7 +281,7 @@ class _LearnedWordsScreenState extends State<LearnedWordsScreen> {
               children: [
                 Text('Never suggested', style: Theme.of(context).textTheme.titleMedium),
                 const SizedBox(height: 4),
-                const Text('Myna will not suggest or correct to these words.'),
+                const Text('Kosha will not suggest or correct to these words.'),
                 const SizedBox(height: 8),
                 if (blocked.isEmpty) const Text('No blocked words.'),
                 for (final key in blocked)

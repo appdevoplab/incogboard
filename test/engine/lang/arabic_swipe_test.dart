@@ -6,10 +6,10 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myna/src/engine/contracts.dart';
-import 'package:myna/src/engine/dictionary/mdict_lexicon.dart';
-import 'package:myna/src/keyboard/layout/layout_model.dart';
-import 'package:myna/src/keyboard/layout/layout_repository.dart';
+import 'package:kosha/src/engine/contracts.dart';
+import 'package:kosha/src/engine/dictionary/mdict_lexicon.dart';
+import 'package:kosha/src/keyboard/layout/layout_model.dart';
+import 'package:kosha/src/keyboard/layout/layout_repository.dart';
 
 import '../gesture/gesture_test_support.dart';
 

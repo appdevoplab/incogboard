@@ -4,8 +4,8 @@
 // uses (tool/arabic/normalize.dart).
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myna/src/engine/lang/arabic.dart';
-import 'package:myna/src/engine/lang/registry.dart';
+import 'package:kosha/src/engine/lang/arabic.dart';
+import 'package:kosha/src/engine/lang/registry.dart';
 
 import '../../../tool/arabic/normalize.dart';
 

@@ -5,10 +5,10 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myna/src/engine/contracts.dart';
-import 'package:myna/src/engine/dictionary/mdict_lexicon.dart';
-import 'package:myna/src/engine/lang/indic/indic_transliterator.dart';
-import 'package:myna/src/engine/lang/indic/translit_table.dart';
+import 'package:kosha/src/engine/contracts.dart';
+import 'package:kosha/src/engine/dictionary/mdict_lexicon.dart';
+import 'package:kosha/src/engine/lang/indic/indic_transliterator.dart';
+import 'package:kosha/src/engine/lang/indic/translit_table.dart';
 
 import '../../keyboard/support/fakes.dart';
 

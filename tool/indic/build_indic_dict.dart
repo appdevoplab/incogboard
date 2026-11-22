@@ -12,7 +12,7 @@
 // and the same MDICT writer, and skips the Latin-only cleaning.
 import 'dart:io';
 
-import 'package:myna/src/engine/dictionary/mdict_writer.dart';
+import 'package:kosha/src/engine/dictionary/mdict_writer.dart';
 
 // Same mapping as tool/build_dictionary.dart: unigram log-probability from the 0..255 frequency.
 double _logProb(int f, int fMax) => -3.0 - (fMax - f) * 0.075;

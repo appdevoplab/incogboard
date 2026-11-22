@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
 // OWNER: Wave 3-A. The language step of onboarding: pick one or more languages, with search. The
-// system locale is pre-selected when Myna supports it. Writes the `languages` section.
+// system locale is pre-selected when Kosha supports it. Writes the `languages` section.
 import 'dart:ui' show PlatformDispatcher;
 
 import 'package:material_ui/material_ui.dart';
 
-import '../../settings/myna_settings.dart';
+import '../../settings/kosha_settings.dart';
 import '../app_services.dart';
 import '../common/settings_widgets.dart';
 import '../shell/language_catalog.dart';

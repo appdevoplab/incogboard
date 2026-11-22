@@ -14,7 +14,7 @@ import 'package:flutter/gestures.dart';
 import '../../bridge/messages.g.dart';
 import '../../core/log.dart';
 import '../../engine/contracts.dart';
-import '../../settings/myna_settings.dart';
+import '../../settings/kosha_settings.dart';
 import '../input/input_controller.dart';
 import '../input/keyboard_page.dart';
 import '../gesture_layer/gesture_trail.dart';
@@ -62,7 +62,7 @@ class KeyboardViewController {
   final GestureTrailController _trail;
   final KeyPressAnimator _animator;
   final ImeHostApi _host;
-  final MynaSettings Function() _settings;
+  final KoshaSettings Function() _settings;
   KeyboardHooks hooks;
 
   /// Set by the view whenever it lays the keys out.
@@ -84,16 +84,16 @@ class KeyboardViewController {
 
   bool get hasActiveTouches => _touches.isNotEmpty;
 
-  MynaSettings get _s => _settings();
+  KoshaSettings get _s => _settings();
   bool get _shifted => _input.shift.value != ShiftState.off && _input.page.value == KeyboardPage.letters;
 
   // ---- Feedback ---------------------------------------------------------
 
   void _fire(Future<void> Function() call) {
     try {
-      unawaited(call().catchError((Object e) => MynaLog.w('Keys', 'host call failed', e.runtimeType)));
+      unawaited(call().catchError((Object e) => KoshaLog.w('Keys', 'host call failed', e.runtimeType)));
     } on Object catch (e) {
-      MynaLog.w('Keys', 'host call failed', e.runtimeType);
+      KoshaLog.w('Keys', 'host call failed', e.runtimeType);
     }
   }
 
@@ -296,7 +296,7 @@ class KeyboardViewController {
           .then<void>((word) {
             if (t.gesture && _touches.containsValue(t)) _trail.preview = word;
           })
-          .catchError((Object e) => MynaLog.w('Swipe', 'preview failed', e.runtimeType))
+          .catchError((Object e) => KoshaLog.w('Swipe', 'preview failed', e.runtimeType))
           .whenComplete(() => _previewBusy = false),
     );
   }
@@ -343,7 +343,7 @@ class KeyboardViewController {
             _haptic(HapticKind.gestureCommit);
             _trail.preview = null;
           })
-          .catchError((Object e) => MynaLog.w('Swipe', 'commit failed', e.runtimeType)),
+          .catchError((Object e) => KoshaLog.w('Swipe', 'commit failed', e.runtimeType)),
     );
   }
 

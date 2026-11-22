@@ -3,7 +3,7 @@
 // InputController: the keyboard's typing brain. Pure Dart: it talks to the
 // editor only through [InputSink], so it is unit-tested against FakeEditor.
 //
-// PRIVACY: never log typed text. Only events and sizes go to MynaLog.
+// PRIVACY: never log typed text. Only events and sizes go to KoshaLog.
 import 'dart:async';
 
 import 'package:characters/characters.dart';
@@ -15,7 +15,7 @@ import '../../core/input_field_info.dart';
 import '../../core/log.dart';
 import '../../engine/contracts.dart';
 import '../../engine/language_rules.dart';
-import '../../settings/myna_settings.dart';
+import '../../settings/kosha_settings.dart';
 import 'keyboard_page.dart';
 
 /// One-shot shift, caps lock, or off.
@@ -152,7 +152,7 @@ class InputController {
   final InputSink _input;
   final TextPredictor _predictor;
   final GestureDecoder _decoder;
-  final MynaSettings Function() _settings;
+  final KoshaSettings Function() _settings;
   final LanguageRulesResolver _rulesFor;
   final LanguageId Function() _language;
   final int Function() _clock;
@@ -211,7 +211,7 @@ class InputController {
   // ---- Derived ----------------------------------------------------------
 
   InputFieldInfo get currentField => field.value;
-  MynaSettings get settings => _settings();
+  KoshaSettings get settings => _settings();
   LanguageRules get _rules => _rulesFor(_language());
 
   /// The word being composed (empty when none). Exposed for tests and the view.
@@ -252,7 +252,7 @@ class InputController {
   }
 
   void _send(Future<Object?> call) {
-    unawaited(call.then<void>((_) {}, onError: (Object e) => MynaLog.w('Input', 'editor call failed', e.runtimeType)));
+    unawaited(call.then<void>((_) {}, onError: (Object e) => KoshaLog.w('Input', 'editor call failed', e.runtimeType)));
   }
 
   void _batch(void Function() body) {
@@ -961,7 +961,7 @@ class InputController {
         try {
           result = t(result, context);
         } on Object catch (e) {
-          MynaLog.w('Input', 'suggestion transform failed', e.runtimeType);
+          KoshaLog.w('Input', 'suggestion transform failed', e.runtimeType);
         }
       }
       _lastResult = result;
@@ -994,7 +994,7 @@ class InputController {
       try {
         out = d(out, q);
       } on Object catch (e) {
-        MynaLog.w('Input', 'suggestion decorator failed', e.runtimeType);
+        KoshaLog.w('Input', 'suggestion decorator failed', e.runtimeType);
       }
     }
     return out;
@@ -1080,7 +1080,7 @@ class InputController {
       try {
         candidates = t(candidates);
       } on Object catch (e) {
-        MynaLog.w('Input', 'swipe transform failed', e.runtimeType);
+        KoshaLog.w('Input', 'swipe transform failed', e.runtimeType);
       }
     }
     if (candidates.isEmpty) return;

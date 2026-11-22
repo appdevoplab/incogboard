@@ -1,1 +1,1 @@
-Myna layouts data. See THIRD_PARTY_NOTICES.md for sources and licenses.
+Kosha layouts data. See THIRD_PARTY_NOTICES.md for sources and licenses.

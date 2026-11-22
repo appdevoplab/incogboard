@@ -5,7 +5,7 @@
 import 'package:material_ui/material_ui.dart';
 
 import '../../keyboard/preview/keyboard_preview.dart';
-import '../../settings/myna_settings.dart';
+import '../../settings/kosha_settings.dart';
 import '../../theme/keyboard_theme_data.dart';
 
 class ThemeCard extends StatelessWidget {
@@ -21,7 +21,7 @@ class ThemeCard extends StatelessWidget {
   });
 
   final KeyboardThemeData theme;
-  final MynaSettings settings;
+  final KoshaSettings settings;
   final String name;
   final bool selected;
   final VoidCallback onTap;

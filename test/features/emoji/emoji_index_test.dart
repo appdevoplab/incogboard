@@ -6,8 +6,8 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myna/src/features/emoji/emoji_data.dart';
-import 'package:myna/src/features/emoji/emoji_index.dart';
+import 'package:kosha/src/features/emoji/emoji_data.dart';
+import 'package:kosha/src/features/emoji/emoji_index.dart';
 
 Uint8List _asset(String name) => File('assets/emoji/$name').readAsBytesSync();
 

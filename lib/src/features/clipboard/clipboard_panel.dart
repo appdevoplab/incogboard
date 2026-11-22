@@ -12,7 +12,7 @@ import '../../keyboard/keyboard_session.dart';
 import '../../keyboard/panels/keyboard_panel.dart';
 import '../../keyboard/view/keyboard_metrics.dart';
 import '../../theme/keyboard_theme_data.dart';
-import '../../settings/myna_settings.dart';
+import '../../settings/kosha_settings.dart';
 import '../shared/panel_style.dart';
 import 'clipboard_store.dart';
 import '../shared/directional_icon.dart';

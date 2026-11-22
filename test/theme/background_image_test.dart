@@ -6,7 +6,7 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myna/src/theme/custom/background_image.dart';
+import 'package:kosha/src/theme/custom/background_image.dart';
 
 /// A small gradient image, drawn on the engine (so this runs inside runAsync).
 Future<ui.Image> _gradient(int w, int h) async {

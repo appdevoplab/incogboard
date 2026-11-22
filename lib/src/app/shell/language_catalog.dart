@@ -5,7 +5,7 @@
 import 'dart:ui' show Locale;
 
 import '../../engine/lang/registry.dart';
-import '../../settings/myna_settings.dart';
+import '../../settings/kosha_settings.dart';
 
 const String englishId = 'en';
 
@@ -38,7 +38,7 @@ List<LanguageInfo> searchLanguages(String query) {
   ];
 }
 
-/// The language the system locale asks for, when Myna supports it: "pt" becomes pt-BR or pt-PT by
+/// The language the system locale asks for, when Kosha supports it: "pt" becomes pt-BR or pt-PT by
 /// region. Null for unsupported locales.
 String? supportedLocaleLanguage(Locale locale) {
   final code = locale.languageCode.toLowerCase();

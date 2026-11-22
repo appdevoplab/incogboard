@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myna/src/engine/learn/learned_data.dart';
-import 'package:myna/src/security/backup/backup_payload.dart';
-import 'package:myna/src/security/shortcuts_store.dart';
-import 'package:myna/src/settings/myna_settings.dart';
+import 'package:kosha/src/engine/learn/learned_data.dart';
+import 'package:kosha/src/security/backup/backup_payload.dart';
+import 'package:kosha/src/security/shortcuts_store.dart';
+import 'package:kosha/src/settings/kosha_settings.dart';
 
 Uint8List _bytes(String s) => Uint8List.fromList(utf8.encode(s));
 
@@ -40,7 +40,7 @@ void main() {
   group('round trip', () {
     test('every section survives encode then decode', () {
       final contents = BackupContents(
-        settings: MynaSettings(privacy: const PrivacySettings(learning: false)).toJson(),
+        settings: KoshaSettings(privacy: const PrivacySettings(learning: false)).toJson(),
         learned: {'learned_en': _learnedBlob()},
         shortcuts: const [PersonalShortcut(trigger: 'omw', expansion: 'on my way')],
         clipboard: const [BackupClipItem(text: 'pinned text', timestampMillis: 42)],
@@ -55,7 +55,7 @@ void main() {
       expect(back.appVersion, '1.0.0+1');
       final c = back.contents;
       expect(c.settings!['privacy'], isA<Map<dynamic, dynamic>>());
-      expect(MynaSettings.fromJson(c.settings!).privacy.learning, isFalse);
+      expect(KoshaSettings.fromJson(c.settings!).privacy.learning, isFalse);
       expect(c.learned['learned_en'], _learnedBlob());
       expect(c.shortcuts!.single.trigger, 'omw');
       expect(c.clipboard!.single.text, 'pinned text');

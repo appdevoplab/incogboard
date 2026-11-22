@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// OWNER: Wave 2-B. Encrypted backup: choose sections, set a passphrase, save a .mynabackup file;
+// OWNER: Wave 2-B. Encrypted backup: choose sections, set a passphrase, save a .koshabackup file;
 // or open one, check the counts, then merge or replace. Shown with FLAG_SECURE.
 //
 // PRIVACY: passphrases, contents and file names are never logged or shown outside this screen.
@@ -117,7 +117,7 @@ class _BackupScreenState extends State<BackupScreen> {
   String _fileName() {
     final now = DateTime.now();
     String two(int v) => v.toString().padLeft(2, '0');
-    return 'myna-${now.year}${two(now.month)}${two(now.day)}.mynabackup';
+    return 'kosha-${now.year}${two(now.month)}${two(now.day)}.koshabackup';
   }
 
   // ---- import -------------------------------------------------------------------
@@ -127,7 +127,7 @@ class _BackupScreenState extends State<BackupScreen> {
     final deps = _deps ??= await PrivacyDeps.load(services);
     _setBusy(true);
     try {
-      final uri = await services.app.openDocument(const ['application/octet-stream', 'application/x-mynabackup']);
+      final uri = await services.app.openDocument(const ['application/octet-stream', 'application/x-koshabackup']);
       if (uri == null) return;
       final bytes = await services.app.readDocument(uri, kMaxBackupBytes);
       if (!mounted) return;
@@ -143,15 +143,15 @@ class _BackupScreenState extends State<BackupScreen> {
       try {
         payload = BackupPayload.decode(plain);
       } on BackupFormatException {
-        _message('This file is not a valid Myna backup. Nothing was changed.');
+        _message('This file is not a valid Kosha backup. Nothing was changed.');
         return;
       }
       if (!mounted) return;
       await _previewAndRestore(payload, deps);
     } on PlatformException catch (e) {
       _message(switch (e.code) {
-        'too_large' => 'This file is too large to be a Myna backup.',
-        'unsupported_version' => 'This backup was made by a newer version of Myna. Update Myna to restore it.',
+        'too_large' => 'This file is too large to be a Kosha backup.',
+        'unsupported_version' => 'This backup was made by a newer version of Kosha. Update Kosha to restore it.',
         'busy' => 'Finish the other file window first, then try again.',
         _ => 'The backup could not be opened. Nothing was changed.',
       });
@@ -180,7 +180,7 @@ class _BackupScreenState extends State<BackupScreen> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Made ${_date(payload.createdAt)} by Myna ${payload.appVersion}.'),
+                Text('Made ${_date(payload.createdAt)} by Kosha ${payload.appVersion}.'),
                 const SizedBox(height: 12),
                 for (final section in present)
                   CheckboxListTile(
@@ -257,7 +257,7 @@ class _BackupScreenState extends State<BackupScreen> {
     } on RestoreLockedException {
       _message('Unlock your phone, then try again. Nothing was changed.');
     } on PlatformException {
-      _message('Myna could not finish the restore. Some data may not have been written.');
+      _message('Kosha could not finish the restore. Some data may not have been written.');
     }
   }
 
@@ -323,7 +323,7 @@ class _BackupScreenState extends State<BackupScreen> {
                 icon: Icons.lock_outline,
                 text:
                     'A backup is one file, encrypted with a passphrase you choose. Only that passphrase opens it. '
-                    'If you forget the passphrase, nobody can recover the backup, including Myna.',
+                    'If you forget the passphrase, nobody can recover the backup, including Kosha.',
               ),
               const SizedBox(height: 20),
               if (waiting)
@@ -371,7 +371,7 @@ class _BackupScreenState extends State<BackupScreen> {
                   SettingsTile(
                     icon: Icons.restore,
                     title: 'Restore from a backup file',
-                    subtitle: 'Open a .mynabackup file, check what is in it, then merge or replace.',
+                    subtitle: 'Open a .koshabackup file, check what is in it, then merge or replace.',
                     onTap: _busy ? null : () => unawaited(_import()),
                   ),
                 ],

@@ -2,12 +2,12 @@
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myna/src/core/input_field_info.dart';
-import 'package:myna/src/core/secure_blob_store.dart';
-import 'package:myna/src/engine/contracts.dart';
-import 'package:myna/src/engine/dictionary/lexicon_factory.dart';
-import 'package:myna/src/engine/in_memory_lexicon.dart';
-import 'package:myna/src/engine/suggest/text_predictor.dart';
+import 'package:kosha/src/core/input_field_info.dart';
+import 'package:kosha/src/core/secure_blob_store.dart';
+import 'package:kosha/src/engine/contracts.dart';
+import 'package:kosha/src/engine/dictionary/lexicon_factory.dart';
+import 'package:kosha/src/engine/in_memory_lexicon.dart';
+import 'package:kosha/src/engine/suggest/text_predictor.dart';
 
 import 'support.dart';
 
@@ -22,15 +22,15 @@ const InputFieldInfo _passwordField = InputFieldInfo(
 
 void main() {
   late LexiconSource lexicons;
-  late MynaTextPredictor predictor;
+  late KoshaTextPredictor predictor;
   final geometry = qwertyGeometry();
 
-  Future<MynaTextPredictor> makePredictor({
+  Future<KoshaTextPredictor> makePredictor({
     SecureBlobStore? store,
     DateTime Function()? clock,
     Duration? saveDelay,
   }) async {
-    final p = MynaTextPredictor(
+    final p = KoshaTextPredictor(
       lexicons: lexicons,
       store: store ?? InMemorySecureBlobStore(),
       clock: clock,
@@ -270,7 +270,7 @@ void main() {
   });
 
   group('learning', () {
-    void commit(MynaTextPredictor p, String word, {List<String> previous = const [], bool learn = true}) =>
+    void commit(KoshaTextPredictor p, String word, {List<String> previous = const [], bool learn = true}) =>
         p.onWordCommitted(word, previousWords: previous, allowLearning: learn);
 
     test('a new word becomes known after two commits', () {
@@ -375,7 +375,7 @@ void main() {
 
     test('learned counts decay with time', () {
       var now = DateTime.utc(2026, 1, 1);
-      final decaying = MynaTextPredictor(
+      final decaying = KoshaTextPredictor(
         lexicons: lexicons,
         store: InMemorySecureBlobStore(),
         clock: () => now,
@@ -415,7 +415,7 @@ void main() {
     });
 
     test('works with a plain Lexicon that is not an MDICT file', () async {
-      final p = MynaTextPredictor(
+      final p = KoshaTextPredictor(
         lexicons: InMemoryLexiconSource({
           'en': InMemoryLexicon('en', ['the', 'thanks', 'you', 'hello', 'help'], bigrams: {('thank', 'you'): 5}),
         }),
@@ -428,7 +428,7 @@ void main() {
     });
 
     test('blends up to three languages', () async {
-      final p = MynaTextPredictor(
+      final p = KoshaTextPredictor(
         lexicons: InMemoryLexiconSource({
           'en': InMemoryLexicon('en', ['hello', 'world']),
           'es': InMemoryLexicon('es', ['hola', 'mundo']),

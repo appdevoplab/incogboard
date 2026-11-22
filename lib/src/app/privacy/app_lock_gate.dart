@@ -107,7 +107,7 @@ class _AppLockGateState extends State<AppLockGate> {
     if (_prompting) return;
     _prompting = true;
     try {
-      final outcome = await _auth.authenticate('Unlock Myna to see your settings and data');
+      final outcome = await _auth.authenticate('Unlock Kosha to see your settings and data');
       if (!mounted) return;
       if (outcome == AuthOutcome.success) {
         _unlockState();
@@ -138,7 +138,7 @@ class _AppLockGateState extends State<AppLockGate> {
               children: [
                 const PrivacyMascotSlot(size: 96),
                 const SizedBox(height: 24),
-                Text('Myna is locked', style: text.headlineSmall, textAlign: TextAlign.center),
+                Text('Kosha is locked', style: text.headlineSmall, textAlign: TextAlign.center),
                 const SizedBox(height: 8),
                 Text(
                   'Unlock with your fingerprint or your device PIN to continue.',

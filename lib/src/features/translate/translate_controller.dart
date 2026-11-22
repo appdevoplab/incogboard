@@ -46,7 +46,7 @@ class TranslateController extends ChangeNotifier {
   /// Commits text into the app (`InputController.insertText`).
   final void Function(String text) insert;
 
-  /// Myna language ids of the pair being translated.
+  /// Kosha language ids of the pair being translated.
   final String from;
   final String to;
 

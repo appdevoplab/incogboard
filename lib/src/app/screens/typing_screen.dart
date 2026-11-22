@@ -4,7 +4,7 @@
 // because they change how typing feels; they write the `swipe` section.
 import 'package:material_ui/material_ui.dart';
 
-import '../../settings/myna_settings.dart';
+import '../../settings/kosha_settings.dart';
 import '../common/settings_widgets.dart';
 import '../shell/settings_actions.dart';
 
@@ -17,9 +17,9 @@ class TypingScreen extends StatelessWidget {
       final t = settings.typing;
       final w = settings.swipe;
 
-      void typing(MynaSettings Function(MynaSettings s, TypingSettings t) change) =>
+      void typing(KoshaSettings Function(KoshaSettings s, TypingSettings t) change) =>
           writeSettings(context, SettingsSection.typing, (s) => change(s, s.typing));
-      void swipe(MynaSettings Function(MynaSettings s, SwipeSettings w) change) =>
+      void swipe(KoshaSettings Function(KoshaSettings s, SwipeSettings w) change) =>
           writeSettings(context, SettingsSection.swipe, (s) => change(s, s.swipe));
 
       return SettingsPage(

@@ -27,14 +27,14 @@ Shipped native libraries (only `libsherpa-onnx-jni.so`; the `c-api`/`cxx-api` li
 `com.microsoft.onnxruntime:onnxruntime-android:1.28.0` (MIT); 1.28.2 is not published for Android, and 1.29+ adds telemetry.
 
 **Modification (Apache-2.0 section 4b):** the release libraries ask for `OrtGetApiBase@VERS_1.28.2`, and Android's linker
-enforces symbol versions, so they did not load against 1.28.0 ("cannot locate symbol OrtGetApiBase"). Myna changes one
+enforces symbol versions, so they did not load against 1.28.0 ("cannot locate symbol OrtGetApiBase"). Kosha changes one
 entry of each library's ELF version-needs table from `VERS_1.28.2` to `VERS_1.28.0` and updates its hash: 2 bytes per file,
 done by `tool/patch_sherpa_ort_version.dart` and checked by `test/tool/patch_sherpa_ort_version_test.dart`. OrtGetApiBase
 is the only onnxruntime symbol sherpa imports, and the OrtApi level (28) is the same in 1.28.0 and 1.28.2. Checked on the
 emulator (API 37, x86_64) on 2026-11-22: the library loads and the Whisper base pack runs.
 
 Kotlin API files copied unmodified (apart from a two-line provenance comment at the top) into
-`app/src/main/kotlin/app/myna/keyboard/voice/sherpa/`, from `android/SherpaOnnxAar/sherpa_onnx/src/main/java/com/k2fsa/sherpa/onnx/`
+`app/src/main/kotlin/app/kosha/keyboard/voice/sherpa/`, from `android/SherpaOnnxAar/sherpa_onnx/src/main/java/com/k2fsa/sherpa/onnx/`
 of the same tag: `FeatureConfig.kt`, `HomophoneReplacerConfig.kt`, `QnnConfig.kt`, `OfflineRecognizer.kt`,
 `OfflineStream.kt`, `Vad.kt`. Their package stays `com.k2fsa.sherpa.onnx` because the JNI symbols bind to it.
 

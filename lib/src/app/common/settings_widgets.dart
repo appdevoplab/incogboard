@@ -14,7 +14,7 @@ class SettingsPage extends StatelessWidget {
   final List<Widget> children;
   final List<Widget>? actions;
 
-  /// Optional illustration or summary shown under the header (for example the Myna mascot).
+  /// Optional illustration or summary shown under the header (for example the Kosha mascot).
   final Widget? header;
 
   @override
@@ -36,7 +36,7 @@ class SettingsPage extends StatelessWidget {
 class SettingsHero extends StatelessWidget {
   const SettingsHero({super.key, required this.mascot, required this.title, this.subtitle});
 
-  /// Usually a `MynaMascot`.
+  /// Usually a `KoshaMascot`.
   final Widget mascot;
   final String title;
   final String? subtitle;

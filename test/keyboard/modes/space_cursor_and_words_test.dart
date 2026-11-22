@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myna/src/keyboard/modes/space_cursor_drag.dart';
-import 'package:myna/src/keyboard/modes/word_bounds.dart';
+import 'package:kosha/src/keyboard/modes/space_cursor_drag.dart';
+import 'package:kosha/src/keyboard/modes/word_bounds.dart';
 
 /// Feeds the drag total [dx] at a fixed [interval] of milliseconds per event and returns the steps.
 class _Feed {

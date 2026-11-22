@@ -40,7 +40,7 @@ class LocalAuthAuthenticator implements AppAuthenticator {
     try {
       return await _auth.isDeviceSupported();
     } on Object catch (e) {
-      MynaLog.w('AppLock', 'device support check failed', e.runtimeType);
+      KoshaLog.w('AppLock', 'device support check failed', e.runtimeType);
       return false;
     }
   }
@@ -57,7 +57,7 @@ class LocalAuthAuthenticator implements AppAuthenticator {
       );
       return ok ? AuthOutcome.success : AuthOutcome.cancelled;
     } on LocalAuthException catch (e) {
-      MynaLog.w('AppLock', 'authentication ended', e.code.name);
+      KoshaLog.w('AppLock', 'authentication ended', e.code.name);
       return switch (e.code) {
         LocalAuthExceptionCode.userCanceled ||
         LocalAuthExceptionCode.systemCanceled ||
@@ -65,7 +65,7 @@ class LocalAuthAuthenticator implements AppAuthenticator {
         _ => AuthOutcome.unavailable,
       };
     } on Object catch (e) {
-      MynaLog.w('AppLock', 'authentication failed', e.runtimeType);
+      KoshaLog.w('AppLock', 'authentication failed', e.runtimeType);
       return AuthOutcome.unavailable;
     }
   }
@@ -127,10 +127,10 @@ class SecureScreenGuard {
   void _apply() {
     try {
       unawaited(
-        _api.setSecureScreen(_holders > 0).catchError((Object e) => MynaLog.w('Secure', 'set failed', e.runtimeType)),
+        _api.setSecureScreen(_holders > 0).catchError((Object e) => KoshaLog.w('Secure', 'set failed', e.runtimeType)),
       );
     } on Object catch (e) {
-      MynaLog.w('Secure', 'set failed', e.runtimeType);
+      KoshaLog.w('Secure', 'set failed', e.runtimeType);
     }
   }
 }

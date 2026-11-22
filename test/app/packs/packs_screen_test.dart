@@ -4,9 +4,9 @@
 import 'package:flutter/services.dart' show PlatformException;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:myna/src/app/packs/packs_screen.dart';
+import 'package:kosha/src/app/packs/packs_screen.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:myna/src/bridge/messages.g.dart';
+import 'package:kosha/src/bridge/messages.g.dart';
 
 import '../support/app_fakes.dart';
 
@@ -61,13 +61,13 @@ void main() {
   testWidgets('an import that fails says why, and nothing is installed', (tester) async {
     final f = AppFakes();
     when(() => f.platform.listPacks()).thenAnswer((_) async => const []);
-    when(() => f.app.openDocument(any())).thenAnswer((_) async => 'content://downloads/pack.mynapack');
+    when(() => f.app.openDocument(any())).thenAnswer((_) async => 'content://downloads/pack.koshapack');
     when(() => f.app.importPack(any())).thenThrow(PlatformException(code: 'bad_signature'));
     await pumpWithServices(tester, f.services, const MaterialApp(home: PacksScreen()));
 
     await tester.tap(find.text('Import a pack file'));
     await tester.pumpAndSettle();
-    expect(find.text('This pack is not signed for Myna, so nothing was installed.'), findsOneWidget);
+    expect(find.text('This pack is not signed for Kosha, so nothing was installed.'), findsOneWidget);
     verifyNever(() => f.platform.notifySettingsChanged(any()));
   });
 

@@ -47,7 +47,7 @@ class TranslatePanel extends KeyboardPanel {
 
   final KeyboardSession session;
 
-  /// Myna language ids of the pair.
+  /// Kosha language ids of the pair.
   final String from;
   final String to;
 
@@ -86,7 +86,7 @@ class TranslatePanel extends KeyboardPanel {
       ),
     ),
     onInsert: () => controller.insertTranslation(),
-    onGetPack: () => unawaited(session.services.host.openSettings(MynaRoutes.packs)),
+    onGetPack: () => unawaited(session.services.host.openSettings(KoshaRoutes.packs)),
     onClose: panel.close,
   );
 

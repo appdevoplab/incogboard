@@ -3,7 +3,7 @@
 // Type scale for key labels. Sizes are in logical pixels at labelScale 1.0.
 import 'package:material_ui/material_ui.dart';
 
-abstract final class MynaType {
+abstract final class KoshaType {
   /// Primary letter on a key.
   static const double keyLabel = 22;
 

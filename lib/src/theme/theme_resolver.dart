@@ -24,11 +24,11 @@ import 'theme_spec.dart';
 /// [systemDark] is the system night mode.
 /// [disableAnimations] reflects the system "Remove animations" setting.
 ///
-/// An unknown `appearance.themeId` falls back to Myna Dynamic. Results are
+/// An unknown `appearance.themeId` falls back to Kosha Dynamic. Results are
 /// cached on the inputs, so calling this on every build is cheap.
 ///
 /// [customThemesDirectory] is where custom themes are stored (`<dataDirectory>/themes`). A
-/// `custom:<uuid>` id is read from there; a missing or broken theme falls back to Myna Dynamic.
+/// `custom:<uuid>` id is read from there; a missing or broken theme falls back to Kosha Dynamic.
 /// Null (tests, or no data directory) means custom ids cannot be resolved.
 KeyboardThemeData resolveKeyboardTheme({
   required AppearanceSettings appearance,
@@ -61,12 +61,12 @@ KeyboardThemeData resolveKeyboardTheme({
 }
 
 /// The spec for a theme id: a preset, or a custom theme read from [customThemesDirectory].
-/// Unknown presets, and custom themes that are missing or broken, give Myna Dynamic.
+/// Unknown presets, and custom themes that are missing or broken, give Kosha Dynamic.
 ThemeSpec specForId(String themeId, String? customThemesDirectory) {
   if (CustomThemeIds.isCustom(themeId)) {
     final dir = customThemesDirectory;
     final spec = dir == null ? null : CustomThemeStore.readSpecSync(dir, themeId);
-    return spec ?? ThemePresets.mynaDynamic;
+    return spec ?? ThemePresets.koshaDynamic;
   }
   return ThemePresets.byId(themeId);
 }
@@ -208,7 +208,7 @@ KeyboardThemeData themeFromScheme(
     fontFamily: spec.fontFamily,
     labelWeight: _nearestWeight(spec.labelWeight),
     labelFontVariations: spec.fontFamily == _variableFamily
-        ? MynaType.variations(
+        ? KoshaType.variations(
             weight: spec.labelWeight.toDouble(),
             roundness: spec.fontRoundness ?? spec.keyRadius.clamp(0.0, 0.5) * 200,
           )
@@ -232,9 +232,9 @@ MotionSpec _motion(double intensity, bool disableAnimations) {
   return MotionSpec(
     enabled: !disableAnimations && k > 0,
     // Deeper press with higher intensity: 0.92 at 1.0.
-    pressScale: (1 - (1 - MynaMotion.pressScale) * k).clamp(0.8, 1.0),
-    stiffness: MynaMotion.fastSpatial.scaled(math.max(0.5, k)).stiffness,
-    dampingRatio: MynaMotion.fastSpatial.dampingRatio,
+    pressScale: (1 - (1 - KoshaMotion.pressScale) * k).clamp(0.8, 1.0),
+    stiffness: KoshaMotion.fastSpatial.scaled(math.max(0.5, k)).stiffness,
+    dampingRatio: KoshaMotion.fastSpatial.dampingRatio,
   );
 }
 

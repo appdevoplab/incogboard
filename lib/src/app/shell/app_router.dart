@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// OWNER: Wave 2-A. Maps every MynaRoutes id to a screen. Unknown names go home. Each page is
+// OWNER: Wave 2-A. Maps every KoshaRoutes id to a screen. Unknown names go home. Each page is
 // keyed `route:<name>` so tests and deep links can find it.
 import 'package:material_ui/material_ui.dart';
 
@@ -18,32 +18,32 @@ import '../screens/typing_screen.dart';
 import '../screens/voice_screen.dart';
 import '../translate/translate_screen.dart';
 
-/// The Voice screen's route (kept for older callers; same as [MynaRoutes.voice]).
-const String voiceRoute = MynaRoutes.voice;
+/// The Voice screen's route (kept for older callers; same as [KoshaRoutes.voice]).
+const String voiceRoute = KoshaRoutes.voice;
 
 /// Screen for [route]. Unknown names show home.
 Widget screenForRoute(String route) => switch (route) {
-  MynaRoutes.onboarding => const OnboardingScreen(),
-  MynaRoutes.languages => const LanguagesScreen(),
-  MynaRoutes.typing => const TypingScreen(),
-  MynaRoutes.feel => const FeelScreen(),
-  MynaRoutes.panels || MynaRoutes.clipboard => const PanelsScreen(),
-  MynaRoutes.themes => const ThemeGalleryScreen(),
-  MynaRoutes.privacy => const PrivacyCenterScreen(),
-  MynaRoutes.about => const AboutScreen(),
-  MynaRoutes.voice => const VoiceScreen(),
-  MynaRoutes.translate => const TranslateScreen(),
-  MynaRoutes.packs => const PacksScreen(),
+  KoshaRoutes.onboarding => const OnboardingScreen(),
+  KoshaRoutes.languages => const LanguagesScreen(),
+  KoshaRoutes.typing => const TypingScreen(),
+  KoshaRoutes.feel => const FeelScreen(),
+  KoshaRoutes.panels || KoshaRoutes.clipboard => const PanelsScreen(),
+  KoshaRoutes.themes => const ThemeGalleryScreen(),
+  KoshaRoutes.privacy => const PrivacyCenterScreen(),
+  KoshaRoutes.about => const AboutScreen(),
+  KoshaRoutes.voice => const VoiceScreen(),
+  KoshaRoutes.translate => const TranslateScreen(),
+  KoshaRoutes.packs => const PacksScreen(),
   _ => const HomeScreen(),
 };
 
 /// True for names this app can show.
-bool isKnownRoute(String route) => MynaRoutes.all.contains(route);
+bool isKnownRoute(String route) => KoshaRoutes.all.contains(route);
 
 /// The page route for named navigation (`onGenerateRoute`).
 Route<Object?> routeFor(RouteSettings settings) {
-  final requested = settings.name ?? MynaRoutes.home;
-  final name = isKnownRoute(requested) ? requested : MynaRoutes.home;
+  final requested = settings.name ?? KoshaRoutes.home;
+  final name = isKnownRoute(requested) ? requested : KoshaRoutes.home;
   return _SpringPageRoute<Object?>(
     name: name,
     child: KeyedSubtree(key: ValueKey<String>('route:$name'), child: screenForRoute(name)),

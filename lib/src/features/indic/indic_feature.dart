@@ -87,7 +87,7 @@ class _IndicFeature extends KeyboardFeature {
     t.load().then<void>(
       (_) {
         _loading.remove(lang);
-        MynaLog.d('Indic', 'table $lang: ${t.tableSize} entries in ${sw.elapsedMilliseconds} ms');
+        KoshaLog.d('Indic', 'table $lang: ${t.tableSize} entries in ${sw.elapsedMilliseconds} ms');
         final s = _session;
         if (s == null || s.activeLanguage.value != lang) return;
         s.rebuildGestureTemplates();
@@ -95,7 +95,7 @@ class _IndicFeature extends KeyboardFeature {
       },
       onError: (Object err) {
         _loading.remove(lang);
-        MynaLog.w('Indic', 'table $lang failed to load', err.runtimeType);
+        KoshaLog.w('Indic', 'table $lang failed to load', err.runtimeType);
       },
     );
   }

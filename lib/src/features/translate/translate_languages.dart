@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// OWNER: Wave 3-T. Which Myna languages translate, and how a pair maps to a translation pack.
+// OWNER: Wave 3-T. Which Kosha languages translate, and how a pair maps to a translation pack.
 // Every pack is English with one language, in both directions (12 directions, 6 languages).
 import '../../bridge/messages.g.dart';
 
-/// The Myna languages that have a pack with English. Both Portuguese variants share the `pt` models.
+/// The Kosha languages that have a pack with English. Both Portuguese variants share the `pt` models.
 const List<String> translatableLanguages = ['en', 'es', 'fr', 'de', 'pt-BR', 'pt-PT', 'hi', 'ru'];
 
 const Set<String> _packLanguages = {'es', 'fr', 'de', 'pt', 'hi', 'ru'};
 
-/// The pack language for a Myna language id ('pt-BR' and 'pt-PT' are 'pt').
+/// The pack language for a Kosha language id ('pt-BR' and 'pt-PT' are 'pt').
 String packLanguage(String id) => (id == 'pt-BR' || id == 'pt-PT') ? 'pt' : id;
 
 /// True when a pair has a pack: English with one of the supported languages, in either direction.

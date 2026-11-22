@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// The plain content of a .mynabackup file, before AppHostApi.sealBackup encrypts it. Layout:
+// The plain content of a .koshabackup file, before AppHostApi.sealBackup encrypts it. Layout:
 //
 //   {"format": 1, "createdAt": "2026-11-21T10:00:00.000Z", "appVersion": "1.0.0+1",
 //    "sections": {
-//      "settings":  { ...MynaSettings JSON... },
+//      "settings":  { ...KoshaSettings JSON... },
 //      "learned":   { "learned_en": "<base64 LearnedData>" },
 //      "shortcuts": [ {"trigger": "omw", "expansion": "on my way"} ],
 //      "clipboard": [ {"text": "...", "ts": 1763719200000} ],       (pinned items only)
@@ -20,7 +20,7 @@ import 'dart:typed_data';
 import '../../core/data_sections.dart';
 import '../../engine/learn/learned_data.dart';
 import '../../settings/json_util.dart';
-import '../../settings/myna_settings.dart';
+import '../../settings/kosha_settings.dart';
 import '../custom_theme_files.dart';
 import '../shortcuts_store.dart';
 
@@ -83,7 +83,7 @@ class BackupContents {
     this.themes = const {},
   });
 
-  /// Raw MynaSettings JSON (validated by [MynaSettings.fromJson] before use).
+  /// Raw KoshaSettings JSON (validated by [KoshaSettings.fromJson] before use).
   final Json? settings;
 
   /// Blob name (`learned_<language>`) to the raw LearnedData bytes.

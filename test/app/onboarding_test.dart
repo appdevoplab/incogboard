@@ -5,47 +5,47 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:myna/src/app/app.dart';
-import 'package:myna/src/app/routes.dart';
-import 'package:myna/src/settings/myna_settings.dart';
+import 'package:kosha/src/app/app.dart';
+import 'package:kosha/src/app/routes.dart';
+import 'package:kosha/src/settings/kosha_settings.dart';
 
 import 'support/app_fakes.dart';
 
 void main() {
-  testWidgets('enable step follows Myna being turned on when the app resumes', (tester) async {
-    final fakes = AppFakes(launchRoute: MynaRoutes.onboarding, enabled: false, selected: false);
-    await pumpWithServices(tester, fakes.services, const MynaSettingsApp());
-    expect(find.text('Myna is not turned on yet.'), findsOneWidget);
+  testWidgets('enable step follows Kosha being turned on when the app resumes', (tester) async {
+    final fakes = AppFakes(launchRoute: KoshaRoutes.onboarding, enabled: false, selected: false);
+    await pumpWithServices(tester, fakes.services, const KoshaSettingsApp());
+    expect(find.text('Kosha is not turned on yet.'), findsOneWidget);
 
-    when(() => fakes.app.isMynaEnabled()).thenAnswer((_) async => true);
+    when(() => fakes.app.isKoshaEnabled()).thenAnswer((_) async => true);
     tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
     tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
     await tester.pumpAndSettle();
 
-    expect(find.text('Myna is turned on.'), findsOneWidget);
+    expect(find.text('Kosha is turned on.'), findsOneWidget);
     expect(find.text('Skip'), findsNothing, reason: 'a done step offers Next, not Skip');
     await tester.pumpWidget(const SizedBox());
   });
 
-  testWidgets('switch step polls every 500 ms until Myna is selected', (tester) async {
-    final fakes = AppFakes(launchRoute: MynaRoutes.onboarding, selected: false);
-    await pumpWithServices(tester, fakes.services, const MynaSettingsApp());
+  testWidgets('switch step polls every 500 ms until Kosha is selected', (tester) async {
+    final fakes = AppFakes(launchRoute: KoshaRoutes.onboarding, selected: false);
+    await pumpWithServices(tester, fakes.services, const KoshaSettingsApp());
     await tester.tap(find.text('Next'));
     await tester.pumpAndSettle();
-    expect(find.text('Switch to Myna'), findsOneWidget);
-    expect(find.text('Myna is not your keyboard yet.'), findsOneWidget);
+    expect(find.text('Switch to Kosha'), findsOneWidget);
+    expect(find.text('Kosha is not your keyboard yet.'), findsOneWidget);
 
-    when(() => fakes.app.isMynaSelected()).thenAnswer((_) async => true);
+    when(() => fakes.app.isKoshaSelected()).thenAnswer((_) async => true);
     await tester.pump(const Duration(milliseconds: 600));
     await tester.pumpAndSettle();
 
-    expect(find.text('Myna is your keyboard.'), findsOneWidget);
+    expect(find.text('Kosha is your keyboard.'), findsOneWidget);
     await tester.pumpWidget(const SizedBox());
   });
 
   testWidgets('the privacy step shows that the app has no internet permission', (tester) async {
-    final fakes = AppFakes(launchRoute: MynaRoutes.onboarding, internet: false);
-    await pumpWithServices(tester, fakes.services, const MynaSettingsApp());
+    final fakes = AppFakes(launchRoute: KoshaRoutes.onboarding, internet: false);
+    await pumpWithServices(tester, fakes.services, const KoshaSettingsApp());
     for (var i = 0; i < 2; i++) {
       await tester.tap(find.text('Next'));
       await tester.pumpAndSettle();
@@ -56,8 +56,8 @@ void main() {
   });
 
   testWidgets('finishing setup stores onboardingDone and opens home', (tester) async {
-    final fakes = AppFakes(launchRoute: MynaRoutes.onboarding);
-    await pumpWithServices(tester, fakes.services, const MynaSettingsApp());
+    final fakes = AppFakes(launchRoute: KoshaRoutes.onboarding);
+    await pumpWithServices(tester, fakes.services, const KoshaSettingsApp());
     for (var i = 0; i < 5; i++) {
       await tester.tap(find.text('Next'));
       await tester.pumpAndSettle();
@@ -67,32 +67,32 @@ void main() {
     await tester.pumpAndSettle();
 
     final update = capturedUpdate(fakes.store, 'languages');
-    expect(update(const MynaSettings()).languages.onboardingDone, isTrue);
+    expect(update(const KoshaSettings()).languages.onboardingDone, isTrue);
     expect(find.byKey(const ValueKey<String>('route:home')), findsOneWidget);
     await tester.pumpWidget(const SizedBox());
   });
 
   testWidgets('choosing a theme on the personalise step writes the appearance section', (tester) async {
-    final fakes = AppFakes(launchRoute: MynaRoutes.onboarding);
-    await pumpWithServices(tester, fakes.services, const MynaSettingsApp());
+    final fakes = AppFakes(launchRoute: KoshaRoutes.onboarding);
+    await pumpWithServices(tester, fakes.services, const KoshaSettingsApp());
     for (var i = 0; i < 3; i++) {
       await tester.tap(find.text('Next'));
       await tester.pumpAndSettle();
     }
     expect(find.text('Pick languages and a theme'), findsOneWidget);
-    await tester.tap(find.text('Myna Gold'));
+    await tester.tap(find.text('Kosha Gold'));
     await tester.pumpAndSettle();
 
     final update = capturedUpdate(fakes.store, 'appearance');
-    expect(update(const MynaSettings()).appearance.themeId, 'myna_gold');
+    expect(update(const KoshaSettings()).appearance.themeId, 'kosha_gold');
     await tester.pumpWidget(const SizedBox());
   });
 
   testWidgets('every language is on the personalise step and can be chosen (Wave 3: nothing is coming soon)', (
     tester,
   ) async {
-    final fakes = AppFakes(launchRoute: MynaRoutes.onboarding);
-    await pumpWithServices(tester, fakes.services, const MynaSettingsApp());
+    final fakes = AppFakes(launchRoute: KoshaRoutes.onboarding);
+    await pumpWithServices(tester, fakes.services, const KoshaSettingsApp());
     for (var i = 0; i < 3; i++) {
       await tester.tap(find.text('Next'));
       await tester.pumpAndSettle();
@@ -102,7 +102,7 @@ void main() {
     await tester.tap(find.text('Español'));
     await tester.pumpAndSettle();
     final update = capturedUpdate(fakes.store, 'languages');
-    expect(update(const MynaSettings()).languages.enabled, ['en', 'es']);
+    expect(update(const KoshaSettings()).languages.enabled, ['en', 'es']);
     await tester.pumpWidget(const SizedBox());
   });
 }

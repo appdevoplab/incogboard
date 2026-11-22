@@ -10,7 +10,7 @@ import '../../bridge/messages.g.dart';
 import '../../core/data_sections.dart';
 import '../../core/secure_blob_store.dart';
 import '../../engine/learn/learned_data.dart';
-import '../../settings/myna_settings.dart';
+import '../../settings/kosha_settings.dart';
 import '../../settings/settings_store.dart';
 import '../custom_theme_files.dart';
 import '../shortcuts_store.dart';
@@ -233,7 +233,7 @@ class BackupRestorer {
     var settingsApplied = false;
     final incomingSettings = contents.settings;
     if (include.contains(BackupSection.settings) && incomingSettings != null) {
-      final parsed = MynaSettings.fromJson(incomingSettings);
+      final parsed = KoshaSettings.fromJson(incomingSettings);
       await settings.update((_) => parsed, sections: SettingsSection.all);
       settingsApplied = true;
     }

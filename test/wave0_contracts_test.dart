@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myna/src/bridge/messages.g.dart';
-import 'package:myna/src/core/input_field_info.dart';
-import 'package:myna/src/engine/in_memory_lexicon.dart';
-import 'package:myna/src/keyboard/layout/layout_model.dart';
-import 'package:myna/src/settings/myna_settings.dart';
-import 'package:myna/src/settings/settings_store.dart';
+import 'package:kosha/src/bridge/messages.g.dart';
+import 'package:kosha/src/core/input_field_info.dart';
+import 'package:kosha/src/engine/in_memory_lexicon.dart';
+import 'package:kosha/src/keyboard/layout/layout_model.dart';
+import 'package:kosha/src/settings/kosha_settings.dart';
+import 'package:kosha/src/settings/settings_store.dart';
 
 import 'support/fake_editor.dart';
 
@@ -80,10 +80,10 @@ void main() {
 
   group('Settings', () {
     test('round-trips and tolerates junk', () {
-      const s = MynaSettings(typing: TypingSettings(autoCorrect: false));
-      final back = MynaSettings.fromJson(jsonDecode(jsonEncode(s.toJson())) as Map<String, Object?>);
+      const s = KoshaSettings(typing: TypingSettings(autoCorrect: false));
+      final back = KoshaSettings.fromJson(jsonDecode(jsonEncode(s.toJson())) as Map<String, Object?>);
       expect(back.typing.autoCorrect, isFalse);
-      final junk = MynaSettings.fromJson({
+      final junk = KoshaSettings.fromJson({
         'typing': 'oops',
         'languages': {'enabled': <String>[], 'active': 'xx'},
       });
@@ -93,7 +93,7 @@ void main() {
     });
 
     test('store persists atomically and notifies the other engine', () async {
-      final dir = await Directory.systemTemp.createTemp('myna_settings');
+      final dir = await Directory.systemTemp.createTemp('kosha_settings');
       final notified = <String>[];
       final store = await SettingsStore.open(directory: dir.path, notifyOther: (s) async => notified.addAll(s));
       await store.update((v) => v.copyWith(swipe: v.swipe.copyWith(enabled: false)), sections: [SettingsSection.swipe]);

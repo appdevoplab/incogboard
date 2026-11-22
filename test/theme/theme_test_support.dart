@@ -1,7 +1,7 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:myna/src/bridge/messages.g.dart';
-import 'package:myna/src/design/design.dart';
-import 'package:myna/src/theme/keyboard_theme_data.dart';
+import 'package:kosha/src/bridge/messages.g.dart';
+import 'package:kosha/src/design/design.dart';
+import 'package:kosha/src/theme/keyboard_theme_data.dart';
 
 /// Synthetic Material You palettes: 5 palettes x 13 tones, tinted greys with a
 /// distinct hue per palette. Android tone N has lightness 100 - N/10.

@@ -1,14 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:myna/src/design/design.dart';
-import 'package:myna/src/settings/sections/appearance_settings.dart';
-import 'package:myna/src/bridge/messages.g.dart';
-import 'package:myna/src/theme/theme.dart';
+import 'package:kosha/src/design/design.dart';
+import 'package:kosha/src/settings/sections/appearance_settings.dart';
+import 'package:kosha/src/bridge/messages.g.dart';
+import 'package:kosha/src/theme/theme.dart';
 
 import 'theme_test_support.dart';
 
 KeyboardThemeData _resolve({
-  String themeId = 'myna_dynamic',
+  String themeId = 'kosha_dynamic',
   DarkModePreference darkMode = DarkModePreference.light,
   bool pureBlack = false,
   ContrastPreference contrast = ContrastPreference.standard,
@@ -106,13 +106,13 @@ void main() {
 
   group('motion', () {
     test('disableAnimations turns motion off', () {
-      expect(_resolve(themeId: 'myna_gold', disableAnimations: true).motion.enabled, isFalse);
-      expect(_resolve(themeId: 'myna_gold').motion.enabled, isTrue);
+      expect(_resolve(themeId: 'kosha_gold', disableAnimations: true).motion.enabled, isFalse);
+      expect(_resolve(themeId: 'kosha_gold').motion.enabled, isTrue);
     });
     test('defaults come from the fast spatial token', () {
-      final m = _resolve(themeId: 'myna_gold').motion;
-      expect(m.stiffness, MynaMotion.fastSpatial.stiffness);
-      expect(m.dampingRatio, MynaMotion.fastSpatial.dampingRatio);
+      final m = _resolve(themeId: 'kosha_gold').motion;
+      expect(m.stiffness, KoshaMotion.fastSpatial.stiffness);
+      expect(m.dampingRatio, KoshaMotion.fastSpatial.dampingRatio);
       expect(m.pressScale, closeTo(0.92, 1e-9));
     });
     test('intensity 0 disables motion, 2 presses deeper and snappier', () {
@@ -120,20 +120,20 @@ void main() {
       expect(off.motion.enabled, isFalse);
       final strong = resolveKeyboardThemeFromSpec(ThemePresets.mint.copyWith(motionIntensity: 2), dark: false);
       expect(strong.motion.pressScale, lessThan(0.92));
-      expect(strong.motion.stiffness, greaterThan(MynaMotion.fastSpatial.stiffness));
+      expect(strong.motion.stiffness, greaterThan(KoshaMotion.fastSpatial.stiffness));
     });
   });
 
   group('fallback and selection', () {
-    test('unknown themeId falls back to Myna Dynamic', () {
+    test('unknown themeId falls back to Kosha Dynamic', () {
       final unknown = _resolve(themeId: 'no_such_theme', colors: systemColors);
       final dyn = _resolve(colors: systemColors);
-      expect(unknown.id, 'myna_dynamic');
+      expect(unknown.id, 'kosha_dynamic');
       expect(unknown.background, dyn.background);
       expect(unknown.actionKey.fill, dyn.actionKey.fill);
     });
 
-    test('Myna Dynamic uses the system palettes', () {
+    test('Kosha Dynamic uses the system palettes', () {
       final t = _resolve(colors: systemColors);
       final expected = materialYouScheme(systemColors.palettes, Brightness.light)!;
       // The accent may be nudged slightly to reach label contrast; it must stay close.
@@ -142,7 +142,7 @@ void main() {
       expect(t.background, expected.surfaceContainer);
     });
 
-    test('Myna Dynamic falls back to the brand seed without or with invalid palettes', () {
+    test('Kosha Dynamic falls back to the brand seed without or with invalid palettes', () {
       final none = _resolve();
       final bad = _resolve(colors: SystemColorsMessage(palettes: [1, 2, 3], isNightMode: false));
       expect(bad.actionKey.fill, none.actionKey.fill);
@@ -158,10 +158,10 @@ void main() {
     });
   });
 
-  group('Myna Gold brand colours', () {
+  group('Kosha Gold brand colours', () {
     test('light and dark keep the yellow primary with brown on-colour', () {
       for (final dark in [false, true]) {
-        final t = resolveKeyboardThemeFromSpec(ThemePresets.mynaGold, dark: dark);
+        final t = resolveKeyboardThemeFromSpec(ThemePresets.koshaGold, dark: dark);
         expect(t.actionKey.fill, const Color(0xFFF5B700));
         expect(t.actionKey.label, const Color(0xFF3E2723));
       }

@@ -5,8 +5,8 @@
 import 'dart:typed_data';
 
 import 'package:mocktail/mocktail.dart';
-import 'package:myna/src/bridge/messages.g.dart';
-import 'package:myna/src/core/secure_blob_store.dart';
+import 'package:kosha/src/bridge/messages.g.dart';
+import 'package:kosha/src/core/secure_blob_store.dart';
 
 /// Keeps blobs in memory. Names in [locked] read as null, as they do while the phone is locked,
 /// but still show up in [PlatformHostApi.secureList] (see [MockPlatform]).
@@ -48,7 +48,7 @@ void stubPlatform(MockPlatform platform, FakeBlobStore store, {String dataDirect
   when(() => platform.hasInternetPermission()).thenAnswer((_) async => false);
   when(() => platform.getAppInfo()).thenAnswer(
     (_) async => AppInfoMessage(
-      packageName: 'app.myna.keyboard',
+      packageName: 'app.kosha.keyboard',
       versionName: '1.0.0',
       versionCode: 1,
       sdkInt: 36,

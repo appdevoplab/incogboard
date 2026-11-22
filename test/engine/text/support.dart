@@ -4,9 +4,9 @@
 import 'dart:io';
 
 import 'package:flutter/services.dart';
-import 'package:myna/src/core/input_field_info.dart';
-import 'package:myna/src/engine/contracts.dart';
-import 'package:myna/src/packs/pack_repository.dart';
+import 'package:kosha/src/core/input_field_info.dart';
+import 'package:kosha/src/engine/contracts.dart';
+import 'package:kosha/src/packs/pack_repository.dart';
 
 /// Reads packs straight from the `assets/` folder (tests run from the project root).
 class FilePackRepository implements PackRepository {

@@ -74,7 +74,7 @@ class _ShortcutsFeature extends KeyboardFeature {
       store.invalidate();
       _index = ShortcutIndex.of(await store.list());
     } on Object catch (e) {
-      MynaLog.w('Shortcuts', 'load failed', e.runtimeType);
+      KoshaLog.w('Shortcuts', 'load failed', e.runtimeType);
     }
   }
 

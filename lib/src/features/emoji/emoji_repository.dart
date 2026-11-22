@@ -76,7 +76,7 @@ class EmojiRepository {
       final built = await build(bytes, wanted);
       _index = built;
       _key = key;
-      MynaLog.d('Emoji', 'index for ${wanted.length} languages in ${sw.elapsedMilliseconds} ms');
+      KoshaLog.d('Emoji', 'index for ${wanted.length} languages in ${sw.elapsedMilliseconds} ms');
       return built;
     }();
     _pending = future;
@@ -91,7 +91,7 @@ class EmojiRepository {
   void warm(List<String> languages) {
     unawaited(
       ensure(languages)
-          .then<void>((_) {}, onError: (Object e) => MynaLog.w('Emoji', 'index load failed', e.runtimeType)),
+          .then<void>((_) {}, onError: (Object e) => KoshaLog.w('Emoji', 'index load failed', e.runtimeType)),
     );
   }
 

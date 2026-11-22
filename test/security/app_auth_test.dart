@@ -4,8 +4,8 @@ import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:myna/src/security/app_auth.dart';
-import 'package:myna/src/security/custom_theme_files.dart';
+import 'package:kosha/src/security/app_auth.dart';
+import 'package:kosha/src/security/custom_theme_files.dart';
 
 import 'support/fakes.dart';
 
@@ -89,7 +89,7 @@ void main() {
     });
 
     test('lists, reads and writes photos in the images folder', () async {
-      final root = await Directory.systemTemp.createTemp('myna_theme_files');
+      final root = await Directory.systemTemp.createTemp('kosha_theme_files');
       addTearDown(() => root.delete(recursive: true));
       final files = CustomThemeFiles(root.path);
       await files.write('t.json', Uint8List.fromList([1]));

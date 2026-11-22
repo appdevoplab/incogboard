@@ -2,9 +2,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:myna/src/app/privacy/shortcuts_screen.dart';
-import 'package:myna/src/core/data_sections.dart';
-import 'package:myna/src/security/shortcuts_store.dart';
+import 'package:kosha/src/app/privacy/shortcuts_screen.dart';
+import 'package:kosha/src/core/data_sections.dart';
+import 'package:kosha/src/security/shortcuts_store.dart';
 
 import 'privacy_harness.dart';
 

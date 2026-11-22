@@ -12,7 +12,7 @@ import 'package:flutter/widgets.dart';
 import '../bridge/messages.g.dart';
 import '../core/keyboard_services.dart';
 import '../core/log.dart';
-import '../settings/myna_settings.dart';
+import '../settings/kosha_settings.dart';
 import '../theme/keyboard_theme_data.dart';
 import '../theme/theme_resolver.dart';
 import 'keyboard_session.dart';
@@ -64,7 +64,7 @@ class _KeyboardAppState extends State<KeyboardApp> {
         featureHooks.add(f.attach(_session));
         _frame ??= f.frame;
       } on Object catch (e) {
-        MynaLog.w('Keyboard', 'feature attach failed', e.runtimeType);
+        KoshaLog.w('Keyboard', 'feature attach failed', e.runtimeType);
       }
     }
     _hooks = KeyboardHooks.merge(featureHooks);
@@ -86,7 +86,7 @@ class _KeyboardAppState extends State<KeyboardApp> {
       try {
         f.detach();
       } on Object catch (e) {
-        MynaLog.w('Keyboard', 'feature detach failed', e.runtimeType);
+        KoshaLog.w('Keyboard', 'feature detach failed', e.runtimeType);
       }
     }
     _session.dispose();
@@ -144,12 +144,12 @@ class _KeyboardAppState extends State<KeyboardApp> {
       unawaited(
         s.host.setWindowLayout(layout).catchError((Object e) {
           _sentLayout = null;
-          MynaLog.w('Keyboard', 'window layout failed', e.runtimeType);
+          KoshaLog.w('Keyboard', 'window layout failed', e.runtimeType);
         }),
       );
     } on Object catch (e) {
       _sentLayout = null;
-      MynaLog.w('Keyboard', 'window layout failed', e.runtimeType);
+      KoshaLog.w('Keyboard', 'window layout failed', e.runtimeType);
     }
   }
 
@@ -162,12 +162,12 @@ class _KeyboardAppState extends State<KeyboardApp> {
       unawaited(
         s.host.setNavigationBarStyle(argb).catchError((Object e) {
           _sentNavBarArgb = null;
-          MynaLog.w('Keyboard', 'navigation bar style failed', e.runtimeType);
+          KoshaLog.w('Keyboard', 'navigation bar style failed', e.runtimeType);
         }),
       );
     } on Object catch (e) {
       _sentNavBarArgb = null;
-      MynaLog.w('Keyboard', 'navigation bar style failed', e.runtimeType);
+      KoshaLog.w('Keyboard', 'navigation bar style failed', e.runtimeType);
     }
   }
 

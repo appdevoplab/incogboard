@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// What Myna has learned about one language from the user's typing: personal
+// What Kosha has learned about one language from the user's typing: personal
 // word and word-pair counts with time decay, plus the "never suggest" list.
 // Persisted only through SecureBlobStore (encrypted), as JSON.
 import 'dart:convert';

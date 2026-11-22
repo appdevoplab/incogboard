@@ -7,11 +7,11 @@ import 'dart:io';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:myna/src/app/app_services.dart';
-import 'package:myna/src/bridge/messages.g.dart';
-import 'package:myna/src/core/secure_blob_store.dart';
-import 'package:myna/src/settings/myna_settings.dart';
-import 'package:myna/src/settings/settings_store.dart';
+import 'package:kosha/src/app/app_services.dart';
+import 'package:kosha/src/bridge/messages.g.dart';
+import 'package:kosha/src/core/secure_blob_store.dart';
+import 'package:kosha/src/settings/kosha_settings.dart';
+import 'package:kosha/src/settings/settings_store.dart';
 
 class MockAppHost extends Mock implements AppHostApi {}
 
@@ -22,20 +22,20 @@ class MockSettingsStore extends Mock implements SettingsStore {}
 /// Services whose host calls answer from the given values.
 class AppFakes {
   AppFakes({
-    MynaSettings settings = const MynaSettings(),
+    KoshaSettings settings = const KoshaSettings(),
     this.launchRoute,
     bool enabled = true,
     bool selected = true,
     bool internet = false,
   }) {
-    registerFallbackValue((MynaSettings s) => s);
+    registerFallbackValue((KoshaSettings s) => s);
     registerFallbackValue(<String>[]);
     app = MockAppHost();
     platform = MockPlatformHost();
     store = MockSettingsStore();
 
-    when(() => app.isMynaEnabled()).thenAnswer((_) async => enabled);
-    when(() => app.isMynaSelected()).thenAnswer((_) async => selected);
+    when(() => app.isKoshaEnabled()).thenAnswer((_) async => enabled);
+    when(() => app.isKoshaSelected()).thenAnswer((_) async => selected);
     when(() => app.takeLaunchRoute()).thenAnswer((_) async => launchRoute);
     when(() => app.openInputMethodSettings()).thenAnswer((_) async {});
     when(() => app.showInputMethodPicker()).thenAnswer((_) async {});
@@ -44,7 +44,7 @@ class AppFakes {
     when(() => platform.hasInternetPermission()).thenAnswer((_) async => internet);
     when(() => platform.getAppInfo()).thenAnswer(
       (_) async => AppInfoMessage(
-        packageName: 'app.myna.keyboard',
+        packageName: 'app.kosha.keyboard',
         versionName: '1.0.0',
         versionCode: 1,
         sdkInt: 36,
@@ -54,7 +54,7 @@ class AppFakes {
     when(() => platform.notifySettingsChanged(any())).thenAnswer((_) async {});
     // Never created: the theme gallery treats a missing themes folder as "no custom themes".
     when(() => platform.getDataDirectory())
-        .thenAnswer((_) async => '${Directory.systemTemp.path}/myna_app_fakes_missing');
+        .thenAnswer((_) async => '${Directory.systemTemp.path}/kosha_app_fakes_missing');
 
     when(() => store.value).thenReturn(settings);
     when(() => store.update(any(), sections: any(named: 'sections'))).thenAnswer((_) async {});
@@ -90,7 +90,7 @@ Future<void> tapText(WidgetTester tester, String text) async {
 }
 
 /// The settings function passed to the last `update` call for [section].
-MynaSettings Function(MynaSettings) capturedUpdate(MockSettingsStore store, String section) {
+KoshaSettings Function(KoshaSettings) capturedUpdate(MockSettingsStore store, String section) {
   final captured = verify(() => store.update(captureAny(), sections: [section])).captured;
-  return captured.last as MynaSettings Function(MynaSettings);
+  return captured.last as KoshaSettings Function(KoshaSettings);
 }

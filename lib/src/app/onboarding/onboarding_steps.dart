@@ -4,12 +4,12 @@
 // status values and passes them in; each step only shows them and calls back.
 import 'package:material_ui/material_ui.dart';
 
-import '../../settings/myna_settings.dart';
+import '../../settings/kosha_settings.dart';
 import '../../theme/presets.dart';
 import '../common/settings_widgets.dart';
 import '../routes.dart';
 import '../shell/settings_actions.dart';
-import 'myna_mascot.dart';
+import 'kosha_mascot.dart';
 import 'onboarding_languages.dart';
 
 /// Shared layout: a scrollable column with a heading and body text.
@@ -80,7 +80,7 @@ class _StatusCard extends StatelessWidget {
   }
 }
 
-/// Step 1: turn Myna on in Android's keyboard list.
+/// Step 1: turn Kosha on in Android's keyboard list.
 class EnableStep extends StatelessWidget {
   const EnableStep({super.key, required this.enabled, required this.onOpenSettings});
 
@@ -89,13 +89,13 @@ class EnableStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => _StepPage(
-    mascot: const MynaMascot(size: 112),
-    title: 'Turn on Myna',
+    mascot: const KoshaMascot(size: 112),
+    title: 'Turn on Kosha',
     body:
-        'Android keeps a list of the keyboards you have turned on. Turn Myna on in that list, '
-        'then come back here. Myna notices the change by itself.',
+        'Android keeps a list of the keyboards you have turned on. Turn Kosha on in that list, '
+        'then come back here. Kosha notices the change by itself.',
     children: [
-      _StatusCard(done: enabled, doneText: 'Myna is turned on.', pendingText: 'Myna is not turned on yet.'),
+      _StatusCard(done: enabled, doneText: 'Kosha is turned on.', pendingText: 'Kosha is not turned on yet.'),
       const SizedBox(height: 16),
       FilledButton.icon(
         onPressed: onOpenSettings,
@@ -106,7 +106,7 @@ class EnableStep extends StatelessWidget {
   );
 }
 
-/// Step 2: choose Myna as the keyboard in use. The screen polls while this step shows.
+/// Step 2: choose Kosha as the keyboard in use. The screen polls while this step shows.
 class SwitchStep extends StatelessWidget {
   const SwitchStep({super.key, required this.enabled, required this.selected, required this.onChoose});
 
@@ -116,15 +116,15 @@ class SwitchStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => _StepPage(
-    title: 'Switch to Myna',
+    title: 'Switch to Kosha',
     body:
-        'Choose Myna as the keyboard you type with. Android may show a short list first. '
+        'Choose Kosha as the keyboard you type with. Android may show a short list first. '
         'This screen updates by itself.',
     children: [
       _StatusCard(
         done: selected,
-        doneText: 'Myna is your keyboard.',
-        pendingText: enabled ? 'Myna is not your keyboard yet.' : 'Turn Myna on in the previous step first.',
+        doneText: 'Kosha is your keyboard.',
+        pendingText: enabled ? 'Kosha is not your keyboard yet.' : 'Turn Kosha on in the previous step first.',
       ),
       const SizedBox(height: 16),
       FilledButton.icon(
@@ -136,7 +136,7 @@ class SwitchStep extends StatelessWidget {
   );
 }
 
-/// Step 3: why Android's "may collect your text" warning does not apply to Myna.
+/// Step 3: why Android's "may collect your text" warning does not apply to Kosha.
 class PrivacyStep extends StatelessWidget {
   const PrivacyStep({super.key, required this.internet, required this.debugBuild});
 
@@ -154,13 +154,13 @@ class PrivacyStep extends StatelessWidget {
           ? 'This debug build can reach the internet. Debug builds have that permission for development only.'
           : 'This build can reach the internet.';
     } else {
-      internetText = 'Myna has no internet permission, so it cannot send anything anywhere.';
+      internetText = 'Kosha has no internet permission, so it cannot send anything anywhere.';
     }
     return _StepPage(
       title: 'Why the warning does not apply',
       body:
           'Android warns that any keyboard may collect what you type. That warning is about keyboards '
-          'that can reach the internet. Myna cannot.',
+          'that can reach the internet. Kosha cannot.',
       children: [
         SettingsGroup(
           children: [
@@ -210,7 +210,7 @@ class PersonaliseStep extends StatelessWidget {
               const SizedBox(height: 8),
               Builder(
                 builder: (context) => TextButton(
-                  onPressed: () => Navigator.of(context).pushNamed(MynaRoutes.themes),
+                  onPressed: () => Navigator.of(context).pushNamed(KoshaRoutes.themes),
                   child: const Text('More themes'),
                 ),
               ),
@@ -269,10 +269,10 @@ class FinishStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => _StepPage(
-    mascot: const MynaMascot(size: 112),
+    mascot: const KoshaMascot(size: 112),
     title: 'You are all set',
     body:
-        'Myna is ready. Everything can be changed later in Settings: languages, typing, feel, panels and '
+        'Kosha is ready. Everything can be changed later in Settings: languages, typing, feel, panels and '
         'themes. Tap Done to finish.',
     children: const [],
   );

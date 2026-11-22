@@ -7,7 +7,7 @@ import 'dart:async';
 import 'package:material_ui/material_ui.dart';
 
 import '../../bridge/messages.g.dart';
-import '../../settings/myna_settings.dart';
+import '../../settings/kosha_settings.dart';
 import '../common/settings_widgets.dart';
 import '../app_services.dart';
 import '../routes.dart';
@@ -57,7 +57,7 @@ class VoiceScreen extends StatelessWidget {
                 icon: Icons.inventory_2_outlined,
                 title: 'Model packs',
                 subtitle: 'Install or remove voice and translation packs',
-                onTap: () => unawaited(Navigator.of(context).pushNamed(MynaRoutes.packs)),
+                onTap: () => unawaited(Navigator.of(context).pushNamed(KoshaRoutes.packs)),
               ),
             ],
           ),

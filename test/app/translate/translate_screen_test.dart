@@ -4,9 +4,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:myna/src/app/translate/translate_screen.dart';
-import 'package:myna/src/bridge/messages.g.dart';
-import 'package:myna/src/settings/myna_settings.dart';
+import 'package:kosha/src/app/translate/translate_screen.dart';
+import 'package:kosha/src/bridge/messages.g.dart';
+import 'package:kosha/src/settings/kosha_settings.dart';
 
 import '../support/app_fakes.dart';
 
@@ -22,7 +22,7 @@ PackInfoMessage _pack() => PackInfoMessage(
 );
 
 void main() {
-  const settings = MynaSettings(
+  const settings = KoshaSettings(
     translate: TranslateSettings(enabled: true, from: 'en', to: 'es'),
   );
 
@@ -39,7 +39,7 @@ void main() {
 
   testWidgets('a pair without a pack says so', (tester) async {
     final f = AppFakes(
-      settings: const MynaSettings(
+      settings: const KoshaSettings(
         translate: TranslateSettings(from: 'en', to: 'ru'),
       ),
     );

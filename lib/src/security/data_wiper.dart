@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// Deletes Myna's stored data: one category at a time, or everything. Each category says exactly
+// Deletes Kosha's stored data: one category at a time, or everything. Each category says exactly
 // what it removes, so the confirmation dialog can list it. Every wipe notifies the keyboard engine,
 // which reloads or forgets the deleted data.
 //
@@ -10,7 +10,7 @@ import '../bridge/messages.g.dart';
 import '../core/data_sections.dart';
 import '../core/seen_apps.dart';
 import '../core/secure_blob_store.dart';
-import '../settings/myna_settings.dart';
+import '../settings/kosha_settings.dart';
 import '../settings/settings_store.dart';
 import '../theme/presets.dart';
 import 'custom_theme_files.dart';
@@ -19,7 +19,7 @@ import 'shortcuts_store.dart';
 enum WipeCategory {
   learned(
     title: 'Learned words',
-    detail: 'Every word Myna learned from your typing in every language, plus the words you blocked.',
+    detail: 'Every word Kosha learned from your typing in every language, plus the words you blocked.',
   ),
   clipboard(title: 'Clipboard history', detail: 'Copied text in the clipboard history, including pinned items.'),
   emoji(title: 'Emoji recents', detail: 'Recently used emoji and the skin tones you picked.'),
@@ -103,7 +103,7 @@ class DataWiper {
     await shortcuts.clear();
     await _deleteThemes();
     if (resetSettings) {
-      await settings.update((_) => const MynaSettings(), sections: SettingsSection.all);
+      await settings.update((_) => const KoshaSettings(), sections: SettingsSection.all);
     }
     await notify([DataSections.all]);
   }
@@ -115,7 +115,7 @@ class DataWiper {
     final appearance = settings.value.appearance;
     if (!ThemePresets.isPresetId(appearance.themeId)) {
       await settings.update(
-        (s) => s.copyWith(appearance: s.appearance.copyWith(themeId: ThemePresets.mynaDynamic.id)),
+        (s) => s.copyWith(appearance: s.appearance.copyWith(themeId: ThemePresets.koshaDynamic.id)),
         sections: const [SettingsSection.appearance],
       );
     }

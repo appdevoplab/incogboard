@@ -4,15 +4,15 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:myna/src/bridge/messages.g.dart';
-import 'package:myna/src/core/input_field_info.dart';
-import 'package:myna/src/engine/contracts.dart';
-import 'package:myna/src/features/emoji/emoji_repository.dart';
-import 'package:myna/src/features/features.dart';
-import 'package:myna/src/keyboard/keyboard_app.dart';
-import 'package:myna/src/keyboard/keyboard_session.dart';
-import 'package:myna/src/keyboard/layout/layout_model.dart';
-import 'package:myna/src/settings/myna_settings.dart';
+import 'package:kosha/src/bridge/messages.g.dart';
+import 'package:kosha/src/core/input_field_info.dart';
+import 'package:kosha/src/engine/contracts.dart';
+import 'package:kosha/src/features/emoji/emoji_repository.dart';
+import 'package:kosha/src/features/features.dart';
+import 'package:kosha/src/keyboard/keyboard_app.dart';
+import 'package:kosha/src/keyboard/keyboard_session.dart';
+import 'package:kosha/src/keyboard/layout/layout_model.dart';
+import 'package:kosha/src/settings/kosha_settings.dart';
 
 import '../keyboard/support/app_harness.dart';
 
@@ -28,11 +28,11 @@ class _Probe extends KeyboardFeature {
 }
 
 /// Settings that keep the strip showing the toolbar (no next-word predictions).
-const MynaSettings _quiet = MynaSettings(typing: TypingSettings(nextWordPrediction: false));
+const KoshaSettings _quiet = KoshaSettings(typing: TypingSettings(nextWordPrediction: false));
 
 Future<(AppHarness, _Probe, KeyFinder)> boot(
   WidgetTester tester, {
-  MynaSettings settings = _quiet,
+  KoshaSettings settings = _quiet,
   EditorInfoMessage? field,
   KeyboardLayoutDef? layout,
 }) async {
@@ -137,7 +137,7 @@ void main() {
     });
 
     testWidgets('an exact keyword in the typed word suggests one emoji in the strip', (tester) async {
-      final (_, probe, keys) = await boot(tester, settings: const MynaSettings());
+      final (_, probe, keys) = await boot(tester, settings: const KoshaSettings());
       for (final c in ['p', 'i', 'z', 'z', 'a']) {
         await tester.tapAt(keys.output(c));
         await tester.pump(const Duration(milliseconds: 20));
@@ -154,7 +154,7 @@ void main() {
       addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
       final (h, _, _) = await boot(
         tester,
-        settings: const MynaSettings(
+        settings: const KoshaSettings(
           typing: TypingSettings(nextWordPrediction: false),
           clipboard: ClipboardSettings(recentChip: false),
         ),
@@ -209,7 +209,7 @@ void main() {
       // No recent-copy chip here: a chip replaces the toolbar, and the Clipboard button is what we tap.
       final (h, _, _) = await boot(
         tester,
-        settings: const MynaSettings(
+        settings: const KoshaSettings(
           typing: TypingSettings(nextWordPrediction: false),
           clipboard: ClipboardSettings(recentChip: false),
         ),
@@ -227,7 +227,7 @@ void main() {
     testWidgets('a sensitive copy is never kept in the history', (tester) async {
       final (h, _, _) = await boot(
         tester,
-        settings: const MynaSettings(
+        settings: const KoshaSettings(
           typing: TypingSettings(nextWordPrediction: false),
           clipboard: ClipboardSettings(recentChip: false),
         ),
@@ -243,7 +243,7 @@ void main() {
     testWidgets('incognito keeps nothing, and shows no chip', (tester) async {
       final (h, _, _) = await boot(
         tester,
-        settings: const MynaSettings(
+        settings: const KoshaSettings(
           privacy: PrivacySettings(incognito: true),
           typing: TypingSettings(nextWordPrediction: false),
         ),

@@ -5,42 +5,42 @@
 // all derived from the same spec (see theme_resolver.dart).
 import 'theme_spec.dart';
 
-/// Brand yellow (Myna mascot icon) and brand dark brown.
-const int mynaYellow = 0xFFF5B700;
-const int mynaBrown = 0xFF3E2723;
+/// Brand yellow (Kosha mascot icon) and brand dark brown.
+const int koshaYellow = 0xFFF5B700;
+const int koshaBrown = 0xFF3E2723;
 
-const String defaultThemeId = 'myna_dynamic';
+const String defaultThemeId = 'kosha_dynamic';
 
 abstract final class ThemePresets {
   /// Wallpaper colours on Android 12+, brand seed otherwise.
-  static const ThemeSpec mynaDynamic = ThemeSpec(
-    id: 'myna_dynamic',
-    name: 'Myna Dynamic',
+  static const ThemeSpec koshaDynamic = ThemeSpec(
+    id: 'kosha_dynamic',
+    name: 'Kosha Dynamic',
     colorSource: ThemeColorSource.dynamic,
-    seedColor: mynaYellow,
+    seedColor: koshaYellow,
     variant: ThemeSchemeVariant.fidelity,
   );
 
   /// The brand look: warm yellow primary with dark-brown accents.
-  static const ThemeSpec mynaGold = ThemeSpec(
-    id: 'myna_gold',
-    name: 'Myna Gold',
+  static const ThemeSpec koshaGold = ThemeSpec(
+    id: 'kosha_gold',
+    name: 'Kosha Gold',
     colorSource: ThemeColorSource.custom,
-    seedColor: mynaYellow,
+    seedColor: koshaYellow,
     variant: ThemeSchemeVariant.fidelity,
     customRoles: {
-      'primary': mynaYellow,
-      'onPrimary': mynaBrown,
+      'primary': koshaYellow,
+      'onPrimary': koshaBrown,
       'primaryContainer': 0xFFFFE08C,
-      'onPrimaryContainer': mynaBrown,
+      'onPrimaryContainer': koshaBrown,
       'secondary': 0xFF8D6E63,
       'onSecondary': 0xFFFFFFFF,
       'secondaryContainer': 0xFFF1DFC4,
-      'onSecondaryContainer': mynaBrown,
+      'onSecondaryContainer': koshaBrown,
       'tertiary': 0xFF6D4C41,
       'onTertiary': 0xFFFFFFFF,
       'tertiaryContainer': 0xFFFFDBC8,
-      'onTertiaryContainer': mynaBrown,
+      'onTertiaryContainer': koshaBrown,
       'surface': 0xFFFFF8EA,
       'onSurface': 0xFF2A1F1B,
       'onSurfaceVariant': 0xFF5D4A42,
@@ -51,16 +51,16 @@ abstract final class ThemePresets {
       'outlineVariant': 0xFFE3D2B5,
     },
     customRolesDark: {
-      'primary': mynaYellow,
-      'onPrimary': mynaBrown,
+      'primary': koshaYellow,
+      'onPrimary': koshaBrown,
       'primaryContainer': 0xFF5C4400,
       'onPrimaryContainer': 0xFFFFE08C,
       'secondary': 0xFFD7BFA8,
-      'onSecondary': mynaBrown,
+      'onSecondary': koshaBrown,
       'secondaryContainer': 0xFF4F4130,
       'onSecondaryContainer': 0xFFF1DFC4,
       'tertiary': 0xFFE0B9A4,
-      'onTertiary': mynaBrown,
+      'onTertiary': koshaBrown,
       'tertiaryContainer': 0xFF5D4037,
       'onTertiaryContainer': 0xFFFFDBC8,
       'surface': 0xFF1F1A12,
@@ -109,14 +109,14 @@ abstract final class ThemePresets {
   );
 
   /// Gallery order.
-  static const List<ThemeSpec> all = [mynaDynamic, mynaGold, lavender, ocean, mint, coral, rose, graphite];
+  static const List<ThemeSpec> all = [koshaDynamic, koshaGold, lavender, ocean, mint, coral, rose, graphite];
 
-  /// The preset with [id], or [mynaDynamic] if unknown.
+  /// The preset with [id], or [koshaDynamic] if unknown.
   static ThemeSpec byId(String id) {
     for (final p in all) {
       if (p.id == id) return p;
     }
-    return mynaDynamic;
+    return koshaDynamic;
   }
 
   static bool isPresetId(String id) => all.any((p) => p.id == id);

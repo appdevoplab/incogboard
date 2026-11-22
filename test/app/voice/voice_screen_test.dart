@@ -5,9 +5,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:myna/src/app/screens/voice_screen.dart';
-import 'package:myna/src/bridge/messages.g.dart';
-import 'package:myna/src/settings/myna_settings.dart';
+import 'package:kosha/src/app/screens/voice_screen.dart';
+import 'package:kosha/src/bridge/messages.g.dart';
+import 'package:kosha/src/settings/kosha_settings.dart';
 
 import '../support/app_fakes.dart';
 
@@ -23,16 +23,16 @@ PackInfoMessage _pack(String id, PackKind kind, String name) => PackInfoMessage(
 );
 
 /// The settings a write produced: applies the captured change to [base].
-MynaSettings _applied(AppFakes fakes, {MynaSettings base = const MynaSettings()}) {
+KoshaSettings _applied(AppFakes fakes, {KoshaSettings base = const KoshaSettings()}) {
   final change =
       verify(() => fakes.store.update(captureAny(), sections: any(named: 'sections'))).captured.last
-          as MynaSettings Function(MynaSettings);
+          as KoshaSettings Function(KoshaSettings);
   return change(base);
 }
 
 void main() {
   setUpAll(() {
-    registerFallbackValue((MynaSettings s) => s);
+    registerFallbackValue((KoshaSettings s) => s);
     registerFallbackValue(<String>[]);
   });
 
@@ -49,7 +49,7 @@ void main() {
     );
   });
 
-  Future<void> pump(WidgetTester tester, MynaSettings settings) async {
+  Future<void> pump(WidgetTester tester, KoshaSettings settings) async {
     fakes = AppFakes(settings: settings);
     when(() => fakes.platform.listPacks()).thenAnswer(
       (_) async => [
@@ -62,7 +62,7 @@ void main() {
   }
 
   testWidgets('shows the switch, Automatic pack, language detection and the privacy line', (tester) async {
-    await pump(tester, const MynaSettings());
+    await pump(tester, const KoshaSettings());
 
     expect(find.text('Voice typing'), findsOneWidget);
     expect(find.text('Voice pack'), findsOneWidget);
@@ -72,7 +72,7 @@ void main() {
   });
 
   testWidgets('turning voice typing off writes the voice section', (tester) async {
-    await pump(tester, const MynaSettings());
+    await pump(tester, const KoshaSettings());
 
     await tester.tap(find.byType(Switch).first);
     await tester.pumpAndSettle();
@@ -82,14 +82,14 @@ void main() {
   });
 
   testWidgets('a selected pack shows its name', (tester) async {
-    await pump(tester, const MynaSettings(voice: VoiceSettings(modelId: 'voice-whisper-small')));
+    await pump(tester, const KoshaSettings(voice: VoiceSettings(modelId: 'voice-whisper-small')));
 
     expect(find.text('Whisper small'), findsOneWidget);
     expect(find.text('Automatic'), findsNothing);
   });
 
   testWidgets('choosing a voice pack lists only voice packs and writes the id', (tester) async {
-    await pump(tester, const MynaSettings());
+    await pump(tester, const KoshaSettings());
 
     await tester.tap(find.text('Voice pack'));
     await tester.pumpAndSettle();
@@ -105,7 +105,7 @@ void main() {
   });
 
   testWidgets('automatic detection switch writes autoDetectLanguage', (tester) async {
-    await pump(tester, const MynaSettings());
+    await pump(tester, const KoshaSettings());
 
     await tester.tap(find.widgetWithText(SwitchListTile, 'Detect language automatically'));
     await tester.pumpAndSettle();
