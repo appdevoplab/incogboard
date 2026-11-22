@@ -104,20 +104,23 @@ Original plan for the wave:
 
 ## Wave 4: CJK, brand and polish (5)
 
-- **E (from Wave 3):** brand:
-  - Kosha adaptive icon (foreground, background, monochrome).
+**Status (2026-11-22 night):** setup part 1 done: Myna → Kosha rename (`4a3c394`) and BIS InScript layouts (`238cbcc`). Still to do before launch: seams (CJK candidate grid, dictionary pack kind, localisation, brand asset slots) and the briefs in `docs/waves/wave4/`. User decisions: `HANDOFF.md`, "Wave 4 decisions". All five agents on Haiku, high effort.
+
+- **E (from Wave 3):** brand (name Kosha = "treasury, store of gold"):
+  - Adaptive icon (foreground, background, monochrome): a rounded treasure chest whose lock is a keyboard key, gold on Material You colours.
   - Splash.
-  - Mascot poses (wave, lock, sing, sleep).
+  - No character mascot: the chest replaces `KoshaMascot` (today still the bird drawing), with poses open, locked, glowing, closed.
   - Play 512 icon, feature graphic, store screenshots template.
 
 - **A:** Chinese pinyin, as a Dart lattice converter:
-  - rime-ice dictionaries (GPL-3.0) and OpenCC tables (Apache-2.0).
+  - rime-ice dictionaries (GPL-3.0) and OpenCC tables (Apache-2.0), shipped as signed `.koshapack` packs, not in the APK.
   - Fuzzy pinyin, abbreviations, user phrases, candidate grid, full-width punctuation.
 - **B:** Japanese:
   - Romaji (QWERTY) and 12-key flick input.
-  - Viterbi conversion with the Mozc OSS dictionary (BSD-3/IPAdic), segment resize, predictions, 「」.
+  - Viterbi conversion with the Mozc OSS dictionary (BSD-3/IPAdic) as a signed pack, segment resize, predictions, 「」.
 - **C:** TalkBack explore-by-touch, then localise the settings UI (en, es, fr, de, pt, id, hi first).
 - **D:** performance and QA:
+  - Reduced-operator onnxruntime 1.28 build for the Whisper and Opus-MT models (arm64 APK is 79 MB, 27 MB of it onnxruntime); no telemetry; keep `VERS_1.28.0` or re-patch sherpa.
   - Budgets: first show < 600 ms, warm < 100 ms, key → commit < 30 ms, swipe p95 < 40 ms, memory < 120/250 MB.
   - Fuzz the InputController, check jank, and build an OEM matrix.
 
