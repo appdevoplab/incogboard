@@ -1,0 +1,9 @@
+{
+  "@@locale": "en",
+  "appName": "Kosha",
+  "@appName": {"description": "The app's name. Never translated."},
+  "homeTagline": "Private typing, on this phone",
+  "@homeTagline": {"description": "Home screen header, under the app name."},
+  "homeOfflinePromise": "Kosha works offline and sends nothing anywhere.",
+  "@homeOfflinePromise": {"description": "Home screen header: the privacy promise."}
+}

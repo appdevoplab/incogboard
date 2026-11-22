@@ -117,7 +117,8 @@ enum ContextMenuAction {
   stopSelectingText,
 }
 
-enum PackKind { voice, translation }
+/// Wave 4 adds `dictionary` (Chinese and Japanese conversion data, read from the pack folder).
+enum PackKind { voice, translation, dictionary }
 
 enum VoiceStartStatus { started, noPermission, noModel, busy, failed }
 
@@ -2086,6 +2087,27 @@ class PlatformHostApi {
       isNullValid: false,
     );
     return (pigeonVar_replyValue! as List<Object?>).cast<PackInfoMessage>();
+  }
+
+  /// Absolute path of an installed pack's folder, after re-verifying its signed manifest (Wave 4:
+  /// dictionary packs are read directly by Dart), or null when [id] is not installed or invalid.
+  /// Files sit at the paths the manifest lists.
+  Future<String?> getPackDirectory(String id) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.kosha.PlatformHostApi.getPackDirectory$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[id]);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: true,
+    );
+    return pigeonVar_replyValue as String?;
   }
 }
 

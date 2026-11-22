@@ -4,6 +4,7 @@
 // the keyboard reloads the right section.
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:kosha/src/app/l10n.dart';
 import 'package:kosha/src/app/screens/feel_screen.dart';
 import 'package:kosha/src/app/screens/languages_screen.dart';
 import 'package:kosha/src/app/screens/panels_screen.dart';
@@ -16,7 +17,11 @@ import 'support/app_fakes.dart';
 
 Future<AppFakes> _pump(WidgetTester tester, Widget screen, {KoshaSettings settings = const KoshaSettings()}) async {
   final fakes = AppFakes(settings: settings);
-  await pumpWithServices(tester, fakes.services, MaterialApp(home: screen));
+  await pumpWithServices(
+    tester,
+    fakes.services,
+    MaterialApp(localizationsDelegates: koshaLocalizationsDelegates, home: screen),
+  );
   return fakes;
 }
 

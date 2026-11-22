@@ -4,6 +4,7 @@
 import 'package:flutter/services.dart' show PlatformException;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:kosha/src/app/l10n.dart';
 import 'package:kosha/src/app/packs/packs_screen.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:kosha/src/bridge/messages.g.dart';
@@ -36,7 +37,11 @@ void main() {
   testWidgets('lists voice and translation packs with sizes and licences', (tester) async {
     final f = AppFakes();
     when(() => f.platform.listPacks()).thenAnswer((_) async => [_voice(), _translation()]);
-    await pumpWithServices(tester, f.services, const MaterialApp(home: PacksScreen()));
+    await pumpWithServices(
+      tester,
+      f.services,
+      const MaterialApp(localizationsDelegates: koshaLocalizationsDelegates, home: PacksScreen()),
+    );
 
     expect(find.text('Voice'), findsOneWidget);
     expect(find.text('Translation'), findsOneWidget);
@@ -53,7 +58,11 @@ void main() {
   testWidgets('an empty list says so for each kind', (tester) async {
     final f = AppFakes();
     when(() => f.platform.listPacks()).thenAnswer((_) async => const []);
-    await pumpWithServices(tester, f.services, const MaterialApp(home: PacksScreen()));
+    await pumpWithServices(
+      tester,
+      f.services,
+      const MaterialApp(localizationsDelegates: koshaLocalizationsDelegates, home: PacksScreen()),
+    );
     expect(find.text('No voice packs installed'), findsOneWidget);
     expect(find.text('No translation packs installed'), findsOneWidget);
   });
@@ -63,7 +72,11 @@ void main() {
     when(() => f.platform.listPacks()).thenAnswer((_) async => const []);
     when(() => f.app.openDocument(any())).thenAnswer((_) async => 'content://downloads/pack.koshapack');
     when(() => f.app.importPack(any())).thenThrow(PlatformException(code: 'bad_signature'));
-    await pumpWithServices(tester, f.services, const MaterialApp(home: PacksScreen()));
+    await pumpWithServices(
+      tester,
+      f.services,
+      const MaterialApp(localizationsDelegates: koshaLocalizationsDelegates, home: PacksScreen()),
+    );
 
     await tester.tap(find.text('Import a pack file'));
     await tester.pumpAndSettle();
@@ -75,7 +88,11 @@ void main() {
     final f = AppFakes();
     when(() => f.platform.listPacks()).thenAnswer((_) async => const []);
     when(() => f.app.openDocument(any())).thenAnswer((_) async => null);
-    await pumpWithServices(tester, f.services, const MaterialApp(home: PacksScreen()));
+    await pumpWithServices(
+      tester,
+      f.services,
+      const MaterialApp(localizationsDelegates: koshaLocalizationsDelegates, home: PacksScreen()),
+    );
 
     await tester.tap(find.text('Import a pack file'));
     await tester.pumpAndSettle();
@@ -86,7 +103,11 @@ void main() {
     final f = AppFakes();
     when(() => f.platform.listPacks()).thenAnswer((_) async => [_translation()]);
     when(() => f.app.deletePack(any())).thenAnswer((_) async {});
-    await pumpWithServices(tester, f.services, const MaterialApp(home: PacksScreen()));
+    await pumpWithServices(
+      tester,
+      f.services,
+      const MaterialApp(localizationsDelegates: koshaLocalizationsDelegates, home: PacksScreen()),
+    );
 
     await tester.tap(find.byTooltip('Delete English → Spanish'));
     await tester.pumpAndSettle();
@@ -102,7 +123,11 @@ void main() {
   testWidgets('cancelling the delete keeps the pack', (tester) async {
     final f = AppFakes();
     when(() => f.platform.listPacks()).thenAnswer((_) async => [_translation()]);
-    await pumpWithServices(tester, f.services, const MaterialApp(home: PacksScreen()));
+    await pumpWithServices(
+      tester,
+      f.services,
+      const MaterialApp(localizationsDelegates: koshaLocalizationsDelegates, home: PacksScreen()),
+    );
 
     await tester.tap(find.byTooltip('Delete English → Spanish'));
     await tester.pumpAndSettle();

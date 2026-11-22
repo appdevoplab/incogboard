@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart' show IconButton, Icons, Material, MaterialApp, TextField;
 import 'package:mocktail/mocktail.dart';
+import 'package:kosha/src/app/l10n.dart';
 import 'package:kosha/src/app/app_services.dart';
 import 'package:kosha/src/app/onboarding/onboarding_languages.dart';
 import 'package:kosha/src/app/screens/languages_screen.dart';
@@ -24,7 +25,7 @@ Future<void> _pumpScreen(WidgetTester tester, AppServices services, Widget child
   await tester.pumpWidget(
     AppScope(
       services: services,
-      child: MaterialApp(home: child),
+      child: MaterialApp(localizationsDelegates: koshaLocalizationsDelegates, home: child),
     ),
   );
   await tester.pumpAndSettle();

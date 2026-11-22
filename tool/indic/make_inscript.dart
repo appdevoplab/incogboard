@@ -305,12 +305,7 @@ Map<String, Object?> _letter(InscriptSpec spec, String pcKey, {double width = 1.
   final shiftLevelOnly = unshifted == null || unshifted == ',' || unshifted == '.';
   final base = shiftLevelOnly ? levels[1]! : unshifted;
   final shifted = shiftLevelOnly ? null : levels[1];
-  return {
-    'output': base,
-    'shiftedOutput': ?shifted,
-    'popup': ?spec.popups[pcKey],
-    if (width != 1.0) 'width': width,
-  };
+  return {'output': base, 'shiftedOutput': ?shifted, 'popup': ?spec.popups[pcKey], if (width != 1.0) 'width': width};
 }
 
 const _punct = [',', '?', '!', "'", '"', ':', ';', '-', '(', ')', '@', '#'];

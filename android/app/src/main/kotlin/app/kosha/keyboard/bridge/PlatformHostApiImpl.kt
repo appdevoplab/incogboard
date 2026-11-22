@@ -91,6 +91,8 @@ internal class PlatformHostApiImpl(
 
     override fun listPacks(): List<PackInfoMessage> = PackStore.get(context).list().map { it.toMessage() }
 
+    override fun getPackDirectory(id: String): String? = PackStore.get(context).dir(id)?.absolutePath
+
     private companion object {
         val PALETTES = listOf("accent1", "accent2", "accent3", "neutral1", "neutral2")
         val TONES = listOf(0, 10, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000)

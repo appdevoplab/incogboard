@@ -38,6 +38,40 @@ class AlternativesState extends PopupState {
       AlternativesState(keyRect: keyRect, items: items, layout: layout, selected: index);
 }
 
+/// Directions of a 12-key flick (Wave 4). `KeyDef.flick` uses the same names.
+enum FlickDirection { center, up, down, left, right }
+
+/// The cross shown while a flick key is held: the key's output in the centre and its flick
+/// outputs around it, with [selected] highlighted.
+class FlickGuideState extends PopupState {
+  const FlickGuideState({required this.keyRect, required this.labels, required this.selected});
+
+  final Rect keyRect;
+
+  /// Only directions that type something.
+  final Map<FlickDirection, String> labels;
+  final FlickDirection selected;
+
+  FlickGuideState withSelected(FlickDirection d) => FlickGuideState(keyRect: keyRect, labels: labels, selected: d);
+
+  /// The cell of [d], in view coordinates: the key itself for the centre, one key away otherwise.
+  Rect cellOf(FlickDirection d) => switch (d) {
+    FlickDirection.center => keyRect,
+    FlickDirection.up => keyRect.shift(Offset(0, -keyRect.height)),
+    FlickDirection.down => keyRect.shift(Offset(0, keyRect.height)),
+    FlickDirection.left => keyRect.shift(Offset(-keyRect.width, 0)),
+    FlickDirection.right => keyRect.shift(Offset(keyRect.width, 0)),
+  };
+}
+
+/// The flick direction for a finger moved by [delta] from where it landed, on a key [keyWidth]
+/// wide: the centre until the finger moves a third of a key, then the dominant axis.
+FlickDirection flickDirectionFor(Offset delta, double keyWidth) {
+  if (delta.distance < keyWidth * 0.33) return FlickDirection.center;
+  if (delta.dx.abs() >= delta.dy.abs()) return delta.dx < 0 ? FlickDirection.left : FlickDirection.right;
+  return delta.dy < 0 ? FlickDirection.up : FlickDirection.down;
+}
+
 /// Where the alternatives go.
 class AlternativesLayout {
   const AlternativesLayout({required this.bounds, required this.cells});
@@ -161,6 +195,26 @@ class PopupPainter extends CustomPainter {
             );
           }
           final label = displayLabel(s.items[i]);
+          final tp = _text(label, label.length > 1 ? 18 : 24, selected ? theme.popupSelectedLabel : theme.popupLabel);
+          final scale = tp.width > cell.width - 4 ? (cell.width - 4) / tp.width : 1.0;
+          canvas
+            ..save()
+            ..translate(cell.center.dx, cell.center.dy)
+            ..scale(scale)
+            ..translate(-tp.width / 2, -tp.height / 2);
+          tp.paint(canvas, Offset.zero);
+          canvas.restore();
+          tp.dispose();
+        }
+      case FlickGuideState():
+        for (final e in s.labels.entries) {
+          final cell = s.cellOf(e.key).deflate(2);
+          final selected = e.key == s.selected;
+          final rrect = RRect.fromRectAndRadius(cell, Radius.circular(math.min(cell.width, cell.height) * 0.3));
+          canvas.drawShadow(Path()..addRRect(rrect), const Color(0xFF000000), 3, true);
+          fill.color = selected ? theme.popupSelectedFill : theme.popupFill;
+          canvas.drawRRect(rrect, fill);
+          final label = displayLabel(e.value);
           final tp = _text(label, label.length > 1 ? 18 : 24, selected ? theme.popupSelectedLabel : theme.popupLabel);
           final scale = tp.width > cell.width - 4 ? (cell.width - 4) / tp.width : 1.0;
           canvas

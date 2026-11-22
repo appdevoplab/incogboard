@@ -5,6 +5,8 @@
 import 'package:material_ui/material_ui.dart';
 
 import '../about/about_screen.dart';
+import '../chinese/chinese_screen.dart';
+import '../japanese/japanese_screen.dart';
 import '../privacy/privacy_center_screen.dart';
 import '../routes.dart';
 import '../themes/theme_gallery_screen.dart';
@@ -34,6 +36,8 @@ Widget screenForRoute(String route) => switch (route) {
   KoshaRoutes.voice => const VoiceScreen(),
   KoshaRoutes.translate => const TranslateScreen(),
   KoshaRoutes.packs => const PacksScreen(),
+  KoshaRoutes.chinese => const ChineseScreen(),
+  KoshaRoutes.japanese => const JapaneseScreen(),
   _ => const HomeScreen(),
 };
 

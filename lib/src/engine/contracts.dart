@@ -287,38 +287,5 @@ abstract interface class Transliterator {
   List<Suggestion> transliterate(String latin, {List<String> previousWords = const [], int max = 5});
 }
 
-@immutable
-class ConversionState {
-  const ConversionState({
-    this.rawInput = '',
-    this.preedit = '',
-    this.candidates = const [],
-    this.selectedSegment = 0,
-    this.committed,
-  });
-
-  /// What the user typed (pinyin, romaji or kana).
-  final String rawInput;
-
-  /// Text to show as composing in the editor.
-  final String preedit;
-  final List<Suggestion> candidates;
-  final int selectedSegment;
-
-  /// Text to commit now, if a selection finished the conversion.
-  final String? committed;
-
-  bool get isEmpty => rawInput.isEmpty;
-}
-
-/// Chinese pinyin / Japanese kana-kanji conversion (Wave 4).
-abstract interface class CompositionConverter {
-  LanguageId get language;
-  Future<void> load();
-  ConversionState input(String key);
-  ConversionState backspace();
-  ConversionState selectCandidate(int index);
-  ConversionState moveSegment(int delta);
-  ConversionState resizeSegment(int delta);
-  ConversionState reset();
-}
+// Chinese pinyin and Japanese kana-kanji conversion (Wave 4): see TextComposer in
+// lib/src/keyboard/input/composer.dart.

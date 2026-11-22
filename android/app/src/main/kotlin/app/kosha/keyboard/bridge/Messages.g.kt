@@ -270,9 +270,11 @@ enum class ContextMenuAction(val raw: Int) {
   }
 }
 
+/** Wave 4 adds `dictionary` (Chinese and Japanese conversion data, read from the pack folder). */
 enum class PackKind(val raw: Int) {
   VOICE(0),
-  TRANSLATION(1);
+  TRANSLATION(1),
+  DICTIONARY(2);
 
   companion object {
     private val pigeonValues = values()
@@ -2145,6 +2147,12 @@ interface PlatformHostApi {
   fun notifySettingsChanged(sections: List<String>)
   /** Installed, verified model packs (Wave 3). Never returns file contents. */
   fun listPacks(): List<PackInfoMessage>
+  /**
+   * Absolute path of an installed pack's folder, after re-verifying its signed manifest (Wave 4:
+   * dictionary packs are read directly by Dart), or null when [id] is not installed or invalid.
+   * Files sit at the paths the manifest lists.
+   */
+  fun getPackDirectory(id: String): String?
 
   companion object {
     /** The codec used by PlatformHostApi. */
@@ -2342,6 +2350,23 @@ interface PlatformHostApi {
           channel.setMessageHandler { _, reply ->
             val wrapped: List<Any?> = try {
               listOf(api.listPacks())
+            } catch (exception: Throwable) {
+              MessagesPigeonUtils.wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.kosha.PlatformHostApi.getPackDirectory$separatedMessageChannelSuffix", codec, taskQueue)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val idArg = args[0] as String
+            val wrapped: List<Any?> = try {
+              listOf(api.getPackDirectory(idArg))
             } catch (exception: Throwable) {
               MessagesPigeonUtils.wrapError(exception)
             }

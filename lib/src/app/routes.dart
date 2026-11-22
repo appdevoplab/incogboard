@@ -22,6 +22,10 @@ abstract final class KoshaRoutes {
   static const String translate = 'translate';
   static const String packs = 'packs';
 
+  /// Wave 4: Chinese (4-A) and Japanese (4-B) typing options, linked from Languages.
+  static const String chinese = 'chinese';
+  static const String japanese = 'japanese';
+
   static const List<String> all = [
     home,
     onboarding,
@@ -36,5 +40,7 @@ abstract final class KoshaRoutes {
     voice,
     translate,
     packs,
+    chinese,
+    japanese,
   ];
 }

@@ -6,7 +6,11 @@ import app.kosha.keyboard.packs.PackManifest
 
 internal fun InstalledPack.toMessage() = PackInfoMessage(
     id = manifest.id,
-    kind = if (manifest.kind == PackManifest.KIND_VOICE) PackKind.VOICE else PackKind.TRANSLATION,
+    kind = when (manifest.kind) {
+        PackManifest.KIND_VOICE -> PackKind.VOICE
+        PackManifest.KIND_DICTIONARY -> PackKind.DICTIONARY
+        else -> PackKind.TRANSLATION
+    },
     name = manifest.name,
     version = manifest.version.toLong(),
     languages = manifest.languages,

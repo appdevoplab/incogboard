@@ -3,6 +3,7 @@
 // Light and dark builds of every settings screen, at font scale 1.3, without exceptions.
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:kosha/src/app/l10n.dart';
 import 'package:kosha/src/app/about/about_screen.dart';
 import 'package:kosha/src/app/app_services.dart';
 import 'package:kosha/src/app/screens/feel_screen.dart';
@@ -35,6 +36,7 @@ void main() {
           AppScope(
             services: fakes.services,
             child: MaterialApp(
+              localizationsDelegates: koshaLocalizationsDelegates,
               theme: koshaThemeData(koshaBrandScheme(Brightness.light)),
               darkTheme: koshaThemeData(koshaBrandScheme(Brightness.dark)),
               themeMode: brightness == Brightness.dark ? ThemeMode.dark : ThemeMode.light,
