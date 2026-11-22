@@ -43,7 +43,7 @@ class KoshaMascot extends StatelessWidget {
       image: true,
       label: label,
       child: DecoratedBox(
-        decoration: BoxDecoration(shape: BoxShape.circle, color: scheme.primaryContainer),
+        decoration: BoxDecoration(shape: BoxShape.circle, color: scheme.surfaceContainerHigh),
         child: SizedBox.square(
           dimension: size,
           child: AnimatedSwitcher(
@@ -54,10 +54,15 @@ class KoshaMascot extends StatelessWidget {
               opacity: animation,
               child: ScaleTransition(scale: animation, child: child),
             ),
+            // AnimatedSwitcher lays its children out loosely, and a CustomPaint without a child would
+            // then size itself to zero, so the painted box states its size.
             child: KeyedSubtree(
               key: ValueKey<KoshaPose>(pose),
-              child: CustomPaint(
-                painter: _KoshaPainter(pose: pose, scheme: scheme),
+              child: SizedBox.square(
+                dimension: size,
+                child: CustomPaint(
+                  painter: _KoshaPainter(pose: pose, scheme: scheme),
+                ),
               ),
             ),
           ),
@@ -87,7 +92,7 @@ class _KoshaPainter extends CustomPainter {
         _paintHalo(canvas);
         final glow = _shine;
         _paintClosed(canvas, _gold, glow, _detail, _lighten(glow));
-        _sparkles(canvas, [(14, 26, 5), (94, 22, 4.5), (96, 80, 3.5)], _lighten(glow));
+        _sparkles(canvas, [(14, 26, 5), (94, 22, 4.5), (96, 80, 3.5)], _gold);
       case KoshaPose.quiet:
         final body = scheme.onSurfaceVariant.withValues(alpha: 0.5);
         final shine = _lighten(body);
@@ -100,9 +105,10 @@ class _KoshaPainter extends CustomPainter {
     canvas.restore();
   }
 
-  Color get _gold => scheme.primary;
-  Color get _shine => _lighten(scheme.primary);
-  Color get _detail => scheme.brightness == Brightness.dark ? scheme.primaryContainer : scheme.onPrimaryContainer;
+  // The fixed accent roles keep the same gold in light and dark mode, and follow Material You.
+  Color get _gold => scheme.primaryFixedDim;
+  Color get _shine => scheme.primaryFixed;
+  Color get _detail => scheme.onPrimaryFixed;
 
   static Color _lighten(Color c) => Color.lerp(c, const Color(0xFFFFFFFF), 0.55)!;
 
@@ -143,7 +149,7 @@ class _KoshaPainter extends CustomPainter {
     _rect(canvas, const Rect.fromLTWH(43, -20, 5, 20), _detail);
     canvas.restore();
 
-    _sparkles(canvas, [(90, 14, 5), (98, 36, 3.6)], _shine);
+    _sparkles(canvas, [(90, 14, 5), (98, 36, 3.6)], _gold);
   }
 
   void _paintHalo(Canvas canvas) {
