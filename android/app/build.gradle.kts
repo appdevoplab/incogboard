@@ -57,6 +57,7 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     // Real org.json for JVM tests (Android's stub throws "not mocked").
     testImplementation("org.json:json:20240303")
+    testImplementation("com.microsoft.onnxruntime:onnxruntime:1.31.1")
 }
 
 kotlin {
