@@ -44,6 +44,7 @@ class _CenterData {
     required this.shortcutCount,
     required this.apps,
     required this.nowMillis,
+    this.packs = const [],
   });
 
   final bool internetPermission;
@@ -54,6 +55,11 @@ class _CenterData {
   final int shortcutCount;
   final List<SeenApp> apps;
   final int nowMillis;
+
+  /// Installed model packs (voice and translation); their files are not in [blobs].
+  final List<PackInfoMessage> packs;
+
+  int get packBytes => packs.fold(0, (sum, p) => sum + p.sizeBytes);
 
   List<String> get learnedBlobNames => [
     for (final b in blobs)
@@ -99,6 +105,7 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
     final themeFiles = await deps.themes.list();
     final shortcutCount = (await deps.shortcuts.list()).length;
     final apps = await services.seenApps.list();
+    final packs = await _readPacks(deps);
     return _CenterData(
       internetPermission: internet,
       debugBuild: info.isDebugBuild,
@@ -108,7 +115,17 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
       shortcutCount: shortcutCount,
       apps: apps,
       nowMillis: DateTime.now().millisecondsSinceEpoch,
+      packs: packs,
     );
+  }
+
+  /// Installed model packs; an unreadable list shows as none rather than failing the whole center.
+  Future<List<PackInfoMessage>> _readPacks(PrivacyDeps deps) async {
+    try {
+      return await deps.platform.listPacks();
+    } on Object {
+      return const [];
+    }
   }
 
   Future<void> _updatePrivacy(PrivacySettings Function(PrivacySettings current) change) async {
@@ -211,7 +228,15 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
           title: 'Custom themes',
           subtitle: '${plural(d.themeFiles, 'file')} · ${formatBytes(d.themeBytes)}',
         ),
-      if (d.blobs.isEmpty && d.themeFiles == 0)
+      SettingsTile(
+        icon: Icons.download_for_offline_outlined,
+        title: 'Model packs',
+        subtitle: d.packs.isEmpty
+            ? 'None installed. Voice and translation packs appear here.'
+            : '${plural(d.packs.length, 'pack')} · ${formatBytes(d.packBytes)}',
+        onTap: () => unawaited(Navigator.of(context).pushNamed(MynaRoutes.packs).then((_) => _reload())),
+      ),
+      if (d.blobs.isEmpty && d.themeFiles == 0 && d.packs.isEmpty)
         const SettingsTile(icon: Icons.inbox_outlined, title: 'Nothing stored yet'),
     ];
     return Column(
