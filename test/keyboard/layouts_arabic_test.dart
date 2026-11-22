@@ -17,7 +17,7 @@ const _arabicLetters =
     'ءأإآؤئةى';
 
 /// Urdu letters that the phonetic layout must type, including the ones that sit on a popup.
-const _urduLetters = 'اآأإبپتٹثجچحخدڈذرڑزژسشصضطظعغفقکگلمنںوۇہھیےئءؤ';
+const _urduLetters = 'اآأإبپتٹثجچحخدڈذرڑزژسشصضطظعغفقکگلمنںوہھیےئءؤ';
 
 Iterable<String> _typed(KeyboardLayoutDef l) sync* {
   for (final k in l.keys) {
@@ -109,6 +109,12 @@ void main() {
       expect(typed, contains('ک'));
       expect(typed, isNot(contains('ي')));
       expect(typed, isNot(contains('ك')));
+    });
+
+    test('shin is a base key and no non-Urdu letters slip in', () {
+      expect(urdu.keys.map((k) => k.output), contains('ش'), reason: 'ش is too common for a long press only');
+      // ۇ (U+06C7) is Uyghur/Kyrgyz; it was once on the v key by mistake.
+      expect(_typed(urdu), isNot(contains('ۇ')));
     });
   });
 }

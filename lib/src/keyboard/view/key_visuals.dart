@@ -120,9 +120,17 @@ const Map<String, String> _spoken = {
   '^': 'Caret',
   '`': 'Backtick',
   '.com': 'Dot com',
+  '‍': 'Zero width joiner',
+  '‌': 'Zero width non-joiner',
 };
 
 String spokenName(String text) => _spoken[text] ?? text;
+
+/// Invisible format characters get a visible label (popups would otherwise show an empty cell).
+const Map<String, String> _formatLabels = {'‍': 'ZWJ', '‌': 'ZWNJ'};
+
+/// What a popup cell shows for [item]; the item itself is what gets typed.
+String displayLabel(String item) => _formatLabels[item] ?? item;
 
 KeyVisual resolveKeyVisual(
   KeyDef def, {
@@ -133,7 +141,8 @@ KeyVisual resolveKeyVisual(
   required bool showHints,
   String? spaceLabel,
 }) {
-  final shifted = shift != ShiftState.off && page == KeyboardPage.letters && !typing.lowercaseLabels;
+  final commitsShifted = shift != ShiftState.off && page == KeyboardPage.letters;
+  final shifted = commitsShifted && !typing.lowercaseLabels;
   String? hintFor() => (showHints && typing.hintLabels) ? def.hint : null;
 
   switch (def.type) {
@@ -153,7 +162,9 @@ KeyVisual resolveKeyVisual(
         label: label,
         hint: hintFor(),
         smallLabel: label.characters.length > 1,
-        semantics: spokenName(shifted && _isSingleLetter(out) ? applyShift(out) : out),
+        // Speak what the key commits now: InScript shift layers use shiftedOutput (not upper case), and
+        // lowercase labels change only the label, not what is typed.
+        semantics: spokenName(def.type == KeyType.character ? outputFor(def, shifted: commitsShifted) : out),
       );
     case KeyType.shift:
       return KeyVisual(

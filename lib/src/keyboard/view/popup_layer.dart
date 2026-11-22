@@ -10,6 +10,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../theme/keyboard_theme_data.dart';
+import 'key_visuals.dart';
 
 sealed class PopupState {
   const PopupState();
@@ -159,7 +160,7 @@ class PopupPainter extends CustomPainter {
               fill,
             );
           }
-          final label = s.items[i];
+          final label = displayLabel(s.items[i]);
           final tp = _text(label, label.length > 1 ? 18 : 24, selected ? theme.popupSelectedLabel : theme.popupLabel);
           final scale = tp.width > cell.width - 4 ? (cell.width - 4) / tp.width : 1.0;
           canvas

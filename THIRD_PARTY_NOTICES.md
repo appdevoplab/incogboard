@@ -221,22 +221,27 @@ is downloaded by the app; the staging script (`tool/packs/voice/stage_whisper.ps
 | Release | **v2.0.1** (published 2026-10-26), asset `sherpa-onnx-v2.0.1-android.tar.bz2` |
 | Licence | Apache-2.0 (`LICENSE` in the release source, `sherpa-onnx-2.0.1/LICENSE`) |
 | Copyright | Copyright (c) the sherpa-onnx authors, including Xiaomi Corporation (Kotlin API headers) |
-| Built against | onnxruntime 1.28.2 (`libonnxruntime.so` inside that bundle, NOT shipped; see section 3) |
+| Built against | onnxruntime 1.28.2 (`libonnxruntime.so` inside that bundle, NOT shipped; see section 3). Modified, see below |
 | SHA-256 of the bundle | `39003753ec293425ed56723ea9b972b98841a490af3311670c3060548d654330` |
 
 Shipped native libraries (only `libsherpa-onnx-jni.so`; the `c-api`/`cxx-api` libraries and the bundled
 `libonnxruntime.so` are not copied):
 
-| ABI | File | Bytes | SHA-256 |
-|---|---|---|---|
-| arm64-v8a | `app/src/main/jniLibs/arm64-v8a/libsherpa-onnx-jni.so` | 4,609,320 | `5db8f89f12b2c900a98c9e01e00c475c59db35e9437a62e36e27839ec48b5575` |
-| armeabi-v7a | `app/src/main/jniLibs/armeabi-v7a/libsherpa-onnx-jni.so` | 3,381,796 | `d45f377249d5c3191b91de6ba6edffcd83e4cf7e109bc523b212db341581c2a8` |
-| x86_64 (emulator) | `app/src/main/jniLibs/x86_64/libsherpa-onnx-jni.so` | 5,053,592 | `878d61116f244131263eec24297ef05bf508d02bccdede2a4e3ad3202bbdaa48` |
+| ABI | File | Bytes | SHA-256 as shipped (modified) | SHA-256 in the release (original) |
+|---|---|---|---|---|
+| arm64-v8a | `app/src/main/jniLibs/arm64-v8a/libsherpa-onnx-jni.so` | 4,609,320 | `e3a7bea4e718f15d22806c6a871fcd981e9bbe1f1f98c7d18bdbdb783fa14e32` | `5db8f89f12b2c900a98c9e01e00c475c59db35e9437a62e36e27839ec48b5575` |
+| armeabi-v7a | `app/src/main/jniLibs/armeabi-v7a/libsherpa-onnx-jni.so` | 3,381,796 | `10a70ad0e2f5896c4e3a3f812de8471606eaa76cfa8bf554885ba8d26374353c` | `d45f377249d5c3191b91de6ba6edffcd83e4cf7e109bc523b212db341581c2a8` |
+| x86_64 (emulator) | `app/src/main/jniLibs/x86_64/libsherpa-onnx-jni.so` | 5,053,592 | `d1614526d6f4682e10be2feaae90f866c4736b46dfef8d12de213ed2ca29ce34` | `878d61116f244131263eec24297ef05bf508d02bccdede2a4e3ad3202bbdaa48` |
 
 `libsherpa-onnx-jni.so` has one dependency, `libonnxruntime.so`. It is provided by the Maven artifact
-`com.microsoft.onnxruntime:onnxruntime-android:1.28.0` (MIT). The sherpa C API level is the same for all 1.28 releases, so the
-1.28.2 build loads against 1.28.0 (1.29+ adds telemetry, so it is not used). The JNI library is not loaded on the JVM, so the load itself was not
-exercised on this machine; the orchestrator checks it on the emulator (see the Wave 3-D report).
+`com.microsoft.onnxruntime:onnxruntime-android:1.28.0` (MIT); 1.28.2 is not published for Android, and 1.29+ adds telemetry.
+
+**Modification (Apache-2.0 section 4b):** the release libraries ask for `OrtGetApiBase@VERS_1.28.2`, and Android's linker
+enforces symbol versions, so they did not load against 1.28.0 ("cannot locate symbol OrtGetApiBase"). Myna changes one
+entry of each library's ELF version-needs table from `VERS_1.28.2` to `VERS_1.28.0` and updates its hash: 2 bytes per file,
+done by `tool/patch_sherpa_ort_version.dart` and checked by `test/tool/patch_sherpa_ort_version_test.dart`. OrtGetApiBase
+is the only onnxruntime symbol sherpa imports, and the OrtApi level (28) is the same in 1.28.0 and 1.28.2. Checked on the
+emulator (API 37, x86_64) on 2026-11-22: the library loads and the Whisper base pack runs.
 
 Kotlin API files copied unmodified (apart from a two-line provenance comment at the top) into
 `app/src/main/kotlin/app/myna/keyboard/voice/sherpa/`, from `android/SherpaOnnxAar/sherpa_onnx/src/main/java/com/k2fsa/sherpa/onnx/`

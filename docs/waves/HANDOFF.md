@@ -1,9 +1,9 @@
 # Handoff: continue from here after /clear
 
-State as of 2026-11-22 (midday):
-- **Waves 0, 1, 2 and 3 are merged on `main`.** Wave 3 merged in the order A, C, B, T, D (`5e4e9c8`, `21fbdfd`, `b382e9f`, `6cb5d23`, `e61fd52`), then follow-ups `2e73d22` (merge fixes) and `f05a2ed` (onnxruntime pin), plus the voice/translate fixes listed under "Wave 3: still to do".
-- Checks on `main` after the merges: `flutter analyze` 0 issues, `flutter test` 1009 pass, Android JVM tests 102 pass (5 real-model tests skipped without staged packs).
-- **The Wave 3 emulator smoke test is half done and the release gate has not run yet.** See "Wave 3: still to do".
+State as of 2026-11-22 (evening):
+- **Waves 0-3 are done and merged on `main`.** Wave 3 merged in the order A, C, B, T, D (`5e4e9c8`, `21fbdfd`, `b382e9f`, `6cb5d23`, `e61fd52`), then follow-ups `2e73d22` (merge fixes), `f05a2ed` (onnxruntime pin), `bcad579` (translate close, voice "base" fallback) and the Wave 3 finish commit (see "Wave 3 finish").
+- Checks on `main`: `flutter analyze` 0 issues, `flutter test` 1020 pass, Android JVM tests 103 pass (5 real-model tests skipped without staged packs). Emulator smoke test done; release permission gate passes.
+- The Wave 3 worktrees and branches are removed. **Next: Wave 4** (the user answers the option questions first; nothing is written yet).
 
 ## Wave 3 result
 
@@ -16,8 +16,8 @@ State as of 2026-11-22 (midday):
   - Translate selection chip: priority 11 (Cut/Copy/Select all filled all 3 slots) and only shown when a translation pack is installed.
   - R8 keep rules for `com.k2fsa.sherpa.onnx.**` and `ai.onnxruntime.**`.
   - Wave 3 notices folded into `THIRD_PARTY_NOTICES.md` and `assets/notices/`.
-- **onnxruntime pinned to 1.28.0 (`f05a2ed`):** 1.29.0+ ships `ai.onnxruntime.telemetry` (an HttpClient started by a `TelemetryInitializer` provider at app launch) and requests INTERNET and ACCESS_NETWORK_STATE. 1.28.0 has none of it; sherpa-onnx v2.0.1 (built on 1.28.2) loads against it. Never upgrade without checking the AAR manifest and classes.
-- Signed dev packs (not in git): `build/packs/voice-whisper-base.mynapack` (161 MB) and `build/packs/translate-en-es.mynapack` (116 MB). Staging folders are in the D and T worktrees (`.claude/worktrees/agent-a8904fc33dde9aeb9|agent-a12470156dd569215/build/packs/staging/`); copy them out before removing the worktrees.
+- **onnxruntime pinned to 1.28.0 (`f05a2ed`):** 1.29.0+ ships `ai.onnxruntime.telemetry` (an HttpClient started by a `TelemetryInitializer` provider at app launch) and requests INTERNET and ACCESS_NETWORK_STATE. 1.28.0 has none of it. sherpa-onnx v2.0.1 (built on 1.28.2) did **not** load against it until its symbol-version need was patched (see "Wave 3 finish"). Never upgrade without checking the AAR manifest and classes; the release gate now also fails on the telemetry classes or provider.
+- Dev packs (not in git) live outside the repo in `%USERPROFILE%\.myna\packs\`: `signed\voice-whisper-base.mynapack` (161 MB) and `signed\translate-en-es.mynapack` (116 MB), plus `staging\` with all 14 staged folders (voice base and small; translate en↔de/es/fr/hi/pt/ru; 1.8 GB). Copies of the two signed packs are also in `build/packs/` until the next `flutter clean`. Sign more with `tool/make_pack.dart --dir %USERPROFILE%\.myna\packs\staging\<id>`.
 - Emulator smoke test so far (API 37), all pass:
   - English autocorrect ("recieve wierd thnaks" → "receive weird thanks"); "teh"/"dont" are no longer corrected only because Myna learned them from repeated test typing
   - password field shows the private-field chip
@@ -29,24 +29,31 @@ State as of 2026-11-22 (midday):
   - translate panel: "where is the station" → "¿Dónde está la estación?", Insert; the keyboard logs no text
   - mic permission prompt through the transparent activity; mic panel with the On-device badge and language chip
 
-## Wave 3: still to do (in this order)
+## Wave 3 finish (2026-11-22 evening)
 
-1. **Fixes committed at the end of the last session (analyze clean; seam, voice and translate tests pass; full suites not rerun):**
-   - The translate panel had no way out (keys stayed redirected): added a "Close translation" button (`translate_panel.dart`) and a test.
-   - Voice said "Voice needs a voice pack" with Whisper installed: old settings hold `voice.modelId: "base"`. `VoiceSettings.fromJson` now maps "base"/"small" to "" (automatic), and `resolveVoicePack` falls back to the automatic choice when the named pack is missing. Tests updated in `VoiceLanguagesTest.kt` and `test/keyboard/wave3_seams_test.dart`.
-   - First rerun the full `flutter test` and `cd android; .\gradlew.bat :app:testDebugUnitTest` (VoiceLanguagesTest changed).
-2. **Finish the emulator smoke test** (emulator-5554 only; rebuild and reinstall first):
-   - voice: open the mic panel with the base pack, check that sherpa-onnx loads (no UnsatisfiedLinkError in logcat), Stop, Cancel, and a password field (no mic). The emulator mic cannot produce speech here, so recognition quality is untested.
-   - space-bar long press (language picker), Urdu, Tamil/Telugu rendering, InScript with a ZWJ, Eastern digits.
-3. **Release gate:** `flutter build apk --release --split-per-abi`, then `tool/check_release_permissions.sh` (Git Bash tool). Expect VIBRATE, RECORD_AUDIO, USE_BIOMETRIC, USE_FINGERPRINT and the app-private receiver permission; **no INTERNET and no ACCESS_NETWORK_STATE**. Record the arm64 APK size (25.4 MB before Wave 3; onnxruntime and sherpa-onnx add native libraries). Consider adding ACCESS_NETWORK_STATE and the `ai/onnxruntime/telemetry` classes to the gate.
-4. Update `docs/waves/README.md` (Wave 3 done), this file and the memory file; remove the five Wave 3 worktrees and branches (unlock, `git worktree remove --force`, `git branch -d`).
+- Reran everything on `main` before and after the fixes: format clean, analyze 0 issues, `flutter test` 1020, JVM 103 (5 skipped).
+- **Voice did not work on a device:** `libsherpa-onnx-jni.so` asks for `OrtGetApiBase@VERS_1.28.2`, our libonnxruntime 1.28.0 exports `@@VERS_1.28.0`, and Android's linker enforces symbol versions (`UnsatisfiedLinkError`, panel said "could not start"). Maven has no onnxruntime-android 1.28.2 (only 1.28.0 and 1.29.0). Fix: `tool/patch_sherpa_ort_version.dart` rewrites the one version need to `VERS_1.28.0` and its ELF hash (2 bytes per ABI); `test/tool/patch_sherpa_ort_version_test.dart` fails if an unpatched `.so` is committed. Safe because OrtGetApiBase is the only ORT symbol sherpa imports and the OrtApi level (28) is the same. Notices list both hashes (Apache-2.0 modification note). **Rerun the patch whenever the sherpa libs are re-copied.**
+- **Urdu layout:** the v key typed `ۇ` (U+06C7, Uyghur/Kyrgyz, not Urdu), and `ش` was only on a long press. The key is now `ش` (popup ط ظ); the test's Urdu letter list had `ۇ` too and now forbids it.
+- **Key semantics:** with Shift on, InScript keys spoke the unshifted letter (label ष, TalkBack "स"); with lowercase labels on, letters spoke lower case although they type upper case. Semantics now use `outputFor` with the real shift state.
+- **ZWJ/ZWNJ popup cells** were blank; they now show "ZWJ"/"ZWNJ" (`displayLabel`) and have spoken names.
+- **Release gate:** now exits 2 with no APK arguments (it used to pass silently) and fails on `ai/onnxruntime/telemetry` classes or a `TelemetryInitializer` provider.
+- Emulator smoke test (API 37), all pass:
+  - voice with the Whisper base pack and the old `modelId: "base"` setting: sherpa-onnx loads, model in 1175 ms, "Listening. Speak now.", On-device badge; Stop and Cancel close the panel and release the mic (each `rec start` has a `rec stop` in `dumpsys audio`); 5 s of silence ends the session by design (`silenceLimitSamples`). Recognition quality untested (the emulator mic gives silence).
+  - password field: private-field chip only, no toolbar, no mic.
+  - space-bar long press: picker lists the 5 enabled languages with their layouts, the selected one marked, then "Language settings" and "Switch keyboard" (scrolls).
+  - Urdu: mirrored strip and toolbar, "Space, اردو", ، and ۔, "سلام" with suggestions, "شکریہ" after the fix.
+  - Eastern digits: Urdu ۱۲۳, Arabic ١٢٣ on the symbols page; Latin digits when the setting is off.
+  - Tamil "vanakkam" → வணக்கம், Telugu "namaskaram" → నమస్కారం (best in the centre); Telugu InScript క్క.
+  - Hindi InScript: क + ् + ZWJ (hold the virama, slide to the second cell) + ष = U+0915 094D 200D 0937.
+- Release (`--split-per-abi`): **arm64 79.0 MB** (82,844,008 bytes; about 49 MB gzip-compressed, roughly the download size), armeabi-v7a 67.9 MB, x86_64 86.4 MB. Was 25.4 MB. Biggest parts: libonnxruntime.so 27.3 MB (full build, stored uncompressed), libflutter 10.8, libapp 7.1, sherpa 4.4, dictionaries and translit data about 25 MB (en 3.0, most others 1.0-1.4 each).
+- Permissions: VIBRATE, RECORD_AUDIO, USE_BIOMETRIC, USE_FINGERPRINT, app-private receiver. No INTERNET, ACCESS_NETWORK_STATE or ACCESS_WIFI_STATE.
 
 ## Wave 3: open items for the user
 
 - Licences to confirm before release: the pt-BR word list (AOSP-derived, patched; see `docs/notices/european.md`) and the Arabic list (HeliBoard says CC BY 4.0 from Leipzig; not checked directly).
 - Translation speed: 200-560 ms per sentence on this PC's CPU in Python; the 300 ms phone budget is not met yet. Not measured in Kotlin or on a phone.
-- The Indic InScript/phonetic key positions were written from memory by the agent; verify against the BIS chart.
-- ZWNJ/ZWJ show as blank popup keys on the virama.
+- **InScript layouts are wrong in places (confirmed on the emulator).** Hindi/Marathi/Telugu bottom row gives ं ः म व ल न स where BIS InScript has x=ं c=म v=न b=व n=ल m=स; च ट ड य ञ are popups instead of base keys (the 11th column of the PC layout has no slot). Tamil InScript is broken: 9 keys in row 1, ப and த twice, ச as a popup twice. Phonetic layouts were not checked against a chart either.
+- APK size: 79 MB arm64 (see above). A reduced-operator onnxruntime build, or moving dictionaries into packs, would cut it a lot.
 - Toolbar holds up to 8 buttons (about 40 dp each, under 48 dp); Insert in the translate strip is 44 dp tall.
 - Toggling translation on or off takes effect at the next keyboard start (hooks are fixed at attach).
 - Not mirrored in RTL: the keyboard's own backspace and shift glyphs and the toolbar icons (orchestrator files).
@@ -56,6 +63,9 @@ State as of 2026-11-22 (midday):
 ## Emulator notes (learned this wave)
 
 - `uiautomator dump --windows` includes the keyboard window; a plain dump does not. Helper script: `tool/ui_smoke.ps1` (Get-Ui, Show-Ui, Tap-Ui, Type-Keys; dot-source it after `tool/adb_ime.ps1` is reachable).
+- Long-press popups have no accessibility nodes. Hold with `adb shell input motionevent DOWN x y`, wait ~900 ms, `MOVE` to the item (the first sits over the key, then one key width each), `UP`. A plain hold-and-release commits the first item.
+- The voice panel closes itself after 5 s of silence, so tap Stop/Cancel by coordinates within that time (a `--windows` dump takes ~1.5 s).
+- If the emulator is not running: `Start-Process "$env:ANDROID_HOME\emulator\emulator.exe" -ArgumentList '-avd','Medium_Phone_API_37.0','-no-snapshot-save'`, then `Wait-Device`.
 - Reinstalling the APK, or force-stopping the app while Myna is the keyboard, makes Android switch to Gboard: run `Enable-Myna` after both, and force-stop before enabling, not after.
 - Change languages quickly by editing `no_backup/data/settings.json` through `run-as app.myna.keyboard` (force-stop first).
 - The testbed field is the EditText under its label (tap y≈142 for `text`), not the label.
