@@ -3,7 +3,7 @@
 State as of 2026-11-21 (evening):
 - **Waves 0, 1 and 2 are done and merged on `main`.** Wave 2 merged in the order B, C, D, E, A (merge commits `8254315`..`7f365f6`), then follow-ups `3f24ce1` and `9235155`. Agent worktrees and branches are removed.
 - Checks on `main`: `flutter analyze` 0 issues, `flutter test` 788 pass, Android JVM tests 46 pass, emulator smoke test passed, release gate passes.
-- Next: Wave 3 (languages and voice), see `docs/waves/README.md`. Write its briefs first. The offline translator is planned in `docs/waves/translator.md`.
+- **Wave 3 setup is committed (`92ead05`) and the briefs are in `docs/waves/wave3/`.** Next: launch agents A, B, C, D, T, then merge in the order A, C, B, T, D (see `docs/waves/README.md`).
 - **User decisions for Wave 2 (2026-11-21):**
   - clipboard history on by default
   - the incognito picker lists "apps you've typed in" (encrypted `seen_apps` blob)
@@ -104,6 +104,7 @@ State as of 2026-11-21 (evening):
 
 ## Open questions for the user
 
-1. GitHub username, for `io.github.<username>.myna`. The current applicationId is the placeholder `app.myna.keyboard`.
-2. Which extra Indian languages "Something else" meant. The default is gu/kn/ml/pa/or as follow-up packs.
-3. Voice model size: bundled base (~60 MB) plus an optional small model?
+1. GitHub username, for `io.github.<username>.myna`: deferred to Wave 5 (placeholder `app.myna.keyboard` stays).
+2. The app name: keep Myna or rename (Koel, Sarika, Wren, Pipit, Lark, Kestrel were suggested): decide in Wave 5.
+
+Answered 2026-11-21: only hi/mr/bn/ta/te for Indic; voice uses sherpa-onnx + Whisper with no bundled model (packs only); the translator joins Wave 3; packs use a dev signing key until Wave 5.
