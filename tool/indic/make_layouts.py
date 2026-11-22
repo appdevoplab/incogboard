@@ -118,9 +118,11 @@ def build_native(kind, lang, script, rows, base_json):
     key_popups = {}
     virama_key = None
     order = []
+    base_of = {}
     for row in rows:
         for key_name, base_role, shift_role in row:
             order.append(key_name)
+            base_of[key_name] = base_role
             key_popups[key_name] = []
             if glyph(table, base_role):
                 placed.add(base_role)
@@ -131,7 +133,8 @@ def build_native(kind, lang, script, rows, base_json):
 
     # Glyphs the script has that do not fit on a key yet go round-robin into the popups.
     extras = [r for r, g in table.items() if g and r not in placed and r not in ("danda", "double_danda")]
-    spread = [k for k in order if k != virama_key]
+    # Only keys that type something can carry popups: a script without the letter leaves its key out.
+    spread = [k for k in order if k != virama_key and glyph(table, base_of[k])]
     for i, role in enumerate(extras):
         key_popups[spread[i % len(spread)]].append(table[role])
     if virama_key:
@@ -139,10 +142,13 @@ def build_native(kind, lang, script, rows, base_json):
 
     def letter(key_name, base_role, shift_role):
         base = glyph(table, base_role)
-        if base is None:
-            return None
-        key = {"output": base}
         shifted = glyph(table, shift_role)
+        if base is None:
+            # The script has no base letter here: the shifted letter takes the key.
+            if shifted is None:
+                return None
+            base, shifted = shifted, None
+        key = {"output": base}
         if shifted:
             key["shiftedOutput"] = shifted
         if key_popups[key_name]:

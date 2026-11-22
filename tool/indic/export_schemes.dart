@@ -14,7 +14,9 @@ void main() {
     final s = schemeFor(lang)!;
     out[lang] = {
       'consonants': s.consonants,
-      'vowels': {for (final e in s.vowels.entries) e.key: [e.value.$1, e.value.$2]},
+      'vowels': {
+        for (final e in s.vowels.entries) e.key: [e.value.$1, e.value.$2],
+      },
       'virama': s.virama,
       'anusvara': s.anusvara,
     };
