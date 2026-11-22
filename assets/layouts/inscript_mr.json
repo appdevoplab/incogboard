@@ -1,0 +1,224 @@
+{
+ "id": "inscript_mr",
+ "name": "InScript",
+ "script": "Deva",
+ "direction": "ltr",
+ "rows": [
+  {
+   "keys": [
+    {
+     "output": "ौ",
+     "shiftedOutput": "औ",
+     "popup": [
+      "अ"
+     ]
+    },
+    {
+     "output": "ै",
+     "shiftedOutput": "ऐ",
+     "popup": [
+      "ॉ"
+     ]
+    },
+    {
+     "output": "ा",
+     "shiftedOutput": "आ",
+     "popup": [
+      "ॅ"
+     ]
+    },
+    {
+     "output": "ी",
+     "shiftedOutput": "ई",
+     "popup": [
+      "च"
+     ]
+    },
+    {
+     "output": "ू",
+     "shiftedOutput": "ऊ",
+     "popup": [
+      "छ"
+     ]
+    },
+    {
+     "output": "ब",
+     "shiftedOutput": "भ",
+     "popup": [
+      "ञ"
+     ]
+    },
+    {
+     "output": "ह",
+     "shiftedOutput": "ङ",
+     "popup": [
+      "ट"
+     ]
+    },
+    {
+     "output": "ग",
+     "shiftedOutput": "घ",
+     "popup": [
+      "ठ"
+     ]
+    },
+    {
+     "output": "द",
+     "shiftedOutput": "ध",
+     "popup": [
+      "ड"
+     ]
+    },
+    {
+     "output": "ज",
+     "shiftedOutput": "झ",
+     "popup": [
+      "ढ"
+     ]
+    }
+   ]
+  },
+  {
+   "keys": [
+    {
+     "output": "ो",
+     "shiftedOutput": "ओ",
+     "popup": [
+      "य"
+     ]
+    },
+    {
+     "output": "े",
+     "shiftedOutput": "ए",
+     "popup": [
+      "श"
+     ]
+    },
+    {
+     "output": "्",
+     "shiftedOutput": "ऽ",
+     "popup": [
+      "‌",
+      "‍"
+     ]
+    },
+    {
+     "output": "ि",
+     "shiftedOutput": "इ",
+     "popup": [
+      "फ़"
+     ]
+    },
+    {
+     "output": "ु",
+     "shiftedOutput": "उ",
+     "popup": [
+      "़"
+     ]
+    },
+    {
+     "output": "प",
+     "shiftedOutput": "फ"
+    },
+    {
+     "output": "र",
+     "shiftedOutput": "ड़"
+    },
+    {
+     "output": "क",
+     "shiftedOutput": "ख"
+    },
+    {
+     "output": "त",
+     "shiftedOutput": "थ"
+    }
+   ],
+   "padding": 0.5
+  },
+  {
+   "keys": [
+    {
+     "type": "shift",
+     "width": 1.5
+    },
+    {
+     "output": "ं",
+     "shiftedOutput": "ँ"
+    },
+    {
+     "output": "ः",
+     "shiftedOutput": "ऋ"
+    },
+    {
+     "output": "म",
+     "shiftedOutput": "क्ष"
+    },
+    {
+     "output": "व",
+     "shiftedOutput": "ज्ञ"
+    },
+    {
+     "output": "ल",
+     "shiftedOutput": "ळ"
+    },
+    {
+     "output": "न",
+     "shiftedOutput": "ण"
+    },
+    {
+     "output": "स",
+     "shiftedOutput": "ष"
+    },
+    {
+     "type": "backspace",
+     "width": 1.5
+    }
+   ]
+  },
+  {
+   "keys": [
+    {
+     "type": "symbols",
+     "label": "?123",
+     "width": 1.5
+    },
+    {
+     "type": "emoji",
+     "width": 1
+    },
+    {
+     "type": "comma",
+     "output": ","
+    },
+    {
+     "type": "space",
+     "width": 4
+    },
+    {
+     "type": "period",
+     "output": ".",
+     "popup": [
+      "।",
+      "॥",
+      ",",
+      "?",
+      "!",
+      "'",
+      "\"",
+      ":",
+      ";",
+      "-",
+      "(",
+      ")",
+      "@",
+      "#"
+     ]
+    },
+    {
+     "type": "enter",
+     "width": 1.5
+    }
+   ]
+  }
+ ]
+}
