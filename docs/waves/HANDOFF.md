@@ -29,6 +29,15 @@ State as of 2026-11-22 (evening):
   - translate panel: "where is the station" → "¿Dónde está la estación?", Insert; the keyboard logs no text
   - mic permission prompt through the transparent activity; mic panel with the On-device badge and language chip
 
+## Wave 4 decisions (user, 2026-11-22 evening; briefs not written yet)
+
+- **Name: Kosha** (Sanskrit/Hindi *kosha*, "treasury, a store of gold": your words are your treasure, kept with you). **Full rename** in the Wave 4 setup by the orchestrator, before agents start: app name, strings, docs, notices, Dart package `myna`→`kosha`, Kotlin packages and classes (`MynaImeService`→`KoshaImeService`, `MynaMascot`, `MynaLog`, …), backup/pack magic names where safe. The applicationId stays a placeholder until the GitHub username (Wave 5), e.g. `io.github.<username>.kosha`. Name not trademark-checked yet (Wave 5).
+- **Brand: "treasure chest key"** icon: a small rounded treasure chest whose lock is a keyboard key, gold on Material You colours. No character mascot; the chest has the poses (open, locked, glowing, closed) in place of the myna bird.
+- **InScript:** the orchestrator rewrites the 5 InScript layouts against the BIS chart, with tests, during the Wave 4 setup.
+- **APK size:** the perf agent (D) builds a reduced-operator onnxruntime 1.28 (only the operators the Whisper and Opus-MT models use; no telemetry; keep the `VERS_1.28.0` symbol version or re-patch sherpa).
+- **CJK data:** Chinese (rime-ice, OpenCC) and Japanese (Mozc) dictionaries ship as signed `.mynapack`/Kosha packs, imported in Model packs, not in the APK.
+- **Agents:** Haiku, high effort, for all five (brand, Chinese, Japanese, a11y/l10n, perf/QA).
+
 ## Wave 3 finish (2026-11-22 evening)
 
 - Reran everything on `main` before and after the fixes: format clean, analyze 0 issues, `flutter test` 1020, JVM 103 (5 skipped).
@@ -170,7 +179,7 @@ State as of 2026-11-22 (evening):
 
 ## Open questions for the user
 
-1. GitHub username, for `io.github.<username>.myna`: deferred to Wave 5 (placeholder `app.myna.keyboard` stays).
-2. The app name: keep Myna or rename (Koel, Sarika, Wren, Pipit, Lark, Kestrel were suggested): decide in Wave 5.
+1. GitHub username, for `io.github.<username>.kosha`: deferred to Wave 5 (placeholder `app.myna.keyboard` stays until then).
+2. ~~The app name~~: decided 2026-11-22, **Kosha** (see "Wave 4 decisions").
 
 Answered 2026-11-21: only hi/mr/bn/ta/te for Indic; voice uses sherpa-onnx + Whisper with no bundled model (packs only); the translator joins Wave 3; packs use a dev signing key until Wave 5.
