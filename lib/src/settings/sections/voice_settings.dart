@@ -9,9 +9,13 @@ class VoiceSettings {
 
   factory VoiceSettings.fromJson(Json j) => VoiceSettings(
     enabled: jBool(j, 'enabled', true),
-    modelId: jString(j, 'modelId', ''),
+    modelId: _packId(jString(j, 'modelId', '')),
     autoDetectLanguage: jBool(j, 'autoDetectLanguage', false),
   );
+
+  /// Before Wave 3 the setting held a model size ('base', 'small') for a bundled model; models are packs
+  /// now, so those old values mean "automatic".
+  static String _packId(String v) => v == 'base' || v == 'small' ? '' : v;
 
   final bool enabled;
 

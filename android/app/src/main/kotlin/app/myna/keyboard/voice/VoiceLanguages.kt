@@ -25,8 +25,9 @@ internal object VoiceLanguages {
 }
 
 /**
- * Picks the voice pack for a request: the pack named by [packId] when set, else the first installed
- * voice pack that covers [language], else (when [language] is null) the first installed voice pack.
+ * Picks the voice pack for a request: the pack named by [packId] when it is installed (a named pack that
+ * was deleted, or an old setting, falls back to the automatic choice), else the first installed voice
+ * pack that covers [language], else (when [language] is null) the first installed voice pack.
  * [open] and [list] are PackStore's `open` and `list`; null when nothing fits.
  */
 internal fun resolveVoicePack(
@@ -36,7 +37,7 @@ internal fun resolveVoicePack(
     list: () -> List<InstalledPack>,
 ): InstalledPack? {
     val voice = { p: InstalledPack -> p.manifest.kind == PackManifest.KIND_VOICE }
-    if (packId.isNotEmpty()) return open(packId)?.takeIf(voice)
+    if (packId.isNotEmpty()) open(packId)?.takeIf(voice)?.let { return it }
     val voicePacks = list().filter(voice)
     if (language.isNullOrBlank()) return voicePacks.firstOrNull()
     return voicePacks.firstOrNull { it.manifest.languages.contains(language) }

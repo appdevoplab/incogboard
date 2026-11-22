@@ -6,6 +6,7 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
+import 'package:material_ui/material_ui.dart' show Icons;
 
 import '../../app/routes.dart';
 import '../../engine/lang/registry.dart';
@@ -86,6 +87,7 @@ class TranslatePanel extends KeyboardPanel {
     ),
     onInsert: () => controller.insertTranslation(),
     onGetPack: () => unawaited(session.services.host.openSettings(MynaRoutes.packs)),
+    onClose: panel.close,
   );
 
   @override
@@ -126,6 +128,7 @@ class TranslateStrip extends StatelessWidget {
     required this.onPair,
     required this.onInsert,
     required this.onGetPack,
+    required this.onClose,
   });
 
   final TranslateController controller;
@@ -136,6 +139,9 @@ class TranslateStrip extends StatelessWidget {
   final VoidCallback onPair;
   final VoidCallback onInsert;
   final VoidCallback onGetPack;
+
+  /// Back to the normal strip and keys.
+  final VoidCallback onClose;
 
   @override
   Widget build(BuildContext context) {
@@ -156,8 +162,18 @@ class TranslateStrip extends StatelessWidget {
           child: Row(
             children: [
               PanelButton(
+                semanticsLabel: 'Close translation',
+                width: 44,
+                height: size.height,
+                fill: fill,
+                pressedFill: pressed,
+                radius: BorderRadius.zero,
+                onTap: onClose,
+                child: Icon(Icons.close, size: 20, color: theme.toolbarIcon),
+              ),
+              PanelButton(
                 semanticsLabel: 'Language pair $pairName. Change languages',
-                width: 88,
+                width: 80,
                 height: size.height,
                 fill: fill,
                 pressedFill: pressed,

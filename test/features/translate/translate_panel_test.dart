@@ -88,6 +88,16 @@ void main() {
       expect(h.predictor.committed, isEmpty, reason: 'nothing is learned from the panel');
     });
 
+    testWidgets('the close button returns to the normal strip and keys', (tester) async {
+      final (h, probe) = await boot(tester);
+      await tap(tester, find.bySemanticsLabel('Translate'));
+      expect(probe.session!.panel.value, isA<TranslatePanel>());
+      await tap(tester, find.bySemanticsLabel('Close translation'));
+      expect(probe.session!.panel.value, isNull);
+      expect(probe.session!.input.redirect.value, isNull, reason: 'keys type into the app again');
+      verify(() => h.host.releaseTranslator()).called(1);
+    });
+
     testWidgets('Enter inserts the translation too, and backspace edits the source', (tester) async {
       final (h, probe) = await boot(tester);
       await tap(tester, find.bySemanticsLabel('Translate'));
