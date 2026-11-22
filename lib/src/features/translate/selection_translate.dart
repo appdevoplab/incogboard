@@ -14,8 +14,8 @@ import '../../bridge/messages.g.dart';
 import '../../keyboard/keyboard_session.dart';
 import '../../keyboard/panels/keyboard_panel.dart';
 
-/// Chip priority: below the Cut/Copy/Select all chips (10), as the brief asks.
-const int translateChipPriority = 9;
+/// Chip priority: above the Cut/Copy/Select all chips (10), which would otherwise fill all 3 slots.
+const int translateChipPriority = 11;
 
 const String translateSelectionChipId = 'translate.selection';
 const String translateReplaceChipId = 'translate.replace';

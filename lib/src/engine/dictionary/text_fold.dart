@@ -86,6 +86,10 @@ int baseRune(int rune) {
 
 bool _isCombining(int rune) => rune >= 0x300 && rune <= 0x36F;
 
+/// Arabic harakat (U+064B..U+065F), superscript alef (U+0670) and tatweel (U+0640): dictionaries store
+/// bare words, so a word typed with vowel marks still matches.
+bool _isArabicMark(int rune) => (rune >= 0x64B && rune <= 0x65F) || rune == 0x670 || rune == 0x640;
+
 /// Canonical composition for the supported Latin letters ("e" + U+0301 -> "é").
 String normalizeNfc(String text) {
   var hasCombining = false;
@@ -133,7 +137,7 @@ String foldKey(String text, {bool stripAccents = true}) {
       out.writeCharCode(r);
     } else if (_kSpecialFolds[r] case final special?) {
       out.write(special);
-    } else if (_isCombining(r)) {
+    } else if (_isCombining(r) || _isArabicMark(r)) {
       continue;
     } else {
       out.writeCharCode(baseRune(r));

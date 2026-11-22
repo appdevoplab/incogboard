@@ -13,4 +13,7 @@
 | image_picker | BSD-3-Clause | Android Photo Picker for theme backgrounds (no storage permission) |
 | local_auth | BSD-3-Clause | BiometricPrompt app lock |
 | junit:junit 4.13.2 (tests only, not in the APK) | EPL-1.0 | JVM unit tests under `android/app/src/test` |
-
+| onnxruntime-android 1.31.1 | MIT | Inference runtime shared by voice and translation. Copyright Microsoft Corporation (https://github.com/microsoft/onnxruntime). No network code. |
+| sherpa-onnx v2.0.1 (`libsherpa-onnx-jni.so` and Kotlin API sources) | Apache-2.0 | Offline speech recognition (Wave 3-D). Copyright Xiaomi Corporation and the k2-fsa authors (https://github.com/k2-fsa/sherpa-onnx). Details in the voice section. |
+| org.json 20240303 (tests only, not in the APK) | Public domain (JSON License text) | JVM tests of the pack store |
+| onnxruntime 1.31.1 desktop (tests only, not in the APK) | MIT | JVM tests of the translation engine |

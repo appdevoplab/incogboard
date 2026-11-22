@@ -22,6 +22,10 @@ class _TranslateFeature extends KeyboardFeature {
   /// Pair keys of the installed packs; null until read, and again after a pack changed.
   Set<String>? _installed;
 
+  /// Some translation pack is installed (read at attach and after a pack changed). The selection chip
+  /// shows only then, so it never takes the Select all slot for nothing.
+  bool _hasPack = false;
+
   @override
   KeyboardHooks attach(KeyboardSession session) {
     _session = session;
@@ -29,10 +33,11 @@ class _TranslateFeature extends KeyboardFeature {
     final selection = SelectionTranslator(
       session: session,
       translate: (text, from, to) => services.host.translate(text, from, to),
-      enabled: () => services.settings.value.translate.enabled,
+      enabled: () => services.settings.value.translate.enabled && _hasPack,
     )..attach();
     _selection = selection;
     _dataSub = services.events.settingsChanged.listen(_onDataChanged);
+    unawaited(_refreshInstalled());
     if (!services.settings.value.translate.enabled) return const KeyboardHooks();
     return KeyboardHooks(onTranslate: () => _open(session));
   }
@@ -56,7 +61,20 @@ class _TranslateFeature extends KeyboardFeature {
   }
 
   void _onDataChanged(List<String> sections) {
-    if (DataSections.affects(sections, DataSections.packs)) _installed = null;
+    if (!DataSections.affects(sections, DataSections.packs)) return;
+    _installed = null;
+    unawaited(_refreshInstalled());
+  }
+
+  Future<void> _refreshInstalled() async {
+    final session = _session;
+    if (session == null) return;
+    try {
+      final packs = await session.services.platform.listPacks();
+      _hasPack = installedPairKeys(packs).isNotEmpty;
+    } on Object {
+      _hasPack = false;
+    }
   }
 
   @override
