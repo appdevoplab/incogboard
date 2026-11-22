@@ -103,10 +103,11 @@ void main() {
 
   testWidgets('the voice screen shows the stored values and writes nothing', (tester) async {
     final fakes = await _pump(tester, const VoiceScreen());
-    expect(find.text('Offline voice arrives in a later update'), findsOneWidget);
+    // Wave 3-D: the voice screen is the real settings screen (switch, voice pack, language detection).
+    expect(find.text('Voice typing'), findsOneWidget);
+    expect(find.text('Voice pack'), findsOneWidget);
     expect(find.text('Automatic'), findsOneWidget);
-    expect(find.text('On'), findsOneWidget);
-    expect(find.text('Off'), findsOneWidget);
+    expect(find.text('Detect language automatically'), findsOneWidget);
     verifyNever(() => fakes.store.update(any(), sections: any(named: 'sections')));
   });
 }
