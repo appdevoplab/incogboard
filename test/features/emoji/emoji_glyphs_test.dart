@@ -5,16 +5,16 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:myna/src/bridge/messages.g.dart';
-import 'package:myna/src/core/secure_blob_store.dart';
-import 'package:myna/src/features/emoji/emoji_data.dart';
-import 'package:myna/src/features/emoji/emoji_glyphs.dart';
-import 'package:myna/src/features/emoji/emoji_store.dart';
+import 'package:kosha/src/bridge/messages.g.dart';
+import 'package:kosha/src/core/secure_blob_store.dart';
+import 'package:kosha/src/features/emoji/emoji_data.dart';
+import 'package:kosha/src/features/emoji/emoji_glyphs.dart';
+import 'package:kosha/src/features/emoji/emoji_store.dart';
 
 class _MockPlatform extends Mock implements PlatformHostApi {}
 
 AppInfoMessage _app(int sdk, [String version = '1.0.0']) => AppInfoMessage(
-  packageName: 'app.myna.keyboard',
+  packageName: 'app.kosha.keyboard',
   versionName: version,
   versionCode: 1,
   sdkInt: sdk,

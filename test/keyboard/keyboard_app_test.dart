@@ -3,15 +3,15 @@
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:myna/src/bridge/messages.g.dart';
-import 'package:myna/src/core/input_field_info.dart';
-import 'package:myna/src/keyboard/layout/layout_model.dart';
-import 'package:myna/src/keyboard/layout/layout_repository.dart';
-import 'package:myna/src/keyboard/view/keyboard_hooks.dart';
-import 'package:myna/src/keyboard/view/keyboard_metrics.dart';
-import 'package:myna/src/keyboard/view/keyboard_view.dart';
-import 'package:myna/src/keyboard/view/popup_layer.dart';
-import 'package:myna/src/settings/myna_settings.dart';
+import 'package:kosha/src/bridge/messages.g.dart';
+import 'package:kosha/src/core/input_field_info.dart';
+import 'package:kosha/src/keyboard/layout/layout_model.dart';
+import 'package:kosha/src/keyboard/layout/layout_repository.dart';
+import 'package:kosha/src/keyboard/view/keyboard_hooks.dart';
+import 'package:kosha/src/keyboard/view/keyboard_metrics.dart';
+import 'package:kosha/src/keyboard/view/keyboard_view.dart';
+import 'package:kosha/src/keyboard/view/popup_layer.dart';
+import 'package:kosha/src/settings/kosha_settings.dart';
 
 import 'support/app_harness.dart';
 
@@ -22,7 +22,7 @@ void main() {
 
   Future<(AppHarness, KeyFinder)> boot(
     WidgetTester tester, {
-    MynaSettings settings = const MynaSettings(),
+    KoshaSettings settings = const KoshaSettings(),
     EditorInfoMessage? field,
     String text = '',
   }) async {
@@ -70,7 +70,7 @@ void main() {
   });
 
   test('metrics use the landscape scale in landscape', () {
-    final s = const MynaSettings().copyWith(appearance: const AppearanceSettings(landscapeHeightScale: 0.7));
+    final s = const KoshaSettings().copyWith(appearance: const AppearanceSettings(landscapeHeightScale: 0.7));
     expect(KeyboardMetrics.rowsHeight(s, landscape: true), closeTo(4 * 56 * 0.7, 1e-9));
     expect(KeyboardMetrics.rowsHeight(s, landscape: false), 4 * 56);
     expect(KeyboardMetrics.totalHeight(s, landscape: false, bottomInset: 10), 44 + 224 + 10);
@@ -277,7 +277,7 @@ void main() {
   });
 
   testWidgets('hide-from-screenshots keeps the window secure in normal fields', (tester) async {
-    final h = AppHarness(settings: const MynaSettings(privacy: PrivacySettings(hideFromScreenshots: true)));
+    final h = AppHarness(settings: const KoshaSettings(privacy: PrivacySettings(hideFromScreenshots: true)));
     await h.pump(tester);
     verify(() => h.host.setSecureWindow(true)).called(1);
     await h.focus(tester, editorInfo(inputType: AndroidInputType.classText | AndroidInputType.textVariationPassword));
@@ -327,7 +327,7 @@ void main() {
   });
 
   testWidgets('incognito shows an indicator', (tester) async {
-    final h = AppHarness(settings: const MynaSettings(privacy: PrivacySettings(incognito: true)));
+    final h = AppHarness(settings: const KoshaSettings(privacy: PrivacySettings(incognito: true)));
     await h.pump(tester);
     await h.focus(tester);
     final handle = tester.ensureSemantics();
@@ -423,7 +423,7 @@ void main() {
     });
 
     testWidgets('swipe disabled in settings: sliding types the key under the finger', (tester) async {
-      final (h, k) = await boot(tester, settings: const MynaSettings(swipe: SwipeSettings(enabled: false)));
+      final (h, k) = await boot(tester, settings: const KoshaSettings(swipe: SwipeSettings(enabled: false)));
       h.decoder.result = ['hello'];
       final g = await swipe(tester, k, ['h', 'e', 'l']);
       await g.up();

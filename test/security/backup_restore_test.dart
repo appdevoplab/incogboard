@@ -4,17 +4,17 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myna/src/core/data_sections.dart';
-import 'package:myna/src/core/seen_apps.dart';
-import 'package:myna/src/engine/learn/learned_data.dart';
-import 'package:myna/src/security/backup/backup_collect.dart';
-import 'package:myna/src/security/backup/backup_payload.dart';
-import 'package:myna/src/security/backup/backup_restore.dart';
-import 'package:myna/src/security/custom_theme_files.dart';
-import 'package:myna/src/security/data_wiper.dart';
-import 'package:myna/src/security/shortcuts_store.dart';
-import 'package:myna/src/settings/myna_settings.dart';
-import 'package:myna/src/settings/settings_store.dart';
+import 'package:kosha/src/core/data_sections.dart';
+import 'package:kosha/src/core/seen_apps.dart';
+import 'package:kosha/src/engine/learn/learned_data.dart';
+import 'package:kosha/src/security/backup/backup_collect.dart';
+import 'package:kosha/src/security/backup/backup_payload.dart';
+import 'package:kosha/src/security/backup/backup_restore.dart';
+import 'package:kosha/src/security/custom_theme_files.dart';
+import 'package:kosha/src/security/data_wiper.dart';
+import 'package:kosha/src/security/shortcuts_store.dart';
+import 'package:kosha/src/settings/kosha_settings.dart';
+import 'package:kosha/src/settings/settings_store.dart';
 
 import 'support/fakes.dart';
 
@@ -94,7 +94,7 @@ void main() {
       stubPlatform(platform, store);
       shortcuts = ShortcutsStore(store);
       settings = SettingsStore.memory();
-      themesRoot = Directory.systemTemp.createTempSync('myna_restore_test');
+      themesRoot = Directory.systemTemp.createTempSync('kosha_restore_test');
       themes = CustomThemeFiles(themesRoot.path);
       notified = [];
       restorer = BackupRestorer(
@@ -192,7 +192,7 @@ void main() {
               'learned_en': _learned('en', words: {'world': 1}),
             },
             shortcuts: const [PersonalShortcut(trigger: 'omw', expansion: 'on my way')],
-            settings: MynaSettings(privacy: const PrivacySettings(learning: false)).toJson(),
+            settings: KoshaSettings(privacy: const PrivacySettings(learning: false)).toJson(),
           ),
           include: all(),
           mode: RestoreMode.merge,
@@ -279,7 +279,7 @@ void main() {
 
     test('settings are applied and every restore notifies the keyboard', () async {
       final report = await restorer.apply(
-        BackupContents(settings: MynaSettings(privacy: const PrivacySettings(learning: false)).toJson()),
+        BackupContents(settings: KoshaSettings(privacy: const PrivacySettings(learning: false)).toJson()),
         include: {BackupSection.settings},
         mode: RestoreMode.merge,
       );
@@ -351,7 +351,7 @@ void main() {
       settings = SettingsStore.memory();
       shortcuts = ShortcutsStore(store);
       seenApps = SeenAppsStore(store);
-      root = Directory.systemTemp.createTempSync('myna_wipe_test');
+      root = Directory.systemTemp.createTempSync('kosha_wipe_test');
       notified = [];
       wiper = DataWiper(
         store: store,
@@ -408,7 +408,7 @@ void main() {
       await wiper.wipe({WipeCategory.themes});
 
       expect(await CustomThemeFiles('${root.path}/themes').list(), isEmpty);
-      expect(settings.value.appearance.themeId, 'myna_dynamic');
+      expect(settings.value.appearance.themeId, 'kosha_dynamic');
     });
 
     test('erase everything wipes the store and custom themes, and resets settings only when asked', () async {

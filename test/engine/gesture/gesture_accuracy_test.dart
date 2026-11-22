@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myna/src/engine/contracts.dart';
-import 'package:myna/src/engine/gesture/isolate_gesture_decoder.dart';
-import 'package:myna/src/engine/in_memory_lexicon.dart';
+import 'package:kosha/src/engine/contracts.dart';
+import 'package:kosha/src/engine/gesture/isolate_gesture_decoder.dart';
+import 'package:kosha/src/engine/in_memory_lexicon.dart';
 
 import 'gesture_test_support.dart';
 

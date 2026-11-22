@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myna/src/core/data_sections.dart';
-import 'package:myna/src/core/secure_blob_store.dart';
-import 'package:myna/src/security/shortcuts_store.dart';
+import 'package:kosha/src/core/data_sections.dart';
+import 'package:kosha/src/core/secure_blob_store.dart';
+import 'package:kosha/src/security/shortcuts_store.dart';
 
 void main() {
   late InMemorySecureBlobStore blobs;

@@ -3,7 +3,7 @@
 // Tonal surface levels and elevation tokens.
 
 /// Elevation levels in dp (Material 3).
-abstract final class MynaElevation {
+abstract final class KoshaElevation {
   static const double level0 = 0;
   static const double level1 = 1;
   static const double level2 = 3;

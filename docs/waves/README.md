@@ -17,7 +17,7 @@
    - Check suggestions and autocorrect ("teh " → "the ").
    - Check themes in light and dark mode.
 5. Release check: `flutter build apk --release --split-per-abi`, then `bash tool/check_release_permissions.sh build/app/outputs/flutter-apk/*-release.apk` (Git Bash): no network permissions and no onnxruntime telemetry.
-6. Commit the merge, and update the memory file myna-project.md with the wave status.
+6. Commit the merge, and update the memory file kosha-project.md with the wave status.
 
 ## Wave 2: product (5 agents)
 
@@ -44,8 +44,8 @@
 
 | Agent | Owns | Brief |
 |---|---|---|
-| A | `lib/src/app/shell,onboarding,settings,languages/**` | Settings shell (M3E grouped containers, large headers). Onboarding: enable, then switch, then the "may collect text" explainer, then pick languages and theme, then try it, illustrated with the Myna mascot. Typing, feel and panels settings screens. Implement AppFlutterApi so the app reloads settings. Optional `material_3_expressive` package only after a licence/code audit. |
-| B | `lib/src/app/privacy/**`, `lib/src/security/**`, Kotlin backup crypto under `android/.../security/backup/` | Privacy center: proof of no internet, stored-data sizes, incognito rules per app, wipe per category, learned-words viewer and editor, personal shortcuts. App lock with local_auth (strong biometric or device credential), a timeout, and FLAG_SECURE plus no recents thumbnail on sensitive screens. Encrypted `.mynabackup` file: PBKDF2-SHA256 with 600k iterations, AES-256-GCM, SAF picker, preview, then merge or replace. |
+| A | `lib/src/app/shell,onboarding,settings,languages/**` | Settings shell (M3E grouped containers, large headers). Onboarding: enable, then switch, then the "may collect text" explainer, then pick languages and theme, then try it, illustrated with the Kosha mascot. Typing, feel and panels settings screens. Implement AppFlutterApi so the app reloads settings. Optional `material_3_expressive` package only after a licence/code audit. |
+| B | `lib/src/app/privacy/**`, `lib/src/security/**`, Kotlin backup crypto under `android/.../security/backup/` | Privacy center: proof of no internet, stored-data sizes, incognito rules per app, wipe per category, learned-words viewer and editor, personal shortcuts. App lock with local_auth (strong biometric or device credential), a timeout, and FLAG_SECURE plus no recents thumbnail on sensitive screens. Encrypted `.koshabackup` file: PBKDF2-SHA256 with 600k iterations, AES-256-GCM, SAF picker, preview, then merge or replace. |
 | C | `lib/src/app/themes/**`, plus theme repository additions in `lib/src/theme/custom/**` | Theme gallery as an M3 carousel. Editor with a live preview of the real keyboard widget and a try-typing field. Photo background through the Photo Picker, with crop and pre-rendered blur/dim saved to app storage. Custom themes stored as JSON. |
 | D | `lib/src/features/emoji,clipboard,editing/**`, `tool/build_emoji.dart`, `assets/emoji/**` | Emoji from `emoji-test.txt` plus CLDR annotations (Unicode licence) for every planned language. Search uses the keyboard's own keys. Skin tone remembered per emoji, recents, hasGlyphs filtering, and kaomoji and symbols tabs. Clipboard panel: pins, expiry, recent-copy chip, masked sensitive items, all through SecureBlobStore. Editing panel: arrows, selection, cut/copy/paste, undo/redo, home/end. Emoji suggestions in the strip. |
 | E | `lib/src/keyboard/modes/**` (A from Wave 1 hands over hooks) | One-handed (left/right, 80% width, swap/expand buttons). Floating (drag, resize, snap, uses Kotlin floating insets). Height adjust handle. Spacebar cursor drag with acceleration. Backspace swipe-left word delete with highlight and undo. Tablet/foldable split layout and landscape compact layout. |
@@ -53,14 +53,14 @@
 ## Wave 3: languages, voice and translation (5)
 
 **Status (2026-11-22): done.** Merged on `main` (A, C, B, T, D), emulator smoke test passed, release gate passes (no network permissions; arm64 79.0 MB). Worktrees and branches removed. Details and open items: `HANDOFF.md`, "Wave 3 finish".
-- Setup done (commit `92ead05`): Pigeon voice/translation/pack calls, the Kotlin pack store (signed `.mynapack`) and service stubs, onnxruntime-android (pinned to 1.28.0: 1.29+ ships telemetry), the language registry and seams, and the strip's toolbar toggle (fixes the hidden toolbar).
+- Setup done (commit `92ead05`): Pigeon voice/translation/pack calls, the Kotlin pack store (signed `.koshapack`) and service stubs, onnxruntime-android (pinned to 1.28.0: 1.29+ ships telemetry), the language registry and seams, and the strip's toolbar toggle (fixes the hidden toolbar).
 - sherpa-onnx's `.so` files are patched to need onnxruntime `VERS_1.28.0` (`tool/patch_sherpa_ort_version.dart`); rerun it after copying new sherpa libraries.
 - Briefs are in `docs/waves/wave3/` (A, B, C, D, T); ownership is in `docs/PARALLEL_WORK.md`.
 - **User decisions (2026-11-21):**
   - The translator joins Wave 3 as agent T; brand (old E) moves to Wave 4.
   - Voice: sherpa-onnx + Whisper; no bundled model, packs only.
   - Indic: only hi/mr/bn/ta/te (no pack template for others).
-  - Packs are signed with an ECDSA P-256 dev key (`%USERPROFILE%\.myna\keys\pack-dev.pem`, outside the repo); Wave 5 swaps in the release key.
+  - Packs are signed with an ECDSA P-256 dev key (`%USERPROFILE%\.kosha\keys\pack-dev.pem`, outside the repo); Wave 5 swaps in the release key.
   - The app name and the GitHub username wait for Wave 5.
 
 **Merge order:** A, C, B, T, D. A first because it owns the text engine and the dictionary tool; D last because it adds native libraries.
@@ -105,7 +105,7 @@ Original plan for the wave:
 ## Wave 4: CJK, brand and polish (5)
 
 - **E (from Wave 3):** brand:
-  - Myna adaptive icon (foreground, background, monochrome).
+  - Kosha adaptive icon (foreground, background, monochrome).
   - Splash.
   - Mascot poses (wave, lock, sing, sleep).
   - Play 512 icon, feature graphic, store screenshots template.

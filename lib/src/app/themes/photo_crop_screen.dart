@@ -137,7 +137,7 @@ class _PhotoCropScreenState extends State<PhotoCropScreen> {
       if (!mounted) return;
       Navigator.of(context).pop(PhotoCropResult(uuid: widget.photoUuid, blur: _blur));
     } on Object catch (e) {
-      MynaLog.w('Theme', 'photo render failed', e.runtimeType);
+      KoshaLog.w('Theme', 'photo render failed', e.runtimeType);
       if (mounted) {
         setState(() {
           _saving = false;

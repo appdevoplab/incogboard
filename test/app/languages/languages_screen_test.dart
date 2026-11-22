@@ -7,11 +7,11 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart' show IconButton, Icons, Material, MaterialApp, TextField;
 import 'package:mocktail/mocktail.dart';
-import 'package:myna/src/app/app_services.dart';
-import 'package:myna/src/app/onboarding/onboarding_languages.dart';
-import 'package:myna/src/app/screens/languages_screen.dart';
-import 'package:myna/src/app/shell/language_catalog.dart';
-import 'package:myna/src/settings/myna_settings.dart';
+import 'package:kosha/src/app/app_services.dart';
+import 'package:kosha/src/app/onboarding/onboarding_languages.dart';
+import 'package:kosha/src/app/screens/languages_screen.dart';
+import 'package:kosha/src/app/shell/language_catalog.dart';
+import 'package:kosha/src/settings/kosha_settings.dart';
 
 import '../support/app_fakes.dart' show AppFakes;
 
@@ -31,21 +31,21 @@ Future<void> _pumpScreen(WidgetTester tester, AppServices services, Widget child
 }
 
 /// Applies the last change written to the store to [base] and returns the new languages section.
-LanguageSettings _lastWrite(AppFakes fakes, MynaSettings base) {
+LanguageSettings _lastWrite(AppFakes fakes, KoshaSettings base) {
   final captured = verify(() => fakes.store.update(captureAny(), sections: captureAny(named: 'sections'))).captured;
-  final change = captured.first as MynaSettings Function(MynaSettings);
+  final change = captured.first as KoshaSettings Function(KoshaSettings);
   expect(captured.last, [SettingsSection.languages]);
   return change(base).languages;
 }
 
 void main() {
   setUpAll(() {
-    registerFallbackValue((MynaSettings s) => s);
+    registerFallbackValue((KoshaSettings s) => s);
   });
 
   group('Languages screen', () {
     testWidgets('enabled languages show their layout; changing it writes the layout choice', (tester) async {
-      const base = MynaSettings(
+      const base = KoshaSettings(
         languages: LanguageSettings(enabled: ['en', 'de'], layouts: {'de': 'qwertz'}),
       );
       final fakes = AppFakes(settings: base);
@@ -62,7 +62,7 @@ void main() {
     });
 
     testWidgets('adding a language appends it to the enabled list', (tester) async {
-      const base = MynaSettings(languages: LanguageSettings(enabled: ['en']));
+      const base = KoshaSettings(languages: LanguageSettings(enabled: ['en']));
       final fakes = AppFakes(settings: base);
       await _pumpScreen(tester, fakes.services, const LanguagesScreen());
 
@@ -73,7 +73,7 @@ void main() {
     });
 
     testWidgets('the last enabled language cannot be removed', (tester) async {
-      const base = MynaSettings(languages: LanguageSettings(enabled: ['en']));
+      const base = KoshaSettings(languages: LanguageSettings(enabled: ['en']));
       final fakes = AppFakes(settings: base);
       await _pumpScreen(tester, fakes.services, const LanguagesScreen());
 
@@ -82,7 +82,7 @@ void main() {
     });
 
     testWidgets('removing a language keeps the others and makes the first one active when needed', (tester) async {
-      const base = MynaSettings(
+      const base = KoshaSettings(
         languages: LanguageSettings(enabled: ['de', 'en'], active: 'de'),
       );
       final fakes = AppFakes(settings: base);
@@ -97,7 +97,7 @@ void main() {
     });
 
     testWidgets('dragging a language below the next one reorders the enabled list', (tester) async {
-      const base = MynaSettings(languages: LanguageSettings(enabled: ['en', 'de', 'fr']));
+      const base = KoshaSettings(languages: LanguageSettings(enabled: ['en', 'de', 'fr']));
       final fakes = AppFakes(settings: base);
       await _pumpScreen(tester, fakes.services, const LanguagesScreen());
 
@@ -108,7 +108,7 @@ void main() {
     });
 
     testWidgets('the multilingual switch writes the languages section', (tester) async {
-      const base = MynaSettings(languages: LanguageSettings(enabled: ['en', 'ar'], multilingual: true));
+      const base = KoshaSettings(languages: LanguageSettings(enabled: ['en', 'ar'], multilingual: true));
       final fakes = AppFakes(settings: base);
       await _pumpScreen(tester, fakes.services, const LanguagesScreen());
 
@@ -143,7 +143,7 @@ void main() {
 
   group('onboarding language step', () {
     testWidgets('search narrows the list and tapping a language adds it to the selection', (tester) async {
-      const base = MynaSettings(languages: LanguageSettings(enabled: ['en']));
+      const base = KoshaSettings(languages: LanguageSettings(enabled: ['en']));
       final fakes = AppFakes(settings: base);
       await _pumpScreen(
         tester,

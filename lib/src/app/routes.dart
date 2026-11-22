@@ -4,7 +4,7 @@
 // them with `ImeHostApi.openSettings(route)`; the app reads the launch route
 // with `AppHostApi.takeLaunchRoute()` and later ones from
 // `AppServices.routeRequests`. Wave 2-A's shell maps them to screens.
-abstract final class MynaRoutes {
+abstract final class KoshaRoutes {
   static const String home = 'home';
   static const String onboarding = 'onboarding';
   static const String languages = 'languages';

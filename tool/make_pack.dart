@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// Builds and signs a .mynapack model pack (format: android/.../packs/PackStore.kt).
+// Builds and signs a .koshapack model pack (format: android/.../packs/PackStore.kt).
 // OWNER: orchestrator. Needs `openssl` on PATH (Git for Windows ships it).
 //
 //   dart run tool/make_pack.dart --dir <staging folder> --id translate-en-es --kind translation \
 //     --name "English → Spanish" --languages en,es --engine opus-mt-onnx --license CC-BY-4.0 \
-//     [--version 1] [--key %USERPROFILE%/.myna/keys/pack-dev.pem] --out build/packs/translate-en-es.mynapack
+//     [--version 1] [--key %USERPROFILE%/.kosha/keys/pack-dev.pem] --out build/packs/translate-en-es.koshapack
 //
 // Every file under --dir goes into the pack, with its path relative to --dir ('/' separators).
-// --key defaults to the dev key (%USERPROFILE%/.myna/keys/pack-dev.pem), which lives outside the repo.
+// --key defaults to the dev key (%USERPROFILE%/.kosha/keys/pack-dev.pem), which lives outside the repo.
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
@@ -19,7 +19,7 @@ Future<void> main(List<String> argv) async {
   final dir = Directory(need('dir'));
   final out = File(need('out'));
   final home = Platform.environment['USERPROFILE'] ?? Platform.environment['HOME'] ?? '.';
-  final keyPath = args['key'] ?? '$home/.myna/keys/pack-dev.pem';
+  final keyPath = args['key'] ?? '$home/.kosha/keys/pack-dev.pem';
 
   final files = dir.listSync(recursive: true).whereType<File>().toList()..sort((a, b) => a.path.compareTo(b.path));
   if (files.isEmpty) throw StateError('no files in ${dir.path}');
@@ -42,7 +42,7 @@ Future<void> main(List<String> argv) async {
     }),
   );
   out.parent.createSync(recursive: true);
-  final tmp = Directory.systemTemp.createTempSync('mynapack');
+  final tmp = Directory.systemTemp.createTempSync('koshapack');
   try {
     final manifestFile = File('${tmp.path}/manifest.json')..writeAsBytesSync(manifest);
     final sigFile = File('${tmp.path}/manifest.sig');
@@ -61,7 +61,7 @@ Future<void> main(List<String> argv) async {
     final sink = out.openWrite();
     Uint8List u32(int v) => Uint8List(4)..buffer.asByteData().setUint32(0, v);
     sink
-      ..add(ascii.encode('MYNAPACK'))
+      ..add(ascii.encode('KOSHAPAK'))
       ..add(u32(1))
       ..add(u32(manifest.length))
       ..add(manifest)

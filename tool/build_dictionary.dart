@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// Builds a Myna dictionary asset (.mdict) from an AOSP/LatinIME ".combined"
+// Builds a Kosha dictionary asset (.mdict) from an AOSP/LatinIME ".combined"
 // word list.
 //
 //   dart run tool/build_dictionary.dart --input tool/out/en.combined --lang en --out assets/dict/en.mdict
@@ -21,9 +21,9 @@
 import 'dart:io';
 import 'dart:math' as math;
 
-import 'package:myna/src/engine/dictionary/english_contractions.dart';
-import 'package:myna/src/engine/dictionary/mdict_writer.dart';
-import 'package:myna/src/engine/dictionary/text_fold.dart';
+import 'package:kosha/src/engine/dictionary/english_contractions.dart';
+import 'package:kosha/src/engine/dictionary/mdict_writer.dart';
+import 'package:kosha/src/engine/dictionary/text_fold.dart';
 
 class _Entry {
   _Entry(this.word, this.f, {required this.offensive, required this.notAWord});

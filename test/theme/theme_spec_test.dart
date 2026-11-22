@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myna/src/theme/theme.dart';
+import 'package:kosha/src/theme/theme.dart';
 
 void main() {
   group('JSON round trip', () {
@@ -161,19 +161,22 @@ void main() {
     test('ids are unique and the required presets exist', () {
       final ids = ThemePresets.all.map((p) => p.id).toList();
       expect(ids.toSet().length, ids.length);
-      expect(ids, containsAll(['myna_dynamic', 'myna_gold', 'lavender', 'ocean', 'mint', 'coral', 'rose', 'graphite']));
+      expect(
+        ids,
+        containsAll(['kosha_dynamic', 'kosha_gold', 'lavender', 'ocean', 'mint', 'coral', 'rose', 'graphite']),
+      );
     });
 
-    test('byId falls back to Myna Dynamic', () {
+    test('byId falls back to Kosha Dynamic', () {
       expect(ThemePresets.byId('ocean').id, 'ocean');
-      expect(ThemePresets.byId('nope').id, 'myna_dynamic');
+      expect(ThemePresets.byId('nope').id, 'kosha_dynamic');
       expect(ThemePresets.isPresetId('nope'), isFalse);
     });
 
     test('brand colours', () {
-      expect(ThemePresets.mynaGold.customRoles['primary'], mynaYellow);
-      expect(ThemePresets.mynaGold.customRoles['onPrimary'], mynaBrown);
-      expect(ThemePresets.mynaDynamic.colorSource, ThemeColorSource.dynamic);
+      expect(ThemePresets.koshaGold.customRoles['primary'], koshaYellow);
+      expect(ThemePresets.koshaGold.customRoles['onPrimary'], koshaBrown);
+      expect(ThemePresets.koshaDynamic.colorSource, ThemeColorSource.dynamic);
       expect(ThemePresets.graphite.variant, ThemeSchemeVariant.monochrome);
     });
   });

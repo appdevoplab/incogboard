@@ -8,8 +8,8 @@ import 'dart:io';
 
 import 'package:flutter/painting.dart' show TextDirection;
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myna/src/engine/lang/registry.dart';
-import 'package:myna/src/keyboard/layout/layout_model.dart';
+import 'package:kosha/src/engine/lang/registry.dart';
+import 'package:kosha/src/keyboard/layout/layout_model.dart';
 
 KeyboardLayoutDef _layout(String id) =>
     KeyboardLayoutDef.fromJson(jsonDecode(File('assets/layouts/$id.json').readAsStringSync()) as Map<String, Object?>);

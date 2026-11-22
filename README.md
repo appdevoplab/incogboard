@@ -1,4 +1,4 @@
-# Myna
+# Kosha
 
 A private, offline, multilingual keyboard for Android, built with Flutter.
 
@@ -13,7 +13,7 @@ A private, offline, multilingual keyboard for Android, built with Flutter.
 ## Architecture in one picture
 
 ```
-MynaImeService (Kotlin, thin)  ──Pigeon──►  keyboardMain()  (Dart: keyboard UI + language engines)
+KoshaImeService (Kotlin, thin)  ──Pigeon──►  keyboardMain()  (Dart: keyboard UI + language engines)
 SettingsActivity (Kotlin)      ──Pigeon──►  main()          (Dart: settings app)
 ```
 
@@ -25,7 +25,7 @@ The whole keyboard UI and every language engine are Dart. Kotlin only hosts the 
 flutter pub get
 flutter test
 flutter build apk --debug
-. .\tool\adb_ime.ps1; Install-Myna; Enable-Myna; Open-Testbed -Field text
+. .\tool\adb_ime.ps1; Install-Kosha; Enable-Kosha; Open-Testbed -Field text
 ```
 
 Regenerate the platform contract after editing `pigeons/messages.dart`:
@@ -40,7 +40,7 @@ On emulators with a hardware keyboard, allow the on-screen keyboard:
 ## Privacy checks
 
 - `tool/check_release_permissions.sh build/app/outputs/flutter-apk/*-release.apk` must pass (no network permissions).
-- Never log typed text. Use `MynaLog` with events, sizes and timings only.
+- Never log typed text. Use `KoshaLog` with events, sizes and timings only.
 - No dependency may contain network, analytics or Google Play Services code.
 
 ## License

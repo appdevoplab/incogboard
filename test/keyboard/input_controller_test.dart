@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myna/src/bridge/messages.g.dart';
-import 'package:myna/src/core/input_field_info.dart';
-import 'package:myna/src/engine/contracts.dart';
-import 'package:myna/src/keyboard/input/input_controller.dart';
-import 'package:myna/src/keyboard/input/keyboard_page.dart';
-import 'package:myna/src/settings/myna_settings.dart';
+import 'package:kosha/src/bridge/messages.g.dart';
+import 'package:kosha/src/core/input_field_info.dart';
+import 'package:kosha/src/engine/contracts.dart';
+import 'package:kosha/src/keyboard/input/input_controller.dart';
+import 'package:kosha/src/keyboard/input/keyboard_page.dart';
+import 'package:kosha/src/settings/kosha_settings.dart';
 
 import '../support/fake_editor.dart';
 import 'support/fakes.dart';
@@ -18,7 +18,7 @@ InputFieldInfo textField({int flags = 0, int variation = 0, int ime = 0, String?
 );
 
 class Harness {
-  Harness({String text = '', MynaSettings? settings}) : settings = settings ?? const MynaSettings() {
+  Harness({String text = '', KoshaSettings? settings}) : settings = settings ?? const KoshaSettings() {
     editor = FakeEditor(text: text);
     controller = InputController(
       input: editor,
@@ -30,7 +30,7 @@ class Harness {
     editor.onSelectionChanged = controller.onSelectionChanged;
   }
 
-  MynaSettings settings;
+  KoshaSettings settings;
   late final FakeEditor editor;
   final predictor = FakePredictor();
   final decoder = FakeGestureDecoder();
@@ -150,7 +150,7 @@ void main() {
     });
 
     test('off when the setting is off or the field forbids it', () async {
-      final h = Harness(settings: const MynaSettings(typing: TypingSettings(autoCorrect: false)));
+      final h = Harness(settings: const KoshaSettings(typing: TypingSettings(autoCorrect: false)));
       await h.start();
       await h.type('teh ');
       expect(h.text, 'teh ');
@@ -198,7 +198,7 @@ void main() {
     });
 
     test('next-word prediction can be switched off', () async {
-      final h = Harness(settings: const MynaSettings(typing: TypingSettings(nextWordPrediction: false)));
+      final h = Harness(settings: const KoshaSettings(typing: TypingSettings(nextWordPrediction: false)));
       await h.start();
       expect(h.controller.bar.value.suggestions, isEmpty);
     });
@@ -232,7 +232,7 @@ void main() {
     });
 
     test('double space period can be disabled', () async {
-      final h = Harness(settings: const MynaSettings(typing: TypingSettings(doubleSpacePeriod: false)));
+      final h = Harness(settings: const KoshaSettings(typing: TypingSettings(doubleSpacePeriod: false)));
       await h.start();
       await h.type('hello  ');
       expect(h.text, 'hello  ');
@@ -343,7 +343,7 @@ void main() {
     });
 
     test('auto-capitalise setting and fields without cap flags are respected', () async {
-      final off = Harness(settings: const MynaSettings(typing: TypingSettings(autoCapitalize: false)));
+      final off = Harness(settings: const KoshaSettings(typing: TypingSettings(autoCapitalize: false)));
       await off.start(textField(flags: AndroidInputType.textFlagCapSentences, caps: AndroidCapsMode.sentences));
       expect(off.controller.shift.value, ShiftState.off);
       final none = Harness();
@@ -480,29 +480,32 @@ void main() {
     });
 
     test('off for incognito, learning toggle, incognito apps and no-personalised-learning fields', () async {
-      Future<bool> learns(MynaSettings s, InputFieldInfo f) async {
+      Future<bool> learns(KoshaSettings s, InputFieldInfo f) async {
         final h = Harness(settings: s);
         await h.start(f);
         await h.type('hello ');
         return h.predictor.committedAllowLearning.single;
       }
 
-      expect(await learns(const MynaSettings(privacy: PrivacySettings(incognito: true)), textField()), isFalse);
-      expect(await learns(const MynaSettings(privacy: PrivacySettings(learning: false)), textField()), isFalse);
+      expect(await learns(const KoshaSettings(privacy: PrivacySettings(incognito: true)), textField()), isFalse);
+      expect(await learns(const KoshaSettings(privacy: PrivacySettings(learning: false)), textField()), isFalse);
       expect(
         await learns(
-          const MynaSettings(privacy: PrivacySettings(incognitoApps: ['com.bank'])),
+          const KoshaSettings(privacy: PrivacySettings(incognitoApps: ['com.bank'])),
           textField(pkg: 'com.bank'),
         ),
         isFalse,
       );
-      expect(await learns(const MynaSettings(), textField(ime: AndroidImeOptions.flagNoPersonalizedLearning)), isFalse);
-      expect(await learns(const MynaSettings(), textField(pkg: 'com.other')), isTrue);
+      expect(
+        await learns(const KoshaSettings(), textField(ime: AndroidImeOptions.flagNoPersonalizedLearning)),
+        isFalse,
+      );
+      expect(await learns(const KoshaSettings(), textField(pkg: 'com.other')), isTrue);
     });
 
     test('incognito indicator', () async {
       final h = Harness(
-        settings: const MynaSettings(privacy: PrivacySettings(incognitoApps: ['com.bank'])),
+        settings: const KoshaSettings(privacy: PrivacySettings(incognitoApps: ['com.bank'])),
       );
       await h.start(textField(pkg: 'com.bank'));
       expect(h.controller.isIncognito, isTrue);
@@ -691,7 +694,7 @@ void main() {
       await h.start();
       await h.controller.commitSwipe(path);
       expect(h.text, '');
-      final off = Harness(settings: const MynaSettings(swipe: SwipeSettings(enabled: false)));
+      final off = Harness(settings: const KoshaSettings(swipe: SwipeSettings(enabled: false)));
       await off.start();
       off.decoder.result = ['hello'];
       await off.controller.commitSwipe(path);

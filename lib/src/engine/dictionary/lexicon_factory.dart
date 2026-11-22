@@ -58,12 +58,12 @@ class MdictLexiconSource implements LexiconSource {
       lexicon = MdictLexicon.fromBytes(raw);
     } else if (language == 'en') {
       // Keeps the keyboard usable if the asset is missing from a build.
-      MynaLog.w('dict', 'en.mdict missing, using the starter word list');
+      KoshaLog.w('dict', 'en.mdict missing, using the starter word list');
       lexicon = InMemoryLexicon('en', kStarterEnglishWords);
     } else {
       throw StateError('No dictionary for $language');
     }
-    MynaLog.d('dict', 'loaded $language: ${lexicon.size} words in ${stopwatch.elapsedMilliseconds} ms');
+    KoshaLog.d('dict', 'loaded $language: ${lexicon.size} words in ${stopwatch.elapsedMilliseconds} ms');
     _loaded[language] = lexicon;
     while (_loaded.length > maxLoaded) {
       final oldest = _loaded.keys.firstWhere((l) => l != language);

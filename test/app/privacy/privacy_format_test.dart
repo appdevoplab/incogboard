@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myna/src/app/privacy/privacy_format.dart';
-import 'package:myna/src/security/shortcuts_store.dart';
+import 'package:kosha/src/app/privacy/privacy_format.dart';
+import 'package:kosha/src/security/shortcuts_store.dart';
 
 void main() {
   test('counts use thousands separators', () {

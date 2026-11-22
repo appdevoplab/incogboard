@@ -6,11 +6,11 @@ import 'dart:typed_data';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myna/src/engine/dictionary/lexicon_factory.dart';
-import 'package:myna/src/engine/dictionary/mdict_lexicon.dart';
-import 'package:myna/src/engine/dictionary/mdict_writer.dart';
-import 'package:myna/src/engine/dictionary/text_fold.dart';
-import 'package:myna/src/packs/pack_repository.dart';
+import 'package:kosha/src/engine/dictionary/lexicon_factory.dart';
+import 'package:kosha/src/engine/dictionary/mdict_lexicon.dart';
+import 'package:kosha/src/engine/dictionary/mdict_writer.dart';
+import 'package:kosha/src/engine/dictionary/text_fold.dart';
+import 'package:kosha/src/packs/pack_repository.dart';
 
 MdictLexicon _small() {
   final bytes = buildMdict(
@@ -114,7 +114,7 @@ void main() {
 
   group('build_dictionary tool', () {
     test('turns a .combined list into a loadable dictionary', () async {
-      final dir = Directory.systemTemp.createTempSync('myna_dict_test');
+      final dir = Directory.systemTemp.createTempSync('kosha_dict_test');
       addTearDown(() => dir.deleteSync(recursive: true));
       final input = File('${dir.path}/tiny.combined')
         ..writeAsStringSync(

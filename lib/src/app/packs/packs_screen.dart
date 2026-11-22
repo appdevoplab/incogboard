@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
 // OWNER: Wave 3-T. Model packs (voice and translation): what is installed with sizes and licences,
-// import of a .mynapack file (the system file picker), and delete with a confirmation. A pack is checked
+// import of a .koshapack file (the system file picker), and delete with a confirmation. A pack is checked
 // before it is installed, and it only ever holds data. Voice uses this screen too.
 import 'dart:async';
 
@@ -55,9 +55,9 @@ class _PacksScreenState extends State<PacksScreen> {
     final services = _services!;
     String? uri;
     try {
-      uri = await services.app.openDocument(const ['application/octet-stream', 'application/x-mynapack']);
+      uri = await services.app.openDocument(const ['application/octet-stream', 'application/x-koshapack']);
     } on PlatformException {
-      _show('Myna could not open the file picker.');
+      _show('Kosha could not open the file picker.');
       return;
     }
     if (uri == null) return; // The user cancelled.
@@ -95,7 +95,7 @@ class _PacksScreenState extends State<PacksScreen> {
       await services.notifyDataChanged(const [DataSections.packs]);
       _show('Deleted ${pack.name}.');
     } on PlatformException {
-      _show('Myna could not delete ${pack.name}. Try again.');
+      _show('Kosha could not delete ${pack.name}. Try again.');
     }
     _reload();
   }
@@ -110,7 +110,7 @@ class _PacksScreenState extends State<PacksScreen> {
             title: 'Model packs',
             children: [
               const SettingsGroup(
-                children: [SettingsTile(icon: Icons.error_outline, title: 'Myna could not read its packs')],
+                children: [SettingsTile(icon: Icons.error_outline, title: 'Kosha could not read its packs')],
               ),
             ],
           );
@@ -135,7 +135,7 @@ class _PacksScreenState extends State<PacksScreen> {
                 SettingsTile(
                   icon: Icons.file_open_outlined,
                   title: 'Import a pack file',
-                  subtitle: _busy ? 'Checking and installing…' : 'A .mynapack file, for example from Downloads',
+                  subtitle: _busy ? 'Checking and installing…' : 'A .koshapack file, for example from Downloads',
                   enabled: !_busy,
                   onTap: _busy ? null : () => unawaited(_import()),
                 ),

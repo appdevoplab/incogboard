@@ -3,7 +3,7 @@
 // Both Flutter entrypoints live in this library because the engine resolves
 // entrypoint functions in the root library:
 //   main()          -> the settings app (SettingsActivity)
-//   keyboardMain()  -> the keyboard (MynaImeService)
+//   keyboardMain()  -> the keyboard (KoshaImeService)
 import 'package:material_ui/material_ui.dart';
 
 import 'keyboard_main.dart';
@@ -13,7 +13,7 @@ import 'src/app/app_services.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final services = await AppServices.create();
-  runApp(AppScope(services: services, child: const MynaSettingsApp()));
+  runApp(AppScope(services: services, child: const KoshaSettingsApp()));
 }
 
 @pragma('vm:entry-point')

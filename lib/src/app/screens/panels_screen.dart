@@ -5,7 +5,7 @@
 // 2-D owns the panels' behaviour).
 import 'package:material_ui/material_ui.dart';
 
-import '../../settings/myna_settings.dart';
+import '../../settings/kosha_settings.dart';
 import '../common/settings_widgets.dart';
 import '../shell/settings_actions.dart';
 

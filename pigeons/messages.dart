@@ -9,10 +9,10 @@ import 'package:pigeon/pigeon.dart';
   PigeonOptions(
     dartOut: 'lib/src/bridge/messages.g.dart',
     dartOptions: DartOptions(),
-    kotlinOut: 'android/app/src/main/kotlin/app/myna/keyboard/bridge/Messages.g.kt',
-    kotlinOptions: KotlinOptions(package: 'app.myna.keyboard.bridge'),
+    kotlinOut: 'android/app/src/main/kotlin/app/kosha/keyboard/bridge/Messages.g.kt',
+    kotlinOptions: KotlinOptions(package: 'app.kosha.keyboard.bridge'),
     copyrightHeader: 'pigeons/copyright.txt',
-    dartPackageName: 'myna',
+    dartPackageName: 'kosha',
   ),
 )
 // ---------------------------------------------------------------------------
@@ -415,8 +415,8 @@ abstract class PlatformHostApi {
 /// Registered only on the settings-app engine.
 @HostApi()
 abstract class AppHostApi {
-  bool isMynaEnabled();
-  bool isMynaSelected();
+  bool isKoshaEnabled();
+  bool isKoshaSelected();
   void openInputMethodSettings();
   void showInputMethodPicker();
 
@@ -445,21 +445,21 @@ abstract class AppHostApi {
   @TaskQueue(type: TaskQueueType.serialBackgroundThread)
   Uint8List readDocument(String uri, int maxBytes);
 
-  // Backup crypto (.mynabackup): PBKDF2-HMAC-SHA256, 600k iterations, random salt,
+  // Backup crypto (.koshabackup): PBKDF2-HMAC-SHA256, 600k iterations, random salt,
   // AES-256-GCM -- Wave 2-B ------------------------------------------------------
 
-  /// Encrypts [plain] into the complete .mynabackup file bytes.
+  /// Encrypts [plain] into the complete .koshabackup file bytes.
   @TaskQueue(type: TaskQueueType.serialBackgroundThread)
   Uint8List sealBackup(Uint8List plain, String passphrase);
 
-  /// Decrypts a .mynabackup file. Returns null for a wrong passphrase or a damaged file;
+  /// Decrypts a .koshabackup file. Returns null for a wrong passphrase or a damaged file;
   /// throws (code `unsupported_version`) for a newer format.
   @TaskQueue(type: TaskQueueType.serialBackgroundThread)
   Uint8List? openBackup(Uint8List sealed, String passphrase);
 
   // Model packs (Wave 3) ------------------------------------------------------
 
-  /// Verifies (signature, hashes) and installs a .mynapack file from a SAF URI, replacing an
+  /// Verifies (signature, hashes) and installs a .koshapack file from a SAF URI, replacing an
   /// installed pack with the same id. Throws code `bad_signature`, `bad_format`, `too_large`,
   /// `unsupported_version` or `no_space`.
   @TaskQueue(type: TaskQueueType.serialBackgroundThread)

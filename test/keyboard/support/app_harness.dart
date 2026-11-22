@@ -8,19 +8,19 @@ import 'dart:ui';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:myna/src/bridge/ime_events.dart';
-import 'package:myna/src/bridge/messages.g.dart';
-import 'package:myna/src/core/input_field_info.dart';
-import 'package:myna/src/core/keyboard_services.dart';
-import 'package:myna/src/core/secure_blob_store.dart';
-import 'package:myna/src/engine/in_memory_lexicon.dart';
-import 'package:myna/src/keyboard/keyboard_app.dart';
-import 'package:myna/src/keyboard/layout/layout_engine.dart';
-import 'package:myna/src/keyboard/layout/layout_model.dart';
-import 'package:myna/src/keyboard/layout/layout_repository.dart';
-import 'package:myna/src/keyboard/view/keyboard_view.dart';
-import 'package:myna/src/settings/myna_settings.dart';
-import 'package:myna/src/settings/settings_store.dart';
+import 'package:kosha/src/bridge/ime_events.dart';
+import 'package:kosha/src/bridge/messages.g.dart';
+import 'package:kosha/src/core/input_field_info.dart';
+import 'package:kosha/src/core/keyboard_services.dart';
+import 'package:kosha/src/core/secure_blob_store.dart';
+import 'package:kosha/src/engine/in_memory_lexicon.dart';
+import 'package:kosha/src/keyboard/keyboard_app.dart';
+import 'package:kosha/src/keyboard/layout/layout_engine.dart';
+import 'package:kosha/src/keyboard/layout/layout_model.dart';
+import 'package:kosha/src/keyboard/layout/layout_repository.dart';
+import 'package:kosha/src/keyboard/view/keyboard_view.dart';
+import 'package:kosha/src/settings/kosha_settings.dart';
+import 'package:kosha/src/settings/settings_store.dart';
 
 import '../../support/fake_editor.dart';
 import 'fakes.dart';
@@ -55,7 +55,7 @@ EditorInfoMessage editorInfo({
 );
 
 class AppHarness {
-  AppHarness({MynaSettings settings = const MynaSettings(), String text = ''}) {
+  AppHarness({KoshaSettings settings = const KoshaSettings(), String text = ''}) {
     registerKeyboardFallbacks();
     editor = FakeEditor(text: text);
     host = MockImeHost();
@@ -73,7 +73,7 @@ class AppHarness {
     when(() => platform.getSystemColors()).thenAnswer((_) async => null);
     when(() => platform.getAppInfo()).thenAnswer(
       (_) async => AppInfoMessage(
-        packageName: 'app.myna.keyboard',
+        packageName: 'app.kosha.keyboard',
         versionName: '0',
         versionCode: 0,
         sdkInt: 37,

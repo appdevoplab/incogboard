@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// OWNER: Wave 2-A. Home: the mascot header, a setup card while Myna is not enabled or selected,
+// OWNER: Wave 2-A. Home: the mascot header, a setup card while Kosha is not enabled or selected,
 // and the section tiles.
 import 'dart:async';
 
@@ -10,7 +10,7 @@ import '../../core/log.dart';
 import '../../theme/presets.dart';
 import '../app_services.dart';
 import '../common/settings_widgets.dart';
-import '../onboarding/myna_mascot.dart';
+import '../onboarding/kosha_mascot.dart';
 import '../routes.dart';
 import '../shell/language_catalog.dart';
 import '../shell/settings_actions.dart';
@@ -54,23 +54,23 @@ class _HomeScreenState extends State<HomeScreen> {
     final services = _services;
     if (services == null) return;
     try {
-      final enabled = await services.app.isMynaEnabled();
-      final selected = await services.app.isMynaSelected();
+      final enabled = await services.app.isKoshaEnabled();
+      final selected = await services.app.isKoshaSelected();
       if (!mounted) return;
       setState(() {
         _enabled = enabled;
         _selected = selected;
       });
     } on Object catch (e) {
-      MynaLog.w('Home', 'setup status unavailable', e.runtimeType);
+      KoshaLog.w('Home', 'setup status unavailable', e.runtimeType);
     }
   }
 
   bool get _setupIncomplete => _enabled == false || _selected == false;
 
   String get _setupText {
-    if (_enabled == false) return 'Turn Myna on in Android\'s keyboard list.';
-    return 'Choose Myna as the keyboard you type with.';
+    if (_enabled == false) return 'Turn Kosha on in Android\'s keyboard list.';
+    return 'Choose Kosha as the keyboard you type with.';
   }
 
   @override
@@ -78,11 +78,11 @@ class _HomeScreenState extends State<HomeScreen> {
     builder: (context, settings) {
       void open(String route) => unawaited(Navigator.of(context).pushNamed(route));
       return SettingsPage(
-        title: 'Myna',
+        title: 'Kosha',
         header: const SettingsHero(
-          mascot: MynaMascot(size: 76),
+          mascot: KoshaMascot(size: 76),
           title: 'Private typing, on this phone',
-          subtitle: 'Myna works offline and sends nothing anywhere.',
+          subtitle: 'Kosha works offline and sends nothing anywhere.',
         ),
         children: [
           if (_setupIncomplete)
@@ -90,9 +90,9 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 SettingsTile(
                   icon: Icons.task_alt_outlined,
-                  title: 'Finish setting up Myna',
+                  title: 'Finish setting up Kosha',
                   subtitle: _setupText,
-                  onTap: () => open(MynaRoutes.onboarding),
+                  onTap: () => open(KoshaRoutes.onboarding),
                 ),
               ],
             ),
@@ -102,43 +102,43 @@ class _HomeScreenState extends State<HomeScreen> {
                 icon: Icons.translate,
                 title: 'Languages',
                 subtitle: languageLabel(settings.languages.active),
-                onTap: () => open(MynaRoutes.languages),
+                onTap: () => open(KoshaRoutes.languages),
               ),
               SettingsTile(
                 icon: Icons.keyboard_outlined,
                 title: 'Typing',
                 subtitle: 'Corrections, suggestions, keys and swipe',
-                onTap: () => open(MynaRoutes.typing),
+                onTap: () => open(KoshaRoutes.typing),
               ),
               SettingsTile(
                 icon: Icons.vibration,
                 title: 'Feel',
                 subtitle: 'Haptics, sounds, height and one-handed mode',
-                onTap: () => open(MynaRoutes.feel),
+                onTap: () => open(KoshaRoutes.feel),
               ),
               SettingsTile(
                 icon: Icons.palette_outlined,
                 title: 'Themes',
                 subtitle: ThemePresets.byId(settings.appearance.themeId).name,
-                onTap: () => open(MynaRoutes.themes),
+                onTap: () => open(KoshaRoutes.themes),
               ),
               SettingsTile(
                 icon: Icons.dashboard_customize_outlined,
                 title: 'Panels',
                 subtitle: 'Clipboard and emoji',
-                onTap: () => open(MynaRoutes.panels),
+                onTap: () => open(KoshaRoutes.panels),
               ),
               SettingsTile(
                 icon: Icons.mic_none_outlined,
                 title: 'Voice',
                 subtitle: 'Speak to type, on this phone',
-                onTap: () => open(MynaRoutes.voice),
+                onTap: () => open(KoshaRoutes.voice),
               ),
               SettingsTile(
                 icon: Icons.translate,
                 title: 'Translation',
                 subtitle: 'Translate as you type, offline',
-                onTap: () => open(MynaRoutes.translate),
+                onTap: () => open(KoshaRoutes.translate),
               ),
             ],
           ),
@@ -148,13 +148,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 icon: Icons.shield_outlined,
                 title: 'Privacy',
                 subtitle: 'What is stored, incognito, app lock and backup',
-                onTap: () => open(MynaRoutes.privacy),
+                onTap: () => open(KoshaRoutes.privacy),
               ),
               SettingsTile(
                 icon: Icons.info_outline,
                 title: 'About',
                 subtitle: 'Version, licences and source code',
-                onTap: () => open(MynaRoutes.about),
+                onTap: () => open(KoshaRoutes.about),
               ),
             ],
           ),

@@ -8,17 +8,17 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:myna/src/app/app_services.dart';
-import 'package:myna/src/app/themes/theme_editor_screen.dart';
-import 'package:myna/src/app/themes/theme_gallery_screen.dart';
-import 'package:myna/src/bridge/messages.g.dart';
-import 'package:myna/src/core/secure_blob_store.dart';
-import 'package:myna/src/keyboard/preview/keyboard_preview.dart';
-import 'package:myna/src/settings/myna_settings.dart';
-import 'package:myna/src/settings/settings_store.dart';
-import 'package:myna/src/theme/custom/custom_theme_store.dart';
-import 'package:myna/src/theme/presets.dart';
-import 'package:myna/src/theme/theme_spec.dart';
+import 'package:kosha/src/app/app_services.dart';
+import 'package:kosha/src/app/themes/theme_editor_screen.dart';
+import 'package:kosha/src/app/themes/theme_gallery_screen.dart';
+import 'package:kosha/src/bridge/messages.g.dart';
+import 'package:kosha/src/core/secure_blob_store.dart';
+import 'package:kosha/src/keyboard/preview/keyboard_preview.dart';
+import 'package:kosha/src/settings/kosha_settings.dart';
+import 'package:kosha/src/settings/settings_store.dart';
+import 'package:kosha/src/theme/custom/custom_theme_store.dart';
+import 'package:kosha/src/theme/presets.dart';
+import 'package:kosha/src/theme/theme_spec.dart';
 
 import '../../theme/theme_test_support.dart';
 
@@ -40,7 +40,7 @@ Future<void> _settle(WidgetTester tester) async {
 }
 
 void _setUpServices({List<int>? palettes}) {
-  _dataDir = Directory.systemTemp.createTempSync('myna_theme_screens_');
+  _dataDir = Directory.systemTemp.createTempSync('kosha_theme_screens_');
   _platform = _MockPlatform();
   when(() => _platform.getDataDirectory()).thenAnswer((_) async => _dataDir.path);
   when(() => _platform.getSystemColors())
@@ -171,17 +171,17 @@ void main() {
 
     testWidgets('the wallpaper note appears only when system colours exist', (tester) async {
       await _pumpGallery(tester);
-      expect(find.text('Myna Dynamic follows your wallpaper'), findsNothing);
+      expect(find.text('Kosha Dynamic follows your wallpaper'), findsNothing);
       await tester.pumpWidget(const SizedBox());
 
       _tearDownServices();
       _setUpServices(palettes: syntheticPalettes());
       await _pumpGallery(tester);
-      expect(find.text('Myna Dynamic follows your wallpaper'), findsOneWidget);
+      expect(find.text('Kosha Dynamic follows your wallpaper'), findsOneWidget);
       await tester.pumpWidget(const SizedBox());
     });
 
-    testWidgets('deleting the selected custom theme asks first and falls back to Myna Dynamic', (tester) async {
+    testWidgets('deleting the selected custom theme asks first and falls back to Kosha Dynamic', (tester) async {
       final id = CustomThemeIds.idFor(_uuid);
       final store = CustomThemeStore('${_dataDir.path}/themes');
       await tester.runAsync(() => store.write(ThemeSpec(id: id, name: 'Saved look')));
@@ -208,7 +208,7 @@ void main() {
       await tester.tap(find.widgetWithText(FilledButton, 'Delete'));
       await _settle(tester);
       expect(File('${_dataDir.path}/themes/$_uuid.json').existsSync(), isFalse);
-      expect(_services.settings.value.appearance.themeId, ThemePresets.mynaDynamic.id);
+      expect(_services.settings.value.appearance.themeId, ThemePresets.koshaDynamic.id);
       await tester.pumpWidget(const SizedBox());
     });
   });

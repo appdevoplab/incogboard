@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <!--
-      Myna never needs the network. The only permissions are listed here; the
+      Kosha never needs the network. The only permissions are listed here; the
       release manifest (src/release) additionally strips INTERNET in case any
       library ever tries to add it, and CI fails the build if it appears.
     -->
@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
-        android:name=".MynaApplication"
+        android:name=".KoshaApplication"
         android:label="@string/app_name"
         android:icon="@mipmap/ic_launcher"
         android:allowBackup="false"
@@ -49,7 +49,7 @@
 
         <!-- The keyboard. Only the system can bind it (BIND_INPUT_METHOD). -->
         <service
-            android:name=".ime.MynaImeService"
+            android:name=".ime.KoshaImeService"
             android:label="@string/ime_name"
             android:permission="android.permission.BIND_INPUT_METHOD"
             android:exported="true">

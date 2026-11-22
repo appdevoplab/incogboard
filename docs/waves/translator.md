@@ -13,7 +13,7 @@ and downloadable model packs).
 
 ## How it works
 
-Gboard sends text to Google's servers. Myna translates on the phone with small neural models.
+Gboard sends text to Google's servers. Kosha translates on the phone with small neural models.
 
 - **Engine (to verify first):** one of these two. Pick by licence, model availability for all 12
   directions, size and speed on the phone.

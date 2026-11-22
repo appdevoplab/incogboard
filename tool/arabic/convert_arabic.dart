@@ -68,7 +68,7 @@ Future<void> main(List<String> args) async {
   final kept = {for (final e in top) e.key};
 
   final buffer = StringBuffer()
-    ..writeln('dictionary=main:$lang,locale=$lang,description=Myna Arabic-script list (converted),version=18');
+    ..writeln('dictionary=main:$lang,locale=$lang,description=Kosha Arabic-script list (converted),version=18');
   var bigramCount = 0;
   for (final e in top) {
     buffer.writeln('word=${e.key},f=${e.value.f}');

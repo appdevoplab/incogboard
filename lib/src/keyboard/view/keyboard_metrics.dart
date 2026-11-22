@@ -2,7 +2,7 @@
 import 'dart:math' as math;
 
 import '../../bridge/messages.g.dart';
-import '../../settings/myna_settings.dart';
+import '../../settings/kosha_settings.dart';
 import '../layout/layout_engine.dart';
 
 /// Sizes of the keyboard window. Dart owns the total height: the IME window
@@ -25,7 +25,7 @@ abstract final class KeyboardMetrics {
 
   /// Split layout: tablets and unfolded foldables (smallest width at least 600 dp) whose keyboard is at
   /// least 600 dp wide, when the user allows it. Phones in landscape get [isCompact] instead.
-  static bool isSplit(MynaSettings s, double widthDp, WindowMetricsMessage? m) =>
+  static bool isSplit(KoshaSettings s, double widthDp, WindowMetricsMessage? m) =>
       s.modes.splitOnWideScreens && widthDp >= 600 && m != null && m.smallestScreenWidthDp >= 600;
 
   static double heightScale(AppearanceSettings a, {required bool landscape}) =>
@@ -33,19 +33,19 @@ abstract final class KeyboardMetrics {
 
   /// Height of the key rows (strip excluded). Constant across pages so the
   /// window never resizes when the page changes.
-  static double rowsHeight(MynaSettings s, {required bool landscape, bool compact = false}) {
+  static double rowsHeight(KoshaSettings s, {required bool landscape, bool compact = false}) {
     final units = baseRowUnits + (s.typing.numberRow ? numberRowUnits : 0);
     final row = rowHeight * heightScale(s.appearance, landscape: landscape);
     return units * (compact ? math.min(row, kCompactKeyHeight) : row);
   }
 
   /// Content height: strip plus rows.
-  static double contentHeight(MynaSettings s, {required bool landscape, bool compact = false}) =>
+  static double contentHeight(KoshaSettings s, {required bool landscape, bool compact = false}) =>
       stripHeight + rowsHeight(s, landscape: landscape, compact: compact);
 
   /// What to send in WindowLayoutMessage.heightDp.
   static double totalHeight(
-    MynaSettings s, {
+    KoshaSettings s, {
     required bool landscape,
     required double bottomInset,
     bool compact = false,

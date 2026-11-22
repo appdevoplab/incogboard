@@ -12,7 +12,7 @@ import '../../core/data_sections.dart';
 import '../../core/seen_apps.dart';
 import '../../security/app_auth.dart';
 import '../../security/data_wiper.dart';
-import '../../settings/myna_settings.dart';
+import '../../settings/kosha_settings.dart';
 import '../app_services.dart';
 import '../common/settings_widgets.dart';
 import '../routes.dart';
@@ -146,7 +146,7 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
         future: _future,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            return const Scaffold(body: Center(child: Text('Myna could not read its privacy data. Try again later.')));
+            return const Scaffold(body: Center(child: Text('Kosha could not read its privacy data. Try again later.')));
           }
           if (!snapshot.hasData) return const Scaffold(body: Center(child: CircularProgressIndicator()));
           return SettingsPage(
@@ -184,7 +184,7 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
             icon: Icons.developer_mode,
             text: d.internetPermission
                 ? 'This is a development build. Its network permission is for development tools only.'
-                : 'Development build. Myna still has no internet permission.',
+                : 'Development build. Kosha still has no internet permission.',
           ),
         ],
       );
@@ -194,7 +194,7 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
         children: [
           PrivacyStatusCard(
             icon: Icons.warning_amber,
-            text: 'This build requests internet access. Myna should never do that. Please report it.',
+            text: 'This build requests internet access. Kosha should never do that. Please report it.',
             tone: PrivacyTone.bad,
           ),
         ],
@@ -204,7 +204,7 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
       children: [
         PrivacyStatusCard(
           icon: Icons.verified_user_outlined,
-          text: 'Myna has no internet permission. It cannot send anything.',
+          text: 'Kosha has no internet permission. It cannot send anything.',
           tone: PrivacyTone.good,
         ),
       ],
@@ -234,18 +234,18 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
         subtitle: d.packs.isEmpty
             ? 'None installed. Voice and translation packs appear here.'
             : '${plural(d.packs.length, 'pack')} · ${formatBytes(d.packBytes)}',
-        onTap: () => unawaited(Navigator.of(context).pushNamed(MynaRoutes.packs).then((_) => _reload())),
+        onTap: () => unawaited(Navigator.of(context).pushNamed(KoshaRoutes.packs).then((_) => _reload())),
       ),
       if (d.blobs.isEmpty && d.themeFiles == 0 && d.packs.isEmpty)
         const SettingsTile(icon: Icons.inbox_outlined, title: 'Nothing stored yet'),
     ];
     return Column(
       children: [
-        SettingsGroup(title: 'What Myna stores', children: blobTiles),
+        SettingsGroup(title: 'What Kosha stores', children: blobTiles),
         const Padding(
           padding: EdgeInsets.fromLTRB(16, 0, 16, 20),
           child: Text(
-            'Myna shows only sizes here, never what is inside. Sizes include the last saved copy, which keeps your '
+            'Kosha shows only sizes here, never what is inside. Sizes include the last saved copy, which keeps your '
             'data safe if a save is interrupted.',
           ),
         ),
@@ -292,7 +292,7 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
         icon: Icons.info_outline,
         title: 'Turned off automatically in these apps',
         subtitle:
-            'Myna keeps app names only to fill this list. They are encrypted, never recorded while incognito, '
+            'Kosha keeps app names only to fill this list. They are encrypted, never recorded while incognito, '
             'and you can clear them below.',
       ),
       if (d.apps.isEmpty)
@@ -363,7 +363,7 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
           const SettingsTile(
             icon: Icons.text_fields,
             title: 'No words learned yet',
-            subtitle: 'Words you type are learned here once Myna has seen them a few times.',
+            subtitle: 'Words you type are learned here once Kosha has seen them a few times.',
           ),
         for (final name in d.learnedBlobNames)
           SettingsTile(
@@ -381,7 +381,7 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
           subtitle: clipboard == null
               ? 'History is empty. Change clipboard settings in Panels.'
               : '${formatBytes(clipboard.sizeBytes)} in history. Change clipboard settings in Panels.',
-          onTap: () => Navigator.of(context).pushNamed(MynaRoutes.panels),
+          onTap: () => Navigator.of(context).pushNamed(KoshaRoutes.panels),
         ),
       ],
     );
@@ -394,7 +394,7 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
     children: [
       SettingsSwitchTile(
         icon: Icons.fingerprint,
-        title: 'Lock Myna',
+        title: 'Lock Kosha',
         subtitle: 'Ask for your fingerprint or device PIN when the app opens, or after it was in the background.',
         value: p.appLock,
         onChanged: (v) => unawaited(_setAppLock(v)),
@@ -424,7 +424,7 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
       return;
     }
     // Turning it on needs one successful check first, so the user knows it works.
-    final outcome = await _auth.authenticate('Turn on app lock for Myna');
+    final outcome = await _auth.authenticate('Turn on app lock for Kosha');
     if (!mounted) return;
     if (outcome == AuthOutcome.success) {
       await _updatePrivacy((c) => c.copyWith(appLock: true));
@@ -465,7 +465,7 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
       SettingsTile(
         icon: Icons.archive_outlined,
         title: 'Backup and restore',
-        subtitle: 'An encrypted .mynabackup file you keep. You choose what goes in it.',
+        subtitle: 'An encrypted .koshabackup file you keep. You choose what goes in it.',
         onTap: () => unawaited(_open(const BackupScreen()).then((_) => _reload())),
       ),
     ],
@@ -548,7 +548,7 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
       }
       if (mounted) showPrivacyMessage(context, 'Deleted.');
     } on Object {
-      if (mounted) showPrivacyMessage(context, 'Myna could not delete everything. Try again.');
+      if (mounted) showPrivacyMessage(context, 'Kosha could not delete everything. Try again.');
     }
     _reload();
   }

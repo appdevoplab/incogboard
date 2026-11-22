@@ -9,9 +9,9 @@
 //   <= 0 is relative to its start.
 // - deleteSurroundingText deletes around the selection, ignoring the composing region.
 import 'package:characters/characters.dart';
-import 'package:myna/src/bridge/input_sink.dart';
-import 'package:myna/src/bridge/messages.g.dart';
-import 'package:myna/src/core/input_field_info.dart';
+import 'package:kosha/src/bridge/input_sink.dart';
+import 'package:kosha/src/bridge/messages.g.dart';
+import 'package:kosha/src/core/input_field_info.dart';
 
 class FakeEditor implements InputSink {
   FakeEditor({String text = '', int? cursor})

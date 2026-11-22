@@ -6,15 +6,15 @@
 // These run in the Dart VM in JIT mode, so a phone in release mode is faster.
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myna/src/engine/in_memory_lexicon.dart';
-import 'package:myna/src/engine/suggest/predictor_factory.dart';
-import 'package:myna/src/keyboard/input/input_controller.dart';
-import 'package:myna/src/keyboard/layout/layout_engine.dart';
-import 'package:myna/src/core/input_field_info.dart';
-import 'package:myna/src/core/secure_blob_store.dart';
-import 'package:myna/src/engine/language_rules.dart';
-import 'package:myna/src/packs/pack_repository.dart';
-import 'package:myna/src/settings/myna_settings.dart';
+import 'package:kosha/src/engine/in_memory_lexicon.dart';
+import 'package:kosha/src/engine/suggest/predictor_factory.dart';
+import 'package:kosha/src/keyboard/input/input_controller.dart';
+import 'package:kosha/src/keyboard/layout/layout_engine.dart';
+import 'package:kosha/src/core/input_field_info.dart';
+import 'package:kosha/src/core/secure_blob_store.dart';
+import 'package:kosha/src/engine/language_rules.dart';
+import 'package:kosha/src/packs/pack_repository.dart';
+import 'package:kosha/src/settings/kosha_settings.dart';
 
 import 'dart:ui';
 
@@ -37,7 +37,7 @@ void main() {
     );
     await predictor.setActiveLanguages(['en']);
     final editor = FakeEditor();
-    const settings = MynaSettings();
+    const settings = KoshaSettings();
     final c = InputController(
       input: editor,
       predictor: predictor,

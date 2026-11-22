@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "app.myna.keyboard"
+    namespace = "app.kosha.keyboard"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -16,7 +16,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "app.myna.keyboard" // PLACEHOLDER: becomes io.github.<username>.myna before the first store release
+        applicationId = "app.kosha.keyboard" // PLACEHOLDER: becomes io.github.<username>.kosha before the first store release
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = 26 // PBKDF2-SHA256, modern Keystore, contentMimeTypes

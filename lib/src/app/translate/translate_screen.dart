@@ -9,7 +9,7 @@ import 'package:material_ui/material_ui.dart';
 import '../../bridge/messages.g.dart';
 import '../../engine/lang/registry.dart';
 import '../../features/translate/translate_languages.dart';
-import '../../settings/myna_settings.dart';
+import '../../settings/kosha_settings.dart';
 import '../app_services.dart';
 import '../common/settings_widgets.dart';
 import '../privacy/privacy_format.dart';
@@ -170,7 +170,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
                       title: 'Model packs',
                       subtitle: 'Install or delete translation packs',
                       onTap: () =>
-                          unawaited(Navigator.of(context).pushNamed(MynaRoutes.packs).then((_) => _reloadPacks())),
+                          unawaited(Navigator.of(context).pushNamed(KoshaRoutes.packs).then((_) => _reloadPacks())),
                     ),
                   ],
                 ),

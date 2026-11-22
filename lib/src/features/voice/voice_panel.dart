@@ -233,7 +233,7 @@ class _VoicePanelViewState extends State<VoicePanelView> with SingleTickerProvid
       case VoicePhase.finished:
         return 'Done';
       case VoicePhase.noPermission:
-        return 'Myna needs the microphone to hear you. Allow it when asked, then try again.';
+        return 'Kosha needs the microphone to hear you. Allow it when asked, then try again.';
       case VoicePhase.noModel:
         return 'Voice needs a voice pack. Install one under Model packs.';
       case VoicePhase.busy:

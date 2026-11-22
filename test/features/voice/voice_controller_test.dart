@@ -6,9 +6,9 @@ import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:myna/src/bridge/input_sink.dart';
-import 'package:myna/src/bridge/messages.g.dart';
-import 'package:myna/src/features/voice/voice_controller.dart';
+import 'package:kosha/src/bridge/input_sink.dart';
+import 'package:kosha/src/bridge/messages.g.dart';
+import 'package:kosha/src/features/voice/voice_controller.dart';
 
 import '../../keyboard/support/app_harness.dart';
 import '../../support/fake_editor.dart';

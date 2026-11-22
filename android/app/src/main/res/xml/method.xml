@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Languages are managed inside Myna; one generic subtype is enough for the system.
+<!-- Languages are managed inside Kosha; one generic subtype is enough for the system.
      supportsInlineSuggestions: password managers and autofill (Android 11+) may offer
-     their suggestions as chips inside Myna's suggestion strip. -->
+     their suggestions as chips inside Kosha's suggestion strip. -->
 <input-method xmlns:android="http://schemas.android.com/apk/res/android"
-    android:settingsActivity="app.myna.keyboard.SettingsActivity"
+    android:settingsActivity="app.kosha.keyboard.SettingsActivity"
     android:supportsInlineSuggestions="true"
     android:supportsSwitchingToNextInputMethod="true">
     <subtype

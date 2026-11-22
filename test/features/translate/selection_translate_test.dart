@@ -4,13 +4,13 @@
 import 'package:flutter/services.dart' show PlatformException;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:myna/src/bridge/messages.g.dart';
-import 'package:myna/src/core/input_field_info.dart';
-import 'package:myna/src/features/translate/selection_translate.dart';
-import 'package:myna/src/features/translate/translate_feature.dart';
-import 'package:myna/src/keyboard/keyboard_app.dart';
-import 'package:myna/src/keyboard/keyboard_session.dart';
-import 'package:myna/src/settings/myna_settings.dart';
+import 'package:kosha/src/bridge/messages.g.dart';
+import 'package:kosha/src/core/input_field_info.dart';
+import 'package:kosha/src/features/translate/selection_translate.dart';
+import 'package:kosha/src/features/translate/translate_feature.dart';
+import 'package:kosha/src/keyboard/keyboard_app.dart';
+import 'package:kosha/src/keyboard/keyboard_session.dart';
+import 'package:kosha/src/settings/kosha_settings.dart';
 
 import '../../keyboard/support/app_harness.dart';
 
@@ -24,7 +24,7 @@ class _Probe extends KeyboardFeature {
   }
 }
 
-MynaSettings _settings({bool enabled = true}) => MynaSettings(
+KoshaSettings _settings({bool enabled = true}) => KoshaSettings(
   typing: const TypingSettings(nextWordPrediction: false),
   translate: TranslateSettings(enabled: enabled, from: 'en', to: 'es'),
 );
@@ -32,7 +32,7 @@ MynaSettings _settings({bool enabled = true}) => MynaSettings(
 Future<(AppHarness, _Probe)> boot(
   WidgetTester tester, {
   String text = 'hello world',
-  MynaSettings? settings,
+  KoshaSettings? settings,
   EditorInfoMessage? field,
   bool packInstalled = true,
 }) async {

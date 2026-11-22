@@ -10,7 +10,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 
 import '../core/log.dart';
-import 'myna_settings.dart';
+import 'kosha_settings.dart';
 
 /// Announces changed sections to the other engine (PlatformHostApi in prod).
 typedef SettingsChangeNotifier = Future<void> Function(List<String> sections);
@@ -27,17 +27,17 @@ class SettingsStore extends ChangeNotifier {
 
   /// In-memory store for tests and previews.
   @visibleForTesting
-  factory SettingsStore.memory([MynaSettings value = const MynaSettings()]) => SettingsStore._(null, null, value);
+  factory SettingsStore.memory([KoshaSettings value = const KoshaSettings()]) => SettingsStore._(null, null, value);
 
   final File? _file;
   final SettingsChangeNotifier? _notifyOther;
-  MynaSettings _value;
+  KoshaSettings _value;
   Future<void> _writeChain = Future.value();
 
-  MynaSettings get value => _value;
+  KoshaSettings get value => _value;
 
   /// Applies [change], persists it, notifies listeners here and the other engine.
-  Future<void> update(MynaSettings Function(MynaSettings current) change, {required List<String> sections}) {
+  Future<void> update(KoshaSettings Function(KoshaSettings current) change, {required List<String> sections}) {
     _value = change(_value);
     notifyListeners();
     final snapshot = _value;
@@ -56,18 +56,18 @@ class SettingsStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  static Future<MynaSettings> _read(File file) async {
+  static Future<KoshaSettings> _read(File file) async {
     try {
-      if (!file.existsSync()) return const MynaSettings();
+      if (!file.existsSync()) return const KoshaSettings();
       final json = jsonDecode(await file.readAsString());
-      if (json is Map<String, Object?>) return MynaSettings.fromJson(json);
+      if (json is Map<String, Object?>) return KoshaSettings.fromJson(json);
     } on Object catch (e) {
-      MynaLog.w('Settings', 'settings file unreadable, using defaults', e.runtimeType);
+      KoshaLog.w('Settings', 'settings file unreadable, using defaults', e.runtimeType);
     }
-    return const MynaSettings();
+    return const KoshaSettings();
   }
 
-  Future<void> _write(MynaSettings settings) async {
+  Future<void> _write(KoshaSettings settings) async {
     final file = _file;
     if (file == null) return;
     final tmp = File('${file.path}.tmp');

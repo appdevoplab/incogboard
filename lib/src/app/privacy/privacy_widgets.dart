@@ -3,7 +3,7 @@
 // Small widgets shared by the privacy screens.
 import 'package:material_ui/material_ui.dart';
 
-import '../onboarding/myna_mascot.dart';
+import '../onboarding/kosha_mascot.dart';
 
 /// The mascot at the top of the privacy screens.
 class PrivacyMascotSlot extends StatelessWidget {
@@ -12,7 +12,7 @@ class PrivacyMascotSlot extends StatelessWidget {
   final double size;
 
   @override
-  Widget build(BuildContext context) => MynaMascot(size: size, label: 'Myna privacy mascot');
+  Widget build(BuildContext context) => KoshaMascot(size: size, label: 'Kosha privacy mascot');
 }
 
 /// A status card: a green card for good news, an error card for problems, neutral otherwise.

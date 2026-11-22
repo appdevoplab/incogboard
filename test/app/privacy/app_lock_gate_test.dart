@@ -5,9 +5,9 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../security/support/fakes.dart';
 
 import 'package:mocktail/mocktail.dart';
-import 'package:myna/src/app/privacy/app_lock_gate.dart';
-import 'package:myna/src/security/app_auth.dart';
-import 'package:myna/src/settings/myna_settings.dart';
+import 'package:kosha/src/app/privacy/app_lock_gate.dart';
+import 'package:kosha/src/security/app_auth.dart';
+import 'package:kosha/src/settings/kosha_settings.dart';
 
 import 'privacy_harness.dart';
 
@@ -21,13 +21,13 @@ void main() {
   tearDown(() => h.dispose());
 
   testWidgets('with app lock on, the content stays hidden until the device check passes', (tester) async {
-    h = PrivacyHarness(settings: const MynaSettings(privacy: PrivacySettings(appLock: true)));
+    h = PrivacyHarness(settings: const KoshaSettings(privacy: PrivacySettings(appLock: true)));
     final auth = FakeAuth();
     await tester.pumpWidget(h.host(AppLockGate(authenticator: auth, child: const Text('SECRET'))));
     await tester.pump();
 
     expect(find.text('SECRET'), findsNothing);
-    expect(find.text('Myna is locked'), findsOneWidget);
+    expect(find.text('Kosha is locked'), findsOneWidget);
     expect(auth.calls, 1);
     verify(() => h.app.setSecureScreen(true)).called(1);
 
@@ -35,12 +35,12 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('SECRET'), findsOneWidget);
-    expect(find.text('Myna is locked'), findsNothing);
+    expect(find.text('Kosha is locked'), findsNothing);
     verify(() => h.app.setSecureScreen(false)).called(1);
   });
 
   testWidgets('a cancelled prompt keeps the app locked, and Unlock asks again', (tester) async {
-    h = PrivacyHarness(settings: const MynaSettings(privacy: PrivacySettings(appLock: true)));
+    h = PrivacyHarness(settings: const KoshaSettings(privacy: PrivacySettings(appLock: true)));
     final auth = FakeAuth()..answers.add(AuthOutcome.cancelled);
     await tester.pumpWidget(h.host(AppLockGate(authenticator: auth, child: const Text('SECRET'))));
     await tester.pumpAndSettle();
@@ -57,7 +57,7 @@ void main() {
   });
 
   testWidgets('an unavailable device lock explains itself and stays locked', (tester) async {
-    h = PrivacyHarness(settings: const MynaSettings(privacy: PrivacySettings(appLock: true)));
+    h = PrivacyHarness(settings: const KoshaSettings(privacy: PrivacySettings(appLock: true)));
     final auth = FakeAuth()..answers.add(AuthOutcome.unavailable);
     await tester.pumpWidget(h.host(AppLockGate(authenticator: auth, child: const Text('SECRET'))));
     await tester.pumpAndSettle();
@@ -78,7 +78,7 @@ void main() {
 
   testWidgets('returning after the timeout locks again; returning sooner does not', (tester) async {
     h = PrivacyHarness(
-      settings: const MynaSettings(privacy: PrivacySettings(appLock: true, appLockTimeoutSeconds: 30)),
+      settings: const KoshaSettings(privacy: PrivacySettings(appLock: true, appLockTimeoutSeconds: 30)),
     );
     var now = DateTime(2026, 11, 21, 10);
     final auth = FakeAuth()..answers.add(AuthOutcome.success);

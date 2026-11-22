@@ -1,6 +1,6 @@
-# How parallel agents work on Myna
+# How parallel agents work on Kosha
 
-Myna is built in waves. In each wave, several agents work at the same time, each in its own git worktree and branch. The orchestrator merges the branches in a fixed order and runs the full test suite plus an emulator smoke test before the next wave starts.
+Kosha is built in waves. In each wave, several agents work at the same time, each in its own git worktree and branch. The orchestrator merges the branches in a fixed order and runs the full test suite plus an emulator smoke test before the next wave starts.
 
 ## Golden rules
 
@@ -10,7 +10,7 @@ Myna is built in waves. In each wave, several agents work at the same time, each
    - `lib/src/engine/contracts.dart`
    - `lib/src/core/` (except files your brief names)
    - `lib/src/bridge/`
-   - `lib/src/settings/myna_settings.dart` and `settings_store.dart`
+   - `lib/src/settings/kosha_settings.dart` and `settings_store.dart`
    - `lib/src/keyboard/layout/layout_model.dart` (the JSON format)
    - `lib/src/theme/keyboard_theme_data.dart`
    - `lib/src/keyboard/gesture_layer/gesture_trail.dart` (signatures only; Wave 1-C owns the body)
@@ -25,7 +25,7 @@ Myna is built in waves. In each wave, several agents work at the same time, each
 3. **Settings sections are per-feature.** You may add optional fields, with defaults, to *your* section file in `lib/src/settings/sections/`.
 4. **Privacy is non-negotiable:**
    - No network code and no new permissions.
-   - Never log typed text. Use `MynaLog` with events, sizes and timings only.
+   - Never log typed text. Use `KoshaLog` with events, sizes and timings only.
    - Anything learned from typing is stored only via `SecureBlobStore`.
    - Respect `InputFieldInfo.isSensitive` and `allowsLearning`.
 5. **Dependencies:** none beyond `pubspec.yaml`. If you truly need one, request it in your report with its license and a confirmation that it has no network code.
@@ -64,7 +64,7 @@ Briefs: `docs/waves/wave2/*.md`. Everything not listed belongs to the orchestrat
 | Agent | Owns | Settings section files (add optional fields only) | Delivers |
 |---|---|---|---|
 | A, settings app | `lib/src/app/**` except `app_services.dart`, `routes.dart`, `privacy/`, `themes/`; `assets/notices/**`; `test/app/**` except `privacy/`, `themes/` | typing, feedback, swipe, language, voice | Shell, routes, onboarding, Languages/Typing/Feel/Panels/Voice/About screens, shared settings widgets (stable API) |
-| B, privacy and security | `lib/src/app/privacy/**`, `lib/src/security/**`, `lib/src/features/shortcuts/**`, `android/.../security/backup/**`, the backup section of `AppHostApiImpl.kt`, `test/app/privacy/**`, `test/security/**`, `test/features/shortcuts/**`, `android/app/src/test/.../security/backup/**` | privacy | Privacy center, app lock, `.mynabackup`, wipe, learned-words editor, incognito apps, personal shortcuts |
+| B, privacy and security | `lib/src/app/privacy/**`, `lib/src/security/**`, `lib/src/features/shortcuts/**`, `android/.../security/backup/**`, the backup section of `AppHostApiImpl.kt`, `test/app/privacy/**`, `test/security/**`, `test/features/shortcuts/**`, `android/app/src/test/.../security/backup/**` | privacy | Privacy center, app lock, `.koshabackup`, wipe, learned-words editor, incognito apps, personal shortcuts |
 | C, themes | `lib/src/app/themes/**`, `lib/src/theme/**` (except `keyboard_theme_data.dart`), `lib/src/keyboard/preview/**`, `assets/themes/**`, `test/theme/**`, `test/app/themes/**`, `test/keyboard/preview/**` | appearance | Theme gallery (carousel), editor with live preview, photo backgrounds, custom themes by id |
 | D, panels | `lib/src/features/**` except `shortcuts/`, `tool/build_emoji.dart`, `assets/emoji/**`, `test/features/**` except `shortcuts/`, `test/tool/build_emoji_test.dart` | clipboard | Emoji (data, panel, search, suggestions), clipboard history and chips, editing panel, selection chips |
 | E, modes | `lib/src/keyboard/modes/**`, `lib/src/keyboard/layout/layout_engine.dart`, `assets/layouts/**`, `test/keyboard/modes/**`, `test/keyboard/layout_test.dart` | modes | One-handed, floating, height handle, modes bar, space cursor drag, backspace swipe-delete, emoji key, split and compact layouts |

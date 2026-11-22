@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:myna/src/design/design.dart';
+import 'package:kosha/src/design/design.dart';
 
 void main() {
   group('contrast helpers', () {
@@ -50,43 +50,43 @@ void main() {
 
   group('shape tokens', () {
     test('scale is ascending and full is a pill', () {
-      for (var i = 1; i < MynaShape.scale.length; i++) {
-        expect(MynaShape.scale[i], greaterThan(MynaShape.scale[i - 1]));
+      for (var i = 1; i < KoshaShape.scale.length; i++) {
+        expect(KoshaShape.scale[i], greaterThan(KoshaShape.scale[i - 1]));
       }
-      expect(MynaShape.full, greaterThan(MynaShape.scale.last));
+      expect(KoshaShape.full, greaterThan(KoshaShape.scale.last));
     });
 
     test('keyRadius clamps the factor', () {
-      expect(MynaShape.keyRadius(0.5, 40), 20);
-      expect(MynaShape.keyRadius(0, 40), 0);
-      expect(MynaShape.keyRadius(2, 40), 20);
-      expect(MynaShape.keyRadius(-1, 40), 0);
+      expect(KoshaShape.keyRadius(0.5, 40), 20);
+      expect(KoshaShape.keyRadius(0, 40), 0);
+      expect(KoshaShape.keyRadius(2, 40), 20);
+      expect(KoshaShape.keyRadius(-1, 40), 0);
     });
   });
 
   group('motion tokens', () {
     test('fast spatial matches the Material 3 Expressive spec', () {
-      expect(MynaMotion.fastSpatial, const SpringToken(800, 0.6));
+      expect(KoshaMotion.fastSpatial, const SpringToken(800, 0.6));
     });
 
     test('spatial springs overshoot, effects springs do not', () {
-      for (final s in [MynaMotion.fastSpatial, MynaMotion.defaultSpatial, MynaMotion.slowSpatial]) {
+      for (final s in [KoshaMotion.fastSpatial, KoshaMotion.defaultSpatial, KoshaMotion.slowSpatial]) {
         expect(s.dampingRatio, lessThan(1));
       }
-      for (final s in [MynaMotion.fastEffects, MynaMotion.defaultEffects, MynaMotion.slowEffects]) {
+      for (final s in [KoshaMotion.fastEffects, KoshaMotion.defaultEffects, KoshaMotion.slowEffects]) {
         expect(s.dampingRatio, 1);
       }
     });
 
     test('speeds are ordered', () {
-      expect(MynaMotion.fastSpatial.stiffness, greaterThan(MynaMotion.defaultSpatial.stiffness));
-      expect(MynaMotion.defaultSpatial.stiffness, greaterThan(MynaMotion.slowSpatial.stiffness));
-      expect(MynaMotion.fastEffects.stiffness, greaterThan(MynaMotion.defaultEffects.stiffness));
-      expect(MynaMotion.defaultEffects.stiffness, greaterThan(MynaMotion.slowEffects.stiffness));
+      expect(KoshaMotion.fastSpatial.stiffness, greaterThan(KoshaMotion.defaultSpatial.stiffness));
+      expect(KoshaMotion.defaultSpatial.stiffness, greaterThan(KoshaMotion.slowSpatial.stiffness));
+      expect(KoshaMotion.fastEffects.stiffness, greaterThan(KoshaMotion.defaultEffects.stiffness));
+      expect(KoshaMotion.defaultEffects.stiffness, greaterThan(KoshaMotion.slowEffects.stiffness));
     });
 
     test('scaled keeps damping', () {
-      final s = MynaMotion.fastSpatial.scaled(2);
+      final s = KoshaMotion.fastSpatial.scaled(2);
       expect(s.stiffness, 1600);
       expect(s.dampingRatio, 0.6);
     });
@@ -94,7 +94,7 @@ void main() {
 
   group('type tokens', () {
     test('variations clamp to the font axes', () {
-      final v = MynaType.variations(weight: 5000, roundness: -5);
+      final v = KoshaType.variations(weight: 5000, roundness: -5);
       expect(v[0].axis, 'wght');
       expect(v[0].value, 1000);
       expect(v[1].axis, 'ROND');

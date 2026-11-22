@@ -10,7 +10,7 @@ import 'package:material_ui/material_ui.dart';
 import '../../bridge/messages.g.dart';
 import '../app_services.dart';
 import '../common/settings_widgets.dart';
-import '../onboarding/myna_mascot.dart';
+import '../onboarding/kosha_mascot.dart';
 import 'notices.dart';
 
 class AboutScreen extends StatefulWidget {
@@ -39,14 +39,14 @@ class _AboutScreenState extends State<AboutScreen> {
           : 'Version ${info.versionName} (${info.versionCode})${info.isDebugBuild ? ' · debug build' : ''}';
       return SettingsPage(
         title: 'About',
-        header: SettingsHero(mascot: const MynaMascot(size: 72), title: 'Myna', subtitle: version),
+        header: SettingsHero(mascot: const KoshaMascot(size: 72), title: 'Kosha', subtitle: version),
         children: [
           SettingsGroup(
             title: 'Privacy',
             children: const [
               SettingsTile(
                 icon: Icons.wifi_off_outlined,
-                title: 'Myna cannot use the internet',
+                title: 'Kosha cannot use the internet',
                 subtitle: 'Release builds have no internet permission, so nothing you type leaves this phone.',
               ),
             ],
@@ -57,8 +57,8 @@ class _AboutScreenState extends State<AboutScreen> {
               SettingsTile(
                 icon: Icons.gavel_outlined,
                 title: 'GNU General Public Licence v3 or later',
-                subtitle: 'Myna is free software. You may study, change and share it under the GPL.',
-                onTap: () => _openNotice(context, MynaNotices.all.first),
+                subtitle: 'Kosha is free software. You may study, change and share it under the GPL.',
+                onTap: () => _openNotice(context, KoshaNotices.all.first),
               ),
             ],
           ),
@@ -67,12 +67,12 @@ class _AboutScreenState extends State<AboutScreen> {
             children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
-                child: mynaSourceCodeUrl.isEmpty
+                child: koshaSourceCodeUrl.isEmpty
                     ? Text(
-                        'Myna is GPL-3.0-or-later. Its source code is available from the project page.',
+                        'Kosha is GPL-3.0-or-later. Its source code is available from the project page.',
                         style: Theme.of(context).textTheme.bodyMedium,
                       )
-                    : SelectableText(mynaSourceCodeUrl, style: Theme.of(context).textTheme.bodyLarge),
+                    : SelectableText(koshaSourceCodeUrl, style: Theme.of(context).textTheme.bodyLarge),
               ),
             ],
           ),
@@ -82,11 +82,11 @@ class _AboutScreenState extends State<AboutScreen> {
               SettingsTile(
                 icon: Icons.article_outlined,
                 title: 'Open-source licences',
-                subtitle: 'Flutter, material_ui and every package Myna uses',
+                subtitle: 'Flutter, material_ui and every package Kosha uses',
                 onTap: () =>
-                    showLicensePage(context: context, applicationName: 'Myna', applicationVersion: info?.versionName),
+                    showLicensePage(context: context, applicationName: 'Kosha', applicationVersion: info?.versionName),
               ),
-              for (final notice in MynaNotices.all.skip(1))
+              for (final notice in KoshaNotices.all.skip(1))
                 SettingsTile(
                   icon: Icons.description_outlined,
                   title: notice.title,
@@ -99,7 +99,7 @@ class _AboutScreenState extends State<AboutScreen> {
     },
   );
 
-  void _openNotice(BuildContext context, MynaNotice notice) {
+  void _openNotice(BuildContext context, KoshaNotice notice) {
     unawaited(
       Navigator.of(context).push(
         MaterialPageRoute<void>(

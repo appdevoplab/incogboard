@@ -9,7 +9,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../bridge/messages.g.dart';
 import '../../core/log.dart';
-import '../../settings/myna_settings.dart';
+import '../../settings/kosha_settings.dart';
 import '../app_services.dart';
 import '../routes.dart';
 import '../shell/settings_actions.dart';
@@ -63,7 +63,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       final info = await services.platform.getAppInfo();
       if (mounted) setState(() => _debugBuild = info.isDebugBuild);
     } on Object catch (e) {
-      MynaLog.w('Onboarding', 'app info unavailable', e.runtimeType);
+      KoshaLog.w('Onboarding', 'app info unavailable', e.runtimeType);
     }
   }
 
@@ -71,8 +71,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     final services = _services;
     if (services == null) return;
     try {
-      final enabled = await services.app.isMynaEnabled();
-      final selected = await services.app.isMynaSelected();
+      final enabled = await services.app.isKoshaEnabled();
+      final selected = await services.app.isKoshaSelected();
       final internet = await services.platform.hasInternetPermission();
       if (!mounted) return;
       setState(() {
@@ -81,7 +81,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         _internet = internet;
       });
     } on Object catch (e) {
-      MynaLog.w('Onboarding', 'status check failed', e.runtimeType);
+      KoshaLog.w('Onboarding', 'status check failed', e.runtimeType);
     }
   }
 
@@ -118,7 +118,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     if (navigator.canPop()) {
       navigator.pop();
     } else {
-      unawaited(navigator.pushReplacementNamed(MynaRoutes.home));
+      unawaited(navigator.pushReplacementNamed(KoshaRoutes.home));
     }
   }
 
@@ -131,7 +131,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     final scheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Set up Myna'),
+        title: const Text('Set up Kosha'),
         actions: [IconButton(tooltip: 'Close setup', icon: const Icon(Icons.close), onPressed: _leave)],
       ),
       body: SafeArea(

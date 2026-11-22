@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// CONTRACT (orchestrator-owned): the apps Myna was used in, so the privacy
+// CONTRACT (orchestrator-owned): the apps Kosha was used in, so the privacy
 // center can offer them in the "always incognito" picker without
 // QUERY_ALL_PACKAGES. The keyboard records; the settings app lists and clears.
 //
@@ -69,7 +69,7 @@ class SeenAppsStore {
       try {
         label = await labelOf();
       } on Object catch (e) {
-        MynaLog.w('SeenApps', 'label lookup failed', e.runtimeType);
+        KoshaLog.w('SeenApps', 'label lookup failed', e.runtimeType);
       }
     }
     _apps[packageName] = SeenApp(packageName: packageName, label: label, lastSeenMs: _clock());
@@ -117,7 +117,7 @@ class SeenAppsStore {
       await _store.write(DataBlobs.seenApps, Uint8List.fromList(utf8.encode(json)));
     } on Object catch (e) {
       _dirty = true;
-      MynaLog.w('SeenApps', 'save failed', e.runtimeType);
+      KoshaLog.w('SeenApps', 'save failed', e.runtimeType);
     }
   }
 
@@ -134,7 +134,7 @@ class SeenAppsStore {
         if (a != null) _apps[a.packageName] = a;
       }
     } on Object catch (e) {
-      MynaLog.w('SeenApps', 'load failed', e.runtimeType);
+      KoshaLog.w('SeenApps', 'load failed', e.runtimeType);
     }
   }
 }

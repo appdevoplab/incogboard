@@ -10,4 +10,4 @@ TextPredictor createTextPredictor({
   required PackRepository packs,
   required LexiconSource lexicons,
   required SecureBlobStore store,
-}) => MynaTextPredictor(lexicons: lexicons, store: store);
+}) => KoshaTextPredictor(lexicons: lexicons, store: store);

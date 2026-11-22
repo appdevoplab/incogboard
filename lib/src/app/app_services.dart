@@ -73,7 +73,7 @@ class AppServices {
     try {
       await platform.notifySettingsChanged(sections);
     } on Object catch (e) {
-      MynaLog.w('App', 'data change notify failed', e.runtimeType);
+      KoshaLog.w('App', 'data change notify failed', e.runtimeType);
     }
   }
 

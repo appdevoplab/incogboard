@@ -7,7 +7,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../engine/contracts.dart' show LanguageId;
 import '../../engine/lang/registry.dart';
-import '../../settings/myna_settings.dart';
+import '../../settings/kosha_settings.dart';
 import '../common/settings_widgets.dart';
 import '../shell/language_catalog.dart';
 import '../shell/settings_actions.dart';

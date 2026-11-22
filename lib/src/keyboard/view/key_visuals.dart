@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart' show IconData;
 import 'package:material_ui/material_ui.dart' show Icons;
 
 import '../../core/input_field_info.dart';
-import '../../settings/myna_settings.dart';
+import '../../settings/kosha_settings.dart';
 import '../input/input_controller.dart';
 import '../input/keyboard_page.dart';
 import '../layout/layout_model.dart';

@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// OWNER: Wave 2-A (settings app). The shell: Myna's brand and Material You themes, the lock gate
+// OWNER: Wave 2-A (settings app). The shell: Kosha's brand and Material You themes, the lock gate
 // around everything, named routes (launch route and route requests from the keyboard), and the
-// first-run setup. Keep MynaSettingsApp's constructor stable. main() wraps it in AppScope.
+// first-run setup. Keep KoshaSettingsApp's constructor stable. main() wraps it in AppScope.
 import 'dart:async';
 
 import 'package:material_ui/material_ui.dart';
@@ -13,23 +13,23 @@ import 'app_services.dart';
 import 'privacy/app_lock_gate.dart';
 import 'routes.dart';
 import 'shell/app_router.dart';
-import 'shell/myna_theme.dart';
+import 'shell/kosha_theme.dart';
 
-class MynaSettingsApp extends StatefulWidget {
-  const MynaSettingsApp({super.key});
+class KoshaSettingsApp extends StatefulWidget {
+  const KoshaSettingsApp({super.key});
 
   @override
-  State<MynaSettingsApp> createState() => _MynaSettingsAppState();
+  State<KoshaSettingsApp> createState() => _KoshaSettingsAppState();
 }
 
-class _MynaSettingsAppState extends State<MynaSettingsApp> {
+class _KoshaSettingsAppState extends State<KoshaSettingsApp> {
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
   StreamSubscription<String>? _routeRequests;
   AppServices? _services;
 
   /// False until the launch route and the system colours are read.
   bool _ready = false;
-  String _initialRoute = MynaRoutes.home;
+  String _initialRoute = KoshaRoutes.home;
   List<int>? _palettes;
 
   @override
@@ -47,13 +47,13 @@ class _MynaSettingsAppState extends State<MynaSettingsApp> {
   }
 
   Future<void> _start(AppServices services) async {
-    MynaNotices.register();
+    KoshaNotices.register();
     final launch = await _read(() => services.app.takeLaunchRoute());
     final colors = await _read(() => services.platform.getSystemColors());
     if (!mounted) return;
     final done = services.settings.value.languages.onboardingDone;
     setState(() {
-      _initialRoute = launch ?? (done ? MynaRoutes.home : MynaRoutes.onboarding);
+      _initialRoute = launch ?? (done ? KoshaRoutes.home : KoshaRoutes.onboarding);
       _palettes = colors?.palettes;
       _ready = true;
     });
@@ -65,7 +65,7 @@ class _MynaSettingsAppState extends State<MynaSettingsApp> {
     try {
       return await call();
     } on Object catch (e) {
-      MynaLog.w('App', 'host call failed', e.runtimeType);
+      KoshaLog.w('App', 'host call failed', e.runtimeType);
       return null;
     }
   }
@@ -88,11 +88,11 @@ class _MynaSettingsAppState extends State<MynaSettingsApp> {
         final contrast = contrastLevelOf(services.settings.value.appearance.contrast);
         final palettes = _palettes;
         return MaterialApp(
-          title: 'Myna',
+          title: 'Kosha',
           debugShowCheckedModeBanner: false,
           navigatorKey: _navigatorKey,
-          theme: mynaThemeData(mynaSchemeFor(Brightness.light, palettes: palettes, contrastLevel: contrast)),
-          darkTheme: mynaThemeData(mynaSchemeFor(Brightness.dark, palettes: palettes, contrastLevel: contrast)),
+          theme: koshaThemeData(koshaSchemeFor(Brightness.light, palettes: palettes, contrastLevel: contrast)),
+          darkTheme: koshaThemeData(koshaSchemeFor(Brightness.dark, palettes: palettes, contrastLevel: contrast)),
           themeMode: ThemeMode.system,
           initialRoute: _initialRoute,
           onGenerateRoute: routeFor,

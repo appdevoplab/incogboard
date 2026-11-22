@@ -10,7 +10,7 @@ enum ContrastPreference { standard, medium, high }
 @immutable
 class AppearanceSettings {
   const AppearanceSettings({
-    this.themeId = 'myna_dynamic',
+    this.themeId = 'kosha_dynamic',
     this.darkMode = DarkModePreference.system,
     this.pureBlack = false,
     this.contrast = ContrastPreference.standard,
@@ -20,7 +20,7 @@ class AppearanceSettings {
   });
 
   factory AppearanceSettings.fromJson(Json j) => AppearanceSettings(
-    themeId: jString(j, 'themeId', 'myna_dynamic'),
+    themeId: jString(j, 'themeId', 'kosha_dynamic'),
     darkMode: jEnum(j, 'darkMode', DarkModePreference.values, DarkModePreference.system),
     pureBlack: jBool(j, 'pureBlack', false),
     contrast: jEnum(j, 'contrast', ContrastPreference.values, ContrastPreference.standard),

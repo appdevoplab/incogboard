@@ -10,7 +10,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../bridge/messages.g.dart';
 import '../../core/input_field_info.dart';
-import '../../settings/myna_settings.dart';
+import '../../settings/kosha_settings.dart';
 import '../../theme/keyboard_theme_data.dart';
 import '../gesture_layer/gesture_trail.dart';
 import '../input/keyboard_page.dart';
@@ -36,7 +36,7 @@ class KeyboardView extends StatefulWidget {
 
   final KeyboardSession session;
   final KeyboardThemeData theme;
-  final MynaSettings settings;
+  final KoshaSettings settings;
   final KeyboardHooks hooks;
 
   @override
@@ -247,7 +247,7 @@ class KeyboardKeysArea extends StatefulWidget {
 
   final KeyboardSession session;
   final KeyboardThemeData theme;
-  final MynaSettings settings;
+  final KoshaSettings settings;
   final InputFieldInfo field;
   final KeyboardPage page;
   final KeyboardLayoutDef? layoutDef;

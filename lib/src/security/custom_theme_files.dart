@@ -36,7 +36,7 @@ class CustomThemeFiles {
 
   final String directory;
 
-  /// True for a file name Myna will write or export: a safe basename with a known extension.
+  /// True for a file name Kosha will write or export: a safe basename with a known extension.
   static bool isSafeName(String name) {
     const prefix = '$imagesFolder/';
     if (name.startsWith(prefix)) {
@@ -56,7 +56,7 @@ class CustomThemeFiles {
     return dot < 0 ? '' : name.substring(dot + 1).toLowerCase();
   }
 
-  /// Largest size Myna accepts for a file of this kind.
+  /// Largest size Kosha accepts for a file of this kind.
   static int maxBytesFor(String name) => isImageName(name) ? maxImageBytes : maxJsonBytes;
 
   Future<List<CustomThemeFile>> list() async {
@@ -78,7 +78,7 @@ class CustomThemeFiles {
           CustomThemeFile(name: name, sizeBytes: stat.size, modifiedMillis: stat.modified.millisecondsSinceEpoch),
         );
       } on FileSystemException catch (e) {
-        MynaLog.w('Themes', 'stat failed', e.runtimeType);
+        KoshaLog.w('Themes', 'stat failed', e.runtimeType);
       }
     }
   }

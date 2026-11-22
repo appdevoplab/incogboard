@@ -8,7 +8,7 @@ import 'dart:async';
 import 'package:material_ui/material_ui.dart';
 
 import '../../core/log.dart';
-import '../../settings/myna_settings.dart';
+import '../../settings/kosha_settings.dart';
 import '../../theme/custom/custom_theme_store.dart';
 import '../../theme/keyboard_theme_data.dart';
 import '../../theme/presets.dart';
@@ -70,7 +70,7 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
     try {
       return (await services.platform.getSystemColors())?.palettes;
     } on Object catch (e) {
-      MynaLog.w('Theme', 'system colours unavailable', e.runtimeType);
+      KoshaLog.w('Theme', 'system colours unavailable', e.runtimeType);
       return null;
     }
   }
@@ -83,11 +83,11 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
   }
 
   /// Writes settings and tells the user if that fails. Appearance changes reach the keyboard engine.
-  Future<void> _commit(MynaSettings Function(MynaSettings current) change) async {
+  Future<void> _commit(KoshaSettings Function(KoshaSettings current) change) async {
     try {
       await _services!.settings.update(change, sections: const [SettingsSection.appearance]);
     } on Object catch (e) {
-      MynaLog.w('Theme', 'settings write failed', e.runtimeType);
+      KoshaLog.w('Theme', 'settings write failed', e.runtimeType);
       _snack('Could not save the setting.');
     }
   }
@@ -103,7 +103,7 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
 
   /// Bumps the custom theme revision so the keyboard re-reads files that changed; optionally also
   /// changes the selected theme (used when the selected custom theme is deleted).
-  static MynaSettings _bumpRevision(MynaSettings c, {String? themeId}) => c.copyWith(
+  static KoshaSettings _bumpRevision(KoshaSettings c, {String? themeId}) => c.copyWith(
     appearance: c.appearance.copyWith(themeId: themeId, customThemeRevision: c.appearance.customThemeRevision + 1),
   );
 
@@ -141,7 +141,7 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
       await store.duplicate(spec, copyNameFor(spec.name));
       await _reloadCustom();
     } on Object catch (e) {
-      MynaLog.w('Theme', 'duplicate failed', e.runtimeType);
+      KoshaLog.w('Theme', 'duplicate failed', e.runtimeType);
       _snack('Could not copy the theme.');
     }
   }
@@ -157,7 +157,7 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
       await store.write(spec.copyWith(name: name));
       await _reloadCustom();
     } on Object catch (e) {
-      MynaLog.w('Theme', 'rename failed', e.runtimeType);
+      KoshaLog.w('Theme', 'rename failed', e.runtimeType);
       _snack('Could not rename the theme.');
     }
   }
@@ -170,7 +170,7 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
         title: Text('Delete "${spec.name}"?'),
         content: Text(
           inUse
-              ? 'This theme is selected. Myna Dynamic will be used instead. This cannot be undone.'
+              ? 'This theme is selected. Kosha Dynamic will be used instead. This cannot be undone.'
               : 'This cannot be undone.',
         ),
         actions: [
@@ -183,10 +183,10 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
     if (ok != true || store == null) return;
     try {
       await store.delete(spec.id);
-      await _commit((c) => _bumpRevision(c, themeId: inUse ? ThemePresets.mynaDynamic.id : null));
+      await _commit((c) => _bumpRevision(c, themeId: inUse ? ThemePresets.koshaDynamic.id : null));
       await _reloadCustom();
     } on Object catch (e) {
-      MynaLog.w('Theme', 'delete failed', e.runtimeType);
+      KoshaLog.w('Theme', 'delete failed', e.runtimeType);
       _snack('Could not delete the theme.');
     }
   }
@@ -201,7 +201,7 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
     );
   }
 
-  Widget _buildPage(BuildContext context, MynaSettings settings) {
+  Widget _buildPage(BuildContext context, KoshaSettings settings) {
     final appearance = settings.appearance;
     final systemDark = MediaQuery.platformBrightnessOf(context) == Brightness.dark;
     final dark =
@@ -263,7 +263,7 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
             ),
             if (palettes != null)
               const SettingsTile(
-                title: 'Myna Dynamic follows your wallpaper',
+                title: 'Kosha Dynamic follows your wallpaper',
                 subtitle: 'Its colours update when the wallpaper changes',
                 icon: Icons.wallpaper_outlined,
               ),
@@ -326,7 +326,7 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
         const TextField(
           decoration: InputDecoration(
             labelText: 'Type here to try the theme',
-            helperText: 'The keyboard appears here when Myna is selected.',
+            helperText: 'The keyboard appears here when Kosha is selected.',
             border: OutlineInputBorder(),
           ),
         ),

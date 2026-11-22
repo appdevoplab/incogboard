@@ -3,9 +3,9 @@
 // Wave 3-A: every European layout parses, has the script of its language, its rows fit and it
 // types every letter of the language's alphabet (keys or long-press popups).
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myna/src/engine/lang/european.dart';
-import 'package:myna/src/engine/lang/registry.dart';
-import 'package:myna/src/keyboard/layout/layout_model.dart';
+import 'package:kosha/src/engine/lang/european.dart';
+import 'package:kosha/src/engine/lang/registry.dart';
+import 'package:kosha/src/keyboard/layout/layout_model.dart';
 
 import 'support/fakes.dart';
 

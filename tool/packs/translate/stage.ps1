@@ -64,7 +64,7 @@ foreach ($pack in $manifest.packs) {
 
     $commands += "dart run tool/make_pack.dart --dir `"$dest`" --id $($pack.id) --kind translation " +
         "--name `"$($pack.name)`" --languages $($pack.from),$($pack.to) --engine opus-mt-onnx " +
-        "--license $($pack.license) --out build/packs/$($pack.id).mynapack"
+        "--license $($pack.license) --out build/packs/$($pack.id).koshapack"
 }
 
 Write-Output ''
