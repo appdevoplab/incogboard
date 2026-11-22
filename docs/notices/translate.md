@@ -7,7 +7,7 @@ a model: each direction is a signed model pack that the user imports (see `tool/
 
 | Component | Version | Licence | Use |
 |---|---|---|---|
-| ONNX Runtime (`com.microsoft.onnxruntime:onnxruntime-android`, JVM tests: `onnxruntime`) | 1.31.1 | MIT | Runs the encoder and decoder |
+| ONNX Runtime (`com.microsoft.onnxruntime:onnxruntime-android`, JVM tests: `onnxruntime`) | 1.28.0 | MIT | Runs the encoder and decoder |
 | OPUS-MT model architecture (Marian) | - | MIT (Marian NMT) | Model graph |
 
 The SentencePiece model file (`source.spm`) is read by our own minimal reader

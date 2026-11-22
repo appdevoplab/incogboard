@@ -17,10 +17,10 @@ Myna is GPL-3.0-or-later. It includes or builds on the following. Every bundled 
 | image_picker | BSD-3-Clause | Android Photo Picker for theme backgrounds (no storage permission) |
 | local_auth | BSD-3-Clause | BiometricPrompt app lock |
 | junit:junit 4.13.2 (tests only, not in the APK) | EPL-1.0 | JVM unit tests under `android/app/src/test` |
-| onnxruntime-android 1.31.1 | MIT | Inference runtime shared by voice and translation. Copyright Microsoft Corporation (https://github.com/microsoft/onnxruntime). No network code. |
+| onnxruntime-android 1.28.0 | MIT | Inference runtime shared by voice and translation. Copyright Microsoft Corporation (https://github.com/microsoft/onnxruntime). No network code. |
 | sherpa-onnx v2.0.1 (`libsherpa-onnx-jni.so` and Kotlin API sources) | Apache-2.0 | Offline speech recognition (Wave 3-D). Copyright Xiaomi Corporation and the k2-fsa authors (https://github.com/k2-fsa/sherpa-onnx). Details in the voice section. |
 | org.json 20240303 (tests only, not in the APK) | Public domain (JSON License text) | JVM tests of the pack store |
-| onnxruntime 1.31.1 desktop (tests only, not in the APK) | MIT | JVM tests of the translation engine |
+| onnxruntime 1.28.0 desktop (tests only, not in the APK) | MIT | JVM tests of the translation engine |
 
 ## Data
 
@@ -234,8 +234,8 @@ Shipped native libraries (only `libsherpa-onnx-jni.so`; the `c-api`/`cxx-api` li
 | x86_64 (emulator) | `app/src/main/jniLibs/x86_64/libsherpa-onnx-jni.so` | 5,053,592 | `878d61116f244131263eec24297ef05bf508d02bccdede2a4e3ad3202bbdaa48` |
 
 `libsherpa-onnx-jni.so` has one dependency, `libonnxruntime.so`. It is provided by the Maven artifact
-`com.microsoft.onnxruntime:onnxruntime-android:1.31.1` (MIT). The sherpa C API is backward compatible, so the
-1.28.2 build loads against 1.31.1. The JNI library is not loaded on the JVM, so the load itself was not
+`com.microsoft.onnxruntime:onnxruntime-android:1.28.0` (MIT). The sherpa C API level is the same for all 1.28 releases, so the
+1.28.2 build loads against 1.28.0 (1.29+ adds telemetry, so it is not used). The JNI library is not loaded on the JVM, so the load itself was not
 exercised on this machine; the orchestrator checks it on the emulator (see the Wave 3-D report).
 
 Kotlin API files copied unmodified (apart from a two-line provenance comment at the top) into
@@ -246,7 +246,7 @@ of the same tag: `FeatureConfig.kt`, `HomophoneReplacerConfig.kt`, `QnnConfig.kt
 ##### Build from source (for Wave 5's reproducible builds; not yet run)
 
 1. Get the sources of the same tag: `https://github.com/k2-fsa/sherpa-onnx/archive/refs/tags/v2.0.1.tar.gz`.
-2. Get onnxruntime 1.31.1 for Android from Maven (`onnxruntime-android-1.31.1.aar`) and unzip it. Its `headers/`
+2. Get onnxruntime 1.28.0 for Android from Maven (`onnxruntime-android-1.28.0.aar`) and unzip it. Its `headers/`
    folder is the include dir, and `jni/<abi>/libonnxruntime.so` is the lib dir for each ABI.
 3. Install the Android NDK matching `flutter.ndkVersion` and set `ANDROID_NDK`.
 4. From the source root run, for each ABI, for example:
@@ -294,7 +294,7 @@ a model: each direction is a signed model pack that the user imports (see `tool/
 
 | Component | Version | Licence | Use |
 |---|---|---|---|
-| ONNX Runtime (`com.microsoft.onnxruntime:onnxruntime-android`, JVM tests: `onnxruntime`) | 1.31.1 | MIT | Runs the encoder and decoder |
+| ONNX Runtime (`com.microsoft.onnxruntime:onnxruntime-android`, JVM tests: `onnxruntime`) | 1.28.0 | MIT | Runs the encoder and decoder |
 | OPUS-MT model architecture (Marian) | - | MIT (Marian NMT) | Model graph |
 
 The SentencePiece model file (`source.spm`) is read by our own minimal reader

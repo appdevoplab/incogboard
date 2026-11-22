@@ -53,7 +53,7 @@
 ## Wave 3: languages, voice and translation (5)
 
 **Status (2026-11-22):**
-- Setup done (commit `92ead05`): Pigeon voice/translation/pack calls, the Kotlin pack store (signed `.mynapack`) and service stubs, onnxruntime-android 1.31.1, the language registry and seams, and the strip's toolbar toggle (fixes the hidden toolbar).
+- Setup done (commit `92ead05`): Pigeon voice/translation/pack calls, the Kotlin pack store (signed `.mynapack`) and service stubs, onnxruntime-android (now pinned to 1.28.0, see below), the language registry and seams, and the strip's toolbar toggle (fixes the hidden toolbar).
 - Briefs are in `docs/waves/wave3/` (A, B, C, D, T); ownership is in `docs/PARALLEL_WORK.md`.
 - **User decisions (2026-11-21):**
   - The translator joins Wave 3 as agent T; brand (old E) moves to Wave 4.

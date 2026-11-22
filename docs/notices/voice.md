@@ -24,8 +24,8 @@ Shipped native libraries (only `libsherpa-onnx-jni.so`; the `c-api`/`cxx-api` li
 | x86_64 (emulator) | `app/src/main/jniLibs/x86_64/libsherpa-onnx-jni.so` | 5,053,592 | `878d61116f244131263eec24297ef05bf508d02bccdede2a4e3ad3202bbdaa48` |
 
 `libsherpa-onnx-jni.so` has one dependency, `libonnxruntime.so`. It is provided by the Maven artifact
-`com.microsoft.onnxruntime:onnxruntime-android:1.31.1` (MIT). The sherpa C API is backward compatible, so the
-1.28.2 build loads against 1.31.1. The JNI library is not loaded on the JVM, so the load itself was not
+`com.microsoft.onnxruntime:onnxruntime-android:1.28.0` (MIT). The sherpa C API level is the same for all 1.28 releases, so the
+1.28.2 build loads against 1.28.0 (1.29+ adds telemetry, so it is not used). The JNI library is not loaded on the JVM, so the load itself was not
 exercised on this machine; the orchestrator checks it on the emulator (see the Wave 3-D report).
 
 Kotlin API files copied unmodified (apart from a two-line provenance comment at the top) into
@@ -36,7 +36,7 @@ of the same tag: `FeatureConfig.kt`, `HomophoneReplacerConfig.kt`, `QnnConfig.kt
 ### Build from source (for Wave 5's reproducible builds; not yet run)
 
 1. Get the sources of the same tag: `https://github.com/k2-fsa/sherpa-onnx/archive/refs/tags/v2.0.1.tar.gz`.
-2. Get onnxruntime 1.31.1 for Android from Maven (`onnxruntime-android-1.31.1.aar`) and unzip it. Its `headers/`
+2. Get onnxruntime 1.28.0 for Android from Maven (`onnxruntime-android-1.28.0.aar`) and unzip it. Its `headers/`
    folder is the include dir, and `jni/<abi>/libonnxruntime.so` is the lib dir for each ABI.
 3. Install the Android NDK matching `flutter.ndkVersion` and set `ANDROID_NDK`.
 4. From the source root run, for each ABI, for example:
