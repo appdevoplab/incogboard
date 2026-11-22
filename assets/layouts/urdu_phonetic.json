@@ -10,7 +10,7 @@
     {"output": "و"},
     {"output": "ے"},
     {"output": "ر", "popup": ["ڑ"]},
-    {"output": "ت", "popup": ["ٹ", "ث"]},
+    {"output": "ت", "popup": ["ٹ", "ث", "ط"]},
     {"output": "ی"},
     {"output": "ع", "popup": ["غ"]},
     {"output": "ئ", "popup": ["ء"]},
