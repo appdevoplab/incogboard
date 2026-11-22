@@ -88,17 +88,21 @@ void main() {
     await tester.pumpWidget(const SizedBox());
   });
 
-  testWidgets('a planned language is listed as coming soon and cannot be chosen', (tester) async {
+  testWidgets('every language is on the personalise step and can be chosen (Wave 3: nothing is coming soon)', (
+    tester,
+  ) async {
     final fakes = AppFakes(launchRoute: MynaRoutes.onboarding);
     await pumpWithServices(tester, fakes.services, const MynaSettingsApp());
     for (var i = 0; i < 3; i++) {
       await tester.tap(find.text('Next'));
       await tester.pumpAndSettle();
     }
-    expect(find.text('Español (soon)'), findsOneWidget);
-    await tester.tap(find.text('Español (soon)'));
+    expect(find.textContaining('(soon)'), findsNothing);
+    expect(find.text('Español'), findsOneWidget);
+    await tester.tap(find.text('Español'));
     await tester.pumpAndSettle();
-    verifyNever(() => fakes.store.update(any(), sections: any(named: 'sections')));
+    final update = capturedUpdate(fakes.store, 'languages');
+    expect(update(const MynaSettings()).languages.enabled, ['en', 'es']);
     await tester.pumpWidget(const SizedBox());
   });
 }

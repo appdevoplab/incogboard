@@ -46,7 +46,8 @@ String? _cleanWord(String raw) {
   if (w.endsWith("'") || w.endsWith('-') || w.contains("''") || w.contains('--')) return null;
   if (w.runes.length == 1 && w != 'a' && w != 'A' && w != 'I') return null;
   // Single capital letters and odd all-caps tokens are noise in the AOSP list.
-  if (w.length <= 3 && w == w.toUpperCase() && w != 'I' && w != 'A') return null;
+  // Caseless scripts (Devanagari, Arabic, ...) never look like all-caps tokens.
+  if (w.length <= 3 && w != w.toLowerCase() && w == w.toUpperCase() && w != 'I' && w != 'A') return null;
   return w;
 }
 
