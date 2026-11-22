@@ -248,7 +248,8 @@ class MynaTextPredictor implements TextPredictor {
       for (final cand in found.values) {
         final surface = a.lex.wordOf(cand.id);
         final key = foldKey(surface);
-        if (key == typedKey) continue;
+        // Same letters, other accents or case ("cafe" -> "café"): offered, never the typed text itself.
+        if (key == typedKey && foldKey(surface, stripAccents: false) == foldKey(raw, stripAccents: false)) continue;
         if (_isBlocked(key)) continue;
         if (blockOffensive && a.lex.isOffensiveId(cand.id)) continue;
         final lm = _lmOf(a, prevId, previous, cand.id);
@@ -305,7 +306,8 @@ class MynaTextPredictor implements TextPredictor {
     // ---- assemble: [typed or correction first, ...best first]
     final sorted = entries.values.toList()..sort((a, b) => b.score.compareTo(a.score));
     final out = <Suggestion>[];
-    final seen = <String>{typedKey};
+    // The typed word itself is never a candidate (filtered above), so only other candidates are de-duplicated.
+    final seen = <String>{};
     final typedSuggestion = Suggestion(
       raw,
       kind: SuggestionKind.typed,

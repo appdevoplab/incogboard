@@ -161,7 +161,8 @@ def main():
     uz_row1 = top_row(list('qwertzuiop') + ['ü'], dz_popups, width=0.9)
     uz_row1['keys'][10]['popup'] = ['ü', 'ú', 'ù', 'û', 'ū']
     uz_row1['keys'][10]['output'] = 'ü'
-    uz_row2 = plain_row(list('asdfghjkl') + ['ö', 'ä'], {'a': ['á', 'à', 'â', 'å', 'ā', 'æ'], 's': ['ß', 'ś', 'š']}, padding=0.1, width=0.9)
+    # The engine counts padding on both sides: 11 x 0.9 + 2 x 0.05 = 10.0 units, as wide as the bottom rows.
+    uz_row2 = plain_row(list('asdfghjkl') + ['ö', 'ä'], {'a': ['á', 'à', 'â', 'å', 'ā', 'æ'], 's': ['ß', 'ś', 'š']}, padding=0.05, width=0.9)
     uz_rows = [uz_row1, uz_row2, shift_row(list('yxcvbnm'), popups={'m': []}), bottom_row(PUNCT_EN)]
     write('qwertz_umlaut', 'QWERTZ (ÄÖÜ keys)', 'Latn', uz_rows)
 
@@ -176,10 +177,10 @@ def main():
     write('jcuken_ru', 'ЙЦУКЕН', 'Cyrl', ru_rows)
 
     # Ukrainian: і/ї, є and ґ with the apostrophe ʼ on the popup of ь.
-    uk_popups = {'і': ['ї'], 'г': ['ґ'], 'ь': ['ʼ'], 'е': ['є']}
+    uk_popups = {'і': ['ї'], 'г': ['ґ'], 'ь': ['ʼ']}
     uk_rows = [
         top_row(list('йцукенгшщзх'), uk_popups),
-        plain_row(list('фівапролджє')),
+        plain_row(list('фівапролджє'), uk_popups),
         shift_row(list('ячсмитьбю'), shift_width=1.25, back_width=1.25, popups=uk_popups, letter_width=0.94),
         bottom_row(['.', ',', '«', '»', '!', '?', ':', ';', '-', '(', ')', '—', '…', 'ʼ']),
     ]
