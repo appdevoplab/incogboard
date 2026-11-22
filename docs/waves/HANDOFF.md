@@ -1,35 +1,41 @@
 # Handoff: continue from here after /clear
 
-State as of 2026-11-22 (evening):
-- **Waves 0-3 are done and merged on `main`.** Wave 3 merged in the order A, C, B, T, D (`5e4e9c8`, `21fbdfd`, `b382e9f`, `6cb5d23`, `e61fd52`), then follow-ups `2e73d22` (merge fixes), `f05a2ed` (onnxruntime pin), `bcad579` (translate close, voice "base" fallback) and the Wave 3 finish commit (see "Wave 3 finish").
-- Checks on `main`: `flutter analyze` 0 issues, `flutter test` 1020 pass, Android JVM tests 103 pass (5 real-model tests skipped without staged packs). Emulator smoke test done; release permission gate passes.
-- The Wave 3 worktrees and branches are removed.
-- **Wave 4 setup done (2026-11-22 night):** the Myna → Kosha rename (`4a3c394`), the BIS InScript layouts (`238cbcc`) and the seams (`f2fd99a`); briefs in `docs/waves/wave4/` (COMMON, A-chinese, B-japanese, C-a11y-l10n, D-perf, E-brand) and the Wave 4 table in `docs/PARALLEL_WORK.md`. `flutter test` 1076, JVM 105 (5 skipped). **Next:** launch the five Wave 4 agents (Haiku, high effort, `isolation: worktree`, short prompts pointing at COMMON.md plus the brief), merge E, D, A, B, C.
-- Names in the Wave 0-3 sections of this file are historical (Myna, `.mynapack`, `MynaMascot`, …); the code now says Kosha.
+State as of 2026-11-22 (night). `main` is clean; nothing is pushed.
 
-## Wave 3 result
+## Where things stand
 
-- Agents (Haiku, high effort): A European, B Indic, C Arabic/Urdu, D voice, T translator. Brand moved to Wave 4. All branches stayed inside their ownership; no overlapping files, no CRLF churn.
-- B stopped repeatedly while its Wikipedia word counts ran; the orchestrator built bn/te data (`fe50fcd`) and stopped the agent. T's first report was empty; its work was safety-committed (`5512661`).
-- **User decisions (2026-11-21):** translator in Wave 3; voice = sherpa-onnx + Whisper, no bundled model (signed packs only); Indic only hi/mr/bn/ta/te; packs signed with an ECDSA P-256 dev key at `%USERPROFILE%\.myna\keys\pack-dev.pem` (outside the repo; Wave 5 swaps the release key); app name (Koel, Sarika, Wren, Pipit, Lark, Kestrel suggested) and GitHub username wait for Wave 5.
-- Fixed while merging (`2e73d22`):
-  - ar/ur dictionaries rebuilt: the old dictionary tool dropped every 1-3 letter word in caseless scripts (في، من، على). A had already fixed the tool.
-  - `foldKey` drops Arabic harakat and tatweel, so a word typed with vowel marks matches.
-  - Translate selection chip: priority 11 (Cut/Copy/Select all filled all 3 slots) and only shown when a translation pack is installed.
-  - R8 keep rules for `com.k2fsa.sherpa.onnx.**` and `ai.onnxruntime.**`.
-  - Wave 3 notices folded into `THIRD_PARTY_NOTICES.md` and `assets/notices/`.
-- **onnxruntime pinned to 1.28.0 (`f05a2ed`):** 1.29.0+ ships `ai.onnxruntime.telemetry` (an HttpClient started by a `TelemetryInitializer` provider at app launch) and requests INTERNET and ACCESS_NETWORK_STATE. 1.28.0 has none of it. sherpa-onnx v2.0.1 (built on 1.28.2) did **not** load against it until its symbol-version need was patched (see "Wave 3 finish"). Never upgrade without checking the AAR manifest and classes; the release gate now also fails on the telemetry classes or provider.
-- Dev packs (not in git) live outside the repo in `%USERPROFILE%\.kosha\packs\` (the dev key in `%USERPROFILE%\.kosha\keys\`): `signed\voice-whisper-base.koshapack` (161 MB) and `signed\translate-en-es.koshapack` (116 MB), re-signed after the rename, plus `staging\` with all 14 staged folders (voice base and small; translate en↔de/es/fr/hi/pt/ru; 1.8 GB) and `download\` with the raw downloads they were built from (`voice\`: the sherpa Whisper tarballs and silero_vad; `translate-hf-cache\`: the Xenova Hugging Face cache; 2.1 GB). Sign more with `tool/make_pack.dart --dir %USERPROFILE%\.kosha\packs\staging\<id>`.
-- Emulator smoke test so far (API 37), all pass:
-  - English autocorrect ("recieve wierd thnaks" → "receive weird thanks"); "teh"/"dont" are no longer corrected only because Myna learned them from repeated test typing
-  - password field shows the private-field chip
-  - German QWERTZ with the globe key and "Deutsch" on the space bar; German + English blend ("ich bin hungry")
-  - Hindi in English letters: "namaste dosto" → "नमस्ते दोस्तों"
-  - Arabic "مرحبا بكم", with the strip mirrored (best in the centre, second on the right)
-  - Russian "привет как дела"
-  - Model packs screen: imported both packs through the system file picker (264 MB)
-  - translate panel: "where is the station" → "¿Dónde está la estación?", Insert; the keyboard logs no text
-  - mic permission prompt through the transparent activity; mic panel with the On-device badge and language chip
+- **Waves 0-3 are done and merged.** The app is renamed **Kosha** (`4a3c394`). The InScript layouts are redone from the BIS tables (`238cbcc`).
+- **Wave 4 setup is done:** seams `f2fd99a`, briefs `2d19ad6` in `docs/waves/wave4/` (COMMON, A-chinese, B-japanese, C-a11y-l10n, D-perf, E-brand), ownership in `docs/PARALLEL_WORK.md` ("Wave 4 ownership").
+- Checks on `main`: `flutter analyze` 0 issues, `flutter test` 1076 pass, JVM tests 105 pass (5 real-model tests skipped). Release gate passes; arm64 release APK 79.0 MB.
+- Emulator (emulator-5554) has the Kosha debug build, both dev packs imported, and languages set to ja/zh/en from the last test. Reset them with the settings app or `run-as app.kosha.keyboard`.
+- Names in the Wave 0-3 sections below are historical (Myna, `.mynapack`, `MynaMascot`, …); the code says Kosha.
+
+## Do next (in order)
+
+1. **Launch the five Wave 4 agents** in one message: `Agent` tool, `isolation: "worktree"`, `model: "haiku"`, `effort: "high"`, run in background. Prompts (one each):
+   - A: `You are Wave 4 agent A (Chinese) on the Kosha keyboard. Read docs/waves/wave4/COMMON.md, then docs/waves/wave4/A-chinese.md, and do exactly what they say. Work only in your worktree. Commit early and often. End with the report COMMON.md asks for.`
+   - B: same text with `agent B (Japanese)` and `B-japanese.md`.
+   - C: same text with `agent C (accessibility and localisation)` and `C-a11y-l10n.md`.
+   - D: same text with `agent D (performance and QA)` and `D-perf.md`.
+   - E: same text with `agent E (brand)` and `E-brand.md`.
+2. While they run: nothing in their paths. If one stops unfinished, commit its leftovers on its branch, relaunch it, and tell it to `git merge <old-branch>` first (see "How to run a wave").
+3. **Merge in the order E, D, A, B, C** with the checklist in `docs/waves/README.md`. Before each merge: `git log main..<branch>`, `git diff main...<branch> --stat` vs `--ignore-cr-at-eol` (must match), and cross-branch file overlap.
+4. **After merging** (the chores in "Wave 4 setup seams" below):
+   - register the `learned_zh_phrases` and `learned_ja_words` blobs (wipe, backup, privacy sizes);
+   - move A's and B's screen strings into the ARB files;
+   - apply E's `KoshaMascot(pose:)` call sites;
+   - add `android:localeConfig` (C) and `android:roundIcon` (E) to the manifest;
+   - run A's and B's staging scripts, then sign `dict-zh-rime-ice` and `dict-ja-mozc` with `tool/make_pack.dart --kind dictionary` (key in `%USERPROFILE%\.kosha\keys\`);
+   - if D's reduced onnxruntime AAR landed, rerun `tool/onnxruntime/check_aar.ps1` and `dart run tool/patch_sherpa_ort_version.dart --check`.
+5. **Checks and emulator smoke test** (emulator-5554 only):
+   - typing regressions (English autocorrect, Hindi, Arabic);
+   - Chinese "nihao" and "zhongguoren", a partial pick, the grid, Traditional output;
+   - Japanese flick, multi-tap, ゛゜小, romaji "nihongo" with conversion and segment moves;
+   - TalkBack on the keys, the settings app in Hindi and German;
+   - the new icon, themed icon and splash;
+   - voice and translation still work with D's runtime.
+   Then the release gate (`flutter build apk --release --split-per-abi`, `bash tool/check_release_permissions.sh build/app/outputs/flutter-apk/*-release.apk`) and the arm64 size.
+6. Update this file, `docs/waves/README.md` and memory; remove the Wave 4 worktrees and branches; summarise open items for the user and ask the Wave 5 option questions (GitHub username for `io.github.<username>.kosha`, trademark check of the name, release key) before writing anything.
 
 ## Wave 4 decisions (user, 2026-11-22 evening; briefs not written yet)
 
