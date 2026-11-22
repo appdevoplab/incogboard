@@ -110,21 +110,46 @@ class MynaTextPredictor implements TextPredictor {
     final generation = ++_generation;
     final next = <_Active>[];
     for (final language in wanted) {
-      final source = await _lexicons.load(language);
-      final packed = source is MdictLexicon
-          ? source
-          : (_packedCache[source] ??= MdictLexicon.fromLexicon(
-              source,
-              corrections: language.startsWith('en') ? kEnglishContractions : const {},
-            ));
-      final existing = _active.where((a) => a.id == language && identical(a.source, source));
-      next.add(existing.isNotEmpty ? existing.first : _Active(language, source, packed));
-      if (!_learned.containsKey(language)) {
-        _learned[language] = LearnedData.decode(language, await _store.read(_blobName(language)));
+      final Lexicon source;
+      try {
+        source = await _lexicons.load(language);
+      } on Object catch (e) {
+        // A language without a dictionary is skipped; the rest of the blend still works.
+        MynaLog.w('predictor', 'no dictionary for a language, skipped', e.runtimeType);
+        continue;
       }
+      next.add(_activeFor(language, source));
+      await _ensureLearned(language);
     }
     if (generation != _generation) return; // a newer call won
+    if (next.isEmpty && !wanted.contains('en')) {
+      // Nothing usable was asked for: fall back to English so suggestions keep working.
+      final english = await _lexicons.load('en');
+      if (generation != _generation) return;
+      next.add(_activeFor('en', english));
+      await _ensureLearned('en');
+    }
     _active = next;
+  }
+
+  /// Reuses the live entry for [language] when its lexicon has not changed.
+  _Active _activeFor(LanguageId language, Lexicon source) {
+    final existing = _active.where((a) => a.id == language && identical(a.source, source));
+    if (existing.isNotEmpty) return existing.first;
+    final packed = source is MdictLexicon
+        ? source
+        : (_packedCache[source] ??= MdictLexicon.fromLexicon(
+            source,
+            corrections: language.startsWith('en') ? kEnglishContractions : const {},
+          ));
+    return _Active(language, source, packed);
+  }
+
+  /// Reads the learned data of [language] once. Learning must never start from an empty
+  /// in-memory copy, or the next save would overwrite what the user taught the keyboard.
+  Future<void> _ensureLearned(LanguageId language) async {
+    if (_learned.containsKey(language)) return;
+    _learned[language] = LearnedData.decode(language, await _store.read(_blobName(language)));
   }
 
   static String _blobName(LanguageId language) => 'learned_$language';
@@ -204,6 +229,8 @@ class MynaTextPredictor implements TextPredictor {
         typedLanguage = a.id;
       }
     }
+    // A word that any active dictionary has ("die" in German and English) is never auto-corrected.
+    final inDictionary = typedKnown;
     if (!typedKnown && _isLearnedKnown(typedKey)) {
       typedKnown = true;
       typedLm = _learnedLm(typedKey, today);
@@ -262,7 +289,7 @@ class MynaTextPredictor implements TextPredictor {
         context.field.allowsAutoCorrect && !_sessionNoCorrect.contains(typedKey) && !_isOnlyLearnedKnown(typedKey);
     if (allowAuto && forced != null) {
       auto = Suggestion(forced, kind: SuggestionKind.correction, score: typedScore + 10, language: primary.id);
-    } else if (allowAuto && runes.length >= 2) {
+    } else if (allowAuto && runes.length >= 2 && !inDictionary) {
       auto = _pickAutoCorrection(
         entries.values,
         typedKnown: typedKnown,
