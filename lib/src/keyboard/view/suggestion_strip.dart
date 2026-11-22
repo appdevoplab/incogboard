@@ -2,7 +2,8 @@
 //
 // The 44 dp strip above the keys: three suggestion slots (best in the centre),
 // or a toolbar of icon buttons when there is nothing to suggest, or a
-// "Private field" chip in password fields.
+// "Private field" chip in password fields. A button at the leading edge swaps
+// suggestions for the toolbar at any time; typing brings the suggestions back.
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:material_ui/material_ui.dart' show Icons;
@@ -30,7 +31,7 @@ List<Suggestion?> arrangeSlots(SuggestionBarState bar) {
   return [top.length > 1 ? top[1] : null, top.isNotEmpty ? top[0] : null, top.length > 2 ? top[2] : null];
 }
 
-class SuggestionStrip extends StatelessWidget {
+class SuggestionStrip extends StatefulWidget {
   const SuggestionStrip({
     super.key,
     required this.theme,
@@ -58,6 +59,49 @@ class SuggestionStrip extends StatelessWidget {
   /// Chips shown instead of the toolbar when nothing is suggested (never in sensitive fields).
   final ValueListenable<List<StripChip>>? chips;
 
+  /// Width of the toolbar toggle at the leading edge.
+  static const double toggleWidth = 40;
+
+  @override
+  State<SuggestionStrip> createState() => _SuggestionStripState();
+}
+
+class _SuggestionStripState extends State<SuggestionStrip> {
+  /// The user asked for the toolbar with the leading button; cleared when typing starts.
+  bool _toolbarForced = false;
+
+  KeyboardThemeData get theme => widget.theme;
+  KeyboardHooks get hooks => widget.hooks;
+  ValueListenable<SuggestionBarState> get bar => widget.bar;
+  ValueListenable<List<StripChip>>? get chips => widget.chips;
+
+  @override
+  void initState() {
+    super.initState();
+    bar.addListener(_onBar);
+  }
+
+  @override
+  void didUpdateWidget(SuggestionStrip old) {
+    super.didUpdateWidget(old);
+    if (old.bar != bar) {
+      old.bar.removeListener(_onBar);
+      bar.addListener(_onBar);
+    }
+    if (old.field != widget.field) _toolbarForced = false;
+  }
+
+  @override
+  void dispose() {
+    bar.removeListener(_onBar);
+    super.dispose();
+  }
+
+  void _onBar() {
+    final v = bar.value;
+    if (_toolbarForced && (v.isComposing || v.fromSwipe)) setState(() => _toolbarForced = false);
+  }
+
   TextStyle _style(Color color, {bool bold = false}) => TextStyle(
     color: color,
     fontSize: 17 * theme.labelScale,
@@ -69,43 +113,75 @@ class SuggestionStrip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Widget content;
+    final field = widget.field;
     if (field.isSensitive) {
-      content = _PrivateChip(theme: theme, style: _style(theme.suggestionText));
-    } else if (suggestionsEnabled && field.allowsSuggestions) {
+      return SizedBox(
+        height: KeyboardMetrics.stripHeight,
+        child: _PrivateChip(theme: theme, style: _style(theme.suggestionText)),
+      );
+    }
+    final Widget content;
+    if (widget.suggestionsEnabled && field.allowsSuggestions) {
       final c = chips;
       content = ListenableBuilder(
         listenable: c == null ? bar : Listenable.merge([bar, c]),
         builder: (context, _) {
+          if (_toolbarForced) return _withToggle(_toolbar(), showingToolbar: true);
           final state = bar.value;
           // Chips (recent copy, undo) beat next-word predictions, never a word being typed or swiped.
           final typing = state.isComposing || state.fromSwipe || state.autoCorrection != null;
-          if (!typing && c != null && c.value.isNotEmpty) return _chipRow(c.value.take(3).toList());
+          if (!typing && c != null && c.value.isNotEmpty) {
+            return _withToggle(_chipRow(c.value.take(3).toList()), showingToolbar: false);
+          }
           final slots = arrangeSlots(state);
-          if (slots.every((s) => s == null)) return _toolbar();
-          return _slots(state, slots);
+          if (slots.every((s) => s == null)) return _withToggle(_toolbar(), showingToolbar: true, canReturn: false);
+          return _withToggle(_slots(state, slots), showingToolbar: false);
         },
       );
     } else {
-      content = _toolbarOrChips();
+      content = _withToggle(_toolbarOrChips(), showingToolbar: true, canReturn: false);
     }
-    return SizedBox(
-      height: KeyboardMetrics.stripHeight,
-      child: Stack(
-        children: [
-          Positioned.fill(child: content),
-          if (incognito)
-            Positioned(
-              left: 12,
-              top: 0,
-              bottom: 0,
-              child: Semantics(
-                label: 'Incognito mode on',
-                child: Center(child: Icon(Icons.visibility_off_outlined, size: 18, color: theme.toolbarIcon)),
-              ),
+    return SizedBox(height: KeyboardMetrics.stripHeight, child: content);
+  }
+
+  /// [child] after the leading toggle. While suggestions or chips show, the toggle opens the
+  /// toolbar; on a toolbar the user opened it goes back. In incognito it also shows the eye icon.
+  Widget _withToggle(Widget child, {required bool showingToolbar, bool canReturn = true}) {
+    final incognito = widget.incognito;
+    final VoidCallback? onTap;
+    final IconData icon;
+    final String label;
+    if (!showingToolbar) {
+      onTap = () => setState(() => _toolbarForced = true);
+      icon = incognito ? Icons.visibility_off_outlined : Icons.apps;
+      label = incognito ? 'Incognito mode on. Show toolbar' : 'Show toolbar';
+    } else if (canReturn) {
+      onTap = () => setState(() => _toolbarForced = false);
+      icon = Icons.chevron_left;
+      label = 'Show suggestions';
+    } else {
+      if (!incognito) return child;
+      onTap = null;
+      icon = Icons.visibility_off_outlined;
+      label = 'Incognito mode on';
+    }
+    return Row(
+      children: [
+        SizedBox(
+          width: SuggestionStrip.toggleWidth,
+          child: Semantics(
+            button: onTap != null,
+            label: label,
+            excludeSemantics: true,
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: onTap,
+              child: Center(child: Icon(icon, size: 20, color: theme.toolbarIcon)),
             ),
-        ],
-      ),
+          ),
+        ),
+        Expanded(child: child),
+      ],
     );
   }
 
@@ -136,7 +212,7 @@ class SuggestionStrip extends StatelessWidget {
       excludeSemantics: true,
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
-        onTap: () => onPick(s),
+        onTap: () => widget.onPick(s),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 5),
           child: DecoratedBox(
@@ -239,8 +315,10 @@ class SuggestionStrip extends StatelessWidget {
         button(Icons.content_paste, 'Clipboard', hooks.onClipboard),
         if (hooks.onEditing != null) button(Icons.text_fields, 'Text editing', hooks.onEditing),
         if (hooks.onModes != null) button(Icons.open_in_full, 'Keyboard modes', hooks.onModes),
+        if (hooks.onVoice != null) button(Icons.mic_none, 'Voice typing', hooks.onVoice),
+        if (hooks.onTranslate != null) button(Icons.translate, 'Translate', hooks.onTranslate),
         button(Icons.palette_outlined, 'Themes', hooks.onTheme),
-        button(Icons.settings_outlined, 'Settings', onOpenSettings),
+        button(Icons.settings_outlined, 'Settings', widget.onOpenSettings),
       ],
     );
   }

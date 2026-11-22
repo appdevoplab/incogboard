@@ -30,7 +30,7 @@ class VoiceScreen extends StatelessWidget {
             title: 'Current settings',
             children: [
               SettingsTile(title: 'Voice typing', trailing: Text(v.enabled ? 'On' : 'Off')),
-              SettingsTile(title: 'Model', trailing: Text(v.modelId == 'base' ? 'Built in' : v.modelId)),
+              SettingsTile(title: 'Model', trailing: Text(v.modelId.isEmpty ? 'Automatic' : v.modelId)),
               SettingsTile(title: 'Detect language automatically', trailing: Text(v.autoDetectLanguage ? 'On' : 'Off')),
             ],
           ),

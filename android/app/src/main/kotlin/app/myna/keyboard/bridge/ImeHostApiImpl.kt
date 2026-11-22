@@ -17,6 +17,15 @@ import android.view.inputmethod.InputMethodManager
 import app.myna.keyboard.SettingsActivity
 import app.myna.keyboard.ime.ClipReader
 import app.myna.keyboard.ime.MynaImeService
+import app.myna.keyboard.packs.PackStore
+import app.myna.keyboard.translate.TranslationException
+import app.myna.keyboard.translate.createTranslationService
+import app.myna.keyboard.voice.MicPermission
+import app.myna.keyboard.voice.VoiceEvents
+import app.myna.keyboard.voice.createVoiceService
+import java.util.concurrent.Executors
+import kotlinx.coroutines.asCoroutineDispatcher
+import kotlinx.coroutines.withContext
 
 /** Dart -> Kotlin calls for the keyboard engine. Runs on the main thread. */
 internal class ImeHostApiImpl(private val service: MynaImeService) : ImeHostApi {
@@ -222,6 +231,60 @@ internal class ImeHostApiImpl(private val service: MynaImeService) : ImeHostApi 
         } catch (e: Exception) {
             Log.w(TAG, "clipboard clear failed: ${e.javaClass.simpleName}")
         }
+    }
+
+    // ---- Voice typing (Wave 3-D implements VoiceService) -------------------------
+
+    private val packs by lazy { PackStore.get(service.applicationContext) }
+    private val voice by lazy { createVoiceService(service.applicationContext, packs) }
+    private val voiceEvents = VoiceEvents { event -> service.flutterApi?.onVoiceEvent(event) {} }
+
+    override fun hasMicPermission() = MicPermission.granted(service)
+
+    override suspend fun requestMicPermission() = MicPermission.request(service)
+
+    override suspend fun startVoice(request: VoiceRequestMessage): VoiceStartStatus =
+        if (!MicPermission.granted(service)) VoiceStartStatus.NO_PERMISSION else voice.start(request, voiceEvents)
+
+    override fun stopVoice() = voice.stop()
+
+    override fun cancelVoice() = voice.cancel()
+
+    // ---- Translation (Wave 3-T implements TranslationService) ---------------------
+
+    private val translator by lazy { createTranslationService(service.applicationContext, packs) }
+
+    /** One model at a time: translations run one after another off the main thread. */
+    private val translateThread by lazy {
+        Executors.newSingleThreadExecutor { r -> Thread(r, "myna-translate") }.asCoroutineDispatcher()
+    }
+
+    override suspend fun translate(text: String, from: String, to: String): String =
+        withContext(translateThread) {
+            try {
+                translator.translate(text, from, to)
+            } catch (e: TranslationException) {
+                throw FlutterError(e.code, e.message, null)
+            } catch (e: Exception) {
+                Log.w(TAG, "translation failed: ${e.javaClass.simpleName}")
+                throw FlutterError("failed", e.javaClass.simpleName, null)
+            }
+        }
+
+    override fun releaseTranslator() {
+        translateThread.executor.execute { translator.release() }
+    }
+
+    /** Engine stopped or memory is low: free native models. */
+    internal fun releaseNative(stopping: Boolean) {
+        if (stopping) voice.cancel()
+        voice.release()
+        releaseTranslator()
+    }
+
+    internal fun close() {
+        releaseNative(stopping = true)
+        translateThread.close()
     }
 
     // ---- State sync -------------------------------------------------------------

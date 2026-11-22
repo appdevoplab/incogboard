@@ -14,6 +14,7 @@ import 'sections/language_settings.dart';
 import 'sections/mode_settings.dart';
 import 'sections/privacy_settings.dart';
 import 'sections/swipe_settings.dart';
+import 'sections/translate_settings.dart';
 import 'sections/typing_settings.dart';
 import 'sections/voice_settings.dart';
 
@@ -24,6 +25,7 @@ export 'sections/language_settings.dart';
 export 'sections/mode_settings.dart';
 export 'sections/privacy_settings.dart';
 export 'sections/swipe_settings.dart';
+export 'sections/translate_settings.dart';
 export 'sections/typing_settings.dart';
 export 'sections/voice_settings.dart';
 
@@ -38,7 +40,8 @@ abstract final class SettingsSection {
   static const clipboard = 'clipboard';
   static const modes = 'modes';
   static const voice = 'voice';
-  static const all = [typing, swipe, feedback, appearance, languages, privacy, clipboard, modes, voice];
+  static const translate = 'translate';
+  static const all = [typing, swipe, feedback, appearance, languages, privacy, clipboard, modes, voice, translate];
 }
 
 @immutable
@@ -53,6 +56,7 @@ class MynaSettings {
     this.clipboard = const ClipboardSettings(),
     this.modes = const ModeSettings(),
     this.voice = const VoiceSettings(),
+    this.translate = const TranslateSettings(),
   });
 
   factory MynaSettings.fromJson(Json j) => MynaSettings(
@@ -65,6 +69,7 @@ class MynaSettings {
     clipboard: ClipboardSettings.fromJson(jObject(j, SettingsSection.clipboard)),
     modes: ModeSettings.fromJson(jObject(j, SettingsSection.modes)),
     voice: VoiceSettings.fromJson(jObject(j, SettingsSection.voice)),
+    translate: TranslateSettings.fromJson(jObject(j, SettingsSection.translate)),
   );
 
   static const int schemaVersion = 1;
@@ -78,6 +83,7 @@ class MynaSettings {
   final ClipboardSettings clipboard;
   final ModeSettings modes;
   final VoiceSettings voice;
+  final TranslateSettings translate;
 
   Json toJson() => {
     'schemaVersion': schemaVersion,
@@ -90,6 +96,7 @@ class MynaSettings {
     SettingsSection.clipboard: clipboard.toJson(),
     SettingsSection.modes: modes.toJson(),
     SettingsSection.voice: voice.toJson(),
+    SettingsSection.translate: translate.toJson(),
   };
 
   MynaSettings copyWith({
@@ -102,6 +109,7 @@ class MynaSettings {
     ClipboardSettings? clipboard,
     ModeSettings? modes,
     VoiceSettings? voice,
+    TranslateSettings? translate,
   }) => MynaSettings(
     typing: typing ?? this.typing,
     swipe: swipe ?? this.swipe,
@@ -112,5 +120,6 @@ class MynaSettings {
     clipboard: clipboard ?? this.clipboard,
     modes: modes ?? this.modes,
     voice: voice ?? this.voice,
+    translate: translate ?? this.translate,
   );
 }

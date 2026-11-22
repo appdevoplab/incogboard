@@ -8,6 +8,9 @@ import android.provider.Settings
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.ComponentActivity
+import android.net.Uri
+import app.myna.keyboard.packs.PackException
+import app.myna.keyboard.packs.PackStore
 import app.myna.keyboard.security.backup.BackupCrypto
 import app.myna.keyboard.security.backup.BackupDocuments
 import app.myna.keyboard.security.backup.BackupException
@@ -70,6 +73,20 @@ internal class AppHostApiImpl(
 
     override fun openBackup(sealed: ByteArray, passphrase: String): ByteArray? =
         backupErrors { BackupCrypto.open(sealed, passphrase) }
+
+    // ---- Model packs (Wave 3) ---------------------------------------------------------
+
+    override fun importPack(uri: String): PackInfoMessage {
+        val input = activity.contentResolver.openInputStream(Uri.parse(uri))
+            ?: throw FlutterError("bad_format", "cannot open document", null)
+        return try {
+            input.use { PackStore.get(activity).install(it).toMessage() }
+        } catch (e: PackException) {
+            throw FlutterError(e.code, e.message, null)
+        }
+    }
+
+    override fun deletePack(id: String) = PackStore.get(activity).delete(id)
 
     /** Maps [BackupException] to the FlutterError code Dart matches on. */
     private inline fun <T> backupErrors(block: () -> T): T = try {

@@ -13,7 +13,6 @@ import '../../core/input_field_info.dart';
 import '../../settings/myna_settings.dart';
 import '../../theme/keyboard_theme_data.dart';
 import '../gesture_layer/gesture_trail.dart';
-import '../input/input_controller.dart';
 import '../input/keyboard_page.dart';
 import '../keyboard_session.dart';
 import '../layout/layout_engine.dart';
@@ -86,13 +85,16 @@ class _KeyboardViewState extends State<KeyboardView> with SingleTickerProviderSt
     super.dispose();
   }
 
-  /// The toolbar's Themes button opens the settings app's theme gallery unless a feature overrides it.
+  /// Defaults under the features' hooks: the Themes button opens the settings app's theme gallery,
+  /// and the globe key cycles the enabled languages when there are several.
   KeyboardHooks get _hooks {
-    final h = widget.hooks;
-    if (h.onTheme != null) return h;
+    final s = widget.session;
     return KeyboardHooks.merge([
-      h,
-      KeyboardHooks(onTheme: () => unawaited(_openSettings(widget.session, route: 'themes'))),
+      widget.hooks,
+      KeyboardHooks(
+        onTheme: () => unawaited(_openSettings(s, route: 'themes')),
+        onLanguageSwitch: s.canSwitchLanguage ? () => unawaited(s.switchLanguage()) : null,
+      ),
     ]);
   }
 
@@ -115,6 +117,13 @@ class _KeyboardViewState extends State<KeyboardView> with SingleTickerProviderSt
           ..viewSize = Size(constraints.maxWidth, KeyboardMetrics.stripHeight + rowsHeight)
           ..keyAreaTop = KeyboardMetrics.stripHeight;
         final width = constraints.maxWidth;
+        // Right-to-left languages (Wave 3-C) mirror the strip and panels; key rows keep the
+        // physical order of their layout file.
+        Widget directional(Widget child) => ValueListenableBuilder<String>(
+          valueListenable: s.activeLanguage,
+          builder: (context, _, _) =>
+              Directionality(textDirection: s.activeInfo.isRtl ? TextDirection.rtl : TextDirection.ltr, child: child),
+        );
         final strip = ValueListenableBuilder<InputFieldInfo>(
           valueListenable: s.input.field,
           builder: (context, field, _) => SuggestionStrip(
@@ -135,9 +144,13 @@ class _KeyboardViewState extends State<KeyboardView> with SingleTickerProviderSt
         Widget panelArea(KeyboardPanel p, double height) => SizedBox(
           width: width,
           height: height,
-          child: Builder(
-            builder: (context) =>
-                p.build(context, PanelContext(session: s, theme: theme, settings: settings, size: Size(width, height))),
+          child: directional(
+            Builder(
+              builder: (context) => p.build(
+                context,
+                PanelContext(session: s, theme: theme, settings: settings, size: Size(width, height)),
+              ),
+            ),
           ),
         );
         return SizedBox(
@@ -156,7 +169,7 @@ class _KeyboardViewState extends State<KeyboardView> with SingleTickerProviderSt
                       if (panel != null && panel.placement == PanelPlacement.strip)
                         panelArea(panel, KeyboardMetrics.stripHeight)
                       else
-                        strip,
+                        directional(strip),
                       SizedBox(
                         height: rowsHeight,
                         child: panel != null && panel.placement == PanelPlacement.keys
@@ -312,13 +325,20 @@ class _KeyboardKeysAreaState extends State<KeyboardKeysArea> {
             children: [
               Positioned.fill(
                 child: RepaintBoundary(
-                  child: ValueListenableBuilder<ShiftState>(
-                    valueListenable: widget.session.input.shift,
-                    builder: (context, shift, _) => CustomPaint(
+                  child: ListenableBuilder(
+                    listenable: Listenable.merge([
+                      widget.session.input.shift,
+                      widget.session.spaceLabel,
+                      widget.session.spaceLabelOverride,
+                    ]),
+                    builder: (context, _) => CustomPaint(
                       painter: KeysPainter(
                         laid: laid,
                         theme: widget.theme,
-                        shift: shift,
+                        shift: widget.session.input.shift.value,
+                        spaceLabel: widget.page == KeyboardPage.letters
+                            ? widget.session.spaceLabelOverride.value ?? widget.session.spaceLabel.value
+                            : null,
                         page: widget.page,
                         field: widget.field,
                         typing: widget.settings.typing,

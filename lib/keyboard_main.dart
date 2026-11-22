@@ -9,7 +9,11 @@ import 'package:flutter/widgets.dart';
 import 'src/core/keyboard_services.dart';
 import 'src/core/log.dart';
 import 'src/features/features.dart';
+import 'src/features/indic/indic_feature.dart';
+import 'src/features/languages/languages_feature.dart';
 import 'src/features/shortcuts/shortcuts_feature.dart';
+import 'src/features/translate/translate_feature.dart';
+import 'src/features/voice/voice_feature.dart';
 import 'src/keyboard/keyboard_app.dart';
 import 'src/keyboard/modes/modes.dart';
 
@@ -19,6 +23,18 @@ Future<void> runKeyboard() async {
   final services = await KeyboardServices.create();
   MynaLog.d('Boot', 'services ready in ${sw.elapsedMilliseconds} ms');
   runApp(
-    KeyboardApp(services: services, features: [createPanelsFeature(), createShortcutsFeature(), createModesFeature()]),
+    KeyboardApp(
+      services: services,
+      features: [
+        createPanelsFeature(),
+        createShortcutsFeature(),
+        createModesFeature(),
+        // Wave 3
+        createLanguagesFeature(),
+        createIndicFeature(),
+        createVoiceFeature(),
+        createTranslateFeature(),
+      ],
+    ),
   );
 }

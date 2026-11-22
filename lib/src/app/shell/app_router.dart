@@ -9,16 +9,17 @@ import '../privacy/privacy_center_screen.dart';
 import '../routes.dart';
 import '../themes/theme_gallery_screen.dart';
 import '../onboarding/onboarding_screen.dart';
+import '../packs/packs_screen.dart';
 import '../screens/feel_screen.dart';
 import '../screens/home_screen.dart';
 import '../screens/languages_screen.dart';
 import '../screens/panels_screen.dart';
 import '../screens/typing_screen.dart';
 import '../screens/voice_screen.dart';
+import '../translate/translate_screen.dart';
 
-/// Settings-app-only route for the Voice screen (the keyboard never asks for it, so it is not
-/// in [MynaRoutes]).
-const String voiceRoute = 'voice';
+/// The Voice screen's route (kept for older callers; same as [MynaRoutes.voice]).
+const String voiceRoute = MynaRoutes.voice;
 
 /// Screen for [route]. Unknown names show home.
 Widget screenForRoute(String route) => switch (route) {
@@ -30,12 +31,14 @@ Widget screenForRoute(String route) => switch (route) {
   MynaRoutes.themes => const ThemeGalleryScreen(),
   MynaRoutes.privacy => const PrivacyCenterScreen(),
   MynaRoutes.about => const AboutScreen(),
-  voiceRoute => const VoiceScreen(),
+  MynaRoutes.voice => const VoiceScreen(),
+  MynaRoutes.translate => const TranslateScreen(),
+  MynaRoutes.packs => const PacksScreen(),
   _ => const HomeScreen(),
 };
 
 /// True for names this app can show.
-bool isKnownRoute(String route) => route == voiceRoute || MynaRoutes.all.contains(route);
+bool isKnownRoute(String route) => MynaRoutes.all.contains(route);
 
 /// The page route for named navigation (`onGenerateRoute`).
 Route<Object?> routeFor(RouteSettings settings) {

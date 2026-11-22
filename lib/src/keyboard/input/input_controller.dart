@@ -48,6 +48,17 @@ class SuggestionQuery {
 /// first. Return a new list; it must be cheap (runs on every key press, budget 1 ms).
 typedef SuggestionDecorator = List<Suggestion> Function(List<Suggestion> base, SuggestionQuery query);
 
+/// Replaces the predictor's result while a language needs it (Wave 3-B: Indic typing in English
+/// letters turns "namaste" into नमस्ते). [base] already blends the active languages. A returned
+/// `autoCorrection` of kind [SuggestionKind.transliteration] is applied on space even when the user
+/// turned autocorrect off (it is the typing method, not a correction); it is still never applied in
+/// sensitive fields or fields that disallow autocorrect (email, URL). Budget: 2 ms.
+typedef SuggestionTransform = SuggestionResult Function(SuggestionResult base, TypingContext context);
+
+/// Rewrites swipe candidates before the first one is committed (Wave 3-B: romanised swipe to
+/// native script). Budget: 2 ms.
+typedef SwipeTransform = List<Suggestion> Function(List<Suggestion> candidates);
+
 /// What the suggestion strip shows.
 @immutable
 class SuggestionBarState {
@@ -162,6 +173,17 @@ class InputController {
   /// Extra suggestion sources, applied in order after the predictor. Only consulted where
   /// suggestions are allowed (never in password or no-suggestion fields).
   final List<SuggestionDecorator> decorators = [];
+
+  // ---- Wave 3 seams (orchestrator-owned) --------------------------------
+
+  /// See [SuggestionTransform]. Set by a language feature for the active language; null otherwise.
+  final ValueNotifier<SuggestionTransform?> transform = ValueNotifier(null);
+
+  /// See [SwipeTransform].
+  final ValueNotifier<SwipeTransform?> swipeTransform = ValueNotifier(null);
+
+  /// The language whose rules apply now (the session's active language).
+  LanguageId get language => _language();
 
   // ---- Private state ----------------------------------------------------
 
@@ -502,6 +524,12 @@ class InputController {
     _updateSuggestions();
   }
 
+  /// Transliteration is the typing method itself, so the autocorrect setting does not turn it off.
+  bool _canApply(Suggestion s, String word) {
+    if (s.kind != SuggestionKind.transliteration) return _canAutoCorrect(word);
+    return field.value.allowsAutoCorrect && !_sensitive && _noCorrectionWord != word;
+  }
+
   bool _canAutoCorrect(String word) {
     if (!settings.typing.autoCorrect || !field.value.allowsAutoCorrect || _sensitive) return false;
     if (_noCorrectionWord == word) return false;
@@ -547,7 +575,7 @@ class InputController {
     Suggestion? applied;
     if (hadComposing) {
       final corr = _lastResult.autoCorrection;
-      if (corr != null && corr.text != word && _canAutoCorrect(word)) {
+      if (corr != null && corr.text != word && _canApply(corr, word)) {
         applied = corr;
         word = corr.text;
       }
@@ -641,7 +669,7 @@ class InputController {
     Suggestion? applied;
     if (hadComposing) {
       final corr = _lastResult.autoCorrection;
-      if (corr != null && corr.text != word && _canAutoCorrect(word)) {
+      if (corr != null && corr.text != word && _canApply(corr, word)) {
         applied = corr;
         word = corr.text;
       }
@@ -920,20 +948,28 @@ class InputController {
       return;
     }
     if (_composing.isNotEmpty) {
-      final result = _predictor.suggest(
-        TypingContext(
-          composing: _composing,
-          taps: List.unmodifiable(_taps),
-          previousWords: List.unmodifiable(_previous),
-          isStartOfSentence: _startOfSentence,
-          field: field.value,
-        ),
+      final context = TypingContext(
+        composing: _composing,
+        taps: List.unmodifiable(_taps),
+        previousWords: List.unmodifiable(_previous),
+        isStartOfSentence: _startOfSentence,
+        field: field.value,
       );
+      var result = _predictor.suggest(context);
+      final t = transform.value;
+      if (t != null) {
+        try {
+          result = t(result, context);
+        } on Object catch (e) {
+          MynaLog.w('Input', 'suggestion transform failed', e.runtimeType);
+        }
+      }
       _lastResult = result;
+      final auto = result.autoCorrection;
       _setBar(
         SuggestionBarState(
           suggestions: _decorate(result.suggestions, _composing),
-          autoCorrection: _canAutoCorrect(_composing) ? result.autoCorrection : null,
+          autoCorrection: auto != null && _canApply(auto, _composing) ? auto : null,
           isComposing: true,
           typedWordUnknown: !_predictor.isKnownWord(_composing),
         ),
@@ -1038,7 +1074,15 @@ class InputController {
   /// field: sensitive and raw fields ignore it.
   Future<void> commitSwipe(GesturePath path) async {
     if (_sensitive || _raw || !settings.swipe.enabled || redirect.value != null) return;
-    final candidates = await _decoder.decode(path, previousWords: List.of(_previous));
+    var candidates = await _decoder.decode(path, previousWords: List.of(_previous));
+    final t = swipeTransform.value;
+    if (t != null) {
+      try {
+        candidates = t(candidates);
+      } on Object catch (e) {
+        MynaLog.w('Input', 'swipe transform failed', e.runtimeType);
+      }
+    }
     if (candidates.isEmpty) return;
     _begin();
     try {
@@ -1076,5 +1120,7 @@ class InputController {
     page.dispose();
     bar.dispose();
     redirect.dispose();
+    transform.dispose();
+    swipeTransform.dispose();
   }
 }

@@ -50,7 +50,13 @@ dependencies {
     // through AndroidX (same version); pinned so the generated bindings don't rely on that. Apache-2.0.
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0")
 
+    // ONNX Runtime (MIT): the one native inference runtime, shared by voice (sherpa-onnx, Wave 3-D) and
+    // translation (Wave 3-T). No network code. Nothing else may bundle its own libonnxruntime.so.
+    implementation("com.microsoft.onnxruntime:onnxruntime-android:1.31.1")
+
     testImplementation("junit:junit:4.13.2")
+    // Real org.json for JVM tests (Android's stub throws "not mocked").
+    testImplementation("org.json:json:20240303")
 }
 
 kotlin {

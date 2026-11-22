@@ -7,6 +7,8 @@
       library ever tries to add it, and CI fails the build if it appears.
     -->
     <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- Offline voice typing (Wave 3). Asked only when the user taps the mic; audio never leaves RAM. -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
         android:name=".MynaApplication"
@@ -35,6 +37,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Asks for the microphone on behalf of the keyboard (an IME cannot show the dialog). -->
+        <activity
+            android:name=".voice.MicPermissionActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:taskAffinity=""
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <!-- The keyboard. Only the system can bind it (BIND_INPUT_METHOD). -->
         <service

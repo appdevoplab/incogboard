@@ -14,6 +14,7 @@ import '../core/data_sections.dart';
 import '../core/log.dart';
 import '../core/seen_apps.dart';
 import '../engine/contracts.dart';
+import '../engine/lang/registry.dart';
 import '../engine/suggest/text_predictor.dart' show MynaTextPredictor;
 import '../settings/myna_settings.dart';
 import 'input/input_controller.dart';
@@ -25,12 +26,15 @@ import 'panels/keyboard_panel.dart';
 
 class KeyboardSession {
   KeyboardSession(this.services) {
+    activeLanguage = ValueNotifier(services.settings.value.languages.active);
+    _languageKey = _languageSignature();
     input = InputController(
       input: services.input,
       predictor: services.predictor,
       gestureDecoder: services.gestureDecoder,
       settings: () => services.settings.value,
       rulesFor: services.rulesFor,
+      language: () => activeLanguage.value,
     );
     layouts = LayoutRepository(services.packs);
     seenApps = SeenAppsStore(services.secureStore);
@@ -112,8 +116,69 @@ class KeyboardSession {
   String? _geometryKey;
   bool _disposed = false;
 
-  /// Languages the predictor and decoder work with. Wave 3 makes this follow the language settings.
-  List<LanguageId> get activeLanguages => const ['en'];
+  // ---- Wave 3 seams (orchestrator-owned): languages ----------------------
+
+  /// The language whose layout is showing (`LanguageSettings.active`).
+  late final ValueNotifier<LanguageId> activeLanguage;
+
+  /// Text drawn on the space bar (the language's name when more than one is enabled), or null.
+  final ValueNotifier<String?> spaceLabel = ValueNotifier(null);
+
+  /// Set by a feature to replace [spaceLabel] (for example 'Hinglish'); null restores it.
+  final ValueNotifier<String?> spaceLabelOverride = ValueNotifier(null);
+
+  /// Extra words for the swipe decoder (Wave 3-B: romanised Indic words), asked with the blended
+  /// languages each time templates are built. Call [rebuildGestureTemplates] after they change.
+  final List<Iterable<LexiconEntry> Function(List<LanguageId> languages)> gestureWordSources = [];
+
+  String _languageKey = '';
+  LaidOutKeyboard? _lastLetters;
+
+  /// Languages the predictor and decoder blend: the active one first (see [blendedLanguages]).
+  List<LanguageId> get activeLanguages => blendedLanguages(services.settings.value.languages);
+
+  LanguageInfo get activeInfo => languageInfo(activeLanguage.value);
+
+  /// The layout choice of the active language.
+  LayoutChoice get activeLayout => layoutChoiceFor(services.settings.value.languages, activeLanguage.value);
+
+  bool get canSwitchLanguage => services.settings.value.languages.enabled.length > 1;
+
+  /// Shows [to], or the next enabled language (in the user's order) when null. Saved to settings,
+  /// so the settings app and the next keyboard start agree.
+  Future<void> switchLanguage([LanguageId? to]) async {
+    final l = services.settings.value.languages;
+    if (l.enabled.isEmpty) return;
+    final target = to ?? l.enabled[(l.enabled.indexOf(l.active) + 1) % l.enabled.length];
+    if (target == l.active || !l.enabled.contains(target)) return;
+    try {
+      await services.settings.update(
+        (s) => s.copyWith(languages: s.languages.copyWith(active: target)),
+        sections: [SettingsSection.languages],
+      );
+    } on Object catch (err) {
+      MynaLog.w('Keyboard', 'language switch failed', err.runtimeType);
+    }
+  }
+
+  /// Rebuilds swipe templates with the current [gestureWordSources].
+  void rebuildGestureTemplates() {
+    final laid = _lastLetters;
+    _geometryKey = null;
+    if (laid != null) onLayout(laid, KeyboardPage.letters);
+  }
+
+  String _languageSignature() {
+    final l = services.settings.value.languages;
+    final layouts = [for (final e in l.layouts.entries) '${e.key}=${e.value}'].join(',');
+    return [l.active, l.enabled.join(','), layouts, l.multilingual].join('|');
+  }
+
+  void _applyLanguage() {
+    final l = services.settings.value.languages;
+    activeLanguage.value = l.active;
+    spaceLabel.value = l.enabled.length > 1 || l.active != 'en' ? activeInfo.spaceBarLabel : null;
+  }
 
   Future<void> _start() async {
     final e = services.events;
@@ -136,6 +201,7 @@ class KeyboardSession {
 
     _pushFeedback();
     _applyBlockOffensive();
+    _applyLanguage();
     _applySecure(e.field.value);
     unawaited(input.startInput(e.field.value));
     unawaited(_refreshSystemColors());
@@ -152,7 +218,10 @@ class KeyboardSession {
   }
 
   Future<void> _loadLayouts() async {
-    await layouts.preload([_letterLayoutId(), ...kAuxiliaryLayoutIds]);
+    final l = services.settings.value.languages;
+    // Every enabled language's letters, so switching never waits for a file.
+    final letters = {_letterLayoutId(), for (final id in l.enabled) layoutChoiceFor(l, id).id};
+    await layouts.preload([...letters, ...kAuxiliaryLayoutIds]);
     if (_disposed) return;
     _variantCache.clear();
     layoutVersion.value++;
@@ -210,6 +279,15 @@ class KeyboardSession {
   }
 
   void _onSettings() {
+    final languageKey = _languageSignature();
+    if (languageKey != _languageKey) {
+      _languageKey = languageKey;
+      input.finishComposing();
+      _applyLanguage();
+      _geometryKey = null;
+      unawaited(_setLanguages());
+      unawaited(_loadLayouts());
+    }
     _pushFeedback();
     _applyBlockOffensive();
     _applySecure(input.currentField);
@@ -266,28 +344,44 @@ class KeyboardSession {
 
   // ---- Layouts ----------------------------------------------------------
 
-  String _letterLayoutId() {
-    final l = services.settings.value.languages;
-    return l.layouts[l.active] ?? 'qwerty';
-  }
+  String _letterLayoutId() => activeLayout.id;
 
-  /// The layout to show for [page], adapted to [field] and the settings; null until loaded.
+  /// The layout to show for [page], adapted to [field], the active language and the settings;
+  /// null until loaded.
   KeyboardLayoutDef? layoutFor(KeyboardPage page, InputFieldInfo field, MynaSettings settings) {
     final id = layoutIdForPage(page, letters: _letterLayoutId());
     final base = layouts.peek(id);
     if (base == null) return null;
-    if (page != KeyboardPage.letters) return base;
-    final key = '$id|${field.preferredPage.name}|${settings.typing.numberRow}';
+    final info = activeInfo;
+    // Native digits only where text goes in; number, phone and date fields keep ASCII digits.
+    final digits = settings.languages.nativeDigits && field.kind == FieldKind.text ? info.nativeDigits : null;
+    final globe = canSwitchLanguage;
+    final key = '$id|${info.id}|${field.preferredPage.name}|${settings.typing.numberRow}|$digits|$globe';
     return _variantCache[key] ??= () {
-      var l = LayoutVariants.forField(base, field.preferredPage);
-      if (settings.typing.numberRow) l = LayoutVariants.withNumberRow(l);
-      return l;
+      switch (page) {
+        case KeyboardPage.letters:
+          var l = LayoutVariants.forField(base, field.preferredPage, domains: info.domains);
+          if (settings.typing.numberRow) l = LayoutVariants.withNumberRow(l);
+          if (globe) l = LayoutVariants.withLanguageKey(l);
+          if (digits != null) l = LayoutVariants.withDigits(l, digits);
+          return l;
+        case KeyboardPage.symbols:
+        case KeyboardPage.symbols2:
+          var l = LayoutVariants.withCurrency(base, info.currency);
+          if (digits != null) l = LayoutVariants.withDigits(l, digits);
+          return l;
+        case KeyboardPage.numpad:
+        case KeyboardPage.phone:
+        case KeyboardPage.datetime:
+          return base;
+      }
     }();
   }
 
   /// The view laid out [laid]. Letters layouts feed the spatial model and swipe decoder.
   void onLayout(LaidOutKeyboard laid, KeyboardPage page) {
     if (page != KeyboardPage.letters) return;
+    _lastLetters = laid;
     final geometry = laid.toGeometry(layoutId: '${laid.layout.id}/g${laid.keyGap.toStringAsFixed(1)}');
     final key = '${geometry.cacheKey}|${activeLanguages.join(',')}';
     if (key == _geometryKey) return;
@@ -300,7 +394,10 @@ class KeyboardSession {
             .prepare(
               geometry: geometry,
               languages: activeLanguages,
-              extraWords: [for (final l in activeLanguages) ...services.predictor.learnedWords(l)],
+              extraWords: [
+                for (final l in activeLanguages) ...services.predictor.learnedWords(l),
+                for (final source in gestureWordSources) ...source(activeLanguages),
+              ],
             )
             .catchError((Object err) => MynaLog.w('Keyboard', 'decoder prepare failed', err.runtimeType)),
       );
@@ -328,5 +425,8 @@ class KeyboardSession {
     input.dispose();
     layoutVersion.dispose();
     systemColors.dispose();
+    activeLanguage.dispose();
+    spaceLabel.dispose();
+    spaceLabelOverride.dispose();
   }
 }

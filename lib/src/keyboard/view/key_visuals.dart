@@ -131,6 +131,7 @@ KeyVisual resolveKeyVisual(
   required InputFieldInfo field,
   required TypingSettings typing,
   required bool showHints,
+  String? spaceLabel,
 }) {
   final shifted = shift != ShiftState.off && page == KeyboardPage.letters && !typing.lowercaseLabels;
   String? hintFor() => (showHints && typing.hintLabels) ? def.hint : null;
@@ -173,7 +174,8 @@ KeyVisual resolveKeyVisual(
     case KeyType.enter:
       return KeyVisual(group: KeyGroup.action, icon: enterIcon(field), semantics: _enterName(field));
     case KeyType.space:
-      return const KeyVisual(group: KeyGroup.space, semantics: 'Space');
+      if (spaceLabel == null || spaceLabel.isEmpty) return const KeyVisual(group: KeyGroup.space, semantics: 'Space');
+      return KeyVisual(group: KeyGroup.space, label: spaceLabel, smallLabel: true, semantics: 'Space, $spaceLabel');
     case KeyType.symbols:
       return KeyVisual(group: KeyGroup.function, label: def.label ?? '?123', smallLabel: true, semantics: 'Symbols');
     case KeyType.moreSymbols:
@@ -188,7 +190,7 @@ KeyVisual resolveKeyVisual(
     case KeyType.numbers:
       return KeyVisual(group: KeyGroup.function, label: def.label ?? '123', smallLabel: true, semantics: 'Numbers');
     case KeyType.globe:
-      return const KeyVisual(group: KeyGroup.function, icon: Icons.language, semantics: 'Switch keyboard');
+      return const KeyVisual(group: KeyGroup.function, icon: Icons.language, semantics: 'Switch language');
     case KeyType.emoji:
       return const KeyVisual(group: KeyGroup.function, icon: Icons.emoji_emotions_outlined, semantics: 'Emoji');
     case KeyType.voice:

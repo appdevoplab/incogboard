@@ -16,6 +16,12 @@ abstract final class MynaRoutes {
   static const String privacy = 'privacy';
   static const String about = 'about';
 
+  /// Wave 3: voice typing settings (3-D), translation settings (3-T), model packs (3-T). The
+  /// keyboard opens [packs] when voice or translation has no pack for the language.
+  static const String voice = 'voice';
+  static const String translate = 'translate';
+  static const String packs = 'packs';
+
   static const List<String> all = [
     home,
     onboarding,
@@ -27,5 +33,8 @@ abstract final class MynaRoutes {
     themes,
     privacy,
     about,
+    voice,
+    translate,
+    packs,
   ];
 }

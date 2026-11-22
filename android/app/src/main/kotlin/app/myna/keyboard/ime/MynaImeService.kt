@@ -73,6 +73,7 @@ class MynaImeService : InputMethodService() {
 
     internal var flutterApi: ImeFlutterApi? = null
         private set
+    private var hostApi: ImeHostApiImpl? = null
 
     internal val feedback by lazy { Feedback(this) }
     private var clipboardWatcher: ClipboardWatcher? = null
@@ -128,7 +129,9 @@ class MynaImeService : InputMethodService() {
             val e = group.createAndRunEngine(this, entrypoint)
             engine = e
             val messenger = e.dartExecutor.binaryMessenger
-            ImeHostApi.setUp(messenger, ImeHostApiImpl(this))
+            val host = ImeHostApiImpl(this)
+            hostApi = host
+            ImeHostApi.setUp(messenger, host)
             PlatformHostApi.setUp(messenger, PlatformHostApiImpl(applicationContext, EngineRole.IME))
             val api = ImeFlutterApi(messenger)
             flutterApi = api
@@ -146,6 +149,8 @@ class MynaImeService : InputMethodService() {
     private fun stopEngine() {
         SettingsBus.attachIme(null)
         flutterApi = null
+        hostApi?.close()
+        hostApi = null
         val e = engine ?: return
         engine = null
         try {
@@ -437,6 +442,7 @@ class MynaImeService : InputMethodService() {
         super.onTrimMemory(level)
         flutterApi?.onTrimMemory(level.toLong()) {}
         if (level >= TRIM_RUNNING_LOW) {
+            hostApi?.releaseNative(stopping = false)
             try {
                 engine?.systemChannel?.sendMemoryPressureWarning()
             } catch (e: Exception) {

@@ -205,6 +205,84 @@ class AppInfoMessage {
 }
 
 // ---------------------------------------------------------------------------
+// Wave 3: model packs, voice typing, translation
+// ---------------------------------------------------------------------------
+
+enum PackKind { voice, translation }
+
+/// An installed, verified model pack (see docs/waves/wave3/COMMON.md, "Pack format").
+class PackInfoMessage {
+  PackInfoMessage({
+    required this.id,
+    required this.kind,
+    required this.name,
+    required this.version,
+    required this.languages,
+    required this.sizeBytes,
+    required this.engine,
+    required this.license,
+  });
+
+  /// For example 'voice-whisper-base' or 'translate-en-es'.
+  String id;
+  PackKind kind;
+
+  /// Display name from the manifest.
+  String name;
+  int version;
+
+  /// Voice: languages the model can recognise. Translation: exactly [from, to].
+  List<String> languages;
+
+  /// Installed size on disk.
+  int sizeBytes;
+
+  /// Engine id from the manifest, for example 'sherpa-onnx-whisper' or 'opus-mt-onnx'.
+  String engine;
+  String license;
+}
+
+enum VoiceStartStatus { started, noPermission, noModel, busy, failed }
+
+class VoiceRequestMessage {
+  VoiceRequestMessage({required this.packId, required this.autoDetect});
+
+  /// Keyboard language ('hi', 'pt-BR', ...); null with [autoDetect].
+  String? language;
+  String packId;
+  bool autoDetect;
+}
+
+enum VoiceEventKind {
+  /// Input level changed ([VoiceEventMessage.level], about 20 per second).
+  level,
+
+  /// Interim text for the current utterance (replaces the previous partial).
+  partial,
+
+  /// Final text for one utterance (voice-activity detection closed it).
+  finalText,
+
+  /// Recording ended (after stopVoice, cancelVoice, silence timeout or an error). Last event.
+  stopped,
+
+  /// Something failed ([VoiceEventMessage.errorCode]); a `stopped` event follows.
+  error,
+}
+
+class VoiceEventMessage {
+  VoiceEventMessage({required this.kind, required this.level});
+  VoiceEventKind kind;
+  String? text;
+
+  /// 0..1, only meaningful for [VoiceEventKind.level].
+  double level;
+
+  /// 'audio_busy', 'model_failed', 'permission_revoked', 'internal'.
+  String? errorCode;
+}
+
+// ---------------------------------------------------------------------------
 // Dart -> Kotlin
 // ---------------------------------------------------------------------------
 
@@ -261,6 +339,34 @@ abstract class ImeHostApi {
   void setPrimaryClip(String text, bool sensitive);
   void clearPrimaryClip();
 
+  // Voice typing (Wave 3-D) ------------------------------------------------
+
+  bool hasMicPermission();
+
+  /// Opens the transparent, non-exported permission activity. True if granted.
+  @async
+  bool requestMicPermission();
+
+  /// Starts recording with an installed voice pack. Events arrive via ImeFlutterApi.onVoiceEvent.
+  @async
+  VoiceStartStatus startVoice(VoiceRequestMessage request);
+
+  /// Stop listening, deliver the last finalText, then `stopped`.
+  void stopVoice();
+
+  /// Stop and discard: no more text events, then `stopped`.
+  void cancelVoice();
+
+  // Translation (Wave 3-T) --------------------------------------------------
+
+  /// Translates on the device. Throws code `no_pack` when no installed pack covers [from] -> [to],
+  /// `failed` otherwise. Never logs [text].
+  @async
+  String translate(String text, String from, String to);
+
+  /// Frees the loaded translation model (panel closed, memory pressure).
+  void releaseTranslator();
+
   // State sync (Dart may start after Kotlin already received callbacks) ------
   WindowMetricsMessage getWindowMetrics();
   EditorInfoMessage? getCurrentEditorInfo();
@@ -300,6 +406,10 @@ abstract class PlatformHostApi {
 
   /// Tell the other engine that these settings sections changed on disk.
   void notifySettingsChanged(List<String> sections);
+
+  /// Installed, verified model packs (Wave 3). Never returns file contents.
+  @TaskQueue(type: TaskQueueType.serialBackgroundThread)
+  List<PackInfoMessage> listPacks();
 }
 
 /// Registered only on the settings-app engine.
@@ -346,6 +456,17 @@ abstract class AppHostApi {
   /// throws (code `unsupported_version`) for a newer format.
   @TaskQueue(type: TaskQueueType.serialBackgroundThread)
   Uint8List? openBackup(Uint8List sealed, String passphrase);
+
+  // Model packs (Wave 3) ------------------------------------------------------
+
+  /// Verifies (signature, hashes) and installs a .mynapack file from a SAF URI, replacing an
+  /// installed pack with the same id. Throws code `bad_signature`, `bad_format`, `too_large`,
+  /// `unsupported_version` or `no_space`.
+  @TaskQueue(type: TaskQueueType.serialBackgroundThread)
+  PackInfoMessage importPack(String uri);
+
+  @TaskQueue(type: TaskQueueType.serialBackgroundThread)
+  void deletePack(String id);
 }
 
 // ---------------------------------------------------------------------------
@@ -380,6 +501,10 @@ abstract class ImeFlutterApi {
   void onSettingsChanged(List<String> sections);
   @asyncCallback
   void onInlineSuggestionsChanged(int count);
+
+  /// Voice typing events (Wave 3-D), in order, on the main thread.
+  @asyncCallback
+  void onVoiceEvent(VoiceEventMessage event);
 }
 
 @FlutterApi()

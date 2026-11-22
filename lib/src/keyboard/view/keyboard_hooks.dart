@@ -12,6 +12,9 @@ class KeyboardHooks {
     this.onModes,
     this.onTheme,
     this.onVoice,
+    this.onTranslate,
+    this.onLanguageSwitch,
+    this.onLanguagePicker,
     this.onSpaceDrag,
     this.onBackspaceDrag,
   });
@@ -27,6 +30,16 @@ class KeyboardHooks {
   final VoidCallback? onModes;
   final VoidCallback? onTheme;
   final VoidCallback? onVoice;
+
+  /// Translate panel (Wave 3-T). The toolbar button only appears when set.
+  final VoidCallback? onTranslate;
+
+  /// Globe key tap: next enabled language. Defaults to `KeyboardSession.switchLanguage` when more
+  /// than one language is enabled; otherwise the globe key switches to the next keyboard app.
+  final VoidCallback? onLanguageSwitch;
+
+  /// Space-bar long press (Wave 3-A: language picker panel). Without it, the system keyboard picker.
+  final VoidCallback? onLanguagePicker;
 
   /// A finger that landed on the space bar moved horizontally. [dx] is the total
   /// horizontal travel since touch-down in dp; [done] is true when the finger lifts.
@@ -56,6 +69,9 @@ class KeyboardHooks {
       onModes: first((h) => h.onModes),
       onTheme: first((h) => h.onTheme),
       onVoice: first((h) => h.onVoice),
+      onTranslate: first((h) => h.onTranslate),
+      onLanguageSwitch: first((h) => h.onLanguageSwitch),
+      onLanguagePicker: first((h) => h.onLanguagePicker),
       onSpaceDrag: first((h) => h.onSpaceDrag),
       onBackspaceDrag: first((h) => h.onBackspaceDrag),
     );

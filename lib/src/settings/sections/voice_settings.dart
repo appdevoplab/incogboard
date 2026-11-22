@@ -5,17 +5,18 @@ import '../json_util.dart';
 
 @immutable
 class VoiceSettings {
-  const VoiceSettings({this.enabled = true, this.modelId = 'base', this.autoDetectLanguage = false});
+  const VoiceSettings({this.enabled = true, this.modelId = '', this.autoDetectLanguage = false});
 
   factory VoiceSettings.fromJson(Json j) => VoiceSettings(
     enabled: jBool(j, 'enabled', true),
-    modelId: jString(j, 'modelId', 'base'),
+    modelId: jString(j, 'modelId', ''),
     autoDetectLanguage: jBool(j, 'autoDetectLanguage', false),
   );
 
   final bool enabled;
 
-  /// 'base' (bundled) or an imported model id such as 'small'.
+  /// Id of the installed voice pack to use ('voice-whisper-base', ...); empty = the first installed
+  /// voice pack that covers the language. Models ship only as packs (Wave 3 decision).
   final String modelId;
 
   /// Otherwise the current keyboard language is used.

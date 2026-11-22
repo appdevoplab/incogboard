@@ -5,6 +5,8 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:characters/characters.dart';
+
 import '../../core/input_field_info.dart';
 import '../../core/log.dart';
 import '../../packs/pack_repository.dart';
@@ -111,8 +113,13 @@ abstract final class LayoutVariants {
   /// Email fields: @ instead of the comma, plus a .com key.
   /// URL fields: / instead of the comma, plus a .com key.
   /// Other preferred pages return [base] unchanged.
-  static KeyboardLayoutDef forField(KeyboardLayoutDef base, PreferredPage page) {
+  /// [domains] (the active language's country domains) come first in the .com key's popup.
+  static KeyboardLayoutDef forField(KeyboardLayoutDef base, PreferredPage page, {List<String> domains = const []}) {
     if (page != PreferredPage.email && page != PreferredPage.url) return base;
+    final popup = <String>{
+      for (final d in [...domains, ...kDomainPopup])
+        if (d != '.com') d,
+    }.toList();
     final replacement = page == PreferredPage.email ? '@' : '/';
     final rows = [...base.rows];
     final rowIndex = rows.indexWhere((r) => r.keys.any((k) => k.type == KeyType.space));
@@ -127,7 +134,7 @@ abstract final class LayoutVariants {
         spaceWidth = k.width;
         keys.add(k);
       } else if (k.type == KeyType.period) {
-        keys.add(const KeyDef(type: KeyType.character, output: '.com', popup: kDomainPopup, width: 1.4, id: 'dotcom'));
+        keys.add(KeyDef(type: KeyType.character, output: '.com', popup: popup, width: 1.4, id: 'dotcom'));
         keys.add(k);
       } else {
         keys.add(k);
@@ -157,6 +164,72 @@ abstract final class LayoutVariants {
         ...base.rows.skip(1),
       ],
     );
+  }
+
+  /// The key with id 'currency' (symbols page) types [symbol]; '$' moves into its popup.
+  static KeyboardLayoutDef withCurrency(KeyboardLayoutDef base, String symbol) {
+    var changed = false;
+    final rows = [
+      for (final r in base.rows)
+        r.copyWith(
+          keys: [
+            for (final k in r.keys)
+              if (k.id == 'currency' && k.output != symbol)
+                () {
+                  changed = true;
+                  final popup = [if (k.output != null) k.output!, ...k.popup].where((p) => p != symbol).toList();
+                  return k.copyWith(output: symbol, label: symbol, popup: popup);
+                }()
+              else
+                k,
+          ],
+        ),
+    ];
+    return changed ? base.copyWith(id: '${base.id}+cur', rows: rows) : base;
+  }
+
+  /// Adds a language (globe) key after the ?123 key of the space row; it takes its width from the
+  /// space bar. Layouts that already have one are unchanged.
+  static KeyboardLayoutDef withLanguageKey(KeyboardLayoutDef base) {
+    if (base.rows.any((r) => r.keys.any((k) => k.type == KeyType.globe))) return base;
+    final rowIndex = base.rows.indexWhere((r) => r.keys.any((k) => k.type == KeyType.space));
+    if (rowIndex < 0) return base;
+    final row = base.rows[rowIndex];
+    final space = row.keys.firstWhere((k) => k.type == KeyType.space);
+    if (space.width < 3) return base;
+    final at = row.keys.indexWhere((k) => k.type == KeyType.symbols || k.type == KeyType.alphabet) + 1;
+    final keys = [for (final k in row.keys) k.type == KeyType.space ? k.copyWith(width: k.width - 1) : k]
+      ..insert(at, const KeyDef(type: KeyType.globe, id: 'language'));
+    final rows = [...base.rows]..[rowIndex] = row.copyWith(keys: keys);
+    return base.copyWith(id: '${base.id}+lang', rows: rows);
+  }
+
+  /// Keys that type an ASCII digit type the native digit from [digits] ('0'..'9' in order) instead;
+  /// the ASCII digit moves into the popup. Hints follow.
+  static KeyboardLayoutDef withDigits(KeyboardLayoutDef base, String digits) {
+    final native = digits.characters.toList();
+    if (native.length != 10) return base;
+    String? map(String? s) {
+      if (s == null || s.length != 1) return s;
+      final d = s.codeUnitAt(0) - 0x30;
+      return d >= 0 && d <= 9 ? native[d] : s;
+    }
+
+    final rows = [
+      for (final r in base.rows)
+        r.copyWith(
+          keys: [
+            for (final k in r.keys)
+              if (map(k.output) != k.output)
+                k.copyWith(output: map(k.output), label: map(k.label ?? k.output), popup: [k.output!, ...k.popup])
+              else if (map(k.hint) != k.hint)
+                k.copyWith(hint: map(k.hint), popup: [for (final p in k.popup) map(p)!])
+              else
+                k,
+          ],
+        ),
+    ];
+    return base.copyWith(id: '${base.id}+digits', rows: rows);
   }
 
   /// Decodes a layout JSON string (used by tests).

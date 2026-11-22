@@ -270,6 +270,56 @@ enum class ContextMenuAction(val raw: Int) {
   }
 }
 
+enum class PackKind(val raw: Int) {
+  VOICE(0),
+  TRANSLATION(1);
+
+  companion object {
+    private val pigeonValues = values()
+
+    fun ofRaw(raw: Int): PackKind? {
+      return pigeonValues.getOrNull(raw)
+    }
+  }
+}
+
+enum class VoiceStartStatus(val raw: Int) {
+  STARTED(0),
+  NO_PERMISSION(1),
+  NO_MODEL(2),
+  BUSY(3),
+  FAILED(4);
+
+  companion object {
+    private val pigeonValues = values()
+
+    fun ofRaw(raw: Int): VoiceStartStatus? {
+      return pigeonValues.getOrNull(raw)
+    }
+  }
+}
+
+enum class VoiceEventKind(val raw: Int) {
+  /** Input level changed ([VoiceEventMessage.level], about 20 per second). */
+  LEVEL(0),
+  /** Interim text for the current utterance (replaces the previous partial). */
+  PARTIAL(1),
+  /** Final text for one utterance (voice-activity detection closed it). */
+  FINAL_TEXT(2),
+  /** Recording ended (after stopVoice, cancelVoice, silence timeout or an error). Last event. */
+  STOPPED(3),
+  /** Something failed ([VoiceEventMessage.errorCode]); a `stopped` event follows. */
+  ERROR(4);
+
+  companion object {
+    private val pigeonValues = values()
+
+    fun ofRaw(raw: Int): VoiceEventKind? {
+      return pigeonValues.getOrNull(raw)
+    }
+  }
+}
+
 /**
  * Snapshot of android.view.inputmethod.EditorInfo (raw values; decode in Dart
  * with InputFieldInfo).
@@ -878,6 +928,177 @@ data class AppInfoMessage (
     return "AppInfoMessage(packageName=$packageName, versionName=$versionName, versionCode=$versionCode, sdkInt=$sdkInt, isDebugBuild=$isDebugBuild)"
   }
 }
+
+/**
+ * An installed, verified model pack (see docs/waves/wave3/COMMON.md, "Pack format").
+ *
+ * Generated class from Pigeon that represents data sent in messages.
+ */
+data class PackInfoMessage (
+  /** For example 'voice-whisper-base' or 'translate-en-es'. */
+  val id: String,
+  val kind: PackKind,
+  /** Display name from the manifest. */
+  val name: String,
+  val version: Long,
+  /** Voice: languages the model can recognise. Translation: exactly [from, to]. */
+  val languages: List<String>,
+  /** Installed size on disk. */
+  val sizeBytes: Long,
+  /** Engine id from the manifest, for example 'sherpa-onnx-whisper' or 'opus-mt-onnx'. */
+  val engine: String,
+  val license: String
+)
+ {
+  companion object {
+    fun fromList(pigeonVar_list: List<Any?>): PackInfoMessage {
+      val id = pigeonVar_list[0] as String
+      val kind = pigeonVar_list[1] as PackKind
+      val name = pigeonVar_list[2] as String
+      val version = pigeonVar_list[3] as Long
+      val languages = pigeonVar_list[4] as List<String>
+      val sizeBytes = pigeonVar_list[5] as Long
+      val engine = pigeonVar_list[6] as String
+      val license = pigeonVar_list[7] as String
+      return PackInfoMessage(id, kind, name, version, languages, sizeBytes, engine, license)
+    }
+  }
+  fun toList(): List<Any?> {
+    return listOf(
+      id,
+      kind,
+      name,
+      version,
+      languages,
+      sizeBytes,
+      engine,
+      license,
+    )
+  }
+  override fun equals(other: Any?): Boolean {
+    if (other == null || other.javaClass != javaClass) {
+      return false
+    }
+    if (this === other) {
+      return true
+    }
+    val other = other as PackInfoMessage
+    return MessagesPigeonUtils.deepEquals(this.id, other.id) && MessagesPigeonUtils.deepEquals(this.kind, other.kind) && MessagesPigeonUtils.deepEquals(this.name, other.name) && MessagesPigeonUtils.deepEquals(this.version, other.version) && MessagesPigeonUtils.deepEquals(this.languages, other.languages) && MessagesPigeonUtils.deepEquals(this.sizeBytes, other.sizeBytes) && MessagesPigeonUtils.deepEquals(this.engine, other.engine) && MessagesPigeonUtils.deepEquals(this.license, other.license)
+  }
+
+  override fun hashCode(): Int {
+    var result = javaClass.hashCode()
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.id)
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.kind)
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.name)
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.version)
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.languages)
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.sizeBytes)
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.engine)
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.license)
+    return result
+  }
+  override fun toString(): String {
+    return "PackInfoMessage(id=$id, kind=$kind, name=$name, version=$version, languages=$languages, sizeBytes=$sizeBytes, engine=$engine, license=$license)"
+  }
+}
+
+/** Generated class from Pigeon that represents data sent in messages. */
+data class VoiceRequestMessage (
+  /** Keyboard language ('hi', 'pt-BR', ...); null with [autoDetect]. */
+  val language: String? = null,
+  val packId: String,
+  val autoDetect: Boolean
+)
+ {
+  companion object {
+    fun fromList(pigeonVar_list: List<Any?>): VoiceRequestMessage {
+      val language = pigeonVar_list[0] as String?
+      val packId = pigeonVar_list[1] as String
+      val autoDetect = pigeonVar_list[2] as Boolean
+      return VoiceRequestMessage(language, packId, autoDetect)
+    }
+  }
+  fun toList(): List<Any?> {
+    return listOf(
+      language,
+      packId,
+      autoDetect,
+    )
+  }
+  override fun equals(other: Any?): Boolean {
+    if (other == null || other.javaClass != javaClass) {
+      return false
+    }
+    if (this === other) {
+      return true
+    }
+    val other = other as VoiceRequestMessage
+    return MessagesPigeonUtils.deepEquals(this.language, other.language) && MessagesPigeonUtils.deepEquals(this.packId, other.packId) && MessagesPigeonUtils.deepEquals(this.autoDetect, other.autoDetect)
+  }
+
+  override fun hashCode(): Int {
+    var result = javaClass.hashCode()
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.language)
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.packId)
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.autoDetect)
+    return result
+  }
+  override fun toString(): String {
+    return "VoiceRequestMessage(language=$language, packId=$packId, autoDetect=$autoDetect)"
+  }
+}
+
+/** Generated class from Pigeon that represents data sent in messages. */
+data class VoiceEventMessage (
+  val kind: VoiceEventKind,
+  val text: String? = null,
+  /** 0..1, only meaningful for [VoiceEventKind.level]. */
+  val level: Double,
+  /** 'audio_busy', 'model_failed', 'permission_revoked', 'internal'. */
+  val errorCode: String? = null
+)
+ {
+  companion object {
+    fun fromList(pigeonVar_list: List<Any?>): VoiceEventMessage {
+      val kind = pigeonVar_list[0] as VoiceEventKind
+      val text = pigeonVar_list[1] as String?
+      val level = pigeonVar_list[2] as Double
+      val errorCode = pigeonVar_list[3] as String?
+      return VoiceEventMessage(kind, text, level, errorCode)
+    }
+  }
+  fun toList(): List<Any?> {
+    return listOf(
+      kind,
+      text,
+      level,
+      errorCode,
+    )
+  }
+  override fun equals(other: Any?): Boolean {
+    if (other == null || other.javaClass != javaClass) {
+      return false
+    }
+    if (this === other) {
+      return true
+    }
+    val other = other as VoiceEventMessage
+    return MessagesPigeonUtils.deepEquals(this.kind, other.kind) && MessagesPigeonUtils.deepEquals(this.text, other.text) && MessagesPigeonUtils.deepEquals(this.level, other.level) && MessagesPigeonUtils.deepEquals(this.errorCode, other.errorCode)
+  }
+
+  override fun hashCode(): Int {
+    var result = javaClass.hashCode()
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.kind)
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.text)
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.level)
+    result = 31 * result + MessagesPigeonUtils.deepHash(this.errorCode)
+    return result
+  }
+  override fun toString(): String {
+    return "VoiceEventMessage(kind=$kind, text=$text, level=$level, errorCode=$errorCode)"
+  }
+}
 private open class MessagesPigeonCodec : StandardMessageCodec() {
   override fun readValueOfType(type: Byte, buffer: ByteBuffer): Any? {
     return when (type) {
@@ -902,58 +1123,88 @@ private open class MessagesPigeonCodec : StandardMessageCodec() {
         }
       }
       133.toByte() -> {
-        (readValue(buffer) as? List<Any?>)?.let {
-          EditorInfoMessage.fromList(it)
+        (readValue(buffer) as Long?)?.let {
+          PackKind.ofRaw(it.toInt())
         }
       }
       134.toByte() -> {
-        (readValue(buffer) as? List<Any?>)?.let {
-          SelectionMessage.fromList(it)
+        (readValue(buffer) as Long?)?.let {
+          VoiceStartStatus.ofRaw(it.toInt())
         }
       }
       135.toByte() -> {
-        (readValue(buffer) as? List<Any?>)?.let {
-          SurroundingTextMessage.fromList(it)
+        (readValue(buffer) as Long?)?.let {
+          VoiceEventKind.ofRaw(it.toInt())
         }
       }
       136.toByte() -> {
         (readValue(buffer) as? List<Any?>)?.let {
-          ClipMessage.fromList(it)
+          EditorInfoMessage.fromList(it)
         }
       }
       137.toByte() -> {
         (readValue(buffer) as? List<Any?>)?.let {
-          WindowMetricsMessage.fromList(it)
+          SelectionMessage.fromList(it)
         }
       }
       138.toByte() -> {
         (readValue(buffer) as? List<Any?>)?.let {
-          SystemColorsMessage.fromList(it)
+          SurroundingTextMessage.fromList(it)
         }
       }
       139.toByte() -> {
         (readValue(buffer) as? List<Any?>)?.let {
-          RectMessage.fromList(it)
+          ClipMessage.fromList(it)
         }
       }
       140.toByte() -> {
         (readValue(buffer) as? List<Any?>)?.let {
-          WindowLayoutMessage.fromList(it)
+          WindowMetricsMessage.fromList(it)
         }
       }
       141.toByte() -> {
         (readValue(buffer) as? List<Any?>)?.let {
-          FeedbackConfigMessage.fromList(it)
+          SystemColorsMessage.fromList(it)
         }
       }
       142.toByte() -> {
         (readValue(buffer) as? List<Any?>)?.let {
-          SecureBlobInfo.fromList(it)
+          RectMessage.fromList(it)
         }
       }
       143.toByte() -> {
         (readValue(buffer) as? List<Any?>)?.let {
+          WindowLayoutMessage.fromList(it)
+        }
+      }
+      144.toByte() -> {
+        (readValue(buffer) as? List<Any?>)?.let {
+          FeedbackConfigMessage.fromList(it)
+        }
+      }
+      145.toByte() -> {
+        (readValue(buffer) as? List<Any?>)?.let {
+          SecureBlobInfo.fromList(it)
+        }
+      }
+      146.toByte() -> {
+        (readValue(buffer) as? List<Any?>)?.let {
           AppInfoMessage.fromList(it)
+        }
+      }
+      147.toByte() -> {
+        (readValue(buffer) as? List<Any?>)?.let {
+          PackInfoMessage.fromList(it)
+        }
+      }
+      148.toByte() -> {
+        (readValue(buffer) as? List<Any?>)?.let {
+          VoiceRequestMessage.fromList(it)
+        }
+      }
+      149.toByte() -> {
+        (readValue(buffer) as? List<Any?>)?.let {
+          VoiceEventMessage.fromList(it)
         }
       }
       else -> super.readValueOfType(type, buffer)
@@ -977,48 +1228,72 @@ private open class MessagesPigeonCodec : StandardMessageCodec() {
         stream.write(132)
         writeValue(stream, value.raw.toLong())
       }
-      is EditorInfoMessage -> {
+      is PackKind -> {
         stream.write(133)
-        writeValue(stream, value.toList())
+        writeValue(stream, value.raw.toLong())
       }
-      is SelectionMessage -> {
+      is VoiceStartStatus -> {
         stream.write(134)
-        writeValue(stream, value.toList())
+        writeValue(stream, value.raw.toLong())
       }
-      is SurroundingTextMessage -> {
+      is VoiceEventKind -> {
         stream.write(135)
-        writeValue(stream, value.toList())
+        writeValue(stream, value.raw.toLong())
       }
-      is ClipMessage -> {
+      is EditorInfoMessage -> {
         stream.write(136)
         writeValue(stream, value.toList())
       }
-      is WindowMetricsMessage -> {
+      is SelectionMessage -> {
         stream.write(137)
         writeValue(stream, value.toList())
       }
-      is SystemColorsMessage -> {
+      is SurroundingTextMessage -> {
         stream.write(138)
         writeValue(stream, value.toList())
       }
-      is RectMessage -> {
+      is ClipMessage -> {
         stream.write(139)
         writeValue(stream, value.toList())
       }
-      is WindowLayoutMessage -> {
+      is WindowMetricsMessage -> {
         stream.write(140)
         writeValue(stream, value.toList())
       }
-      is FeedbackConfigMessage -> {
+      is SystemColorsMessage -> {
         stream.write(141)
         writeValue(stream, value.toList())
       }
-      is SecureBlobInfo -> {
+      is RectMessage -> {
         stream.write(142)
         writeValue(stream, value.toList())
       }
-      is AppInfoMessage -> {
+      is WindowLayoutMessage -> {
         stream.write(143)
+        writeValue(stream, value.toList())
+      }
+      is FeedbackConfigMessage -> {
+        stream.write(144)
+        writeValue(stream, value.toList())
+      }
+      is SecureBlobInfo -> {
+        stream.write(145)
+        writeValue(stream, value.toList())
+      }
+      is AppInfoMessage -> {
+        stream.write(146)
+        writeValue(stream, value.toList())
+      }
+      is PackInfoMessage -> {
+        stream.write(147)
+        writeValue(stream, value.toList())
+      }
+      is VoiceRequestMessage -> {
+        stream.write(148)
+        writeValue(stream, value.toList())
+      }
+      is VoiceEventMessage -> {
+        stream.write(149)
         writeValue(stream, value.toList())
       }
       else -> super.writeValue(stream, value)
@@ -1078,6 +1353,22 @@ interface ImeHostApi {
   fun getPrimaryClip(): ClipMessage?
   fun setPrimaryClip(text: String, sensitive: Boolean)
   fun clearPrimaryClip()
+  fun hasMicPermission(): Boolean
+  /** Opens the transparent, non-exported permission activity. True if granted. */
+  suspend fun requestMicPermission(): Boolean
+  /** Starts recording with an installed voice pack. Events arrive via ImeFlutterApi.onVoiceEvent. */
+  suspend fun startVoice(request: VoiceRequestMessage): VoiceStartStatus
+  /** Stop listening, deliver the last finalText, then `stopped`. */
+  fun stopVoice()
+  /** Stop and discard: no more text events, then `stopped`. */
+  fun cancelVoice()
+  /**
+   * Translates on the device. Throws code `no_pack` when no installed pack covers [from] -> [to],
+   * `failed` otherwise. Never logs [text].
+   */
+  suspend fun translate(text: String, from: String, to: String): String
+  /** Frees the loaded translation model (panel closed, memory pressure). */
+  fun releaseTranslator()
   fun getWindowMetrics(): WindowMetricsMessage
   fun getCurrentEditorInfo(): EditorInfoMessage?
   fun isInputViewShown(): Boolean
@@ -1656,6 +1947,126 @@ interface ImeHostApi {
         }
       }
       run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.myna.ImeHostApi.hasMicPermission$separatedMessageChannelSuffix", codec)
+        if (api != null) {
+          channel.setMessageHandler { _, reply ->
+            val wrapped: List<Any?> = try {
+              listOf(api.hasMicPermission())
+            } catch (exception: Throwable) {
+              MessagesPigeonUtils.wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.myna.ImeHostApi.requestMicPermission$separatedMessageChannelSuffix", codec)
+        if (api != null) {
+          channel.setMessageHandler { _, reply ->
+            CoroutineScope(Dispatchers.Main).launch {
+              val wrapped: List<Any?> = try {
+                listOf(api.requestMicPermission())
+              } catch (exception: Throwable) {
+                MessagesPigeonUtils.wrapError(exception)
+              }
+              reply.reply(wrapped)
+            }
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.myna.ImeHostApi.startVoice$separatedMessageChannelSuffix", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val requestArg = args[0] as VoiceRequestMessage
+            CoroutineScope(Dispatchers.Main).launch {
+              val wrapped: List<Any?> = try {
+                listOf(api.startVoice(requestArg))
+              } catch (exception: Throwable) {
+                MessagesPigeonUtils.wrapError(exception)
+              }
+              reply.reply(wrapped)
+            }
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.myna.ImeHostApi.stopVoice$separatedMessageChannelSuffix", codec)
+        if (api != null) {
+          channel.setMessageHandler { _, reply ->
+            val wrapped: List<Any?> = try {
+              api.stopVoice()
+              listOf(null)
+            } catch (exception: Throwable) {
+              MessagesPigeonUtils.wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.myna.ImeHostApi.cancelVoice$separatedMessageChannelSuffix", codec)
+        if (api != null) {
+          channel.setMessageHandler { _, reply ->
+            val wrapped: List<Any?> = try {
+              api.cancelVoice()
+              listOf(null)
+            } catch (exception: Throwable) {
+              MessagesPigeonUtils.wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.myna.ImeHostApi.translate$separatedMessageChannelSuffix", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val textArg = args[0] as String
+            val fromArg = args[1] as String
+            val toArg = args[2] as String
+            CoroutineScope(Dispatchers.Main).launch {
+              val wrapped: List<Any?> = try {
+                listOf(api.translate(textArg, fromArg, toArg))
+              } catch (exception: Throwable) {
+                MessagesPigeonUtils.wrapError(exception)
+              }
+              reply.reply(wrapped)
+            }
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.myna.ImeHostApi.releaseTranslator$separatedMessageChannelSuffix", codec)
+        if (api != null) {
+          channel.setMessageHandler { _, reply ->
+            val wrapped: List<Any?> = try {
+              api.releaseTranslator()
+              listOf(null)
+            } catch (exception: Throwable) {
+              MessagesPigeonUtils.wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
         val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.myna.ImeHostApi.getWindowMetrics$separatedMessageChannelSuffix", codec)
         if (api != null) {
           channel.setMessageHandler { _, reply ->
@@ -1732,6 +2143,8 @@ interface PlatformHostApi {
   fun getDataDirectory(): String
   /** Tell the other engine that these settings sections changed on disk. */
   fun notifySettingsChanged(sections: List<String>)
+  /** Installed, verified model packs (Wave 3). Never returns file contents. */
+  fun listPacks(): List<PackInfoMessage>
 
   companion object {
     /** The codec used by PlatformHostApi. */
@@ -1923,6 +2336,21 @@ interface PlatformHostApi {
           channel.setMessageHandler(null)
         }
       }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.myna.PlatformHostApi.listPacks$separatedMessageChannelSuffix", codec, taskQueue)
+        if (api != null) {
+          channel.setMessageHandler { _, reply ->
+            val wrapped: List<Any?> = try {
+              listOf(api.listPacks())
+            } catch (exception: Throwable) {
+              MessagesPigeonUtils.wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
     }
   }
 }
@@ -1958,6 +2386,13 @@ interface AppHostApi {
    * throws (code `unsupported_version`) for a newer format.
    */
   fun openBackup(sealed: ByteArray, passphrase: String): ByteArray?
+  /**
+   * Verifies (signature, hashes) and installs a .mynapack file from a SAF URI, replacing an
+   * installed pack with the same id. Throws code `bad_signature`, `bad_format`, `too_large`,
+   * `unsupported_version` or `no_space`.
+   */
+  fun importPack(uri: String): PackInfoMessage
+  fun deletePack(id: String)
 
   companion object {
     /** The codec used by AppHostApi. */
@@ -2167,6 +2602,41 @@ interface AppHostApi {
             val passphraseArg = args[1] as String
             val wrapped: List<Any?> = try {
               listOf(api.openBackup(sealedArg, passphraseArg))
+            } catch (exception: Throwable) {
+              MessagesPigeonUtils.wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.myna.AppHostApi.importPack$separatedMessageChannelSuffix", codec, taskQueue)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val uriArg = args[0] as String
+            val wrapped: List<Any?> = try {
+              listOf(api.importPack(uriArg))
+            } catch (exception: Throwable) {
+              MessagesPigeonUtils.wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.myna.AppHostApi.deletePack$separatedMessageChannelSuffix", codec, taskQueue)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val idArg = args[0] as String
+            val wrapped: List<Any?> = try {
+              api.deletePack(idArg)
+              listOf(null)
             } catch (exception: Throwable) {
               MessagesPigeonUtils.wrapError(exception)
             }
@@ -2397,6 +2867,24 @@ class ImeFlutterApi(private val binaryMessenger: BinaryMessenger, private val me
     val channelName = "dev.flutter.pigeon.myna.ImeFlutterApi.onInlineSuggestionsChanged$separatedMessageChannelSuffix"
     val channel = BasicMessageChannel<Any?>(binaryMessenger, channelName, codec)
     channel.send(listOf(countArg)) {
+      if (it is List<*>) {
+        if (it.size > 1) {
+          callback(Result.failure(FlutterError(it[0] as String, it[1] as String, it[2] as String?)))
+        } else {
+          callback(Result.success(Unit))
+        }
+      } else {
+        callback(Result.failure(MessagesPigeonUtils.createConnectionError(channelName)))
+      } 
+    }
+  }
+  /** Voice typing events (Wave 3-D), in order, on the main thread. */
+  fun onVoiceEvent(eventArg: VoiceEventMessage, callback: (Result<Unit>) -> Unit)
+{
+    val separatedMessageChannelSuffix = if (messageChannelSuffix.isNotEmpty()) ".$messageChannelSuffix" else ""
+    val channelName = "dev.flutter.pigeon.myna.ImeFlutterApi.onVoiceEvent$separatedMessageChannelSuffix"
+    val channel = BasicMessageChannel<Any?>(binaryMessenger, channelName, codec)
+    channel.send(listOf(eventArg)) {
       if (it is List<*>) {
         if (it.size > 1) {
           callback(Result.failure(FlutterError(it[0] as String, it[1] as String, it[2] as String?)))

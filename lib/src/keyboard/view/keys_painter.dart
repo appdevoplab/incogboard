@@ -69,6 +69,7 @@ class KeysPainter extends CustomPainter {
     required this.animator,
     required this.textCache,
     this.onActivate,
+    this.spaceLabel,
   }) : super(repaint: animator);
 
   final LaidOutKeyboard laid;
@@ -80,12 +81,23 @@ class KeysPainter extends CustomPainter {
   final KeyPressAnimator animator;
   final KeyTextCache textCache;
 
+  /// Drawn on the space bar (the active language), or null for a blank space bar.
+  final String? spaceLabel;
+
   /// Accessibility "tap" on a key.
   final void Function(PlacedKey key)? onActivate;
 
   late final List<KeyVisual> _visuals = [
     for (final k in laid.keys)
-      resolveKeyVisual(k.def, shift: shift, page: page, field: field, typing: typing, showHints: theme.showHints),
+      resolveKeyVisual(
+        k.def,
+        shift: shift,
+        page: page,
+        field: field,
+        typing: typing,
+        showHints: theme.showHints,
+        spaceLabel: spaceLabel,
+      ),
   ];
 
   List<KeyVisual> _resolve() => _visuals;
@@ -219,6 +231,7 @@ class KeysPainter extends CustomPainter {
       oldDelegate.page != page ||
       oldDelegate.field != field ||
       oldDelegate.typing != typing ||
+      oldDelegate.spaceLabel != spaceLabel ||
       oldDelegate.animator != animator;
 
   @override
