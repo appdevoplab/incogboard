@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
 // OWNER: Wave 3-A. European languages (es, fr, de, pt-BR, pt-PT, id, ru, uk): their info and rules.
-// The orchestrator seeded the entries; refine them (layouts, currency, domains) as you build.
 import '../contracts.dart';
 import 'language_info.dart';
 
@@ -11,7 +10,10 @@ const List<LanguageInfo> europeanLanguages = [
     englishName: 'Spanish',
     nativeName: 'Español',
     script: 'Latn',
-    layouts: [LayoutChoice('qwerty_es', 'QWERTY (Ñ)', script: 'Latn')],
+    layouts: [
+      LayoutChoice('qwerty_es', 'QWERTY (Ñ)', script: 'Latn'),
+      LayoutChoice('qwerty', 'QWERTY', script: 'Latn'),
+    ],
     currency: '€',
     domains: ['.es', '.com.mx', '.com.ar'],
   ),
@@ -34,6 +36,7 @@ const List<LanguageInfo> europeanLanguages = [
     script: 'Latn',
     layouts: [
       LayoutChoice('qwertz', 'QWERTZ', script: 'Latn'),
+      LayoutChoice('qwertz_umlaut', 'QWERTZ (ÄÖÜ keys)', script: 'Latn'),
       LayoutChoice('qwerty', 'QWERTY', script: 'Latn'),
     ],
     currency: '€',
@@ -89,5 +92,68 @@ const List<LanguageInfo> europeanLanguages = [
   ),
 ];
 
+/// Punctuation that swallows a preceding auto-space.
+const Set<String> _swallowsSpace = {'.', ',', '!', '?', ':', ';', ')', ']', '}', '%'};
+
+/// Punctuation that takes a space after it.
+const Set<String> _spaceAfter = {'.', ',', '!', '?', ':', ';'};
+
+/// Rules for the European languages: punctuation spacing, quotes and sentence ends.
+class EuropeanRules implements LanguageRules {
+  const EuropeanRules(this.language, {required this.quotes, this.frenchSpacing = false, this.invertedMarks = false});
+
+  @override
+  final LanguageId language;
+
+  @override
+  final (String, String) quotes;
+
+  /// French: a narrow no-break space before ; : ! ? (the previous auto-space is kept).
+  final bool frenchSpacing;
+
+  /// Spanish: ¿ and ¡ open a phrase, so no space follows them.
+  final bool invertedMarks;
+
+  static const Set<String> _frenchMarks = {';', ':', '!', '?'};
+
+  // Letters, marks, digits, apostrophes (also Ukrainian ʼ) and hyphens.
+  static final RegExp _wordChar = RegExp(r"[\p{L}\p{M}\p{Nd}'’ʼ\-]", unicode: true);
+
+  @override
+  bool get hasCase => true;
+
+  @override
+  bool isWordChar(String char) => _wordChar.hasMatch(char);
+
+  @override
+  bool removesSpaceBefore(String punctuation) {
+    if (frenchSpacing && _frenchMarks.contains(punctuation)) return false;
+    return _swallowsSpace.contains(punctuation);
+  }
+
+  @override
+  String? spaceBefore(String punctuation) {
+    if (frenchSpacing && _frenchMarks.contains(punctuation)) return ' ';
+    return null;
+  }
+
+  @override
+  bool addsSpaceAfter(String punctuation) {
+    if (invertedMarks && (punctuation == '¿' || punctuation == '¡')) return false;
+    return _spaceAfter.contains(punctuation);
+  }
+
+  @override
+  bool endsSentence(String punctuation) => const {'.', '!', '?'}.contains(punctuation);
+}
+
 /// Rules for the languages above; null for any other language.
-LanguageRules? europeanRules(LanguageId language) => null;
+LanguageRules? europeanRules(LanguageId language) => switch (language) {
+  'es' => EuropeanRules(language, quotes: ('“', '”'), invertedMarks: true),
+  'fr' => EuropeanRules(language, quotes: ('« ', ' »'), frenchSpacing: true),
+  'de' => EuropeanRules(language, quotes: ('„', '“')),
+  'pt-BR' || 'pt-PT' => EuropeanRules(language, quotes: ('“', '”')),
+  'id' => EuropeanRules(language, quotes: ('"', '"')),
+  'ru' || 'uk' => EuropeanRules(language, quotes: ('«', '»')),
+  _ => null,
+};

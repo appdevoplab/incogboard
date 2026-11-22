@@ -8,9 +8,9 @@ import '../../settings/myna_settings.dart';
 import '../../theme/presets.dart';
 import '../common/settings_widgets.dart';
 import '../routes.dart';
-import '../shell/language_catalog.dart';
 import '../shell/settings_actions.dart';
 import 'myna_mascot.dart';
+import 'onboarding_languages.dart';
 
 /// Shared layout: a scrollable column with a heading and body text.
 class _StepPage extends StatelessWidget {
@@ -188,21 +188,9 @@ class PersonaliseStep extends StatelessWidget {
   @override
   Widget build(BuildContext context) => _StepPage(
     title: 'Pick languages and a theme',
-    body: 'Myna types in English today. More languages are on their way, and you can add them later.',
+    body: 'Choose the languages you type in. Several can be on at once, and you can change them later in Languages.',
     children: [
-      SettingsPanel(
-        title: 'Languages',
-        child: LiveSettings(
-          builder: (context, settings) => SettingsChoiceChips<String>(
-            options: [
-              for (final id in availableLanguageIds) ChoiceOption(id, languageLabel(id)),
-              for (final id in plannedLanguageIds) ChoiceOption(id, '${languageLabel(id)} (soon)', enabled: false),
-            ],
-            selected: settings.languages.active,
-            onSelected: (_) {},
-          ),
-        ),
-      ),
+      SettingsPanel(title: 'Languages', child: OnboardingLanguagePicker()),
       const SizedBox(height: 4),
       SettingsPanel(
         title: 'Theme',
