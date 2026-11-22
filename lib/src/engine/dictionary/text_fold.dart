@@ -116,7 +116,8 @@ String normalizeNfc(String text) {
 /// their base letters. Dictionary keys and typed words are compared in this
 /// folded form.
 String foldKey(String text, {bool stripAccents = true}) {
-  final lower = normalizeNfc(text).toLowerCase();
+  // Apostrophe-like marks match each other: Ukrainian ʼ (U+02BC) and ’ find words written with '.
+  final lower = normalizeNfc(text).toLowerCase().replaceAll('ʼ', "'").replaceAll('’', "'");
   if (!stripAccents) return lower;
   var ascii = true;
   for (final unit in lower.codeUnits) {
