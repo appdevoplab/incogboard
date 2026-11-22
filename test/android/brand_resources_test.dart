@@ -66,6 +66,9 @@ void main() {
     expect(styles, contains('android:windowSplashScreenAnimatedIcon">@drawable/splash_chest<'));
     expect(styles, contains('android:postSplashScreenTheme">@style/NormalTheme<'));
     expect(File('$_res/drawable/splash_chest.xml').existsSync(), isTrue);
+    final dark = _read('$_res/values-night-v31/styles.xml');
+    expect(dark, contains('android:windowSplashScreenBackground">@color/kosha_splash_background<'));
+    expect(dark, contains('android:windowSplashScreenAnimatedIcon">@drawable/splash_chest<'));
   });
 
   test('the splash colour exists in light and dark, and the launch and normal themes survive', () {
