@@ -119,12 +119,170 @@ const Map<String, String> _spoken = {
   '~': 'Tilde',
   '^': 'Caret',
   '`': 'Backtick',
+  // Currency signs.
+  '€': 'Euro',
+  '£': 'Pound',
+  '¥': 'Yen',
+  '₹': 'Rupee',
+  '₩': 'Won',
+  '₽': 'Ruble',
+  '₺': 'Lira',
+  '₪': 'Shekel',
+  '₫': 'Dong',
+  '¢': 'Cent',
+  '₱': 'Peso',
+  '₦': 'Naira',
+  '₴': 'Hryvnia',
+  // Other symbols and punctuation.
+  '©': 'Copyright',
+  '®': 'Registered',
+  '™': 'Trademark',
+  '°': 'Degree',
+  '§': 'Section',
+  '¶': 'Paragraph',
+  '•': 'Bullet',
+  '…': 'Ellipsis',
+  '–': 'En dash',
+  '—': 'Em dash',
+  '−': 'Minus',
+  '‘': 'Left single quote',
+  '’': 'Right single quote',
+  '“': 'Left double quote',
+  '”': 'Right double quote',
+  '«': 'Left guillemet',
+  '»': 'Right guillemet',
+  '¿': 'Inverted question mark',
+  '¡': 'Inverted exclamation mark',
+  '×': 'Times',
+  '÷': 'Divided by',
+  '±': 'Plus or minus',
+  '≠': 'Not equal',
+  '≈': 'Approximately',
+  '≤': 'Less than or equal',
+  '≥': 'Greater than or equal',
+  '√': 'Square root',
+  '∞': 'Infinity',
+  'π': 'Pi',
+  '¬': 'Not sign',
+  '→': 'Right arrow',
+  '←': 'Left arrow',
+  '↑': 'Up arrow',
+  '↓': 'Down arrow',
+  // Scripts: Devanagari danda, Arabic punctuation.
+  '।': 'Danda',
+  '॥': 'Double danda',
+  '،': 'Arabic comma',
+  '؛': 'Arabic semicolon',
+  '؟': 'Arabic question mark',
+  '٪': 'Arabic percent sign',
+  // CJK punctuation (Chinese and Japanese keys).
+  '、': 'Comma',
+  '。': 'Full stop',
+  'ー': 'Long vowel mark',
+  '・': 'Middle dot',
+  '〜': 'Wave dash',
+  '「': 'Open quote',
+  '」': 'Close quote',
+  '『': 'Open double quote',
+  '』': 'Close double quote',
+  '！': 'Exclamation mark',
+  '？': 'Question mark',
+  '：': 'Colon',
+  '；': 'Semicolon',
+  '（': 'Open parenthesis',
+  '）': 'Close parenthesis',
+  '，': 'Comma',
+  '．': 'Full stop',
   '.com': 'Dot com',
   '‍': 'Zero width joiner',
   '‌': 'Zero width non-joiner',
 };
 
-String spokenName(String text) => _spoken[text] ?? text;
+/// Marks that are spoken by their name (a lone mark is never read as a bare dot or nothing).
+/// Indic marks use the names Indian keyboard users know (halant for virama); Arabic harakat by
+/// their traditional names.
+const Map<int, String> _markNames = {
+  0x0901: 'chandrabindu',
+  0x0902: 'anusvara',
+  0x0903: 'visarga',
+  0x093C: 'nukta',
+  0x094D: 'halant',
+  0x093E: 'vowel sign aa',
+  0x093F: 'vowel sign i',
+  0x0940: 'vowel sign ii',
+  0x0941: 'vowel sign u',
+  0x0942: 'vowel sign uu',
+  0x0947: 'vowel sign e',
+  0x0948: 'vowel sign ai',
+  0x094B: 'vowel sign o',
+  0x094C: 'vowel sign au',
+  0x064B: 'fathatan',
+  0x064C: 'dammatan',
+  0x064D: 'kasratan',
+  0x064E: 'fatha',
+  0x064F: 'damma',
+  0x0650: 'kasra',
+  0x0651: 'shadda',
+  0x0652: 'sukun',
+  0x0653: 'madda',
+  0x0654: 'hamza above',
+  0x0655: 'hamza below',
+  0x0670: 'superscript alef',
+  0x0640: 'tatweel',
+};
+
+/// Code point ranges of combining marks in the scripts Kosha types (Latin accents, Indic vowel
+/// signs and viramas, Arabic harakat). Used only to avoid speaking an unnamed mark as a lone glyph.
+const List<(int, int)> _combiningRanges = [
+  (0x0300, 0x036F),
+  (0x0483, 0x0489),
+  (0x0591, 0x05BD),
+  (0x0610, 0x061A),
+  (0x064B, 0x065F),
+  (0x0670, 0x0670),
+  (0x06D6, 0x06ED),
+  (0x0900, 0x0903),
+  (0x093A, 0x094F),
+  (0x0951, 0x0957),
+  (0x0962, 0x0963),
+  (0x0981, 0x0983),
+  (0x09BC, 0x09CD),
+  (0x0A01, 0x0A03),
+  (0x0A3C, 0x0A51),
+  (0x0A81, 0x0A83),
+  (0x0ABC, 0x0ACD),
+  (0x0B01, 0x0B03),
+  (0x0B3C, 0x0B4D),
+  (0x0B82, 0x0B82),
+  (0x0BBE, 0x0BCD),
+  (0x0C00, 0x0C04),
+  (0x0C3E, 0x0C56),
+  (0x0CBC, 0x0CCD),
+  (0x0D00, 0x0D03),
+  (0x0D3B, 0x0D4D),
+  (0x0DCA, 0x0DDF),
+];
+
+bool _isCombiningMark(int rune) {
+  for (final (lo, hi) in _combiningRanges) {
+    if (rune >= lo && rune <= hi) return true;
+  }
+  return false;
+}
+
+/// What TalkBack says for [text]: a name from the table, or the text itself. A lone combining
+/// mark is spoken by name, or as "combining mark" when it has none.
+String spokenName(String text) {
+  final named = _spoken[text];
+  if (named != null) return named;
+  if (text.runes.length == 1) {
+    final rune = text.runes.first;
+    final mark = _markNames[rune];
+    if (mark != null) return mark;
+    if (_isCombiningMark(rune)) return 'combining mark';
+  }
+  return text;
+}
 
 /// Invisible format characters get a visible label (popups would otherwise show an empty cell).
 const Map<String, String> _formatLabels = {'‍': 'ZWJ', '‌': 'ZWNJ'};
