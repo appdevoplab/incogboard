@@ -5,87 +5,69 @@
  "direction": "ltr",
  "rows": [
   {
+   "padding": 0.1,
    "keys": [
     {
      "output": "ௌ",
      "shiftedOutput": "ஔ",
-     "popup": [
-      "அ"
-     ]
+     "width": 1.2
     },
     {
      "output": "ை",
      "shiftedOutput": "ஐ",
-     "popup": [
-      "ஏ"
-     ]
+     "width": 1.2
     },
     {
      "output": "ா",
      "shiftedOutput": "ஆ",
-     "popup": [
-      "ஓ"
-     ]
+     "width": 1.2
     },
     {
      "output": "ீ",
      "shiftedOutput": "ஈ",
-     "popup": [
-      "ே"
-     ]
+     "width": 1.2
     },
     {
      "output": "ூ",
      "shiftedOutput": "ஊ",
-     "popup": [
-      "ோ"
-     ]
-    },
-    {
-     "output": "ப",
-     "popup": [
-      "ச"
-     ]
+     "width": 1.2
     },
     {
      "output": "ஹ",
      "shiftedOutput": "ங",
-     "popup": [
-      "ச"
-     ]
-    },
-    {
-     "output": "த",
-     "popup": [
-      "ஞ"
-     ]
+     "width": 1.2
     },
     {
      "output": "ஜ",
-     "popup": [
-      "ட"
-     ]
+     "width": 1.2
+    },
+    {
+     "output": "ஞ",
+     "width": 1.2
+    },
+    {
+     "output": "ஃ",
+     "width": 1.2
     }
    ]
   },
   {
    "keys": [
     {
-     "output": "ொ",
-     "shiftedOutput": "ஒ",
+     "output": "ோ",
+     "shiftedOutput": "ஓ",
      "popup": [
-      "ய"
+      "ொ",
+      "ஒ"
      ]
     },
     {
-     "output": "ெ",
-     "shiftedOutput": "எ",
-     "popup": [
-      "ழ"
-     ]
+     "output": "ே",
+     "shiftedOutput": "ஏ"
     },
     {
      "output": "்",
+     "shiftedOutput": "அ",
      "popup": [
       "‌",
       "‍"
@@ -93,36 +75,35 @@
     },
     {
      "output": "ி",
-     "shiftedOutput": "இ",
-     "popup": [
-      "ன"
-     ]
+     "shiftedOutput": "இ"
     },
     {
      "output": "ு",
-     "shiftedOutput": "உ",
-     "popup": [
-      "ஷ"
-     ]
+     "shiftedOutput": "உ"
     },
     {
-     "output": "ப",
-     "popup": [
-      "ப"
-     ]
+     "output": "ப"
     },
     {
      "output": "ர",
      "shiftedOutput": "ற"
     },
     {
-     "output": "க"
+     "output": "க",
+     "popup": [
+      "க்ஷ"
+     ]
     },
     {
      "output": "த"
+    },
+    {
+     "output": "ச"
+    },
+    {
+     "output": "ட"
     }
-   ],
-   "padding": 0.5
+   ]
   },
   {
    "keys": [
@@ -131,25 +112,40 @@
      "width": 1.5
     },
     {
-     "output": "ஂ"
+     "output": "ெ",
+     "shiftedOutput": "எ"
     },
     {
      "output": "ம",
-     "shiftedOutput": "க்ஷ"
+     "shiftedOutput": "ண",
+     "popup": [
+      "ஂ"
+     ]
     },
     {
-     "output": "வ"
+     "output": "ந",
+     "shiftedOutput": "ன"
+    },
+    {
+     "output": "வ",
+     "shiftedOutput": "ழ"
     },
     {
      "output": "ல",
      "shiftedOutput": "ள"
     },
     {
-     "output": "ந",
-     "shiftedOutput": "ண"
+     "output": "ஸ",
+     "shiftedOutput": "ஶ",
+     "popup": [
+      "ஸ்ரீ"
+     ]
     },
     {
-     "output": "ஸ"
+     "output": "ஷ"
+    },
+    {
+     "output": "ய"
     },
     {
      "type": "backspace",
@@ -174,7 +170,7 @@
     },
     {
      "type": "space",
-     "width": 4
+     "width": 5
     },
     {
      "type": "period",

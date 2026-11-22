@@ -76,13 +76,14 @@ void main() {
       }
     });
 
-    test('every row fits in ten key units, like QWERTY', () {
+    test('translit and phonetic rows fit in ten key units like QWERTY; InScript rows in eleven', () {
       for (final file in Directory('assets/layouts').listSync().whereType<File>()) {
         final name = file.uri.pathSegments.last;
         if (!RegExp(r'^(translit|phonetic|inscript)_').hasMatch(name)) continue;
         final l = _layout(name.replaceAll('.json', ''));
         for (final row in l.rows) {
-          expect(row.totalUnits, lessThanOrEqualTo(10.0001), reason: '$name row');
+          final limit = name.startsWith('inscript_') ? 11.0001 : 10.0001;
+          expect(row.totalUnits, lessThanOrEqualTo(limit), reason: '$name row');
         }
       }
     });

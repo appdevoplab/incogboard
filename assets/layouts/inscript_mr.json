@@ -8,72 +8,60 @@
    "keys": [
     {
      "output": "ौ",
-     "shiftedOutput": "औ",
-     "popup": [
-      "अ"
-     ]
+     "shiftedOutput": "औ"
     },
     {
      "output": "ै",
-     "shiftedOutput": "ऐ",
-     "popup": [
-      "ॉ"
-     ]
+     "shiftedOutput": "ऐ"
     },
     {
      "output": "ा",
      "shiftedOutput": "आ",
      "popup": [
-      "ॅ"
+      "ॲ",
+      "ॉ",
+      "ऑ",
+      "ॅ",
+      "ऍ"
      ]
     },
     {
      "output": "ी",
-     "shiftedOutput": "ई",
-     "popup": [
-      "च"
-     ]
+     "shiftedOutput": "ई"
     },
     {
      "output": "ू",
-     "shiftedOutput": "ऊ",
-     "popup": [
-      "छ"
-     ]
+     "shiftedOutput": "ऊ"
     },
     {
      "output": "ब",
-     "shiftedOutput": "भ",
-     "popup": [
-      "ञ"
-     ]
+     "shiftedOutput": "भ"
     },
     {
      "output": "ह",
-     "shiftedOutput": "ङ",
-     "popup": [
-      "ट"
-     ]
+     "shiftedOutput": "ङ"
     },
     {
      "output": "ग",
-     "shiftedOutput": "घ",
-     "popup": [
-      "ठ"
-     ]
+     "shiftedOutput": "घ"
     },
     {
      "output": "द",
-     "shiftedOutput": "ध",
-     "popup": [
-      "ड"
-     ]
+     "shiftedOutput": "ध"
     },
     {
      "output": "ज",
      "shiftedOutput": "झ",
      "popup": [
-      "ढ"
+      "ज्ञ"
+     ]
+    },
+    {
+     "output": "ड",
+     "shiftedOutput": "ढ",
+     "popup": [
+      "ड़",
+      "ढ़"
      ]
     }
    ]
@@ -84,37 +72,34 @@
      "output": "ो",
      "shiftedOutput": "ओ",
      "popup": [
-      "य"
+      "ॊ",
+      "ऒ"
      ]
     },
     {
      "output": "े",
      "shiftedOutput": "ए",
      "popup": [
-      "श"
+      "ॆ",
+      "ऎ"
      ]
     },
     {
      "output": "्",
-     "shiftedOutput": "ऽ",
+     "shiftedOutput": "अ",
      "popup": [
       "‌",
-      "‍"
+      "‍",
+      "ऽ"
      ]
     },
     {
      "output": "ि",
-     "shiftedOutput": "इ",
-     "popup": [
-      "फ़"
-     ]
+     "shiftedOutput": "इ"
     },
     {
      "output": "ु",
-     "shiftedOutput": "उ",
-     "popup": [
-      "़"
-     ]
+     "shiftedOutput": "उ"
     },
     {
      "output": "प",
@@ -122,18 +107,37 @@
     },
     {
      "output": "र",
-     "shiftedOutput": "ड़"
+     "shiftedOutput": "ऱ",
+     "popup": [
+      "ृ",
+      "ऋ",
+      "्र",
+      "र्"
+     ]
     },
     {
      "output": "क",
-     "shiftedOutput": "ख"
+     "shiftedOutput": "ख",
+     "popup": [
+      "क्ष"
+     ]
     },
     {
      "output": "त",
-     "shiftedOutput": "थ"
+     "shiftedOutput": "थ",
+     "popup": [
+      "त्र"
+     ]
+    },
+    {
+     "output": "च",
+     "shiftedOutput": "छ"
+    },
+    {
+     "output": "ट",
+     "shiftedOutput": "ठ"
     }
-   ],
-   "padding": 0.5
+   ]
   },
   {
    "keys": [
@@ -143,31 +147,43 @@
     },
     {
      "output": "ं",
-     "shiftedOutput": "ँ"
-    },
-    {
-     "output": "ः",
-     "shiftedOutput": "ऋ"
+     "shiftedOutput": "ँ",
+     "popup": [
+      "ः",
+      "ॐ"
+     ]
     },
     {
      "output": "म",
-     "shiftedOutput": "क्ष"
+     "shiftedOutput": "ण"
+    },
+    {
+     "output": "न",
+     "shiftedOutput": "ऩ"
     },
     {
      "output": "व",
-     "shiftedOutput": "ज्ञ"
+     "shiftedOutput": "ऴ"
     },
     {
      "output": "ल",
      "shiftedOutput": "ळ"
     },
     {
-     "output": "न",
-     "shiftedOutput": "ण"
+     "output": "स",
+     "shiftedOutput": "श",
+     "popup": [
+      "ष",
+      "श्र"
+     ]
     },
     {
-     "output": "स",
-     "shiftedOutput": "ष"
+     "output": "य",
+     "shiftedOutput": "य़"
+    },
+    {
+     "output": "़",
+     "shiftedOutput": "ञ"
     },
     {
      "type": "backspace",
@@ -192,7 +208,7 @@
     },
     {
      "type": "space",
-     "width": 4
+     "width": 5
     },
     {
      "type": "period",

@@ -8,72 +8,53 @@
    "keys": [
     {
      "output": "ৌ",
-     "shiftedOutput": "ঔ",
-     "popup": [
-      "অ"
-     ]
+     "shiftedOutput": "ঔ"
     },
     {
      "output": "ৈ",
-     "shiftedOutput": "ঐ",
-     "popup": [
-      "চ"
-     ]
+     "shiftedOutput": "ঐ"
     },
     {
      "output": "া",
-     "shiftedOutput": "আ",
-     "popup": [
-      "ছ"
-     ]
+     "shiftedOutput": "আ"
     },
     {
      "output": "ী",
-     "shiftedOutput": "ঈ",
-     "popup": [
-      "ঞ"
-     ]
+     "shiftedOutput": "ঈ"
     },
     {
      "output": "ূ",
-     "shiftedOutput": "ঊ",
-     "popup": [
-      "ট"
-     ]
+     "shiftedOutput": "ঊ"
     },
     {
      "output": "ব",
-     "shiftedOutput": "ভ",
-     "popup": [
-      "ঠ"
-     ]
+     "shiftedOutput": "ভ"
     },
     {
      "output": "হ",
-     "shiftedOutput": "ঙ",
-     "popup": [
-      "ড"
-     ]
+     "shiftedOutput": "ঙ"
     },
     {
      "output": "গ",
-     "shiftedOutput": "ঘ",
-     "popup": [
-      "ঢ"
-     ]
+     "shiftedOutput": "ঘ"
     },
     {
      "output": "দ",
-     "shiftedOutput": "ধ",
-     "popup": [
-      "য"
-     ]
+     "shiftedOutput": "ধ"
     },
     {
      "output": "জ",
      "shiftedOutput": "ঝ",
      "popup": [
-      "শ"
+      "জ্ঞ"
+     ]
+    },
+    {
+     "output": "ড",
+     "shiftedOutput": "ঢ",
+     "popup": [
+      "ড়",
+      "ঢ়"
      ]
     }
    ]
@@ -82,32 +63,24 @@
    "keys": [
     {
      "output": "ো",
-     "shiftedOutput": "ও",
-     "popup": [
-      "ফ"
-     ]
+     "shiftedOutput": "ও"
     },
     {
      "output": "ে",
-     "shiftedOutput": "এ",
-     "popup": [
-      "য়"
-     ]
+     "shiftedOutput": "এ"
     },
     {
      "output": "্",
-     "shiftedOutput": "ঽ",
+     "shiftedOutput": "অ",
      "popup": [
       "‌",
-      "‍"
+      "‍",
+      "ঽ"
      ]
     },
     {
      "output": "ি",
-     "shiftedOutput": "ই",
-     "popup": [
-      "়"
-     ]
+     "shiftedOutput": "ই"
     },
     {
      "output": "ু",
@@ -119,18 +92,32 @@
     },
     {
      "output": "র",
-     "shiftedOutput": "ড়"
+     "shiftedOutput": "ঢ়",
+     "popup": [
+      "ৃ",
+      "ঋ"
+     ]
     },
     {
      "output": "ক",
-     "shiftedOutput": "খ"
+     "shiftedOutput": "খ",
+     "popup": [
+      "ক্ষ"
+     ]
     },
     {
      "output": "ত",
      "shiftedOutput": "থ"
+    },
+    {
+     "output": "চ",
+     "shiftedOutput": "ছ"
+    },
+    {
+     "output": "ট",
+     "shiftedOutput": "ঠ"
     }
-   ],
-   "padding": 0.5
+   ]
   },
   {
    "keys": [
@@ -139,31 +126,39 @@
      "width": 1.5
     },
     {
-     "output": "ং",
-     "shiftedOutput": "ঁ"
+     "output": "ৎ"
     },
     {
-     "output": "ঃ",
-     "shiftedOutput": "ঋ"
+     "output": "ং",
+     "shiftedOutput": "ঁ",
+     "popup": [
+      "ঃ"
+     ]
     },
     {
      "output": "ম",
-     "shiftedOutput": "ক্ষ"
+     "shiftedOutput": "ণ"
     },
     {
-     "output": "ভ",
-     "shiftedOutput": "জ্ঞ"
+     "output": "ন"
     },
     {
      "output": "ল"
     },
     {
-     "output": "ন",
-     "shiftedOutput": "ণ"
+     "output": "স",
+     "shiftedOutput": "শ",
+     "popup": [
+      "ষ"
+     ]
     },
     {
-     "output": "স",
-     "shiftedOutput": "ষ"
+     "output": "য়",
+     "shiftedOutput": "য"
+    },
+    {
+     "output": "়",
+     "shiftedOutput": "ঞ"
     },
     {
      "type": "backspace",
@@ -188,7 +183,7 @@
     },
     {
      "type": "space",
-     "width": 4
+     "width": 5
     },
     {
      "type": "period",

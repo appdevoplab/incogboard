@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
-# Writes the Indic keyboard layouts: assets/layouts/{translit,phonetic,inscript}_<lang>.json.
+# Writes the Indic keyboard layouts: assets/layouts/{translit,phonetic}_<lang>.json.
+# The InScript layouts come from tool/indic/make_inscript.dart (BIS key tables) since Wave 4.
 #
 #   python tool/indic/make_layouts.py [--out assets/layouts]
 #
@@ -217,7 +218,6 @@ def main():
         layouts = {
             f"translit_{lang}": build_translit(lang, base),
             f"phonetic_{lang}": build_native("phonetic", lang, script, PHONETIC_ROWS, base),
-            f"inscript_{lang}": build_native("inscript", lang, script, INSCRIPT_ROWS, base),
         }
         for name, layout in layouts.items():
             path = os.path.join(args.out, name + ".json")
