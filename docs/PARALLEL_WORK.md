@@ -84,3 +84,17 @@ Briefs: `docs/waves/wave3/*.md`. Everything not listed belongs to the orchestrat
 | T, translator | `android/.../translate/**`, one `testImplementation` line in `build.gradle.kts`, `lib/src/features/translate/**`, `lib/src/app/translate/**`, `lib/src/app/packs/**`, one tile in `privacy_center_screen.dart`, `tool/packs/translate/**`, `docs/notices/translate.md`, tests named in the brief | translate | OPUS-MT ONNX translation service, translate panel and selection chips, Model packs screen, Translation screen |
 
 Layouts and dictionaries share folders, but each agent owns distinct file names.
+
+## Wave 4 ownership
+
+Briefs: `docs/waves/wave4/*.md`. Everything not listed belongs to the orchestrator. Setup commit: `f2fd99a`.
+
+| Agent | Owns | Settings section files (add optional fields only) | Delivers |
+|---|---|---|---|
+| A, Chinese | `lib/src/engine/lang/chinese.dart` (+ `chinese/`), `lib/src/features/chinese/**`, `lib/src/app/chinese/**`, layout `pinyin_zh`, `tool/chinese/**`, `tool/packs/chinese/**`, `docs/notices/chinese.md`, tests named in the brief | chinese | Pinyin `TextComposer` (segmentation, abbreviations, fuzzy, predictions, Traditional), `dict-zh-rime-ice` pack staging, Chinese screen |
+| B, Japanese | `lib/src/engine/lang/japanese.dart` (+ `japanese/`), `lib/src/features/japanese/**`, `lib/src/app/japanese/**`, layouts `kana12_ja`, `romaji_ja` (+ `symbols_ja`), `tool/japanese/**`, `tool/packs/japanese/**`, `docs/notices/japanese.md`, tests named in the brief | japanese | Romaji and 12-key `TextComposer`, kana-kanji conversion, `dict-ja-mozc` pack staging, Japanese screen |
+| C, accessibility and localisation | `lib/src/keyboard/view/keys_painter.dart`, `key_visuals.dart`, `lib/src/keyboard/a11y/**`; labels only in the strip, `candidates/`, `modes/` and the Wave 2-3 feature panels; `lib/l10n/*.arb`; strings in `lib/src/app/**` except `chinese/`, `japanese/`, `kosha_mascot.dart`; `res/xml/locales_config.xml`; `docs/a11y/**`; tests named in the brief | none | TalkBack on the keyboard (nodes, actions, announcements), settings app in en/es/fr/de/pt/id/hi |
+| D, performance and QA | onnxruntime lines of `build.gradle.kts`, `android/app/libs/**`, `tool/onnxruntime/**`, `tool/bench/**`, `docs/perf/**`, `docs/notices/onnxruntime.md`, `test/perf/**`, `test/fuzz/**` | none | Reduced onnxruntime 1.28.0 AAR, budget benchmarks, device bench script, InputController fuzzing, OEM matrix |
+| E, brand | launcher and splash resources in `android/app/src/main/res/` (`mipmap-*`, `mipmap-anydpi-v26`, splash drawables and styles, `values-v31`), `lib/src/app/onboarding/kosha_mascot.dart`, brand colours in `lib/src/theme/presets.dart` and `lib/src/app/shell/kosha_theme.dart`, `assets/brand/**`, `docs/brand/**`, `tool/brand/**`, tests named in the brief | none | Treasure-chest adaptive and themed icon, splash, chest poses, store graphics |
+
+Merge order: E, D, A, B, C.
