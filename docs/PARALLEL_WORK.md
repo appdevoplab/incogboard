@@ -70,3 +70,17 @@ Briefs: `docs/waves/wave2/*.md`. Everything not listed belongs to the orchestrat
 | E, modes | `lib/src/keyboard/modes/**`, `lib/src/keyboard/layout/layout_engine.dart`, `assets/layouts/**`, `test/keyboard/modes/**`, `test/keyboard/layout_test.dart` | modes | One-handed, floating, height handle, modes bar, space cursor drag, backspace swipe-delete, emoji key, split and compact layouts |
 
 Writing another section's *values* through `SettingsStore.update` is fine (for example the theme editor writes `swipe.trailWidth`); only adding fields is restricted to the owner.
+
+## Wave 3 ownership
+
+Briefs: `docs/waves/wave3/*.md`. Everything not listed belongs to the orchestrator. Setup commit: `92ead05`.
+
+| Agent | Owns | Settings section files (add optional fields only) | Delivers |
+|---|---|---|---|
+| A, European languages | `lib/src/engine/lang/european.dart` (+ `european/`), `lib/src/engine/dictionary|suggest|learn/**`, `tool/build_dictionary.dart`, `tool/european/**`, layouts `qwerty_es`, `azerty`, `qwertz`, `jcuken_*` (+ popups in `qwerty.json`), `assets/dict/{es,fr,de,pt-BR,pt-PT,id,ru,uk}.mdict`, `lib/src/features/languages/**`, `lib/src/app/screens/languages_screen.dart`, `lib/src/app/shell/language_catalog.dart`, `lib/src/app/onboarding/**` (language step), `docs/notices/european.md`, tests named in the brief | languages | Dictionaries, layouts and rules for 8 languages; blending fixes; space-bar language picker; Languages screen |
+| B, Indic | `lib/src/engine/lang/indic.dart` (+ `indic/`), `lib/src/features/indic/**`, layouts `translit_*`, `phonetic_*`, `inscript_*`, `assets/translit/**`, `assets/dict/{hi,mr,bn,ta,te}.mdict`, `tool/indic/**`, `docs/notices/indic.md`, tests named in the brief | none | English-letter typing (transliteration transform, Hinglish), native layouts, swipe mapping, rules |
+| C, Arabic and Urdu | `lib/src/engine/lang/arabic.dart` (+ `arabic/`), layouts `arabic*`, `urdu*`, `assets/dict/{ar,ur}.mdict`, `tool/arabic/**`, RTL-only fixes in `lib/src/features/{emoji,clipboard,editing,shared}/**`, `docs/notices/arabic.md`, tests named in the brief | none | Layouts with harakat, dictionaries, rules, RTL checks of strip and panels, swipe accuracy |
+| D, voice | `android/.../voice/**`, `android/app/src/main/jniLibs/**`, the `packaging {}` block of `build.gradle.kts`, `lib/src/features/voice/**`, `lib/src/app/screens/voice_screen.dart`, `tool/packs/voice/**`, `docs/notices/voice.md`, tests named in the brief | voice | sherpa-onnx + Whisper service, mic permission activity, mic panel, voice settings, pack staging |
+| T, translator | `android/.../translate/**`, one `testImplementation` line in `build.gradle.kts`, `lib/src/features/translate/**`, `lib/src/app/translate/**`, `lib/src/app/packs/**`, one tile in `privacy_center_screen.dart`, `tool/packs/translate/**`, `docs/notices/translate.md`, tests named in the brief | translate | OPUS-MT ONNX translation service, translate panel and selection chips, Model packs screen, Translation screen |
+
+Layouts and dictionaries share folders, but each agent owns distinct file names.

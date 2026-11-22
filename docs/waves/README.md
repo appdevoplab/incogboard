@@ -50,7 +50,28 @@
 | D | `lib/src/features/emoji,clipboard,editing/**`, `tool/build_emoji.dart`, `assets/emoji/**` | Emoji from `emoji-test.txt` plus CLDR annotations (Unicode licence) for every planned language. Search uses the keyboard's own keys. Skin tone remembered per emoji, recents, hasGlyphs filtering, and kaomoji and symbols tabs. Clipboard panel: pins, expiry, recent-copy chip, masked sensitive items, all through SecureBlobStore. Editing panel: arrows, selection, cut/copy/paste, undo/redo, home/end. Emoji suggestions in the strip. |
 | E | `lib/src/keyboard/modes/**` (A from Wave 1 hands over hooks) | One-handed (left/right, 80% width, swap/expand buttons). Floating (drag, resize, snap, uses Kotlin floating insets). Height adjust handle. Spacebar cursor drag with acceleration. Backspace swipe-left word delete with highlight and undo. Tablet/foldable split layout and landscape compact layout. |
 
-## Wave 3: languages and voice (5)
+## Wave 3: languages, voice and translation (5)
+
+**Status (2026-11-22):**
+- Setup done (commit `92ead05`): Pigeon voice/translation/pack calls, the Kotlin pack store (signed `.mynapack`) and service stubs, onnxruntime-android 1.31.1, the language registry and seams, and the strip's toolbar toggle (fixes the hidden toolbar).
+- Briefs are in `docs/waves/wave3/` (A, B, C, D, T); ownership is in `docs/PARALLEL_WORK.md`.
+- **User decisions (2026-11-21):**
+  - The translator joins Wave 3 as agent T; brand (old E) moves to Wave 4.
+  - Voice: sherpa-onnx + Whisper; no bundled model, packs only.
+  - Indic: only hi/mr/bn/ta/te (no pack template for others).
+  - Packs are signed with an ECDSA P-256 dev key (`%USERPROFILE%\.myna\keys\pack-dev.pem`, outside the repo); Wave 5 swaps in the release key.
+  - The app name and the GitHub username wait for Wave 5.
+
+**Merge order:** A, C, B, T, D. A first because it owns the text engine and the dictionary tool; D last because it adds native libraries.
+
+**After merging:** sign the staged packs with `tool/make_pack.dart`, then run the checklist plus:
+- languages: German + English blend, French spacing, Russian, the globe key and space-bar picker
+- Hindi in English letters, Hinglish, InScript; Tamil/Telugu rendering
+- Arabic and Urdu typing, the mirrored strip and panels, Eastern digits
+- voice: permission prompt, no pack, then the base pack (partials, Stop, Cancel)
+- translation: pack import, EN → ES in the panel, the selection chip
+
+Original plan for the wave:
 
 - **A:** es/fr/de/pt-BR/pt-PT/id/ru/uk:
   - Layouts: QWERTZ, AZERTY, ЙЦУКЕН, Ukrainian.
@@ -77,15 +98,16 @@
   - Mic panel (M3E animated shape, "On-device" badge).
   - Permission through a transparent non-exported activity.
   - Pigeon additions (voice start/stop/events), done by the orchestrator first.
-- **E:** brand:
+- **T (was "translator, added 2026-11-21"):** offline English ↔ es/fr/de/pt/hi/ru, a translate panel plus translate-selection, models in separate packs. Plan: `docs/waves/translator.md`.
+- **E (brand):** moved to Wave 4.
+
+## Wave 4: CJK, brand and polish (5)
+
+- **E (from Wave 3):** brand:
   - Myna adaptive icon (foreground, background, monochrome).
   - Splash.
   - Mascot poses (wave, lock, sing, sleep).
   - Play 512 icon, feature graphic, store screenshots template.
-
-- **Translator (added 2026-11-21):** offline English ↔ es/fr/de/pt/hi/ru, a translate panel plus translate-selection, models in separate packs. Plan: `docs/waves/translator.md`. Schedule it with voice (same NDK and pack work).
-
-## Wave 4: CJK and polish (4)
 
 - **A:** Chinese pinyin, as a Dart lattice converter:
   - rime-ice dictionaries (GPL-3.0) and OpenCC tables (Apache-2.0).

@@ -36,7 +36,8 @@ class _Entry {
   final List<String> shortcuts = [];
 }
 
-final RegExp _wordPattern = RegExp(r"^\p{L}[\p{L}\p{M}'\-]*$", unicode: true);
+// Letters, marks, apostrophes and hyphens; ZWNJ/ZWJ appear inside Indic and Persian-script words.
+final RegExp _wordPattern = RegExp(r"^\p{L}[\p{L}\p{M}'’\-‌‍]*$", unicode: true);
 
 String? _cleanWord(String raw) {
   final w = normalizeNfc(raw.trim().replaceAll('’', "'"));
