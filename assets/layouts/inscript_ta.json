@@ -57,13 +57,13 @@
     {
      "output": "த",
      "popup": [
-      "ட"
+      "ஞ"
      ]
     },
     {
      "output": "ஜ",
      "popup": [
-      "ய"
+      "ட"
      ]
     }
    ]
@@ -74,14 +74,14 @@
      "output": "ொ",
      "shiftedOutput": "ஒ",
      "popup": [
-      "ழ"
+      "ய"
      ]
     },
     {
      "output": "ெ",
      "shiftedOutput": "எ",
      "popup": [
-      "ன"
+      "ழ"
      ]
     },
     {
@@ -95,18 +95,21 @@
      "output": "ி",
      "shiftedOutput": "இ",
      "popup": [
-      "ஷ"
+      "ன"
      ]
     },
     {
      "output": "ு",
      "shiftedOutput": "உ",
      "popup": [
-      "ப"
+      "ஷ"
      ]
     },
     {
-     "output": "ப"
+     "output": "ப",
+     "popup": [
+      "ப"
+     ]
     },
     {
      "output": "ர",

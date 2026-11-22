@@ -100,7 +100,7 @@ class IndicScheme {
         // "n" before another consonant is an anusvara: "sangh" -> संघ (not नंघ).
         if (nasalAnusvara && anusvara != null && cons == 'n') {
           final next = _matchAt(s, i + 1, _consonantKeys);
-          if (next != null && next != 'n' && !_startsVowel(s, i + 1)) {
+          if (next != null && !_noAnusvaraBefore.contains(next) && !_startsVowel(s, i + 1)) {
             units.add(const _Unit(_Kind.nasal, ''));
             i += 1;
             continue;
@@ -140,6 +140,9 @@ class IndicScheme {
   }
 
   bool _startsVowel(String s, int i) => _matchAt(s, i, _vowelKeys) != null;
+
+  /// "n" before these starts a word part of its own (dhanyavaad, anna): no anusvara.
+  static const _noAnusvaraBefore = {'n', 'y', 'v', 'h', 'w'};
 
   static bool _isAsciiLetter(int c) => (c >= 0x61 && c <= 0x7A);
 }
@@ -335,8 +338,8 @@ final IndicScheme tamilScheme = IndicScheme(
     'u': ('உ', 'ு'),
     'uu': ('ஊ', 'ூ'),
     'oo': ('ஊ', 'ூ'),
-    'e': ('எ', 'ெ'),
-    'ae': ('ஏ', 'ே'),
+    'e': ('ஏ', 'ே'),
+    'ae': ('எ', 'ெ'),
     'ai': ('ஐ', 'ை'),
     'o': ('ஒ', 'ொ'),
     'oa': ('ஓ', 'ோ'),
@@ -406,8 +409,8 @@ final IndicScheme teluguScheme = IndicScheme(
     'uu': ('ఊ', 'ూ'),
     'oo': ('ఊ', 'ూ'),
     'ri': ('ఋ', 'ృ'),
-    'e': ('ఎ', 'ె'),
-    'ae': ('ఏ', 'ే'),
+    'e': ('ఏ', 'ే'),
+    'ae': ('ఎ', 'ె'),
     'ai': ('ఐ', 'ై'),
     'o': ('ఒ', 'ొ'),
     'oa': ('ఓ', 'ో'),
