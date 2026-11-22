@@ -19,12 +19,6 @@ interface TranslationService {
 
 class TranslationException(val code: String, message: String) : Exception(message)
 
-/** Wave 3-T replaces the body with the real engine. */
-fun createTranslationService(context: Context, packs: PackStore): TranslationService = UnavailableTranslationService
-
-private object UnavailableTranslationService : TranslationService {
-    override fun translate(text: String, from: String, to: String): String =
-        throw TranslationException("no_pack", "translation is not available yet")
-
-    override fun release() {}
-}
+/** The OPUS-MT engine, reading translation packs from [packs]. [context] is kept for the bridge's signature. */
+@Suppress("UNUSED_PARAMETER")
+fun createTranslationService(context: Context, packs: PackStore): TranslationService = PackTranslationService(packs)
