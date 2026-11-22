@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Android 12+ SplashScreen API: the chest on the splash colour, which follows light and dark mode
+         through values-night/colors.xml. The post-splash theme is the normal app theme. -->
+    <style name="LaunchTheme" parent="@android:style/Theme.DeviceDefault.DayNight.NoActionBar">
+        <item name="android:windowSplashScreenBackground">@color/kosha_splash_background</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_chest</item>
+        <item name="android:postSplashScreenTheme">@style/NormalTheme</item>
+    </style>
+</resources>
