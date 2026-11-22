@@ -16,6 +16,7 @@ import '../../theme/keyboard_theme_data.dart';
 import '../../keyboard/panels/keyboard_panel.dart';
 import '../../keyboard/view/keyboard_metrics.dart';
 import '../shared/panel_style.dart';
+import '../shared/directional_icon.dart';
 
 class EditingPanel extends KeyboardPanel {
   EditingPanel(this.session);
@@ -184,45 +185,51 @@ class _EditingPanelViewState extends State<EditingPanelView> {
                     ),
                   ),
                   const SizedBox(width: gap),
+                  // A directional pad: the arrows stay in their physical places in right-to-left text.
                   Expanded(
                     flex: 2,
-                    child: Column(
-                      children: [
-                        Expanded(child: _arrowButton(theme, 'Move up', Icons.keyboard_arrow_up, AndroidKeyCode.dpadUp)),
-                        const SizedBox(height: gap),
-                        Expanded(
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: _arrowButton(
-                                  theme,
-                                  'Move left',
-                                  Icons.keyboard_arrow_left,
-                                  AndroidKeyCode.dpadLeft,
-                                ),
-                              ),
-                              const SizedBox(width: gap),
-                              Expanded(
-                                child: _arrowButton(
-                                  theme,
-                                  'Move down',
-                                  Icons.keyboard_arrow_down,
-                                  AndroidKeyCode.dpadDown,
-                                ),
-                              ),
-                              const SizedBox(width: gap),
-                              Expanded(
-                                child: _arrowButton(
-                                  theme,
-                                  'Move right',
-                                  Icons.keyboard_arrow_right,
-                                  AndroidKeyCode.dpadRight,
-                                ),
-                              ),
-                            ],
+                    child: Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: Column(
+                        children: [
+                          Expanded(
+                            child: _arrowButton(theme, 'Move up', Icons.keyboard_arrow_up, AndroidKeyCode.dpadUp),
                           ),
-                        ),
-                      ],
+                          const SizedBox(height: gap),
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: _arrowButton(
+                                    theme,
+                                    'Move left',
+                                    Icons.keyboard_arrow_left,
+                                    AndroidKeyCode.dpadLeft,
+                                  ),
+                                ),
+                                const SizedBox(width: gap),
+                                Expanded(
+                                  child: _arrowButton(
+                                    theme,
+                                    'Move down',
+                                    Icons.keyboard_arrow_down,
+                                    AndroidKeyCode.dpadDown,
+                                  ),
+                                ),
+                                const SizedBox(width: gap),
+                                Expanded(
+                                  child: _arrowButton(
+                                    theme,
+                                    'Move right',
+                                    Icons.keyboard_arrow_right,
+                                    AndroidKeyCode.dpadRight,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   const SizedBox(width: gap),
@@ -290,7 +297,7 @@ class _EditingPanelViewState extends State<EditingPanelView> {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: 20, color: theme.functionKey.label),
+            DirectionalIcon(icon, size: 20, color: theme.functionKey.label),
             Text(label, maxLines: 1, style: style.text(size: 11, color: theme.functionKey.label)),
           ],
         ),

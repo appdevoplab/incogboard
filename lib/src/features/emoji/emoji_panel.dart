@@ -21,6 +21,7 @@ import 'emoji_repository.dart';
 import 'emoji_search_panel.dart';
 import 'emoji_store.dart';
 import 'symbols_data.dart';
+import '../shared/directional_icon.dart';
 
 /// What the emoji panels share, created once per keyboard session.
 class EmojiServices {
@@ -528,7 +529,7 @@ class _EmojiPanelViewState extends State<EmojiPanelView> {
                 radius: style.radius(48),
                 repeat: true,
                 onTap: _services.session.input.onBackspace,
-                child: Icon(Icons.backspace_outlined, size: 22, color: theme.functionKey.label),
+                child: DirectionalIcon(Icons.backspace_outlined, size: 22, color: theme.functionKey.label),
               ),
             ),
           ],
