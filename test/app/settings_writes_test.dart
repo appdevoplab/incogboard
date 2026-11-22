@@ -104,7 +104,7 @@ void main() {
   testWidgets('the voice screen shows the stored values and writes nothing', (tester) async {
     final fakes = await _pump(tester, const VoiceScreen());
     expect(find.text('Offline voice arrives in a later update'), findsOneWidget);
-    expect(find.text('Built in'), findsOneWidget);
+    expect(find.text('Automatic'), findsOneWidget);
     expect(find.text('On'), findsOneWidget);
     expect(find.text('Off'), findsOneWidget);
     verifyNever(() => fakes.store.update(any(), sections: any(named: 'sections')));

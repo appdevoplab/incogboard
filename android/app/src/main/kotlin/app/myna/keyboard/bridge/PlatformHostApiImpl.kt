@@ -7,6 +7,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.graphics.Paint
 import android.os.Build
+import app.myna.keyboard.packs.PackStore
 import app.myna.keyboard.security.SecureStore
 import app.myna.keyboard.security.SecureStoreException
 import java.io.File
@@ -87,6 +88,8 @@ internal class PlatformHostApiImpl(
         File(context.noBackupFilesDir, "data").apply { mkdirs() }.absolutePath
 
     override fun notifySettingsChanged(sections: List<String>) = SettingsBus.publish(role, sections)
+
+    override fun listPacks(): List<PackInfoMessage> = PackStore.get(context).list().map { it.toMessage() }
 
     private companion object {
         val PALETTES = listOf("accent1", "accent2", "accent3", "neutral1", "neutral2")

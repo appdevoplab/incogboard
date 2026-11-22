@@ -36,6 +36,9 @@ abstract final class DataSections {
   static const String shortcuts = 'data.shortcuts';
   static const String seenApps = 'data.seen_apps';
 
+  /// A model pack was installed or deleted (Wave 3): re-read `PlatformHostApi.listPacks`.
+  static const String packs = 'data.packs';
+
   /// Everything was wiped or restored from a backup: reload every blob.
   static const String all = 'data.all';
 

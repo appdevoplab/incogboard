@@ -11,6 +11,8 @@ class LanguageSettings {
     this.layouts = const {'en': 'qwerty'},
     this.multilingual = true,
     this.onboardingDone = false,
+    this.nativeDigits = false,
+    this.hinglishOutput = false,
   });
 
   factory LanguageSettings.fromJson(Json j) {
@@ -23,6 +25,8 @@ class LanguageSettings {
       layouts: jStringMap(j, 'layouts', const {'en': 'qwerty'}),
       multilingual: jBool(j, 'multilingual', true),
       onboardingDone: jBool(j, 'onboardingDone', false),
+      nativeDigits: jBool(j, 'nativeDigits', false),
+      hinglishOutput: jBool(j, 'hinglishOutput', false),
     );
   }
 
@@ -41,12 +45,22 @@ class LanguageSettings {
   /// Set when the settings app's first-run setup reached its last step.
   final bool onboardingDone;
 
+  /// Number row, symbols and number pad type the active language's own digits (०१२, ٠١٢) when it
+  /// has them (Wave 3).
+  final bool nativeDigits;
+
+  /// Indic "English letters" typing commits the Latin text as typed instead of the native script
+  /// (Hinglish), with the native word offered in the strip (Wave 3-B).
+  final bool hinglishOutput;
+
   Json toJson() => {
     'enabled': enabled,
     'active': active,
     'layouts': layouts,
     'multilingual': multilingual,
     'onboardingDone': onboardingDone,
+    'nativeDigits': nativeDigits,
+    'hinglishOutput': hinglishOutput,
   };
 
   LanguageSettings copyWith({
@@ -55,11 +69,15 @@ class LanguageSettings {
     Map<String, String>? layouts,
     bool? multilingual,
     bool? onboardingDone,
+    bool? nativeDigits,
+    bool? hinglishOutput,
   }) => LanguageSettings(
     enabled: enabled ?? this.enabled,
     active: active ?? this.active,
     layouts: layouts ?? this.layouts,
     multilingual: multilingual ?? this.multilingual,
     onboardingDone: onboardingDone ?? this.onboardingDone,
+    nativeDigits: nativeDigits ?? this.nativeDigits,
+    hinglishOutput: hinglishOutput ?? this.hinglishOutput,
   );
 }

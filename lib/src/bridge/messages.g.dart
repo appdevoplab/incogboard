@@ -117,6 +117,27 @@ enum ContextMenuAction {
   stopSelectingText,
 }
 
+enum PackKind { voice, translation }
+
+enum VoiceStartStatus { started, noPermission, noModel, busy, failed }
+
+enum VoiceEventKind {
+  /// Input level changed ([VoiceEventMessage.level], about 20 per second).
+  level,
+
+  /// Interim text for the current utterance (replaces the previous partial).
+  partial,
+
+  /// Final text for one utterance (voice-activity detection closed it).
+  finalText,
+
+  /// Recording ended (after stopVoice, cancelVoice, silence timeout or an error). Last event.
+  stopped,
+
+  /// Something failed ([VoiceEventMessage.errorCode]); a `stopped` event follows.
+  error,
+}
+
 /// Snapshot of android.view.inputmethod.EditorInfo (raw values; decode in Dart
 /// with InputFieldInfo).
 class EditorInfoMessage {
@@ -825,6 +846,198 @@ class AppInfoMessage {
   }
 }
 
+/// An installed, verified model pack (see docs/waves/wave3/COMMON.md, "Pack format").
+class PackInfoMessage {
+  PackInfoMessage({
+    required this.id,
+    required this.kind,
+    required this.name,
+    required this.version,
+    required this.languages,
+    required this.sizeBytes,
+    required this.engine,
+    required this.license,
+  });
+
+  /// For example 'voice-whisper-base' or 'translate-en-es'.
+  String id;
+
+  PackKind kind;
+
+  /// Display name from the manifest.
+  String name;
+
+  int version;
+
+  /// Voice: languages the model can recognise. Translation: exactly [from, to].
+  List<String> languages;
+
+  /// Installed size on disk.
+  int sizeBytes;
+
+  /// Engine id from the manifest, for example 'sherpa-onnx-whisper' or 'opus-mt-onnx'.
+  String engine;
+
+  String license;
+
+  List<Object?> _toList() {
+    return <Object?>[id, kind, name, version, languages, sizeBytes, engine, license];
+  }
+
+  Object encode() {
+    return _toList();
+  }
+
+  static PackInfoMessage decode(Object result) {
+    result as List<Object?>;
+    return PackInfoMessage(
+      id: result[0]! as String,
+      kind: result[1]! as PackKind,
+      name: result[2]! as String,
+      version: result[3]! as int,
+      languages: (result[4]! as List<Object?>).cast<String>(),
+      sizeBytes: result[5]! as int,
+      engine: result[6]! as String,
+      license: result[7]! as String,
+    );
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  bool operator ==(Object other) {
+    if (other is! PackInfoMessage || other.runtimeType != runtimeType) {
+      return false;
+    }
+    if (identical(this, other)) {
+      return true;
+    }
+    return _deepEquals(id, other.id) &&
+        _deepEquals(kind, other.kind) &&
+        _deepEquals(name, other.name) &&
+        _deepEquals(version, other.version) &&
+        _deepEquals(languages, other.languages) &&
+        _deepEquals(sizeBytes, other.sizeBytes) &&
+        _deepEquals(engine, other.engine) &&
+        _deepEquals(license, other.license);
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  int get hashCode => _deepHash(<Object?>[runtimeType, ..._toList()]);
+
+  @override
+  String toString() {
+    return 'PackInfoMessage(id: $id, kind: $kind, name: $name, version: $version, languages: $languages, sizeBytes: $sizeBytes, engine: $engine, license: $license)';
+  }
+}
+
+class VoiceRequestMessage {
+  VoiceRequestMessage({this.language, required this.packId, required this.autoDetect});
+
+  /// Keyboard language ('hi', 'pt-BR', ...); null with [autoDetect].
+  String? language;
+
+  String packId;
+
+  bool autoDetect;
+
+  List<Object?> _toList() {
+    return <Object?>[language, packId, autoDetect];
+  }
+
+  Object encode() {
+    return _toList();
+  }
+
+  static VoiceRequestMessage decode(Object result) {
+    result as List<Object?>;
+    return VoiceRequestMessage(
+      language: result[0] as String?,
+      packId: result[1]! as String,
+      autoDetect: result[2]! as bool,
+    );
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  bool operator ==(Object other) {
+    if (other is! VoiceRequestMessage || other.runtimeType != runtimeType) {
+      return false;
+    }
+    if (identical(this, other)) {
+      return true;
+    }
+    return _deepEquals(language, other.language) &&
+        _deepEquals(packId, other.packId) &&
+        _deepEquals(autoDetect, other.autoDetect);
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  int get hashCode => _deepHash(<Object?>[runtimeType, ..._toList()]);
+
+  @override
+  String toString() {
+    return 'VoiceRequestMessage(language: $language, packId: $packId, autoDetect: $autoDetect)';
+  }
+}
+
+class VoiceEventMessage {
+  VoiceEventMessage({required this.kind, this.text, required this.level, this.errorCode});
+
+  VoiceEventKind kind;
+
+  String? text;
+
+  /// 0..1, only meaningful for [VoiceEventKind.level].
+  double level;
+
+  /// 'audio_busy', 'model_failed', 'permission_revoked', 'internal'.
+  String? errorCode;
+
+  List<Object?> _toList() {
+    return <Object?>[kind, text, level, errorCode];
+  }
+
+  Object encode() {
+    return _toList();
+  }
+
+  static VoiceEventMessage decode(Object result) {
+    result as List<Object?>;
+    return VoiceEventMessage(
+      kind: result[0]! as VoiceEventKind,
+      text: result[1] as String?,
+      level: result[2]! as double,
+      errorCode: result[3] as String?,
+    );
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  bool operator ==(Object other) {
+    if (other is! VoiceEventMessage || other.runtimeType != runtimeType) {
+      return false;
+    }
+    if (identical(this, other)) {
+      return true;
+    }
+    return _deepEquals(kind, other.kind) &&
+        _deepEquals(text, other.text) &&
+        _deepEquals(level, other.level) &&
+        _deepEquals(errorCode, other.errorCode);
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  int get hashCode => _deepHash(<Object?>[runtimeType, ..._toList()]);
+
+  @override
+  String toString() {
+    return 'VoiceEventMessage(kind: $kind, text: $text, level: $level, errorCode: $errorCode)';
+  }
+}
+
 class _PigeonCodec extends StandardMessageCodec {
   const _PigeonCodec();
   @override
@@ -844,38 +1057,56 @@ class _PigeonCodec extends StandardMessageCodec {
     } else if (value is ContextMenuAction) {
       buffer.putUint8(132);
       writeValue(buffer, value.index);
-    } else if (value is EditorInfoMessage) {
+    } else if (value is PackKind) {
       buffer.putUint8(133);
-      writeValue(buffer, value.encode());
-    } else if (value is SelectionMessage) {
+      writeValue(buffer, value.index);
+    } else if (value is VoiceStartStatus) {
       buffer.putUint8(134);
-      writeValue(buffer, value.encode());
-    } else if (value is SurroundingTextMessage) {
+      writeValue(buffer, value.index);
+    } else if (value is VoiceEventKind) {
       buffer.putUint8(135);
-      writeValue(buffer, value.encode());
-    } else if (value is ClipMessage) {
+      writeValue(buffer, value.index);
+    } else if (value is EditorInfoMessage) {
       buffer.putUint8(136);
       writeValue(buffer, value.encode());
-    } else if (value is WindowMetricsMessage) {
+    } else if (value is SelectionMessage) {
       buffer.putUint8(137);
       writeValue(buffer, value.encode());
-    } else if (value is SystemColorsMessage) {
+    } else if (value is SurroundingTextMessage) {
       buffer.putUint8(138);
       writeValue(buffer, value.encode());
-    } else if (value is RectMessage) {
+    } else if (value is ClipMessage) {
       buffer.putUint8(139);
       writeValue(buffer, value.encode());
-    } else if (value is WindowLayoutMessage) {
+    } else if (value is WindowMetricsMessage) {
       buffer.putUint8(140);
       writeValue(buffer, value.encode());
-    } else if (value is FeedbackConfigMessage) {
+    } else if (value is SystemColorsMessage) {
       buffer.putUint8(141);
       writeValue(buffer, value.encode());
-    } else if (value is SecureBlobInfo) {
+    } else if (value is RectMessage) {
       buffer.putUint8(142);
       writeValue(buffer, value.encode());
-    } else if (value is AppInfoMessage) {
+    } else if (value is WindowLayoutMessage) {
       buffer.putUint8(143);
+      writeValue(buffer, value.encode());
+    } else if (value is FeedbackConfigMessage) {
+      buffer.putUint8(144);
+      writeValue(buffer, value.encode());
+    } else if (value is SecureBlobInfo) {
+      buffer.putUint8(145);
+      writeValue(buffer, value.encode());
+    } else if (value is AppInfoMessage) {
+      buffer.putUint8(146);
+      writeValue(buffer, value.encode());
+    } else if (value is PackInfoMessage) {
+      buffer.putUint8(147);
+      writeValue(buffer, value.encode());
+    } else if (value is VoiceRequestMessage) {
+      buffer.putUint8(148);
+      writeValue(buffer, value.encode());
+    } else if (value is VoiceEventMessage) {
+      buffer.putUint8(149);
       writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
@@ -898,27 +1129,42 @@ class _PigeonCodec extends StandardMessageCodec {
         final value = readValue(buffer) as int?;
         return value == null ? null : ContextMenuAction.values[value];
       case 133:
-        return EditorInfoMessage.decode(readValue(buffer)!);
+        final value = readValue(buffer) as int?;
+        return value == null ? null : PackKind.values[value];
       case 134:
-        return SelectionMessage.decode(readValue(buffer)!);
+        final value = readValue(buffer) as int?;
+        return value == null ? null : VoiceStartStatus.values[value];
       case 135:
-        return SurroundingTextMessage.decode(readValue(buffer)!);
+        final value = readValue(buffer) as int?;
+        return value == null ? null : VoiceEventKind.values[value];
       case 136:
-        return ClipMessage.decode(readValue(buffer)!);
+        return EditorInfoMessage.decode(readValue(buffer)!);
       case 137:
-        return WindowMetricsMessage.decode(readValue(buffer)!);
+        return SelectionMessage.decode(readValue(buffer)!);
       case 138:
-        return SystemColorsMessage.decode(readValue(buffer)!);
+        return SurroundingTextMessage.decode(readValue(buffer)!);
       case 139:
-        return RectMessage.decode(readValue(buffer)!);
+        return ClipMessage.decode(readValue(buffer)!);
       case 140:
-        return WindowLayoutMessage.decode(readValue(buffer)!);
+        return WindowMetricsMessage.decode(readValue(buffer)!);
       case 141:
-        return FeedbackConfigMessage.decode(readValue(buffer)!);
+        return SystemColorsMessage.decode(readValue(buffer)!);
       case 142:
-        return SecureBlobInfo.decode(readValue(buffer)!);
+        return RectMessage.decode(readValue(buffer)!);
       case 143:
+        return WindowLayoutMessage.decode(readValue(buffer)!);
+      case 144:
+        return FeedbackConfigMessage.decode(readValue(buffer)!);
+      case 145:
+        return SecureBlobInfo.decode(readValue(buffer)!);
+      case 146:
         return AppInfoMessage.decode(readValue(buffer)!);
+      case 147:
+        return PackInfoMessage.decode(readValue(buffer)!);
+      case 148:
+        return VoiceRequestMessage.decode(readValue(buffer)!);
+      case 149:
+        return VoiceEventMessage.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
     }
@@ -1461,6 +1707,118 @@ class ImeHostApi {
     _extractReplyValueOrThrow(pigeonVar_replyList, pigeonVar_channelName, isNullValid: true);
   }
 
+  Future<bool> hasMicPermission() async {
+    final pigeonVar_channelName = 'dev.flutter.pigeon.myna.ImeHostApi.hasMicPermission$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
+    return pigeonVar_replyValue! as bool;
+  }
+
+  /// Opens the transparent, non-exported permission activity. True if granted.
+  Future<bool> requestMicPermission() async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.myna.ImeHostApi.requestMicPermission$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
+    return pigeonVar_replyValue! as bool;
+  }
+
+  /// Starts recording with an installed voice pack. Events arrive via ImeFlutterApi.onVoiceEvent.
+  Future<VoiceStartStatus> startVoice(VoiceRequestMessage request) async {
+    final pigeonVar_channelName = 'dev.flutter.pigeon.myna.ImeHostApi.startVoice$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[request]);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
+    return pigeonVar_replyValue! as VoiceStartStatus;
+  }
+
+  /// Stop listening, deliver the last finalText, then `stopped`.
+  Future<void> stopVoice() async {
+    final pigeonVar_channelName = 'dev.flutter.pigeon.myna.ImeHostApi.stopVoice$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    _extractReplyValueOrThrow(pigeonVar_replyList, pigeonVar_channelName, isNullValid: true);
+  }
+
+  /// Stop and discard: no more text events, then `stopped`.
+  Future<void> cancelVoice() async {
+    final pigeonVar_channelName = 'dev.flutter.pigeon.myna.ImeHostApi.cancelVoice$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    _extractReplyValueOrThrow(pigeonVar_replyList, pigeonVar_channelName, isNullValid: true);
+  }
+
+  /// Translates on the device. Throws code `no_pack` when no installed pack covers [from] -> [to],
+  /// `failed` otherwise. Never logs [text].
+  Future<String> translate(String text, String from, String to) async {
+    final pigeonVar_channelName = 'dev.flutter.pigeon.myna.ImeHostApi.translate$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[text, from, to]);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
+    return pigeonVar_replyValue! as String;
+  }
+
+  /// Frees the loaded translation model (panel closed, memory pressure).
+  Future<void> releaseTranslator() async {
+    final pigeonVar_channelName = 'dev.flutter.pigeon.myna.ImeHostApi.releaseTranslator$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    _extractReplyValueOrThrow(pigeonVar_replyList, pigeonVar_channelName, isNullValid: true);
+  }
+
   Future<WindowMetricsMessage> getWindowMetrics() async {
     final pigeonVar_channelName = 'dev.flutter.pigeon.myna.ImeHostApi.getWindowMetrics$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
@@ -1707,6 +2065,24 @@ class PlatformHostApi {
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
     _extractReplyValueOrThrow(pigeonVar_replyList, pigeonVar_channelName, isNullValid: true);
   }
+
+  /// Installed, verified model packs (Wave 3). Never returns file contents.
+  Future<List<PackInfoMessage>> listPacks() async {
+    final pigeonVar_channelName = 'dev.flutter.pigeon.myna.PlatformHostApi.listPacks$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
+    return (pigeonVar_replyValue! as List<Object?>).cast<PackInfoMessage>();
+  }
 }
 
 /// Registered only on the settings-app engine.
@@ -1918,6 +2294,38 @@ class AppHostApi {
     );
     return pigeonVar_replyValue as Uint8List?;
   }
+
+  /// Verifies (signature, hashes) and installs a .mynapack file from a SAF URI, replacing an
+  /// installed pack with the same id. Throws code `bad_signature`, `bad_format`, `too_large`,
+  /// `unsupported_version` or `no_space`.
+  Future<PackInfoMessage> importPack(String uri) async {
+    final pigeonVar_channelName = 'dev.flutter.pigeon.myna.AppHostApi.importPack$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[uri]);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
+    return pigeonVar_replyValue! as PackInfoMessage;
+  }
+
+  Future<void> deletePack(String id) async {
+    final pigeonVar_channelName = 'dev.flutter.pigeon.myna.AppHostApi.deletePack$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[id]);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    _extractReplyValueOrThrow(pigeonVar_replyList, pigeonVar_channelName, isNullValid: true);
+  }
 }
 
 abstract class ImeFlutterApi {
@@ -1948,6 +2356,9 @@ abstract class ImeFlutterApi {
   Future<void> onSettingsChanged(List<String> sections);
 
   Future<void> onInlineSuggestionsChanged(int count);
+
+  /// Voice typing events (Wave 3-D), in order, on the main thread.
+  Future<void> onVoiceEvent(VoiceEventMessage event);
 
   static void setUp(ImeFlutterApi? api, {BinaryMessenger? binaryMessenger, String messageChannelSuffix = ''}) {
     messageChannelSuffix = messageChannelSuffix.isNotEmpty ? '.$messageChannelSuffix' : '';
@@ -2259,6 +2670,31 @@ abstract class ImeFlutterApi {
           final int arg_count = args[0]! as int;
           try {
             await api.onInlineSuggestionsChanged(arg_count);
+            return wrapResponse(empty: true);
+          } on PlatformException catch (e) {
+            return wrapResponse(error: e);
+          } catch (e) {
+            return wrapResponse(
+              error: PlatformException(code: 'error', message: e.toString()),
+            );
+          }
+        });
+      }
+    }
+    {
+      final pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.myna.ImeFlutterApi.onVoiceEvent$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
+      if (api == null) {
+        pigeonVar_channel.setMessageHandler(null);
+      } else {
+        pigeonVar_channel.setMessageHandler((Object? message) async {
+          final List<Object?> args = message! as List<Object?>;
+          final VoiceEventMessage arg_event = args[0]! as VoiceEventMessage;
+          try {
+            await api.onVoiceEvent(arg_event);
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);

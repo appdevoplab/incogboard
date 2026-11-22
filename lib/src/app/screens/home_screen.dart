@@ -12,7 +12,6 @@ import '../app_services.dart';
 import '../common/settings_widgets.dart';
 import '../onboarding/myna_mascot.dart';
 import '../routes.dart';
-import '../shell/app_router.dart';
 import '../shell/language_catalog.dart';
 import '../shell/settings_actions.dart';
 
@@ -132,8 +131,14 @@ class _HomeScreenState extends State<HomeScreen> {
               SettingsTile(
                 icon: Icons.mic_none_outlined,
                 title: 'Voice',
-                subtitle: 'Offline voice arrives in a later update',
-                onTap: () => open(voiceRoute),
+                subtitle: 'Speak to type, on this phone',
+                onTap: () => open(MynaRoutes.voice),
+              ),
+              SettingsTile(
+                icon: Icons.translate,
+                title: 'Translation',
+                subtitle: 'Translate as you type, offline',
+                onTap: () => open(MynaRoutes.translate),
               ),
             ],
           ),

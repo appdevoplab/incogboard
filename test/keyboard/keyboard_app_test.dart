@@ -332,7 +332,7 @@ void main() {
     await h.focus(tester);
     final handle = tester.ensureSemantics();
     await tester.pump();
-    expect(find.bySemanticsLabel('Incognito mode on'), findsOneWidget);
+    expect(find.bySemanticsLabel(RegExp('^Incognito mode on')), findsOneWidget);
     handle.dispose();
   });
 

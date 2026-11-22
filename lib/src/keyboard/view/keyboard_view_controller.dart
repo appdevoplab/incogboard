@@ -171,6 +171,7 @@ class KeyboardViewController {
       case KeyType.period:
         return d.popup.isNotEmpty && !_input.currentField.isSensitive;
       case KeyType.space:
+      case KeyType.globe:
         return true;
       case KeyType.enter:
         return _input.currentField.enterInsertsNewline;
@@ -388,6 +389,15 @@ class KeyboardViewController {
       case KeyType.space:
         t.committed = true;
         _haptic(HapticKind.keyLongPress);
+        final picker = hooks.onLanguagePicker;
+        if (picker != null) {
+          picker();
+        } else {
+          _fire(() => _host.showInputMethodPicker());
+        }
+      case KeyType.globe:
+        t.committed = true;
+        _haptic(HapticKind.keyLongPress);
         _fire(() => _host.showInputMethodPicker());
       case KeyType.enter:
         t.committed = true;
@@ -460,7 +470,12 @@ class KeyboardViewController {
       case KeyType.numbers:
         _input.setPage(KeyboardPage.numpad);
       case KeyType.globe:
-        _fire(() => _host.switchToNextInputMethod(false).then<void>((_) {}));
+        final next = hooks.onLanguageSwitch;
+        if (next != null) {
+          next();
+        } else {
+          _fire(() => _host.switchToNextInputMethod(false).then<void>((_) {}));
+        }
       case KeyType.emoji:
         hooks.onEmoji?.call();
       case KeyType.voice:

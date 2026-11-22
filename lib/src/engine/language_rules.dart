@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// Default (English) language rules. Wave 3 adds per-language rules in
-// lib/src/engine/lang/ and registers them in [languageRulesFor].
+// Default (English) language rules. Wave 3 agents add per-language rules in
+// lib/src/engine/lang/ (european.dart, indic.dart, arabic.dart); lang/registry.dart picks them.
 import 'contracts.dart';
+import 'lang/registry.dart' show rulesForLanguage;
 
 class DefaultLanguageRules implements LanguageRules {
   const DefaultLanguageRules([this.language = 'en']);
@@ -37,5 +38,5 @@ class DefaultLanguageRules implements LanguageRules {
 
 typedef LanguageRulesResolver = LanguageRules Function(LanguageId language);
 
-/// Registry hook for Wave 3. Unknown languages get English-like rules.
-LanguageRules languageRulesFor(LanguageId language) => DefaultLanguageRules(language);
+/// Rules for [language]. Unknown languages get English-like rules.
+LanguageRules languageRulesFor(LanguageId language) => rulesForLanguage(language);

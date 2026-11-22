@@ -39,6 +39,7 @@ class ImeEvents implements ImeFlutterApi {
   final _settings = StreamController<List<String>>.broadcast();
   final _trimMemory = StreamController<int>.broadcast();
   final _systemColors = StreamController<void>.broadcast();
+  final _voice = StreamController<VoiceEventMessage>.broadcast(sync: true);
 
   Stream<StartInputEvent> get startInput => _startInput.stream;
   Stream<void> get finishInput => _finishInput.stream;
@@ -47,6 +48,9 @@ class ImeEvents implements ImeFlutterApi {
   Stream<List<String>> get settingsChanged => _settings.stream;
   Stream<int> get trimMemory => _trimMemory.stream;
   Stream<void> get systemColorsChanged => _systemColors.stream;
+
+  /// Voice typing events (Wave 3-D), in the order Kotlin sent them.
+  Stream<VoiceEventMessage> get voice => _voice.stream;
 
   /// Registers this object as the receiver of Kotlin callbacks.
   void attach() => ImeFlutterApi.setUp(this);
@@ -102,4 +106,7 @@ class ImeEvents implements ImeFlutterApi {
 
   @override
   Future<void> onInlineSuggestionsChanged(int count) async => inlineSuggestionCount.value = count;
+
+  @override
+  Future<void> onVoiceEvent(VoiceEventMessage event) async => _voice.add(event);
 }
