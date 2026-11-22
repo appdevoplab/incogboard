@@ -140,7 +140,7 @@ def open_layers():
     lid_straps = [rotate(rect(36, 30, 5, 20), *hinge, -24), rotate(rect(67, 30, 5, 20), *hinge, -24)]
     return [
         layer(GOLD, BODY),
-        layer(BROWN, rect(26, 54, 56, 4)),
+        layer(BROWN, rect(26, 54, 56, 6)),
         layer(BROWN, rect(36, 54, 5, 24), rect(67, 54, 5, 24)),
         layer(GOLD, lid),
         layer(GOLD_LIGHT, lid_shine),
