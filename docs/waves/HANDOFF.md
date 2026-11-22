@@ -3,7 +3,9 @@
 State as of 2026-11-22 (evening):
 - **Waves 0-3 are done and merged on `main`.** Wave 3 merged in the order A, C, B, T, D (`5e4e9c8`, `21fbdfd`, `b382e9f`, `6cb5d23`, `e61fd52`), then follow-ups `2e73d22` (merge fixes), `f05a2ed` (onnxruntime pin), `bcad579` (translate close, voice "base" fallback) and the Wave 3 finish commit (see "Wave 3 finish").
 - Checks on `main`: `flutter analyze` 0 issues, `flutter test` 1020 pass, Android JVM tests 103 pass (5 real-model tests skipped without staged packs). Emulator smoke test done; release permission gate passes.
-- The Wave 3 worktrees and branches are removed. **Next: Wave 4** (the user answers the option questions first; nothing is written yet).
+- The Wave 3 worktrees and branches are removed.
+- **Wave 4 setup, part 1 done (2026-11-22 night):** the Myna → Kosha rename (`4a3c394`) and the BIS InScript layouts (`238cbcc`); `flutter test` 1053, JVM 103, release gate passes. **Next:** the Wave 4 seams (CJK candidate grid and dictionary packs, localisation, brand assets) and the five briefs in `docs/waves/wave4/`.
+- Names in the Wave 0-3 sections of this file are historical (Myna, `.mynapack`, `MynaMascot`, …); the code now says Kosha.
 
 ## Wave 3 result
 
@@ -17,7 +19,7 @@ State as of 2026-11-22 (evening):
   - R8 keep rules for `com.k2fsa.sherpa.onnx.**` and `ai.onnxruntime.**`.
   - Wave 3 notices folded into `THIRD_PARTY_NOTICES.md` and `assets/notices/`.
 - **onnxruntime pinned to 1.28.0 (`f05a2ed`):** 1.29.0+ ships `ai.onnxruntime.telemetry` (an HttpClient started by a `TelemetryInitializer` provider at app launch) and requests INTERNET and ACCESS_NETWORK_STATE. 1.28.0 has none of it. sherpa-onnx v2.0.1 (built on 1.28.2) did **not** load against it until its symbol-version need was patched (see "Wave 3 finish"). Never upgrade without checking the AAR manifest and classes; the release gate now also fails on the telemetry classes or provider.
-- Dev packs (not in git) live outside the repo in `%USERPROFILE%\.myna\packs\`: `signed\voice-whisper-base.mynapack` (161 MB) and `signed\translate-en-es.mynapack` (116 MB), plus `staging\` with all 14 staged folders (voice base and small; translate en↔de/es/fr/hi/pt/ru; 1.8 GB) and `download\` with the raw downloads they were built from (`voice\`: the sherpa Whisper tarballs and silero_vad; `translate-hf-cache\`: the Xenova Hugging Face cache; 2.1 GB). Copies of the two signed packs are also in `build/packs/` until the next `flutter clean`. Sign more with `tool/make_pack.dart --dir %USERPROFILE%\.myna\packs\staging\<id>`.
+- Dev packs (not in git) live outside the repo in `%USERPROFILE%\.kosha\packs\` (the dev key in `%USERPROFILE%\.kosha\keys\`): `signed\voice-whisper-base.koshapack` (161 MB) and `signed\translate-en-es.koshapack` (116 MB), re-signed after the rename, plus `staging\` with all 14 staged folders (voice base and small; translate en↔de/es/fr/hi/pt/ru; 1.8 GB) and `download\` with the raw downloads they were built from (`voice\`: the sherpa Whisper tarballs and silero_vad; `translate-hf-cache\`: the Xenova Hugging Face cache; 2.1 GB). Sign more with `tool/make_pack.dart --dir %USERPROFILE%\.kosha\packs\staging\<id>`.
 - Emulator smoke test so far (API 37), all pass:
   - English autocorrect ("recieve wierd thnaks" → "receive weird thanks"); "teh"/"dont" are no longer corrected only because Myna learned them from repeated test typing
   - password field shows the private-field chip
@@ -31,11 +33,11 @@ State as of 2026-11-22 (evening):
 
 ## Wave 4 decisions (user, 2026-11-22 evening; briefs not written yet)
 
-- **Name: Kosha** (Sanskrit/Hindi *kosha*, "treasury, a store of gold": your words are your treasure, kept with you). **Full rename** in the Wave 4 setup by the orchestrator, before agents start: app name, strings, docs, notices, Dart package `myna`→`kosha`, Kotlin packages and classes (`MynaImeService`→`KoshaImeService`, `MynaMascot`, `MynaLog`, …), backup/pack magic names where safe. The applicationId stays a placeholder until the GitHub username (Wave 5), e.g. `io.github.<username>.kosha`. Name not trademark-checked yet (Wave 5).
+- **Name: Kosha** (Sanskrit/Hindi *kosha*, "treasury, a store of gold": your words are your treasure, kept with you). **Full rename** in the Wave 4 setup by the orchestrator, before agents start: app name, strings, docs, notices, Dart package `myna`→`kosha`, Kotlin packages and classes (`MynaImeService`→`KoshaImeService`, `MynaMascot`, `MynaLog`, …), backup/pack magic names where safe. **Done in `4a3c394`:** besides the code, the placeholder applicationId became `app.kosha.keyboard` (keeping `app.myna.keyboard` would have mismatched the Kotlin namespace in every adb script and IME id; Wave 5 sets `io.github.<username>.kosha`). Formats keep their byte lengths: pack magic `KOSHAPAK` (`.koshapack`), backup magic `KOSHBK` (`.koshabackup`); keystore alias `kosha.secure_store.v1`; theme ids `kosha_*`. Old dev data does not carry over: the emulator was reinstalled and both packs re-imported. The archived Wave 1-3 briefs keep the old name. Name not trademark-checked yet (Wave 5).
 - **Brand: "treasure chest key"** icon: a small rounded treasure chest whose lock is a keyboard key, gold on Material You colours. No character mascot; the chest has the poses (open, locked, glowing, closed) in place of the myna bird.
-- **InScript:** the orchestrator rewrites the 5 InScript layouts against the BIS chart, with tests, during the Wave 4 setup.
+- **InScript (done, `238cbcc`):** `tool/indic/make_inscript.dart` writes the 5 layouts from the BIS tables (xkeyboard-config `deva`, `ben_inscript`, `tam`, `tel`); 11 columns; extra characters on popups (listed in the tool); `test/keyboard/layouts_inscript_test.dart`. `make_layouts.py` now writes only translit and phonetic. On the emulator: Hindi नमस्ते, Tamil வணக்கம் (ண = Shift+ம). The phonetic layouts are still unchecked against any chart.
 - **APK size:** the perf agent (D) builds a reduced-operator onnxruntime 1.28 (only the operators the Whisper and Opus-MT models use; no telemetry; keep the `VERS_1.28.0` symbol version or re-patch sherpa).
-- **CJK data:** Chinese (rime-ice, OpenCC) and Japanese (Mozc) dictionaries ship as signed `.mynapack`/Kosha packs, imported in Model packs, not in the APK.
+- **CJK data:** Chinese (rime-ice, OpenCC) and Japanese (Mozc) dictionaries ship as signed `.koshapack` packs, imported in Model packs, not in the APK.
 - **Agents:** Haiku, high effort, for all five (brand, Chinese, Japanese, a11y/l10n, perf/QA).
 
 ## Wave 3 finish (2026-11-22 evening)
@@ -61,7 +63,7 @@ State as of 2026-11-22 (evening):
 
 - Licences to confirm before release: the pt-BR word list (AOSP-derived, patched; see `docs/notices/european.md`) and the Arabic list (HeliBoard says CC BY 4.0 from Leipzig; not checked directly).
 - Translation speed: 200-560 ms per sentence on this PC's CPU in Python; the 300 ms phone budget is not met yet. Not measured in Kotlin or on a phone.
-- **InScript layouts are wrong in places (confirmed on the emulator).** Hindi/Marathi/Telugu bottom row gives ं ः म व ल न स where BIS InScript has x=ं c=म v=न b=व n=ल m=स; च ट ड य ञ are popups instead of base keys (the 11th column of the PC layout has no slot). Tamil InScript is broken: 9 keys in row 1, ப and த twice, ச as a popup twice. Phonetic layouts were not checked against a chart either.
+- ~~InScript layouts wrong~~: fixed in the Wave 4 setup (`238cbcc`). The phonetic layouts were never checked against a chart.
 - APK size: 79 MB arm64 (see above). A reduced-operator onnxruntime build, or moving dictionaries into packs, would cut it a lot.
 - Toolbar holds up to 8 buttons (about 40 dp each, under 48 dp); Insert in the translate strip is 44 dp tall.
 - Toggling translation on or off takes effect at the next keyboard start (hooks are fixed at attach).
@@ -75,8 +77,8 @@ State as of 2026-11-22 (evening):
 - Long-press popups have no accessibility nodes. Hold with `adb shell input motionevent DOWN x y`, wait ~900 ms, `MOVE` to the item (the first sits over the key, then one key width each), `UP`. A plain hold-and-release commits the first item.
 - The voice panel closes itself after 5 s of silence, so tap Stop/Cancel by coordinates within that time (a `--windows` dump takes ~1.5 s).
 - If the emulator is not running: `Start-Process "$env:ANDROID_HOME\emulator\emulator.exe" -ArgumentList '-avd','Medium_Phone_API_37.0','-no-snapshot-save'`, then `Wait-Device`.
-- Reinstalling the APK, or force-stopping the app while Myna is the keyboard, makes Android switch to Gboard: run `Enable-Myna` after both, and force-stop before enabling, not after.
-- Change languages quickly by editing `no_backup/data/settings.json` through `run-as app.myna.keyboard` (force-stop first).
+- Reinstalling the APK, or force-stopping the app while Kosha is the keyboard, makes Android switch to Gboard: run `Enable-Kosha` after both, and force-stop before enabling, not after.
+- Change languages quickly by editing `no_backup/data/settings.json` through `run-as app.kosha.keyboard` (force-stop first; a fresh install has no `settings.json` until a setting changes).
 - The testbed field is the EditText under its label (tap y≈142 for `text`), not the label.
 
 - **User decisions for Wave 2 (2026-11-21):**
@@ -179,7 +181,7 @@ State as of 2026-11-22 (evening):
 
 ## Open questions for the user
 
-1. GitHub username, for `io.github.<username>.kosha`: deferred to Wave 5 (placeholder `app.myna.keyboard` stays until then).
+1. GitHub username, for `io.github.<username>.kosha`: deferred to Wave 5 (placeholder `app.kosha.keyboard` until then).
 2. ~~The app name~~: decided 2026-11-22, **Kosha** (see "Wave 4 decisions").
 
 Answered 2026-11-21: only hi/mr/bn/ta/te for Indic; voice uses sherpa-onnx + Whisper with no bundled model (packs only); the translator joins Wave 3; packs use a dev signing key until Wave 5.
