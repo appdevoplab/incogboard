@@ -4,6 +4,7 @@
 // The orchestrator seeded the entries; refine them as you build. The first layout of each is
 // "English letters" (transliteration), so a new user can type right away.
 import '../contracts.dart';
+import 'indic/indic_rules.dart';
 import 'language_info.dart';
 
 const List<LanguageInfo> indicLanguages = [
@@ -85,4 +86,8 @@ const List<LanguageInfo> indicLanguages = [
 ];
 
 /// Rules for the languages above; null for any other language.
-LanguageRules? indicRules(LanguageId language) => null;
+LanguageRules? indicRules(LanguageId language) => switch (language) {
+  'hi' || 'mr' || 'bn' => IndicRules(language, danda: true),
+  'ta' || 'te' => IndicRules(language),
+  _ => null,
+};
