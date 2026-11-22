@@ -34,8 +34,24 @@ Future<(AppHarness, _Probe)> boot(
   String text = 'hello world',
   MynaSettings? settings,
   EditorInfoMessage? field,
+  bool packInstalled = true,
 }) async {
   final h = AppHarness(settings: settings ?? _settings(), text: text);
+  when(() => h.platform.listPacks()).thenAnswer(
+    (_) async => [
+      if (packInstalled)
+        PackInfoMessage(
+          id: 'translate-en-es',
+          kind: PackKind.translation,
+          name: 'English → Spanish',
+          version: 1,
+          languages: const ['en', 'es'],
+          sizeBytes: 100,
+          engine: 'opus-mt-onnx',
+          license: 'Apache-2.0',
+        ),
+    ],
+  );
   final probe = _Probe();
   await h.pump(tester, features: [probe, createTranslateFeature()]);
   await h.focus(tester, field);
@@ -58,6 +74,13 @@ Future<void> runChip(WidgetTester tester, KeyboardSession session, String id) as
 
 void main() {
   group('translate selection', () {
+    testWidgets('no translation pack installed: no Translate chip, so Select all keeps its slot', (tester) async {
+      final (h, probe) = await boot(tester, packInstalled: false);
+      await select(h, 0, 5);
+      await tester.pump();
+      expect(hasChip(probe.session!, translateSelectionChipId), isFalse);
+    });
+
     testWidgets('a selection in a normal field offers Translate; a collapsed cursor does not', (tester) async {
       final (h, probe) = await boot(tester);
       when(() => h.host.translate(any(), any(), any())).thenAnswer((_) async => 'Hola');

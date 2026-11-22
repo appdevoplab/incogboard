@@ -123,6 +123,12 @@ void main() {
       expect(foldKey('Ёж'), isNot(foldKey('еж')));
     });
 
+    test('Arabic harakat and tatweel fold away; the letters stay', () {
+      expect(foldKey('مُحَمَّد'), 'محمد');
+      expect(foldKey('كتـــاب'), 'كتاب');
+      expect(foldKey('أ'), isNot(foldKey('ا')));
+    });
+
     test('Ukrainian apostrophes match each other', () {
       expect(foldKey('п’ять'), foldKey("п'ять"));
       expect(foldKey('пʼять'), foldKey("п'ять"));

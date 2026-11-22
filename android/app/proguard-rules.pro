@@ -17,3 +17,7 @@
 -keep class app.myna.keyboard.ime.MynaImeService { *; }
 -keep class app.myna.keyboard.SettingsActivity { *; }
 -keep class app.myna.keyboard.MynaApplication { *; }
+
+# Wave 3: native inference. JNI looks these classes, fields and methods up by name.
+-keep class com.k2fsa.sherpa.onnx.** { *; }
+-keep class ai.onnxruntime.** { *; }
