@@ -16,7 +16,7 @@
    - Check email/url pages and swipe ("hello", "world").
    - Check suggestions and autocorrect ("teh " → "the ").
    - Check themes in light and dark mode.
-5. Release check: `flutter build apk --release --split-per-abi`, then aapt2 permissions must show no INTERNET.
+5. Release check: `flutter build apk --release --split-per-abi`, then `bash tool/check_release_permissions.sh build/app/outputs/flutter-apk/*-release.apk` (Git Bash): no network permissions and no onnxruntime telemetry.
 6. Commit the merge, and update the memory file myna-project.md with the wave status.
 
 ## Wave 2: product (5 agents)
@@ -52,8 +52,9 @@
 
 ## Wave 3: languages, voice and translation (5)
 
-**Status (2026-11-22):**
-- Setup done (commit `92ead05`): Pigeon voice/translation/pack calls, the Kotlin pack store (signed `.mynapack`) and service stubs, onnxruntime-android (now pinned to 1.28.0, see below), the language registry and seams, and the strip's toolbar toggle (fixes the hidden toolbar).
+**Status (2026-11-22): done.** Merged on `main` (A, C, B, T, D), emulator smoke test passed, release gate passes (no network permissions; arm64 79.0 MB). Worktrees and branches removed. Details and open items: `HANDOFF.md`, "Wave 3 finish".
+- Setup done (commit `92ead05`): Pigeon voice/translation/pack calls, the Kotlin pack store (signed `.mynapack`) and service stubs, onnxruntime-android (pinned to 1.28.0: 1.29+ ships telemetry), the language registry and seams, and the strip's toolbar toggle (fixes the hidden toolbar).
+- sherpa-onnx's `.so` files are patched to need onnxruntime `VERS_1.28.0` (`tool/patch_sherpa_ort_version.dart`); rerun it after copying new sherpa libraries.
 - Briefs are in `docs/waves/wave3/` (A, B, C, D, T); ownership is in `docs/PARALLEL_WORK.md`.
 - **User decisions (2026-11-21):**
   - The translator joins Wave 3 as agent T; brand (old E) moves to Wave 4.

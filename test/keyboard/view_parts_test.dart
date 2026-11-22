@@ -128,6 +128,31 @@ void main() {
       expect(applyShift('ß'), 'ẞ');
     });
 
+    test('semantics name what the key types: shiftedOutput layers, and lowercase labels', () {
+      const sa = KeyDef(type: KeyType.character, output: 'स', shiftedOutput: 'ष');
+      expect(visual(sa).semantics, 'स');
+      expect(visual(sa, shift: ShiftState.once).label, 'ष');
+      expect(visual(sa, shift: ShiftState.once).semantics, 'ष');
+      final lower = resolveKeyVisual(
+        KeyDef.character('a'),
+        shift: ShiftState.once,
+        page: KeyboardPage.letters,
+        field: InputFieldInfo.plainText,
+        typing: const TypingSettings(lowercaseLabels: true),
+        showHints: true,
+      );
+      expect(lower.label, 'a');
+      expect(lower.semantics, 'A', reason: 'the key still types A');
+    });
+
+    test('invisible joiners get a visible popup label and a spoken name', () {
+      expect(displayLabel('‍'), 'ZWJ');
+      expect(displayLabel('‌'), 'ZWNJ');
+      expect(displayLabel('क'), 'क');
+      expect(spokenName('‍'), 'Zero width joiner');
+      expect(spokenName('‌'), 'Zero width non-joiner');
+    });
+
     test('hints show only when allowed', () {
       const def = KeyDef(type: KeyType.character, output: 'q', hint: '1');
       expect(visual(def).hint, '1');
