@@ -4,7 +4,7 @@ State as of 2026-11-22 (evening):
 - **Waves 0-3 are done and merged on `main`.** Wave 3 merged in the order A, C, B, T, D (`5e4e9c8`, `21fbdfd`, `b382e9f`, `6cb5d23`, `e61fd52`), then follow-ups `2e73d22` (merge fixes), `f05a2ed` (onnxruntime pin), `bcad579` (translate close, voice "base" fallback) and the Wave 3 finish commit (see "Wave 3 finish").
 - Checks on `main`: `flutter analyze` 0 issues, `flutter test` 1020 pass, Android JVM tests 103 pass (5 real-model tests skipped without staged packs). Emulator smoke test done; release permission gate passes.
 - The Wave 3 worktrees and branches are removed.
-- **Wave 4 setup, part 1 done (2026-11-22 night):** the Myna → Kosha rename (`4a3c394`) and the BIS InScript layouts (`238cbcc`); `flutter test` 1053, JVM 103, release gate passes. **Next:** the Wave 4 seams (CJK candidate grid and dictionary packs, localisation, brand assets) and the five briefs in `docs/waves/wave4/`.
+- **Wave 4 setup done (2026-11-22 night):** the Myna → Kosha rename (`4a3c394`), the BIS InScript layouts (`238cbcc`) and the seams (`f2fd99a`); briefs in `docs/waves/wave4/` (COMMON, A-chinese, B-japanese, C-a11y-l10n, D-perf, E-brand) and the Wave 4 table in `docs/PARALLEL_WORK.md`. `flutter test` 1076, JVM 105 (5 skipped). **Next:** launch the five Wave 4 agents (Haiku, high effort, `isolation: worktree`, short prompts pointing at COMMON.md plus the brief), merge E, D, A, B, C.
 - Names in the Wave 0-3 sections of this file are historical (Myna, `.mynapack`, `MynaMascot`, …); the code now says Kosha.
 
 ## Wave 3 result
@@ -39,6 +39,17 @@ State as of 2026-11-22 (evening):
 - **APK size:** the perf agent (D) builds a reduced-operator onnxruntime 1.28 (only the operators the Whisper and Opus-MT models use; no telemetry; keep the `VERS_1.28.0` symbol version or re-patch sherpa).
 - **CJK data:** Chinese (rime-ice, OpenCC) and Japanese (Mozc) dictionaries ship as signed `.koshapack` packs, imported in Model packs, not in the APK.
 - **Agents:** Haiku, high effort, for all five (brand, Chinese, Japanese, a11y/l10n, perf/QA).
+
+## Wave 4 setup seams (`f2fd99a`)
+
+- **Composer:** `lib/src/keyboard/input/composer.dart` (`TextComposer`, `ComposerState/Step/Candidate`, `ComposerKeys`). `InputController.composer`/`composerState`/`composerActive`/`selectCandidate`/`onCustomKey`; it runs in text fields only (not passwords, email/URL, forceAscii); swipe, the predictor and autocorrect are off meanwhile; outside edits and new fields reset it; cursor moves go to it while it holds text.
+- **Candidates:** `lib/src/keyboard/candidates/` (strip replaces suggestions while the composer has state; grid is a `PanelPlacement.keys` panel).
+- **Flick:** `KeyDef.flick` keys show `FlickGuideState` and type the direction (a third of a key width, dominant axis); flick keys never swipe; `KeyType.custom` → `onCustomKey`; `KeyDef.spoken` for TalkBack. Checked on the emulator: あ/い/お/く.
+- **Languages:** zh (`pinyin_zh`) and ja (`kana12_ja` default, `romaji_ja`) seeded in agent files; `CjkRules`; `LayoutChoice.composes` (blend = active only). The 12-key layout has its own globe key (`withLanguageKey` skips narrow space keys).
+- **Packs:** `PackKind.dictionary`, `PlatformHostApi.getPackDirectory`, `lib/src/packs/installed_packs.dart`, a Dictionaries group on Model packs.
+- **Settings:** `chinese`/`japanese` sections, routes with stub screens linked from Languages ("Language options").
+- **l10n:** flutter_localizations + intl 0.20.3; `l10n.yaml`, `lib/l10n/app_en.arb` (generated `app_localizations*.dart` committed, excluded from analysis); `lib/src/app/l10n.dart` (`koshaLocalizationsDelegates` with material_ui's Material delegate, `context.l10n`). Every test `MaterialApp` passes the delegates.
+- After the merge: register blobs `learned_zh_phrases` and `learned_ja_words` (wipe, backup, privacy sizes); move A/B screen strings into the ARBs; apply E's `KoshaMascot(pose:)` call sites; add `android:localeConfig` (C) and `android:roundIcon` (E) to the manifest; sign the CJK dictionary packs.
 
 ## Wave 3 finish (2026-11-22 evening)
 

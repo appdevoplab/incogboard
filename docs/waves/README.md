@@ -104,7 +104,7 @@ Original plan for the wave:
 
 ## Wave 4: CJK, brand and polish (5)
 
-**Status (2026-11-22 night):** setup part 1 done: Myna → Kosha rename (`4a3c394`) and BIS InScript layouts (`238cbcc`). Still to do before launch: seams (CJK candidate grid, dictionary pack kind, localisation, brand asset slots) and the briefs in `docs/waves/wave4/`. User decisions: `HANDOFF.md`, "Wave 4 decisions". All five agents on Haiku, high effort.
+**Status (2026-11-22 night):** setup done: Myna → Kosha rename (`4a3c394`), BIS InScript layouts (`238cbcc`), seams (`f2fd99a`: composer, candidate strip and grid, flick, zh/ja, dictionary packs, l10n). Briefs: `docs/waves/wave4/` (COMMON, A-chinese, B-japanese, C-a11y-l10n, D-perf, E-brand); ownership in `docs/PARALLEL_WORK.md`. User decisions: `HANDOFF.md`, "Wave 4 decisions". Launch all five on Haiku, high effort. **Merge order:** E, D, A, B, C; after merging see `HANDOFF.md`, "Wave 4 setup seams".
 
 - **E (from Wave 3):** brand (name Kosha = "treasury, store of gold"):
   - Adaptive icon (foreground, background, monochrome): a rounded treasure chest whose lock is a keyboard key, gold on Material You colours.
