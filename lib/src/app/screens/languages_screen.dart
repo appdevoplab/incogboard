@@ -1,9 +1,12 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// OWNER: Wave 2-A. Languages and layouts: the active language, its layout, the multilingual
-// switch, and the languages that are coming. Writes the `languages` section.
+// OWNER: Wave 2-A, Wave 3-A. Languages: the enabled languages (drag to reorder, the first is the
+// default; a layout per language; remove), the languages still available, multilingual typing and
+// native digits. Writes the `languages` section.
 import 'package:material_ui/material_ui.dart';
 
+import '../../engine/contracts.dart' show LanguageId;
+import '../../engine/lang/registry.dart';
 import '../../settings/myna_settings.dart';
 import '../common/settings_widgets.dart';
 import '../shell/language_catalog.dart';
@@ -16,30 +19,49 @@ class LanguagesScreen extends StatelessWidget {
   Widget build(BuildContext context) => LiveSettings(
     builder: (context, settings) {
       final l = settings.languages;
-      final active = l.active;
+      final enabled = [for (final id in l.enabled) languageInfo(id)];
+      final available = [
+        for (final info in selectableLanguages)
+          if (!l.enabled.contains(info.id)) info,
+      ];
+      final anyDigits = enabled.any((info) => info.nativeDigits != null);
       return SettingsPage(
         title: 'Languages',
         children: [
           SettingsPanel(
-            title: 'Active language',
-            child: SettingsChoiceChips<String>(
-              options: [for (final id in l.enabled) ChoiceOption(id, languageLabel(id))],
-              selected: active,
-              onSelected: (id) => writeSettings(
-                context,
-                SettingsSection.languages,
-                (s) => s.copyWith(languages: s.languages.copyWith(active: id)),
+            title: 'Enabled, first is the default',
+            child: _EnabledList(settings: l),
+          ),
+          if (enabled.length > 1)
+            SettingsPanel(
+              title: 'Active language',
+              child: SettingsChoiceChips<String>(
+                options: [for (final info in enabled) ChoiceOption(info.id, info.nativeName)],
+                selected: l.active,
+                onSelected: (id) => _write(context, (x) => x.copyWith(active: id)),
               ),
             ),
-          ),
           SettingsGroup(
-            title: 'Layout for ${languageLabel(active)}',
+            title: 'Add a language',
             children: [
-              SettingsTile(
-                icon: Icons.keyboard_alt_outlined,
-                title: layoutLabel(layoutFor(l, active)),
-                subtitle: 'More layouts arrive with more languages',
-              ),
+              for (final info in available)
+                SettingsTile(
+                  icon: Icons.add,
+                  title: info.nativeName,
+                  subtitle: info.englishName,
+                  trailing: const Icon(Icons.add_circle_outline),
+                  onTap: () => _write(
+                    context,
+                    (x) => x.copyWith(enabled: [...x.enabled, info.id]),
+                    active: _activeAfterAdd(l, info.id),
+                  ),
+                ),
+              if (available.isEmpty)
+                const SettingsTile(
+                  icon: Icons.check_circle_outline,
+                  title: 'Every language is enabled',
+                  subtitle: 'Remove one above to make room.',
+                ),
             ],
           ),
           SettingsGroup(
@@ -47,26 +69,162 @@ class LanguagesScreen extends StatelessWidget {
               SettingsSwitchTile(
                 icon: Icons.layers_outlined,
                 title: 'Multilingual typing',
-                subtitle: 'Blend up to three enabled languages that share the layout\'s script',
+                subtitle:
+                    'Suggest words from up to three enabled languages that share the layout\'s script. '
+                    'A word that any of them knows is never auto-corrected.',
                 value: l.multilingual,
-                onChanged: (v) => writeSettings(
-                  context,
-                  SettingsSection.languages,
-                  (s) => s.copyWith(languages: s.languages.copyWith(multilingual: v)),
-                ),
+                onChanged: (v) => _write(context, (x) => x.copyWith(multilingual: v)),
               ),
+              if (anyDigits)
+                SettingsSwitchTile(
+                  icon: Icons.pin_outlined,
+                  title: 'Native digits',
+                  subtitle: 'Type digits in the script of the active language where it has them (०१२, ٠١٢).',
+                  value: l.nativeDigits,
+                  onChanged: (v) => _write(context, (x) => x.copyWith(nativeDigits: v)),
+                ),
             ],
-          ),
-          SettingsPanel(
-            title: 'Coming soon',
-            child: SettingsChoiceChips<String>(
-              options: [for (final id in plannedLanguageIds) ChoiceOption(id, languageLabel(id), enabled: false)],
-              selected: null,
-              onSelected: (_) {},
-            ),
           ),
         ],
       );
     },
   );
+
+  /// Writes the languages section. The first enabled language is the default; when the active one
+  /// is no longer enabled, the first one becomes active.
+  static void _write(
+    BuildContext context,
+    LanguageSettings Function(LanguageSettings current) change, {
+    String? active,
+  }) {
+    writeSettings(context, SettingsSection.languages, (s) {
+      final next = change(s.languages);
+      final enabled = next.enabled.isEmpty ? const ['en'] : next.enabled;
+      final chosen = active ?? next.active;
+      return s.copyWith(
+        languages: next.copyWith(enabled: enabled, active: enabled.contains(chosen) ? chosen : enabled.first),
+      );
+    });
+  }
+
+  /// A newly added language becomes the active one only when it is the first enabled language.
+  static String? _activeAfterAdd(LanguageSettings l, String added) => l.enabled.isEmpty ? added : null;
+}
+
+/// Reorderable list of the enabled languages with their layout and a remove button.
+class _EnabledList extends StatelessWidget {
+  const _EnabledList({required this.settings});
+
+  final LanguageSettings settings;
+
+  @override
+  Widget build(BuildContext context) {
+    final ids = settings.enabled;
+    final scheme = Theme.of(context).colorScheme;
+    return ReorderableListView(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      buildDefaultDragHandles: false,
+      onReorderItem: (oldIndex, newIndex) {
+        final list = [...ids];
+        final moved = list.removeAt(oldIndex);
+        list.insert(newIndex, moved);
+        LanguagesScreen._write(context, (x) => x.copyWith(enabled: list));
+      },
+      children: [
+        for (var i = 0; i < ids.length; i++)
+          _EnabledRow(
+            key: ValueKey(ids[i]),
+            index: i,
+            id: ids[i],
+            settings: settings,
+            canRemove: ids.length > 1,
+            color: scheme.surfaceContainer,
+          ),
+      ],
+    );
+  }
+}
+
+class _EnabledRow extends StatelessWidget {
+  const _EnabledRow({
+    super.key,
+    required this.index,
+    required this.id,
+    required this.settings,
+    required this.canRemove,
+    required this.color,
+  });
+
+  final int index;
+  final LanguageId id;
+  final LanguageSettings settings;
+  final bool canRemove;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    final info = languageInfo(id);
+    final layout = layoutChoiceFor(settings, id);
+    final scheme = Theme.of(context).colorScheme;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 2),
+      child: Material(
+        color: color,
+        borderRadius: BorderRadius.circular(16),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 64),
+          child: Row(
+            children: [
+              ReorderableDragStartListener(
+                index: index,
+                child: Semantics(
+                  label: 'Drag to reorder ${info.englishName}',
+                  child: const SizedBox(width: 48, height: 64, child: Icon(Icons.drag_indicator)),
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(info.nativeName, style: Theme.of(context).textTheme.titleMedium),
+                    Text(
+                      index == 0 ? '${info.englishName}, default' : info.englishName,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(color: scheme.onSurfaceVariant),
+                    ),
+                  ],
+                ),
+              ),
+              if (info.layouts.length > 1)
+                PopupMenuButton<String>(
+                  tooltip: 'Layout for ${info.englishName}',
+                  initialValue: layout.id,
+                  onSelected: (layoutId) =>
+                      LanguagesScreen._write(context, (x) => x.copyWith(layouts: {...x.layouts, id: layoutId})),
+                  itemBuilder: (context) => [
+                    for (final choice in info.layouts) PopupMenuItem(value: choice.id, child: Text(choice.name)),
+                  ],
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Text(layout.name, style: Theme.of(context).textTheme.labelLarge),
+                  ),
+                )
+              else
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: Text(layout.name, style: Theme.of(context).textTheme.labelLarge),
+                ),
+              IconButton(
+                tooltip: 'Remove ${info.englishName}',
+                icon: const Icon(Icons.remove_circle_outline),
+                onPressed: canRemove
+                    ? () => LanguagesScreen._write(context, (x) => x.copyWith(enabled: [...x.enabled]..remove(id)))
+                    : null,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

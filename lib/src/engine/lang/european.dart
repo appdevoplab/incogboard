@@ -10,7 +10,10 @@ const List<LanguageInfo> europeanLanguages = [
     englishName: 'Spanish',
     nativeName: 'Español',
     script: 'Latn',
-    layouts: [LayoutChoice('qwerty_es', 'QWERTY (Ñ)', script: 'Latn'), LayoutChoice('qwerty', 'QWERTY', script: 'Latn')],
+    layouts: [
+      LayoutChoice('qwerty_es', 'QWERTY (Ñ)', script: 'Latn'),
+      LayoutChoice('qwerty', 'QWERTY', script: 'Latn'),
+    ],
     currency: '€',
     domains: ['.es', '.com.mx', '.com.ar'],
   ),
@@ -97,12 +100,7 @@ const Set<String> _spaceAfter = {'.', ',', '!', '?', ':', ';'};
 
 /// Rules for the European languages: punctuation spacing, quotes and sentence ends.
 class EuropeanRules implements LanguageRules {
-  const EuropeanRules(
-    this.language, {
-    required this.quotes,
-    this.frenchSpacing = false,
-    this.invertedMarks = false,
-  });
+  const EuropeanRules(this.language, {required this.quotes, this.frenchSpacing = false, this.invertedMarks = false});
 
   @override
   final LanguageId language;
