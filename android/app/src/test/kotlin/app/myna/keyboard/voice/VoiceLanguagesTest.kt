@@ -69,7 +69,15 @@ class VoiceLanguagesTest {
 
     @Test
     fun aTranslationPackIsNeverUsedForVoice() {
-        assertNull(resolve("translate-en-es", "en"))
+        assertSame(base, resolve("translate-en-es", "en"))
+        assertNull(resolve("translate-en-es", "en", listOf(translation)))
+    }
+
+    @Test
+    fun aMissingNamedPackFallsBackToTheAutomaticChoice() {
+        // A deleted pack, or the pre-Wave-3 "base" value, must not make voice say "no model".
+        assertSame(base, resolve("base", "en"))
+        assertSame(small, resolve("voice-gone", "ar"))
     }
 
     @Test
@@ -88,6 +96,6 @@ class VoiceLanguagesTest {
     @Test
     fun noVoicePackMeansNoModel() {
         assertNull(resolve("", "en", emptyList()))
-        assertNull(resolve("missing", "en"))
+        assertNull(resolve("missing", "en", listOf(translation)))
     }
 }

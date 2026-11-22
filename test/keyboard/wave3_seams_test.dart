@@ -226,6 +226,12 @@ void main() {
     });
   });
 
+  test('a pre-Wave-3 voice model setting ("base") loads as automatic pack choice', () {
+    expect(VoiceSettings.fromJson({'modelId': 'base'}).modelId, '');
+    expect(VoiceSettings.fromJson({'modelId': 'small'}).modelId, '');
+    expect(VoiceSettings.fromJson({'modelId': 'voice-whisper-base'}).modelId, 'voice-whisper-base');
+  });
+
   test('voice events arrive on ImeEvents.voice in order', () async {
     final h = AppHarness();
     final got = <VoiceEventKind>[];

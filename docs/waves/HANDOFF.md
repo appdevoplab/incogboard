@@ -1,9 +1,65 @@
 # Handoff: continue from here after /clear
 
-State as of 2026-11-21 (evening):
-- **Waves 0, 1 and 2 are done and merged on `main`.** Wave 2 merged in the order B, C, D, E, A (merge commits `8254315`..`7f365f6`), then follow-ups `3f24ce1` and `9235155`. Agent worktrees and branches are removed.
-- Checks on `main`: `flutter analyze` 0 issues, `flutter test` 788 pass, Android JVM tests 46 pass, emulator smoke test passed, release gate passes.
-- **Wave 3 setup is committed (`92ead05`) and the briefs are in `docs/waves/wave3/`.** Next: launch agents A, B, C, D, T, then merge in the order A, C, B, T, D (see `docs/waves/README.md`).
+State as of 2026-11-22 (midday):
+- **Waves 0, 1, 2 and 3 are merged on `main`.** Wave 3 merged in the order A, C, B, T, D (`5e4e9c8`, `21fbdfd`, `b382e9f`, `6cb5d23`, `e61fd52`), then follow-ups `2e73d22` (merge fixes) and `f05a2ed` (onnxruntime pin), plus the voice/translate fixes listed under "Wave 3: still to do".
+- Checks on `main` after the merges: `flutter analyze` 0 issues, `flutter test` 1009 pass, Android JVM tests 102 pass (5 real-model tests skipped without staged packs).
+- **The Wave 3 emulator smoke test is half done and the release gate has not run yet.** See "Wave 3: still to do".
+
+## Wave 3 result
+
+- Agents (Haiku, high effort): A European, B Indic, C Arabic/Urdu, D voice, T translator. Brand moved to Wave 4. All branches stayed inside their ownership; no overlapping files, no CRLF churn.
+- B stopped repeatedly while its Wikipedia word counts ran; the orchestrator built bn/te data (`fe50fcd`) and stopped the agent. T's first report was empty; its work was safety-committed (`5512661`).
+- **User decisions (2026-11-21):** translator in Wave 3; voice = sherpa-onnx + Whisper, no bundled model (signed packs only); Indic only hi/mr/bn/ta/te; packs signed with an ECDSA P-256 dev key at `%USERPROFILE%\.myna\keys\pack-dev.pem` (outside the repo; Wave 5 swaps the release key); app name (Koel, Sarika, Wren, Pipit, Lark, Kestrel suggested) and GitHub username wait for Wave 5.
+- Fixed while merging (`2e73d22`):
+  - ar/ur dictionaries rebuilt: the old dictionary tool dropped every 1-3 letter word in caseless scripts (في، من، على). A had already fixed the tool.
+  - `foldKey` drops Arabic harakat and tatweel, so a word typed with vowel marks matches.
+  - Translate selection chip: priority 11 (Cut/Copy/Select all filled all 3 slots) and only shown when a translation pack is installed.
+  - R8 keep rules for `com.k2fsa.sherpa.onnx.**` and `ai.onnxruntime.**`.
+  - Wave 3 notices folded into `THIRD_PARTY_NOTICES.md` and `assets/notices/`.
+- **onnxruntime pinned to 1.28.0 (`f05a2ed`):** 1.29.0+ ships `ai.onnxruntime.telemetry` (an HttpClient started by a `TelemetryInitializer` provider at app launch) and requests INTERNET and ACCESS_NETWORK_STATE. 1.28.0 has none of it; sherpa-onnx v2.0.1 (built on 1.28.2) loads against it. Never upgrade without checking the AAR manifest and classes.
+- Signed dev packs (not in git): `build/packs/voice-whisper-base.mynapack` (161 MB) and `build/packs/translate-en-es.mynapack` (116 MB). Staging folders are in the D and T worktrees (`.claude/worktrees/agent-a8904fc33dde9aeb9|agent-a12470156dd569215/build/packs/staging/`); copy them out before removing the worktrees.
+- Emulator smoke test so far (API 37), all pass:
+  - English autocorrect ("recieve wierd thnaks" → "receive weird thanks"); "teh"/"dont" are no longer corrected only because Myna learned them from repeated test typing
+  - password field shows the private-field chip
+  - German QWERTZ with the globe key and "Deutsch" on the space bar; German + English blend ("ich bin hungry")
+  - Hindi in English letters: "namaste dosto" → "नमस्ते दोस्तों"
+  - Arabic "مرحبا بكم", with the strip mirrored (best in the centre, second on the right)
+  - Russian "привет как дела"
+  - Model packs screen: imported both packs through the system file picker (264 MB)
+  - translate panel: "where is the station" → "¿Dónde está la estación?", Insert; the keyboard logs no text
+  - mic permission prompt through the transparent activity; mic panel with the On-device badge and language chip
+
+## Wave 3: still to do (in this order)
+
+1. **Fixes committed at the end of the last session (analyze clean; seam, voice and translate tests pass; full suites not rerun):**
+   - The translate panel had no way out (keys stayed redirected): added a "Close translation" button (`translate_panel.dart`) and a test.
+   - Voice said "Voice needs a voice pack" with Whisper installed: old settings hold `voice.modelId: "base"`. `VoiceSettings.fromJson` now maps "base"/"small" to "" (automatic), and `resolveVoicePack` falls back to the automatic choice when the named pack is missing. Tests updated in `VoiceLanguagesTest.kt` and `test/keyboard/wave3_seams_test.dart`.
+   - First rerun the full `flutter test` and `cd android; .\gradlew.bat :app:testDebugUnitTest` (VoiceLanguagesTest changed).
+2. **Finish the emulator smoke test** (emulator-5554 only; rebuild and reinstall first):
+   - voice: open the mic panel with the base pack, check that sherpa-onnx loads (no UnsatisfiedLinkError in logcat), Stop, Cancel, and a password field (no mic). The emulator mic cannot produce speech here, so recognition quality is untested.
+   - space-bar long press (language picker), Urdu, Tamil/Telugu rendering, InScript with a ZWJ, Eastern digits.
+3. **Release gate:** `flutter build apk --release --split-per-abi`, then `tool/check_release_permissions.sh` (Git Bash tool). Expect VIBRATE, RECORD_AUDIO, USE_BIOMETRIC, USE_FINGERPRINT and the app-private receiver permission; **no INTERNET and no ACCESS_NETWORK_STATE**. Record the arm64 APK size (25.4 MB before Wave 3; onnxruntime and sherpa-onnx add native libraries). Consider adding ACCESS_NETWORK_STATE and the `ai/onnxruntime/telemetry` classes to the gate.
+4. Update `docs/waves/README.md` (Wave 3 done), this file and the memory file; remove the five Wave 3 worktrees and branches (unlock, `git worktree remove --force`, `git branch -d`).
+
+## Wave 3: open items for the user
+
+- Licences to confirm before release: the pt-BR word list (AOSP-derived, patched; see `docs/notices/european.md`) and the Arabic list (HeliBoard says CC BY 4.0 from Leipzig; not checked directly).
+- Translation speed: 200-560 ms per sentence on this PC's CPU in Python; the 300 ms phone budget is not met yet. Not measured in Kotlin or on a phone.
+- The Indic InScript/phonetic key positions were written from memory by the agent; verify against the BIS chart.
+- ZWNJ/ZWJ show as blank popup keys on the virama.
+- Toolbar holds up to 8 buttons (about 40 dp each, under 48 dp); Insert in the translate strip is 44 dp tall.
+- Toggling translation on or off takes effect at the next keyboard start (hooks are fixed at attach).
+- Not mirrored in RTL: the keyboard's own backspace and shift glyphs and the toolbar icons (orchestrator files).
+- Urdu has no next-word data; Cyrillic vowel-confusion search is not applied.
+- Auto-capitalisation did not trigger at the start of the testbed's text field (probably no CAP_SENTENCES flag there); check in a normal app.
+
+## Emulator notes (learned this wave)
+
+- `uiautomator dump --windows` includes the keyboard window; a plain dump does not. Helper script: `tool/ui_smoke.ps1` (Get-Ui, Show-Ui, Tap-Ui, Type-Keys; dot-source it after `tool/adb_ime.ps1` is reachable).
+- Reinstalling the APK, or force-stopping the app while Myna is the keyboard, makes Android switch to Gboard: run `Enable-Myna` after both, and force-stop before enabling, not after.
+- Change languages quickly by editing `no_backup/data/settings.json` through `run-as app.myna.keyboard` (force-stop first).
+- The testbed field is the EditText under its label (tap y≈142 for `text`), not the label.
+
 - **User decisions for Wave 2 (2026-11-21):**
   - clipboard history on by default
   - the incognito picker lists "apps you've typed in" (encrypted `seen_apps` blob)
