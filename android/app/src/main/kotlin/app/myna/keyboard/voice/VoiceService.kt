@@ -31,12 +31,5 @@ fun interface VoiceEvents {
     fun emit(event: VoiceEventMessage)
 }
 
-/** Wave 3-D replaces the body with the real engine. */
-fun createVoiceService(context: Context, packs: PackStore): VoiceService = UnavailableVoiceService
-
-private object UnavailableVoiceService : VoiceService {
-    override suspend fun start(request: VoiceRequestMessage, events: VoiceEvents) = VoiceStartStatus.NO_MODEL
-    override fun stop() {}
-    override fun cancel() {}
-    override fun release() {}
-}
+/** Offline voice typing with sherpa-onnx and Whisper voice packs (Wave 3-D, SherpaVoiceService.kt). */
+fun createVoiceService(context: Context, packs: PackStore): VoiceService = newSherpaVoiceService(context, packs)
