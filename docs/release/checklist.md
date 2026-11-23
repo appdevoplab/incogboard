@@ -113,6 +113,10 @@ These need the owner of each file. None of them is needed to build the release A
    per-browser list needs the package names) or drop it from the plan. Orchestrator decision.
 5. **Open-source registration** (only if F-Droid re-signs): `assets/adi-registration.properties` is published with a
    release when the repository asks for it. Not created. (orchestrator, later)
+6. **Format gate on main.** `dart format --line-length 120 --set-exit-if-changed lib test pigeons` fails on the
+   eight generated files `lib/l10n/app_localizations*.dart` (tracked; Flutter 3.50 gen-l10n output is not formatted).
+   CI's format step fails for the same reason. Fix: run `dart format --line-length 120 lib/l10n` once, or exclude
+   the generated files in `ci.yml` (Agent A's file). `build_release.ps1` excludes them meanwhile. (orchestrator)
 
 ## H. Claims in the privacy policy not confirmed by reading the code
 
@@ -146,3 +150,5 @@ Not confirmed (check before publication):
 - Store screenshots are not taken.
 - The `play` flavour equals `foss` until Wave 5-C merges its asset-pack modules.
 - Vital lint is off for release builds (tool crash).
+- Gradle dependency locking is off (reason in `RELEASING.md`, "Reproducible builds"). Gradle dependency
+  verification (`verification-metadata.xml`) is not added either; it is in the Wave 5-A audit scope.

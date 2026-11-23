@@ -172,7 +172,11 @@ folders, and compares the APKs entry by entry. It ignores the zip container, the
 
 Pinned: Flutter 3.50.0 (`tool/release/flutter-version.txt`), NDK 28.2.13676358, Gradle 9.5.0 (wrapper),
 Java 17 without a build-time JDK download (`org.gradle.java.installations.auto-download=false`), Dart packages
-from `pubspec.lock`, Android dependencies from `android/app/gradle.lockfile`. Build settings: no obfuscation and no
+from `pubspec.lock`. Android dependencies are pinned by version in `build.gradle.kts` (the onnxruntime pin is 1.28.0).
+Gradle dependency locking is **not** enabled: a lockfile written with all Flutter target platforms breaks an
+arm64-only clean build (the engine artifacts differ per ABI; the first verification attempt failed on this), and one
+written per target platform does not fit the split build. Lock the Android graph with Gradle's dependency verification
+instead, once the decision is made (checklist). Build settings: no obfuscation and no
 `--split-debug-info` (the app holds no secrets, and split symbols would be one more artifact to keep); no
 `--dart-define` except `KOSHA_SOURCE_URL`; VCS information not used (not available for APK builds).
 
