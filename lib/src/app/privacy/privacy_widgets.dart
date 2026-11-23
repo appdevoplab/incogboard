@@ -5,6 +5,8 @@ import 'package:material_ui/material_ui.dart';
 
 import '../onboarding/kosha_mascot.dart';
 
+import 'package:kosha/src/app/l10n.dart';
+
 /// The mascot at the top of the privacy screens.
 class PrivacyMascotSlot extends StatelessWidget {
   const PrivacyMascotSlot({super.key, this.size = 72});
@@ -12,7 +14,7 @@ class PrivacyMascotSlot extends StatelessWidget {
   final double size;
 
   @override
-  Widget build(BuildContext context) => KoshaMascot(size: size, label: 'Kosha privacy mascot', pose: KoshaPose.locked);
+  Widget build(BuildContext context) => KoshaMascot(size: size, label: context.l10n.privacyMascotLabel, pose: KoshaPose.locked);
 }
 
 /// A status card: a green card for good news, an error card for problems, neutral otherwise.

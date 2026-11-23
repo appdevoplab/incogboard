@@ -71,7 +71,7 @@ Future<void> _pumpGallery(WidgetTester tester) async {
   await tester.pumpWidget(
     AppScope(
       services: _services,
-      child: const MaterialApp(home: ThemeGalleryScreen()),
+      child: const MaterialApp(localizationsDelegates: koshaLocalizationsDelegates, home: ThemeGalleryScreen()),
     ),
   );
   await _settle(tester);

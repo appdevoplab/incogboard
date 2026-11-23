@@ -8,6 +8,8 @@ import '../../keyboard/preview/keyboard_preview.dart';
 import '../../settings/kosha_settings.dart';
 import '../../theme/keyboard_theme_data.dart';
 
+import 'package:kosha/src/app/l10n.dart';
+
 class ThemeCard extends StatelessWidget {
   const ThemeCard({
     super.key,
@@ -39,7 +41,7 @@ class ThemeCard extends StatelessWidget {
     return Semantics(
       button: true,
       selected: selected,
-      label: selected ? '$name, selected' : name,
+      label: selected ? context.l10n.themeSelectedLabel(name) : name,
       child: Material(
         color: selected ? scheme.secondaryContainer : scheme.surfaceContainerHigh,
         shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(28))),
@@ -96,7 +98,7 @@ class CreateThemeCard extends StatelessWidget {
     final text = Theme.of(context).textTheme;
     return Semantics(
       button: true,
-      label: 'Create theme',
+      label: context.l10n.themeCreate,
       child: Material(
         color: scheme.surfaceContainerLow,
         shape: RoundedRectangleBorder(
@@ -116,7 +118,7 @@ class CreateThemeCard extends StatelessWidget {
                   child: Icon(Icons.add, color: scheme.onPrimaryContainer, size: 28),
                 ),
                 const SizedBox(height: 12),
-                Text('Create theme', style: text.titleSmall),
+                Text(context.l10n.themeCreate, style: text.titleSmall),
               ],
             ),
           ),
