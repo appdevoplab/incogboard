@@ -1,15 +1,18 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// OWNER: Wave 3-T. Model packs (voice and translation): what is installed with sizes and licences,
-// import of a .koshapack file (the system file picker), and delete with a confirmation. A pack is checked
+// OWNER: Wave 3-T, extended in Wave 5-C. Model packs (voice, translation, dictionaries): what is installed
+// with sizes and licences, import of .koshapack files (the system file picker), delete with a confirmation,
+// a verify action that re-checks installed files, and free space. In the play flavour, the store delivers
+// some packs ("Get"); in the foss flavour the screen explains how to get packs by hand. A pack is checked
 // before it is installed, and it only ever holds data. Voice uses this screen too.
 import 'dart:async';
 
-import 'package:flutter/services.dart' show PlatformException;
+import 'package:flutter/services.dart' show Clipboard, ClipboardData, PlatformException;
 import 'package:material_ui/material_ui.dart';
 
 import '../../bridge/messages.g.dart';
 import '../../core/data_sections.dart';
+import '../../packs/pack_maintenance.dart';
 import '../app_services.dart';
 import '../common/settings_widgets.dart';
 import '../privacy/privacy_format.dart';
@@ -18,15 +21,28 @@ import 'pack_text.dart';
 import 'package:kosha/src/app/l10n.dart';
 
 class PacksScreen extends StatefulWidget {
-  const PacksScreen({super.key});
+  const PacksScreen({super.key, this.maintenance = const UnavailablePackMaintenance()});
+
+  /// Store delivery, free space and verification. The default is import-only, with those features
+  /// reported as not available in this build.
+  final PackMaintenance maintenance;
 
   @override
   State<PacksScreen> createState() => _PacksScreenState();
 }
 
+/// Everything the page shows, read in one go so one failure shows one error state.
+class _PackPage {
+  const _PackPage(this.packs, this.offers, this.storage);
+
+  final List<PackInfoMessage> packs;
+  final List<PackOffer> offers;
+  final PackStorage? storage;
+}
+
 class _PacksScreenState extends State<PacksScreen> {
   AppServices? _services;
-  Future<List<PackInfoMessage>>? _packs;
+  Future<_PackPage>? _page;
   bool _busy = false;
 
   @override
@@ -39,12 +55,26 @@ class _PacksScreenState extends State<PacksScreen> {
 
   void _reload() {
     setState(() {
-      _packs = _readPacks();
+      _page = _readPage();
     });
   }
 
   /// Async, so a failure (or a missing answer) shows as an error state instead of throwing while building.
-  Future<List<PackInfoMessage>> _readPacks() async => _services!.platform.listPacks();
+  /// Store and storage details are optional: when they fail, the page still shows the installed packs.
+  Future<_PackPage> _readPage() async {
+    final packs = await _services!.platform.listPacks();
+    final offers = await _optional(widget.maintenance.offers, const <PackOffer>[]);
+    final storage = await _optional(widget.maintenance.storage, null);
+    return _PackPage(packs, offers, storage);
+  }
+
+  static Future<T> _optional<T>(Future<T> Function() read, T fallback) async {
+    try {
+      return await read();
+    } on Object {
+      return fallback;
+    }
+  }
 
   void _show(String message) {
     if (!mounted) return;
@@ -77,6 +107,41 @@ class _PacksScreenState extends State<PacksScreen> {
     }
   }
 
+  Future<void> _copyLink() async {
+    final l10n = context.l10n;
+    await Clipboard.setData(const ClipboardData(text: kPackReleasePageUrl));
+    _show(l10n.packsLinkCopied);
+  }
+
+  Future<void> _request(PackOffer offer) async {
+    final l10n = context.l10n;
+    setState(() => _busy = true);
+    try {
+      await widget.maintenance.request(offer.id);
+    } on Object {
+      _show(l10n.packsStatusFailed);
+    } finally {
+      if (mounted) setState(() => _busy = false);
+      _reload();
+    }
+  }
+
+  Future<void> _verify() async {
+    final l10n = context.l10n;
+    setState(() => _busy = true);
+    try {
+      final checks = await widget.maintenance.verifyInstalled();
+      final damaged = checks.where((c) => !c.ok).length;
+      _show(damaged == 0 ? l10n.packsVerifyOk('${checks.length}') : l10n.packsVerifyDamaged('$damaged'));
+    } on PackMaintenanceUnavailable {
+      _show(l10n.packsVerifyUnavailable);
+    } on Object {
+      _show(l10n.packsVerifyFailed);
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
   Future<void> _delete(PackInfoMessage pack) async {
     final l10n = context.l10n;
     final services = _services!;
@@ -104,8 +169,8 @@ class _PacksScreenState extends State<PacksScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<PackInfoMessage>>(
-      future: _packs,
+    return FutureBuilder<_PackPage>(
+      future: _page,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return SettingsPage(
@@ -120,22 +185,71 @@ class _PacksScreenState extends State<PacksScreen> {
         if (!snapshot.hasData) {
           return const Scaffold(body: Center(child: CircularProgressIndicator()));
         }
-        final packs = snapshot.requireData;
+        final page = snapshot.requireData;
+        final packs = page.packs;
         final voice = packs.where((p) => p.kind == PackKind.voice).toList();
         final translation = packs.where((p) => p.kind == PackKind.translation).toList();
         final dictionaries = packs.where((p) => p.kind == PackKind.dictionary).toList();
         final total = packs.fold<int>(0, (sum, p) => sum + p.sizeBytes);
+        final installedIds = {for (final p in packs) p.id};
+        final toGet = [
+          for (final o in page.offers)
+            if (!installedIds.contains(o.id)) o,
+        ];
+        final importOnly = widget.maintenance.delivery == PackDelivery.importOnly;
+        final l10n = context.l10n;
+        final free = page.storage?.freeBytes;
         return SettingsPage(
-          title: context.l10n.settingsModelPacks,
-          header: Padding(padding: EdgeInsets.fromLTRB(16, 8, 16, 8), child: Text(context.l10n.packsIntro)),
+          title: l10n.settingsModelPacks,
+          header: Padding(padding: const EdgeInsets.fromLTRB(16, 8, 16, 8), child: Text(l10n.packsIntro)),
           children: [
+            if (importOnly)
+              SettingsGroup(
+                title: l10n.packsGetTitle,
+                children: [
+                  SettingsTile(
+                    icon: Icons.info_outline,
+                    title: l10n.packsExplainTitle,
+                    subtitle: l10n.packsExplainBody,
+                  ),
+                  SettingsTile(
+                    icon: Icons.link,
+                    title: l10n.packsCopyLink,
+                    subtitle: kPackReleasePageUrl,
+                    enabled: !_busy,
+                    onTap: _busy ? null : () => unawaited(_copyLink()),
+                  ),
+                ],
+              ),
+            if (!importOnly && toGet.isNotEmpty)
+              SettingsGroup(
+                title: l10n.packsPlayTitle,
+                children: [
+                  SettingsTile(icon: Icons.shop_outlined, title: l10n.packsPlayNote),
+                  for (final offer in toGet)
+                    SettingsTile(
+                      icon: Icons.download_outlined,
+                      title: offer.name,
+                      subtitle: l10n.packsOfferMeta(formatBytes(offer.sizeBytes), offerStatusText(offer.status, l10n)),
+                      trailing: TextButton(
+                        onPressed:
+                            _busy ||
+                                offer.status == PackOfferStatus.downloading ||
+                                offer.status == PackOfferStatus.installing
+                            ? null
+                            : () => unawaited(_request(offer)),
+                        child: Text(l10n.packsGet),
+                      ),
+                    ),
+                ],
+              ),
             SettingsGroup(
-              title: context.l10n.packsImport,
+              title: l10n.packsImport,
               children: [
                 SettingsTile(
                   icon: Icons.file_open_outlined,
-                  title: context.l10n.packsImportTitle,
-                  subtitle: _busy ? context.l10n.packsChecking : context.l10n.packsImportBody,
+                  title: l10n.packsImportTitle,
+                  subtitle: _busy ? l10n.packsChecking : l10n.packsImportBody,
                   enabled: !_busy,
                   onTap: _busy ? null : () => unawaited(_import()),
                 ),
@@ -143,45 +257,53 @@ class _PacksScreenState extends State<PacksScreen> {
               ],
             ),
             SettingsGroup(
-              title: context.l10n.settingsVoice,
+              title: l10n.settingsVoice,
               children: voice.isEmpty
-                  ? [
-                      SettingsTile(
-                        icon: Icons.mic_none,
-                        title: context.l10n.packsNoVoice,
-                        subtitle: context.l10n.packsNoVoiceBody,
-                      ),
-                    ]
+                  ? [SettingsTile(icon: Icons.mic_none, title: l10n.packsNoVoice, subtitle: l10n.packsNoVoiceBody)]
                   : [for (final p in voice) _PackTile(pack: p, onDelete: () => _delete(p))],
             ),
             SettingsGroup(
-              title: context.l10n.settingsTranslation,
+              title: l10n.settingsTranslation,
               children: translation.isEmpty
                   ? [
                       SettingsTile(
                         icon: Icons.translate,
-                        title: context.l10n.packsNoTranslation,
-                        subtitle: context.l10n.packsNoTranslationBody,
+                        title: l10n.packsNoTranslation,
+                        subtitle: l10n.packsNoTranslationBody,
                       ),
                     ]
                   : [for (final p in translation) _PackTile(pack: p, onDelete: () => _delete(p))],
             ),
             SettingsGroup(
-              title: context.l10n.packsDictionaries,
+              title: l10n.packsDictionaries,
               children: dictionaries.isEmpty
                   ? [
                       SettingsTile(
                         icon: Icons.menu_book_outlined,
-                        title: context.l10n.packsNoDictionary,
-                        subtitle: context.l10n.packsNoDictionaryBody,
+                        title: l10n.packsNoDictionary,
+                        subtitle: l10n.packsNoDictionaryBody,
                       ),
                     ]
                   : [for (final p in dictionaries) _PackTile(pack: p, onDelete: () => _delete(p))],
             ),
+            SettingsGroup(
+              children: [
+                SettingsTile(
+                  icon: Icons.verified_outlined,
+                  title: l10n.packsVerifyTitle,
+                  subtitle: l10n.packsVerifyBody,
+                  enabled: !_busy && packs.isNotEmpty,
+                  onTap: _busy || packs.isEmpty ? null : () => unawaited(_verify()),
+                ),
+              ],
+            ),
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
               child: Text(
-                packs.isEmpty ? context.l10n.packsNothingStored : context.l10n.packsInstalledUse(formatBytes(total)),
+                [
+                  packs.isEmpty ? l10n.packsNothingStored : l10n.packsInstalledUse(formatBytes(total)),
+                  if (free != null) l10n.packsFreeSpace(formatBytes(free)),
+                ].join('\n'),
               ),
             ),
           ],

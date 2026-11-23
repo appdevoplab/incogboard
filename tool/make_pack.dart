@@ -58,8 +58,7 @@ Future<int> _run(Map<String, String> args) async {
   return _build(args);
 }
 
-String _need(Map<String, String> args, String key) =>
-    args[key] ?? (throw PackToolError('missing --$key'));
+String _need(Map<String, String> args, String key) => args[key] ?? (throw PackToolError('missing --$key'));
 
 Future<int> _build(Map<String, String> args) async {
   final dir = Directory(_need(args, 'dir'));
@@ -112,7 +111,15 @@ Future<int> _build(Map<String, String> args) async {
   try {
     final manifestFile = File('${tmp.path}/manifest.json')..writeAsBytesSync(manifest);
     final sigFile = File('${tmp.path}/manifest.sig');
-    final r = await Process.run('openssl', ['dgst', '-sha256', '-sign', keyPath, '-out', sigFile.path, manifestFile.path]);
+    final r = await Process.run('openssl', [
+      'dgst',
+      '-sha256',
+      '-sign',
+      keyPath,
+      '-out',
+      sigFile.path,
+      manifestFile.path,
+    ]);
     if (r.exitCode != 0) throw PackToolError('openssl sign failed: ${r.stderr}');
     final sig = sigFile.readAsBytesSync();
     if (sig.length > _maxSignature) throw PackToolError('signature is larger than $_maxSignature bytes');
@@ -161,7 +168,13 @@ Future<int> _verify(File pack, String pubkeyPath) async {
       final manifestFile = File('${tmp.path}/manifest.json')..writeAsBytesSync(manifest);
       final sigFile = File('${tmp.path}/manifest.sig')..writeAsBytesSync(sig);
       final r = await Process.run('openssl', [
-        'dgst', '-sha256', '-verify', pubkeyPath, '-signature', sigFile.path, manifestFile.path,
+        'dgst',
+        '-sha256',
+        '-verify',
+        pubkeyPath,
+        '-signature',
+        sigFile.path,
+        manifestFile.path,
       ]);
       if (r.exitCode != 0) return _fail('not signed by the given key');
     } finally {

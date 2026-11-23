@@ -739,6 +739,90 @@
   "@packsNoDictionaryBody": {
     "description": "Packs: empty state detail. Max 60 characters"
   },
+  "packsGetTitle": "Get packs",
+  "@packsGetTitle": {
+    "description": "Packs: heading of the section that explains how to get packs"
+  },
+  "packsExplainTitle": "Packs are files you add yourself.",
+  "@packsExplainTitle": {
+    "description": "Packs: first line of the explanation, in a foss build with no store delivery"
+  },
+  "packsExplainBody": "Download them from the project's release page on another device, copy them to this phone, then import.",
+  "@packsExplainBody": {
+    "description": "Packs: how to get a pack without the internet on the phone"
+  },
+  "packsCopyLink": "Copy the release page link",
+  "@packsCopyLink": {
+    "description": "Packs: button that copies the release page link to the clipboard"
+  },
+  "packsLinkCopied": "Link copied. Open it on another device.",
+  "@packsLinkCopied": {
+    "description": "Packs: shown after the link is copied"
+  },
+  "packsPlayTitle": "Get through Google Play",
+  "@packsPlayTitle": {
+    "description": "Packs: heading of the section for packs the Play store delivers"
+  },
+  "packsPlayNote": "Google Play downloads these packs, not Kosha. Kosha itself never uses the network.",
+  "@packsPlayNote": {
+    "description": "Packs: note that Google Play downloads the packs and Kosha does not use the network"
+  },
+  "packsGet": "Get",
+  "@packsGet": {
+    "description": "Packs: button that asks Google Play for a pack"
+  },
+  "packsStatusNotRequested": "Not downloaded yet",
+  "@packsStatusNotRequested": {
+    "description": "Packs: status of a pack that has not been downloaded"
+  },
+  "packsStatusWaiting": "Waiting for Wi-Fi or mobile data",
+  "@packsStatusWaiting": {
+    "description": "Packs: status while Play waits for Wi-Fi or mobile data"
+  },
+  "packsStatusDownloading": "Downloading through Google Play",
+  "@packsStatusDownloading": {
+    "description": "Packs: status while Play downloads a pack"
+  },
+  "packsStatusInstalling": "Checking and installing",
+  "@packsStatusInstalling": {
+    "description": "Packs: status while Kosha verifies and installs a pack from Play"
+  },
+  "packsStatusFailed": "Google Play could not deliver it. Try again.",
+  "@packsStatusFailed": {
+    "description": "Packs: status when Play could not deliver a pack"
+  },
+  "packsOfferMeta": "{size} · {status}",
+  "@packsOfferMeta": {
+    "description": "Packs: size and status of a pack the store can deliver. Max 60 characters"
+  },
+  "packsVerifyTitle": "Verify installed packs",
+  "@packsVerifyTitle": {
+    "description": "Packs: title of the tile that checks installed packs"
+  },
+  "packsVerifyBody": "Checks every file of each installed pack against its signed list. Nothing is changed.",
+  "@packsVerifyBody": {
+    "description": "Packs: what the verify action does"
+  },
+  "packsVerifyOk": "{count} installed packs checked. All files match.",
+  "@packsVerifyOk": {
+    "description": "Packs: result of verifying, all packs intact. Max 90 characters"
+  },
+  "packsVerifyDamaged": "{count} installed packs have damaged or missing files. Delete them and import again.",
+  "@packsVerifyDamaged": {
+    "description": "Packs: result of verifying, some packs damaged. Max 120 characters"
+  },
+  "packsVerifyUnavailable": "Checking installed packs is not available in this version of Kosha.",
+  "@packsVerifyUnavailable": {
+    "description": "Packs: shown when this build cannot verify packs yet"
+  },
+  "packsVerifyFailed": "Kosha could not check the packs. Nothing was changed.",
+  "@packsVerifyFailed": {
+    "description": "Packs: shown when the verify action itself failed"
+  },
+  "packsFreeSpace": "{size} free on this phone.",
+  "@packsFreeSpace": {
+    "description": "Packs: free storage for packs. Max 60 characters"
+  },
   "packsNothingStored": "Nothing stored yet.",
   "@packsNothingStored": {
     "description": "Packs: footer when no pack is installed"

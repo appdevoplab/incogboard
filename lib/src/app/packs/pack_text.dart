@@ -4,6 +4,7 @@
 // description of an installed pack.
 import '../../bridge/messages.g.dart';
 import '../../engine/lang/registry.dart';
+import '../../packs/pack_maintenance.dart';
 import '../privacy/privacy_format.dart';
 
 import 'package:kosha/src/app/l10n.dart';
@@ -21,6 +22,15 @@ String importErrorText(String code, AppLocalizations l10n) => switch (code) {
 /// A language name for a pack's language id ('pt' is the Portuguese that both Portuguese variants use).
 String packLanguageName(String id, AppLocalizations l10n) =>
     id == 'pt' ? l10n.languagePortuguese : languageInfo(id).englishName;
+
+/// The state of a pack the store delivers, in words.
+String offerStatusText(PackOfferStatus status, AppLocalizations l10n) => switch (status) {
+  PackOfferStatus.notRequested => l10n.packsStatusNotRequested,
+  PackOfferStatus.waitingForNetwork => l10n.packsStatusWaiting,
+  PackOfferStatus.downloading => l10n.packsStatusDownloading,
+  PackOfferStatus.installing || PackOfferStatus.ready => l10n.packsStatusInstalling,
+  PackOfferStatus.failed => l10n.packsStatusFailed,
+};
 
 /// "English → Spanish" for a translation pack, "English, Hindi" for a voice pack.
 String packLanguages(PackInfoMessage pack, AppLocalizations l10n) {
