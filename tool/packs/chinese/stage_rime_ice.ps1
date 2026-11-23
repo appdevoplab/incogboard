@@ -33,7 +33,9 @@ $files = @(
     @{ Name = 'STPhrases.txt'; Dir = "opencc-$($openccSha.Substring(0,7))"; Url = "https://raw.githubusercontent.com/BYVoid/OpenCC/$openccSha/data/dictionary/STPhrases.txt"; Sha = '24d23700f4f3d1860b899aa90896dcc7ec56c535a0b3a246bbf5a7048c7bdeb8' },
     @{ Name = 'STCharacters.txt'; Dir = "opencc-$($openccSha.Substring(0,7))"; Url = "https://raw.githubusercontent.com/BYVoid/OpenCC/$openccSha/data/dictionary/STCharacters.txt"; Sha = 'a0ca1601c70648cf48b33c3c6210ccbecc5c7eead4b4c3daf76587ba2c03582b' },
     @{ Name = 'TWPhrases.txt'; Dir = "opencc-$($openccSha.Substring(0,7))"; Url = "https://raw.githubusercontent.com/BYVoid/OpenCC/$openccSha/data/dictionary/TWPhrases.txt"; Sha = '4d3f83634d8a02be5fc82def7e6ae418ab2ab501b100952da5ef934460813a41' },
-    @{ Name = 'TWVariants.txt'; Dir = "opencc-$($openccSha.Substring(0,7))"; Url = "https://raw.githubusercontent.com/BYVoid/OpenCC/$openccSha/data/dictionary/TWVariants.txt"; Sha = '245b94eb5842957e735dd44b7e7d4ff469a3643126cc8fa511adda5281e9cb86' }
+    @{ Name = 'TWVariants.txt'; Dir = "opencc-$($openccSha.Substring(0,7))"; Url = "https://raw.githubusercontent.com/BYVoid/OpenCC/$openccSha/data/dictionary/TWVariants.txt"; Sha = '245b94eb5842957e735dd44b7e7d4ff469a3643126cc8fa511adda5281e9cb86' },
+    @{ Name = 'LICENSE'; Dir = "rime-ice-$($rimeSha.Substring(0,7))"; Url = "https://raw.githubusercontent.com/iDvel/rime-ice/$rimeSha/LICENSE"; Sha = '3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986' },
+    @{ Name = 'LICENSE'; Dir = "opencc-$($openccSha.Substring(0,7))"; Url = "https://raw.githubusercontent.com/BYVoid/OpenCC/$openccSha/LICENSE"; Sha = 'b534e465949558eec2597b04f5092b5e161236a68dfbfd04d547592ac3964308' }
 )
 
 foreach ($f in $files) {
@@ -58,6 +60,19 @@ New-Item -ItemType Directory -Force -Path $dest | Out-Null
 
 & dart run tool/chinese/build_zh_dict.dart --rime $rimeDir --opencc $openccDir --out $dest --golden (Join-Path $repo 'test\engine\lang\chinese\golden_zh.txt') --golden-min-weight $GoldenMinWeight
 if ($LASTEXITCODE -ne 0) { throw 'build_zh_dict failed' }
+
+# NOTICE.txt: the sources, the pinned commits and both licence texts travel inside the pack.
+$notice = @()
+$notice += 'dict-zh-rime-ice: Chinese (Simplified) dictionary for Kosha, converted from rime-ice and OpenCC.'
+$notice += "rime-ice: https://github.com/iDvel/rime-ice (cn_dicts/base, ext, 8105), commit $rimeSha. Licence: GPL-3.0."
+$notice += "OpenCC: https://github.com/BYVoid/OpenCC (data/dictionary ST*, TW*), commit $openccSha. Licence: Apache-2.0."
+$notice += 'Converted: entries re-encoded into the zh.kdict binary format; OpenCC tables merged into s2twp.tsv.'
+$notice += ''
+$notice += '----- LICENSE (rime-ice, GPL-3.0) -----'
+$notice += (Get-Content -Raw -Encoding UTF8 (Join-Path $rimeDir 'LICENSE'))
+$notice += '----- LICENSE (OpenCC, Apache-2.0) -----'
+$notice += (Get-Content -Raw -Encoding UTF8 (Join-Path $openccDir 'LICENSE'))
+[System.IO.File]::WriteAllText((Join-Path $dest 'NOTICE.txt'), (($notice -join "`n") -replace "`r`n", "`n"), (New-Object System.Text.UTF8Encoding $false))
 
 $size = (Get-ChildItem -File $dest | Measure-Object -Property Length -Sum).Sum
 Write-Output ("dict-zh-rime-ice staged: {0:N1} MB in {1}" -f ($size / 1MB), $dest)
