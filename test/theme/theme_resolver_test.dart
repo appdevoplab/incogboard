@@ -162,7 +162,7 @@ void main() {
     test('light and dark keep the yellow primary with brown on-colour', () {
       for (final dark in [false, true]) {
         final t = resolveKeyboardThemeFromSpec(ThemePresets.koshaGold, dark: dark);
-        expect(t.actionKey.fill, const Color(0xFFF5B700));
+        expect(t.actionKey.fill, const Color(0xFFEFB33A));
         expect(t.actionKey.label, const Color(0xFF3E2723));
       }
     });
