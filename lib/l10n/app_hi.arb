@@ -1,0 +1,909 @@
+{
+  "@@locale": "hi",
+  "appName": "Kosha",
+  "homeTagline": "निजी टाइपिंग, इसी फ़ोन पर",
+  "@homeTagline": {
+    "description": "Home screen header, under the app name. Max 40 characters",
+    "x-review": true
+  },
+  "homeOfflinePromise": "Kosha ऑफ़लाइन काम करता है और कहीं कुछ नहीं भेजता।",
+  "@homeOfflinePromise": {
+    "description": "Home screen header: the privacy promise. Two lines at most",
+    "x-review": true
+  },
+  "cancel": "रद्द करें",
+  "@cancel": {
+    "description": "Dialog and sheet cancel button",
+    "x-review": true
+  },
+  "delete": "हटाएं",
+  "@delete": {
+    "description": "Delete button and menu item",
+    "x-review": true
+  },
+  "save": "सहेजें",
+  "@save": {
+    "description": "Save button",
+    "x-review": true
+  },
+  "useAction": "उपयोग करें",
+  "@useAction": {
+    "description": "Confirms a picked colour or photo, button. Max 12 characters",
+    "x-review": true
+  },
+  "off": "बंद",
+  "@off": {
+    "description": "Setting is off, short value label. Max 10 characters",
+    "x-review": true
+  },
+  "left": "बाएँ",
+  "@left": {
+    "description": "Side choice for one-handed mode. Max 10 characters",
+    "x-review": true
+  },
+  "right": "दाएँ",
+  "@right": {
+    "description": "Side choice for one-handed mode. Max 10 characters",
+    "x-review": true
+  },
+  "settingsLanguages": "भाषाएँ",
+  "@settingsLanguages": {
+    "description": "Home row and section title for languages",
+    "x-review": true
+  },
+  "settingsTyping": "टाइपिंग",
+  "@settingsTyping": {
+    "description": "Home row and section title for typing",
+    "x-review": true
+  },
+  "settingsFeel": "अनुभव",
+  "@settingsFeel": {
+    "description": "Home row and title for the feel screen. Max 16 characters",
+    "x-review": true
+  },
+  "settingsThemes": "थीम",
+  "@settingsThemes": {
+    "description": "Home row and title for themes. Max 16 characters",
+    "x-review": true
+  },
+  "settingsPanels": "पैनल",
+  "@settingsPanels": {
+    "description": "Home row and title for panels. Max 16 characters",
+    "x-review": true
+  },
+  "settingsVoice": "वॉइस",
+  "@settingsVoice": {
+    "description": "Home row and title for voice. Max 16 characters",
+    "x-review": true
+  },
+  "settingsTranslation": "अनुवाद",
+  "@settingsTranslation": {
+    "description": "Home row and title for translation. Max 24 characters",
+    "x-review": true
+  },
+  "settingsPrivacy": "गोपनीयता",
+  "@settingsPrivacy": {
+    "description": "Home row and title for privacy. Max 16 characters",
+    "x-review": true
+  },
+  "settingsAbout": "के बारे में",
+  "@settingsAbout": {
+    "description": "Home row and title for About. Max 16 characters",
+    "x-review": true
+  },
+  "settingsModelPacks": "मॉडल पैक",
+  "@settingsModelPacks": {
+    "description": "Title of the packs screen, and a row that opens it. Max 24 characters",
+    "x-review": true
+  },
+  "homeSetupTurnOn": "Android के कीबोर्ड की सूची में Kosha चालू करें।",
+  "@homeSetupTurnOn": {
+    "description": "Home hint while Kosha is off. Two lines at most",
+    "x-review": true
+  },
+  "homeSetupChoose": "जिस कीबोर्ड से आप टाइप करते हैं, उसके रूप में Kosha चुनें।",
+  "@homeSetupChoose": {
+    "description": "Home hint when Kosha is on but not chosen. Two lines at most",
+    "x-review": true
+  },
+  "homeFinishSetup": "Kosha का सेटअप पूरा करें",
+  "@homeFinishSetup": {
+    "description": "Home card title while setup is unfinished. Max 40 characters",
+    "x-review": true
+  },
+  "homeTypingSubtitle": "सुधार, सुझाव, कुंजियाँ और स्वाइप",
+  "@homeTypingSubtitle": {
+    "description": "Home row subtitle for typing. Max 60 characters",
+    "x-review": true
+  },
+  "homeFeelSubtitle": "हैप्टिक्स, ध्वनि, ऊँचाई और एक-हाथ मोड",
+  "@homeFeelSubtitle": {
+    "description": "Home row subtitle for feel. Max 60 characters",
+    "x-review": true
+  },
+  "homePanelsSubtitle": "क्लिपबोर्ड और इमोजी",
+  "@homePanelsSubtitle": {
+    "description": "Home row subtitle for panels. Max 60 characters",
+    "x-review": true
+  },
+  "homeVoiceSubtitle": "बोलकर टाइप करें, इसी फ़ोन पर",
+  "@homeVoiceSubtitle": {
+    "description": "Home row subtitle for voice. Max 60 characters",
+    "x-review": true
+  },
+  "homeTranslationSubtitle": "टाइप करते समय अनुवाद करें, ऑफ़लाइन",
+  "@homeTranslationSubtitle": {
+    "description": "Home row subtitle for translation. Max 60 characters",
+    "x-review": true
+  },
+  "homePrivacySubtitle": "क्या सहेजा जाता है, इनकॉग्निटो, ऐप लॉक और बैकअप",
+  "@homePrivacySubtitle": {
+    "description": "Home row subtitle for privacy. Max 60 characters",
+    "x-review": true
+  },
+  "homeAboutSubtitle": "संस्करण, लाइसेंस और स्रोत कोड",
+  "@homeAboutSubtitle": {
+    "description": "Home row subtitle for About. Max 60 characters",
+    "x-review": true
+  },
+  "aboutTitle": "के बारे में",
+  "@aboutTitle": {
+    "description": "Title of the About screen. Max 24 characters",
+    "x-review": true
+  },
+  "aboutVersion": "संस्करण {versionName} ({versionCode})",
+  "@aboutVersion": {
+    "description": "About screen: app version under the name. Max 40 characters",
+    "x-review": true
+  },
+  "aboutVersionDebug": "संस्करण {versionName} ({versionCode}) · डीबग बिल्ड",
+  "@aboutVersionDebug": {
+    "description": "About screen: version line in a debug build. Max 60 characters",
+    "x-review": true
+  },
+  "aboutReadingVersion": "संस्करण पढ़ा जा रहा है…",
+  "@aboutReadingVersion": {
+    "description": "About screen: shown while the version loads",
+    "x-review": true
+  },
+  "aboutPrivacy": "गोपनीयता",
+  "@aboutPrivacy": {
+    "description": "About section title",
+    "x-review": true
+  },
+  "aboutNoInternet": "Kosha इंटरनेट का उपयोग नहीं कर सकता",
+  "@aboutNoInternet": {
+    "description": "About privacy tile title. Max 50 characters",
+    "x-review": true
+  },
+  "aboutNoInternetBody": "रिलीज़ बिल्ड में इंटरनेट की अनुमति नहीं होती, इसलिए आप जो टाइप करते हैं वह इस फ़ोन से बाहर नहीं जाता।",
+  "@aboutNoInternetBody": {
+    "description": "About privacy tile. Two lines at most",
+    "x-review": true
+  },
+  "aboutLicence": "लाइसेंस",
+  "@aboutLicence": {
+    "description": "About section title. British spelling, as in the app",
+    "x-review": true
+  },
+  "aboutGplTitle": "GNU General Public License v3 या बाद का",
+  "@aboutGplTitle": {
+    "description": "About licence tile title. Keep the licence name",
+    "x-review": true
+  },
+  "aboutGplBody": "Kosha मुक्त सॉफ़्टवेयर है। आप इसे GPL के तहत पढ़, बदल और साझा कर सकते हैं।",
+  "@aboutGplBody": {
+    "description": "About licence tile. Two lines at most",
+    "x-review": true
+  },
+  "aboutSourceCode": "स्रोत कोड",
+  "@aboutSourceCode": {
+    "description": "About section title",
+    "x-review": true
+  },
+  "aboutSourceBody": "Kosha GPL-3.0-or-later के तहत है। इसका स्रोत कोड प्रोजेक्ट पेज पर उपलब्ध है।",
+  "@aboutSourceBody": {
+    "description": "About source tile. Two lines at most",
+    "x-review": true
+  },
+  "aboutLicences": "लाइसेंस",
+  "@aboutLicences": {
+    "description": "About section title, for the open-source list",
+    "x-review": true
+  },
+  "aboutOpenSource": "ओपन-सोर्स लाइसेंस",
+  "@aboutOpenSource": {
+    "description": "About tile title. Max 40 characters",
+    "x-review": true
+  },
+  "aboutOpenSourceBody": "Flutter, material_ui और Kosha द्वारा उपयोग किए गए हर पैकेज",
+  "@aboutOpenSourceBody": {
+    "description": "About tile subtitle. Lists the libraries. Two lines at most",
+    "x-review": true
+  },
+  "aboutTextLoadFailed": "यह पाठ लोड नहीं हो सका।",
+  "@aboutTextLoadFailed": {
+    "description": "About screen: a licence text failed to load",
+    "x-review": true
+  },
+  "languagesEnabledHeader": "सक्षम, पहली भाषा डिफ़ॉल्ट है",
+  "@languagesEnabledHeader": {
+    "description": "Languages: list heading. The first language is the default. Max 40 characters",
+    "x-review": true
+  },
+  "languagesActive": "सक्रिय भाषा",
+  "@languagesActive": {
+    "description": "Languages: the language the keyboard is using now. Max 30 characters",
+    "x-review": true
+  },
+  "languagesAdd": "भाषा जोड़ें",
+  "@languagesAdd": {
+    "description": "Languages: adds a language to the list. Max 30 characters",
+    "x-review": true
+  },
+  "languagesAllEnabled": "सभी भाषाएँ सक्षम हैं",
+  "@languagesAllEnabled": {
+    "description": "Languages: shown when all are on. Max 40 characters",
+    "x-review": true
+  },
+  "languagesAllEnabledBody": "जगह बनाने के लिए ऊपर से कोई एक हटाएँ।",
+  "@languagesAllEnabledBody": {
+    "description": "Languages: hint under the message above. Max 50 characters",
+    "x-review": true
+  },
+  "languagesMultilingual": "बहुभाषी टाइपिंग",
+  "@languagesMultilingual": {
+    "description": "Languages: title of the multilingual section. Max 40 characters",
+    "x-review": true
+  },
+  "languagesMultilingualBody": "सक्षम तीन भाषाओं तक से शब्द सुझाता है, जिनकी लिपि कीबोर्ड की लिपि से मिलती है। जिस शब्द को उनमें से कोई भी जानती है, उसे कभी अपने-आप नहीं सुधारा जाता।",
+  "@languagesMultilingualBody": {
+    "description": "Languages: explains multilingual typing. Three lines at most",
+    "x-review": true
+  },
+  "languagesNativeDigits": "स्थानीय अंक",
+  "@languagesNativeDigits": {
+    "description": "Languages: title of the digits setting. Max 30 characters",
+    "x-review": true
+  },
+  "languagesNativeDigitsBody": "जहाँ सक्रिय भाषा की अपनी लिपि में अंक हों, वहाँ उसी लिपि में अंक टाइप करता है (०१२, ٠١٢)।",
+  "@languagesNativeDigitsBody": {
+    "description": "Languages: explains native digits. Two lines at most",
+    "x-review": true
+  },
+  "languagesOptions": "भाषा विकल्प",
+  "@languagesOptions": {
+    "description": "Languages: section for Chinese and Japanese options. Max 30 characters",
+    "x-review": true
+  },
+  "languagesZhSubtitle": "पिनयिन, परंपरागत अक्षर और शब्दकोश पैक",
+  "@languagesZhSubtitle": {
+    "description": "Languages: Chinese row subtitle. Two lines at most",
+    "x-review": true
+  },
+  "languagesJaSubtitle": "फ़्लिक इनपुट, रूपांतरण और शब्दकोश पैक",
+  "@languagesJaSubtitle": {
+    "description": "Languages: Japanese row subtitle. Two lines at most",
+    "x-review": true
+  },
+  "languagesReorderLabel": "{language} को क्रम बदलने के लिए खींचें",
+  "@languagesReorderLabel": {
+    "description": "Languages: accessibility label of the drag handle. {language} is a language name",
+    "x-review": true
+  },
+  "languageDefaultLabel": "{language}, डिफ़ॉल्ट",
+  "@languageDefaultLabel": {
+    "description": "Languages: label for the first language. {language} is a language name",
+    "x-review": true
+  },
+  "languageLayoutTooltip": "{language} का लेआउट",
+  "@languageLayoutTooltip": {
+    "description": "Languages: tooltip on the layout button. {language} is a language name. Max 40 characters",
+    "x-review": true
+  },
+  "languageRemoveTooltip": "{language} हटाएँ",
+  "@languageRemoveTooltip": {
+    "description": "Languages: tooltip on the remove button. {language} is a language name. Max 30 characters",
+    "x-review": true
+  },
+  "feelHaptics": "हैप्टिक्स",
+  "@feelHaptics": {
+    "description": "Feel: section title",
+    "x-review": true
+  },
+  "feelHapticFeedback": "हैप्टिक फ़ीडबैक",
+  "@feelHapticFeedback": {
+    "description": "Feel: switch title. Max 30 characters",
+    "x-review": true
+  },
+  "feelHapticFeedbackBody": "हर कुंजी पर एक छोटा कंपन, सिस्टम सेटिंग के अनुसार",
+  "@feelHapticFeedbackBody": {
+    "description": "Feel: switch subtitle. Two lines at most",
+    "x-review": true
+  },
+  "feelHapticStrength": "हैप्टिक तीव्रता",
+  "@feelHapticStrength": {
+    "description": "Feel: slider title. Max 30 characters",
+    "x-review": true
+  },
+  "feelSounds": "ध्वनियाँ",
+  "@feelSounds": {
+    "description": "Feel: section title",
+    "x-review": true
+  },
+  "feelKeySounds": "कुंजी ध्वनियाँ",
+  "@feelKeySounds": {
+    "description": "Feel: switch title. Max 30 characters",
+    "x-review": true
+  },
+  "feelKeySoundsBody": "कुंजी, स्पेस, हटाने और एंटर के लिए क्लिक",
+  "@feelKeySoundsBody": {
+    "description": "Feel: switch subtitle. Two lines at most",
+    "x-review": true
+  },
+  "feelUseSystemVolume": "सिस्टम वॉल्यूम का उपयोग करें",
+  "@feelUseSystemVolume": {
+    "description": "Feel: switch title. Max 30 characters",
+    "x-review": true
+  },
+  "feelKeySoundVolume": "कुंजी ध्वनि का वॉल्यूम",
+  "@feelKeySoundVolume": {
+    "description": "Feel: slider title. Max 30 characters",
+    "x-review": true
+  },
+  "feelHeight": "ऊँचाई",
+  "@feelHeight": {
+    "description": "Feel: section title",
+    "x-review": true
+  },
+  "feelPortraitHeight": "पोर्ट्रेट ऊँचाई",
+  "@feelPortraitHeight": {
+    "description": "Feel: slider title. Max 30 characters",
+    "x-review": true
+  },
+  "feelLandscapeHeight": "लैंडस्केप ऊँचाई",
+  "@feelLandscapeHeight": {
+    "description": "Feel: slider title. Max 30 characters",
+    "x-review": true
+  },
+  "feelOneHandedFloating": "एक-हाथ और फ़्लोटिंग",
+  "@feelOneHandedFloating": {
+    "description": "Feel: section title. Max 30 characters",
+    "x-review": true
+  },
+  "feelOneHandedSide": "एक-हाथ मोड की ओर",
+  "@feelOneHandedSide": {
+    "description": "Feel: label above the side choice. Max 30 characters",
+    "x-review": true
+  },
+  "feelFloatingKeyboard": "फ़्लोटिंग कीबोर्ड",
+  "@feelFloatingKeyboard": {
+    "description": "Feel: switch title. Max 30 characters",
+    "x-review": true
+  },
+  "feelFloatingBody": "स्क्रीन पर कहीं भी खींचें",
+  "@feelFloatingBody": {
+    "description": "Feel: switch subtitle. Two lines at most",
+    "x-review": true
+  },
+  "panelsClipboard": "क्लिपबोर्ड",
+  "@panelsClipboard": {
+    "description": "Panels: section title",
+    "x-review": true
+  },
+  "panelsClipboardHistory": "क्लिपबोर्ड इतिहास",
+  "@panelsClipboardHistory": {
+    "description": "Panels: switch title. Max 30 characters",
+    "x-review": true
+  },
+  "panelsClipboardHistoryBody": "आप जो कॉपी करते हैं, वह इसी फ़ोन पर एन्क्रिप्ट करके रखा जाता है",
+  "@panelsClipboardHistoryBody": {
+    "description": "Panels: switch subtitle. Two lines at most",
+    "x-review": true
+  },
+  "panelsRecentChip": "हाल की कॉपी चिप",
+  "@panelsRecentChip": {
+    "description": "Panels: switch title for the last-copy chip. Max 30 characters",
+    "x-review": true
+  },
+  "panelsRecentChipBody": "आपकी आखिरी कॉपी एक मिनट तक सुझाव पट्टी में दिखती है",
+  "@panelsRecentChipBody": {
+    "description": "Panels: switch subtitle. Two lines at most",
+    "x-review": true
+  },
+  "panelsKeepUnpinned": "बिना पिन की कॉपी इतने समय तक रखें",
+  "@panelsKeepUnpinned": {
+    "description": "Panels: label above the duration choice. Max 40 characters",
+    "x-review": true
+  },
+  "panelsClipsToKeep": "रखने वाली क्लिप",
+  "@panelsClipsToKeep": {
+    "description": "Panels: slider title. Max 30 characters",
+    "x-review": true
+  },
+  "panelsEmoji": "इमोजी",
+  "@panelsEmoji": {
+    "description": "Panels: section title",
+    "x-review": true
+  },
+  "emojiSuggestions": "इमोजी सुझाव",
+  "@emojiSuggestions": {
+    "description": "Emoji suggestions switch title, in Panels and Typing. Max 30 characters",
+    "x-review": true
+  },
+  "emojiSuggestionsPanelBody": "कुछ शब्दों के लिए सुझाव पट्टी में इमोजी दिखाता है",
+  "@emojiSuggestionsPanelBody": {
+    "description": "Panels: switch subtitle. Two lines at most",
+    "x-review": true
+  },
+  "panelsPasswordsNeverSaved": "पासवर्ड कभी सहेजे नहीं जाते",
+  "@panelsPasswordsNeverSaved": {
+    "description": "Panels: switch title. Max 40 characters",
+    "x-review": true
+  },
+  "panelsSensitiveBody": "Android जिन कॉपी को संवेदनशील बताता है, उन्हें कभी नहीं रखा जाता।",
+  "@panelsSensitiveBody": {
+    "description": "Panels: switch subtitle. Two lines at most",
+    "x-review": true
+  },
+  "typingCorrections": "सुधार",
+  "@typingCorrections": {
+    "description": "Typing: section title",
+    "x-review": true
+  },
+  "typingAutocorrect": "स्वतः सुधार",
+  "@typingAutocorrect": {
+    "description": "Typing: switch title. Max 30 characters",
+    "x-review": true
+  },
+  "typingAutocorrectBody": "शब्द पूरा होने पर संभावित टाइपो ठीक करता है",
+  "@typingAutocorrectBody": {
+    "description": "Typing: switch subtitle. Two lines at most",
+    "x-review": true
+  },
+  "typingAutoCapitalise": "स्वतः बड़े अक्षर",
+  "@typingAutoCapitalise": {
+    "description": "Typing: switch title. Max 30 characters",
+    "x-review": true
+  },
+  "typingAutoCapitaliseBody": "वाक्य की शुरुआत में बड़े अक्षर",
+  "@typingAutoCapitaliseBody": {
+    "description": "Typing: switch subtitle. Two lines at most",
+    "x-review": true
+  },
+  "typingDoubleSpace": "डबल स्पेस से पूर्ण विराम",
+  "@typingDoubleSpace": {
+    "description": "Typing: switch title. Max 30 characters",
+    "x-review": true
+  },
+  "typingDoubleSpaceBody": "स्पेस दो बार दबाने पर \". \" लिखा जाता है",
+  "@typingDoubleSpaceBody": {
+    "description": "Typing: switch subtitle. Two lines at most",
+    "x-review": true
+  },
+  "typingSmartPunctuation": "स्मार्ट विराम चिह्न",
+  "@typingSmartPunctuation": {
+    "description": "Typing: switch title. Max 30 characters",
+    "x-review": true
+  },
+  "typingSmartPunctuationBody": "विराम चिह्नों के आसपास की जगह ठीक करता है और स्थानीय उद्धरण चिह्न लगाता है",
+  "@typingSmartPunctuationBody": {
+    "description": "Typing: switch subtitle. Two lines at most",
+    "x-review": true
+  },
+  "typingSuggestions": "सुझाव",
+  "@typingSuggestions": {
+    "description": "Typing: section and switch title. Max 30 characters",
+    "x-review": true
+  },
+  "typingSuggestionsBody": "सुझाव पट्टी में शब्द दिखाता है",
+  "@typingSuggestionsBody": {
+    "description": "Typing: switch subtitle. Two lines at most",
+    "x-review": true
+  },
+  "typingNextWord": "अगला शब्द अनुमान",
+  "@typingNextWord": {
+    "description": "Typing: switch title. Max 30 characters",
+    "x-review": true
+  },
+  "typingNextWordBody": "वह शब्द सुझाता है जो अक्सर आता है",
+  "@typingNextWordBody": {
+    "description": "Typing: switch subtitle. Two lines at most",
+    "x-review": true
+  },
+  "typingEmojiBody": "कुछ शब्दों के लिए इमोजी सुझाता है",
+  "@typingEmojiBody": {
+    "description": "Typing: emoji switch subtitle. Two lines at most",
+    "x-review": true
+  },
+  "typingHideOffensive": "अपमानजनक शब्द छिपाएँ",
+  "@typingHideOffensive": {
+    "description": "Typing: switch title. Max 30 characters",
+    "x-review": true
+  },
+  "typingHideOffensiveBody": "पूरे रूप में टाइप करने पर ही सुझाए जाते हैं",
+  "@typingHideOffensiveBody": {
+    "description": "Typing: switch subtitle. Two lines at most",
+    "x-review": true
+  },
+  "typingKeys": "कुंजियाँ",
+  "@typingKeys": {
+    "description": "Typing: section title",
+    "x-review": true
+  },
+  "typingKeyPopups": "कुंजी पॉपअप",
+  "@typingKeyPopups": {
+    "description": "Typing: switch title. Max 30 characters",
+    "x-review": true
+  },
+  "typingKeyPopupsBody": "दबाते समय कुंजी को बड़ा करता है",
+  "@typingKeyPopupsBody": {
+    "description": "Typing: switch subtitle. Two lines at most",
+    "x-review": true
+  },
+  "typingLongPressDelay": "लंबे दबाव की देरी",
+  "@typingLongPressDelay": {
+    "description": "Typing: slider title. Max 30 characters",
+    "x-review": true
+  },
+  "typingNumberRow": "अंक पंक्ति",
+  "@typingNumberRow": {
+    "description": "Typing: switch title. Max 30 characters",
+    "x-review": true
+  },
+  "typingNumberRowBody": "अक्षरों के ऊपर 0 से 9 दिखाता है",
+  "@typingNumberRowBody": {
+    "description": "Typing: switch subtitle. Two lines at most",
+    "x-review": true
+  },
+  "typingHintLabels": "संकेत लेबल",
+  "@typingHintLabels": {
+    "description": "Typing: switch title. Max 30 characters",
+    "x-review": true
+  },
+  "typingHintLabelsBody": "कुंजियों पर छोटे चिह्न, जैसे मात्राएँ या स्वर चिह्न",
+  "@typingHintLabelsBody": {
+    "description": "Typing: switch subtitle. Two lines at most",
+    "x-review": true
+  },
+  "typingLowercaseLabels": "छोटे अक्षरों के लेबल",
+  "@typingLowercaseLabels": {
+    "description": "Typing: switch title. Max 30 characters",
+    "x-review": true
+  },
+  "typingLowercaseLabelsBody": "शिफ़्ट चालू होने पर भी कुंजी के अक्षर छोटे रखता है",
+  "@typingLowercaseLabelsBody": {
+    "description": "Typing: switch subtitle. Two lines at most",
+    "x-review": true
+  },
+  "typingSwipe": "स्वाइप",
+  "@typingSwipe": {
+    "description": "Typing: section title",
+    "x-review": true
+  },
+  "typingSwipeTyping": "स्वाइप टाइपिंग",
+  "@typingSwipeTyping": {
+    "description": "Typing: switch title. Max 30 characters",
+    "x-review": true
+  },
+  "typingSwipeTypingBody": "कोई शब्द लिखने के लिए अक्षरों पर फिसलाएँ",
+  "@typingSwipeTypingBody": {
+    "description": "Typing: switch subtitle. Two lines at most",
+    "x-review": true
+  },
+  "typingShowTrail": "पथ दिखाएँ",
+  "@typingShowTrail": {
+    "description": "Typing: switch title. Max 30 characters",
+    "x-review": true
+  },
+  "typingTrailWidth": "पथ की चौड़ाई",
+  "@typingTrailWidth": {
+    "description": "Typing: slider title. Max 30 characters",
+    "x-review": true
+  },
+  "typingTrailFade": "पथ धुंधलापन",
+  "@typingTrailFade": {
+    "description": "Typing: slider title. Max 30 characters",
+    "x-review": true
+  },
+  "typingLivePreview": "लाइव पूर्वावलोकन",
+  "@typingLivePreview": {
+    "description": "Typing: switch title. Max 30 characters",
+    "x-review": true
+  },
+  "typingLivePreviewBody": "फिसलते समय संभावित शब्द दिखाता है",
+  "@typingLivePreviewBody": {
+    "description": "Typing: switch subtitle. Two lines at most",
+    "x-review": true
+  },
+  "typingSpaceMovesCursor": "स्पेस बार कर्सर को हिलाता है",
+  "@typingSpaceMovesCursor": {
+    "description": "Typing: switch title. Max 40 characters",
+    "x-review": true
+  },
+  "typingSpaceMovesCursorBody": "कर्सर हिलाने के लिए स्पेस बार पर खींचें",
+  "@typingSpaceMovesCursorBody": {
+    "description": "Typing: switch subtitle. Two lines at most",
+    "x-review": true
+  },
+  "typingSwipeBackspace": "हटाएँ कुंजी पर स्वाइप करके शब्द हटाएँ",
+  "@typingSwipeBackspace": {
+    "description": "Typing: switch title. Max 40 characters",
+    "x-review": true
+  },
+  "typingSwipeBackspaceBody": "शब्द चुनने और हटाने के लिए हटाएँ कुंजी को बाईं ओर स्वाइप करें",
+  "@typingSwipeBackspaceBody": {
+    "description": "Typing: switch subtitle. Two lines at most",
+    "x-review": true
+  },
+  "voiceTyping": "वॉइस टाइपिंग",
+  "@voiceTyping": {
+    "description": "Voice: switch title. Max 30 characters",
+    "x-review": true
+  },
+  "voiceTypingBody": "बोलकर टाइप करें। पहचान इसी फ़ोन पर होती है।",
+  "@voiceTypingBody": {
+    "description": "Voice: switch subtitle. Two lines at most",
+    "x-review": true
+  },
+  "voiceRecognition": "पहचान",
+  "@voiceRecognition": {
+    "description": "Voice: section title. Max 30 characters",
+    "x-review": true
+  },
+  "voiceDetectLanguage": "भाषा अपने-आप पहचानें",
+  "@voiceDetectLanguage": {
+    "description": "Voice: switch title. Max 40 characters",
+    "x-review": true
+  },
+  "voiceDetectLanguageBody": "Whisper पता लगाता है कि आप कौन सी भाषा बोलते हैं।",
+  "@voiceDetectLanguageBody": {
+    "description": "Voice: switch subtitle. Two lines at most. Whisper is the product name of the speech model",
+    "x-review": true
+  },
+  "voiceModelPacksBody": "वॉइस और अनुवाद पैक इंस्टॉल या हटाएँ",
+  "@voiceModelPacksBody": {
+    "description": "Voice and Translation: row subtitle for model packs. Two lines at most",
+    "x-review": true
+  },
+  "voiceAudioStays": "ऑडियो इसी फ़ोन पर रहता है और कभी सहेजा नहीं जाता।",
+  "@voiceAudioStays": {
+    "description": "Voice: footnote under the mic. Two lines at most",
+    "x-review": true
+  },
+  "voicePackAutomatic": "स्वचालित",
+  "@voicePackAutomatic": {
+    "description": "Voice pack choice: the best installed pack. Max 20 characters",
+    "x-review": true
+  },
+  "voicePackAutomaticSelected": "स्वचालित (चुना गया)",
+  "@voicePackAutomaticSelected": {
+    "description": "Voice pack choice when Automatic is in use. Max 30 characters",
+    "x-review": true
+  },
+  "voicePack": "वॉइस पैक",
+  "@voicePack": {
+    "description": "Voice pack picker title. Max 30 characters",
+    "x-review": true
+  },
+  "voiceNoPack": "कोई वॉइस पैक इंस्टॉल नहीं है। मॉडल पैक के अंतर्गत एक इंस्टॉल करें।",
+  "@voiceNoPack": {
+    "description": "Voice pack picker: shown when none is installed. Two lines at most",
+    "x-review": true
+  },
+  "voiceLooking": "इंस्टॉल किए गए पैक खोजे जा रहे हैं",
+  "@voiceLooking": {
+    "description": "Voice pack picker: shown while the packs load. Max 40 characters",
+    "x-review": true
+  },
+  "voicePackItem": "{name} · {size}",
+  "@voicePackItem": {
+    "description": "Voice pack picker: a pack with its size. {name} is the pack name, {size} is a size such as 120 MB",
+    "x-review": true
+  },
+  "voicePackItemSelected": "{name} · {size} (चुना गया)",
+  "@voicePackItemSelected": {
+    "description": "Voice pack picker: the chosen pack with its size. {name} is the pack name, {size} a size",
+    "x-review": true
+  },
+  "megabytes": "{count} MB",
+  "@megabytes": {
+    "description": "A size in megabytes, such as 120 MB. {count} is a number",
+    "x-review": true
+  },
+  "milliseconds": "{count} ms",
+  "@milliseconds": {
+    "description": "A duration in milliseconds. {count} is a number. Max 12 characters",
+    "x-review": true
+  },
+  "dpValue": "{count} dp",
+  "@dpValue": {
+    "description": "A size in density-independent pixels. {count} is a number. Max 12 characters",
+    "x-review": true
+  },
+  "packsOpenFailed": "Kosha फ़ाइल चुनने वाला टूल नहीं खोल सका।",
+  "@packsOpenFailed": {
+    "description": "Packs: shown when the file picker fails",
+    "x-review": true
+  },
+  "packsInstalled": "{name} इंस्टॉल किया गया।",
+  "@packsInstalled": {
+    "description": "Packs: snackbar after a pack installs. {name} is the pack name",
+    "x-review": true
+  },
+  "packsDeleteTitle": "{name} हटाएँ?",
+  "@packsDeleteTitle": {
+    "description": "Packs: dialog title before a pack is deleted. {name} is the pack name",
+    "x-review": true
+  },
+  "packsDeleted": "{name} हटाया गया।",
+  "@packsDeleted": {
+    "description": "Packs: snackbar after a pack is deleted. {name} is the pack name",
+    "x-review": true
+  },
+  "packsDeleteFailed": "Kosha {name} हटा नहीं सका। फिर से कोशिश करें।",
+  "@packsDeleteFailed": {
+    "description": "Packs: shown when a delete fails. {name} is the pack name",
+    "x-review": true
+  },
+  "packsIntro": "पैक इंस्टॉल होने से पहले जाँचे जाते हैं। इनमें केवल डेटा होता है, कोड कभी नहीं।",
+  "@packsIntro": {
+    "description": "Packs: explains packs. Two lines at most",
+    "x-review": true
+  },
+  "packsImport": "आयात करें",
+  "@packsImport": {
+    "description": "Packs: section title",
+    "x-review": true
+  },
+  "packsImportTitle": "पैक फ़ाइल आयात करें",
+  "@packsImportTitle": {
+    "description": "Packs: row title for importing. Max 30 characters",
+    "x-review": true
+  },
+  "packsChecking": "जाँच और इंस्टॉल हो रहा है…",
+  "@packsChecking": {
+    "description": "Packs: row subtitle while an import runs",
+    "x-review": true
+  },
+  "packsImportBody": "एक .koshapack फ़ाइल, जैसे डाउनलोड से",
+  "@packsImportBody": {
+    "description": "Packs: row subtitle. Two lines at most. .koshapack is a file extension",
+    "x-review": true
+  },
+  "packsNoVoice": "कोई वॉइस पैक इंस्टॉल नहीं है",
+  "@packsNoVoice": {
+    "description": "Packs: empty state in Voice. Max 40 characters",
+    "x-review": true
+  },
+  "packsNoVoiceBody": "वॉइस टाइपिंग के लिए वॉइस पैक चाहिए।",
+  "@packsNoVoiceBody": {
+    "description": "Packs: empty state detail. Max 60 characters",
+    "x-review": true
+  },
+  "packsNoTranslation": "कोई अनुवाद पैक इंस्टॉल नहीं है",
+  "@packsNoTranslation": {
+    "description": "Packs: empty state in Translation. Max 40 characters",
+    "x-review": true
+  },
+  "packsNoTranslationBody": "अनुवाद के लिए हर दिशा का एक पैक चाहिए।",
+  "@packsNoTranslationBody": {
+    "description": "Packs: empty state detail. Max 60 characters",
+    "x-review": true
+  },
+  "packsDictionaries": "शब्दकोश",
+  "@packsDictionaries": {
+    "description": "Packs: section title",
+    "x-review": true
+  },
+  "packsNoDictionary": "कोई शब्दकोश पैक इंस्टॉल नहीं है",
+  "@packsNoDictionary": {
+    "description": "Packs: empty state in Dictionaries. Max 40 characters",
+    "x-review": true
+  },
+  "packsNoDictionaryBody": "चीनी और जापानी टाइपिंग के लिए शब्दकोश पैक चाहिए।",
+  "@packsNoDictionaryBody": {
+    "description": "Packs: empty state detail. Max 60 characters",
+    "x-review": true
+  },
+  "packsNothingStored": "अभी कुछ सहेजा नहीं गया है।",
+  "@packsNothingStored": {
+    "description": "Packs: footer when no pack is installed",
+    "x-review": true
+  },
+  "packsInstalledUse": "इंस्टॉल पैक इस फ़ोन पर {size} लेते हैं।",
+  "@packsInstalledUse": {
+    "description": "Packs: footer with the total size. {size} is a size such as 300 MB",
+    "x-review": true
+  },
+  "packErrorBadSignature": "यह पैक Kosha के लिए हस्ताक्षरित नहीं है, इसलिए कुछ भी इंस्टॉल नहीं हुआ।",
+  "@packErrorBadSignature": {
+    "description": "Pack install error: the signature is wrong. Two lines at most",
+    "x-review": true
+  },
+  "packErrorBadFormat": "यह फ़ाइल Kosha पैक नहीं है। कुछ भी इंस्टॉल नहीं हुआ।",
+  "@packErrorBadFormat": {
+    "description": "Pack install error: wrong file. Two lines at most",
+    "x-review": true
+  },
+  "packErrorTooLarge": "यह पैक इस फ़ोन पर इंस्टॉल करने के लिए बहुत बड़ा है।",
+  "@packErrorTooLarge": {
+    "description": "Pack install error: too big. Two lines at most",
+    "x-review": true
+  },
+  "packErrorVersion": "इस पैक के लिए Kosha का नया संस्करण चाहिए।",
+  "@packErrorVersion": {
+    "description": "Pack install error: version too old. Two lines at most",
+    "x-review": true
+  },
+  "packErrorNoSpace": "इस पैक को इंस्टॉल करने के लिए पर्याप्त खाली जगह नहीं है।",
+  "@packErrorNoSpace": {
+    "description": "Pack install error: no storage. Two lines at most",
+    "x-review": true
+  },
+  "packErrorGeneric": "पैक इंस्टॉल नहीं हो सका। कुछ भी नहीं बदला गया।",
+  "@packErrorGeneric": {
+    "description": "Pack install error: any other failure. Two lines at most",
+    "x-review": true
+  },
+  "translateDefaultPair": "डिफ़ॉल्ट भाषा जोड़ी",
+  "@translateDefaultPair": {
+    "description": "Translation: section title for the default pair. Max 30 characters",
+    "x-review": true
+  },
+  "translatePairName": "{from} → {to}",
+  "@translatePairName": {
+    "description": "Translation: a language pair. {from} and {to} are language names",
+    "x-review": true
+  },
+  "translateOffline": "ऑफ़लाइन अनुवाद",
+  "@translateOffline": {
+    "description": "Translation: switch title. Max 30 characters",
+    "x-review": true
+  },
+  "translateOfflineBody": "कीबोर्ड में टाइप करते समय और किसी भी ऐप में चुने गए टेक्स्ट का अनुवाद करता है।",
+  "@translateOfflineBody": {
+    "description": "Translation: switch subtitle. Two lines at most",
+    "x-review": true
+  },
+  "translateDefaultPairTile": "डिफ़ॉल्ट जोड़ी",
+  "@translateDefaultPairTile": {
+    "description": "Translation: row title for the default pair. Max 30 characters",
+    "x-review": true
+  },
+  "translatePackInstalled": "पैक इंस्टॉल है",
+  "@translatePackInstalled": {
+    "description": "Translation: status of a pair with its pack. Max 30 characters",
+    "x-review": true
+  },
+  "translatePackNotInstalled": "पैक इंस्टॉल नहीं है। इसे मॉडल पैक में पाएँ।",
+  "@translatePackNotInstalled": {
+    "description": "Translation: status of a pair without its pack. Two lines at most",
+    "x-review": true
+  },
+  "translateInstalled": "इंस्टॉल की गई दिशाएँ",
+  "@translateInstalled": {
+    "description": "Translation: section title for installed packs. Max 30 characters",
+    "x-review": true
+  },
+  "translateInstalledBody": "हर दिशा एक पैक है, जैसे अंग्रेज़ी → स्पेनिश।",
+  "@translateInstalledBody": {
+    "description": "Translation: explains installed directions. Two lines at most",
+    "x-review": true
+  },
+  "translatePackMeta": "{size} · {license}",
+  "@translatePackMeta": {
+    "description": "Translation: a pack's size and licence. {size} is a size, {license} a licence name",
+    "x-review": true
+  },
+  "translateModelPacksBody": "अनुवाद पैक इंस्टॉल या हटाएँ",
+  "@translateModelPacksBody": {
+    "description": "Translation: row subtitle for model packs. Two lines at most",
+    "x-review": true
+  },
+  "translateRunsOnPhone": "अनुवाद इसी फ़ोन पर होता है। आप जो अनुवाद करते हैं, वह सहेजा नहीं जाता।",
+  "@translateRunsOnPhone": {
+    "description": "Translation: footnote. Two lines at most",
+    "x-review": true
+  }
+}

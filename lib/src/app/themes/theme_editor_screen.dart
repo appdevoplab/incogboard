@@ -25,9 +25,10 @@ import '../common/settings_widgets.dart';
 import 'color_picker_dialog.dart';
 import 'photo_crop_screen.dart';
 import 'theme_support.dart';
+import 'package:kosha/src/app/l10n.dart';
 
 /// Motion presets and the press-animation intensity each maps to (see [ThemeSpec.motionIntensity]).
-const List<(String, double)> _motionChoices = [('Off', 0), ('Subtle', 0.5), ('Standard', 1), ('Bouncy', 2)];
+List<(String, double)> _motionChoices = [(context.l10n.off, 0), ('Subtle', 0.5), ('Standard', 1), ('Bouncy', 2)];
 
 const List<(ThemeSchemeVariant, String)> _variantChoices = [
   (ThemeSchemeVariant.tonalSpot, 'Tonal spot'),
@@ -417,7 +418,7 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
           actions: [
             Padding(
               padding: const EdgeInsets.only(right: 8),
-              child: FilledButton(onPressed: canSave ? _save : null, child: const Text('Save')),
+              child: FilledButton(onPressed: canSave ? _save : null, child: Text(context.l10n.save)),
             ),
           ],
         ),
@@ -603,7 +604,7 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
         ],
       ),
       SettingsGroup(
-        title: 'Keys',
+        title: context.l10n.typingKeys,
         children: [
           _SliderRow(
             label: 'Shape',
@@ -737,7 +738,7 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
           SettingsSwitchTile(title: 'Swipe trail', value: _trailOn, onChanged: (v) => _edit(() => _trailOn = v)),
           if (_trailOn) ...[
             _SliderRow(
-              label: 'Trail width',
+              label: context.l10n.typingTrailWidth,
               value: _trailWidth,
               min: 2,
               max: 16,
@@ -745,7 +746,7 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
               onChanged: (v) => _edit(() => _trailWidth = v),
             ),
             _SliderRow(
-              label: 'Trail fade',
+              label: context.l10n.typingTrailFade,
               value: _trailFade.toDouble(),
               min: 0,
               max: 2000,
@@ -790,7 +791,7 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
                 const Spacer(),
                 TextButton(
                   onPressed: () => _setDraft((d) => d.copyWith(accents: d.accents.copyWith(clearTrail: true))),
-                  child: const Text('Automatic'),
+                  child: Text(context.l10n.voicePackAutomatic),
                 ),
               ],
             ),

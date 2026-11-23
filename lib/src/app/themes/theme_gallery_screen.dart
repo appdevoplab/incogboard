@@ -18,6 +18,7 @@ import '../common/settings_widgets.dart';
 import 'theme_card.dart';
 import 'theme_editor_screen.dart';
 import 'theme_support.dart';
+import 'package:kosha/src/app/l10n.dart';
 
 enum _CardAction { edit, duplicate, rename, delete }
 
@@ -174,8 +175,8 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
               : 'This cannot be undone.',
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.of(context).pop(false), child: const Text('Cancel')),
-          FilledButton(onPressed: () => Navigator.of(context).pop(true), child: const Text('Delete')),
+          TextButton(onPressed: () => Navigator.of(context).pop(false), child: Text(context.l10n.cancel)),
+          FilledButton(onPressed: () => Navigator.of(context).pop(true), child: Text(context.l10n.delete)),
         ],
       ),
     );
@@ -194,7 +195,7 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
   @override
   Widget build(BuildContext context) {
     final services = _services;
-    if (services == null) return const SettingsPage(title: 'Themes', children: []);
+    if (services == null) return SettingsPage(title: context.l10n.settingsThemes, children: []);
     return ListenableBuilder(
       listenable: services.settings,
       builder: (context, _) => _buildPage(context, services.settings.value),
@@ -221,7 +222,7 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
     );
 
     return SettingsPage(
-      title: 'Themes',
+      title: context.l10n.settingsThemes,
       children: [
         SettingsGroup(
           title: 'Appearance',
@@ -309,11 +310,11 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
                   menu: PopupMenuButton<_CardAction>(
                     tooltip: 'Options for ${spec.name}',
                     onSelected: (a) => unawaited(_onAction(spec, a)),
-                    itemBuilder: (_) => const [
+                    itemBuilder: (_) => [
                       PopupMenuItem(value: _CardAction.edit, child: Text('Edit')),
                       PopupMenuItem(value: _CardAction.duplicate, child: Text('Duplicate')),
                       PopupMenuItem(value: _CardAction.rename, child: Text('Rename')),
-                      PopupMenuItem(value: _CardAction.delete, child: Text('Delete')),
+                      PopupMenuItem(value: _CardAction.delete, child: Text(context.l10n.delete)),
                     ],
                   ),
                 ),
@@ -399,8 +400,8 @@ class _RenameDialogState extends State<_RenameDialog> {
         decoration: const InputDecoration(labelText: 'Name'),
       ),
       actions: [
-        TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('Cancel')),
-        FilledButton(onPressed: name.isEmpty ? null : () => Navigator.of(context).pop(name), child: const Text('Save')),
+        TextButton(onPressed: () => Navigator.of(context).pop(), child: Text(context.l10n.cancel)),
+        FilledButton(onPressed: name.isEmpty ? null : () => Navigator.of(context).pop(name), child: Text(context.l10n.save)),
       ],
     );
   }

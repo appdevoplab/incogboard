@@ -8,6 +8,7 @@ import 'package:material_ui/material_ui.dart';
 import '../../settings/kosha_settings.dart';
 import '../common/settings_widgets.dart';
 import '../shell/settings_actions.dart';
+import 'package:kosha/src/app/l10n.dart';
 
 /// Expiry choices in minutes. The clipboard section clamps to a week.
 const List<ChoiceOption<int>> _expiryChoices = [
@@ -25,15 +26,15 @@ class PanelsScreen extends StatelessWidget {
     builder: (context, settings) {
       final c = settings.clipboard;
       return SettingsPage(
-        title: 'Panels',
+        title: context.l10n.settingsPanels,
         children: [
           SettingsGroup(
-            title: 'Clipboard',
+            title: context.l10n.panelsClipboard,
             children: [
               SettingsSwitchTile(
                 icon: Icons.content_paste_outlined,
-                title: 'Clipboard history',
-                subtitle: 'Keep what you copy, encrypted on this phone',
+                title: context.l10n.panelsClipboardHistory,
+                subtitle: context.l10n.panelsClipboardHistoryBody,
                 value: c.history,
                 onChanged: (v) => writeSettings(
                   context,
@@ -43,8 +44,8 @@ class PanelsScreen extends StatelessWidget {
               ),
               SettingsSwitchTile(
                 icon: Icons.push_pin_outlined,
-                title: 'Recent-copy chip',
-                subtitle: 'Offer your last copy in the suggestion bar for a minute',
+                title: context.l10n.panelsRecentChip,
+                subtitle: context.l10n.panelsRecentChipBody,
                 value: c.recentChip,
                 onChanged: (v) => writeSettings(
                   context,
@@ -55,7 +56,7 @@ class PanelsScreen extends StatelessWidget {
             ],
           ),
           SettingsPanel(
-            title: 'Keep unpinned copies for',
+            title: context.l10n.panelsKeepUnpinned,
             child: SettingsChoiceChips<int>(
               options: _expiryChoices,
               selected: _expiryChoices.where((o) => o.value == c.expiryMinutes).firstOrNull?.value,
@@ -70,7 +71,7 @@ class PanelsScreen extends StatelessWidget {
             children: [
               SettingsSliderTile(
                 icon: Icons.format_list_numbered,
-                title: 'Clips to keep',
+                title: context.l10n.panelsClipsToKeep,
                 value: c.maxItems.toDouble(),
                 min: 5,
                 max: 100,
@@ -85,12 +86,12 @@ class PanelsScreen extends StatelessWidget {
             ],
           ),
           SettingsGroup(
-            title: 'Emoji',
+            title: context.l10n.panelsEmoji,
             children: [
               SettingsSwitchTile(
                 icon: Icons.emoji_emotions_outlined,
-                title: 'Emoji suggestions',
-                subtitle: 'Offer an emoji for some words in the suggestion bar',
+                title: context.l10n.emojiSuggestions,
+                subtitle: context.l10n.emojiSuggestionsPanelBody,
                 value: settings.typing.emojiSuggestions,
                 onChanged: (v) => writeSettings(
                   context,
@@ -100,12 +101,12 @@ class PanelsScreen extends StatelessWidget {
               ),
             ],
           ),
-          const SettingsGroup(
+          SettingsGroup(
             children: [
               SettingsTile(
                 icon: Icons.key_off_outlined,
-                title: 'Passwords are never saved',
-                subtitle: 'Copies that Android marks as sensitive are never kept.',
+                title: context.l10n.panelsPasswordsNeverSaved,
+                subtitle: context.l10n.panelsSensitiveBody,
               ),
             ],
           ),

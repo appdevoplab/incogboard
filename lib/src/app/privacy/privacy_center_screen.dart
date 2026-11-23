@@ -22,6 +22,7 @@ import 'privacy_deps.dart';
 import 'privacy_format.dart';
 import 'privacy_widgets.dart';
 import 'shortcuts_screen.dart';
+import 'package:kosha/src/app/l10n.dart';
 
 class PrivacyCenterScreen extends StatefulWidget {
   const PrivacyCenterScreen({super.key, this.authenticator});
@@ -150,7 +151,7 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
           }
           if (!snapshot.hasData) return const Scaffold(body: Center(child: CircularProgressIndicator()));
           return SettingsPage(
-            title: 'Privacy',
+            title: context.l10n.settingsPrivacy,
             header: const Padding(
               padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
               child: Align(alignment: Alignment.centerLeft, child: PrivacyMascotSlot()),
@@ -230,7 +231,7 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
         ),
       SettingsTile(
         icon: Icons.download_for_offline_outlined,
-        title: 'Model packs',
+        title: context.l10n.settingsModelPacks,
         subtitle: d.packs.isEmpty
             ? 'None installed. Voice and translation packs appear here.'
             : '${plural(d.packs.length, 'pack')} · ${formatBytes(d.packBytes)}',
@@ -377,7 +378,7 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
           ),
         SettingsTile(
           icon: Icons.content_paste_outlined,
-          title: 'Clipboard',
+          title: context.l10n.panelsClipboard,
           subtitle: clipboard == null
               ? 'History is empty. Change clipboard settings in Panels.'
               : '${formatBytes(clipboard.sizeBytes)} in history. Change clipboard settings in Panels.',
@@ -526,14 +527,14 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
             ),
           ),
           actions: [
-            TextButton(onPressed: () => Navigator.of(context).pop(false), child: const Text('Cancel')),
+            TextButton(onPressed: () => Navigator.of(context).pop(false), child: Text(context.l10n.cancel)),
             FilledButton(
               style: FilledButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.error,
                 foregroundColor: Theme.of(context).colorScheme.onError,
               ),
               onPressed: () => Navigator.of(context).pop(true),
-              child: const Text('Delete'),
+              child: Text(context.l10n.delete),
             ),
           ],
         ),

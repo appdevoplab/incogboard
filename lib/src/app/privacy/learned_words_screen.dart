@@ -14,6 +14,7 @@ import '../../security/app_auth.dart';
 import '../app_services.dart';
 import 'privacy_format.dart';
 import 'privacy_widgets.dart';
+import 'package:kosha/src/app/l10n.dart';
 
 class LearnedWordsScreen extends StatefulWidget {
   const LearnedWordsScreen({super.key, required this.languageId});
@@ -116,7 +117,7 @@ class _LearnedWordsScreenState extends State<LearnedWordsScreen> {
           'This deletes every word learned in this language, and the words you blocked. It cannot be undone.',
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.of(context).pop(false), child: const Text('Cancel')),
+          TextButton(onPressed: () => Navigator.of(context).pop(false), child: Text(context.l10n.cancel)),
           FilledButton(
             style: FilledButton.styleFrom(
               backgroundColor: Theme.of(context).colorScheme.error,

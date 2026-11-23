@@ -11,6 +11,7 @@ import '../../security/shortcuts_store.dart';
 import '../app_services.dart';
 import 'privacy_format.dart';
 import 'privacy_widgets.dart';
+import 'package:kosha/src/app/l10n.dart';
 
 class ShortcutsScreen extends StatefulWidget {
   const ShortcutsScreen({super.key});
@@ -80,14 +81,14 @@ class _ShortcutsScreenState extends State<ShortcutsScreen> {
         title: Text('Delete "${shortcut.trigger}"?'),
         content: const Text('This removes the shortcut. It cannot be undone.'),
         actions: [
-          TextButton(onPressed: () => Navigator.of(context).pop(false), child: const Text('Cancel')),
+          TextButton(onPressed: () => Navigator.of(context).pop(false), child: Text(context.l10n.cancel)),
           FilledButton(
             style: FilledButton.styleFrom(
               backgroundColor: Theme.of(context).colorScheme.error,
               foregroundColor: Theme.of(context).colorScheme.onError,
             ),
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Delete'),
+            child: Text(context.l10n.delete),
           ),
         ],
       ),
@@ -280,14 +281,14 @@ class _ShortcutDialogState extends State<_ShortcutDialog> {
         ),
       ),
       actions: [
-        TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('Cancel')),
+        TextButton(onPressed: () => Navigator.of(context).pop(), child: Text(context.l10n.cancel)),
         ListenableBuilder(
           listenable: Listenable.merge([_trigger, _expansion]),
           builder: (context, _) => FilledButton(
             onPressed: _canSave
                 ? () => Navigator.of(context).pop((trigger: _trigger.text.trim(), expansion: _expansion.text.trim()))
                 : null,
-            child: const Text('Save'),
+            child: Text(context.l10n.save),
           ),
         ),
       ],

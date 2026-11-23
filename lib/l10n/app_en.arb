@@ -1,9 +1,731 @@
 {
   "@@locale": "en",
   "appName": "Kosha",
-  "@appName": {"description": "The app's name. Never translated."},
+  "@appName": {
+    "description": "The app's name. Never translated; keep it as it is in every language"
+  },
   "homeTagline": "Private typing, on this phone",
-  "@homeTagline": {"description": "Home screen header, under the app name."},
+  "@homeTagline": {
+    "description": "Home screen header, under the app name. Max 40 characters"
+  },
   "homeOfflinePromise": "Kosha works offline and sends nothing anywhere.",
-  "@homeOfflinePromise": {"description": "Home screen header: the privacy promise."}
+  "@homeOfflinePromise": {
+    "description": "Home screen header: the privacy promise. Two lines at most"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Dialog and sheet cancel button"
+  },
+  "delete": "Delete",
+  "@delete": {
+    "description": "Delete button and menu item"
+  },
+  "save": "Save",
+  "@save": {
+    "description": "Save button"
+  },
+  "useAction": "Use",
+  "@useAction": {
+    "description": "Confirms a picked colour or photo, button. Max 12 characters"
+  },
+  "off": "Off",
+  "@off": {
+    "description": "Setting is off, short value label. Max 10 characters"
+  },
+  "left": "Left",
+  "@left": {
+    "description": "Side choice for one-handed mode. Max 10 characters"
+  },
+  "right": "Right",
+  "@right": {
+    "description": "Side choice for one-handed mode. Max 10 characters"
+  },
+  "settingsLanguages": "Languages",
+  "@settingsLanguages": {
+    "description": "Home row and section title for languages"
+  },
+  "settingsTyping": "Typing",
+  "@settingsTyping": {
+    "description": "Home row and section title for typing"
+  },
+  "settingsFeel": "Feel",
+  "@settingsFeel": {
+    "description": "Home row and title for the feel screen. Max 16 characters"
+  },
+  "settingsThemes": "Themes",
+  "@settingsThemes": {
+    "description": "Home row and title for themes. Max 16 characters"
+  },
+  "settingsPanels": "Panels",
+  "@settingsPanels": {
+    "description": "Home row and title for panels. Max 16 characters"
+  },
+  "settingsVoice": "Voice",
+  "@settingsVoice": {
+    "description": "Home row and title for voice. Max 16 characters"
+  },
+  "settingsTranslation": "Translation",
+  "@settingsTranslation": {
+    "description": "Home row and title for translation. Max 24 characters"
+  },
+  "settingsPrivacy": "Privacy",
+  "@settingsPrivacy": {
+    "description": "Home row and title for privacy. Max 16 characters"
+  },
+  "settingsAbout": "About",
+  "@settingsAbout": {
+    "description": "Home row and title for About. Max 16 characters"
+  },
+  "settingsModelPacks": "Model packs",
+  "@settingsModelPacks": {
+    "description": "Title of the packs screen, and a row that opens it. Max 24 characters"
+  },
+  "homeSetupTurnOn": "Turn Kosha on in Android's keyboard list.",
+  "@homeSetupTurnOn": {
+    "description": "Home hint while Kosha is off. Two lines at most"
+  },
+  "homeSetupChoose": "Choose Kosha as the keyboard you type with.",
+  "@homeSetupChoose": {
+    "description": "Home hint when Kosha is on but not chosen. Two lines at most"
+  },
+  "homeFinishSetup": "Finish setting up Kosha",
+  "@homeFinishSetup": {
+    "description": "Home card title while setup is unfinished. Max 40 characters"
+  },
+  "homeTypingSubtitle": "Corrections, suggestions, keys and swipe",
+  "@homeTypingSubtitle": {
+    "description": "Home row subtitle for typing. Max 60 characters"
+  },
+  "homeFeelSubtitle": "Haptics, sounds, height and one-handed mode",
+  "@homeFeelSubtitle": {
+    "description": "Home row subtitle for feel. Max 60 characters"
+  },
+  "homePanelsSubtitle": "Clipboard and emoji",
+  "@homePanelsSubtitle": {
+    "description": "Home row subtitle for panels. Max 60 characters"
+  },
+  "homeVoiceSubtitle": "Speak to type, on this phone",
+  "@homeVoiceSubtitle": {
+    "description": "Home row subtitle for voice. Max 60 characters"
+  },
+  "homeTranslationSubtitle": "Translate as you type, offline",
+  "@homeTranslationSubtitle": {
+    "description": "Home row subtitle for translation. Max 60 characters"
+  },
+  "homePrivacySubtitle": "What is stored, incognito, app lock and backup",
+  "@homePrivacySubtitle": {
+    "description": "Home row subtitle for privacy. Max 60 characters"
+  },
+  "homeAboutSubtitle": "Version, licences and source code",
+  "@homeAboutSubtitle": {
+    "description": "Home row subtitle for About. Max 60 characters"
+  },
+  "aboutTitle": "About",
+  "@aboutTitle": {
+    "description": "Title of the About screen. Max 24 characters"
+  },
+  "aboutVersion": "Version {versionName} ({versionCode})",
+  "@aboutVersion": {
+    "description": "About screen: app version under the name. Max 40 characters"
+  },
+  "aboutVersionDebug": "Version {versionName} ({versionCode}) · debug build",
+  "@aboutVersionDebug": {
+    "description": "About screen: version line in a debug build. Max 60 characters"
+  },
+  "aboutReadingVersion": "Reading version…",
+  "@aboutReadingVersion": {
+    "description": "About screen: shown while the version loads"
+  },
+  "aboutPrivacy": "Privacy",
+  "@aboutPrivacy": {
+    "description": "About section title"
+  },
+  "aboutNoInternet": "Kosha cannot use the internet",
+  "@aboutNoInternet": {
+    "description": "About privacy tile title. Max 50 characters"
+  },
+  "aboutNoInternetBody": "Release builds have no internet permission, so nothing you type leaves this phone.",
+  "@aboutNoInternetBody": {
+    "description": "About privacy tile. Two lines at most"
+  },
+  "aboutLicence": "Licence",
+  "@aboutLicence": {
+    "description": "About section title. British spelling, as in the app"
+  },
+  "aboutGplTitle": "GNU General Public Licence v3 or later",
+  "@aboutGplTitle": {
+    "description": "About licence tile title. Keep the licence name"
+  },
+  "aboutGplBody": "Kosha is free software. You may study, change and share it under the GPL.",
+  "@aboutGplBody": {
+    "description": "About licence tile. Two lines at most"
+  },
+  "aboutSourceCode": "Source code",
+  "@aboutSourceCode": {
+    "description": "About section title"
+  },
+  "aboutSourceBody": "Kosha is GPL-3.0-or-later. Its source code is available from the project page.",
+  "@aboutSourceBody": {
+    "description": "About source tile. Two lines at most"
+  },
+  "aboutLicences": "Licences",
+  "@aboutLicences": {
+    "description": "About section title, for the open-source list"
+  },
+  "aboutOpenSource": "Open-source licences",
+  "@aboutOpenSource": {
+    "description": "About tile title. Max 40 characters"
+  },
+  "aboutOpenSourceBody": "Flutter, material_ui and every package Kosha uses",
+  "@aboutOpenSourceBody": {
+    "description": "About tile subtitle. Lists the libraries. Two lines at most"
+  },
+  "aboutTextLoadFailed": "This text could not be loaded.",
+  "@aboutTextLoadFailed": {
+    "description": "About screen: a licence text failed to load"
+  },
+  "languagesEnabledHeader": "Enabled, first is the default",
+  "@languagesEnabledHeader": {
+    "description": "Languages: list heading. The first language is the default. Max 40 characters"
+  },
+  "languagesActive": "Active language",
+  "@languagesActive": {
+    "description": "Languages: the language the keyboard is using now. Max 30 characters"
+  },
+  "languagesAdd": "Add a language",
+  "@languagesAdd": {
+    "description": "Languages: adds a language to the list. Max 30 characters"
+  },
+  "languagesAllEnabled": "Every language is enabled",
+  "@languagesAllEnabled": {
+    "description": "Languages: shown when all are on. Max 40 characters"
+  },
+  "languagesAllEnabledBody": "Remove one above to make room.",
+  "@languagesAllEnabledBody": {
+    "description": "Languages: hint under the message above. Max 50 characters"
+  },
+  "languagesMultilingual": "Multilingual typing",
+  "@languagesMultilingual": {
+    "description": "Languages: title of the multilingual section. Max 40 characters"
+  },
+  "languagesMultilingualBody": "Suggest words from up to three enabled languages that share the layout's script. A word that any of them knows is never auto-corrected.",
+  "@languagesMultilingualBody": {
+    "description": "Languages: explains multilingual typing. Three lines at most"
+  },
+  "languagesNativeDigits": "Native digits",
+  "@languagesNativeDigits": {
+    "description": "Languages: title of the digits setting. Max 30 characters"
+  },
+  "languagesNativeDigitsBody": "Type digits in the script of the active language where it has them (०१२, ٠١٢).",
+  "@languagesNativeDigitsBody": {
+    "description": "Languages: explains native digits. Two lines at most"
+  },
+  "languagesOptions": "Language options",
+  "@languagesOptions": {
+    "description": "Languages: section for Chinese and Japanese options. Max 30 characters"
+  },
+  "languagesZhSubtitle": "Pinyin, Traditional characters and dictionary packs",
+  "@languagesZhSubtitle": {
+    "description": "Languages: Chinese row subtitle. Two lines at most"
+  },
+  "languagesJaSubtitle": "Flick input, conversion and dictionary packs",
+  "@languagesJaSubtitle": {
+    "description": "Languages: Japanese row subtitle. Two lines at most"
+  },
+  "languagesReorderLabel": "Drag to reorder {language}",
+  "@languagesReorderLabel": {
+    "description": "Languages: accessibility label of the drag handle. {language} is a language name"
+  },
+  "languageDefaultLabel": "{language}, default",
+  "@languageDefaultLabel": {
+    "description": "Languages: label for the first language. {language} is a language name"
+  },
+  "languageLayoutTooltip": "Layout for {language}",
+  "@languageLayoutTooltip": {
+    "description": "Languages: tooltip on the layout button. {language} is a language name. Max 40 characters"
+  },
+  "languageRemoveTooltip": "Remove {language}",
+  "@languageRemoveTooltip": {
+    "description": "Languages: tooltip on the remove button. {language} is a language name. Max 30 characters"
+  },
+  "feelHaptics": "Haptics",
+  "@feelHaptics": {
+    "description": "Feel: section title"
+  },
+  "feelHapticFeedback": "Haptic feedback",
+  "@feelHapticFeedback": {
+    "description": "Feel: switch title. Max 30 characters"
+  },
+  "feelHapticFeedbackBody": "A short vibration on each key, following the system setting",
+  "@feelHapticFeedbackBody": {
+    "description": "Feel: switch subtitle. Two lines at most"
+  },
+  "feelHapticStrength": "Haptic strength",
+  "@feelHapticStrength": {
+    "description": "Feel: slider title. Max 30 characters"
+  },
+  "feelSounds": "Sounds",
+  "@feelSounds": {
+    "description": "Feel: section title"
+  },
+  "feelKeySounds": "Key sounds",
+  "@feelKeySounds": {
+    "description": "Feel: switch title. Max 30 characters"
+  },
+  "feelKeySoundsBody": "Clicks for keys, space, delete and enter",
+  "@feelKeySoundsBody": {
+    "description": "Feel: switch subtitle. Two lines at most"
+  },
+  "feelUseSystemVolume": "Use system volume",
+  "@feelUseSystemVolume": {
+    "description": "Feel: switch title. Max 30 characters"
+  },
+  "feelKeySoundVolume": "Key sound volume",
+  "@feelKeySoundVolume": {
+    "description": "Feel: slider title. Max 30 characters"
+  },
+  "feelHeight": "Height",
+  "@feelHeight": {
+    "description": "Feel: section title"
+  },
+  "feelPortraitHeight": "Portrait height",
+  "@feelPortraitHeight": {
+    "description": "Feel: slider title. Max 30 characters"
+  },
+  "feelLandscapeHeight": "Landscape height",
+  "@feelLandscapeHeight": {
+    "description": "Feel: slider title. Max 30 characters"
+  },
+  "feelOneHandedFloating": "One-handed and floating",
+  "@feelOneHandedFloating": {
+    "description": "Feel: section title. Max 30 characters"
+  },
+  "feelOneHandedSide": "One-handed side",
+  "@feelOneHandedSide": {
+    "description": "Feel: label above the side choice. Max 30 characters"
+  },
+  "feelFloatingKeyboard": "Floating keyboard",
+  "@feelFloatingKeyboard": {
+    "description": "Feel: switch title. Max 30 characters"
+  },
+  "feelFloatingBody": "Drag it anywhere on the screen",
+  "@feelFloatingBody": {
+    "description": "Feel: switch subtitle. Two lines at most"
+  },
+  "panelsClipboard": "Clipboard",
+  "@panelsClipboard": {
+    "description": "Panels: section title"
+  },
+  "panelsClipboardHistory": "Clipboard history",
+  "@panelsClipboardHistory": {
+    "description": "Panels: switch title. Max 30 characters"
+  },
+  "panelsClipboardHistoryBody": "Keep what you copy, encrypted on this phone",
+  "@panelsClipboardHistoryBody": {
+    "description": "Panels: switch subtitle. Two lines at most"
+  },
+  "panelsRecentChip": "Recent-copy chip",
+  "@panelsRecentChip": {
+    "description": "Panels: switch title for the last-copy chip. Max 30 characters"
+  },
+  "panelsRecentChipBody": "Offer your last copy in the suggestion bar for a minute",
+  "@panelsRecentChipBody": {
+    "description": "Panels: switch subtitle. Two lines at most"
+  },
+  "panelsKeepUnpinned": "Keep unpinned copies for",
+  "@panelsKeepUnpinned": {
+    "description": "Panels: label above the duration choice. Max 40 characters"
+  },
+  "panelsClipsToKeep": "Clips to keep",
+  "@panelsClipsToKeep": {
+    "description": "Panels: slider title. Max 30 characters"
+  },
+  "panelsEmoji": "Emoji",
+  "@panelsEmoji": {
+    "description": "Panels: section title"
+  },
+  "emojiSuggestions": "Emoji suggestions",
+  "@emojiSuggestions": {
+    "description": "Emoji suggestions switch title, in Panels and Typing. Max 30 characters"
+  },
+  "emojiSuggestionsPanelBody": "Offer an emoji for some words in the suggestion bar",
+  "@emojiSuggestionsPanelBody": {
+    "description": "Panels: switch subtitle. Two lines at most"
+  },
+  "panelsPasswordsNeverSaved": "Passwords are never saved",
+  "@panelsPasswordsNeverSaved": {
+    "description": "Panels: switch title. Max 40 characters"
+  },
+  "panelsSensitiveBody": "Copies that Android marks as sensitive are never kept.",
+  "@panelsSensitiveBody": {
+    "description": "Panels: switch subtitle. Two lines at most"
+  },
+  "typingCorrections": "Corrections",
+  "@typingCorrections": {
+    "description": "Typing: section title"
+  },
+  "typingAutocorrect": "Autocorrect",
+  "@typingAutocorrect": {
+    "description": "Typing: switch title. Max 30 characters"
+  },
+  "typingAutocorrectBody": "Fix likely typos as you finish a word",
+  "@typingAutocorrectBody": {
+    "description": "Typing: switch subtitle. Two lines at most"
+  },
+  "typingAutoCapitalise": "Auto-capitalise",
+  "@typingAutoCapitalise": {
+    "description": "Typing: switch title. Max 30 characters"
+  },
+  "typingAutoCapitaliseBody": "Capital letters at the start of sentences",
+  "@typingAutoCapitaliseBody": {
+    "description": "Typing: switch subtitle. Two lines at most"
+  },
+  "typingDoubleSpace": "Double-space full stop",
+  "@typingDoubleSpace": {
+    "description": "Typing: switch title. Max 30 characters"
+  },
+  "typingDoubleSpaceBody": "Two taps of space write \". \"",
+  "@typingDoubleSpaceBody": {
+    "description": "Typing: switch subtitle. Two lines at most"
+  },
+  "typingSmartPunctuation": "Smart punctuation",
+  "@typingSmartPunctuation": {
+    "description": "Typing: switch title. Max 30 characters"
+  },
+  "typingSmartPunctuationBody": "Tidy spaces around punctuation and use local quotes",
+  "@typingSmartPunctuationBody": {
+    "description": "Typing: switch subtitle. Two lines at most"
+  },
+  "typingSuggestions": "Suggestions",
+  "@typingSuggestions": {
+    "description": "Typing: section and switch title. Max 30 characters"
+  },
+  "typingSuggestionsBody": "Show words in the suggestion bar",
+  "@typingSuggestionsBody": {
+    "description": "Typing: switch subtitle. Two lines at most"
+  },
+  "typingNextWord": "Next-word prediction",
+  "@typingNextWord": {
+    "description": "Typing: switch title. Max 30 characters"
+  },
+  "typingNextWordBody": "Suggest the word that often follows",
+  "@typingNextWordBody": {
+    "description": "Typing: switch subtitle. Two lines at most"
+  },
+  "typingEmojiBody": "Offer an emoji for some words",
+  "@typingEmojiBody": {
+    "description": "Typing: emoji switch subtitle. Two lines at most"
+  },
+  "typingHideOffensive": "Hide offensive words",
+  "@typingHideOffensive": {
+    "description": "Typing: switch title. Max 30 characters"
+  },
+  "typingHideOffensiveBody": "Never suggest them unless you type them in full",
+  "@typingHideOffensiveBody": {
+    "description": "Typing: switch subtitle. Two lines at most"
+  },
+  "typingKeys": "Keys",
+  "@typingKeys": {
+    "description": "Typing: section title"
+  },
+  "typingKeyPopups": "Key popups",
+  "@typingKeyPopups": {
+    "description": "Typing: switch title. Max 30 characters"
+  },
+  "typingKeyPopupsBody": "Enlarge a key while you press it",
+  "@typingKeyPopupsBody": {
+    "description": "Typing: switch subtitle. Two lines at most"
+  },
+  "typingLongPressDelay": "Long-press delay",
+  "@typingLongPressDelay": {
+    "description": "Typing: slider title. Max 30 characters"
+  },
+  "typingNumberRow": "Number row",
+  "@typingNumberRow": {
+    "description": "Typing: switch title. Max 30 characters"
+  },
+  "typingNumberRowBody": "Show 0 to 9 above the letters",
+  "@typingNumberRowBody": {
+    "description": "Typing: switch subtitle. Two lines at most"
+  },
+  "typingHintLabels": "Hint labels",
+  "@typingHintLabels": {
+    "description": "Typing: switch title. Max 30 characters"
+  },
+  "typingHintLabelsBody": "Small symbols on keys, such as accents",
+  "@typingHintLabelsBody": {
+    "description": "Typing: switch subtitle. Two lines at most"
+  },
+  "typingLowercaseLabels": "Lowercase labels",
+  "@typingLowercaseLabels": {
+    "description": "Typing: switch title. Max 30 characters"
+  },
+  "typingLowercaseLabelsBody": "Keep key letters lowercase when shift is on",
+  "@typingLowercaseLabelsBody": {
+    "description": "Typing: switch subtitle. Two lines at most"
+  },
+  "typingSwipe": "Swipe",
+  "@typingSwipe": {
+    "description": "Typing: section title"
+  },
+  "typingSwipeTyping": "Swipe typing",
+  "@typingSwipeTyping": {
+    "description": "Typing: switch title. Max 30 characters"
+  },
+  "typingSwipeTypingBody": "Glide across letters to write a word",
+  "@typingSwipeTypingBody": {
+    "description": "Typing: switch subtitle. Two lines at most"
+  },
+  "typingShowTrail": "Show trail",
+  "@typingShowTrail": {
+    "description": "Typing: switch title. Max 30 characters"
+  },
+  "typingTrailWidth": "Trail width",
+  "@typingTrailWidth": {
+    "description": "Typing: slider title. Max 30 characters"
+  },
+  "typingTrailFade": "Trail fade",
+  "@typingTrailFade": {
+    "description": "Typing: slider title. Max 30 characters"
+  },
+  "typingLivePreview": "Live preview",
+  "@typingLivePreview": {
+    "description": "Typing: switch title. Max 30 characters"
+  },
+  "typingLivePreviewBody": "Show the likely word while you glide",
+  "@typingLivePreviewBody": {
+    "description": "Typing: switch subtitle. Two lines at most"
+  },
+  "typingSpaceMovesCursor": "Space bar moves the cursor",
+  "@typingSpaceMovesCursor": {
+    "description": "Typing: switch title. Max 40 characters"
+  },
+  "typingSpaceMovesCursorBody": "Drag on the space bar to move the cursor",
+  "@typingSpaceMovesCursorBody": {
+    "description": "Typing: switch subtitle. Two lines at most"
+  },
+  "typingSwipeBackspace": "Swipe backspace to delete words",
+  "@typingSwipeBackspace": {
+    "description": "Typing: switch title. Max 40 characters"
+  },
+  "typingSwipeBackspaceBody": "Slide left on backspace to select and delete words",
+  "@typingSwipeBackspaceBody": {
+    "description": "Typing: switch subtitle. Two lines at most"
+  },
+  "voiceTyping": "Voice typing",
+  "@voiceTyping": {
+    "description": "Voice: switch title. Max 30 characters"
+  },
+  "voiceTypingBody": "Speak to type. Recognition runs on this phone.",
+  "@voiceTypingBody": {
+    "description": "Voice: switch subtitle. Two lines at most"
+  },
+  "voiceRecognition": "Recognition",
+  "@voiceRecognition": {
+    "description": "Voice: section title. Max 30 characters"
+  },
+  "voiceDetectLanguage": "Detect language automatically",
+  "@voiceDetectLanguage": {
+    "description": "Voice: switch title. Max 40 characters"
+  },
+  "voiceDetectLanguageBody": "Whisper works out which language you speak.",
+  "@voiceDetectLanguageBody": {
+    "description": "Voice: switch subtitle. Two lines at most. Whisper is the product name of the speech model"
+  },
+  "voiceModelPacksBody": "Install or remove voice and translation packs",
+  "@voiceModelPacksBody": {
+    "description": "Voice and Translation: row subtitle for model packs. Two lines at most"
+  },
+  "voiceAudioStays": "Audio stays on this phone and is never saved.",
+  "@voiceAudioStays": {
+    "description": "Voice: footnote under the mic. Two lines at most"
+  },
+  "voicePackAutomatic": "Automatic",
+  "@voicePackAutomatic": {
+    "description": "Voice pack choice: the best installed pack. Max 20 characters"
+  },
+  "voicePackAutomaticSelected": "Automatic (selected)",
+  "@voicePackAutomaticSelected": {
+    "description": "Voice pack choice when Automatic is in use. Max 30 characters"
+  },
+  "voicePack": "Voice pack",
+  "@voicePack": {
+    "description": "Voice pack picker title. Max 30 characters"
+  },
+  "voiceNoPack": "No voice pack is installed. Install one under Model packs.",
+  "@voiceNoPack": {
+    "description": "Voice pack picker: shown when none is installed. Two lines at most"
+  },
+  "voiceLooking": "Looking for installed packs",
+  "@voiceLooking": {
+    "description": "Voice pack picker: shown while the packs load. Max 40 characters"
+  },
+  "voicePackItem": "{name} · {size}",
+  "@voicePackItem": {
+    "description": "Voice pack picker: a pack with its size. {name} is the pack name, {size} is a size such as 120 MB"
+  },
+  "voicePackItemSelected": "{name} · {size} (selected)",
+  "@voicePackItemSelected": {
+    "description": "Voice pack picker: the chosen pack with its size. {name} is the pack name, {size} a size"
+  },
+  "megabytes": "{count} MB",
+  "@megabytes": {
+    "description": "A size in megabytes, such as 120 MB. {count} is a number"
+  },
+  "milliseconds": "{count} ms",
+  "@milliseconds": {
+    "description": "A duration in milliseconds. {count} is a number. Max 12 characters"
+  },
+  "dpValue": "{count} dp",
+  "@dpValue": {
+    "description": "A size in density-independent pixels. {count} is a number. Max 12 characters"
+  },
+  "packsOpenFailed": "Kosha could not open the file picker.",
+  "@packsOpenFailed": {
+    "description": "Packs: shown when the file picker fails"
+  },
+  "packsInstalled": "Installed {name}.",
+  "@packsInstalled": {
+    "description": "Packs: snackbar after a pack installs. {name} is the pack name"
+  },
+  "packsDeleteTitle": "Delete {name}?",
+  "@packsDeleteTitle": {
+    "description": "Packs: dialog title before a pack is deleted. {name} is the pack name"
+  },
+  "packsDeleted": "Deleted {name}.",
+  "@packsDeleted": {
+    "description": "Packs: snackbar after a pack is deleted. {name} is the pack name"
+  },
+  "packsDeleteFailed": "Kosha could not delete {name}. Try again.",
+  "@packsDeleteFailed": {
+    "description": "Packs: shown when a delete fails. {name} is the pack name"
+  },
+  "packsIntro": "Packs are checked before they are installed. They contain data only, never code.",
+  "@packsIntro": {
+    "description": "Packs: explains packs. Two lines at most"
+  },
+  "packsImport": "Import",
+  "@packsImport": {
+    "description": "Packs: section title"
+  },
+  "packsImportTitle": "Import a pack file",
+  "@packsImportTitle": {
+    "description": "Packs: row title for importing. Max 30 characters"
+  },
+  "packsChecking": "Checking and installing…",
+  "@packsChecking": {
+    "description": "Packs: row subtitle while an import runs"
+  },
+  "packsImportBody": "A .koshapack file, for example from Downloads",
+  "@packsImportBody": {
+    "description": "Packs: row subtitle. Two lines at most. .koshapack is a file extension"
+  },
+  "packsNoVoice": "No voice packs installed",
+  "@packsNoVoice": {
+    "description": "Packs: empty state in Voice. Max 40 characters"
+  },
+  "packsNoVoiceBody": "Voice typing needs a voice pack.",
+  "@packsNoVoiceBody": {
+    "description": "Packs: empty state detail. Max 60 characters"
+  },
+  "packsNoTranslation": "No translation packs installed",
+  "@packsNoTranslation": {
+    "description": "Packs: empty state in Translation. Max 40 characters"
+  },
+  "packsNoTranslationBody": "Translation needs one pack for each direction.",
+  "@packsNoTranslationBody": {
+    "description": "Packs: empty state detail. Max 60 characters"
+  },
+  "packsDictionaries": "Dictionaries",
+  "@packsDictionaries": {
+    "description": "Packs: section title"
+  },
+  "packsNoDictionary": "No dictionary packs installed",
+  "@packsNoDictionary": {
+    "description": "Packs: empty state in Dictionaries. Max 40 characters"
+  },
+  "packsNoDictionaryBody": "Chinese and Japanese typing need a dictionary pack.",
+  "@packsNoDictionaryBody": {
+    "description": "Packs: empty state detail. Max 60 characters"
+  },
+  "packsNothingStored": "Nothing stored yet.",
+  "@packsNothingStored": {
+    "description": "Packs: footer when no pack is installed"
+  },
+  "packsInstalledUse": "Installed packs use {size} on this phone.",
+  "@packsInstalledUse": {
+    "description": "Packs: footer with the total size. {size} is a size such as 300 MB"
+  },
+  "packErrorBadSignature": "This pack is not signed for Kosha, so nothing was installed.",
+  "@packErrorBadSignature": {
+    "description": "Pack install error: the signature is wrong. Two lines at most"
+  },
+  "packErrorBadFormat": "This file is not a Kosha pack. Nothing was installed.",
+  "@packErrorBadFormat": {
+    "description": "Pack install error: wrong file. Two lines at most"
+  },
+  "packErrorTooLarge": "This pack is too large to install on this phone.",
+  "@packErrorTooLarge": {
+    "description": "Pack install error: too big. Two lines at most"
+  },
+  "packErrorVersion": "This pack needs a newer version of Kosha.",
+  "@packErrorVersion": {
+    "description": "Pack install error: version too old. Two lines at most"
+  },
+  "packErrorNoSpace": "There is not enough free space to install this pack.",
+  "@packErrorNoSpace": {
+    "description": "Pack install error: no storage. Two lines at most"
+  },
+  "packErrorGeneric": "The pack could not be installed. Nothing was changed.",
+  "@packErrorGeneric": {
+    "description": "Pack install error: any other failure. Two lines at most"
+  },
+  "translateDefaultPair": "Default language pair",
+  "@translateDefaultPair": {
+    "description": "Translation: section title for the default pair. Max 30 characters"
+  },
+  "translatePairName": "{from} → {to}",
+  "@translatePairName": {
+    "description": "Translation: a language pair. {from} and {to} are language names"
+  },
+  "translateOffline": "Offline translation",
+  "@translateOffline": {
+    "description": "Translation: switch title. Max 30 characters"
+  },
+  "translateOfflineBody": "Translate as you type in the keyboard, and selected text in any app.",
+  "@translateOfflineBody": {
+    "description": "Translation: switch subtitle. Two lines at most"
+  },
+  "translateDefaultPairTile": "Default pair",
+  "@translateDefaultPairTile": {
+    "description": "Translation: row title for the default pair. Max 30 characters"
+  },
+  "translatePackInstalled": "Pack installed",
+  "@translatePackInstalled": {
+    "description": "Translation: status of a pair with its pack. Max 30 characters"
+  },
+  "translatePackNotInstalled": "Pack not installed. Get it in Model packs.",
+  "@translatePackNotInstalled": {
+    "description": "Translation: status of a pair without its pack. Two lines at most"
+  },
+  "translateInstalled": "Installed directions",
+  "@translateInstalled": {
+    "description": "Translation: section title for installed packs. Max 30 characters"
+  },
+  "translateInstalledBody": "Each direction is one pack, for example English → Spanish.",
+  "@translateInstalledBody": {
+    "description": "Translation: explains installed directions. Two lines at most"
+  },
+  "translatePackMeta": "{size} · {license}",
+  "@translatePackMeta": {
+    "description": "Translation: a pack's size and licence. {size} is a size, {license} a licence name"
+  },
+  "translateModelPacksBody": "Install or delete translation packs",
+  "@translateModelPacksBody": {
+    "description": "Translation: row subtitle for model packs. Two lines at most"
+  },
+  "translateRunsOnPhone": "Translation runs on this phone. Nothing you translate is saved.",
+  "@translateRunsOnPhone": {
+    "description": "Translation: footnote. Two lines at most"
+  }
 }

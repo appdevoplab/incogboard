@@ -18,6 +18,7 @@ import '../common/settings_widgets.dart';
 import 'privacy_deps.dart';
 import 'privacy_format.dart';
 import 'privacy_widgets.dart';
+import 'package:kosha/src/app/l10n.dart';
 
 class BackupScreen extends StatefulWidget {
   const BackupScreen({super.key});
@@ -222,7 +223,7 @@ class _BackupScreenState extends State<BackupScreen> {
             ),
           ),
           actions: [
-            TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('Cancel')),
+            TextButton(onPressed: () => Navigator.of(context).pop(), child: Text(context.l10n.cancel)),
             FilledButton(
               onPressed: chosen.isEmpty ? null : () => Navigator.of(context).pop((include: {...chosen}, mode: mode)),
               child: const Text('Continue'),
@@ -239,7 +240,7 @@ class _BackupScreenState extends State<BackupScreen> {
           title: const Text('Replace data on this phone?'),
           content: const Text('The chosen sections on this phone are deleted and replaced. This cannot be undone.'),
           actions: [
-            TextButton(onPressed: () => Navigator.of(context).pop(false), child: const Text('Cancel')),
+            TextButton(onPressed: () => Navigator.of(context).pop(false), child: Text(context.l10n.cancel)),
             FilledButton(onPressed: () => Navigator.of(context).pop(true), child: const Text('Replace')),
           ],
         ),
@@ -464,7 +465,7 @@ class _PassphraseDialogState extends State<_PassphraseDialog> {
         },
       ),
       actions: [
-        TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('Cancel')),
+        TextButton(onPressed: () => Navigator.of(context).pop(), child: Text(context.l10n.cancel)),
         ListenableBuilder(
           listenable: Listenable.merge([_pass, _again]),
           builder: (context, _) => FilledButton(

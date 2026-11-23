@@ -5,15 +5,16 @@
 import '../../bridge/messages.g.dart';
 import '../../engine/lang/registry.dart';
 import '../privacy/privacy_format.dart';
+import 'package:kosha/src/app/l10n.dart';
 
 /// The message for an import that failed with [code] (the codes of `AppHostApi.importPack`).
 String importErrorText(String code) => switch (code) {
-  'bad_signature' => 'This pack is not signed for Kosha, so nothing was installed.',
-  'bad_format' => 'This file is not a Kosha pack. Nothing was installed.',
-  'too_large' => 'This pack is too large to install on this phone.',
-  'unsupported_version' => 'This pack needs a newer version of Kosha.',
-  'no_space' => 'There is not enough free space to install this pack.',
-  _ => 'The pack could not be installed. Nothing was changed.',
+  'bad_signature' => context.l10n.packErrorBadSignature,
+  'bad_format' => context.l10n.packErrorBadFormat,
+  'too_large' => context.l10n.packErrorTooLarge,
+  'unsupported_version' => context.l10n.packErrorVersion,
+  'no_space' => context.l10n.packErrorNoSpace,
+  _ => context.l10n.packErrorGeneric,
 };
 
 /// A language name for a pack's language id ('pt' is the Portuguese that both Portuguese variants use).
