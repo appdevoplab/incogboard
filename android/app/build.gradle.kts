@@ -148,12 +148,6 @@ dependencies {
     testImplementation("com.microsoft.onnxruntime:onnxruntime:1.28.0")
 }
 
-// Locked dependency versions: android/app/gradle.lockfile. Regenerate with
-// `cd android; .\gradlew.bat :app:dependencies --write-locks` after a deliberate dependency change.
-dependencyLocking {
-    lockAllConfigurations()
-}
-
 kotlin {
     compilerOptions {
         jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17

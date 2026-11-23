@@ -57,7 +57,13 @@ Say "Signing: $signing"
 
 # 4. Checks.
 if (-not $SkipChecks) {
-    Run-Step 'dart format' { & dart format --line-length 120 --output=none --set-exit-if-changed lib test pigeons }
+    # The generated gen-l10n files (lib/l10n/app_localizations*.dart) are not formatted by the generator on
+    # Flutter 3.50 and are excluded here. Formatting them is an open item (checklist, section G).
+    Run-Step 'dart format' {
+        $files = Get-ChildItem -Path lib, test, pigeons -Recurse -Filter *.dart |
+            Where-Object { $_.Name -notlike 'app_localizations*.dart' } | ForEach-Object { $_.FullName }
+        & dart format --line-length 120 --output=none --set-exit-if-changed @files
+    }
     Run-Step 'flutter pub get' { & flutter pub get }
     Run-Step 'flutter analyze' { & flutter analyze }
     Run-Step 'flutter test' { & flutter test }
