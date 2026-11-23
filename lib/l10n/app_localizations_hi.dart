@@ -16,7 +16,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get homeTagline => 'निजी टाइपिंग, इसी फ़ोन पर';
 
   @override
-  String get homeOfflinePromise => 'Kosha ऑफ़लाइन काम करता है और कहीं कुछ नहीं भेजता।';
+  String get homeOfflinePromise =>
+      'Kosha ऑफ़लाइन काम करता है और कहीं कुछ नहीं भेजता।';
 
   @override
   String get cancel => 'रद्द करें';
@@ -70,10 +71,12 @@ class AppLocalizationsHi extends AppLocalizations {
   String get settingsModelPacks => 'मॉडल पैक';
 
   @override
-  String get homeSetupTurnOn => 'Android के कीबोर्ड की सूची में Kosha चालू करें।';
+  String get homeSetupTurnOn =>
+      'Android के कीबोर्ड की सूची में Kosha चालू करें।';
 
   @override
-  String get homeSetupChoose => 'जिस कीबोर्ड से आप टाइप करते हैं, उसके रूप में Kosha चुनें।';
+  String get homeSetupChoose =>
+      'जिस कीबोर्ड से आप टाइप करते हैं, उसके रूप में Kosha चुनें।';
 
   @override
   String get homeFinishSetup => 'Kosha का सेटअप पूरा करें';
@@ -94,7 +97,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get homeTranslationSubtitle => 'टाइप करते समय अनुवाद करें, ऑफ़लाइन';
 
   @override
-  String get homePrivacySubtitle => 'क्या सहेजा जाता है, इनकॉग्निटो, ऐप लॉक और बैकअप';
+  String get homePrivacySubtitle =>
+      'क्या सहेजा जाता है, इनकॉग्निटो, ऐप लॉक और बैकअप';
 
   @override
   String get homeAboutSubtitle => 'संस्करण, लाइसेंस और स्रोत कोड';
@@ -132,13 +136,15 @@ class AppLocalizationsHi extends AppLocalizations {
   String get aboutGplTitle => 'GNU General Public License v3 या बाद का';
 
   @override
-  String get aboutGplBody => 'Kosha मुक्त सॉफ़्टवेयर है। आप इसे GPL के तहत पढ़, बदल और साझा कर सकते हैं।';
+  String get aboutGplBody =>
+      'Kosha मुक्त सॉफ़्टवेयर है। आप इसे GPL के तहत पढ़, बदल और साझा कर सकते हैं।';
 
   @override
   String get aboutSourceCode => 'स्रोत कोड';
 
   @override
-  String get aboutSourceBody => 'Kosha GPL-3.0-or-later के तहत है। इसका स्रोत कोड प्रोजेक्ट पेज पर उपलब्ध है।';
+  String get aboutSourceBody =>
+      'Kosha GPL-3.0-or-later के तहत है। इसका स्रोत कोड प्रोजेक्ट पेज पर उपलब्ध है।';
 
   @override
   String get aboutLicences => 'लाइसेंस';
@@ -147,7 +153,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get aboutOpenSource => 'ओपन-सोर्स लाइसेंस';
 
   @override
-  String get aboutOpenSourceBody => 'Flutter, material_ui और Kosha द्वारा उपयोग किए गए हर पैकेज';
+  String get aboutOpenSourceBody =>
+      'Flutter, material_ui और Kosha द्वारा उपयोग किए गए हर पैकेज';
 
   @override
   String get aboutTextLoadFailed => 'यह पाठ लोड नहीं हो सका।';
@@ -217,7 +224,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get feelHapticFeedback => 'हैप्टिक फ़ीडबैक';
 
   @override
-  String get feelHapticFeedbackBody => 'हर कुंजी पर एक छोटा कंपन, सिस्टम सेटिंग के अनुसार';
+  String get feelHapticFeedbackBody =>
+      'हर कुंजी पर एक छोटा कंपन, सिस्टम सेटिंग के अनुसार';
 
   @override
   String get feelHapticStrength => 'हैप्टिक तीव्रता';
@@ -265,13 +273,15 @@ class AppLocalizationsHi extends AppLocalizations {
   String get panelsClipboardHistory => 'क्लिपबोर्ड इतिहास';
 
   @override
-  String get panelsClipboardHistoryBody => 'आप जो कॉपी करते हैं, वह इसी फ़ोन पर एन्क्रिप्ट करके रखा जाता है';
+  String get panelsClipboardHistoryBody =>
+      'आप जो कॉपी करते हैं, वह इसी फ़ोन पर एन्क्रिप्ट करके रखा जाता है';
 
   @override
   String get panelsRecentChip => 'हाल की कॉपी चिप';
 
   @override
-  String get panelsRecentChipBody => 'आपकी आखिरी कॉपी एक मिनट तक सुझाव पट्टी में दिखती है';
+  String get panelsRecentChipBody =>
+      'आपकी आखिरी कॉपी एक मिनट तक सुझाव पट्टी में दिखती है';
 
   @override
   String get panelsKeepUnpinned => 'बिना पिन की कॉपी इतने समय तक रखें';
@@ -286,13 +296,15 @@ class AppLocalizationsHi extends AppLocalizations {
   String get emojiSuggestions => 'इमोजी सुझाव';
 
   @override
-  String get emojiSuggestionsPanelBody => 'कुछ शब्दों के लिए सुझाव पट्टी में इमोजी दिखाता है';
+  String get emojiSuggestionsPanelBody =>
+      'कुछ शब्दों के लिए सुझाव पट्टी में इमोजी दिखाता है';
 
   @override
   String get panelsPasswordsNeverSaved => 'पासवर्ड कभी सहेजे नहीं जाते';
 
   @override
-  String get panelsSensitiveBody => 'Android जिन कॉपी को संवेदनशील बताता है, उन्हें कभी नहीं रखा जाता।';
+  String get panelsSensitiveBody =>
+      'Android जिन कॉपी को संवेदनशील बताता है, उन्हें कभी नहीं रखा जाता।';
 
   @override
   String get typingCorrections => 'सुधार';
@@ -301,7 +313,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get typingAutocorrect => 'स्वतः सुधार';
 
   @override
-  String get typingAutocorrectBody => 'शब्द पूरा होने पर संभावित टाइपो ठीक करता है';
+  String get typingAutocorrectBody =>
+      'शब्द पूरा होने पर संभावित टाइपो ठीक करता है';
 
   @override
   String get typingAutoCapitalise => 'स्वतः बड़े अक्षर';
@@ -313,13 +326,15 @@ class AppLocalizationsHi extends AppLocalizations {
   String get typingDoubleSpace => 'डबल स्पेस से पूर्ण विराम';
 
   @override
-  String get typingDoubleSpaceBody => 'स्पेस दो बार दबाने पर \". \" लिखा जाता है';
+  String get typingDoubleSpaceBody =>
+      'स्पेस दो बार दबाने पर \". \" लिखा जाता है';
 
   @override
   String get typingSmartPunctuation => 'स्मार्ट विराम चिह्न';
 
   @override
-  String get typingSmartPunctuationBody => 'विराम चिह्नों के आसपास की जगह ठीक करता है और स्थानीय उद्धरण चिह्न लगाता है';
+  String get typingSmartPunctuationBody =>
+      'विराम चिह्नों के आसपास की जगह ठीक करता है और स्थानीय उद्धरण चिह्न लगाता है';
 
   @override
   String get typingSuggestions => 'सुझाव';
@@ -340,7 +355,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get typingHideOffensive => 'अपमानजनक शब्द छिपाएँ';
 
   @override
-  String get typingHideOffensiveBody => 'पूरे रूप में टाइप करने पर ही सुझाए जाते हैं';
+  String get typingHideOffensiveBody =>
+      'पूरे रूप में टाइप करने पर ही सुझाए जाते हैं';
 
   @override
   String get typingKeys => 'कुंजियाँ';
@@ -364,13 +380,15 @@ class AppLocalizationsHi extends AppLocalizations {
   String get typingHintLabels => 'संकेत लेबल';
 
   @override
-  String get typingHintLabelsBody => 'कुंजियों पर छोटे चिह्न, जैसे मात्राएँ या स्वर चिह्न';
+  String get typingHintLabelsBody =>
+      'कुंजियों पर छोटे चिह्न, जैसे मात्राएँ या स्वर चिह्न';
 
   @override
   String get typingLowercaseLabels => 'छोटे अक्षरों के लेबल';
 
   @override
-  String get typingLowercaseLabelsBody => 'शिफ़्ट चालू होने पर भी कुंजी के अक्षर छोटे रखता है';
+  String get typingLowercaseLabelsBody =>
+      'शिफ़्ट चालू होने पर भी कुंजी के अक्षर छोटे रखता है';
 
   @override
   String get typingSwipe => 'स्वाइप';
@@ -379,7 +397,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get typingSwipeTyping => 'स्वाइप टाइपिंग';
 
   @override
-  String get typingSwipeTypingBody => 'कोई शब्द लिखने के लिए अक्षरों पर फिसलाएँ';
+  String get typingSwipeTypingBody =>
+      'कोई शब्द लिखने के लिए अक्षरों पर फिसलाएँ';
 
   @override
   String get typingShowTrail => 'पथ दिखाएँ';
@@ -400,13 +419,15 @@ class AppLocalizationsHi extends AppLocalizations {
   String get typingSpaceMovesCursor => 'स्पेस बार कर्सर को हिलाता है';
 
   @override
-  String get typingSpaceMovesCursorBody => 'कर्सर हिलाने के लिए स्पेस बार पर खींचें';
+  String get typingSpaceMovesCursorBody =>
+      'कर्सर हिलाने के लिए स्पेस बार पर खींचें';
 
   @override
   String get typingSwipeBackspace => 'हटाएँ कुंजी पर स्वाइप करके शब्द हटाएँ';
 
   @override
-  String get typingSwipeBackspaceBody => 'शब्द चुनने और हटाने के लिए हटाएँ कुंजी को बाईं ओर स्वाइप करें';
+  String get typingSwipeBackspaceBody =>
+      'शब्द चुनने और हटाने के लिए हटाएँ कुंजी को बाईं ओर स्वाइप करें';
 
   @override
   String get voiceTyping => 'वॉइस टाइपिंग';
@@ -421,13 +442,15 @@ class AppLocalizationsHi extends AppLocalizations {
   String get voiceDetectLanguage => 'भाषा अपने-आप पहचानें';
 
   @override
-  String get voiceDetectLanguageBody => 'Whisper पता लगाता है कि आप कौन सी भाषा बोलते हैं।';
+  String get voiceDetectLanguageBody =>
+      'Whisper पता लगाता है कि आप कौन सी भाषा बोलते हैं।';
 
   @override
   String get voiceModelPacksBody => 'वॉइस और अनुवाद पैक इंस्टॉल या हटाएँ';
 
   @override
-  String get voiceAudioStays => 'ऑडियो इसी फ़ोन पर रहता है और कभी सहेजा नहीं जाता।';
+  String get voiceAudioStays =>
+      'ऑडियो इसी फ़ोन पर रहता है और कभी सहेजा नहीं जाता।';
 
   @override
   String get voicePackAutomatic => 'स्वचालित';
@@ -439,7 +462,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get voicePack => 'वॉइस पैक';
 
   @override
-  String get voiceNoPack => 'कोई वॉइस पैक इंस्टॉल नहीं है। मॉडल पैक के अंतर्गत एक इंस्टॉल करें।';
+  String get voiceNoPack =>
+      'कोई वॉइस पैक इंस्टॉल नहीं है। मॉडल पैक के अंतर्गत एक इंस्टॉल करें।';
 
   @override
   String get voiceLooking => 'इंस्टॉल किए गए पैक खोजे जा रहे हैं';
@@ -497,7 +521,8 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get packsIntro => 'पैक इंस्टॉल होने से पहले जाँचे जाते हैं। इनमें केवल डेटा होता है, कोड कभी नहीं।';
+  String get packsIntro =>
+      'पैक इंस्टॉल होने से पहले जाँचे जाते हैं। इनमें केवल डेटा होता है, कोड कभी नहीं।';
 
   @override
   String get packsImport => 'आयात करें';
@@ -530,13 +555,15 @@ class AppLocalizationsHi extends AppLocalizations {
   String get packsNoDictionary => 'कोई शब्दकोश पैक इंस्टॉल नहीं है';
 
   @override
-  String get packsNoDictionaryBody => 'चीनी और जापानी टाइपिंग के लिए शब्दकोश पैक चाहिए।';
+  String get packsNoDictionaryBody =>
+      'चीनी और जापानी टाइपिंग के लिए शब्दकोश पैक चाहिए।';
 
   @override
   String get packsGetTitle => 'पैक प्राप्त करें';
 
   @override
-  String get packsExplainTitle => 'पैक वे फ़ाइलें हैं जिन्हें आप खुद जोड़ते हैं।';
+  String get packsExplainTitle =>
+      'पैक वे फ़ाइलें हैं जिन्हें आप खुद जोड़ते हैं।';
 
   @override
   String get packsExplainBody =>
@@ -571,7 +598,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get packsStatusInstalling => 'जाँच और इंस्टॉल हो रहा है';
 
   @override
-  String get packsStatusFailed => 'Google Play इसे पहुँचा नहीं सका। फिर से कोशिश करें।';
+  String get packsStatusFailed =>
+      'Google Play इसे पहुँचा नहीं सका। फिर से कोशिश करें।';
 
   @override
   String packsOfferMeta(Object size, Object status) {
@@ -596,10 +624,12 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get packsVerifyUnavailable => 'Kosha के इस संस्करण में इंस्टॉल किए गए पैक की जाँच उपलब्ध नहीं है।';
+  String get packsVerifyUnavailable =>
+      'Kosha के इस संस्करण में इंस्टॉल किए गए पैक की जाँच उपलब्ध नहीं है।';
 
   @override
-  String get packsVerifyFailed => 'Kosha पैक की जाँच नहीं कर सका। कुछ नहीं बदला गया।';
+  String get packsVerifyFailed =>
+      'Kosha पैक की जाँच नहीं कर सका। कुछ नहीं बदला गया।';
 
   @override
   String packsFreeSpace(Object size) {
@@ -615,22 +645,27 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get packErrorBadSignature => 'यह पैक Kosha के लिए हस्ताक्षरित नहीं है, इसलिए कुछ भी इंस्टॉल नहीं हुआ।';
+  String get packErrorBadSignature =>
+      'यह पैक Kosha के लिए हस्ताक्षरित नहीं है, इसलिए कुछ भी इंस्टॉल नहीं हुआ।';
 
   @override
-  String get packErrorBadFormat => 'यह फ़ाइल Kosha पैक नहीं है। कुछ भी इंस्टॉल नहीं हुआ।';
+  String get packErrorBadFormat =>
+      'यह फ़ाइल Kosha पैक नहीं है। कुछ भी इंस्टॉल नहीं हुआ।';
 
   @override
-  String get packErrorTooLarge => 'यह पैक इस फ़ोन पर इंस्टॉल करने के लिए बहुत बड़ा है।';
+  String get packErrorTooLarge =>
+      'यह पैक इस फ़ोन पर इंस्टॉल करने के लिए बहुत बड़ा है।';
 
   @override
   String get packErrorVersion => 'इस पैक के लिए Kosha का नया संस्करण चाहिए।';
 
   @override
-  String get packErrorNoSpace => 'इस पैक को इंस्टॉल करने के लिए पर्याप्त खाली जगह नहीं है।';
+  String get packErrorNoSpace =>
+      'इस पैक को इंस्टॉल करने के लिए पर्याप्त खाली जगह नहीं है।';
 
   @override
-  String get packErrorGeneric => 'पैक इंस्टॉल नहीं हो सका। कुछ भी नहीं बदला गया।';
+  String get packErrorGeneric =>
+      'पैक इंस्टॉल नहीं हो सका। कुछ भी नहीं बदला गया।';
 
   @override
   String get translateDefaultPair => 'डिफ़ॉल्ट भाषा जोड़ी';
@@ -644,7 +679,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get translateOffline => 'ऑफ़लाइन अनुवाद';
 
   @override
-  String get translateOfflineBody => 'कीबोर्ड में टाइप करते समय और किसी भी ऐप में चुने गए टेक्स्ट का अनुवाद करता है।';
+  String get translateOfflineBody =>
+      'कीबोर्ड में टाइप करते समय और किसी भी ऐप में चुने गए टेक्स्ट का अनुवाद करता है।';
 
   @override
   String get translateDefaultPairTile => 'डिफ़ॉल्ट जोड़ी';
@@ -653,13 +689,15 @@ class AppLocalizationsHi extends AppLocalizations {
   String get translatePackInstalled => 'पैक इंस्टॉल है';
 
   @override
-  String get translatePackNotInstalled => 'पैक इंस्टॉल नहीं है। इसे मॉडल पैक में पाएँ।';
+  String get translatePackNotInstalled =>
+      'पैक इंस्टॉल नहीं है। इसे मॉडल पैक में पाएँ।';
 
   @override
   String get translateInstalled => 'इंस्टॉल की गई दिशाएँ';
 
   @override
-  String get translateInstalledBody => 'हर दिशा एक पैक है, जैसे अंग्रेज़ी → स्पेनिश।';
+  String get translateInstalledBody =>
+      'हर दिशा एक पैक है, जैसे अंग्रेज़ी → स्पेनिश।';
 
   @override
   String translatePackMeta(String license, String size) {
@@ -670,19 +708,23 @@ class AppLocalizationsHi extends AppLocalizations {
   String get translateModelPacksBody => 'अनुवाद पैक इंस्टॉल या हटाएँ';
 
   @override
-  String get translateRunsOnPhone => 'अनुवाद इसी फ़ोन पर होता है। आप जो अनुवाद करते हैं, वह सहेजा नहीं जाता।';
+  String get translateRunsOnPhone =>
+      'अनुवाद इसी फ़ोन पर होता है। आप जो अनुवाद करते हैं, वह सहेजा नहीं जाता।';
 
   @override
-  String get privacyUnlockReason => 'अपनी सेटिंग और डेटा देखने के लिए Kosha अनलॉक करें';
+  String get privacyUnlockReason =>
+      'अपनी सेटिंग और डेटा देखने के लिए Kosha अनलॉक करें';
 
   @override
-  String get privacyLockUnavailable => 'डिवाइस लॉक अभी उपलब्ध नहीं है। थोड़ी देर बाद फिर कोशिश करें।';
+  String get privacyLockUnavailable =>
+      'डिवाइस लॉक अभी उपलब्ध नहीं है। थोड़ी देर बाद फिर कोशिश करें।';
 
   @override
   String get privacyLockedTitle => 'Kosha लॉक है';
 
   @override
-  String get privacyLockedBody => 'जारी रखने के लिए अपनी फ़िंगरप्रिंट या डिवाइस PIN से अनलॉक करें।';
+  String get privacyLockedBody =>
+      'जारी रखने के लिए अपनी फ़िंगरप्रिंट या डिवाइस PIN से अनलॉक करें।';
 
   @override
   String get privacyUnlock => 'अनलॉक करें';
@@ -693,22 +735,27 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get backupUnlockRetrySaved => 'फ़ोन अनलॉक करके फिर कोशिश करें। कुछ सहेजा नहीं गया।';
+  String get backupUnlockRetrySaved =>
+      'फ़ोन अनलॉक करके फिर कोशिश करें। कुछ सहेजा नहीं गया।';
 
   @override
-  String get backupSaveFailed => 'बैकअप सहेजा नहीं जा सका। कुछ भी नहीं बदला गया।';
+  String get backupSaveFailed =>
+      'बैकअप सहेजा नहीं जा सका। कुछ भी नहीं बदला गया।';
 
   @override
-  String get backupWrongPassphrase => 'पासफ़्रेज़ गलत है, या फ़ाइल खराब है। कुछ भी नहीं बदला गया।';
+  String get backupWrongPassphrase =>
+      'पासफ़्रेज़ गलत है, या फ़ाइल खराब है। कुछ भी नहीं बदला गया।';
 
   @override
-  String get backupInvalidFile => 'यह फ़ाइल वैध Kosha बैकअप नहीं है। कुछ भी नहीं बदला गया।';
+  String get backupInvalidFile =>
+      'यह फ़ाइल वैध Kosha बैकअप नहीं है। कुछ भी नहीं बदला गया।';
 
   @override
   String get backupTooLarge => 'यह फ़ाइल Kosha बैकअप के लिए बहुत बड़ी है।';
 
   @override
-  String get backupNewerVersion => 'यह बैकअप Kosha के नए संस्करण से बना है। पुनर्स्थापित करने के लिए Kosha अपडेट करें।';
+  String get backupNewerVersion =>
+      'यह बैकअप Kosha के नए संस्करण से बना है। पुनर्स्थापित करने के लिए Kosha अपडेट करें।';
 
   @override
   String get backupBusy => 'पहले दूसरी फ़ाइल विंडो बंद करें, फिर कोशिश करें।';
@@ -731,13 +778,15 @@ class AppLocalizationsHi extends AppLocalizations {
   String get backupMerge => 'मिलाएँ';
 
   @override
-  String get backupMergeBody => 'इस फ़ोन पर जो है उसे रखें और बैकअप में जो है उसे जोड़ें।';
+  String get backupMergeBody =>
+      'इस फ़ोन पर जो है उसे रखें और बैकअप में जो है उसे जोड़ें।';
 
   @override
   String get backupReplace => 'बदलें';
 
   @override
-  String get backupReplaceBody => 'चुने गए भागों को बैकअप जैसा बनाएँ। यहाँ का डेटा पहले मिटा दिया जाता है।';
+  String get backupReplaceBody =>
+      'चुने गए भागों को बैकअप जैसा बनाएँ। यहाँ का डेटा पहले मिटा दिया जाता है।';
 
   @override
   String get commonContinue => 'जारी रखें';
@@ -746,13 +795,16 @@ class AppLocalizationsHi extends AppLocalizations {
   String get backupReplaceTitle => 'इस फ़ोन का डेटा बदलें?';
 
   @override
-  String get backupReplaceConfirm => 'इस फ़ोन पर चुने गए भाग मिटाकर बदल दिए जाएँगे। इसे वापस नहीं लाया जा सकता।';
+  String get backupReplaceConfirm =>
+      'इस फ़ोन पर चुने गए भाग मिटाकर बदल दिए जाएँगे। इसे वापस नहीं लाया जा सकता।';
 
   @override
-  String get backupUnlockRetryChanged => 'फ़ोन अनलॉक करके फिर कोशिश करें। कुछ भी नहीं बदला गया।';
+  String get backupUnlockRetryChanged =>
+      'फ़ोन अनलॉक करके फिर कोशिश करें। कुछ भी नहीं बदला गया।';
 
   @override
-  String get backupRestoreFailed => 'Kosha पुनर्स्थापना पूरी नहीं कर सका। कुछ डेटा शायद नहीं लिखा गया।';
+  String get backupRestoreFailed =>
+      'Kosha पुनर्स्थापना पूरी नहीं कर सका। कुछ डेटा शायद नहीं लिखा गया।';
 
   @override
   String get restoreNothingNew => 'कुछ नया पुनर्स्थापित नहीं हुआ।';
@@ -769,31 +821,56 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String restoreLearnedFor(int count) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count भाषाएँ', one: '1 भाषा');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count भाषाएँ',
+      one: '1 भाषा',
+    );
     return '$_temp0 के लिए सीखे गए शब्द';
   }
 
   @override
   String countFiles(int count) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count फ़ाइलें', one: '1 फ़ाइल');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count फ़ाइलें',
+      one: '1 फ़ाइल',
+    );
     return '$_temp0';
   }
 
   @override
   String countWords(int count) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count शब्द', one: '1 शब्द');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count शब्द',
+      one: '1 शब्द',
+    );
     return '$_temp0';
   }
 
   @override
   String countLanguages(int count) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count भाषाएँ', one: '1 भाषा');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count भाषाएँ',
+      one: '1 भाषा',
+    );
     return '$_temp0';
   }
 
   @override
   String countShortcuts(int count) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count शॉर्टकट', one: '1 शॉर्टकट');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count शॉर्टकट',
+      one: '1 शॉर्टकट',
+    );
     return '$_temp0';
   }
 
@@ -810,7 +887,12 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String countThemeFiles(int count) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count थीम फ़ाइलें', one: '1 थीम फ़ाइल');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count थीम फ़ाइलें',
+      one: '1 थीम फ़ाइल',
+    );
     return '$_temp0';
   }
 
@@ -827,7 +909,12 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String countPacks(int count) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count पैक', one: '1 पैक');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count पैक',
+      one: '1 पैक',
+    );
     return '$_temp0';
   }
 
@@ -844,25 +931,45 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String countTimes(int count) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count बार', one: '1 बार');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count बार',
+      one: '1 बार',
+    );
     return '$_temp0';
   }
 
   @override
   String timeMinutesAgo(int count) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count मिनट पहले', one: '1 मिनट पहले');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count मिनट पहले',
+      one: '1 मिनट पहले',
+    );
     return '$_temp0';
   }
 
   @override
   String timeHoursAgo(int count) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count घंटे पहले', one: '1 घंटे पहले');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count घंटे पहले',
+      one: '1 घंटे पहले',
+    );
     return '$_temp0';
   }
 
   @override
   String timeDaysAgo(int count) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count दिन पहले', one: '1 दिन पहले');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count दिन पहले',
+      one: '1 दिन पहले',
+    );
     return '$_temp0';
   }
 
@@ -901,7 +1008,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get privacyCouldNotReadWords => 'Kosha ये शब्द नहीं पढ़ सका।';
 
   @override
-  String get privacyCannotReadWordsNow => 'Kosha अभी ये शब्द नहीं पढ़ सकता। फ़ोन अनलॉक करके फिर कोशिश करें।';
+  String get privacyCannotReadWordsNow =>
+      'Kosha अभी ये शब्द नहीं पढ़ सकता। फ़ोन अनलॉक करके फिर कोशिश करें।';
 
   @override
   String get privacyNoWordsLanguage =>
@@ -947,7 +1055,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get privacyNeverSuggested => 'कभी सुझाए नहीं गए';
 
   @override
-  String get privacyBlockedExplain => 'Kosha इन शब्दों के सुझाव या सुधार नहीं करेगा।';
+  String get privacyBlockedExplain =>
+      'Kosha इन शब्दों के सुझाव या सुधार नहीं करेगा।';
 
   @override
   String get privacyNoBlockedWords => 'कोई अवरुद्ध शब्द नहीं।';
@@ -992,20 +1101,24 @@ class AppLocalizationsHi extends AppLocalizations {
   String get privacyTryAgain => 'फिर से कोशिश करें';
 
   @override
-  String get privacyCenterLoadFailed => 'Kosha अपना गोपनीयता डेटा नहीं पढ़ सका। बाद में फिर कोशिश करें।';
+  String get privacyCenterLoadFailed =>
+      'Kosha अपना गोपनीयता डेटा नहीं पढ़ सका। बाद में फिर कोशिश करें।';
 
   @override
   String get privacyDevBuildNetwork =>
       'इस बिल्ड में इंटरनेट की अनुमति माँगी गई है। Kosha को ऐसा कभी नहीं करना चाहिए। कृपया इसकी रिपोर्ट करें।';
 
   @override
-  String get privacyNoInternetPermission => 'Kosha के पास इंटरनेट की अनुमति नहीं है। यह कुछ भी नहीं भेज सकता।';
+  String get privacyNoInternetPermission =>
+      'Kosha के पास इंटरनेट की अनुमति नहीं है। यह कुछ भी नहीं भेज सकता।';
 
   @override
-  String get privacyDevBuildNote => 'यह एक डेवलपमेंट बिल्ड है। इसकी नेटवर्क अनुमति केवल डेवलपमेंट टूल्स के लिए है।';
+  String get privacyDevBuildNote =>
+      'यह एक डेवलपमेंट बिल्ड है। इसकी नेटवर्क अनुमति केवल डेवलपमेंट टूल्स के लिए है।';
 
   @override
-  String get privacyDevBuildShort => 'डेवलपमेंट बिल्ड। Kosha के पास फिर भी इंटरनेट की अनुमति नहीं है।';
+  String get privacyDevBuildShort =>
+      'डेवलपमेंट बिल्ड। Kosha के पास फिर भी इंटरनेट की अनुमति नहीं है।';
 
   @override
   String privacyStorageSize(String size, String when) {
@@ -1016,11 +1129,17 @@ class AppLocalizationsHi extends AppLocalizations {
   String get privacyCustomThemes => 'कस्टम थीम';
 
   @override
-  String get privacyNoPacks => 'कोई इंस्टॉल नहीं। वॉइस और अनुवाद पैक यहाँ दिखते हैं।';
+  String get privacyNoPacks =>
+      'कोई इंस्टॉल नहीं। वॉइस और अनुवाद पैक यहाँ दिखते हैं।';
 
   @override
   String privacyPacksSize(int count, String size) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count पैक', one: '1 पैक');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count पैक',
+      one: '1 पैक',
+    );
     return '$_temp0 · $size';
   }
 
@@ -1066,7 +1185,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get privacyNoAppsYet => 'अभी कोई ऐप नहीं';
 
   @override
-  String get privacyNoAppsYetBody => 'जिन ऐप्स में आप टाइप करेंगे, वे यहाँ दिखेंगे।';
+  String get privacyNoAppsYetBody =>
+      'जिन ऐप्स में आप टाइप करेंगे, वे यहाँ दिखेंगे।';
 
   @override
   String get privacyAlwaysIncognitoApps => 'हमेशा इनकॉग्निटो वाले ऐप्स';
@@ -1078,7 +1198,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get privacyOfferShortcuts => 'शॉर्टकट सुझाएँ';
 
   @override
-  String get privacyOfferShortcutsBody => 'आपके छोटे रूप, जैसे \"omw\", पहले सुझाव के रूप में दिखाता है।';
+  String get privacyOfferShortcutsBody =>
+      'आपके छोटे रूप, जैसे \"omw\", पहले सुझाव के रूप में दिखाता है।';
 
   @override
   String get privacyEditShortcuts => 'शॉर्टकट संपादित करें';
@@ -1102,7 +1223,8 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get privacyClipboardHistoryEmpty => 'इतिहास खाली है। क्लिपबोर्ड की सेटिंग पैनल में बदलें।';
+  String get privacyClipboardHistoryEmpty =>
+      'इतिहास खाली है। क्लिपबोर्ड की सेटिंग पैनल में बदलें।';
 
   @override
   String privacyClipboardInHistory(String size) {
@@ -1116,7 +1238,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get privacyLockKosha => 'Kosha लॉक करें';
 
   @override
-  String get privacyLockKoshaBody => 'ऐप खुलने पर, या पृष्ठभूमि में जाने के बाद, फ़िंगरप्रिंट या डिवाइस PIN माँगता है।';
+  String get privacyLockKoshaBody =>
+      'ऐप खुलने पर, या पृष्ठभूमि में जाने के बाद, फ़िंगरप्रिंट या डिवाइस PIN माँगता है।';
 
   @override
   String get privacyLockAfter => 'इसके बाद लॉक करें';
@@ -1135,7 +1258,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get privacyNotAvailable => 'अभी उपलब्ध नहीं';
 
   @override
-  String get privacyNotAvailableBody => 'डिवाइस लॉक इस्तेमाल नहीं हो सका। ऐप लॉक बंद रहेगा।';
+  String get privacyNotAvailableBody =>
+      'डिवाइस लॉक इस्तेमाल नहीं हो सका। ऐप लॉक बंद रहेगा।';
 
   @override
   String get privacyBackupTitle => 'बैकअप';
@@ -1154,7 +1278,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get privacyEraseEverything => 'सब कुछ मिटाएँ';
 
   @override
-  String get privacyEraseEverythingBody => 'ऊपर की सभी श्रेणियाँ, आपकी कस्टम थीम, और उन्हें सुरक्षित रखने वाली कुंजी।';
+  String get privacyEraseEverythingBody =>
+      'ऊपर की सभी श्रेणियाँ, आपकी कस्टम थीम, और उन्हें सुरक्षित रखने वाली कुंजी।';
 
   @override
   String privacyDeleteTitle(String category) {
@@ -1177,7 +1302,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get privacyDeleted => 'मिटाया गया।';
 
   @override
-  String get privacyDeleteFailed => 'Kosha सब कुछ नहीं मिटा सका। फिर से कोशिश करें।';
+  String get privacyDeleteFailed =>
+      'Kosha सब कुछ नहीं मिटा सका। फिर से कोशिश करें।';
 
   @override
   String get privacyOk => 'ठीक है';
@@ -1201,7 +1327,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get backupRestoreFromFile => 'बैकअप फ़ाइल से पुनर्स्थापित करें';
 
   @override
-  String get backupRestoreFromFileBody => 'एक .koshabackup फ़ाइल खोलें, उसमें क्या है देखें, फिर मिलाएँ या बदलें।';
+  String get backupRestoreFromFileBody =>
+      'एक .koshabackup फ़ाइल खोलें, उसमें क्या है देखें, फिर मिलाएँ या बदलें।';
 
   @override
   String get backupChoosePassphrase => 'पासफ़्रेज़ चुनें';
@@ -1210,7 +1337,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get backupEnterPassphrase => 'पासफ़्रेज़ दर्ज करें';
 
   @override
-  String get backupWriteItDown => 'इसे किसी सुरक्षित जगह लिख लें। खोया हुआ पासफ़्रेज़ वापस नहीं मिल सकता।';
+  String get backupWriteItDown =>
+      'इसे किसी सुरक्षित जगह लिख लें। खोया हुआ पासफ़्रेज़ वापस नहीं मिल सकता।';
 
   @override
   String get backupPassphrase => 'पासफ़्रेज़';
@@ -1248,7 +1376,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get backupNothingYet => 'अभी कुछ नहीं';
 
   @override
-  String get backupSettingsSummary => 'थीम, भाषाएँ, टाइपिंग और गोपनीयता की पसंद';
+  String get backupSettingsSummary =>
+      'थीम, भाषाएँ, टाइपिंग और गोपनीयता की पसंद';
 
   @override
   String backupLearnedSummary(String languages, String words) {
@@ -1293,7 +1422,12 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String backupLearnedAdded(int count) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count भाषाएँ', one: '1 भाषा');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count भाषाएँ',
+      one: '1 भाषा',
+    );
     return '$_temp0 के लिए सीखे गए शब्द';
   }
 
@@ -1303,7 +1437,8 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get shortcutDeleteBody => 'इससे शॉर्टकट हट जाएगा। इसे वापस नहीं लाया जा सकता।';
+  String get shortcutDeleteBody =>
+      'इससे शॉर्टकट हट जाएगा। इसे वापस नहीं लाया जा सकता।';
 
   @override
   String get shortcutAdd => 'शॉर्टकट जोड़ें';
@@ -1323,7 +1458,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get shortcutNoneYet => 'अभी कोई शॉर्टकट नहीं';
 
   @override
-  String get shortcutExplain => 'शॉर्टकट एक छोटे रूप को लंबे टेक्स्ट में बदलता है। उदाहरण:';
+  String get shortcutExplain =>
+      'शॉर्टकट एक छोटे रूप को लंबे टेक्स्ट में बदलता है। उदाहरण:';
 
   @override
   String shortcutExamples(String first, String second) {
@@ -1331,7 +1467,8 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get shortcutEncrypted => 'शॉर्टकट इसी फ़ोन पर एन्क्रिप्टेड रहते हैं, आपके सीखे गए शब्दों की तरह।';
+  String get shortcutEncrypted =>
+      'शॉर्टकट इसी फ़ोन पर एन्क्रिप्टेड रहते हैं, आपके सीखे गए शब्दों की तरह।';
 
   @override
   String get shortcutNew => 'नया शॉर्टकट';
@@ -1373,7 +1510,8 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get shortcutProblemEmptyTrigger => 'वह छोटा रूप लिखें जिसे विस्तारित करना है।';
+  String get shortcutProblemEmptyTrigger =>
+      'वह छोटा रूप लिखें जिसे विस्तारित करना है।';
 
   @override
   String shortcutProblemTriggerTooLong(num count) {
@@ -1381,10 +1519,12 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get shortcutProblemTriggerCharacters => 'छोटे रूप में केवल अक्षर, अंक और एपोस्ट्रॉफ़ इस्तेमाल करें।';
+  String get shortcutProblemTriggerCharacters =>
+      'छोटे रूप में केवल अक्षर, अंक और एपोस्ट्रॉफ़ इस्तेमाल करें।';
 
   @override
-  String get shortcutProblemEmptyExpansion => 'बताएँ कि छोटा रूप किसमें विस्तारित हो।';
+  String get shortcutProblemEmptyExpansion =>
+      'बताएँ कि छोटा रूप किसमें विस्तारित हो।';
 
   @override
   String shortcutProblemExpansionTooLong(num count) {
@@ -1435,7 +1575,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get onboardingChooseKeyboard => 'कीबोर्ड चुनें';
 
   @override
-  String get onboardingCheckingPermissions => 'ऐप की अनुमतियाँ जाँची जा रही हैं…';
+  String get onboardingCheckingPermissions =>
+      'ऐप की अनुमतियाँ जाँची जा रही हैं…';
 
   @override
   String get onboardingDebugInternet =>
@@ -1445,7 +1586,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get onboardingReleaseInternet => 'इस बिल्ड की इंटरनेट तक पहुँच है।';
 
   @override
-  String get onboardingNoInternet => 'Kosha के पास इंटरनेट की अनुमति नहीं है, इसलिए यह कहीं कुछ नहीं भेज सकता।';
+  String get onboardingNoInternet =>
+      'Kosha के पास इंटरनेट की अनुमति नहीं है, इसलिए यह कहीं कुछ नहीं भेज सकता।';
 
   @override
   String get onboardingWarningTitle => 'चेतावनी लागू क्यों नहीं होती';
@@ -1481,16 +1623,19 @@ class AppLocalizationsHi extends AppLocalizations {
   String get onboardingTryTyping => 'एक वाक्य टाइप करें';
 
   @override
-  String get onboardingTrySwipe => 'एक शब्द स्वाइप करें: एक अक्षर से दूसरे पर फिसलें';
+  String get onboardingTrySwipe =>
+      'एक शब्द स्वाइप करें: एक अक्षर से दूसरे पर फिसलें';
 
   @override
-  String get onboardingTryAccents => 'किसी अक्षर को दबाकर रखें ताकि उसके स्वर चिह्न दिखें';
+  String get onboardingTryAccents =>
+      'किसी अक्षर को दबाकर रखें ताकि उसके स्वर चिह्न दिखें';
 
   @override
   String get onboardingTryTitle => 'आज़माएँ';
 
   @override
-  String get onboardingTryBody => 'नीचे के बॉक्स पर टैप करें। कीबोर्ड दिखेगा, और आप सूची की हर चीज़ आज़मा सकते हैं।';
+  String get onboardingTryBody =>
+      'नीचे के बॉक्स पर टैप करें। कीबोर्ड दिखेगा, और आप सूची की हर चीज़ आज़मा सकते हैं।';
 
   @override
   String get onboardingTryField => 'यहाँ टाइप करके देखें';
@@ -1573,7 +1718,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get themeTryLabel => 'थीम आज़माने के लिए यहाँ टाइप करें';
 
   @override
-  String get themeTryHelper => 'जब Kosha चुना होता है, तब कीबोर्ड यहाँ दिखता है।';
+  String get themeTryHelper =>
+      'जब Kosha चुना होता है, तब कीबोर्ड यहाँ दिखता है।';
 
   @override
   String get themeRenameTitle => 'थीम का नाम बदलें';
@@ -1684,7 +1830,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get themeSourcePerRole => 'भूमिका के अनुसार';
 
   @override
-  String get themeWallpaperNeedsAndroid12 => 'वॉलपेपर रंगों के लिए Android 12 या नया संस्करण चाहिए।';
+  String get themeWallpaperNeedsAndroid12 =>
+      'वॉलपेपर रंगों के लिए Android 12 या नया संस्करण चाहिए।';
 
   @override
   String get themeSeedColour => 'सीड रंग';
@@ -1759,7 +1906,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get themeTypePhoto => 'फ़ोटो';
 
   @override
-  String get themeNoPhotoYet => 'अभी कोई फ़ोटो नहीं है। कीबोर्ड के लिए उसे काटने हेतु एक चुनें।';
+  String get themeNoPhotoYet =>
+      'अभी कोई फ़ोटो नहीं है। कीबोर्ड के लिए उसे काटने हेतु एक चुनें।';
 
   @override
   String get themeChoosePhoto => 'फ़ोटो चुनें';
@@ -1819,7 +1967,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get themeKeyPressAnimation => 'कुंजी दबाने की एनिमेशन';
 
   @override
-  String get themeReduceMotion => 'सिस्टम सेटिंग्स में \"एनिमेशन हटाएँ\" चालू है, इसलिए कुंजियाँ एनिमेट नहीं होतीं।';
+  String get themeReduceMotion =>
+      'सिस्टम सेटिंग्स में \"एनिमेशन हटाएँ\" चालू है, इसलिए कुंजियाँ एनिमेट नहीं होतीं।';
 
   @override
   String get themeMotionOff => 'बंद';
@@ -1929,7 +2078,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get themeCropBlurOff => 'बंद';
 
   @override
-  String get themeCropNote => 'ब्लर चित्र में सहेजा जाता है। धुंधलापन संपादक में तय होता है और तुरंत लागू होता है।';
+  String get themeCropNote =>
+      'ब्लर चित्र में सहेजा जाता है। धुंधलापन संपादक में तय होता है और तुरंत लागू होता है।';
 
   @override
   String get themeHexLabel => 'हेक्स';
@@ -1988,10 +2138,12 @@ class AppLocalizationsHi extends AppLocalizations {
   String get themeSystemColoursUnavailable => 'सिस्टम के रंग उपलब्ध नहीं हैं।';
 
   @override
-  String get themeKoshaDynamicFollows => 'Kosha Dynamic आपके वॉलपेपर का अनुसरण करता है';
+  String get themeKoshaDynamicFollows =>
+      'Kosha Dynamic आपके वॉलपेपर का अनुसरण करता है';
 
   @override
-  String get themeKoshaDynamicBody => 'वॉलपेपर बदलने पर इसके रंग अपडेट होते हैं';
+  String get themeKoshaDynamicBody =>
+      'वॉलपेपर बदलने पर इसके रंग अपडेट होते हैं';
 
   @override
   String get themeSectionPresets => 'प्रीसेट';
@@ -2010,7 +2162,12 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String privacyThemesSize(int count, String size) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count थीम फ़ाइलें', one: '1 थीम फ़ाइल');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count थीम फ़ाइलें',
+      one: '1 थीम फ़ाइल',
+    );
     return '$_temp0 · $size';
   }
 
@@ -2082,13 +2239,15 @@ class AppLocalizationsHi extends AppLocalizations {
   String get chineseTraditional => 'पारंपरिक अक्षर';
 
   @override
-  String get chineseTraditionalBody => 'उम्मीदवार पारंपरिक अक्षरों में दिखाएँ (ताइवान मानक)।';
+  String get chineseTraditionalBody =>
+      'उम्मीदवार पारंपरिक अक्षरों में दिखाएँ (ताइवान मानक)।';
 
   @override
   String get chineseFuzzy => 'अनुमानित पिनयिन';
 
   @override
-  String get chineseFuzzyBody => 'z और zh, c और ch, s और sh, n और l, an और ang, en और eng, in और ing भी स्वीकार करें।';
+  String get chineseFuzzyBody =>
+      'z और zh, c और ch, s और sh, n और l, an और ang, en और eng, in और ing भी स्वीकार करें।';
 
   @override
   String get cjkDictionary => 'शब्दकोश';
@@ -2097,7 +2256,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get chineseClearPhrases => 'सीखे गए वाक्यांश मिटाएँ';
 
   @override
-  String get chineseClearPhrasesBody => 'आपके चुने शब्द भूल जाएगा। शब्दकोश बना रहेगा।';
+  String get chineseClearPhrasesBody =>
+      'आपके चुने शब्द भूल जाएगा। शब्दकोश बना रहेगा।';
 
   @override
   String get chineseFooter =>
@@ -2107,7 +2267,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get chineseClearTitle => 'सीखे गए वाक्यांश मिटाएँ?';
 
   @override
-  String get chineseClearBody => 'चीनी के लिए आपके चुने शब्द हटा दिए जाएँगे। इसे पूर्ववत नहीं किया जा सकता।';
+  String get chineseClearBody =>
+      'चीनी के लिए आपके चुने शब्द हटा दिए जाएँगे। इसे पूर्ववत नहीं किया जा सकता।';
 
   @override
   String get cjkClear => 'मिटाएँ';
@@ -2122,7 +2283,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get chineseDictName => 'चीनी शब्दकोश';
 
   @override
-  String get chinesePackMissing => 'इंस्टॉल नहीं है। चीनी टाइपिंग को इसकी ज़रूरत है; इसे मॉडल पैक में इंस्टॉल करें।';
+  String get chinesePackMissing =>
+      'इंस्टॉल नहीं है। चीनी टाइपिंग को इसकी ज़रूरत है; इसे मॉडल पैक में इंस्टॉल करें।';
 
   @override
   String chinesePackInstalled(String license) {
@@ -2148,7 +2310,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get japaneseFlickOnly => 'केवल फ़्लिक';
 
   @override
-  String get japaneseFlickOnlyBody => 'मल्टी-टैप नहीं: あ को दो बार टैप करने पर ああ लिखा जाता है, い नहीं';
+  String get japaneseFlickOnlyBody =>
+      'मल्टी-टैप नहीं: あ को दो बार टैप करने पर ああ लिखा जाता है, い नहीं';
 
   @override
   String get japaneseHalfWidth => 'आधी चौड़ाई का स्पेस';
@@ -2169,19 +2332,22 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get japaneseNotInstalled => 'इंस्टॉल नहीं है। काना फिर भी टाइप होता है; कांजी के लिए पैक चाहिए।';
+  String get japaneseNotInstalled =>
+      'इंस्टॉल नहीं है। काना फिर भी टाइप होता है; कांजी के लिए पैक चाहिए।';
 
   @override
   String get japaneseClearWords => 'सीखे गए शब्द मिटाएँ';
 
   @override
-  String get japaneseClearWordsBody => 'आपके चुने जापानी शब्द भूल जाएगा। इस फ़ोन पर एन्क्रिप्टेड रूप में संग्रहीत।';
+  String get japaneseClearWordsBody =>
+      'आपके चुने जापानी शब्द भूल जाएगा। इस फ़ोन पर एन्क्रिप्टेड रूप में संग्रहीत।';
 
   @override
   String get japaneseClearTitle => 'सीखे गए जापानी शब्द मिटाएँ?';
 
   @override
-  String get japaneseClearBody => 'आपके चुने सभी जापानी शब्द मिटा दिए जाएँगे। इसे पूर्ववत नहीं किया जा सकता।';
+  String get japaneseClearBody =>
+      'आपके चुने सभी जापानी शब्द मिटा दिए जाएँगे। इसे पूर्ववत नहीं किया जा सकता।';
 
   @override
   String get privacyStoredChinesePhrases => 'चीनी वाक्यांश';

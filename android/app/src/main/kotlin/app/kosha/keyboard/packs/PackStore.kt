@@ -136,7 +136,15 @@ class PackStore(private val root: File, private val trustedKeys: List<PublicKey>
         }
         if (signer(manifestBytes, sig) == null) throw PackException("bad_signature", "signature does not verify")
         val manifest = PackManifest.parse(manifestBytes)
-        val total = manifest.files.sumOf { it.size }
+        // Overflow-safe: a manifest whose sizes wrap around must not slip under the cap.
+        val total = try {
+            manifest.files.fold(0L) { acc, f ->
+                if (f.size < 0 || f.size > maxBytes) throw PackException("too_large", "file too large")
+                Math.addExact(acc, f.size)
+            }
+        } catch (e: ArithmeticException) {
+            throw PackException("too_large", "pack is too large")
+        }
         if (total > maxBytes) throw PackException("too_large", "pack is $total bytes")
         root.mkdirs()
         // usableSpace is 0 when the platform cannot tell; then the write itself reports a full disk.
