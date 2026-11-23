@@ -507,6 +507,10 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
+  String get packsDeleteBody =>
+      'Berkasnya dihapus dari ponsel ini. Anda dapat mengimpor paket itu lagi nanti dari berkasnya.';
+
+  @override
   String packsDeleted(String name) {
     return '$name dihapus.';
   }

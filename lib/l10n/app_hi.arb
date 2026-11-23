@@ -736,6 +736,11 @@
     "description": "Packs: dialog title before a pack is deleted. {name} is the pack name",
     "x-review": true
   },
+  "packsDeleteBody": "इसकी फ़ाइलें इस फ़ोन से हटा दी जाएँगी। बाद में इसकी फ़ाइल से पैक फिर से आयात किया जा सकता है।",
+  "@packsDeleteBody": {
+    "description": "Packs: body text of the delete confirmation dialog, under the title. Max 120 characters",
+    "x-review": true
+  },
   "packsDeleted": "{name} हटाया गया।",
   "@packsDeleted": {
     "description": "Packs: snackbar after a pack is deleted. {name} is the pack name",

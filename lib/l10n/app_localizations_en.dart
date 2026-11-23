@@ -505,6 +505,10 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get packsDeleteBody =>
+      'Its files are removed from this phone. You can import the pack again later from its file.';
+
+  @override
   String packsDeleted(String name) {
     return 'Deleted $name.';
   }

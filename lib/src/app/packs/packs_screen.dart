@@ -84,9 +84,7 @@ class _PacksScreenState extends State<PacksScreen> {
       context: context,
       builder: (context) => AlertDialog(
         title: Text(l10n.packsDeleteTitle(pack.name)),
-        content: const Text(
-          'Its files are removed from this phone. You can import the pack again later from its file.',
-        ),
+        content: Text(l10n.packsDeleteBody),
         actions: [
           TextButton(onPressed: () => Navigator.of(context).pop(false), child: Text(l10n.cancel)),
           FilledButton(onPressed: () => Navigator.of(context).pop(true), child: Text(l10n.delete)),

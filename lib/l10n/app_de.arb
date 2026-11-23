@@ -3,6 +3,9 @@
   "appName": "Kosha",
   "homeTagline": "Private Eingabe, auf diesem Gerät",
   "homeOfflinePromise": "Kosha funktioniert offline und sendet nichts irgendwohin.",
+  "@homeOfflinePromise": {
+    "x-review": true
+  },
   "cancel": "Abbrechen",
   "delete": "Löschen",
   "save": "Speichern",
@@ -16,7 +19,13 @@
   "settingsThemes": "Designs",
   "settingsPanels": "Bereiche",
   "settingsVoice": "Sprache",
+  "@settingsVoice": {
+    "x-review": true
+  },
   "settingsTranslation": "Übersetzung",
+  "@settingsTranslation": {
+    "x-review": true
+  },
   "settingsPrivacy": "Datenschutz",
   "settingsAbout": "Info",
   "settingsModelPacks": "Modellpakete",
@@ -24,27 +33,60 @@
   "homeSetupChoose": "Wähle Kosha als Tastatur zum Schreiben aus.",
   "homeFinishSetup": "Kosha einrichten abschließen",
   "homeTypingSubtitle": "Korrekturen, Vorschläge, Tasten und Wischen",
+  "@homeTypingSubtitle": {
+    "x-review": true
+  },
   "homeFeelSubtitle": "Haptik, Töne, Höhe und Einhandmodus",
+  "@homeFeelSubtitle": {
+    "x-review": true
+  },
   "homePanelsSubtitle": "Zwischenablage und Emoji",
+  "@homePanelsSubtitle": {
+    "x-review": true
+  },
   "homeVoiceSubtitle": "Sprich zum Schreiben, auf diesem Gerät",
   "homeTranslationSubtitle": "Übersetzt beim Tippen, offline",
+  "@homeTranslationSubtitle": {
+    "x-review": true
+  },
   "homePrivacySubtitle": "Was gespeichert wird, Inkognito, App-Sperre und Sicherung",
+  "@homePrivacySubtitle": {
+    "x-review": true
+  },
   "homeAboutSubtitle": "Version, Lizenzen und Quellcode",
   "aboutTitle": "Info",
   "aboutVersion": "Version {versionName} ({versionCode})",
   "aboutVersionDebug": "Version {versionName} ({versionCode}) · Debug-Build",
+  "@aboutVersionDebug": {
+    "x-review": true
+  },
   "aboutReadingVersion": "Version wird gelesen…",
   "aboutPrivacy": "Datenschutz",
   "aboutNoInternet": "Kosha kann das Internet nicht nutzen",
   "aboutNoInternetBody": "Veröffentlichte Versionen haben keine Internetberechtigung, daher verlässt nichts, was du tippst, dieses Gerät.",
   "aboutLicence": "Lizenz",
+  "@aboutLicence": {
+    "x-review": true
+  },
   "aboutGplTitle": "GNU General Public License v3 oder neuer",
+  "@aboutGplTitle": {
+    "x-review": true
+  },
   "aboutGplBody": "Kosha ist freie Software. Du darfst sie unter der GPL untersuchen, ändern und weitergeben.",
+  "@aboutGplBody": {
+    "x-review": true
+  },
   "aboutSourceCode": "Quellcode",
   "aboutSourceBody": "Kosha steht unter GPL-3.0-or-later. Der Quellcode ist auf der Projektseite verfügbar.",
+  "@aboutSourceBody": {
+    "x-review": true
+  },
   "aboutLicences": "Lizenzen",
   "aboutOpenSource": "Open-Source-Lizenzen",
   "aboutOpenSourceBody": "Flutter, material_ui und jedes Paket, das Kosha verwendet",
+  "@aboutOpenSourceBody": {
+    "x-review": true
+  },
   "aboutTextLoadFailed": "Dieser Text konnte nicht geladen werden.",
   "languagesEnabledHeader": "Aktiviert, die erste ist die Standardsprache",
   "languagesActive": "Aktive Sprache",
@@ -53,19 +95,37 @@
   "languagesAllEnabledBody": "Entferne eine oben, um Platz zu schaffen.",
   "languagesMultilingual": "Mehrsprachiges Tippen",
   "languagesMultilingualBody": "Schlägt Wörter aus bis zu drei aktivierten Sprachen mit derselben Schrift vor. Ein Wort, das eine davon kennt, wird nie automatisch korrigiert.",
+  "@languagesMultilingualBody": {
+    "x-review": true
+  },
   "languagesNativeDigits": "Einheimische Ziffern",
   "languagesNativeDigitsBody": "Schreibt Ziffern in der Schrift der aktiven Sprache, sofern sie welche hat (०१२, ٠١٢).",
   "languagesOptions": "Sprachoptionen",
   "languagesZhSubtitle": "Pinyin, traditionelle Schriftzeichen und Wörterbuchpakete",
+  "@languagesZhSubtitle": {
+    "x-review": true
+  },
   "languagesJaSubtitle": "Fächer-Eingabe, Umwandlung und Wörterbuchpakete",
+  "@languagesJaSubtitle": {
+    "x-review": true
+  },
   "languagesReorderLabel": "Zum Umsortieren von {language} ziehen",
   "languageDefaultLabel": "{language}, Standard",
   "languageLayoutTooltip": "Layout für {language}",
+  "@languageLayoutTooltip": {
+    "x-review": true
+  },
   "languageRemoveTooltip": "{language} entfernen",
   "feelHaptics": "Haptik",
   "feelHapticFeedback": "Haptisches Feedback",
+  "@feelHapticFeedback": {
+    "x-review": true
+  },
   "feelHapticFeedbackBody": "Eine kurze Vibration bei jeder Taste, abhängig von der Systemeinstellung",
   "feelHapticStrength": "Haptik-Stärke",
+  "@feelHapticStrength": {
+    "x-review": true
+  },
   "feelSounds": "Töne",
   "feelKeySounds": "Tastentöne",
   "feelKeySoundsBody": "Klicks für Tasten, Leerzeichen, Löschen und Eingabe",
@@ -75,35 +135,74 @@
   "feelPortraitHeight": "Höhe im Hochformat",
   "feelLandscapeHeight": "Höhe im Querformat",
   "feelOneHandedFloating": "Einhand und schwebend",
+  "@feelOneHandedFloating": {
+    "x-review": true
+  },
   "feelOneHandedSide": "Seite für Einhandmodus",
+  "@feelOneHandedSide": {
+    "x-review": true
+  },
   "feelFloatingKeyboard": "Schwebende Tastatur",
+  "@feelFloatingKeyboard": {
+    "x-review": true
+  },
   "feelFloatingBody": "Auf dem Bildschirm beliebig verschiebbar",
   "panelsClipboard": "Zwischenablage",
+  "@panelsClipboard": {
+    "x-review": true
+  },
   "panelsClipboardHistory": "Zwischenablage-Verlauf",
+  "@panelsClipboardHistory": {
+    "x-review": true
+  },
   "panelsClipboardHistoryBody": "Speichert, was du kopierst, verschlüsselt auf diesem Gerät",
   "panelsRecentChip": "Chip für letzte Kopie",
   "panelsRecentChipBody": "Bietet deine letzte Kopie eine Minute lang in der Vorschlagsleiste an",
   "panelsKeepUnpinned": "Nicht angeheftete Kopien behalten für",
   "panelsClipsToKeep": "Zu behaltende Clips",
   "panelsEmoji": "Emoji",
+  "@panelsEmoji": {
+    "x-review": true
+  },
   "emojiSuggestions": "Emoji-Vorschläge",
+  "@emojiSuggestions": {
+    "x-review": true
+  },
   "emojiSuggestionsPanelBody": "Bietet bei manchen Wörtern ein Emoji in der Vorschlagsleiste an",
+  "@emojiSuggestionsPanelBody": {
+    "x-review": true
+  },
   "panelsPasswordsNeverSaved": "Passwörter werden nie gespeichert",
   "panelsSensitiveBody": "Kopien, die Android als vertraulich markiert, werden nie behalten.",
+  "@panelsSensitiveBody": {
+    "x-review": true
+  },
   "typingCorrections": "Korrekturen",
   "typingAutocorrect": "Automatische Korrektur",
+  "@typingAutocorrect": {
+    "x-review": true
+  },
   "typingAutocorrectBody": "Korrigiert wahrscheinliche Tippfehler, wenn du ein Wort beendest",
   "typingAutoCapitalise": "Automatische Großschreibung",
   "typingAutoCapitaliseBody": "Großbuchstaben am Satzanfang",
   "typingDoubleSpace": "Doppelleerzeichen für Punkt",
   "typingDoubleSpaceBody": "Zweimal Leertaste schreibt „. “",
   "typingSmartPunctuation": "Intelligente Interpunktion",
+  "@typingSmartPunctuation": {
+    "x-review": true
+  },
   "typingSmartPunctuationBody": "Leerzeichen um Satzzeichen bereinigen und lokale Anführungszeichen verwenden",
+  "@typingSmartPunctuationBody": {
+    "x-review": true
+  },
   "typingSuggestions": "Vorschläge",
   "typingSuggestionsBody": "Zeigt Wörter in der Vorschlagsleiste an",
   "typingNextWord": "Nächstes-Wort-Vorhersage",
   "typingNextWordBody": "Schlägt das Wort vor, das oft folgt",
   "typingEmojiBody": "Bietet bei manchen Wörtern ein Emoji an",
+  "@typingEmojiBody": {
+    "x-review": true
+  },
   "typingHideOffensive": "Anstößige Wörter ausblenden",
   "typingHideOffensiveBody": "Nie vorschlagen, außer du tippst sie vollständig",
   "typingKeys": "Tasten",
@@ -117,28 +216,67 @@
   "typingLowercaseLabels": "Kleinbuchstaben-Beschriftung",
   "typingLowercaseLabelsBody": "Tastenbuchstaben bleiben klein, wenn Umschalt aktiv ist",
   "typingSwipe": "Wischen",
+  "@typingSwipe": {
+    "x-review": true
+  },
   "typingSwipeTyping": "Wischeingabe",
+  "@typingSwipeTyping": {
+    "x-review": true
+  },
   "typingSwipeTypingBody": "Über Buchstaben gleiten, um ein Wort zu schreiben",
   "typingShowTrail": "Spur anzeigen",
+  "@typingShowTrail": {
+    "x-review": true
+  },
   "typingTrailWidth": "Spurbreite",
+  "@typingTrailWidth": {
+    "x-review": true
+  },
   "typingTrailFade": "Spur-Ausblendung",
+  "@typingTrailFade": {
+    "x-review": true
+  },
   "typingLivePreview": "Live-Vorschau",
   "typingLivePreviewBody": "Zeigt das wahrscheinliche Wort beim Gleiten an",
   "typingSpaceMovesCursor": "Leertaste bewegt den Cursor",
+  "@typingSpaceMovesCursor": {
+    "x-review": true
+  },
   "typingSpaceMovesCursorBody": "Auf der Leertaste ziehen, um den Cursor zu bewegen",
+  "@typingSpaceMovesCursorBody": {
+    "x-review": true
+  },
   "typingSwipeBackspace": "Auf Löschen wischen, um Wörter zu löschen",
+  "@typingSwipeBackspace": {
+    "x-review": true
+  },
   "typingSwipeBackspaceBody": "Auf Löschen nach links wischen, um Wörter auszuwählen und zu löschen",
   "voiceTyping": "Spracheingabe",
+  "@voiceTyping": {
+    "x-review": true
+  },
   "voiceTypingBody": "Sprich zum Schreiben. Die Erkennung läuft auf diesem Gerät.",
   "voiceRecognition": "Erkennung",
   "voiceDetectLanguage": "Sprache automatisch erkennen",
   "voiceDetectLanguageBody": "Whisper erkennt, welche Sprache du sprichst.",
+  "@voiceDetectLanguageBody": {
+    "x-review": true
+  },
   "voiceModelPacksBody": "Sprach- und Übersetzungspakete installieren oder entfernen",
+  "@voiceModelPacksBody": {
+    "x-review": true
+  },
   "voiceAudioStays": "Audio bleibt auf diesem Gerät und wird nie gespeichert.",
   "voicePackAutomatic": "Automatisch",
   "voicePackAutomaticSelected": "Automatisch (ausgewählt)",
   "voicePack": "Sprachpaket",
+  "@voicePack": {
+    "x-review": true
+  },
   "voiceNoPack": "Kein Sprachpaket installiert. Installiere eines unter Modellpakete.",
+  "@voiceNoPack": {
+    "x-review": true
+  },
   "voiceLooking": "Installierte Pakete werden gesucht",
   "voicePackItem": "{name} · {size}",
   "voicePackItemSelected": "{name} · {size} (ausgewählt)",
@@ -148,66 +286,181 @@
   "packsOpenFailed": "Kosha konnte die Dateiauswahl nicht öffnen.",
   "packsInstalled": "{name} installiert.",
   "packsDeleteTitle": "{name} löschen?",
+  "packsDeleteBody": "Die Dateien werden von diesem Telefon entfernt. Du kannst das Paket später aus seiner Datei wieder importieren.",
+  "@packsDeleteBody": {
+    "x-review": true
+  },
   "packsDeleted": "{name} gelöscht.",
   "packsDeleteFailed": "Kosha konnte {name} nicht löschen. Versuche es erneut.",
   "packsIntro": "Pakete werden vor der Installation geprüft. Sie enthalten nur Daten, niemals Code.",
   "packsImport": "Importieren",
+  "@packsImport": {
+    "x-review": true
+  },
   "packsImportTitle": "Paketdatei importieren",
+  "@packsImportTitle": {
+    "x-review": true
+  },
   "packsChecking": "Wird geprüft und installiert…",
   "packsImportBody": "Eine .koshapack-Datei, zum Beispiel aus Downloads",
   "packsNoVoice": "Keine Sprachpakete installiert",
+  "@packsNoVoice": {
+    "x-review": true
+  },
   "packsNoVoiceBody": "Spracheingabe benötigt ein Sprachpaket.",
+  "@packsNoVoiceBody": {
+    "x-review": true
+  },
   "packsNoTranslation": "Keine Übersetzungspakete installiert",
+  "@packsNoTranslation": {
+    "x-review": true
+  },
   "packsNoTranslationBody": "Übersetzung benötigt ein Paket pro Richtung.",
+  "@packsNoTranslationBody": {
+    "x-review": true
+  },
   "packsDictionaries": "Wörterbücher",
   "packsNoDictionary": "Keine Wörterbuchpakete installiert",
+  "@packsNoDictionary": {
+    "x-review": true
+  },
   "packsNoDictionaryBody": "Chinesisches und japanisches Tippen benötigt ein Wörterbuchpaket.",
+  "@packsNoDictionaryBody": {
+    "x-review": true
+  },
   "packsNothingStored": "Noch nichts gespeichert.",
   "packsInstalledUse": "Installierte Pakete belegen {size} auf diesem Gerät.",
   "packErrorBadSignature": "Dieses Paket ist nicht für Kosha signiert, daher wurde nichts installiert.",
+  "@packErrorBadSignature": {
+    "x-review": true
+  },
   "packErrorBadFormat": "Diese Datei ist kein Kosha-Paket. Es wurde nichts installiert.",
+  "@packErrorBadFormat": {
+    "x-review": true
+  },
   "packErrorTooLarge": "Dieses Paket ist zu groß für dieses Gerät.",
+  "@packErrorTooLarge": {
+    "x-review": true
+  },
   "packErrorVersion": "Dieses Paket benötigt eine neuere Version von Kosha.",
+  "@packErrorVersion": {
+    "x-review": true
+  },
   "packErrorNoSpace": "Es ist nicht genug freier Speicher für dieses Paket vorhanden.",
+  "@packErrorNoSpace": {
+    "x-review": true
+  },
   "packErrorGeneric": "Das Paket konnte nicht installiert werden. Es wurde nichts geändert.",
+  "@packErrorGeneric": {
+    "x-review": true
+  },
   "translateDefaultPair": "Standard-Sprachpaar",
   "translatePairName": "{from} → {to}",
   "translateOffline": "Offline-Übersetzung",
+  "@translateOffline": {
+    "x-review": true
+  },
   "translateOfflineBody": "Übersetzt beim Tippen auf der Tastatur und markierten Text in jeder App.",
+  "@translateOfflineBody": {
+    "x-review": true
+  },
   "translateDefaultPairTile": "Standardpaar",
   "translatePackInstalled": "Paket installiert",
+  "@translatePackInstalled": {
+    "x-review": true
+  },
   "translatePackNotInstalled": "Paket nicht installiert. Hole es unter Modellpakete.",
+  "@translatePackNotInstalled": {
+    "x-review": true
+  },
   "translateInstalled": "Installierte Richtungen",
   "translateInstalledBody": "Jede Richtung ist ein Paket, zum Beispiel Englisch → Spanisch.",
+  "@translateInstalledBody": {
+    "x-review": true
+  },
   "translatePackMeta": "{size} · {license}",
+  "@translatePackMeta": {
+    "x-review": true
+  },
   "translateModelPacksBody": "Übersetzungspakete installieren oder löschen",
+  "@translateModelPacksBody": {
+    "x-review": true
+  },
   "translateRunsOnPhone": "Die Übersetzung läuft auf diesem Gerät. Nichts, was du übersetzt, wird gespeichert.",
+  "@translateRunsOnPhone": {
+    "x-review": true
+  },
   "privacyUnlockReason": "Entsperre Kosha, um deine Einstellungen und Daten zu sehen",
   "privacyLockUnavailable": "Die Gerätesperre ist gerade nicht verfügbar. Versuche es gleich noch einmal.",
+  "@privacyLockUnavailable": {
+    "x-review": true
+  },
   "privacyLockedTitle": "Kosha ist gesperrt",
+  "@privacyLockedTitle": {
+    "x-review": true
+  },
   "privacyLockedBody": "Entsperre mit deinem Fingerabdruck oder der Geräte-PIN, um fortzufahren.",
+  "@privacyLockedBody": {
+    "x-review": true
+  },
   "privacyUnlock": "Entsperren",
   "backupSaved": "Backup gespeichert ({size}). Bewahre deine Passphrase gut auf.",
+  "@backupSaved": {
+    "x-review": true
+  },
   "backupUnlockRetrySaved": "Entsperre das Gerät und versuche es erneut. Es wurde nichts gespeichert.",
   "backupSaveFailed": "Das Backup konnte nicht gespeichert werden. Es wurde nichts geändert.",
+  "@backupSaveFailed": {
+    "x-review": true
+  },
   "backupWrongPassphrase": "Falsche Passphrase oder beschädigte Datei. Es wurde nichts geändert.",
+  "@backupWrongPassphrase": {
+    "x-review": true
+  },
   "backupInvalidFile": "Diese Datei ist kein gültiges Kosha-Backup. Es wurde nichts geändert.",
+  "@backupInvalidFile": {
+    "x-review": true
+  },
   "backupTooLarge": "Diese Datei ist zu groß für ein Kosha-Backup.",
+  "@backupTooLarge": {
+    "x-review": true
+  },
   "backupNewerVersion": "Dieses Backup wurde mit einer neueren Kosha-Version erstellt. Aktualisiere Kosha, um es wiederherzustellen.",
+  "@backupNewerVersion": {
+    "x-review": true
+  },
   "backupBusy": "Schließe zuerst das andere Dateifenster und versuche es erneut.",
   "backupOpenFailed": "Das Backup konnte nicht geöffnet werden. Es wurde nichts geändert.",
+  "@backupOpenFailed": {
+    "x-review": true
+  },
   "backupEmpty": "Dieses Backup ist leer.",
+  "@backupEmpty": {
+    "x-review": true
+  },
   "backupRestoreTitle": "Backup wiederherstellen",
+  "@backupRestoreTitle": {
+    "x-review": true
+  },
   "backupMadeBy": "Erstellt am {date} mit Kosha {version}.",
   "backupMerge": "Zusammenführen",
   "backupMergeBody": "Behält, was auf diesem Gerät ist, und fügt hinzu, was im Backup ist.",
+  "@backupMergeBody": {
+    "x-review": true
+  },
   "backupReplace": "Ersetzen",
   "backupReplaceBody": "Macht die gewählten Bereiche wie im Backup. Vorhandene Daten werden vorher gelöscht.",
+  "@backupReplaceBody": {
+    "x-review": true
+  },
   "commonContinue": "Weiter",
   "backupReplaceTitle": "Daten auf diesem Gerät ersetzen?",
   "backupReplaceConfirm": "Die gewählten Bereiche auf diesem Gerät werden gelöscht und ersetzt. Das kann nicht rückgängig gemacht werden.",
   "backupUnlockRetryChanged": "Entsperre das Gerät und versuche es erneut. Es wurde nichts geändert.",
   "backupRestoreFailed": "Kosha konnte die Wiederherstellung nicht abschließen. Einige Daten wurden möglicherweise nicht geschrieben.",
+  "@backupRestoreFailed": {
+    "x-review": true
+  },
   "restoreNothingNew": "Nichts Neues wiederhergestellt.",
   "restoreSummary": "Wiederhergestellt: {items}.",
   "restoreSummarySkipped": "{added} Übersprungen: {skipped}.",
@@ -216,10 +469,22 @@
   "countWords": "{count, plural, one {1 Wort} other {{count} Wörter}}",
   "countLanguages": "{count, plural, one {1 Sprache} other {{count} Sprachen}}",
   "countShortcuts": "{count, plural, one {1 Kürzel} other {{count} Kürzel}}",
+  "@countShortcuts": {
+    "x-review": true
+  },
   "countClipboardItems": "{count, plural, one {1 Zwischenablage-Eintrag} other {{count} Zwischenablage-Einträge}}",
+  "@countClipboardItems": {
+    "x-review": true
+  },
   "countThemeFiles": "{count, plural, one {1 Designdatei} other {{count} Designdateien}}",
+  "@countThemeFiles": {
+    "x-review": true
+  },
   "countPinnedItems": "{count, plural, one {1 angeheftetes Element} other {{count} angeheftete Elemente}}",
   "countPacks": "{count, plural, one {1 Paket} other {{count} Pakete}}",
+  "@countPacks": {
+    "x-review": true
+  },
   "countBlockedWords": "{count, plural, one {1 gesperrtes Wort} other {{count} gesperrte Wörter}}",
   "countTimes": "{count, plural, one {1 Mal} other {{count} Mal}}",
   "timeMinutesAgo": "{count, plural, one {vor 1 Minute} other {vor {count} Minuten}}",
@@ -228,6 +493,9 @@
   "timeJustNow": "gerade eben",
   "languagePortuguese": "Portugiesisch",
   "packMeta": "{languages} · {size} · {license}",
+  "@packMeta": {
+    "x-review": true
+  },
   "privacyLearnedWordsTitle": "Gelernte Wörter ({language})",
   "privacyClearLanguageTitle": "{language}-Wörter löschen?",
   "privacyClearLanguageBody": "Dadurch werden alle in dieser Sprache gelernten Wörter und die gesperrten Wörter gelöscht. Das kann nicht rückgängig gemacht werden.",
@@ -260,49 +528,118 @@
   "privacyTryAgain": "Erneut versuchen",
   "privacyCenterLoadFailed": "Kosha konnte seine Datenschutzdaten nicht lesen. Versuche es später erneut.",
   "privacyDevBuildNetwork": "Dieser Build fordert Internetzugriff an. Kosha sollte das nie tun. Bitte melde es.",
+  "@privacyDevBuildNetwork": {
+    "x-review": true
+  },
   "privacyNoInternetPermission": "Kosha hat keine Internetberechtigung. Es kann nichts senden.",
   "privacyDevBuildNote": "Dies ist ein Entwicklungs-Build. Seine Netzwerkberechtigung gilt nur für Entwicklungswerkzeuge.",
+  "@privacyDevBuildNote": {
+    "x-review": true
+  },
   "privacyDevBuildShort": "Entwicklungs-Build. Kosha hat weiterhin keine Internetberechtigung.",
+  "@privacyDevBuildShort": {
+    "x-review": true
+  },
   "privacyStorageSize": "{size} · geändert {when}",
   "privacyCustomThemes": "Eigene Designs",
   "privacyNoPacks": "Keine installiert. Sprach- und Übersetzungspakete erscheinen hier.",
+  "@privacyNoPacks": {
+    "x-review": true
+  },
   "privacyPacksSize": "{count, plural, one {1 Paket} other {{count} Pakete}} · {size}",
+  "@privacyPacksSize": {
+    "x-review": true
+  },
   "privacyWhatKoshaStores": "Was Kosha speichert",
   "privacyShowsSizesOnly": "Kosha zeigt hier nur Größen, nie den Inhalt. Die Größen enthalten die letzte gespeicherte Kopie, die deine Daten schützt, wenn ein Speichern unterbrochen wird.",
   "privacyTypingPrivacy": "Datenschutz beim Tippen",
   "privacyLearnNewWords": "Neue Wörter lernen",
   "privacyLearnNewWordsBody": "Lernt Wörter und Wendungen aus deinen Eingaben. Nie in Passwortfeldern oder im Inkognito-Modus.",
+  "@privacyLearnNewWordsBody": {
+    "x-review": true
+  },
   "privacyIncognito": "Inkognito",
+  "@privacyIncognito": {
+    "x-review": true
+  },
   "privacyIncognitoBody": "Lernt und merkt sich nichts, solange es an ist. Inkognito-Tabs im Browser schalten es selbst ein.",
+  "@privacyIncognitoBody": {
+    "x-review": true
+  },
   "privacyHideScreenshots": "Vor Screenshots verbergen",
   "privacyHideScreenshotsBody": "Verhindert Screenshots und Bildschirmaufnahmen der Tastatur in jeder App. Passwortfelder sind immer verborgen.",
   "privacyAutoOffApps": "In diesen Apps automatisch ausgeschaltet",
   "privacyAutoOffAppsBody": "Kosha speichert App-Namen nur, um diese Liste zu füllen. Sie sind verschlüsselt, werden im Inkognito-Modus nie gespeichert, und du kannst sie unten löschen.",
+  "@privacyAutoOffAppsBody": {
+    "x-review": true
+  },
   "privacyNoAppsYet": "Noch keine Apps",
   "privacyNoAppsYetBody": "Apps, in denen du tippst, erscheinen hier.",
   "privacyAlwaysIncognitoApps": "Apps immer im Inkognito-Modus",
+  "@privacyAlwaysIncognitoApps": {
+    "x-review": true
+  },
   "privacyPersonalShortcuts": "Persönliche Kürzel",
   "privacyOfferShortcuts": "Kürzel anbieten",
   "privacyOfferShortcutsBody": "Zeigt deine Kurzformen, wie „omw“, als ersten Vorschlag an.",
   "privacyEditShortcuts": "Kürzel bearbeiten",
   "privacyNoShortcutsYet": "Noch keine",
   "privacyLearnedAndClipboard": "Gelernte Wörter und Zwischenablage",
+  "@privacyLearnedAndClipboard": {
+    "x-review": true
+  },
   "privacyNoWordsLearnedYet": "Noch keine Wörter gelernt",
   "privacyWordsLearnedBody": "Wörter, die du tippst, werden hier gelernt, sobald Kosha sie ein paar Mal gesehen hat.",
   "privacyReviewWords": "Wörter prüfen, entfernen oder sperren · {when}",
   "privacyClipboardHistoryEmpty": "Der Verlauf ist leer. Ändere die Zwischenablage-Einstellungen unter Bereiche.",
+  "@privacyClipboardHistoryEmpty": {
+    "x-review": true
+  },
   "privacyClipboardInHistory": "{size} im Verlauf. Ändere die Zwischenablage-Einstellungen unter Bereiche.",
+  "@privacyClipboardInHistory": {
+    "x-review": true
+  },
   "privacyAppLock": "App-Sperre",
+  "@privacyAppLock": {
+    "x-review": true
+  },
   "privacyLockKosha": "Kosha sperren",
+  "@privacyLockKosha": {
+    "x-review": true
+  },
   "privacyLockKoshaBody": "Fragt beim Öffnen der App oder nach dem Hintergrundbetrieb nach Fingerabdruck oder Geräte-PIN.",
+  "@privacyLockKoshaBody": {
+    "x-review": true
+  },
   "privacyLockAfter": "Sperren nach",
+  "@privacyLockAfter": {
+    "x-review": true
+  },
   "privacySetScreenLockFirst": "Lege zuerst eine Displaysperre fest",
+  "@privacySetScreenLockFirst": {
+    "x-review": true
+  },
   "privacySetScreenLockBody": "Die App-Sperre nutzt deinen Fingerabdruck oder die Geräte-PIN. Lege in den Sicherheitseinstellungen von Android eine PIN, ein Muster oder ein Passwort fest und komm dann zurück.",
+  "@privacySetScreenLockBody": {
+    "x-review": true
+  },
   "privacyTurnOnAppLockReason": "App-Sperre für Kosha einschalten",
+  "@privacyTurnOnAppLockReason": {
+    "x-review": true
+  },
   "privacyNotAvailable": "Gerade nicht verfügbar",
   "privacyNotAvailableBody": "Die Gerätesperre konnte nicht verwendet werden. Die App-Sperre bleibt aus.",
+  "@privacyNotAvailableBody": {
+    "x-review": true
+  },
   "privacyBackupTitle": "Backup",
+  "@privacyBackupTitle": {
+    "x-review": true
+  },
   "privacyBackupRestore": "Backup und Wiederherstellung",
+  "@privacyBackupRestore": {
+    "x-review": true
+  },
   "privacyBackupRestoreBody": "Eine verschlüsselte .koshabackup-Datei, die du aufbewahrst. Du wählst, was darin enthalten ist.",
   "privacyDeleteData": "Daten löschen",
   "privacyEraseEverything": "Alles löschen",
@@ -316,19 +653,46 @@
   "privacyDeleteFailed": "Kosha konnte nicht alles löschen. Versuche es erneut.",
   "privacyOk": "OK",
   "backupMakeTitle": "Backup erstellen",
+  "@backupMakeTitle": {
+    "x-review": true
+  },
   "backupIncludeImages": "Hintergrundbilder einschließen",
   "backupPhotosLarger": "Fotos machen die Datei deutlich größer.",
   "backupCreateButton": "Verschlüsseltes Backup erstellen",
+  "@backupCreateButton": {
+    "x-review": true
+  },
   "backupRestoreSection": "Wiederherstellen",
+  "@backupRestoreSection": {
+    "x-review": true
+  },
   "backupRestoreFromFile": "Aus einer Backup-Datei wiederherstellen",
+  "@backupRestoreFromFile": {
+    "x-review": true
+  },
   "backupRestoreFromFileBody": "Öffne eine .koshabackup-Datei, prüfe den Inhalt und führe dann zusammen oder ersetze.",
   "backupChoosePassphrase": "Passphrase wählen",
+  "@backupChoosePassphrase": {
+    "x-review": true
+  },
   "backupEnterPassphrase": "Passphrase eingeben",
+  "@backupEnterPassphrase": {
+    "x-review": true
+  },
   "backupWriteItDown": "Schreib sie an einen sicheren Ort. Eine verlorene Passphrase kann nicht wiederhergestellt werden.",
+  "@backupWriteItDown": {
+    "x-review": true
+  },
   "backupPassphrase": "Passphrase",
+  "@backupPassphrase": {
+    "x-review": true
+  },
   "backupTypeAgain": "Noch einmal eingeben",
   "backupMismatch": "Die Passphrasen stimmen nicht überein",
   "backupStrength": "Passphrase-Stärke: {strength}",
+  "@backupStrength": {
+    "x-review": true
+  },
   "strengthTooShort": "Mindestens 8 Zeichen verwenden",
   "strengthWeak": "Schwach",
   "strengthFair": "Ausreichend",
@@ -337,30 +701,63 @@
   "backupOpen": "Öffnen",
   "backupNothingYet": "Noch nichts",
   "backupSettingsSummary": "Design, Sprachen, Tippen und Datenschutzeinstellungen",
+  "@backupSettingsSummary": {
+    "x-review": true
+  },
   "backupLearnedSummary": "{words} in {languages}",
   "backupPinnedOff": "{items}. Aus, außer du schaltest es ein.",
   "backupAlreadyHere": "{count, plural, one {1 Kürzel schon vorhanden} other {{count} Kürzel schon vorhanden}}",
+  "@backupAlreadyHere": {
+    "x-review": true
+  },
   "backupThemesAlreadyHere": "{count, plural, one {1 Designdatei schon vorhanden} other {{count} Designdateien schon vorhanden}}",
+  "@backupThemesAlreadyHere": {
+    "x-review": true
+  },
   "backupClipboardKept": "Zwischenablage unverändert (unbekanntes Layout)",
+  "@backupClipboardKept": {
+    "x-review": true
+  },
   "backupEmojiKept": "zuletzt genutzte Emoji behalten",
+  "@backupEmojiKept": {
+    "x-review": true
+  },
   "backupSettingsApplied": "Einstellungen",
   "backupLearnedAdded": "gelernte Wörter für {count, plural, one {1 Sprache} other {{count} Sprachen}}",
   "shortcutDeleteTitle": "„{trigger}“ löschen?",
   "shortcutDeleteBody": "Dadurch wird das Kürzel entfernt. Das kann nicht rückgängig gemacht werden.",
+  "@shortcutDeleteBody": {
+    "x-review": true
+  },
   "shortcutAdd": "Kürzel hinzufügen",
+  "@shortcutAdd": {
+    "x-review": true
+  },
   "shortcutSearch": "Kürzel suchen",
   "shortcutNoMatch": "Keine Kürzel passen zu deiner Suche.",
   "shortcutDeleteTooltip": "{trigger} löschen",
   "shortcutNoneYet": "Noch keine Kürzel",
   "shortcutExplain": "Ein Kürzel macht aus einer Kurzform einen längeren Text. Beispiele:",
+  "@shortcutExplain": {
+    "x-review": true
+  },
   "shortcutExamples": "{first}\n{second}",
   "shortcutEncrypted": "Kürzel sind auf diesem Gerät verschlüsselt, wie deine gelernten Wörter.",
   "shortcutNew": "Neues Kürzel",
+  "@shortcutNew": {
+    "x-review": true
+  },
   "shortcutEdit": "Kürzel bearbeiten",
+  "@shortcutEdit": {
+    "x-review": true
+  },
   "shortcutShortForm": "Kurzform",
   "shortcutExpandsTo": "Wird erweitert zu",
   "privacyMascotLabel": "Kosha-Datenschutzmaskottchen",
   "privacyStoredEmoji": "Zuletzt verwendete Emoji",
+  "@privacyStoredEmoji": {
+    "x-review": true
+  },
   "privacyStoredApps": "App-Liste",
   "privacyStoredOther": "Andere gespeicherte Daten",
   "privacyUnitBytes": "{count} B",
@@ -372,6 +769,9 @@
   "shortcutProblemEmptyExpansion": "Gib ein, wofür die Kurzform stehen soll.",
   "shortcutProblemExpansionTooLong": "Die Erweiterung darf höchstens {count} Zeichen haben.",
   "shortcutProblemDuplicate": "Du hast bereits ein Kürzel mit dieser Kurzform.",
+  "@shortcutProblemDuplicate": {
+    "x-review": true
+  },
   "shortcutProblemTooMany": "Du kannst höchstens {count} Kürzel behalten.",
   "onboardingTurnOnTitle": "Kosha einschalten",
   "onboardingTurnOnBody": "Android führt eine Liste der aktivierten Tastaturen. Aktiviere Kosha dort und komm dann hierher zurück. Kosha bemerkt die Änderung selbst.",
@@ -386,19 +786,37 @@
   "onboardingChooseKeyboard": "Tastatur wählen",
   "onboardingCheckingPermissions": "App-Berechtigungen werden geprüft…",
   "onboardingDebugInternet": "Dieser Debug-Build kann das Internet erreichen. Debug-Builds haben diese Berechtigung nur für die Entwicklung.",
+  "@onboardingDebugInternet": {
+    "x-review": true
+  },
   "onboardingReleaseInternet": "Dieser Build kann das Internet erreichen.",
+  "@onboardingReleaseInternet": {
+    "x-review": true
+  },
   "onboardingNoInternet": "Kosha hat keine Internetberechtigung und kann deshalb nichts irgendwohin senden.",
   "onboardingWarningTitle": "Warum die Warnung nicht zutrifft",
   "onboardingWarningBody": "Android warnt, dass jede Tastatur eingeben kann, was du tippst. Diese Warnung betrifft Tastaturen, die das Internet erreichen können. Kosha kann das nicht.",
   "onboardingInternetAccess": "Internetzugriff",
   "onboardingEverythingHere": "Alles bleibt auf diesem Gerät",
   "onboardingEverythingHereBody": "Gelernte Wörter, Zwischenablage und Einstellungen sind mit einem Schlüssel im Android Keystore verschlüsselt.",
+  "@onboardingEverythingHereBody": {
+    "x-review": true
+  },
   "onboardingLanguagesTitle": "Sprachen und ein Design auswählen",
+  "@onboardingLanguagesTitle": {
+    "x-review": true
+  },
   "onboardingLanguagesBody": "Wähle die Sprachen, in denen du tippst. Mehrere können gleichzeitig aktiv sein, und du kannst sie später unter Sprachen ändern.",
   "onboardingThemeTitle": "Design",
+  "@onboardingThemeTitle": {
+    "x-review": true
+  },
   "onboardingMoreThemes": "Weitere Designs",
   "onboardingTryTyping": "Schreibe einen Satz",
   "onboardingTrySwipe": "Wische ein Wort: gleite von Buchstabe zu Buchstabe",
+  "@onboardingTrySwipe": {
+    "x-review": true
+  },
   "onboardingTryAccents": "Halte einen Buchstaben gedrückt, um seine Akzente zu sehen",
   "onboardingTryTitle": "Ausprobieren",
   "onboardingTryBody": "Tippe auf das Feld unten. Die Tastatur erscheint, und du kannst jeden Punkt der Liste ausprobieren.",
@@ -417,6 +835,9 @@
   "onboardingSelected": "Ausgewählt: {languages}",
   "onboardingNoLanguageMatch": "Keine Sprache passt zu dieser Suche.",
   "themeCreate": "Design erstellen",
+  "@themeCreate": {
+    "x-review": true
+  },
   "themeSelectedLabel": "{name}, ausgewählt",
   "themeCardOptions": "Optionen für {name}",
   "themeEdit": "Bearbeiten",
@@ -425,23 +846,53 @@
   "themeDeleteAction": "Löschen",
   "themeTryTyping": "Ausprobieren",
   "themeTryLabel": "Hier tippen, um das Design zu testen",
+  "@themeTryLabel": {
+    "x-review": true
+  },
   "themeTryHelper": "Die Tastatur erscheint hier, wenn Kosha ausgewählt ist.",
   "themeRenameTitle": "Design umbenennen",
+  "@themeRenameTitle": {
+    "x-review": true
+  },
   "themeNameField": "Name",
   "themeEditTitle": "Design bearbeiten",
+  "@themeEditTitle": {
+    "x-review": true
+  },
   "themeNewTitle": "Neues Design",
+  "@themeNewTitle": {
+    "x-review": true
+  },
   "themeEditorTitle": "Design",
+  "@themeEditorTitle": {
+    "x-review": true
+  },
   "themeOpenFailed": "Dieses Design konnte nicht geöffnet werden.",
+  "@themeOpenFailed": {
+    "x-review": true
+  },
   "themeSaveFailed": "Das Design konnte nicht gespeichert werden.",
+  "@themeSaveFailed": {
+    "x-review": true
+  },
   "themePhotoPickerFailed": "Die Fotoauswahl konnte nicht geöffnet werden.",
   "themeDiscardTitle": "Änderungen verwerfen?",
   "themeDiscardBody": "Deine Änderungen an diesem Design gehen verloren.",
+  "@themeDiscardBody": {
+    "x-review": true
+  },
   "themeKeepEditing": "Weiter bearbeiten",
   "themeDiscard": "Verwerfen",
   "themeSave": "Speichern",
   "themeNameRequired": "Ein Name ist erforderlich",
   "themeNameLabel": "Designname",
+  "@themeNameLabel": {
+    "x-review": true
+  },
   "themeDefaultName": "Mein Design",
+  "@themeDefaultName": {
+    "x-review": true
+  },
   "themeSectionName": "Name",
   "themeSectionLook": "Aussehen",
   "themeDarkMode": "Dunkelmodus",
@@ -490,18 +941,39 @@
   "themeEditCrop": "Zuschnitt und Unschärfe bearbeiten",
   "themeDim": "Abdunkeln",
   "themeSectionPopups": "Pop-ups und Spur",
+  "@themeSectionPopups": {
+    "x-review": true
+  },
   "themeSolidPopups": "Einfarbige Pop-ups",
   "themeSolidPopupsBodyWallpaper": "Nicht mit Wallpaper-Farben",
   "themeSolidPopupsBodyPrimary": "Pop-ups in der Hauptfarbe",
   "themeSwipeTrail": "Wischspur",
+  "@themeSwipeTrail": {
+    "x-review": true
+  },
   "themeTrailWidth": "Spurbreite",
+  "@themeTrailWidth": {
+    "x-review": true
+  },
   "themeTrailFade": "Spur-Ausblendung",
+  "@themeTrailFade": {
+    "x-review": true
+  },
   "themeTrailInstant": "Sofort",
   "themeTrailColours": "Spurfarben",
+  "@themeTrailColours": {
+    "x-review": true
+  },
   "themeTrailStart": "Anfang",
   "themeTrailEnd": "Ende",
   "themeTrailStartTitle": "Spuranfang",
+  "@themeTrailStartTitle": {
+    "x-review": true
+  },
   "themeTrailEndTitle": "Spurende",
+  "@themeTrailEndTitle": {
+    "x-review": true
+  },
   "themeAutomatic": "Automatisch",
   "themeSectionMotion": "Bewegung",
   "themeKeyPressAnimation": "Animation beim Tastendruck",
@@ -550,10 +1022,22 @@
   "themeCopyName": "Kopie von {name}",
   "themeDeleteTitle": "„{name}“ löschen?",
   "themeDeleteSelectedBody": "Dieses Design ist ausgewählt. Stattdessen wird Kosha Dynamic verwendet. Das kann nicht rückgängig gemacht werden.",
+  "@themeDeleteSelectedBody": {
+    "x-review": true
+  },
   "themeDeleteBody": "Das kann nicht rückgängig gemacht werden.",
   "themeDeleteFailed": "Das Design konnte nicht gelöscht werden.",
+  "@themeDeleteFailed": {
+    "x-review": true
+  },
   "themeRenameFailed": "Das Design konnte nicht umbenannt werden.",
+  "@themeRenameFailed": {
+    "x-review": true
+  },
   "themeDuplicateFailed": "Das Design konnte nicht kopiert werden.",
+  "@themeDuplicateFailed": {
+    "x-review": true
+  },
   "themeSettingFailed": "Die Einstellung konnte nicht gespeichert werden.",
   "themeSystemColoursUnavailable": "Systemfarben sind nicht verfügbar.",
   "themeKoshaDynamicFollows": "Kosha Dynamic folgt deinem Hintergrundbild",
@@ -564,11 +1048,20 @@
   "themeAppearance": "Erscheinungsbild",
   "themesTitle": "Designs",
   "privacyThemesSize": "{count, plural, one {1 Designdatei} other {{count} Designdateien}} · {size}",
+  "@privacyThemesSize": {
+    "x-review": true
+  },
   "backupUnlockToSeeCount": "Entsperre dein Gerät, um die Anzahl zu sehen",
   "shortcutHelp": "Ein Kürzel macht aus einer Kurzform einen längeren Text. Beispiele:\nomw → on my way\naddr → your address",
+  "@shortcutHelp": {
+    "x-review": true
+  },
   "privacyStoredLearned": "Gelernte Wörter ({language})",
   "settingsComingLater": "Kommt in einem späteren Update",
   "backupExplainer": "Ein Backup ist eine einzelne Datei, verschlüsselt mit einer Passphrase deiner Wahl. Nur diese Passphrase öffnet sie. Wenn du die Passphrase vergisst, kann niemand das Backup wiederherstellen, auch Kosha nicht.",
+  "@backupExplainer": {
+    "x-review": true
+  },
   "privacyCategoryLine": "{title}: {detail}",
   "shortcutShortFormHint": "omw",
   "shortcutExpansionHint": "unterwegs",

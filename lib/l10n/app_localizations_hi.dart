@@ -507,6 +507,10 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
+  String get packsDeleteBody =>
+      'इसकी फ़ाइलें इस फ़ोन से हटा दी जाएँगी। बाद में इसकी फ़ाइल से पैक फिर से आयात किया जा सकता है।';
+
+  @override
   String packsDeleted(String name) {
     return '$name हटाया गया।';
   }
