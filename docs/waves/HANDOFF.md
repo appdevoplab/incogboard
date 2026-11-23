@@ -43,7 +43,7 @@ State as of 2026-11-23 (evening). `main` is clean; nothing is pushed. **Waves 0-
 - `device_bench.ps1` fix; Japanese segment-resize buttons and `symbols_ja`; 48 dp targets; locale to the keyboard engine; the reduced onnxruntime build (blocked); memory over budget (154 MB PSS with Japanese).
 - Visible Dart flavour (needs a Pigeon method); builds without `--flavor` now fail, use `--flavor foss` (default for `flutter run`).
 
-## Where things stand
+## Wave 4 state (historical, superseded by the sections above)
 
 - **Merged on `main`:** E brand, D perf/QA, A Chinese, B Japanese, C a11y + l10n (`Merge Wave 4 C`). All agent branches are removed.
   - One empty folder, `.claude/worktrees/agent-a6b134817bc89dd83`, could not be deleted (a process held it open); it is not a registered worktree and is excluded from git. Delete it by hand after a reboot.
@@ -59,7 +59,7 @@ State as of 2026-11-23 (evening). `main` is clean; nothing is pushed. **Waves 0-
 - **onnxruntime reduced build (D) is still BLOCKED:** GitHub returns 404 for `microsoft/onnxruntime` from this PC. Scripts are in `tool/onnxruntime/` (untested). The APK stays about 80 MB.
 - **`tool/bench/device_bench.ps1` printed empty timing columns** (it clears logcat before reading it, and the PSS parse is wrong); numbers in `docs/perf/budgets.md` came from manual `dumpsys meminfo`. Fix the script.
 
-## Do next (in order)
+## Wave 4 follow-ups (historical; the current list is at the top)
 
 1. **Wave 5 option answers (user, 2026-11-23):** keep the placeholder `app.kosha.keyboard` for now (swap to `io.github.<username>.kosha` at the end; the About source link waits for the username); add a trademark-check task for "Kosha" to Wave 5 (public registries and store listings, not legal advice); generate a new release keystore and pack-signing key outside the repo (the user backs them up; replace the dev pack key); build both flavours, `play` (on-demand asset packs) and `foss` (full build plus signed pack import).
 2. **Wave 5 briefs are written** (`docs/waves/wave5/`: COMMON, A security audit + trademark check, B release engineering, C data packs). Launch the three agents (Agent, `isolation: worktree`, `model: haiku`, `effort: high`, background) with a short prompt pointing at COMMON.md and the brief; merge order A, C, B. After the merge: run `tool/release/make_release_keys.ps1` (generates the keystore and pack key outside the repo; the user backs them up), put the release pack key into `ReleasePackKeys.kt`, re-sign the packs, apply the patches the agents list for orchestrator files, run the full checks, the emulator test and the release gate for both flavours.
