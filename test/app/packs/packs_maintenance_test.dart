@@ -33,25 +33,25 @@ class _FakeMaintenance implements PackMaintenance {
     PackStorage? storage,
     this.checks,
     this.verifyError,
-  }) : _offers = offers,
-       _storage = storage;
+  }) : _offersReply = (() async => offers),
+       _storageReply = (() async => storage);
 
   @override
   final PackDelivery delivery;
-  final List<PackOffer> _offers;
-  final PackStorage? _storage;
+  final Future<List<PackOffer>> Function() _offersReply;
+  final Future<PackStorage?> Function() _storageReply;
   final List<PackCheck>? checks;
   final Object? verifyError;
   final requested = <String>[];
 
   @override
-  Future<List<PackOffer>> offers() async => _offers;
+  Future<List<PackOffer>> offers() => _offersReply();
 
   @override
   Future<void> request(String id) async => requested.add(id);
 
   @override
-  Future<PackStorage?> storage() async => _storage;
+  Future<PackStorage?> storage() => _storageReply();
 
   @override
   Future<List<PackCheck>> verifyInstalled() async {
