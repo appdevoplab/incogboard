@@ -24,8 +24,14 @@ Commands:
 ```
 flutter build apk --release --flavor foss --split-per-abi
 flutter build apk --release --flavor play --split-per-abi
+flutter build apk --debug --flavor foss
+flutter build apk --debug --flavor play
 flutter run --flavor foss          # flutter run needs a flavour; foss is the default for development
 ```
+
+Builds without `--flavor` do not work: the Flutter tool looks for `app-debug.apk`, but the flavoured build writes
+`app-foss-debug.apk`, so `flutter build apk --debug` fails with "Gradle build failed to produce an .apk file" (tested).
+Always pass `--flavor`.
 
 APK names follow Flutter: `app-<abi>-<flavour>-release.apk` (for example `app-arm64-v8a-foss-release.apk`).
 
