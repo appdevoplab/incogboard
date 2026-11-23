@@ -146,6 +146,9 @@ Not confirmed (check before publication):
 
 - The AAB bundle task is not run and not scripted.
 - `verify_reproducible.ps1` compares content, not bytes; the signing block and `META-INF/` are ignored by design.
+- The foss APK is reproducible at a fixed build path, not across paths: the Dart AOT snapshot (`libapp.so`) and a
+  plugin's build-id carry the build folder (`RELEASING.md`, "Verification results"). F-Droid builds at a fixed path,
+  so this matters for the developer's own verification only. The `play` flavour is not checked.
 - The F-Droid recipe is a draft; no `fdroid` command was run.
 - Store screenshots are not taken.
 - The `play` flavour equals `foss` until Wave 5-C merges its asset-pack modules.
