@@ -57,7 +57,8 @@ Future<void> main(List<String> argv) async {
 
   final golden = args['golden'];
   if (golden != null) {
-    final lines = goldenCorpus(read(rime, 'base.dict.yaml'));
+    final goldenMin = int.parse(args['golden-min-weight'] ?? '5000');
+    final lines = goldenCorpus(read(rime, 'base.dict.yaml'), minWeight: goldenMin);
     File(golden).writeAsStringSync('${lines.join('\n')}\n');
     stdout.writeln('golden corpus: ${lines.length} phrases');
   }

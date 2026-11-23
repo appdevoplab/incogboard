@@ -1,4 +1,4 @@
-﻿// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GPL-3.0-or-later
 //
 // OWNER: Wave 4-A. The pinyin TextComposer (composer.dart's contract). Letters build a buffer; the
 // candidates are the words and characters the buffer can spell, whole buffer first, then prefixes.
@@ -67,16 +67,7 @@ class _Pick {
   final String letters;
 }
 
-const Map<String, String> _fullWidth = {
-  ',': '，',
-  '.': '。',
-  '?': '？',
-  '!': '！',
-  ':': '：',
-  ';': '；',
-  '(': '（',
-  ')': '）',
-};
+const Map<String, String> _fullWidth = {',': '，', '.': '。', '?': '？', '!': '！', ':': '：', ';': '；', '(': '（', ')': '）'};
 
 class PinyinComposer extends TextComposer {
   PinyinComposer({
@@ -128,7 +119,8 @@ class PinyinComposer extends TextComposer {
       preedit: _raw,
       reading: r.reading,
       candidates: [
-        for (final c in r.candidates) ComposerCandidate(c.text, annotation: c.syllables.isEmpty ? null : c.syllables, consumes: c.consumed),
+        for (final c in r.candidates)
+          ComposerCandidate(c.text, annotation: c.syllables.isEmpty ? null : c.syllables, consumes: c.consumed),
       ],
       highlighted: r.candidates.isEmpty ? -1 : 0,
     );
@@ -166,7 +158,8 @@ class PinyinComposer extends TextComposer {
     final letters = _letters;
     if (letters.isEmpty) return _Result.empty;
     final seg = PinyinSegmenter(dict, fuzzy: opts.fuzzy);
-    String show(String simplified) => opts.traditional && converter != null ? converter.convert(simplified) : simplified;
+    String show(String simplified) =>
+        opts.traditional && converter != null ? converter.convert(simplified) : simplified;
 
     // Raw index just after the k-th letter, for "consumes".
     final rawEnd = <int>[];
@@ -194,7 +187,9 @@ class PinyinComposer extends TextComposer {
       final learnedHere = learned.wordsFor(letters);
       final whole = seg.wholeMatches(letters);
       for (final u in whole) {
-        full.add(_Cand(u.entry.text, show(u.entry.text), rawLen, u.score + _boost(letters, u.entry.text), u.entry.syllables));
+        full.add(
+          _Cand(u.entry.text, show(u.entry.text), rawLen, u.score + _boost(letters, u.entry.text), u.entry.syllables),
+        );
       }
       final best = seg.segment(letters);
       reading = best.reading;
@@ -273,7 +268,8 @@ class PinyinComposer extends TextComposer {
       return ComposerStep.consumed;
     }
     if (text == "'" || text == '’') {
-      if (_letters.isEmpty || _raw.endsWith("'")) return _letters.isEmpty ? ComposerStep.notHandled : ComposerStep.consumed;
+      if (_letters.isEmpty) return ComposerStep.notHandled;
+      if (_raw.endsWith("'")) return ComposerStep.consumed;
       _raw += "'";
       _invalidate();
       return ComposerStep.consumed;
@@ -340,7 +336,6 @@ class PinyinComposer extends TextComposer {
     if (_raw.isEmpty) return ComposerStep.notHandled;
     _raw = _raw.substring(0, _raw.length - 1);
     _invalidate();
-    if (_raw.isEmpty) _run.clear();
     return ComposerStep.consumed;
   }
 
@@ -356,7 +351,8 @@ class PinyinComposer extends TextComposer {
       _raw = _raw.substring(1);
     }
     _invalidate();
-    if (_raw.isEmpty) _run.clear();
+    // The run of picks survives a finished composition: picks in a row make a new word. It ends at
+    // any other commit or reset (see _reset).
     return ComposerStep(commit: c.text);
   }
 

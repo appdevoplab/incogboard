@@ -20,7 +20,9 @@ class S2twpConverter {
 
   /// Parses the `s2twp.tsv` text. Unknown or malformed lines are skipped.
   factory S2twpConverter.parse(String tsv) {
-    final tables = {for (final s in ['A', 'B', 'C', 'D']) s: <String, String>{}};
+    final tables = {
+      for (final s in ['A', 'B', 'C', 'D']) s: <String, String>{},
+    };
     for (final line in tsv.split('\n')) {
       final parts = line.split('\t');
       if (parts.length != 3) continue;

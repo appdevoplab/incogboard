@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+import 'dart:math' as math;
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kosha/src/engine/lang/chinese/s2twp.dart';
 import 'package:kosha/src/engine/lang/chinese/zh_dictionary.dart';
@@ -8,7 +10,8 @@ import '../../../tool/chinese/zh_sources.dart';
 
 const String _header = '# Rime dictionary\n# encoding: utf-8\n#\n---\nname: base\nversion: "1"\nsort: by_weight\n...\n';
 
-const String _base = '$_header'
+const String _base =
+    '$_header'
     '# a comment with a tab\there\n'
     '你好\tni hao\t5000\n'
     '中国\tzhong guo\t1000\n'
@@ -16,15 +19,17 @@ const String _base = '$_header'
     '坏\tbad pinyin\t9000\n'
     'ABC\ta b c\t9000\n';
 
-const String _ext = '$_header'
+const String _ext =
+    '$_header'
     '中国人\tzhong guo ren\t100\n'
     '写了字\txie le zi\t100\n';
 
-const String _chars = '$_header'
+const String _chars =
+    '$_header'
     '你\tni\t40000000\n'
     '你\tnv\t1000\n'
     '好\thao\t30000000\n'
-    '好\tshort\t1\n';
+    '好\thao3\t1\n';
 
 void main() {
   group('rime-ice rows', () {
@@ -50,9 +55,9 @@ void main() {
   group('entries', () {
     test('words are kept at or above the base weight; characters need one syllable each', () {
       final r = entriesFromRime(base: _base, ext: _ext, chars: _chars, options: const RimeOptions(minBaseWeight: 1000));
-      expect(r.baseDropped, 2, reason: '稀有 (10) and the rows that do not fit');
+      expect(r.baseDropped, 1, reason: '稀有 (10) is below the weight; 坏 and ABC are dropped as not Han words');
       expect(r.words, 4, reason: '你好, 中国, 中国人, 写了字');
-      expect(r.characters, 2, reason: '你 ni and 好 hao; 你 nv is a second reading and kept too');
+      expect(r.characters, 3, reason: '你 ni, 你 nv (a second reading) and 好 hao; 好 hao3 has a digit');
       final texts = r.entries.map((e) => e.text).toList();
       expect(texts, containsAll(['你好', '中国', '中国人', '写了字', '你', '好']));
       expect(texts, isNot(contains('坏')));
@@ -73,7 +78,7 @@ void main() {
       final d = ZhDictionary.fromBytes(buildZhDictionary(r.entries));
       expect(d.entriesFor('nihao').single.text, '你好');
       expect(d.entriesFor('nihao').single.syllables, "ni'hao");
-      expect(d.entriesFor('ni').map((e) => e.text), ['你', ]);
+      expect(d.entriesFor('ni').map((e) => e.text), ['你']);
       expect(d.entriesForInitials('zg').map((e) => e.text), ['中国']);
       expect(d.entriesForInitials('zgr').map((e) => e.text), ['中国人']);
     });
@@ -82,7 +87,7 @@ void main() {
   group('golden corpus', () {
     test('the sample is the requested size, one "pinyin<TAB>text" per line, with apostrophes', () {
       final lines = goldenCorpus(_base, count: 2, minWeight: 1000);
-      expect(lines, ["ni'hao\t你好", "zhong'guo\t中国"]);
+      expect(lines, ["zhong'guo\t中国", "ni'hao\t你好"], reason: 'sorted by text');
     });
 
     test('a short list is returned whole', () {
@@ -105,31 +110,4 @@ void main() {
   });
 }
 
-double _log10(double x) => _ln(x) / _ln10;
-const double _ln10 = 2.302585092994046;
-double _ln(double x) => x <= 0 ? double.negativeInfinity : (_lnImpl(x));
-double _lnImpl(double x) {
-  // Natural log through dart:math would be simpler; the import is kept out of the test on purpose.
-  return _naturalLog(x);
-}
-
-double _naturalLog(double x) {
-  var v = x;
-  var k = 0;
-  while (v > 2) {
-    v /= 2;
-    k++;
-  }
-  while (v < 1) {
-    v *= 2;
-    k--;
-  }
-  final t = (v - 1) / (v + 1);
-  var sum = 0.0;
-  var term = t;
-  for (var i = 1; i < 60; i += 2) {
-    sum += term / i;
-    term *= t * t;
-  }
-  return 2 * sum + k * 0.6931471805599453;
-}
+double _log10(double x) => math.log(x) / math.ln10;
