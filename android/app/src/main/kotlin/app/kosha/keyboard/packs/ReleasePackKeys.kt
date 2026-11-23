@@ -4,7 +4,7 @@ package app.kosha.keyboard.packs
 /**
  * Release pack-signing public keys, as base64 X.509 SubjectPublicKeyInfo (DER). OWNER: Wave 5-C.
  *
- * REPLACE WITH RELEASE KEY. The entry below is a placeholder. Until it is replaced:
+ * The entry below is the release key generated on 2026-11-23 (SHA-256 of the DER: EC3C5B2A...DF61). Until it is replaced:
  *  - release builds trust no pack (see [PackKeys.trusted]), so packs cannot install;
  *  - `ReleasePackKeysTest` fails when the release gate runs it with KOSHA_RELEASE_GATE=1.
  *
@@ -15,7 +15,7 @@ package app.kosha.keyboard.packs
 object ReleasePackKeys {
     private const val PLACEHOLDER_PREFIX = "REPLACE"
 
-    private val KEYS_BASE64: List<String> = listOf("REPLACE WITH RELEASE KEY")
+    private val KEYS_BASE64: List<String> = listOf("MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEf5owe3nQx3Jjb/1+1LNmlwzjbIAgbv3V2vMjgweA8nN6e+ybCUbKShMUkHqAm/hD/7LaETjtgECESYWCFqVW5Q==")
 
     /** True while any entry is still the placeholder. */
     val hasPlaceholder: Boolean get() = KEYS_BASE64.any { it.startsWith(PLACEHOLDER_PREFIX) }
