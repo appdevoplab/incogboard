@@ -59,3 +59,16 @@ android/key.properties
 
 # Wave 5-C: signed packs copied into the Play asset pack modules for the bundle (never commit)
 android/asset_packs/*/src/main/assets/
+
+# Release signing (docs/release/RELEASING.md). The keys live outside the repository; these are a backstop.
+*.p12
+*.pfx
+*.pem
+*.password
+keystore.properties
+android/keystore.properties
+release-keys/
+
+# Gradle output at the Android root (not covered by the Flutter template ignore)
+/android/build/
+/android/.kotlin/
