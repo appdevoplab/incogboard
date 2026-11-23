@@ -1,6 +1,6 @@
 # Handoff: continue from here after /clear
 
-State as of 2026-11-23 (afternoon). `main` is clean; nothing is pushed. **Wave 4 is done and merged: E, D, A, B, C.** Next is Wave 5 (release); the option questions to the user come first (see "Do next").
+State as of 2026-11-23 (afternoon). `main` is clean; nothing is pushed. **Wave 4 is done and merged: E, D, A, B, C.** Next is Wave 5 (release): the option questions are answered (see "Do next"); the briefs are not written yet.
 
 ## Where things stand
 
@@ -20,7 +20,7 @@ State as of 2026-11-23 (afternoon). `main` is clean; nothing is pushed. **Wave 4
 
 ## Do next (in order)
 
-1. **Ask the user the Wave 5 option questions before writing anything:** GitHub username for `io.github.<username>.kosha`; a trademark check of the name "Kosha"; the release signing key (new, or an existing one); Play (`play`) and F-Droid (`foss`) flavours, or one; the open items below that need their decision.
+1. **Wave 5 option answers (user, 2026-11-23):** keep the placeholder `app.kosha.keyboard` for now (swap to `io.github.<username>.kosha` at the end; the About source link waits for the username); add a trademark-check task for "Kosha" to Wave 5 (public registries and store listings, not legal advice); generate a new release keystore and pack-signing key outside the repo (the user backs them up; replace the dev pack key); build both flavours, `play` (on-demand asset packs) and `foss` (full build plus signed pack import).
 2. Then write the Wave 5 briefs under `docs/waves/wave5/` (A security audit, B release engineering, C data packs; see `docs/waves/README.md`).
 3. Small follow-ups that are not Wave 5: strip buttons for segment resize and `symbols_ja.json` (B's gaps); 48 dp touch targets and passing the locale to the keyboard engine (`docs/a11y/report.md`); fix `device_bench.ps1`; a native-speaker review of the `x-review` strings; speech for ja/zh (needs a Whisper pack that lists them).
 
