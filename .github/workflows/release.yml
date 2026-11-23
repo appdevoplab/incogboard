@@ -68,7 +68,7 @@ jobs:
           dart format --line-length 120 --output=none --set-exit-if-changed lib test pigeons
           flutter analyze
           flutter test
-          cd android && ./gradlew :app:testDebugUnitTest
+          cd android && ./gradlew :app:testFossDebugUnitTest :app:testPlayDebugUnitTest
 
       - name: Build foss and play (split per ABI)
         env:

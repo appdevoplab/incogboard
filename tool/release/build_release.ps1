@@ -69,9 +69,10 @@ if (-not $SkipChecks) {
     Run-Step 'flutter pub get' { & flutter pub get }
     Run-Step 'flutter analyze' { & flutter analyze }
     Run-Step 'flutter test' { & flutter test }
-    Run-Step 'JVM unit tests' {
+    # With flavours the task names carry the flavour (testFossDebugUnitTest, testPlayDebugUnitTest).
+    Run-Step 'JVM unit tests (foss and play)' {
         Push-Location (Join-Path $repoRoot 'android')
-        try { & .\gradlew.bat ':app:testDebugUnitTest' } finally { Pop-Location }
+        try { & .\gradlew.bat ':app:testFossDebugUnitTest' ':app:testPlayDebugUnitTest' } finally { Pop-Location }
     }
 }
 
