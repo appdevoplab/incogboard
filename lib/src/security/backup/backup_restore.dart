@@ -151,6 +151,11 @@ class BackupRestorer {
         }
       }
       for (final entry in contents.learned.entries) {
+        if (!DataBlobs.isLearnedWords(entry.key)) {
+          // Chinese and Japanese picks have formats of their own: a merge keeps what this device has.
+          if (replace || existing[entry.key] == null) await store.write(entry.key, entry.value);
+          continue;
+        }
         final language = entry.key.substring(DataBlobs.learnedPrefix.length);
         final imported = LearnedData.decode(language, entry.value);
         final out = replace

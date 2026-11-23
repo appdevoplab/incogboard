@@ -6,6 +6,8 @@ import 'dart:typed_data';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kosha/src/core/data_sections.dart';
 import 'package:kosha/src/core/seen_apps.dart';
+import 'package:kosha/src/engine/lang/chinese/learned_phrases.dart';
+import 'package:kosha/src/engine/lang/japanese/japanese_learning.dart';
 import 'package:kosha/src/engine/learn/learned_data.dart';
 import 'package:kosha/src/security/backup/backup_collect.dart';
 import 'package:kosha/src/security/backup/backup_payload.dart';
@@ -159,6 +161,38 @@ void main() {
       );
       expect(store.blobs.keys.toSet(), {'learned_de'});
       expect(_wordCount(store.blobs['learned_de'], 'de'), 1);
+    });
+
+    test('Chinese and Japanese learned blobs are restored byte for byte, never decoded as LearnedData', () async {
+      final zhBackup = _bytes('{"zh":"backup"}');
+      final jaBackup = _bytes('{"ja":"backup"}');
+      final zhPhone = _bytes('{"zh":"phone"}');
+      store.blobs[DataBlobs.learnedZhPhrases] = zhPhone;
+      final contents = BackupContents(
+        learned: {
+          'learned_en': _learned('en', words: {'hello': 1}),
+          DataBlobs.learnedZhPhrases: zhBackup,
+          DataBlobs.learnedJaWords: jaBackup,
+        },
+      );
+      expect(contents.summary().learnedLanguages, 1);
+      expect(contents.summary().learnedWords, 1);
+
+      await restorer.apply(contents, include: {BackupSection.learned}, mode: RestoreMode.merge);
+      expect(store.blobs[DataBlobs.learnedZhPhrases], zhPhone); // a merge keeps the phone's copy
+      expect(store.blobs[DataBlobs.learnedJaWords], jaBackup);
+
+      await restorer.apply(contents, include: {BackupSection.learned}, mode: RestoreMode.replace);
+      expect(store.blobs[DataBlobs.learnedZhPhrases], zhBackup);
+      expect(store.blobs[DataBlobs.learnedJaWords], jaBackup);
+      expect(_wordCount(store.blobs['learned_en'], 'en'), 1);
+    });
+
+    test('the blob names match the ones the Chinese and Japanese engines write', () {
+      expect(learnedZhBlobName, DataBlobs.learnedZhPhrases);
+      expect(JapaneseLearning.blobName, DataBlobs.learnedJaWords);
+      expect(DataBlobs.isLearnedWords('learned_en'), isTrue);
+      expect(DataBlobs.isLearnedWords(DataBlobs.learnedJaWords), isFalse);
     });
 
     test('learned merge adds counts and unions blocked words', () async {

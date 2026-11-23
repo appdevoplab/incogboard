@@ -107,13 +107,16 @@ class BackupContents {
   /// What the preview screen shows before the user confirms a restore.
   BackupSummary summary() {
     var words = 0;
+    var languages = 0;
     for (final entry in learned.entries) {
+      if (!DataBlobs.isLearnedWords(entry.key)) continue;
+      languages++;
       final language = entry.key.substring(DataBlobs.learnedPrefix.length);
       words += LearnedData.decode(language, entry.value).words.length;
     }
     return BackupSummary(
       learnedWords: words,
-      learnedLanguages: learned.length,
+      learnedLanguages: languages,
       shortcuts: shortcuts?.length ?? 0,
       clipboardItems: clipboard?.length ?? 0,
       emojiBytes: emoji?.length ?? 0,

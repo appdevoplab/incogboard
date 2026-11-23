@@ -15,6 +15,19 @@ abstract final class DataBlobs {
   static String learned(String languageId) => 'learned_$languageId';
   static const String learnedPrefix = 'learned_';
 
+  /// Chinese phrases learned from candidate picks (Wave 4-A, its own format, not `LearnedData`).
+  static const String learnedZhPhrases = 'learned_zh_phrases';
+
+  /// Japanese conversion picks (Wave 4-B, its own format, not `LearnedData`).
+  static const String learnedJaWords = 'learned_ja_words';
+
+  /// `learned_*` blobs in a format of their own: wiped, sized and backed up as they are, never decoded
+  /// as `LearnedData` and never opened in the learned-words viewer.
+  static const Set<String> learnedOpaque = {learnedZhPhrases, learnedJaWords};
+
+  /// True for a `learned_<languageId>` blob in the `LearnedData` format.
+  static bool isLearnedWords(String name) => name.startsWith(learnedPrefix) && !learnedOpaque.contains(name);
+
   /// Clipboard history (Wave 2-D).
   static const String clipboard = 'clipboard';
 
