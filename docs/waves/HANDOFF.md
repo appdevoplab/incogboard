@@ -1,41 +1,60 @@
 # Handoff: continue from here after /clear
 
-State as of 2026-11-22 (night). `main` is clean; nothing is pushed.
+State as of 2026-11-23 (morning). `main` is clean; nothing is pushed. **Wave 4 is mid-merge: E, D, A, B are merged; C is not finished.**
 
 ## Where things stand
 
-- **Waves 0-3 are done and merged.** The app is renamed **Kosha** (`4a3c394`). The InScript layouts are redone from the BIS tables (`238cbcc`).
-- **Wave 4 setup is done:** seams `f2fd99a`, briefs `2d19ad6` in `docs/waves/wave4/` (COMMON, A-chinese, B-japanese, C-a11y-l10n, D-perf, E-brand), ownership in `docs/PARALLEL_WORK.md` ("Wave 4 ownership").
-- Checks on `main`: `flutter analyze` 0 issues, `flutter test` 1076 pass, JVM tests 105 pass (5 real-model tests skipped). Release gate passes; arm64 release APK 79.0 MB.
-- Emulator (emulator-5554) has the Kosha debug build, both dev packs imported, and languages set to ja/zh/en from the last test. Reset them with the settings app or `run-as app.kosha.keyboard`.
-- Names in the Wave 0-3 sections below are historical (Myna, `.mynapack`, `MynaMascot`, …); the code says Kosha.
+- **Merged on `main`:** E brand (`05d71a7`), D perf/QA (`a9d8a4b`), A Chinese (`47248ec`), B Japanese (`d0ab376`). Their worktrees and branches are removed.
+- **C (a11y + l10n) is NOT done.** It was stopped by a usage limit, resumed, then stopped by the orchestrator when the user paused. Its work is on branch `worktree-agent-a01a391e601d1c4ef` (worktree `.claude/worktrees/agent-a01a391e601d1c4ef`, still present):
+  - `96c0287`: the TalkBack part (done).
+  - `e82a126` and `463a8b5`: WIP string/ARB work (47 files, unverified, quality gate not run).
+  - When stopped it was working on Hindi/Indonesian "needs review" flags in the ARBs, a hard-coded-string scanner test, and a Flutter warning that German is not supported by all localisation delegates.
+  - Its edits outside `lib/src/app/**`, `lib/l10n`, `a11y` are all on its allowed list (strip, candidates, clipboard panel, keys_painter, key_visuals). Check whether it changed `lib/src/app/app.dart` (orchestrator-owned; it was told to revert unless string-only).
+- **After-merge work already on `main`:**
+  - `830b8fb`: fixed D's two InputController bugs (a restart over a composing word dropped it; insertText over a composer preedit lost the preedit). Repros unskipped; the fuzz test now exercises both paths. D's test files converted to LF; `dart_test.yaml` declares the `perf` tag; manifest has `android:roundIcon` (E).
+  - `.claude/worktrees/` is in `.git/info/exclude` (a `git add -A` had picked up the worktree gitlinks once).
+  - Chinese pack staging now writes `NOTICE.txt` (rime-ice GPL-3.0 and OpenCC Apache-2.0 texts). Re-staged in `%USERPROFILE%\.kosha\packs\staging\dict-zh-rime-ice`: zh.kdict 36.8 MB, s2twp.tsv 1.2 MB, NOTICE.txt. **Not signed yet.**
+  - `326b31f`: Japanese golden corpus replaced. The Aozora corpus (pre-war spellings, top-1 20%, ruby licence unclear) became Tatoeba furigana (CC BY 2.0 FR, `tool/japanese/build_golden_tatoeba.py`, raw data in `%USERPROFILE%\.kosha\packs\download\tatoeba`). The test counts kana/kanji spelling variants (下さい/ください) as right and checks top-5 for whole kanji words only. Result: top-1 83.7% (exact 64.0%), segment top-5 95.4%.
+  - `67d81ec`: `DataBlobs.learnedZhPhrases`, `learnedJaWords`, `learnedOpaque`, `isLearnedWords`. Wipe and sizes already covered both (prefix `learned_`), but backup restore decoded them as LearnedData, which would have erased them. Now they are restored byte for byte (a merge keeps the phone's copy). Tests added.
+- **Not run yet on merged `main`:** full `flutter analyze` and `flutter test`, JVM tests, debug build, emulator, release gate. Only targeted suites ran: fuzz + keyboard (340), security (50), Japanese golden.
+- **onnxruntime reduced build (D, Part 1) is BLOCKED:** from this PC GitHub returns 404 for `microsoft/onnxruntime` (repo page, tags, archive; the orchestrator confirmed it), while other repos work. D left `tool/onnxruntime/{model_ops.py,model_ops.txt,check_aar.ps1,build_android.ps1}` (39 operators over 30 models; build script untested). `build.gradle.kts` is unchanged, so the APK stays about 79 MB.
 
 ## Do next (in order)
 
-1. **Launch the five Wave 4 agents** in one message: `Agent` tool, `isolation: "worktree"`, `model: "haiku"`, `effort: "high"`, run in background. Prompts (one each):
-   - A: `You are Wave 4 agent A (Chinese) on the Kosha keyboard. Read docs/waves/wave4/COMMON.md, then docs/waves/wave4/A-chinese.md, and do exactly what they say. Work only in your worktree. Commit early and often. End with the report COMMON.md asks for.`
-   - B: same text with `agent B (Japanese)` and `B-japanese.md`.
-   - C: same text with `agent C (accessibility and localisation)` and `C-a11y-l10n.md`.
-   - D: same text with `agent D (performance and QA)` and `D-perf.md`.
-   - E: same text with `agent E (brand)` and `E-brand.md`.
-2. While they run: nothing in their paths. If one stops unfinished, commit its leftovers on its branch, relaunch it, and tell it to `git merge <old-branch>` first (see "How to run a wave").
-3. **Merge in the order E, D, A, B, C** with the checklist in `docs/waves/README.md`. Before each merge: `git log main..<branch>`, `git diff main...<branch> --stat` vs `--ignore-cr-at-eol` (must match), and cross-branch file overlap.
-4. **After merging** (the chores in "Wave 4 setup seams" below):
-   - register the `learned_zh_phrases` and `learned_ja_words` blobs (wipe, backup, privacy sizes);
-   - move A's and B's screen strings into the ARB files;
-   - apply E's `KoshaMascot(pose:)` call sites;
-   - add `android:localeConfig` (C) and `android:roundIcon` (E) to the manifest;
-   - run A's and B's staging scripts, then sign `dict-zh-rime-ice` and `dict-ja-mozc` with `tool/make_pack.dart --kind dictionary` (key in `%USERPROFILE%\.kosha\keys\`);
-   - if D's reduced onnxruntime AAR landed, rerun `tool/onnxruntime/check_aar.ps1` and `dart run tool/patch_sherpa_ort_version.dart --check`.
-5. **Checks and emulator smoke test** (emulator-5554 only):
+1. **Finish C.** Launch one agent (`Agent`, `isolation: "worktree"`, `model: "haiku"`, `effort: "high"`, background) with this prompt:
+   `You are Wave 4 agent C (accessibility and localisation) on the Kosha keyboard. A previous run was stopped mid-way. First run: git merge worktree-agent-a01a391e601d1c4ef. Then read docs/waves/wave4/COMMON.md and docs/waves/wave4/C-a11y-l10n.md, check what is already done (the TalkBack part is committed; the ARB/string move is WIP), and finish it: review flags for hi and id, the hard-coded-string scanner, the German localisation-delegate warning, then the full quality gate. Do not edit lib/src/app/app.dart. Do not localise lib/src/app/chinese/, lib/src/app/japanese/ or the learned rows in privacy_format.dart and privacy_center_screen.dart: the orchestrator does those. Commit early and often. End with the report COMMON.md asks for.`
+   After it reports: `git log main..<branch>`, `git diff main...<branch> --stat` vs `--ignore-cr-at-eol`, files outside its ownership; then `git merge --no-ff`. Remove both C worktrees and branches (unlock, `git worktree remove --force`, `git branch -d`).
+2. **Remaining after-merge chores:**
+   - Privacy center: `privacy_center_screen.dart` (`learnedBlobNames`) and `privacy_format.dart` must use `DataBlobs.isLearnedWords` for the learned-words viewer list, and show `learned_zh_phrases` / `learned_ja_words` as "Chinese phrases" / "Japanese words" with their size and no viewer.
+   - Move A's and B's screen strings (`lib/src/app/chinese/chinese_screen.dart`, `lib/src/app/japanese/japanese_screen.dart`) into the ARBs (all 7 locales).
+   - E's mascot: `lib/src/app/privacy/privacy_widgets.dart:15` gets `pose: KoshaPose.locked`; the other call sites keep the default (open). Consider `glowing` for voice/translation and `quiet` for incognito and empty states.
+   - Manifest: `android:localeConfig="@xml/locales_config"` (C's `res/xml/locales_config.xml`).
+   - B's gaps: segment resize needs a button pair in the candidate strip (orchestrator file; the composer already handles `segmentShorter`/`segmentLonger`); `symbols_ja.json` is not built.
+   - **Sign the packs** (key `%USERPROFILE%\.kosha\keys\pack-dev.pem`; check `dart run tool/make_pack.dart --help` for the key flag), then copy them to `%USERPROFILE%\.kosha\packs\signed\`:
+     - Chinese: `dart run tool/make_pack.dart --dir "C:\Users\kgnan\.kosha\packs\staging\dict-zh-rime-ice" --id dict-zh-rime-ice --kind dictionary --name "Chinese (Simplified) dictionary" --languages zh --engine rime-ice --license GPL-3.0-or-later --out build/packs/dict-zh-rime-ice.koshapack`
+     - Japanese: staging exists from 2026-11-22 (japanese.lex.gz 18.3 MB, japanese.conn.gz 2.0 MB, NOTICE.txt). Rerun `tool/packs/japanese/stage_mozc.ps1` and use the make_pack line it prints (`dict-ja-mozc`, BSD-3-Clause).
+3. **Checks on merged `main`:** `dart format --line-length 120 lib test pigeons`, `flutter analyze` (0 issues), `flutter test` (expect about 1230+), `flutter build apk --debug`, `cd android; .\gradlew.bat :app:testDebugUnitTest` (105, 5 skipped).
+4. **Emulator smoke test** (emulator-5554 only: `$env:ANDROID_SERIAL='emulator-5554'`; `. .\tool\adb_ime.ps1`; `tool/ui_smoke.ps1`):
+   - import both dictionary packs in Model packs;
    - typing regressions (English autocorrect, Hindi, Arabic);
-   - Chinese "nihao" and "zhongguoren", a partial pick, the grid, Traditional output;
+   - Chinese "nihao", "zhongguoren", "nh", a partial pick, the grid, Traditional output, full-width punctuation, the no-pack chip;
    - Japanese flick, multi-tap, ゛゜小, romaji "nihongo" with conversion and segment moves;
-   - TalkBack on the keys, the settings app in Hindi and German;
-   - the new icon, themed icon and splash;
-   - voice and translation still work with D's runtime.
-   Then the release gate (`flutter build apk --release --split-per-abi`, `bash tool/check_release_permissions.sh build/app/outputs/flutter-apk/*-release.apk`) and the arm64 size.
-6. Update this file, `docs/waves/README.md` and memory; remove the Wave 4 worktrees and branches; summarise open items for the user and ask the Wave 5 option questions (GitHub username for `io.github.<username>.kosha`, trademark check of the name, release key) before writing anything.
+   - TalkBack on the keys; the settings app in Hindi and German;
+   - the new icon, themed icon, splash in light and dark;
+   - voice and translation still work;
+   - `tool/bench/device_bench.ps1 -Phase latin` and `-Phase voice` (D's script; refuses other serials), then fill the device table in `docs/perf/budgets.md`.
+5. **Release gate:** `flutter build apk --release --split-per-abi`, then in Git Bash `bash tool/check_release_permissions.sh build/app/outputs/flutter-apk/*-release.apk`; note the arm64 size.
+6. Fold `docs/notices/{chinese,japanese,onnxruntime}.md` (and C's, if any) into `THIRD_PARTY_NOTICES.md` and `assets/notices/third-party-data.txt`.
+7. Update this file, `docs/waves/README.md` and memory. Summarise the open items for the user and **ask the Wave 5 option questions before writing anything**: GitHub username for `io.github.<username>.kosha`, a trademark check of the name "Kosha", the release signing key, plus the open items below.
+
+## Wave 4 open items for the user (so far)
+
+- **onnxruntime source unreachable** (GitHub 404 for microsoft/onnxruntime from this PC): the reduced build needs another network or a source mirror. The APK stays 79 MB arm64 until then.
+- **Licences to confirm:** the IPAdic terms inside the Mozc dictionary (a custom permissive licence with an ICOT clause; B asks whether it is fine for GPL-3.0-or-later). Tatoeba CC BY 2.0 FR is test data only, not shipped.
+- **Chinese (A):** no next-word predictions (rime-ice has no bigrams); no as-you-type completions ("nih" does not offer 你好); fuzzy pinyin is single-substitution only; Traditional conversion not checked byte for byte against OpenCC. Golden top-1 90.7%, top-5 99.7% (the corpus comes from the same dictionary, so it measures segmentation and ranking). Pack 36.3 MB, load 84 ms on the PC, RSS +57 MB.
+- **Japanese (B):** pack 20.3 MB, load 201 ms on the PC, RSS +75 MB; conversion p95 0.83 ms. Misses are homophones (飼って→買って). Segment resize needs strip buttons; `symbols_ja` is missing.
+- **Memory:** +57 MB (zh) or +75 MB (ja) on top of the keyboard is close to the 120 MB keyboard budget; measure on the emulator with `device_bench.ps1`.
+- **Perf (D, host):** key → commit p95 0.61 ms, suggest p95 1.14 ms (3 languages), swipe p95 1.19 ms, frame p95 7.34 ms. Device numbers pending.
 
 ## Wave 4 decisions (user, 2026-11-22 evening)
 
