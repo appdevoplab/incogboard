@@ -13,6 +13,7 @@ import java.security.Signature
 import java.security.spec.ECGenParameterSpec
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Assert.fail
@@ -23,6 +24,7 @@ class PackStoreTest {
     private lateinit var root: File
     private val keys = newKeys()
     private val other = newKeys()
+    private val release = newKeys()
 
     @Before
     fun setUp() {
@@ -54,6 +56,48 @@ class PackStoreTest {
         assertEquals(1, root.listFiles()!!.size)
     }
 
+    // ---- key rotation -------------------------------------------------------------
+
+    @Test
+    fun packsFromEveryTrustedKeyInstallAndNameTheirSigner() {
+        val store = PackStore(root, listOf(release.public, keys.public))
+        val fromRelease = store.install(ByteArrayInputStream(pack(mapOf("a" to byteArrayOf(1)), signer = release)))
+        assertEquals(PackStore.keyId(release.public), fromRelease.signerKeyId)
+        val fromDev = store.install(ByteArrayInputStream(pack(mapOf("b" to byteArrayOf(2)), id = "dict-zh-rime", kind = "dictionary", languages = """["zh"]""", signer = keys)))
+        assertEquals(PackStore.keyId(keys.public), fromDev.signerKeyId)
+        assertEquals(2, store.list().size)
+        assertEquals(2, store.list().map { it.signerKeyId }.toSet().size)
+    }
+
+    @Test
+    fun keyIdIsSixteenHexDigitsOfSha256OverTheKey() {
+        val id = PackStore.keyId(keys.public)
+        assertEquals(16, id.length)
+        assertTrue(id.matches(Regex("[0-9a-f]{16}")))
+        val expected = MessageDigest.getInstance("SHA-256").digest(keys.public.encoded).copyOf(8).toHex()
+        assertEquals(expected, id)
+        assertFalse(id == PackStore.keyId(other.public))
+    }
+
+    @Test
+    fun aPackFromAnUnknownKeyIsRejectedEvenWhenOtherKeysAreTrusted() {
+        val store = PackStore(root, listOf(release.public, keys.public))
+        expect("bad_signature") {
+            store.install(ByteArrayInputStream(pack(mapOf("a" to byteArrayOf(1)), signer = other)))
+        }
+        assertNothingInstalled()
+    }
+
+    @Test
+    fun aKeyNotListedIsNotTrustedEvenIfItIsAValidKey() {
+        // The dev key is absent from a release trust list: packs it signed must not install.
+        val store = PackStore(root, listOf(release.public))
+        expect("bad_signature") { store.install(ByteArrayInputStream(pack(mapOf("a" to byteArrayOf(1)), signer = keys))) }
+        assertNothingInstalled()
+    }
+
+    // ---- rejected packs leave nothing behind -----------------------------------------
+
     @Test
     fun rejectsUntrustedSignature() = expect("bad_signature") {
         PackStore(root, listOf(keys.public)).install(ByteArrayInputStream(pack(mapOf("a" to byteArrayOf(1)), signer = other)))
@@ -64,7 +108,16 @@ class PackStoreTest {
         val bytes = pack(mapOf("a.bin" to byteArrayOf(1, 2, 3)))
         bytes[bytes.size - 1] = 9
         expect("bad_signature") { PackStore(root, listOf(keys.public)).install(ByteArrayInputStream(bytes)) }
-        assertTrue(root.listFiles()!!.isEmpty())
+        assertNothingInstalled()
+    }
+
+    @Test
+    fun rejectsAFlippedBitInTheManifest() {
+        val bytes = pack(mapOf("a.bin" to byteArrayOf(1, 2, 3)))
+        // Header is magic (8) + version (4) + manifest length (4); flip one bit of the first manifest byte.
+        bytes[16] = (bytes[16].toInt() xor 0x01).toByte()
+        expect("bad_signature") { PackStore(root, listOf(keys.public)).install(ByteArrayInputStream(bytes)) }
+        assertNothingInstalled()
     }
 
     @Test
@@ -76,6 +129,14 @@ class PackStoreTest {
         expect("bad_format") {
             PackStore(root, listOf(keys.public)).install(ByteArrayInputStream(bytes + byteArrayOf(0)))
         }
+        assertNothingInstalled()
+    }
+
+    @Test
+    fun rejectsAHeaderThatEndsEarly() {
+        val bytes = pack(mapOf("a.bin" to byteArrayOf(1)))
+        expect("bad_format") { PackStore(root, listOf(keys.public)).install(ByteArrayInputStream(bytes.copyOf(12))) }
+        assertNothingInstalled()
     }
 
     @Test
@@ -85,6 +146,36 @@ class PackStoreTest {
                 PackStore(root, listOf(keys.public)).install(ByteArrayInputStream(pack(mapOf(path to byteArrayOf(1)))))
             }
         }
+        assertNothingInstalled()
+    }
+
+    @Test
+    fun rejectsADuplicateFileName() {
+        val entry = """{"path":"a.bin","size":1,"sha256":"${sha256(byteArrayOf(1))}"}"""
+        val manifest = manifestJson(files = "$entry,$entry")
+        expect("bad_format") {
+            PackStore(root, listOf(keys.public)).install(ByteArrayInputStream(packRaw(manifest, listOf(byteArrayOf(1), byteArrayOf(1)))))
+        }
+        assertNothingInstalled()
+    }
+
+    @Test
+    fun rejectsASizeLargerThanTheData() {
+        val entry = """{"path":"a.bin","size":10,"sha256":"${sha256(byteArrayOf(1, 2, 3))}"}"""
+        expect("bad_format") {
+            PackStore(root, listOf(keys.public)).install(ByteArrayInputStream(packRaw(manifestJson(files = entry), listOf(byteArrayOf(1, 2, 3)))))
+        }
+        assertNothingInstalled()
+    }
+
+    @Test
+    fun rejectsMoreThanSixtyFourFiles() {
+        val entries = (0..PackStore.MAX_FILES).map { """{"path":"f$it.bin","size":1,"sha256":"${sha256(byteArrayOf(1))}"}""" }
+        val bodies = List(entries.size) { byteArrayOf(1) }
+        expect("bad_format") {
+            PackStore(root, listOf(keys.public)).install(ByteArrayInputStream(packRaw(manifestJson(files = entries.joinToString(",")), bodies)))
+        }
+        assertNothingInstalled()
     }
 
     @Test
@@ -96,6 +187,7 @@ class PackStoreTest {
         expect("too_large") {
             PackStore(root, listOf(keys.public)).install(ByteArrayInputStream(pack(mapOf("a" to ByteArray(10)))), 5)
         }
+        assertNothingInstalled()
     }
 
     @Test
@@ -121,7 +213,49 @@ class PackStoreTest {
         assertNull(store.open("translate-en-es"))
     }
 
+    // ---- re-checking installed packs ----------------------------------------------
+
+    @Test
+    fun checkPassesForAnIntactPack() {
+        val store = PackStore(root, listOf(keys.public))
+        store.install(ByteArrayInputStream(pack(mapOf("a.bin" to byteArrayOf(1, 2), "m/b.bin" to byteArrayOf(3)))))
+        val check = store.check("translate-en-es")!!
+        assertTrue(check.ok)
+        assertEquals(0, check.missingFiles)
+        assertEquals(0, check.damagedFiles)
+    }
+
+    @Test
+    fun checkCountsDamagedAndMissingFiles() {
+        val store = PackStore(root, listOf(keys.public))
+        val p = store.install(ByteArrayInputStream(pack(mapOf("a.bin" to byteArrayOf(1, 2), "b.bin" to byteArrayOf(3, 4)))))
+        File(p.dir, "a.bin").writeBytes(byteArrayOf(9, 9)) // same size, different content
+        File(p.dir, "b.bin").delete()
+        val check = store.check("translate-en-es")!!
+        assertFalse(check.ok)
+        assertTrue(check.manifestOk)
+        assertEquals(1, check.damagedFiles)
+        assertEquals(1, check.missingFiles)
+    }
+
+    @Test
+    fun checkReportsAnEditedManifestAndUnknownIds() {
+        val store = PackStore(root, listOf(keys.public))
+        val p = store.install(ByteArrayInputStream(pack(mapOf("a.bin" to byteArrayOf(1)))))
+        File(p.dir, PackStore.MANIFEST).appendText(" ")
+        val check = store.check("translate-en-es")!!
+        assertFalse(check.manifestOk)
+        assertFalse(check.ok)
+        assertNull(store.check("no-such-pack"))
+        assertNull(store.check("../escape"))
+        assertEquals(listOf("translate-en-es"), store.checkAll().map { it.id })
+    }
+
     // ---- helpers -------------------------------------------------------------------
+
+    private fun assertNothingInstalled() {
+        assertTrue("staging or installed files were left behind", root.listFiles()!!.isEmpty())
+    }
 
     private fun expect(code: String, block: () -> Unit) {
         try {
@@ -143,9 +277,22 @@ class PackStoreTest {
         val list = files.entries.joinToString(",") { (path, data) ->
             """{"path":"$path","size":${data.size},"sha256":"${sha256(data)}"}"""
         }
-        val manifest = ("""{"id":"$id","kind":"$kind","name":"English → Spanish",""" +
-            """"version":$version,"languages":$languages,"engine":"test","license":"CC0-1.0","files":[$list]}""")
-            .toByteArray()
+        val manifest = manifestJson(files = list, version = version, id = id, kind = kind, languages = languages)
+        return packRaw(manifest, files.values.toList(), signer)
+    }
+
+    private fun manifestJson(
+        files: String,
+        version: Int = 1,
+        id: String = "translate-en-es",
+        kind: String = "translation",
+        languages: String = """["en","es"]""",
+    ): ByteArray = ("""{"id":"$id","kind":"$kind","name":"English → Spanish",""" +
+        """"version":$version,"languages":$languages,"engine":"test","license":"CC0-1.0","files":[$files]}""")
+        .toByteArray()
+
+    /** A `.koshapack` whose manifest and bodies are given as they are, signed by [signer]. */
+    private fun packRaw(manifest: ByteArray, bodies: List<ByteArray>, signer: KeyPair = keys): ByteArray {
         val sig = Signature.getInstance("SHA256withECDSA").run {
             initSign(signer.private)
             update(manifest)
@@ -159,7 +306,7 @@ class PackStoreTest {
             write(manifest)
             writeInt(sig.size)
             write(sig)
-            files.values.forEach { write(it) }
+            bodies.forEach { write(it) }
         }
         return out.toByteArray()
     }
