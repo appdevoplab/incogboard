@@ -98,3 +98,13 @@ Briefs: `docs/waves/wave4/*.md`. Everything not listed belongs to the orchestrat
 | E, brand | launcher and splash resources in `android/app/src/main/res/` (`mipmap-*`, `mipmap-anydpi-v26`, splash drawables and styles, `values-v31`), `lib/src/app/onboarding/kosha_mascot.dart`, brand colours in `lib/src/theme/presets.dart` and `lib/src/app/shell/kosha_theme.dart`, `assets/brand/**`, `docs/brand/**`, `tool/brand/**`, tests named in the brief | none | Treasure-chest adaptive and themed icon, splash, chest poses, store graphics |
 
 Merge order: E, D, A, B, C.
+
+## Wave 5 ownership
+
+Briefs: `docs/waves/wave5/*.md`. Everything not listed belongs to the orchestrator. Merge order: A, C, B.
+
+| Agent | Owns | Delivers |
+|---|---|---|
+| A, security audit | `docs/security/**`, `SECURITY.md`, `.github/workflows/**` except `release.yml`, `.github/dependabot.yml`, `tool/audit/**`, `tool/check_release_permissions.sh`, `docs/brand/trademark-check.md`, `test/security/**` | Threat model, code review findings (patches for files it does not own), licence and dependency audit, hardened CI, trademark check of "Kosha" |
+| B, release engineering | `android/app/build.gradle.kts`, `android/gradle.properties`, repository lines of `android/settings.gradle.kts`, `android/app/src/play/**` and `src/foss/**` (C adds files only where its brief says), `.github/workflows/release.yml`, `tool/release/**`, `fastlane/**`, `metadata/**`, `docs/release/**` (except `asset-packs.md`), `.gitignore` signing entries, `test/release/**` | `play` and `foss` flavours, signing config, key generation script, reproducible build check, privacy policy, Data safety answers, store texts, F-Droid recipe, developer-verification notes |
+| C, data packs | `android/.../packs/**`, `android/asset_packs/**`, `lib/src/packs/**`, `lib/src/app/packs/**` (plus its new ARB keys), `tool/make_pack.dart`, `tool/packs/**`, `docs/packs/**`, `docs/release/asset-packs.md`, `docs/notices/indic_extra.md`, `test/packs/**` | Pack key rotation, FOSS import experience, Play on-demand asset packs (patches for B's Gradle files), extra data packs |
