@@ -2905,5 +2905,149 @@
   "@privacyRemoveAppTooltip": {
     "description": "Privacy center: button to remove an app from the list. {app} is an app name. Max 60 characters",
     "x-review": true
+  },
+  "chineseTitle": "चीनी",
+  "@chineseTitle": {
+    "x-review": true
+  },
+  "chineseTraditional": "पारंपरिक अक्षर",
+  "@chineseTraditional": {
+    "x-review": true
+  },
+  "chineseTraditionalBody": "उम्मीदवार पारंपरिक अक्षरों में दिखाएँ (ताइवान मानक)।",
+  "@chineseTraditionalBody": {
+    "x-review": true
+  },
+  "chineseFuzzy": "अनुमानित पिनयिन",
+  "@chineseFuzzy": {
+    "x-review": true
+  },
+  "chineseFuzzyBody": "z और zh, c और ch, s और sh, n और l, an और ang, en और eng, in और ing भी स्वीकार करें।",
+  "@chineseFuzzyBody": {
+    "x-review": true
+  },
+  "cjkDictionary": "शब्दकोश",
+  "@cjkDictionary": {
+    "x-review": true
+  },
+  "chineseClearPhrases": "सीखे गए वाक्यांश मिटाएँ",
+  "@chineseClearPhrases": {
+    "x-review": true
+  },
+  "chineseClearPhrasesBody": "आपके चुने शब्द भूल जाएगा। शब्दकोश बना रहेगा।",
+  "@chineseClearPhrasesBody": {
+    "x-review": true
+  },
+  "chineseFooter": "चीनी इसी फ़ोन पर टाइप होती है। सीखे गए वाक्यांश एन्क्रिप्टेड हैं और फ़ोन से बाहर नहीं जाते।",
+  "@chineseFooter": {
+    "x-review": true
+  },
+  "chineseClearTitle": "सीखे गए वाक्यांश मिटाएँ?",
+  "@chineseClearTitle": {
+    "x-review": true
+  },
+  "chineseClearBody": "चीनी के लिए आपके चुने शब्द हटा दिए जाएँगे। इसे पूर्ववत नहीं किया जा सकता।",
+  "@chineseClearBody": {
+    "x-review": true
+  },
+  "cjkClear": "मिटाएँ",
+  "@cjkClear": {
+    "x-review": true
+  },
+  "chinesePhrasesCleared": "सीखे गए वाक्यांश मिटा दिए गए",
+  "@chinesePhrasesCleared": {
+    "x-review": true
+  },
+  "chineseLooking": "शब्दकोश खोजा जा रहा है",
+  "@chineseLooking": {
+    "x-review": true
+  },
+  "chineseDictName": "चीनी शब्दकोश",
+  "@chineseDictName": {
+    "x-review": true
+  },
+  "chinesePackMissing": "इंस्टॉल नहीं है। चीनी टाइपिंग को इसकी ज़रूरत है; इसे मॉडल पैक में इंस्टॉल करें।",
+  "@chinesePackMissing": {
+    "x-review": true
+  },
+  "chinesePackInstalled": "इंस्टॉल है। {license}",
+  "@chinesePackInstalled": {
+    "x-review": true
+  },
+  "japaneseTitle": "जापानी",
+  "@japaneseTitle": {
+    "x-review": true
+  },
+  "japaneseLayout": "लेआउट",
+  "@japaneseLayout": {
+    "x-review": true
+  },
+  "japaneseLayout12": "12-कुंजी (फ़्लिक)",
+  "@japaneseLayout12": {
+    "x-review": true
+  },
+  "japaneseLayoutRomaji": "रोमाजी (QWERTY)",
+  "@japaneseLayoutRomaji": {
+    "x-review": true
+  },
+  "japaneseTyping": "टाइपिंग",
+  "@japaneseTyping": {
+    "x-review": true
+  },
+  "japaneseFlickOnly": "केवल फ़्लिक",
+  "@japaneseFlickOnly": {
+    "x-review": true
+  },
+  "japaneseFlickOnlyBody": "मल्टी-टैप नहीं: あ को दो बार टैप करने पर ああ लिखा जाता है, い नहीं",
+  "@japaneseFlickOnlyBody": {
+    "x-review": true
+  },
+  "japaneseHalfWidth": "आधी चौड़ाई का स्पेस",
+  "@japaneseHalfWidth": {
+    "x-review": true
+  },
+  "japaneseHalfWidthBody": "कुछ टाइप न हो रहा हो तो स्पेस सामान्य स्पेस लिखता है। बंद होने पर पूरी चौड़ाई का स्पेस लिखता है।",
+  "@japaneseHalfWidthBody": {
+    "x-review": true
+  },
+  "japaneseDictPack": "शब्दकोश पैक",
+  "@japaneseDictPack": {
+    "x-review": true
+  },
+  "japaneseChecking": "जाँच हो रही है...",
+  "@japaneseChecking": {
+    "x-review": true
+  },
+  "japaneseInstalled": "{name} इंस्टॉल है। कांजी रूपांतरण चालू है।",
+  "@japaneseInstalled": {
+    "x-review": true
+  },
+  "japaneseNotInstalled": "इंस्टॉल नहीं है। काना फिर भी टाइप होता है; कांजी के लिए पैक चाहिए।",
+  "@japaneseNotInstalled": {
+    "x-review": true
+  },
+  "japaneseClearWords": "सीखे गए शब्द मिटाएँ",
+  "@japaneseClearWords": {
+    "x-review": true
+  },
+  "japaneseClearWordsBody": "आपके चुने जापानी शब्द भूल जाएगा। इस फ़ोन पर एन्क्रिप्टेड रूप में संग्रहीत।",
+  "@japaneseClearWordsBody": {
+    "x-review": true
+  },
+  "japaneseClearTitle": "सीखे गए जापानी शब्द मिटाएँ?",
+  "@japaneseClearTitle": {
+    "x-review": true
+  },
+  "japaneseClearBody": "आपके चुने सभी जापानी शब्द मिटा दिए जाएँगे। इसे पूर्ववत नहीं किया जा सकता।",
+  "@japaneseClearBody": {
+    "x-review": true
+  },
+  "privacyStoredChinesePhrases": "चीनी वाक्यांश",
+  "@privacyStoredChinesePhrases": {
+    "x-review": true
+  },
+  "privacyStoredJapaneseWords": "जापानी शब्द",
+  "@privacyStoredJapaneseWords": {
+    "x-review": true
   }
 }

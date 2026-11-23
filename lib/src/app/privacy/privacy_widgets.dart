@@ -14,7 +14,8 @@ class PrivacyMascotSlot extends StatelessWidget {
   final double size;
 
   @override
-  Widget build(BuildContext context) => KoshaMascot(size: size, label: context.l10n.privacyMascotLabel, pose: KoshaPose.locked);
+  Widget build(BuildContext context) =>
+      KoshaMascot(size: size, label: context.l10n.privacyMascotLabel, pose: KoshaPose.locked);
 }
 
 /// A status card: a green card for good news, an error card for problems, neutral otherwise.

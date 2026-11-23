@@ -1073,5 +1073,149 @@
   "packsCouldNotRead": "Kosha konnte seine Pakete nicht lesen",
   "packsDeleteTooltip": "{name} löschen",
   "privacyNothingStored": "Noch nichts gespeichert",
-  "privacyRemoveAppTooltip": "{app} aus der Liste entfernen"
+  "privacyRemoveAppTooltip": "{app} aus der Liste entfernen",
+  "chineseTitle": "Chinesisch",
+  "@chineseTitle": {
+    "x-review": true
+  },
+  "chineseTraditional": "Traditionelle Schriftzeichen",
+  "@chineseTraditional": {
+    "x-review": true
+  },
+  "chineseTraditionalBody": "Kandidaten in traditionellen Schriftzeichen anzeigen (Taiwan-Standard).",
+  "@chineseTraditionalBody": {
+    "x-review": true
+  },
+  "chineseFuzzy": "Unscharfes Pinyin",
+  "@chineseFuzzy": {
+    "x-review": true
+  },
+  "chineseFuzzyBody": "Akzeptiert auch z und zh, c und ch, s und sh, n und l, an und ang, en und eng, in und ing.",
+  "@chineseFuzzyBody": {
+    "x-review": true
+  },
+  "cjkDictionary": "Wörterbuch",
+  "@cjkDictionary": {
+    "x-review": true
+  },
+  "chineseClearPhrases": "Gelernte Wendungen löschen",
+  "@chineseClearPhrases": {
+    "x-review": true
+  },
+  "chineseClearPhrasesBody": "Vergisst die gewählten Wörter. Das Wörterbuch bleibt.",
+  "@chineseClearPhrasesBody": {
+    "x-review": true
+  },
+  "chineseFooter": "Chinesisch wird auf diesem Telefon eingegeben. Gelernte Wendungen sind verschlüsselt und verlassen es nie.",
+  "@chineseFooter": {
+    "x-review": true
+  },
+  "chineseClearTitle": "Gelernte Wendungen löschen?",
+  "@chineseClearTitle": {
+    "x-review": true
+  },
+  "chineseClearBody": "Die für Chinesisch gewählten Wörter werden entfernt. Das lässt sich nicht rückgängig machen.",
+  "@chineseClearBody": {
+    "x-review": true
+  },
+  "cjkClear": "Löschen",
+  "@cjkClear": {
+    "x-review": true
+  },
+  "chinesePhrasesCleared": "Gelernte Wendungen gelöscht",
+  "@chinesePhrasesCleared": {
+    "x-review": true
+  },
+  "chineseLooking": "Wörterbuch wird gesucht",
+  "@chineseLooking": {
+    "x-review": true
+  },
+  "chineseDictName": "Chinesisches Wörterbuch",
+  "@chineseDictName": {
+    "x-review": true
+  },
+  "chinesePackMissing": "Nicht installiert. Die chinesische Eingabe braucht es; installiere es unter Modellpakete.",
+  "@chinesePackMissing": {
+    "x-review": true
+  },
+  "chinesePackInstalled": "Installiert. {license}",
+  "@chinesePackInstalled": {
+    "x-review": true
+  },
+  "japaneseTitle": "Japanisch",
+  "@japaneseTitle": {
+    "x-review": true
+  },
+  "japaneseLayout": "Layout",
+  "@japaneseLayout": {
+    "x-review": true
+  },
+  "japaneseLayout12": "12 Tasten (Wischen)",
+  "@japaneseLayout12": {
+    "x-review": true
+  },
+  "japaneseLayoutRomaji": "Romaji (QWERTY)",
+  "@japaneseLayoutRomaji": {
+    "x-review": true
+  },
+  "japaneseTyping": "Eingabe",
+  "@japaneseTyping": {
+    "x-review": true
+  },
+  "japaneseFlickOnly": "Nur Wischen",
+  "@japaneseFlickOnly": {
+    "x-review": true
+  },
+  "japaneseFlickOnlyBody": "Kein Mehrfachtippen: zweimal あ tippen ergibt ああ, nicht い",
+  "@japaneseFlickOnlyBody": {
+    "x-review": true
+  },
+  "japaneseHalfWidth": "Halbbreites Leerzeichen",
+  "@japaneseHalfWidth": {
+    "x-review": true
+  },
+  "japaneseHalfWidthBody": "Die Leertaste gibt ein normales Leerzeichen, wenn nichts eingegeben wird. Aus gibt ein vollbreites Leerzeichen.",
+  "@japaneseHalfWidthBody": {
+    "x-review": true
+  },
+  "japaneseDictPack": "Wörterbuchpaket",
+  "@japaneseDictPack": {
+    "x-review": true
+  },
+  "japaneseChecking": "Wird geprüft...",
+  "@japaneseChecking": {
+    "x-review": true
+  },
+  "japaneseInstalled": "{name} ist installiert. Kanji-Umwandlung ist aktiv.",
+  "@japaneseInstalled": {
+    "x-review": true
+  },
+  "japaneseNotInstalled": "Nicht installiert. Kana lassen sich weiter tippen; Kanji brauchen das Paket.",
+  "@japaneseNotInstalled": {
+    "x-review": true
+  },
+  "japaneseClearWords": "Gelernte Wörter löschen",
+  "@japaneseClearWords": {
+    "x-review": true
+  },
+  "japaneseClearWordsBody": "Vergisst die gewählten japanischen Wörter. Verschlüsselt auf diesem Telefon gespeichert.",
+  "@japaneseClearWordsBody": {
+    "x-review": true
+  },
+  "japaneseClearTitle": "Gelernte japanische Wörter löschen?",
+  "@japaneseClearTitle": {
+    "x-review": true
+  },
+  "japaneseClearBody": "Alle gewählten japanischen Wörter werden gelöscht. Das lässt sich nicht rückgängig machen.",
+  "@japaneseClearBody": {
+    "x-review": true
+  },
+  "privacyStoredChinesePhrases": "Chinesische Wendungen",
+  "@privacyStoredChinesePhrases": {
+    "x-review": true
+  },
+  "privacyStoredJapaneseWords": "Japanische Wörter",
+  "@privacyStoredJapaneseWords": {
+    "x-review": true
+  }
 }

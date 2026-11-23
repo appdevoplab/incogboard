@@ -1074,5 +1074,149 @@
   "packsCouldNotRead": "Kosha tidak dapat membaca paketnya",
   "packsDeleteTooltip": "Hapus {name}",
   "privacyNothingStored": "Belum ada yang disimpan",
-  "privacyRemoveAppTooltip": "Hapus {app} dari daftar"
+  "privacyRemoveAppTooltip": "Hapus {app} dari daftar",
+  "chineseTitle": "Mandarin",
+  "@chineseTitle": {
+    "x-review": true
+  },
+  "chineseTraditional": "Aksara tradisional",
+  "@chineseTraditional": {
+    "x-review": true
+  },
+  "chineseTraditionalBody": "Tampilkan kandidat dalam aksara tradisional (standar Taiwan).",
+  "@chineseTraditionalBody": {
+    "x-review": true
+  },
+  "chineseFuzzy": "Pinyin longgar",
+  "@chineseFuzzy": {
+    "x-review": true
+  },
+  "chineseFuzzyBody": "Juga menerima z dan zh, c dan ch, s dan sh, n dan l, an dan ang, en dan eng, in dan ing.",
+  "@chineseFuzzyBody": {
+    "x-review": true
+  },
+  "cjkDictionary": "Kamus",
+  "@cjkDictionary": {
+    "x-review": true
+  },
+  "chineseClearPhrases": "Hapus frasa yang dipelajari",
+  "@chineseClearPhrases": {
+    "x-review": true
+  },
+  "chineseClearPhrasesBody": "Melupakan kata yang Anda pilih. Kamus tetap ada.",
+  "@chineseClearPhrasesBody": {
+    "x-review": true
+  },
+  "chineseFooter": "Bahasa Mandarin diketik di ponsel ini. Frasa yang dipelajari dienkripsi dan tidak pernah keluar dari ponsel.",
+  "@chineseFooter": {
+    "x-review": true
+  },
+  "chineseClearTitle": "Hapus frasa yang dipelajari?",
+  "@chineseClearTitle": {
+    "x-review": true
+  },
+  "chineseClearBody": "Kata yang Anda pilih untuk bahasa Mandarin dihapus. Tindakan ini tidak dapat dibatalkan.",
+  "@chineseClearBody": {
+    "x-review": true
+  },
+  "cjkClear": "Hapus",
+  "@cjkClear": {
+    "x-review": true
+  },
+  "chinesePhrasesCleared": "Frasa yang dipelajari dihapus",
+  "@chinesePhrasesCleared": {
+    "x-review": true
+  },
+  "chineseLooking": "Mencari kamus",
+  "@chineseLooking": {
+    "x-review": true
+  },
+  "chineseDictName": "Kamus Mandarin",
+  "@chineseDictName": {
+    "x-review": true
+  },
+  "chinesePackMissing": "Belum dipasang. Mengetik Mandarin memerlukannya; pasang di Paket model.",
+  "@chinesePackMissing": {
+    "x-review": true
+  },
+  "chinesePackInstalled": "Terpasang. {license}",
+  "@chinesePackInstalled": {
+    "x-review": true
+  },
+  "japaneseTitle": "Jepang",
+  "@japaneseTitle": {
+    "x-review": true
+  },
+  "japaneseLayout": "Tata letak",
+  "@japaneseLayout": {
+    "x-review": true
+  },
+  "japaneseLayout12": "12 tombol (geser)",
+  "@japaneseLayout12": {
+    "x-review": true
+  },
+  "japaneseLayoutRomaji": "Romaji (QWERTY)",
+  "@japaneseLayoutRomaji": {
+    "x-review": true
+  },
+  "japaneseTyping": "Mengetik",
+  "@japaneseTyping": {
+    "x-review": true
+  },
+  "japaneseFlickOnly": "Hanya geser",
+  "@japaneseFlickOnly": {
+    "x-review": true
+  },
+  "japaneseFlickOnlyBody": "Tanpa ketuk berulang: mengetuk あ dua kali mengetik ああ, bukan い",
+  "@japaneseFlickOnlyBody": {
+    "x-review": true
+  },
+  "japaneseHalfWidth": "Spasi lebar normal",
+  "@japaneseHalfWidth": {
+    "x-review": true
+  },
+  "japaneseHalfWidthBody": "Spasi mengetik spasi biasa saat tidak ada yang sedang diketik. Jika mati, mengetik spasi lebar penuh.",
+  "@japaneseHalfWidthBody": {
+    "x-review": true
+  },
+  "japaneseDictPack": "Paket kamus",
+  "@japaneseDictPack": {
+    "x-review": true
+  },
+  "japaneseChecking": "Memeriksa...",
+  "@japaneseChecking": {
+    "x-review": true
+  },
+  "japaneseInstalled": "{name} terpasang. Konversi kanji aktif.",
+  "@japaneseInstalled": {
+    "x-review": true
+  },
+  "japaneseNotInstalled": "Belum dipasang. Kana tetap bisa diketik; kanji memerlukan paket.",
+  "@japaneseNotInstalled": {
+    "x-review": true
+  },
+  "japaneseClearWords": "Hapus kata yang dipelajari",
+  "@japaneseClearWords": {
+    "x-review": true
+  },
+  "japaneseClearWordsBody": "Melupakan kata Jepang yang Anda pilih. Disimpan terenkripsi di ponsel ini.",
+  "@japaneseClearWordsBody": {
+    "x-review": true
+  },
+  "japaneseClearTitle": "Hapus kata Jepang yang dipelajari?",
+  "@japaneseClearTitle": {
+    "x-review": true
+  },
+  "japaneseClearBody": "Semua kata Jepang yang Anda pilih dihapus. Tindakan ini tidak dapat dibatalkan.",
+  "@japaneseClearBody": {
+    "x-review": true
+  },
+  "privacyStoredChinesePhrases": "Frasa Mandarin",
+  "@privacyStoredChinesePhrases": {
+    "x-review": true
+  },
+  "privacyStoredJapaneseWords": "Kata Jepang",
+  "@privacyStoredJapaneseWords": {
+    "x-review": true
+  }
 }

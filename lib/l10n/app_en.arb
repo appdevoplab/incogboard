@@ -2805,5 +2805,159 @@
         "type": "String"
       }
     }
+  },
+  "chineseTitle": "Chinese",
+  "@chineseTitle": {
+    "description": "Chinese/Japanese options screen text"
+  },
+  "chineseTraditional": "Traditional characters",
+  "@chineseTraditional": {
+    "description": "Chinese/Japanese options screen text"
+  },
+  "chineseTraditionalBody": "Show candidates in Traditional characters (Taiwan standard).",
+  "@chineseTraditionalBody": {
+    "description": "Chinese/Japanese options screen text"
+  },
+  "chineseFuzzy": "Fuzzy pinyin",
+  "@chineseFuzzy": {
+    "description": "Chinese/Japanese options screen text"
+  },
+  "chineseFuzzyBody": "Also accept z and zh, c and ch, s and sh, n and l, an and ang, en and eng, in and ing.",
+  "@chineseFuzzyBody": {
+    "description": "Chinese/Japanese options screen text"
+  },
+  "cjkDictionary": "Dictionary",
+  "@cjkDictionary": {
+    "description": "Chinese/Japanese options screen text"
+  },
+  "chineseClearPhrases": "Clear learned phrases",
+  "@chineseClearPhrases": {
+    "description": "Chinese/Japanese options screen text"
+  },
+  "chineseClearPhrasesBody": "Forget the words you picked. The dictionary stays.",
+  "@chineseClearPhrasesBody": {
+    "description": "Chinese/Japanese options screen text"
+  },
+  "chineseFooter": "Chinese is typed on this phone. Learned phrases are encrypted and never leave it.",
+  "@chineseFooter": {
+    "description": "Chinese/Japanese options screen text"
+  },
+  "chineseClearTitle": "Clear learned phrases?",
+  "@chineseClearTitle": {
+    "description": "Chinese/Japanese options screen text"
+  },
+  "chineseClearBody": "The words you picked for Chinese are removed. This cannot be undone.",
+  "@chineseClearBody": {
+    "description": "Chinese/Japanese options screen text"
+  },
+  "cjkClear": "Clear",
+  "@cjkClear": {
+    "description": "Chinese/Japanese options screen text"
+  },
+  "chinesePhrasesCleared": "Learned phrases cleared",
+  "@chinesePhrasesCleared": {
+    "description": "Chinese/Japanese options screen text"
+  },
+  "chineseLooking": "Looking for the dictionary",
+  "@chineseLooking": {
+    "description": "Chinese/Japanese options screen text"
+  },
+  "chineseDictName": "Chinese dictionary",
+  "@chineseDictName": {
+    "description": "Chinese/Japanese options screen text"
+  },
+  "chinesePackMissing": "Not installed. Chinese typing needs it; install it under Model packs.",
+  "@chinesePackMissing": {
+    "description": "Chinese/Japanese options screen text"
+  },
+  "chinesePackInstalled": "Installed. {license}",
+  "@chinesePackInstalled": {
+    "description": "Chinese/Japanese options screen text",
+    "placeholders": {
+      "license": {
+        "type": "String"
+      }
+    }
+  },
+  "japaneseTitle": "Japanese",
+  "@japaneseTitle": {
+    "description": "Chinese/Japanese options screen text"
+  },
+  "japaneseLayout": "Layout",
+  "@japaneseLayout": {
+    "description": "Chinese/Japanese options screen text"
+  },
+  "japaneseLayout12": "12-key (flick)",
+  "@japaneseLayout12": {
+    "description": "Chinese/Japanese options screen text"
+  },
+  "japaneseLayoutRomaji": "Romaji (QWERTY)",
+  "@japaneseLayoutRomaji": {
+    "description": "Chinese/Japanese options screen text"
+  },
+  "japaneseTyping": "Typing",
+  "@japaneseTyping": {
+    "description": "Chinese/Japanese options screen text"
+  },
+  "japaneseFlickOnly": "Flick only",
+  "@japaneseFlickOnly": {
+    "description": "Chinese/Japanese options screen text"
+  },
+  "japaneseFlickOnlyBody": "No multi-tap: tapping あ twice types ああ, not い",
+  "@japaneseFlickOnlyBody": {
+    "description": "Chinese/Japanese options screen text"
+  },
+  "japaneseHalfWidth": "Half-width space",
+  "@japaneseHalfWidth": {
+    "description": "Chinese/Japanese options screen text"
+  },
+  "japaneseHalfWidthBody": "Space types a normal space when nothing is being typed. Off types a full-width space.",
+  "@japaneseHalfWidthBody": {
+    "description": "Chinese/Japanese options screen text"
+  },
+  "japaneseDictPack": "Dictionary pack",
+  "@japaneseDictPack": {
+    "description": "Chinese/Japanese options screen text"
+  },
+  "japaneseChecking": "Checking...",
+  "@japaneseChecking": {
+    "description": "Chinese/Japanese options screen text"
+  },
+  "japaneseInstalled": "{name} is installed. Kanji conversion is on.",
+  "@japaneseInstalled": {
+    "description": "Chinese/Japanese options screen text",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "japaneseNotInstalled": "Not installed. Kana still types; kanji need the pack.",
+  "@japaneseNotInstalled": {
+    "description": "Chinese/Japanese options screen text"
+  },
+  "japaneseClearWords": "Clear learned words",
+  "@japaneseClearWords": {
+    "description": "Chinese/Japanese options screen text"
+  },
+  "japaneseClearWordsBody": "Forgets the Japanese words you picked. Stored encrypted on this phone.",
+  "@japaneseClearWordsBody": {
+    "description": "Chinese/Japanese options screen text"
+  },
+  "japaneseClearTitle": "Clear learned Japanese words?",
+  "@japaneseClearTitle": {
+    "description": "Chinese/Japanese options screen text"
+  },
+  "japaneseClearBody": "This deletes every Japanese word you picked. It cannot be undone.",
+  "@japaneseClearBody": {
+    "description": "Chinese/Japanese options screen text"
+  },
+  "privacyStoredChinesePhrases": "Chinese phrases",
+  "@privacyStoredChinesePhrases": {
+    "description": "Chinese/Japanese options screen text"
+  },
+  "privacyStoredJapaneseWords": "Japanese words",
+  "@privacyStoredJapaneseWords": {
+    "description": "Chinese/Japanese options screen text"
   }
 }
