@@ -67,8 +67,7 @@ import 'app_localizations_pt.dart';
 /// be consistent with the languages listed in the AppLocalizations.supportedLocales
 /// property.
 abstract class AppLocalizations {
-  AppLocalizations(String locale)
-    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -76,8 +75,7 @@ abstract class AppLocalizations {
     return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
   }
 
-  static const LocalizationsDelegate<AppLocalizations> delegate =
-      _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -89,13 +87,12 @@ abstract class AppLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
-      <LocalizationsDelegate<dynamic>>[
-        delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ];
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
+    delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+  ];
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
@@ -1085,6 +1082,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Chinese and Japanese typing need a dictionary pack.'**
   String get packsNoDictionaryBody;
+
+  /// Packs: heading of the section that explains how to get packs
+  ///
+  /// In en, this message translates to:
+  /// **'Get packs'**
+  String get packsGetTitle;
+
+  /// Packs: first line of the explanation, in a foss build with no store delivery
+  ///
+  /// In en, this message translates to:
+  /// **'Packs are files you add yourself.'**
+  String get packsExplainTitle;
+
+  /// Packs: how to get a pack without the internet on the phone
+  ///
+  /// In en, this message translates to:
+  /// **'Download them from the project\'s release page on another device, copy them to this phone, then import.'**
+  String get packsExplainBody;
+
+  /// Packs: button that copies the release page link to the clipboard
+  ///
+  /// In en, this message translates to:
+  /// **'Copy the release page link'**
+  String get packsCopyLink;
+
+  /// Packs: shown after the link is copied
+  ///
+  /// In en, this message translates to:
+  /// **'Link copied. Open it on another device.'**
+  String get packsLinkCopied;
+
+  /// Packs: heading of the section for packs the Play store delivers
+  ///
+  /// In en, this message translates to:
+  /// **'Get through Google Play'**
+  String get packsPlayTitle;
+
+  /// Packs: note that Google Play downloads the packs and Kosha does not use the network
+  ///
+  /// In en, this message translates to:
+  /// **'Google Play downloads these packs, not Kosha. Kosha itself never uses the network.'**
+  String get packsPlayNote;
+
+  /// Packs: button that asks Google Play for a pack
+  ///
+  /// In en, this message translates to:
+  /// **'Get'**
+  String get packsGet;
+
+  /// Packs: status of a pack that has not been downloaded
+  ///
+  /// In en, this message translates to:
+  /// **'Not downloaded yet'**
+  String get packsStatusNotRequested;
+
+  /// Packs: status while Play waits for Wi-Fi or mobile data
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for Wi-Fi or mobile data'**
+  String get packsStatusWaiting;
+
+  /// Packs: status while Play downloads a pack
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading through Google Play'**
+  String get packsStatusDownloading;
+
+  /// Packs: status while Kosha verifies and installs a pack from Play
+  ///
+  /// In en, this message translates to:
+  /// **'Checking and installing'**
+  String get packsStatusInstalling;
+
+  /// Packs: status when Play could not deliver a pack
+  ///
+  /// In en, this message translates to:
+  /// **'Google Play could not deliver it. Try again.'**
+  String get packsStatusFailed;
+
+  /// Packs: size and status of a pack the store can deliver. Max 60 characters
+  ///
+  /// In en, this message translates to:
+  /// **'{size} · {status}'**
+  String packsOfferMeta(Object size, Object status);
+
+  /// Packs: title of the tile that checks installed packs
+  ///
+  /// In en, this message translates to:
+  /// **'Verify installed packs'**
+  String get packsVerifyTitle;
+
+  /// Packs: what the verify action does
+  ///
+  /// In en, this message translates to:
+  /// **'Checks every file of each installed pack against its signed list. Nothing is changed.'**
+  String get packsVerifyBody;
+
+  /// Packs: result of verifying, all packs intact. Max 90 characters
+  ///
+  /// In en, this message translates to:
+  /// **'{count} installed packs checked. All files match.'**
+  String packsVerifyOk(Object count);
+
+  /// Packs: result of verifying, some packs damaged. Max 120 characters
+  ///
+  /// In en, this message translates to:
+  /// **'{count} installed packs have damaged or missing files. Delete them and import again.'**
+  String packsVerifyDamaged(Object count);
+
+  /// Packs: shown when this build cannot verify packs yet
+  ///
+  /// In en, this message translates to:
+  /// **'Checking installed packs is not available in this version of Kosha.'**
+  String get packsVerifyUnavailable;
+
+  /// Packs: shown when the verify action itself failed
+  ///
+  /// In en, this message translates to:
+  /// **'Kosha could not check the packs. Nothing was changed.'**
+  String get packsVerifyFailed;
+
+  /// Packs: free storage for packs. Max 60 characters
+  ///
+  /// In en, this message translates to:
+  /// **'{size} free on this phone.'**
+  String packsFreeSpace(Object size);
 
   /// Packs: footer when no pack is installed
   ///
@@ -3817,8 +3940,7 @@ abstract class AppLocalizations {
   String get privacyStoredJapaneseWords;
 }
 
-class _AppLocalizationsDelegate
-    extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
@@ -3827,15 +3949,7 @@ class _AppLocalizationsDelegate
   }
 
   @override
-  bool isSupported(Locale locale) => <String>[
-    'de',
-    'en',
-    'es',
-    'fr',
-    'hi',
-    'id',
-    'pt',
-  ].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['de', 'en', 'es', 'fr', 'hi', 'id', 'pt'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;

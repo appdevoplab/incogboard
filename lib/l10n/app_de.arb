@@ -328,6 +328,90 @@
   "@packsNoDictionaryBody": {
     "x-review": true
   },
+  "packsGetTitle": "Pakete beschaffen",
+  "@packsGetTitle": {
+    "x-review": true
+  },
+  "packsExplainTitle": "Pakete sind Dateien, die Sie selbst hinzufügen.",
+  "@packsExplainTitle": {
+    "x-review": true
+  },
+  "packsExplainBody": "Laden Sie sie auf einem anderen Gerät von der Veröffentlichungsseite des Projekts herunter, kopieren Sie sie auf dieses Telefon und importieren Sie sie dann.",
+  "@packsExplainBody": {
+    "x-review": true
+  },
+  "packsCopyLink": "Link zur Veröffentlichungsseite kopieren",
+  "@packsCopyLink": {
+    "x-review": true
+  },
+  "packsLinkCopied": "Link kopiert. Öffnen Sie ihn auf einem anderen Gerät.",
+  "@packsLinkCopied": {
+    "x-review": true
+  },
+  "packsPlayTitle": "Über Google Play beziehen",
+  "@packsPlayTitle": {
+    "x-review": true
+  },
+  "packsPlayNote": "Google Play lädt diese Pakete herunter, nicht Kosha. Kosha selbst nutzt nie das Netzwerk.",
+  "@packsPlayNote": {
+    "x-review": true
+  },
+  "packsGet": "Laden",
+  "@packsGet": {
+    "x-review": true
+  },
+  "packsStatusNotRequested": "Noch nicht heruntergeladen",
+  "@packsStatusNotRequested": {
+    "x-review": true
+  },
+  "packsStatusWaiting": "Warten auf WLAN oder mobile Daten",
+  "@packsStatusWaiting": {
+    "x-review": true
+  },
+  "packsStatusDownloading": "Wird über Google Play heruntergeladen",
+  "@packsStatusDownloading": {
+    "x-review": true
+  },
+  "packsStatusInstalling": "Wird geprüft und installiert",
+  "@packsStatusInstalling": {
+    "x-review": true
+  },
+  "packsStatusFailed": "Google Play konnte es nicht bereitstellen. Versuchen Sie es erneut.",
+  "@packsStatusFailed": {
+    "x-review": true
+  },
+  "packsOfferMeta": "{size} · {status}",
+  "@packsOfferMeta": {
+    "x-review": true
+  },
+  "packsVerifyTitle": "Installierte Pakete prüfen",
+  "@packsVerifyTitle": {
+    "x-review": true
+  },
+  "packsVerifyBody": "Prüft jede Datei jedes installierten Pakets anhand der signierten Liste. Es wird nichts geändert.",
+  "@packsVerifyBody": {
+    "x-review": true
+  },
+  "packsVerifyOk": "{count} installierte Pakete geprüft. Alle Dateien stimmen überein.",
+  "@packsVerifyOk": {
+    "x-review": true
+  },
+  "packsVerifyDamaged": "{count} installierte Pakete haben beschädigte oder fehlende Dateien. Löschen Sie sie und importieren Sie sie erneut.",
+  "@packsVerifyDamaged": {
+    "x-review": true
+  },
+  "packsVerifyUnavailable": "Die Prüfung installierter Pakete ist in dieser Version von Kosha nicht verfügbar.",
+  "@packsVerifyUnavailable": {
+    "x-review": true
+  },
+  "packsVerifyFailed": "Kosha konnte die Pakete nicht prüfen. Es wurde nichts geändert.",
+  "@packsVerifyFailed": {
+    "x-review": true
+  },
+  "packsFreeSpace": "{size} frei auf diesem Telefon.",
+  "@packsFreeSpace": {
+    "x-review": true
+  },
   "packsNothingStored": "Noch nichts gespeichert.",
   "packsInstalledUse": "Installierte Pakete belegen {size} auf diesem Gerät.",
   "packErrorBadSignature": "Dieses Paket ist nicht für Kosha signiert, daher wurde nichts installiert.",

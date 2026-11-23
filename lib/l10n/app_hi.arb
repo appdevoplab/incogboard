@@ -811,6 +811,90 @@
     "description": "Packs: empty state detail. Max 60 characters",
     "x-review": true
   },
+  "packsGetTitle": "पैक प्राप्त करें",
+  "@packsGetTitle": {
+    "x-review": true
+  },
+  "packsExplainTitle": "पैक वे फ़ाइलें हैं जिन्हें आप खुद जोड़ते हैं।",
+  "@packsExplainTitle": {
+    "x-review": true
+  },
+  "packsExplainBody": "इन्हें किसी दूसरे डिवाइस पर प्रोजेक्ट के रिलीज़ पेज से डाउनलोड करें, इस फ़ोन पर कॉपी करें, फिर आयात करें।",
+  "@packsExplainBody": {
+    "x-review": true
+  },
+  "packsCopyLink": "रिलीज़ पेज का लिंक कॉपी करें",
+  "@packsCopyLink": {
+    "x-review": true
+  },
+  "packsLinkCopied": "लिंक कॉपी हो गया। इसे दूसरे डिवाइस पर खोलें।",
+  "@packsLinkCopied": {
+    "x-review": true
+  },
+  "packsPlayTitle": "Google Play से प्राप्त करें",
+  "@packsPlayTitle": {
+    "x-review": true
+  },
+  "packsPlayNote": "ये पैक Google Play डाउनलोड करता है, Kosha नहीं। Kosha खुद कभी नेटवर्क का इस्तेमाल नहीं करता।",
+  "@packsPlayNote": {
+    "x-review": true
+  },
+  "packsGet": "प्राप्त करें",
+  "@packsGet": {
+    "x-review": true
+  },
+  "packsStatusNotRequested": "अभी डाउनलोड नहीं हुआ",
+  "@packsStatusNotRequested": {
+    "x-review": true
+  },
+  "packsStatusWaiting": "Wi-Fi या मोबाइल डेटा का इंतज़ार",
+  "@packsStatusWaiting": {
+    "x-review": true
+  },
+  "packsStatusDownloading": "Google Play से डाउनलोड हो रहा है",
+  "@packsStatusDownloading": {
+    "x-review": true
+  },
+  "packsStatusInstalling": "जाँच और इंस्टॉल हो रहा है",
+  "@packsStatusInstalling": {
+    "x-review": true
+  },
+  "packsStatusFailed": "Google Play इसे पहुँचा नहीं सका। फिर से कोशिश करें।",
+  "@packsStatusFailed": {
+    "x-review": true
+  },
+  "packsOfferMeta": "{size} · {status}",
+  "@packsOfferMeta": {
+    "x-review": true
+  },
+  "packsVerifyTitle": "इंस्टॉल किए गए पैक जाँचें",
+  "@packsVerifyTitle": {
+    "x-review": true
+  },
+  "packsVerifyBody": "हर इंस्टॉल किए गए पैक की हर फ़ाइल को उसकी हस्ताक्षरित सूची से मिलाता है। कुछ नहीं बदला जाता।",
+  "@packsVerifyBody": {
+    "x-review": true
+  },
+  "packsVerifyOk": "{count} इंस्टॉल किए गए पैक जाँचे गए। सभी फ़ाइलें मेल खाती हैं।",
+  "@packsVerifyOk": {
+    "x-review": true
+  },
+  "packsVerifyDamaged": "{count} इंस्टॉल किए गए पैक की फ़ाइलें खराब या गायब हैं। उन्हें हटाकर फिर से आयात करें।",
+  "@packsVerifyDamaged": {
+    "x-review": true
+  },
+  "packsVerifyUnavailable": "Kosha के इस संस्करण में इंस्टॉल किए गए पैक की जाँच उपलब्ध नहीं है।",
+  "@packsVerifyUnavailable": {
+    "x-review": true
+  },
+  "packsVerifyFailed": "Kosha पैक की जाँच नहीं कर सका। कुछ नहीं बदला गया।",
+  "@packsVerifyFailed": {
+    "x-review": true
+  },
+  "packsFreeSpace": "इस फ़ोन पर {size} खाली है।",
+  "@packsFreeSpace": {
+    "x-review": true
+  },
   "packsNothingStored": "अभी कुछ सहेजा नहीं गया है।",
   "@packsNothingStored": {
     "description": "Packs: footer when no pack is installed",
