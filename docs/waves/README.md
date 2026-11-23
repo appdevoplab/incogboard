@@ -104,7 +104,7 @@ Original plan for the wave:
 
 ## Wave 4: CJK, brand and polish (5)
 
-**Status (2026-11-23 morning): mid-merge.** E, D, A, B merged; C (a11y/l10n) unfinished on branch `worktree-agent-a01a391e601d1c4ef`; next steps in `HANDOFF.md`, "Do next". Earlier: setup done: Myna → Kosha rename (`4a3c394`), BIS InScript layouts (`238cbcc`), seams (`f2fd99a`: composer, candidate strip and grid, flick, zh/ja, dictionary packs, l10n). Briefs: `docs/waves/wave4/` (COMMON, A-chinese, B-japanese, C-a11y-l10n, D-perf, E-brand); ownership in `docs/PARALLEL_WORK.md`. User decisions: `HANDOFF.md`, "Wave 4 decisions". Launch all five on Haiku, high effort. **Merge order:** E, D, A, B, C; after merging see `HANDOFF.md`, "Wave 4 setup seams".
+**Status (2026-11-23 afternoon): done.** E, D, A, B, C merged on `main`; checks, emulator smoke test and release gate passed (arm64 80.1 MB); both dictionary packs signed. Details and open items: `HANDOFF.md`. Earlier: setup done: Myna → Kosha rename (`4a3c394`), BIS InScript layouts (`238cbcc`), seams (`f2fd99a`: composer, candidate strip and grid, flick, zh/ja, dictionary packs, l10n). Briefs: `docs/waves/wave4/` (COMMON, A-chinese, B-japanese, C-a11y-l10n, D-perf, E-brand); ownership in `docs/PARALLEL_WORK.md`. User decisions: `HANDOFF.md`, "Wave 4 decisions". Launch all five on Haiku, high effort. **Merge order was** E, D, A, B, C.
 
 - **E (from Wave 3):** brand (name Kosha = "treasury, store of gold"):
   - Adaptive icon (foreground, background, monochrome): a rounded treasure chest whose lock is a keyboard key, gold on Material You colours.
