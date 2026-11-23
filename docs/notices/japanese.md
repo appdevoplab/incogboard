@@ -22,18 +22,15 @@ No table from Mozc or any other source is copied.
 
 ## Golden corpus (test data only)
 
-`test/engine/lang/japanese/golden_ja.tsv` (300 items) is built by `tool/japanese/build_golden.dart` from 38 texts by
-岡本かの子 (Okamoto Kanoko, died 1939) published by Aozora Bunko as ruby (furigana) texts, Aozora cards 1016, 1278,
-1279, 1281-1286, 1288, 1290, 1291, 3207, 4061-4064, 4175, 4178, 4181, 4182, 4184, 4187, 4188, 4190, 4192, 4194,
-4196, 43035, 43084-43086, 43088, 43089, 437, 438, 440, 442 (https://www.aozora.gr.jp/cards/000076/). The ruby
-annotations give the true reading of each base text. Each row keeps the source file name. The corpus is not
-shipped in the app.
+`test/engine/lang/japanese/golden_ja.tsv` (300 items) is built by `tool/japanese/build_golden_tatoeba.py` from the
+Tatoeba Japanese furigana transcriptions (https://downloads.tatoeba.org/exports/transcriptions.tar.bz2, export of
+2026-11-21), licence CC BY 2.0 FR (https://creativecommons.org/licenses/by/2.0/fr/), © Tatoeba contributors. Each
+row keeps its sentence id (`tatoeba:<id>`, https://tatoeba.org/en/sentences/show/<id>). Rows are cut from the
+sentences at punctuation and keep only hiragana and annotated kanji. The corpus is not shipped in the app.
 
-**Licence question for the orchestrator:** the works are public domain in Japan (the author died before the
-copyright term ended), and Aozora Bunko's terms (https://www.aozora.gr.jp/guide/kijyunn.html) allow reuse of the
-texts with credit. The ruby transcriptions are volunteer work under Aozora Bunko's terms, not one of the licences
-listed in COMMON.md. Confirm this fits the data-licence rule before merging, or replace the corpus with one under an
-allowed licence.
+The first corpus (Aozora Bunko ruby texts by 岡本かの子, built by a since-removed `build_golden.dart`) was replaced in the Wave 4
+merge: its pre-war spellings were mostly missing from Mozc, and the ruby transcriptions have no licence from the
+COMMON.md list.
 
 ## Licence texts
 
