@@ -348,6 +348,387 @@ for the ONNX conversions.
 Each model's `source.spm` and shared `vocab.json` come unchanged from the same upstream repository.
 Tokenisation is checked against the sentencepiece library on 102 test sentences (0 mismatches).
 
+## Wave 4: Chinese, Japanese and the ONNX runtime
+
+The Chinese and Japanese dictionaries are signed packs, not part of the APK; each pack carries its own licence texts in a NOTICE.txt.
+
+### Chinese data notices (Wave 4-A)
+
+The Chinese dictionary pack `dict-zh-rime-ice` is built from the sources below by
+`tool/packs/chinese/stage_rime_ice.ps1` and `tool/chinese/build_zh_dict.dart`. The app never bundles
+or downloads the data; the pack is signed and installed like the other model packs.
+
+#### rime-ice (雾凇拼音)
+
+- Source: https://github.com/iDvel/rime-ice, commit `927e1cf1d3eeb9bf4be85e3f684dba4dd485b6f6`
+  (2026-11-11), files `cn_dicts/base.dict.yaml`, `cn_dicts/ext.dict.yaml`, `cn_dicts/8105.dict.yaml`.
+- Licence: GPL-3.0 (compatible with Kosha's GPL-3.0-or-later).
+- Its own base words come from the 华宇野风 system dictionary, THUOCL (Tsinghua), a modern Chinese
+  common word list, and the Tencent word vectors; rime-ice credits these in its header.
+- Used: the word rows of base (weight 1000 and above) and ext (flat weight 100), and the 8105
+  character readings. Derived: the pinyin index, per-source log probabilities, initials.
+- Not used: `tencent.dict.yaml` (no pinyin column, flat weights, and the budget for the pack is
+  600k words), `others.dict.yaml`, and the professional or sentence dictionaries.
+
+#### OpenCC (Simplified to Traditional, Taiwan standard)
+
+- Source: https://github.com/BYVoid/OpenCC, commit `fae2a0a911c30764e669a7d8b0591cd8e852934a`,
+  `data/dictionary/STPhrases.txt`, `STCharacters.txt`, `TWPhrases.txt`, `TWVariants.txt`.
+- Licence: Apache-2.0 (Copyright BYVoid and contributors). The pack does not ship the upstream
+  files: it ships `s2twp.tsv`, a derived table holding the first target of each line in the four
+  files, in the order s2twp uses.
+
+#### Attribution
+
+Chinese word data from rime-ice (GPL-3.0), which carries the 华宇野风, THUOCL, 现代汉语常用词表 and
+Tencent word vector sources; OpenCC conversion tables (Apache-2.0), BYVoid and contributors.
+
+#### Files shipped in the pack
+
+- `zh.kdict` (about 35 MB; 587,641 entries: 578,943 words and 8,698 characters).
+- `s2twp.tsv` (about 0.5 MB).
+
+#### Layout
+
+- `assets/layouts/pinyin_zh.json`: QWERTY letters with Chinese punctuation (no data).
+- Test corpus `test/engine/lang/chinese/golden_zh.txt`: 300 common words (base weight 100000 and
+  above) drawn from rime-ice base by `tool/chinese/build_zh_dict.dart --golden`.
+
+### Japanese notices (Wave 4-B)
+
+#### dict-ja-mozc: the Japanese dictionary pack
+
+- **Source:** Mozc open-source dictionary, `src/data/dictionary_oss/` (dictionary00.txt to dictionary09.txt,
+  connection_single_column.txt, id.def, README.txt), https://github.com/google/mozc
+- **Commit:** `1527a4cd1217cec4611cd4bc8d46f8c66ea79e6a` (master on 2026-11-20). `tool/packs/japanese/stage_mozc.ps1`
+  downloads exactly this commit.
+- **Licence:** BSD-3-Clause for the Mozc code and data (full text below). The dictionary README also carries the
+  IPAdic terms (mecab-ipadic-2.7.0-20070801, NAIST and ICOT; full text below) and the Okinawa dictionary, which
+  is public domain.
+- **Changes made:** the entries are converted into `japanese.lex.gz` (reading trie-like index, surfaces, word ids and
+  costs) and `japanese.conn.gz` (the connection matrix), by `tool/japanese/build_mozc_lexicon.dart`. Readings are
+  folded to hiragana, and entries whose reading has any other character are dropped (3,550 of 1,289,076 lines
+  skipped, including malformed ones). Costs are stored as 16-bit values.
+- **Attribution:** "Japanese dictionary: Mozc open-source dictionary (Google), IPAdic 2.7.0 (NAIST, ICOT), Okinawa dictionary."
+
+#### Romaji table
+
+`lib/src/engine/lang/japanese/romaji.dart` is written for this project from the common Hepburn and Kunrei spellings.
+No table from Mozc or any other source is copied.
+
+#### Golden corpus (test data only)
+
+`test/engine/lang/japanese/golden_ja.tsv` (300 items) is built by `tool/japanese/build_golden_tatoeba.py` from the
+Tatoeba Japanese furigana transcriptions (https://downloads.tatoeba.org/exports/transcriptions.tar.bz2, export of
+2026-11-21), licence CC BY 2.0 FR (https://creativecommons.org/licenses/by/2.0/fr/), © Tatoeba contributors. Each
+row keeps its sentence id (`tatoeba:<id>`, https://tatoeba.org/en/sentences/show/<id>). Rows are cut from the
+sentences at punctuation and keep only hiragana and annotated kanji. The corpus is not shipped in the app.
+
+The first corpus (Aozora Bunko ruby texts by 岡本かの子, built by a since-removed `build_golden.dart`) was replaced in the Wave 4
+merge: its pre-war spellings were mostly missing from Mozc, and the ruby transcriptions have no licence from the
+COMMON.md list.
+
+#### Licence texts
+
+##### Mozc LICENSE (BSD-3-Clause)
+
+```text
+Copyright 2010-2018, Google Inc.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+  * Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+  * Redistributions in binary form must reproduce the above
+    copyright notice, this list of conditions and the following disclaimer
+    in the documentation and/or other materials provided with the
+    distribution.
+  * Neither the name of Google Inc. nor the names of its
+    contributors may be used to endorse or promote products derived from
+    this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+---
+
+Files: src/data/dictionary*
+
+Copyright 2000, 2001, 2002, 2003 Nara Institute of Science
+and Technology.  All Rights Reserved.
+
+Use, reproduction, and distribution of this software is permitted.
+Any copy of this software, whether in its original form or modified,
+must include both the above copyright notice and the following
+paragraphs.
+
+Nara Institute of Science and Technology (NAIST),
+the copyright holders, disclaims all warranties with regard to this
+software, including all implied warranties of merchantability and
+fitness, in no event shall NAIST be liable for
+any special, indirect or consequential damages or any damages
+whatsoever resulting from loss of use, data or profits, whether in an
+action of contract, negligence or other tortuous action, arising out
+of or in connection with the use or performance of this software.
+
+A large portion of the dictionary entries
+originate from ICOT Free Software.  The following conditions for ICOT
+Free Software applies to the current dictionary as well.
+
+Each User may also freely distribute the Program, whether in its
+original form or modified, to any third party or parties, PROVIDED
+that the provisions of Section 3 ("NO WARRANTY") will ALWAYS appear
+on, or be attached to, the Program, which is distributed substantially
+in the same form as set out herein and that such intended
+distribution, if actually made, will neither violate or otherwise
+contravene any of the laws and regulations of the countries having
+jurisdiction over the User or the intended distribution itself.
+
+NO WARRANTY
+
+The program was produced on an experimental basis in the course of the
+research and development conducted during the project and is provided
+to users as so produced on an experimental basis.  Accordingly, the
+program is provided without any warranty whatsoever, whether express,
+implied, statutory or otherwise.  The term "warranty" used herein
+includes, but is not limited to, any warranty of the quality,
+performance, merchantability and fitness for a particular purpose of
+the program and the nonexistence of any infringement or violation of
+any right of any third party.
+
+Each user of the program will agree and understand, and be deemed to
+have agreed and understood, that there is no warranty whatsoever for
+the program and, accordingly, the entire risk arising from or
+otherwise connected with the program is assumed by the user.
+
+Therefore, neither ICOT, the copyright holder, or any other
+organization that participated in or was otherwise related to the
+development of the program and their respective officials, directors,
+officers and other employees shall be held liable for any and all
+damages, including, without limitation, general, special, incidental
+and consequential damages, arising out of or otherwise in connection
+with the use or inability to use the program or any product, material
+or result produced or otherwise obtained by using the program,
+regardless of whether they have been advised of, or otherwise had
+knowledge of, the possibility of such damages at any time during the
+project or thereafter.  Each user will be deemed to have agreed to the
+foregoing by his or her commencement of use of the program.  The term
+"use" as used herein includes, but is not limited to, the use,
+modification, copying and distribution of the program and the
+production of secondary products from the program.
+
+In the case where the program, whether in its original form or
+modified, was distributed or delivered to or received by a user from
+any person, organization or entity other than ICOT, unless it makes or
+grants independently of ICOT any specific warranty to the user in
+writing, such person, organization or entity, will also be exempted
+from and not be held liable to the user for any such damages as noted
+above as far as the program is concerned.
+
+---
+
+Files: src/data/dictionary*
+
+Public Domain Dataです。使用・変更・配布に関しては一切の制限をつけません。
+商品などに組み込むことも自由に行なってください。すでにいくつかの辞書には沖縄辞書が採用されています。
+勝手ながら、沖縄辞書に寄贈された辞書も in the Public Domain' 扱いとさせていただきます。
+```
+
+##### dictionary_oss README (IPAdic and Okinawa dictionary terms)
+
+```text
+Open source mozc dictionary is different from the dictionary
+used for Google Japanese Input. The differences are as follows:
+
+- Large vocabulary set generated from the Web corpus is not included.
+- The vocabulary set is basically the same as that of IPAdic.
+  The licenses of IPAdic is found below.
+  Here's the version of IPAdic Mozc uses.
+  * mecab-ipadic-2.7.0-20070801 (ipadic-2.7.0)
+- Okinawa Dictionary is used to enrich named entities.
+  http://sourceforge.jp/projects/o-dic/
+  The license of Okinawa dictionary is found below.
+- Google manually added some extra adjective/verbs which are not in IPAdic.
+- Many Katakana words are included in the dictionary. They are collected as unknown words
+  during the text processing over the Web data.
+- To improve the conversion quality of Mozc, several compound words
+  (like 社員証, 再起動) are added. We basically collected these compounds from the Web
+  by using MeCab and IPAdic.
+- Open source version doesn't include Japanese postal code dictionary.
+
+You can add zip code dictionary by follows:
+1. Download zip code data from http://www.post.japanpost.jp/zipcode/download.html
+2. Extract them
+3. Update zip_code_seed.tsv by
+  PYTHONPATH="${PYTHONPATH}:../../"  \
+    python ../../dictionary/gen_zip_code_seed.py \
+    --zip_code=KEN_ALL.CSV --jigyosyo=JIGYOSYO.CSV >> dictionary09.txt
+
+
+-------------------------------------------------------------------------------
+IPAdic is licensed as follows:
+
+Copyright 2000, 2001, 2002, 2003 Nara Institute of Science
+and Technology.  All Rights Reserved.
+
+Use, reproduction, and distribution of this software is permitted.
+Any copy of this software, whether in its original form or modified,
+must include both the above copyright notice and the following
+paragraphs.
+
+Nara Institute of Science and Technology (NAIST),
+the copyright holders, disclaims all warranties with regard to this
+software, including all implied warranties of merchantability and
+fitness, in no event shall NAIST be liable for
+any special, indirect or consequential damages or any damages
+whatsoever resulting from loss of use, data or profits, whether in an
+action of contract, negligence or other tortuous action, arising out
+of or in connection with the use or performance of this software.
+
+A large portion of the dictionary entries
+originate from ICOT Free Software.  The following conditions for ICOT
+Free Software applies to the current dictionary as well.
+
+Each User may also freely distribute the Program, whether in its
+original form or modified, to any third party or parties, PROVIDED
+that the provisions of Section 3 ("NO WARRANTY") will ALWAYS appear
+on, or be attached to, the Program, which is distributed substantially
+in the same form as set out herein and that such intended
+distribution, if actually made, will neither violate or otherwise
+contravene any of the laws and regulations of the countries having
+jurisdiction over the User or the intended distribution itself.
+
+NO WARRANTY
+
+The program was produced on an experimental basis in the course of the
+research and development conducted during the project and is provided
+to users as so produced on an experimental basis.  Accordingly, the
+program is provided without any warranty whatsoever, whether express,
+implied, statutory or otherwise.  The term "warranty" used herein
+includes, but is not limited to, any warranty of the quality,
+performance, merchantability and fitness for a particular purpose of
+the program and the nonexistence of any infringement or violation of
+any right of any third party.
+
+Each user of the program will agree and understand, and be deemed to
+have agreed and understood, that there is no warranty whatsoever for
+the program and, accordingly, the entire risk arising from or
+otherwise connected with the program is assumed by the user.
+
+Therefore, neither ICOT, the copyright holder, or any other
+organization that participated in or was otherwise related to the
+development of the program and their respective officials, directors,
+officers and other employees shall be held liable for any and all
+damages, including, without limitation, general, special, incidental
+and consequential damages, arising out of or otherwise in connection
+with the use or inability to use the program or any product, material
+or result produced or otherwise obtained by using the program,
+regardless of whether they have been advised of, or otherwise had
+knowledge of, the possibility of such damages at any time during the
+project or thereafter.  Each user will be deemed to have agreed to the
+foregoing by his or her commencement of use of the program.  The term
+"use" as used herein includes, but is not limited to, the use,
+modification, copying and distribution of the program and the
+production of secondary products from the program.
+
+In the case where the program, whether in its original form or
+modified, was distributed or delivered to or received by a user from
+any person, organization or entity other than ICOT, unless it makes or
+grants independently of ICOT any specific warranty to the user in
+writing, such person, organization or entity, will also be exempted
+from and not be held liable to the user for any such damages as noted
+above as far as the program is concerned.
+
+-------------------------------------------------------------------------------
+Okinawa dictionary is licensed as follows
+
+Public Domain Dataです。使用・変更・配布に関しては一切の制限をつけません。
+商品などに組み込むことも自由に行なってください。すでにいくつかの辞書には沖縄辞書が採用されています。
+勝手ながら、沖縄辞書に寄贈された辞書も in the Public Domain' 扱いとさせていただきます。
+```
+
+### ONNX Runtime: licence, version, build and status
+
+Owner: Wave 4-D. Kosha runs ONNX models through sherpa-onnx (voice) and the `ai.onnxruntime` Java API
+(translation). The runtime is pinned to 1.28.0; 1.29 and later ship HTTP telemetry and the INTERNET
+permission, so they are not used.
+
+#### Licence and source
+
+- Project: ONNX Runtime (Microsoft), https://github.com/microsoft/onnxruntime
+- Licence: MIT (`LICENSE` in the repository). Attribution: Copyright (c) Microsoft Corporation.
+- Version: 1.28.0, tag `v1.28.0`.
+- Distributed binary today: Maven `com.microsoft.onnxruntime:onnxruntime-android:1.28.0` (stock AAR).
+
+#### Reduced build (plan Part 1): status
+
+**Not built.** The reduced AAR needs the onnxruntime source at tag v1.28.0. On 2026-11-22 this PC
+could not get it:
+
+- `git clone https://github.com/microsoft/onnxruntime` (tag `v1.28.0`): "fatal: could not read Username ... terminal prompts disabled";
+- `https://github.com/microsoft/onnxruntime` and its release, tag, archive and `codeload` URLs, and the GitHub API
+  (`api.github.com/repos/microsoft/onnxruntime`): all HTTP 404, while other GitHub repositories
+  (for example `flutter/flutter`, `k2-fsa/sherpa-onnx`) answer 200.
+
+So the source is not reachable from here (repository unavailable or blocked). What is ready:
+
+- `tool/onnxruntime/model_ops.py`: lists the 39 operators used by the 30 staged models
+  (`tool/onnxruntime/model_ops.txt`). Read only.
+- `tool/onnxruntime/check_aar.ps1`: the three checks (symbol version per ABI, no telemetry classes and no
+  permissions, every model operator in the config). It passes checks 1 and 2 on the stock 1.28.0 AAR
+  and fails check 3 (no `ops.config` yet).
+- `tool/onnxruntime/build_android.ps1`: a draft of the build (MinSizeRel, arm64-v8a, armeabi-v7a, x86_64,
+  NDK 28.2, `--build_java`, `--include_ops_by_config`, `--skip_tests`). **Not run, not tested.** Check the flags
+  against `build.bat --help` on the real checkout.
+- `tool/onnxruntime/ops.config`: not generated. It must come from `tools/python/create_reduced_build_config.py`
+  in the 1.28.0 source, over the staged models. The staged folder is read only.
+
+Toolchain on this PC, for the next attempt: NDK 28.2.13676358 installed, CMake 3.22.1 in the Android SDK,
+Ninja (Python 3.10 Scripts), Python 3.13 with `onnx` 1.23.2 installed, JDK 17. The source must be
+obtained first (a mirror or the GitHub download from a machine that can reach it).
+
+Until the reduced build passes `check_aar.ps1`, `android/app/build.gradle.kts` keeps the stock dependency.
+
+#### Stock 1.28.0 AAR (baseline, measured)
+
+From the Gradle cache (`onnxruntime-android-1.28.0.aar`, 45,634,470 bytes):
+
+| ABI | `libonnxruntime.so` bytes | SHA-256 |
+|---|---|---|
+| arm64-v8a | 28,637,280 | F826D8EFB03ADF0A84F10E7BA408F9D4CD11B0A2CCD8D08AEB0F7451FB50CACC |
+| armeabi-v7a | 20,388,560 | 19E4AB7B9C374D9A3900A6382B2E4978267B8D4B874596C64C8BF49BB7560B47 |
+| x86 | 34,557,568 | F089A53F1A02F26CB85FC52626C6A652B04D4A9ABE319AF64AD8623F2C00739E |
+| x86_64 | 34,640,104 | 8A31FEB45126D981FFAC430BD10BC66CFA1036E0864A9FBD80A94121F3085800 |
+
+The stock AAR exports `OrtGetApiBase@@VERS_1.28.0` (checked with `llvm-readelf --dyn-syms` on arm64), has no
+`ai/onnxruntime/telemetry` classes and declares no `<uses-permission>`. The `libonnxruntime4j_jni.so` files
+are not part of the reduced build and are not listed here.
+
+#### Build flags (target)
+
+The planned reduced build uses `--config MinSizeRel --android --android_api 26 --build_java
+--include_ops_by_config <ops.config> --skip_tests`. None of these adds telemetry or network code. No
+`--minimal_build`: the packs ship `.onnx` files that sherpa-onnx loads through the ONNX loader.
+The `check_aar.ps1` run is the gate for telemetry and permissions.
+
+#### Reduced build: results
+
+Not yet produced. When it exists, record here per ABI: the byte size and SHA-256 of `libonnxruntime.so`, the
+size before (above) and after, the `check_aar.ps1` output, and the APK size (arm64 target <= 60 MB, down from
+79.0 MB).
+
 ## Algorithm references (no code copied)
 
 The swipe decoder in `lib/src/engine/gesture/` is an original implementation of ideas from:
