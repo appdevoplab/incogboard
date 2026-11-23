@@ -511,6 +511,10 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
+  String get packsDeleteBody =>
+      'Os arquivos dele são removidos deste celular. Você pode importar o pacote de novo depois, a partir do arquivo.';
+
+  @override
   String packsDeleted(String name) {
     return '$name excluído.';
   }

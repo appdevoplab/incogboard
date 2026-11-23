@@ -669,6 +669,10 @@
       }
     }
   },
+  "packsDeleteBody": "Its files are removed from this phone. You can import the pack again later from its file.",
+  "@packsDeleteBody": {
+    "description": "Packs: body text of the delete confirmation dialog, under the title. Max 120 characters"
+  },
   "packsDeleted": "Deleted {name}.",
   "@packsDeleted": {
     "description": "Packs: snackbar after a pack is deleted. {name} is the pack name",

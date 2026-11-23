@@ -3,6 +3,9 @@
   "appName": "Kosha",
   "homeTagline": "Saisie privée, sur ce téléphone",
   "homeOfflinePromise": "Kosha fonctionne hors ligne et n'envoie rien nulle part.",
+  "@homeOfflinePromise": {
+    "x-review": true
+  },
   "cancel": "Annuler",
   "delete": "Supprimer",
   "save": "Enregistrer",
@@ -16,7 +19,13 @@
   "settingsThemes": "Thèmes",
   "settingsPanels": "Panneaux",
   "settingsVoice": "Voix",
+  "@settingsVoice": {
+    "x-review": true
+  },
   "settingsTranslation": "Traduction",
+  "@settingsTranslation": {
+    "x-review": true
+  },
   "settingsPrivacy": "Confidentialité",
   "settingsAbout": "À propos",
   "settingsModelPacks": "Packs de modèles",
@@ -24,27 +33,60 @@
   "homeSetupChoose": "Choisissez Kosha comme clavier de saisie.",
   "homeFinishSetup": "Terminer la configuration de Kosha",
   "homeTypingSubtitle": "Corrections, suggestions, touches et glissement",
+  "@homeTypingSubtitle": {
+    "x-review": true
+  },
   "homeFeelSubtitle": "Vibrations, sons, hauteur et mode une main",
+  "@homeFeelSubtitle": {
+    "x-review": true
+  },
   "homePanelsSubtitle": "Presse-papiers et emoji",
+  "@homePanelsSubtitle": {
+    "x-review": true
+  },
   "homeVoiceSubtitle": "Parlez pour écrire, sur ce téléphone",
   "homeTranslationSubtitle": "Traduit pendant la frappe, hors ligne",
+  "@homeTranslationSubtitle": {
+    "x-review": true
+  },
   "homePrivacySubtitle": "Ce qui est stocké, incognito, verrouillage et sauvegarde",
+  "@homePrivacySubtitle": {
+    "x-review": true
+  },
   "homeAboutSubtitle": "Version, licences et code source",
   "aboutTitle": "À propos",
   "aboutVersion": "Version {versionName} ({versionCode})",
   "aboutVersionDebug": "Version {versionName} ({versionCode}) · version de débogage",
+  "@aboutVersionDebug": {
+    "x-review": true
+  },
   "aboutReadingVersion": "Lecture de la version…",
   "aboutPrivacy": "Confidentialité",
   "aboutNoInternet": "Kosha ne peut pas utiliser Internet",
   "aboutNoInternetBody": "Les versions publiées n'ont pas l'autorisation Internet : rien de ce que vous saisissez ne quitte ce téléphone.",
   "aboutLicence": "Licence",
+  "@aboutLicence": {
+    "x-review": true
+  },
   "aboutGplTitle": "Licence publique générale GNU v3 ou ultérieure",
+  "@aboutGplTitle": {
+    "x-review": true
+  },
   "aboutGplBody": "Kosha est un logiciel libre. Vous pouvez l'étudier, le modifier et le partager selon la GPL.",
+  "@aboutGplBody": {
+    "x-review": true
+  },
   "aboutSourceCode": "Code source",
   "aboutSourceBody": "Kosha est sous GPL-3.0-or-later. Son code source est disponible sur la page du projet.",
+  "@aboutSourceBody": {
+    "x-review": true
+  },
   "aboutLicences": "Licences",
   "aboutOpenSource": "Licences open source",
   "aboutOpenSourceBody": "Flutter, material_ui et chaque paquet utilisé par Kosha",
+  "@aboutOpenSourceBody": {
+    "x-review": true
+  },
   "aboutTextLoadFailed": "Ce texte n'a pas pu être chargé.",
   "languagesEnabledHeader": "Activées ; la première est celle par défaut",
   "languagesActive": "Langue active",
@@ -53,19 +95,37 @@
   "languagesAllEnabledBody": "Retirez-en une ci-dessus pour faire de la place.",
   "languagesMultilingual": "Saisie multilingue",
   "languagesMultilingualBody": "Suggère des mots issus d'au plus trois langues activées qui partagent l'écriture du clavier. Un mot connu de l'une d'elles n'est jamais corrigé automatiquement.",
+  "@languagesMultilingualBody": {
+    "x-review": true
+  },
   "languagesNativeDigits": "Chiffres natifs",
   "languagesNativeDigitsBody": "Saisit les chiffres dans l'écriture de la langue active lorsqu'elle en a (०१२, ٠١٢).",
   "languagesOptions": "Options de langue",
   "languagesZhSubtitle": "Pinyin, caractères traditionnels et paquets de dictionnaires",
+  "@languagesZhSubtitle": {
+    "x-review": true
+  },
   "languagesJaSubtitle": "Saisie par glissement, conversion et paquets de dictionnaires",
+  "@languagesJaSubtitle": {
+    "x-review": true
+  },
   "languagesReorderLabel": "Faites glisser pour réordonner {language}",
   "languageDefaultLabel": "{language}, par défaut",
   "languageLayoutTooltip": "Disposition pour {language}",
+  "@languageLayoutTooltip": {
+    "x-review": true
+  },
   "languageRemoveTooltip": "Retirer {language}",
   "feelHaptics": "Haptique",
   "feelHapticFeedback": "Retour haptique",
+  "@feelHapticFeedback": {
+    "x-review": true
+  },
   "feelHapticFeedbackBody": "Une courte vibration à chaque touche, selon le réglage du système",
   "feelHapticStrength": "Intensité haptique",
+  "@feelHapticStrength": {
+    "x-review": true
+  },
   "feelSounds": "Sons",
   "feelKeySounds": "Sons des touches",
   "feelKeySoundsBody": "Clics pour les touches, espace, effacer et entrée",
@@ -75,35 +135,74 @@
   "feelPortraitHeight": "Hauteur en portrait",
   "feelLandscapeHeight": "Hauteur en paysage",
   "feelOneHandedFloating": "Une main et flottant",
+  "@feelOneHandedFloating": {
+    "x-review": true
+  },
   "feelOneHandedSide": "Côté du mode une main",
+  "@feelOneHandedSide": {
+    "x-review": true
+  },
   "feelFloatingKeyboard": "Clavier flottant",
+  "@feelFloatingKeyboard": {
+    "x-review": true
+  },
   "feelFloatingBody": "Faites-le glisser n'importe où sur l'écran",
   "panelsClipboard": "Presse-papiers",
+  "@panelsClipboard": {
+    "x-review": true
+  },
   "panelsClipboardHistory": "Historique du presse-papiers",
+  "@panelsClipboardHistory": {
+    "x-review": true
+  },
   "panelsClipboardHistoryBody": "Garde ce que vous copiez, chiffré sur ce téléphone",
   "panelsRecentChip": "Pastille de copie récente",
   "panelsRecentChipBody": "Propose votre dernière copie dans la barre de suggestions pendant une minute",
   "panelsKeepUnpinned": "Garder les copies non épinglées pendant",
   "panelsClipsToKeep": "Clips à conserver",
   "panelsEmoji": "Emoji",
+  "@panelsEmoji": {
+    "x-review": true
+  },
   "emojiSuggestions": "Suggestions d'emoji",
+  "@emojiSuggestions": {
+    "x-review": true
+  },
   "emojiSuggestionsPanelBody": "Propose un emoji pour certains mots dans la barre de suggestions",
+  "@emojiSuggestionsPanelBody": {
+    "x-review": true
+  },
   "panelsPasswordsNeverSaved": "Les mots de passe ne sont jamais enregistrés",
   "panelsSensitiveBody": "Les copies qu'Android marque comme sensibles ne sont jamais conservées.",
+  "@panelsSensitiveBody": {
+    "x-review": true
+  },
   "typingCorrections": "Corrections",
   "typingAutocorrect": "Correction automatique",
+  "@typingAutocorrect": {
+    "x-review": true
+  },
   "typingAutocorrectBody": "Corrige les fautes probables à la fin d'un mot",
   "typingAutoCapitalise": "Majuscules automatiques",
   "typingAutoCapitaliseBody": "Majuscules au début des phrases",
   "typingDoubleSpace": "Double espace pour le point",
   "typingDoubleSpaceBody": "Deux appuis sur espace écrivent « . »",
   "typingSmartPunctuation": "Ponctuation intelligente",
+  "@typingSmartPunctuation": {
+    "x-review": true
+  },
   "typingSmartPunctuationBody": "Ajuste les espaces autour de la ponctuation et utilise les guillemets locaux",
+  "@typingSmartPunctuationBody": {
+    "x-review": true
+  },
   "typingSuggestions": "Suggestions",
   "typingSuggestionsBody": "Affiche des mots dans la barre de suggestions",
   "typingNextWord": "Prédiction du mot suivant",
   "typingNextWordBody": "Suggère le mot qui suit souvent",
   "typingEmojiBody": "Propose un emoji pour certains mots",
+  "@typingEmojiBody": {
+    "x-review": true
+  },
   "typingHideOffensive": "Masquer les mots offensants",
   "typingHideOffensiveBody": "Ne jamais les suggérer, sauf si vous les tapez en entier",
   "typingKeys": "Touches",
@@ -117,28 +216,67 @@
   "typingLowercaseLabels": "Étiquettes en minuscules",
   "typingLowercaseLabelsBody": "Garde les lettres en minuscules quand Maj est activé",
   "typingSwipe": "Glissement",
+  "@typingSwipe": {
+    "x-review": true
+  },
   "typingSwipeTyping": "Saisie par glissement",
+  "@typingSwipeTyping": {
+    "x-review": true
+  },
   "typingSwipeTypingBody": "Glissez sur les lettres pour écrire un mot",
   "typingShowTrail": "Afficher la trace",
+  "@typingShowTrail": {
+    "x-review": true
+  },
   "typingTrailWidth": "Largeur de la trace",
+  "@typingTrailWidth": {
+    "x-review": true
+  },
   "typingTrailFade": "Estompage de la trace",
+  "@typingTrailFade": {
+    "x-review": true
+  },
   "typingLivePreview": "Aperçu en direct",
   "typingLivePreviewBody": "Affiche le mot probable pendant le glissement",
   "typingSpaceMovesCursor": "La barre d'espace déplace le curseur",
+  "@typingSpaceMovesCursor": {
+    "x-review": true
+  },
   "typingSpaceMovesCursorBody": "Faites glisser sur la barre d'espace pour déplacer le curseur",
+  "@typingSpaceMovesCursorBody": {
+    "x-review": true
+  },
   "typingSwipeBackspace": "Glisser sur effacer pour supprimer des mots",
+  "@typingSwipeBackspace": {
+    "x-review": true
+  },
   "typingSwipeBackspaceBody": "Glissez vers la gauche sur effacer pour sélectionner et supprimer des mots",
   "voiceTyping": "Saisie vocale",
+  "@voiceTyping": {
+    "x-review": true
+  },
   "voiceTypingBody": "Parlez pour écrire. La reconnaissance se fait sur ce téléphone.",
   "voiceRecognition": "Reconnaissance",
   "voiceDetectLanguage": "Détecter la langue automatiquement",
   "voiceDetectLanguageBody": "Whisper détermine la langue que vous parlez.",
+  "@voiceDetectLanguageBody": {
+    "x-review": true
+  },
   "voiceModelPacksBody": "Installer ou supprimer les packs de voix et de traduction",
+  "@voiceModelPacksBody": {
+    "x-review": true
+  },
   "voiceAudioStays": "L'audio reste sur ce téléphone et n'est jamais enregistré.",
   "voicePackAutomatic": "Automatique",
   "voicePackAutomaticSelected": "Automatique (sélectionné)",
   "voicePack": "Pack de voix",
+  "@voicePack": {
+    "x-review": true
+  },
   "voiceNoPack": "Aucun pack de voix installé. Installez-en un dans Packs de modèles.",
+  "@voiceNoPack": {
+    "x-review": true
+  },
   "voiceLooking": "Recherche des packs installés",
   "voicePackItem": "{name} · {size}",
   "voicePackItemSelected": "{name} · {size} (sélectionné)",
@@ -148,66 +286,181 @@
   "packsOpenFailed": "Kosha n'a pas pu ouvrir le sélecteur de fichiers.",
   "packsInstalled": "{name} installé.",
   "packsDeleteTitle": "Supprimer {name} ?",
+  "packsDeleteBody": "Ses fichiers sont supprimés de ce téléphone. Vous pourrez réimporter le paquet plus tard à partir de son fichier.",
+  "@packsDeleteBody": {
+    "x-review": true
+  },
   "packsDeleted": "{name} supprimé.",
   "packsDeleteFailed": "Kosha n'a pas pu supprimer {name}. Réessayez.",
   "packsIntro": "Les packs sont vérifiés avant d'être installés. Ils ne contiennent que des données, jamais du code.",
   "packsImport": "Importer",
+  "@packsImport": {
+    "x-review": true
+  },
   "packsImportTitle": "Importer un fichier de pack",
+  "@packsImportTitle": {
+    "x-review": true
+  },
   "packsChecking": "Vérification et installation…",
   "packsImportBody": "Un fichier .koshapack, par exemple depuis Téléchargements",
   "packsNoVoice": "Aucun pack de voix installé",
+  "@packsNoVoice": {
+    "x-review": true
+  },
   "packsNoVoiceBody": "La saisie vocale nécessite un pack de voix.",
+  "@packsNoVoiceBody": {
+    "x-review": true
+  },
   "packsNoTranslation": "Aucun pack de traduction installé",
+  "@packsNoTranslation": {
+    "x-review": true
+  },
   "packsNoTranslationBody": "La traduction nécessite un pack par sens.",
+  "@packsNoTranslationBody": {
+    "x-review": true
+  },
   "packsDictionaries": "Dictionnaires",
   "packsNoDictionary": "Aucun pack de dictionnaire installé",
+  "@packsNoDictionary": {
+    "x-review": true
+  },
   "packsNoDictionaryBody": "La saisie en chinois et en japonais nécessite un pack de dictionnaire.",
+  "@packsNoDictionaryBody": {
+    "x-review": true
+  },
   "packsNothingStored": "Rien n'est encore stocké.",
   "packsInstalledUse": "Les packs installés occupent {size} sur ce téléphone.",
   "packErrorBadSignature": "Ce pack n'est pas signé pour Kosha : rien n'a été installé.",
+  "@packErrorBadSignature": {
+    "x-review": true
+  },
   "packErrorBadFormat": "Ce fichier n'est pas un pack Kosha. Rien n'a été installé.",
+  "@packErrorBadFormat": {
+    "x-review": true
+  },
   "packErrorTooLarge": "Ce pack est trop volumineux pour ce téléphone.",
+  "@packErrorTooLarge": {
+    "x-review": true
+  },
   "packErrorVersion": "Ce pack nécessite une version plus récente de Kosha.",
+  "@packErrorVersion": {
+    "x-review": true
+  },
   "packErrorNoSpace": "Il n'y a pas assez d'espace libre pour installer ce pack.",
+  "@packErrorNoSpace": {
+    "x-review": true
+  },
   "packErrorGeneric": "Le pack n'a pas pu être installé. Rien n'a été modifié.",
+  "@packErrorGeneric": {
+    "x-review": true
+  },
   "translateDefaultPair": "Paire de langues par défaut",
   "translatePairName": "{from} → {to}",
   "translateOffline": "Traduction hors ligne",
+  "@translateOffline": {
+    "x-review": true
+  },
   "translateOfflineBody": "Traduit pendant la frappe au clavier, et le texte sélectionné dans toute appli.",
+  "@translateOfflineBody": {
+    "x-review": true
+  },
   "translateDefaultPairTile": "Paire par défaut",
   "translatePackInstalled": "Pack installé",
+  "@translatePackInstalled": {
+    "x-review": true
+  },
   "translatePackNotInstalled": "Pack non installé. Obtenez-le dans Packs de modèles.",
+  "@translatePackNotInstalled": {
+    "x-review": true
+  },
   "translateInstalled": "Sens installés",
   "translateInstalledBody": "Chaque sens est un pack, par exemple anglais → espagnol.",
+  "@translateInstalledBody": {
+    "x-review": true
+  },
   "translatePackMeta": "{size} · {license}",
+  "@translatePackMeta": {
+    "x-review": true
+  },
   "translateModelPacksBody": "Installer ou supprimer les packs de traduction",
+  "@translateModelPacksBody": {
+    "x-review": true
+  },
   "translateRunsOnPhone": "La traduction se fait sur ce téléphone. Rien de ce que vous traduisez n'est enregistré.",
+  "@translateRunsOnPhone": {
+    "x-review": true
+  },
   "privacyUnlockReason": "Déverrouillez Kosha pour voir vos réglages et données",
   "privacyLockUnavailable": "Le verrouillage de l'appareil n'est pas disponible pour le moment. Réessayez dans un instant.",
+  "@privacyLockUnavailable": {
+    "x-review": true
+  },
   "privacyLockedTitle": "Kosha est verrouillé",
+  "@privacyLockedTitle": {
+    "x-review": true
+  },
   "privacyLockedBody": "Déverrouillez avec votre empreinte ou le code de votre appareil pour continuer.",
+  "@privacyLockedBody": {
+    "x-review": true
+  },
   "privacyUnlock": "Déverrouiller",
   "backupSaved": "Sauvegarde enregistrée ({size}). Gardez votre phrase de passe en lieu sûr.",
+  "@backupSaved": {
+    "x-review": true
+  },
   "backupUnlockRetrySaved": "Déverrouillez le téléphone, puis réessayez. Rien n'a été enregistré.",
   "backupSaveFailed": "La sauvegarde n'a pas pu être enregistrée. Rien n'a été modifié.",
+  "@backupSaveFailed": {
+    "x-review": true
+  },
   "backupWrongPassphrase": "Phrase de passe incorrecte ou fichier endommagé. Rien n'a été modifié.",
+  "@backupWrongPassphrase": {
+    "x-review": true
+  },
   "backupInvalidFile": "Ce fichier n'est pas une sauvegarde Kosha valide. Rien n'a été modifié.",
+  "@backupInvalidFile": {
+    "x-review": true
+  },
   "backupTooLarge": "Ce fichier est trop volumineux pour être une sauvegarde Kosha.",
+  "@backupTooLarge": {
+    "x-review": true
+  },
   "backupNewerVersion": "Cette sauvegarde a été faite par une version plus récente de Kosha. Mettez Kosha à jour pour la restaurer.",
+  "@backupNewerVersion": {
+    "x-review": true
+  },
   "backupBusy": "Fermez d'abord l'autre fenêtre de fichiers, puis réessayez.",
   "backupOpenFailed": "La sauvegarde n'a pas pu être ouverte. Rien n'a été modifié.",
+  "@backupOpenFailed": {
+    "x-review": true
+  },
   "backupEmpty": "Cette sauvegarde est vide.",
+  "@backupEmpty": {
+    "x-review": true
+  },
   "backupRestoreTitle": "Restaurer la sauvegarde",
+  "@backupRestoreTitle": {
+    "x-review": true
+  },
   "backupMadeBy": "Créée le {date} avec Kosha {version}.",
   "backupMerge": "Fusionner",
   "backupMergeBody": "Garde ce qui est sur ce téléphone et ajoute ce qui est dans la sauvegarde.",
+  "@backupMergeBody": {
+    "x-review": true
+  },
   "backupReplace": "Remplacer",
   "backupReplaceBody": "Fait correspondre les sections choisies à la sauvegarde. Les données actuelles sont d'abord supprimées.",
+  "@backupReplaceBody": {
+    "x-review": true
+  },
   "commonContinue": "Continuer",
   "backupReplaceTitle": "Remplacer les données de ce téléphone ?",
   "backupReplaceConfirm": "Les sections choisies sur ce téléphone sont supprimées et remplacées. Action irréversible.",
   "backupUnlockRetryChanged": "Déverrouillez le téléphone, puis réessayez. Rien n'a été modifié.",
   "backupRestoreFailed": "Kosha n'a pas pu terminer la restauration. Certaines données n'ont peut-être pas été écrites.",
+  "@backupRestoreFailed": {
+    "x-review": true
+  },
   "restoreNothingNew": "Rien de nouveau n'a été restauré.",
   "restoreSummary": "Restauré : {items}.",
   "restoreSummarySkipped": "{added} Ignoré : {skipped}.",
@@ -216,10 +469,22 @@
   "countWords": "{count, plural, one {1 mot} other {{count} mots}}",
   "countLanguages": "{count, plural, one {1 langue} other {{count} langues}}",
   "countShortcuts": "{count, plural, one {1 raccourci} other {{count} raccourcis}}",
+  "@countShortcuts": {
+    "x-review": true
+  },
   "countClipboardItems": "{count, plural, one {1 élément du presse-papiers} other {{count} éléments du presse-papiers}}",
+  "@countClipboardItems": {
+    "x-review": true
+  },
   "countThemeFiles": "{count, plural, one {1 fichier de thème} other {{count} fichiers de thème}}",
+  "@countThemeFiles": {
+    "x-review": true
+  },
   "countPinnedItems": "{count, plural, one {1 élément épinglé} other {{count} éléments épinglés}}",
   "countPacks": "{count, plural, one {1 pack} other {{count} packs}}",
+  "@countPacks": {
+    "x-review": true
+  },
   "countBlockedWords": "{count, plural, one {1 mot bloqué} other {{count} mots bloqués}}",
   "countTimes": "{count, plural, one {1 fois} other {{count} fois}}",
   "timeMinutesAgo": "{count, plural, one {il y a 1 minute} other {il y a {count} minutes}}",
@@ -228,6 +493,9 @@
   "timeJustNow": "à l'instant",
   "languagePortuguese": "Portugais",
   "packMeta": "{languages} · {size} · {license}",
+  "@packMeta": {
+    "x-review": true
+  },
   "privacyLearnedWordsTitle": "Mots appris ({language})",
   "privacyClearLanguageTitle": "Effacer les mots de {language} ?",
   "privacyClearLanguageBody": "Cela supprime tous les mots appris dans cette langue, ainsi que les mots bloqués. Action irréversible.",
@@ -260,49 +528,118 @@
   "privacyTryAgain": "Réessayer",
   "privacyCenterLoadFailed": "Kosha n'a pas pu lire ses données de confidentialité. Réessayez plus tard.",
   "privacyDevBuildNetwork": "Cette version demande l'accès à Internet. Kosha ne devrait jamais le faire. Merci de le signaler.",
+  "@privacyDevBuildNetwork": {
+    "x-review": true
+  },
   "privacyNoInternetPermission": "Kosha n'a pas l'autorisation Internet. Il ne peut rien envoyer.",
   "privacyDevBuildNote": "Ceci est une version de développement. Son autorisation réseau sert uniquement aux outils de développement.",
+  "@privacyDevBuildNote": {
+    "x-review": true
+  },
   "privacyDevBuildShort": "Version de développement. Kosha n'a toujours pas l'autorisation Internet.",
+  "@privacyDevBuildShort": {
+    "x-review": true
+  },
   "privacyStorageSize": "{size} · modifié {when}",
   "privacyCustomThemes": "Thèmes personnalisés",
   "privacyNoPacks": "Aucun installé. Les packs de voix et de traduction apparaissent ici.",
+  "@privacyNoPacks": {
+    "x-review": true
+  },
   "privacyPacksSize": "{count, plural, one {1 pack} other {{count} packs}} · {size}",
+  "@privacyPacksSize": {
+    "x-review": true
+  },
   "privacyWhatKoshaStores": "Ce que Kosha stocke",
   "privacyShowsSizesOnly": "Kosha n'affiche ici que des tailles, jamais le contenu. Les tailles incluent la dernière copie enregistrée, qui protège vos données si une sauvegarde est interrompue.",
   "privacyTypingPrivacy": "Confidentialité de la saisie",
   "privacyLearnNewWords": "Apprendre de nouveaux mots",
   "privacyLearnNewWordsBody": "Apprend les mots et expressions de votre saisie. Jamais dans les champs de mot de passe ni en mode incognito.",
+  "@privacyLearnNewWordsBody": {
+    "x-review": true
+  },
   "privacyIncognito": "Incognito",
+  "@privacyIncognito": {
+    "x-review": true
+  },
   "privacyIncognitoBody": "N'apprend ni ne retient rien quand il est activé. Les onglets incognito du navigateur l'activent d'eux-mêmes.",
+  "@privacyIncognitoBody": {
+    "x-review": true
+  },
   "privacyHideScreenshots": "Masquer des captures d'écran",
   "privacyHideScreenshotsBody": "Empêche les captures et enregistrements d'écran du clavier dans toutes les applis. Les champs de mot de passe sont toujours masqués.",
   "privacyAutoOffApps": "Désactivé automatiquement dans ces applis",
   "privacyAutoOffAppsBody": "Kosha ne garde les noms d'applis que pour remplir cette liste. Ils sont chiffrés, jamais enregistrés en incognito, et vous pouvez les effacer ci-dessous.",
+  "@privacyAutoOffAppsBody": {
+    "x-review": true
+  },
   "privacyNoAppsYet": "Aucune appli pour l'instant",
   "privacyNoAppsYetBody": "Les applis dans lesquelles vous écrivez apparaîtront ici.",
   "privacyAlwaysIncognitoApps": "Applis toujours en incognito",
+  "@privacyAlwaysIncognitoApps": {
+    "x-review": true
+  },
   "privacyPersonalShortcuts": "Raccourcis personnels",
   "privacyOfferShortcuts": "Proposer les raccourcis",
   "privacyOfferShortcutsBody": "Affiche vos abréviations, comme « omw », en première suggestion.",
   "privacyEditShortcuts": "Modifier les raccourcis",
   "privacyNoShortcutsYet": "Aucun pour l'instant",
   "privacyLearnedAndClipboard": "Mots appris et presse-papiers",
+  "@privacyLearnedAndClipboard": {
+    "x-review": true
+  },
   "privacyNoWordsLearnedYet": "Aucun mot appris pour l'instant",
   "privacyWordsLearnedBody": "Les mots que vous tapez sont appris ici après que Kosha les a vus plusieurs fois.",
   "privacyReviewWords": "Revoir, retirer ou bloquer des mots · {when}",
   "privacyClipboardHistoryEmpty": "L'historique est vide. Modifiez les réglages du presse-papiers dans Panneaux.",
+  "@privacyClipboardHistoryEmpty": {
+    "x-review": true
+  },
   "privacyClipboardInHistory": "{size} dans l'historique. Modifiez les réglages du presse-papiers dans Panneaux.",
+  "@privacyClipboardInHistory": {
+    "x-review": true
+  },
   "privacyAppLock": "Verrouillage de l'app",
+  "@privacyAppLock": {
+    "x-review": true
+  },
   "privacyLockKosha": "Verrouiller Kosha",
+  "@privacyLockKosha": {
+    "x-review": true
+  },
   "privacyLockKoshaBody": "Demande votre empreinte ou le code de l'appareil à l'ouverture de l'app, ou après un passage en arrière-plan.",
+  "@privacyLockKoshaBody": {
+    "x-review": true
+  },
   "privacyLockAfter": "Verrouiller après",
+  "@privacyLockAfter": {
+    "x-review": true
+  },
   "privacySetScreenLockFirst": "Définissez d'abord un verrouillage d'écran",
+  "@privacySetScreenLockFirst": {
+    "x-review": true
+  },
   "privacySetScreenLockBody": "El bloqueo de la app usa su huella o el PIN del dispositivo. Defina un PIN, patrón o contraseña en los ajustes de seguridad de Android y vuelva.",
+  "@privacySetScreenLockBody": {
+    "x-review": true
+  },
   "privacyTurnOnAppLockReason": "Activer le verrouillage de l'app pour Kosha",
+  "@privacyTurnOnAppLockReason": {
+    "x-review": true
+  },
   "privacyNotAvailable": "Pas disponible pour le moment",
   "privacyNotAvailableBody": "Le verrouillage de l'appareil n'a pas pu être utilisé. Le verrouillage de l'app reste désactivé.",
+  "@privacyNotAvailableBody": {
+    "x-review": true
+  },
   "privacyBackupTitle": "Sauvegarde",
+  "@privacyBackupTitle": {
+    "x-review": true
+  },
   "privacyBackupRestore": "Sauvegarde et restauration",
+  "@privacyBackupRestore": {
+    "x-review": true
+  },
   "privacyBackupRestoreBody": "Un fichier .koshabackup chiffré que vous conservez. Vous choisissez ce qu'il contient.",
   "privacyDeleteData": "Supprimer les données",
   "privacyEraseEverything": "Tout effacer",
@@ -316,19 +653,46 @@
   "privacyDeleteFailed": "Kosha n'a pas pu tout supprimer. Réessayez.",
   "privacyOk": "OK",
   "backupMakeTitle": "Faire une sauvegarde",
+  "@backupMakeTitle": {
+    "x-review": true
+  },
   "backupIncludeImages": "Inclure les images de fond",
   "backupPhotosLarger": "Les photos rendent le fichier beaucoup plus lourd.",
   "backupCreateButton": "Créer une sauvegarde chiffrée",
+  "@backupCreateButton": {
+    "x-review": true
+  },
   "backupRestoreSection": "Restaurer",
+  "@backupRestoreSection": {
+    "x-review": true
+  },
   "backupRestoreFromFile": "Restaurer depuis un fichier de sauvegarde",
+  "@backupRestoreFromFile": {
+    "x-review": true
+  },
   "backupRestoreFromFileBody": "Ouvrez un fichier .koshabackup, vérifiez son contenu, puis fusionnez ou remplacez.",
   "backupChoosePassphrase": "Choisissez une phrase de passe",
+  "@backupChoosePassphrase": {
+    "x-review": true
+  },
   "backupEnterPassphrase": "Saisissez la phrase de passe",
+  "@backupEnterPassphrase": {
+    "x-review": true
+  },
   "backupWriteItDown": "Notez-la dans un endroit sûr. Une phrase de passe perdue ne peut pas être récupérée.",
+  "@backupWriteItDown": {
+    "x-review": true
+  },
   "backupPassphrase": "Phrase de passe",
+  "@backupPassphrase": {
+    "x-review": true
+  },
   "backupTypeAgain": "Retapez-la",
   "backupMismatch": "Les phrases de passe ne correspondent pas",
   "backupStrength": "Solidité de la phrase : {strength}",
+  "@backupStrength": {
+    "x-review": true
+  },
   "strengthTooShort": "Utilisez au moins 8 caractères",
   "strengthWeak": "Faible",
   "strengthFair": "Correcte",
@@ -337,30 +701,63 @@
   "backupOpen": "Ouvrir",
   "backupNothingYet": "Rien pour l'instant",
   "backupSettingsSummary": "Thème, langues, saisie et choix de confidentialité",
+  "@backupSettingsSummary": {
+    "x-review": true
+  },
   "backupLearnedSummary": "{words} dans {languages}",
   "backupPinnedOff": "{items}. Désactivé sauf si vous l'activez.",
   "backupAlreadyHere": "{count, plural, one {1 raccourci déjà présent} other {{count} raccourcis déjà présents}}",
+  "@backupAlreadyHere": {
+    "x-review": true
+  },
   "backupThemesAlreadyHere": "{count, plural, one {1 fichier de thème déjà présent} other {{count} fichiers de thème déjà présents}}",
+  "@backupThemesAlreadyHere": {
+    "x-review": true
+  },
   "backupClipboardKept": "presse-papiers laissé intact (disposition inconnue)",
+  "@backupClipboardKept": {
+    "x-review": true
+  },
   "backupEmojiKept": "emojis récents conservés",
+  "@backupEmojiKept": {
+    "x-review": true
+  },
   "backupSettingsApplied": "réglages",
   "backupLearnedAdded": "mots appris pour {count, plural, one {1 langue} other {{count} langues}}",
   "shortcutDeleteTitle": "Supprimer « {trigger} » ?",
   "shortcutDeleteBody": "Cela supprime le raccourci. Action irréversible.",
+  "@shortcutDeleteBody": {
+    "x-review": true
+  },
   "shortcutAdd": "Ajouter un raccourci",
+  "@shortcutAdd": {
+    "x-review": true
+  },
   "shortcutSearch": "Rechercher des raccourcis",
   "shortcutNoMatch": "Aucun raccourci ne correspond à votre recherche.",
   "shortcutDeleteTooltip": "Supprimer {trigger}",
   "shortcutNoneYet": "Aucun raccourci pour l'instant",
   "shortcutExplain": "Un raccourci transforme une abréviation en texte plus long. Exemples :",
+  "@shortcutExplain": {
+    "x-review": true
+  },
   "shortcutExamples": "{first}\n{second}",
   "shortcutEncrypted": "Les raccourcis sont chiffrés sur ce téléphone, comme vos mots appris.",
   "shortcutNew": "Nouveau raccourci",
+  "@shortcutNew": {
+    "x-review": true
+  },
   "shortcutEdit": "Modifier le raccourci",
+  "@shortcutEdit": {
+    "x-review": true
+  },
   "shortcutShortForm": "Abréviation",
   "shortcutExpandsTo": "Se développe en",
   "privacyMascotLabel": "Mascotte de confidentialité de Kosha",
   "privacyStoredEmoji": "Emoji récents",
+  "@privacyStoredEmoji": {
+    "x-review": true
+  },
   "privacyStoredApps": "Liste des applis",
   "privacyStoredOther": "Autres données stockées",
   "privacyUnitBytes": "{count} o",
@@ -372,6 +769,9 @@
   "shortcutProblemEmptyExpansion": "Saisissez ce que l'abréviation doit développer.",
   "shortcutProblemExpansionTooLong": "Le développement peut comporter au plus {count} caractères.",
   "shortcutProblemDuplicate": "Vous avez déjà un raccourci avec cette abréviation.",
+  "@shortcutProblemDuplicate": {
+    "x-review": true
+  },
   "shortcutProblemTooMany": "Vous pouvez garder au plus {count} raccourcis.",
   "onboardingTurnOnTitle": "Activer Kosha",
   "onboardingTurnOnBody": "Android conserve une liste des claviers activés. Activez Kosha dans cette liste, puis revenez ici. Kosha détecte le changement tout seul.",
@@ -386,19 +786,37 @@
   "onboardingChooseKeyboard": "Choisir le clavier",
   "onboardingCheckingPermissions": "Vérification des autorisations de l'app…",
   "onboardingDebugInternet": "Cette version de débogage peut accéder à Internet. Elle n'a cette autorisation que pour le développement.",
+  "@onboardingDebugInternet": {
+    "x-review": true
+  },
   "onboardingReleaseInternet": "Cette version peut accéder à Internet.",
+  "@onboardingReleaseInternet": {
+    "x-review": true
+  },
   "onboardingNoInternet": "Kosha n'a pas l'autorisation Internet : il ne peut rien envoyer nulle part.",
   "onboardingWarningTitle": "Pourquoi l'avertissement ne s'applique pas",
   "onboardingWarningBody": "Android avertit que tout clavier peut collecter ce que vous tapez. Cet avertissement concerne les claviers qui peuvent accéder à Internet. Kosha ne le peut pas.",
   "onboardingInternetAccess": "Accès à Internet",
   "onboardingEverythingHere": "Tout reste sur ce téléphone",
   "onboardingEverythingHereBody": "Les mots appris, le presse-papiers et les réglages sont chiffrés avec une clé de l'Android Keystore.",
+  "@onboardingEverythingHereBody": {
+    "x-review": true
+  },
   "onboardingLanguagesTitle": "Choisissez les langues et un thème",
+  "@onboardingLanguagesTitle": {
+    "x-review": true
+  },
   "onboardingLanguagesBody": "Choisissez les langues dans lesquelles vous tapez. Plusieurs peuvent être activées en même temps, et vous pourrez les modifier plus tard dans Langues.",
   "onboardingThemeTitle": "Thème",
+  "@onboardingThemeTitle": {
+    "x-review": true
+  },
   "onboardingMoreThemes": "Plus de thèmes",
   "onboardingTryTyping": "Tapez une phrase",
   "onboardingTrySwipe": "Glissez un mot : passez de lettre en lettre",
+  "@onboardingTrySwipe": {
+    "x-review": true
+  },
   "onboardingTryAccents": "Appuyez longuement sur une lettre pour voir ses accents",
   "onboardingTryTitle": "Essayez",
   "onboardingTryBody": "Touchez la case ci-dessous. Le clavier apparaît, et vous pouvez essayer chaque point de la liste.",
@@ -417,6 +835,9 @@
   "onboardingSelected": "Sélectionnées : {languages}",
   "onboardingNoLanguageMatch": "Aucune langue ne correspond à cette recherche.",
   "themeCreate": "Créer un thème",
+  "@themeCreate": {
+    "x-review": true
+  },
   "themeSelectedLabel": "{name}, sélectionné",
   "themeCardOptions": "Options pour {name}",
   "themeEdit": "Modifier",
@@ -425,23 +846,53 @@
   "themeDeleteAction": "Supprimer",
   "themeTryTyping": "Essayer de taper",
   "themeTryLabel": "Tapez ici pour essayer le thème",
+  "@themeTryLabel": {
+    "x-review": true
+  },
   "themeTryHelper": "Le clavier apparaît ici lorsque Kosha est sélectionné.",
   "themeRenameTitle": "Renommer le thème",
+  "@themeRenameTitle": {
+    "x-review": true
+  },
   "themeNameField": "Nom",
   "themeEditTitle": "Modifier le thème",
+  "@themeEditTitle": {
+    "x-review": true
+  },
   "themeNewTitle": "Nouveau thème",
+  "@themeNewTitle": {
+    "x-review": true
+  },
   "themeEditorTitle": "Thème",
+  "@themeEditorTitle": {
+    "x-review": true
+  },
   "themeOpenFailed": "Ce thème n'a pas pu être ouvert.",
+  "@themeOpenFailed": {
+    "x-review": true
+  },
   "themeSaveFailed": "Impossible d'enregistrer le thème.",
+  "@themeSaveFailed": {
+    "x-review": true
+  },
   "themePhotoPickerFailed": "Le sélecteur de photos n'a pas pu s'ouvrir.",
   "themeDiscardTitle": "Abandonner les modifications ?",
   "themeDiscardBody": "Vos modifications de ce thème seront perdues.",
+  "@themeDiscardBody": {
+    "x-review": true
+  },
   "themeKeepEditing": "Continuer les modifications",
   "themeDiscard": "Abandonner",
   "themeSave": "Enregistrer",
   "themeNameRequired": "Un nom est requis",
   "themeNameLabel": "Nom du thème",
+  "@themeNameLabel": {
+    "x-review": true
+  },
   "themeDefaultName": "Mon thème",
+  "@themeDefaultName": {
+    "x-review": true
+  },
   "themeSectionName": "Nom",
   "themeSectionLook": "Apparence",
   "themeDarkMode": "Mode sombre",
@@ -490,18 +941,39 @@
   "themeEditCrop": "Modifier le recadrage et le flou",
   "themeDim": "Assombrir",
   "themeSectionPopups": "Bulles et trace",
+  "@themeSectionPopups": {
+    "x-review": true
+  },
   "themeSolidPopups": "Bulles unies",
   "themeSolidPopupsBodyWallpaper": "No avec les couleurs du fond d'écran",
   "themeSolidPopupsBodyPrimary": "Bulles dans la couleur principale",
   "themeSwipeTrail": "Trace du glissement",
+  "@themeSwipeTrail": {
+    "x-review": true
+  },
   "themeTrailWidth": "Largeur de la trace",
+  "@themeTrailWidth": {
+    "x-review": true
+  },
   "themeTrailFade": "Estompage de la trace",
+  "@themeTrailFade": {
+    "x-review": true
+  },
   "themeTrailInstant": "Instantané",
   "themeTrailColours": "Couleurs de la trace",
+  "@themeTrailColours": {
+    "x-review": true
+  },
   "themeTrailStart": "Début",
   "themeTrailEnd": "Fin",
   "themeTrailStartTitle": "Début de la trace",
+  "@themeTrailStartTitle": {
+    "x-review": true
+  },
   "themeTrailEndTitle": "Fin de la trace",
+  "@themeTrailEndTitle": {
+    "x-review": true
+  },
   "themeAutomatic": "Automatique",
   "themeSectionMotion": "Mouvement",
   "themeKeyPressAnimation": "Animation à l'appui des touches",
@@ -550,10 +1022,22 @@
   "themeCopyName": "Copie de {name}",
   "themeDeleteTitle": "Supprimer « {name} » ?",
   "themeDeleteSelectedBody": "Ce thème est sélectionné. Kosha Dynamic sera utilisé à la place. Action irréversible.",
+  "@themeDeleteSelectedBody": {
+    "x-review": true
+  },
   "themeDeleteBody": "Action irréversible.",
   "themeDeleteFailed": "Impossible de supprimer le thème.",
+  "@themeDeleteFailed": {
+    "x-review": true
+  },
   "themeRenameFailed": "Impossible de renommer le thème.",
+  "@themeRenameFailed": {
+    "x-review": true
+  },
   "themeDuplicateFailed": "Impossible de copier le thème.",
+  "@themeDuplicateFailed": {
+    "x-review": true
+  },
   "themeSettingFailed": "Impossible d'enregistrer le réglage.",
   "themeSystemColoursUnavailable": "Les couleurs du système ne sont pas disponibles.",
   "themeKoshaDynamicFollows": "Kosha Dynamic suit votre fond d'écran",
@@ -564,11 +1048,20 @@
   "themeAppearance": "Apparence",
   "themesTitle": "Thèmes",
   "privacyThemesSize": "{count, plural, one {1 fichier de thème} other {{count} fichiers de thème}} · {size}",
+  "@privacyThemesSize": {
+    "x-review": true
+  },
   "backupUnlockToSeeCount": "Déverrouillez le téléphone pour voir le nombre",
   "shortcutHelp": "Un raccourci transforme une abréviation en texte plus long. Exemples :\nomw → on my way\naddr → your address",
+  "@shortcutHelp": {
+    "x-review": true
+  },
   "privacyStoredLearned": "Mots appris ({language})",
   "settingsComingLater": "Disponible dans une mise à jour ultérieure",
   "backupExplainer": "Une sauvegarde est un seul fichier, chiffré avec une phrase de passe que vous choisissez. Seule cette phrase l'ouvre. Si vous oubliez la phrase, personne ne peut récupérer la sauvegarde, pas même Kosha.",
+  "@backupExplainer": {
+    "x-review": true
+  },
   "privacyCategoryLine": "{title} : {detail}",
   "shortcutShortFormHint": "omw",
   "shortcutExpansionHint": "en route",

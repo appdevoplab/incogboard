@@ -38,8 +38,10 @@ void main() {
       final text = file.readAsStringSync();
       for (final m in _sink.allMatches(text)) {
         final literal = m.group(2)!;
-        if (!RegExp('[A-Za-z]').hasMatch(literal)) continue; // numbers, symbols, units like "%"
-        if (literal.startsWith(r'$')) continue; // formatted values such as "${n} dp"
+        // Interpolations such as "#${hexOf(c)}" are values, not words: only the text around them counts.
+        final words = literal.replaceAll(RegExp(r'\$\{[^}]*\}|\$\w+'), '');
+        // Numbers, symbols and one-letter units ("%", "x" for a zoom factor) may stay as they are.
+        if (!RegExp('[A-Za-z]{2,}').hasMatch(words)) continue;
         if (_allowed.contains(literal)) continue;
         final line = '\n'.allMatches(text.substring(0, m.start)).length + 1;
         problems.add('${file.path.replaceAll('\\', '/')}:$line  ${m.group(1)} "$literal"');

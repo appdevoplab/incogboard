@@ -996,6 +996,12 @@ abstract class AppLocalizations {
   /// **'Delete {name}?'**
   String packsDeleteTitle(String name);
 
+  /// Packs: body text of the delete confirmation dialog, under the title. Max 120 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Its files are removed from this phone. You can import the pack again later from its file.'**
+  String get packsDeleteBody;
+
   /// Packs: snackbar after a pack is deleted. {name} is the pack name
   ///
   /// In en, this message translates to:
