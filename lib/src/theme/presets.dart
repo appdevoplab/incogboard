@@ -5,8 +5,9 @@
 // all derived from the same spec (see theme_resolver.dart).
 import 'theme_spec.dart';
 
-/// Brand yellow (Kosha mascot icon) and brand dark brown.
-const int koshaYellow = 0xFFF5B700;
+/// Brand gold (the Kosha treasure chest; the seed of the brand scheme) and brand dark brown
+/// (the chest's straps and keycap, and the launcher background). See tool/brand/render.py.
+const int koshaYellow = 0xFFEFB33A;
 const int koshaBrown = 0xFF3E2723;
 
 const String defaultThemeId = 'kosha_dynamic';

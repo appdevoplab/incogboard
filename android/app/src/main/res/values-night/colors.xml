@@ -4,4 +4,6 @@
     <color name="inline_chip_stroke">#FF49454F</color>
     <color name="inline_chip_text">#FFE6E0E9</color>
     <color name="inline_chip_subtext">#FFCAC4D0</color>
+    <!-- Kosha brand: the splash colour in dark mode. -->
+    <color name="kosha_splash_background">#FF211714</color>
 </resources>
