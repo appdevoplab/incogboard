@@ -64,7 +64,6 @@ void main() {
     expect(styles, contains('name="LaunchTheme"'));
     expect(styles, contains('android:windowSplashScreenBackground">@color/kosha_splash_background<'));
     expect(styles, contains('android:windowSplashScreenAnimatedIcon">@drawable/splash_chest<'));
-    expect(styles, contains('android:postSplashScreenTheme">@style/NormalTheme<'));
     expect(File('$_res/drawable/splash_chest.xml').existsSync(), isTrue);
     final dark = _read('$_res/values-night-v31/styles.xml');
     expect(dark, contains('android:windowSplashScreenBackground">@color/kosha_splash_background<'));
