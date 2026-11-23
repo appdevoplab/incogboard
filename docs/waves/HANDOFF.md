@@ -2,6 +2,14 @@
 
 State as of 2026-11-23 (evening). `main` is clean; nothing is pushed. **Waves 0-5 are merged** (Wave 5: A security audit, C data packs, B release engineering). What is left is the user's list ("Before the first store release") and the polish items.
 
+## Do next (in order)
+
+1. **Pigeon wiring for pack maintenance** so Verify installed packs works (`docs/packs/README.md`, "Bridge additions"): add the methods to `pigeons/messages.dart`, regenerate (`dart run pigeon --input pigeons/messages.dart`, then `dart format --line-length 120 lib/src/bridge/messages.g.dart`), implement in `PlatformHostApiImpl.kt` (CRLF file: edit with Python, not sed), replace `UnavailablePackMaintenance`. Add a Dart-visible flavour value in the same change if cheap.
+2. **Retest on the emulator** with the foss release APK (emulator-5554 only, `. .\tool\adb_ime.ps1`, `tool\ui_smoke.ps1`; release builds have no testbed and no `run-as`: type in Android Settings search, `am start -a android.settings.APP_SEARCH_SETTINGS`): Chinese "nihao", Japanese "nihongo" with both packs imported from `signed\`, Verify, delete a pack.
+3. **Play bundle:** move `PlayAssetPackSource.kt.txt`, add the includes and `play` dependencies (patches in `docs/release/asset-packs.md`), remove the extra permissions with `tools:node="remove"`, `tool/packs/build_bundle.ps1`, bundletool `--local-testing` on the emulator, gate on the merged `play` manifest.
+4. **Apply the remaining audit patches** (P2/P3/P6 and SEC-05/06/08-11/15) after the user answers D1, D2 and the SEC-03 question; change the onboarding disclosure text (all ARBs, x-review).
+5. Polish items from "Open work" below; then, when the user has their GitHub username, `tool/release/set_application_id.ps1`, a clean-clone build, `tool/release/verify_reproducible.ps1`, and the store steps in `docs/release/checklist.md`.
+
 ## Wave 5 result (merged 2026-11-23)
 
 - **A:** `docs/security/` (threat model, audit with 20 findings, licence audit: 157 of 158 components ok), `SECURITY.md`, hardened CI (actions pinned by SHA; I added `--flavor foss`), Dependabot, `tool/audit/`, `test/security/`, `docs/brand/trademark-check.md` (risk medium; closest is the App Store app "Kosha: Private Vault"; recommends "Kosha Keyboard" plus a professional class 9/42 search).
