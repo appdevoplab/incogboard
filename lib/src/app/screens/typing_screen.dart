@@ -8,6 +8,8 @@ import '../../settings/kosha_settings.dart';
 import '../common/settings_widgets.dart';
 import '../shell/settings_actions.dart';
 
+import 'package:kosha/src/app/l10n.dart';
+
 class TypingScreen extends StatelessWidget {
   const TypingScreen({super.key});
 
@@ -23,164 +25,164 @@ class TypingScreen extends StatelessWidget {
           writeSettings(context, SettingsSection.swipe, (s) => change(s, s.swipe));
 
       return SettingsPage(
-        title: 'Typing',
+        title: context.l10n.settingsTyping,
         children: [
           SettingsGroup(
-            title: 'Corrections',
+            title: context.l10n.typingCorrections,
             children: [
               SettingsSwitchTile(
                 icon: Icons.spellcheck,
-                title: 'Autocorrect',
-                subtitle: 'Fix likely typos as you finish a word',
+                title: context.l10n.typingAutocorrect,
+                subtitle: context.l10n.typingAutocorrectBody,
                 value: t.autoCorrect,
                 onChanged: (v) => typing((s, t) => s.copyWith(typing: t.copyWith(autoCorrect: v))),
               ),
               SettingsSwitchTile(
                 icon: Icons.text_fields,
-                title: 'Auto-capitalise',
-                subtitle: 'Capital letters at the start of sentences',
+                title: context.l10n.typingAutoCapitalise,
+                subtitle: context.l10n.typingAutoCapitaliseBody,
                 value: t.autoCapitalize,
                 onChanged: (v) => typing((s, t) => s.copyWith(typing: t.copyWith(autoCapitalize: v))),
               ),
               SettingsSwitchTile(
                 icon: Icons.more_horiz,
-                title: 'Double-space full stop',
-                subtitle: 'Two taps of space write ". "',
+                title: context.l10n.typingDoubleSpace,
+                subtitle: context.l10n.typingDoubleSpaceBody,
                 value: t.doubleSpacePeriod,
                 onChanged: (v) => typing((s, t) => s.copyWith(typing: t.copyWith(doubleSpacePeriod: v))),
               ),
               SettingsSwitchTile(
                 icon: Icons.format_quote_outlined,
-                title: 'Smart punctuation',
-                subtitle: 'Tidy spaces around punctuation and use local quotes',
+                title: context.l10n.typingSmartPunctuation,
+                subtitle: context.l10n.typingSmartPunctuationBody,
                 value: t.smartPunctuation,
                 onChanged: (v) => typing((s, t) => s.copyWith(typing: t.copyWith(smartPunctuation: v))),
               ),
             ],
           ),
           SettingsGroup(
-            title: 'Suggestions',
+            title: context.l10n.typingSuggestions,
             children: [
               SettingsSwitchTile(
                 icon: Icons.lightbulb_outline,
-                title: 'Suggestions',
-                subtitle: 'Show words in the suggestion bar',
+                title: context.l10n.typingSuggestions,
+                subtitle: context.l10n.typingSuggestionsBody,
                 value: t.showSuggestions,
                 onChanged: (v) => typing((s, t) => s.copyWith(typing: t.copyWith(showSuggestions: v))),
               ),
               SettingsSwitchTile(
                 icon: Icons.arrow_forward,
-                title: 'Next-word prediction',
-                subtitle: 'Suggest the word that often follows',
+                title: context.l10n.typingNextWord,
+                subtitle: context.l10n.typingNextWordBody,
                 value: t.nextWordPrediction,
                 onChanged: (v) => typing((s, t) => s.copyWith(typing: t.copyWith(nextWordPrediction: v))),
               ),
               SettingsSwitchTile(
                 icon: Icons.emoji_emotions_outlined,
-                title: 'Emoji suggestions',
-                subtitle: 'Offer an emoji for some words',
+                title: context.l10n.emojiSuggestions,
+                subtitle: context.l10n.typingEmojiBody,
                 value: t.emojiSuggestions,
                 onChanged: (v) => typing((s, t) => s.copyWith(typing: t.copyWith(emojiSuggestions: v))),
               ),
               SettingsSwitchTile(
                 icon: Icons.block,
-                title: 'Hide offensive words',
-                subtitle: 'Never suggest them unless you type them in full',
+                title: context.l10n.typingHideOffensive,
+                subtitle: context.l10n.typingHideOffensiveBody,
                 value: t.blockOffensiveWords,
                 onChanged: (v) => typing((s, t) => s.copyWith(typing: t.copyWith(blockOffensiveWords: v))),
               ),
             ],
           ),
           SettingsGroup(
-            title: 'Keys',
+            title: context.l10n.typingKeys,
             children: [
               SettingsSwitchTile(
                 icon: Icons.bubble_chart_outlined,
-                title: 'Key popups',
-                subtitle: 'Enlarge a key while you press it',
+                title: context.l10n.typingKeyPopups,
+                subtitle: context.l10n.typingKeyPopupsBody,
                 value: t.keyPopups,
                 onChanged: (v) => typing((s, t) => s.copyWith(typing: t.copyWith(keyPopups: v))),
               ),
               SettingsSliderTile(
                 icon: Icons.timer_outlined,
-                title: 'Long-press delay',
+                title: context.l10n.typingLongPressDelay,
                 value: t.longPressDelayMs.toDouble(),
                 min: 150,
                 max: 1000,
                 divisions: 17,
-                valueLabel: (v) => '${v.round()} ms',
+                valueLabel: (v) => context.l10n.milliseconds(v.round()),
                 onChanged: (v) => typing((s, t) => s.copyWith(typing: t.copyWith(longPressDelayMs: v.round()))),
               ),
               SettingsSwitchTile(
                 icon: Icons.pin_outlined,
-                title: 'Number row',
-                subtitle: 'Show 0 to 9 above the letters',
+                title: context.l10n.typingNumberRow,
+                subtitle: context.l10n.typingNumberRowBody,
                 value: t.numberRow,
                 onChanged: (v) => typing((s, t) => s.copyWith(typing: t.copyWith(numberRow: v))),
               ),
               SettingsSwitchTile(
                 icon: Icons.label_outline,
-                title: 'Hint labels',
-                subtitle: 'Small symbols on keys, such as accents',
+                title: context.l10n.typingHintLabels,
+                subtitle: context.l10n.typingHintLabelsBody,
                 value: t.hintLabels,
                 onChanged: (v) => typing((s, t) => s.copyWith(typing: t.copyWith(hintLabels: v))),
               ),
               SettingsSwitchTile(
                 icon: Icons.text_format,
-                title: 'Lowercase labels',
-                subtitle: 'Keep key letters lowercase when shift is on',
+                title: context.l10n.typingLowercaseLabels,
+                subtitle: context.l10n.typingLowercaseLabelsBody,
                 value: t.lowercaseLabels,
                 onChanged: (v) => typing((s, t) => s.copyWith(typing: t.copyWith(lowercaseLabels: v))),
               ),
             ],
           ),
           SettingsGroup(
-            title: 'Swipe',
+            title: context.l10n.typingSwipe,
             children: [
               SettingsSwitchTile(
                 icon: Icons.gesture,
-                title: 'Swipe typing',
-                subtitle: 'Glide across letters to write a word',
+                title: context.l10n.typingSwipeTyping,
+                subtitle: context.l10n.typingSwipeTypingBody,
                 value: w.enabled,
                 onChanged: (v) => swipe((s, w) => s.copyWith(swipe: w.copyWith(enabled: v))),
               ),
               SettingsSwitchTile(
                 icon: Icons.timeline,
-                title: 'Show trail',
+                title: context.l10n.typingShowTrail,
                 value: w.showTrail,
                 onChanged: w.enabled ? (v) => swipe((s, w) => s.copyWith(swipe: w.copyWith(showTrail: v))) : null,
               ),
               SettingsSliderTile(
                 icon: Icons.line_weight,
-                title: 'Trail width',
+                title: context.l10n.typingTrailWidth,
                 value: w.trailWidth,
                 min: 2,
                 max: 16,
                 divisions: 14,
-                valueLabel: (v) => '${v.round()} dp',
+                valueLabel: (v) => context.l10n.dpValue(v.round()),
                 onChanged: (v) => swipe((s, w) => s.copyWith(swipe: w.copyWith(trailWidth: v))),
               ),
               SettingsSliderTile(
                 icon: Icons.blur_on,
-                title: 'Trail fade',
+                title: context.l10n.typingTrailFade,
                 value: w.trailFadeMs.toDouble(),
                 min: 0,
                 max: 2000,
                 divisions: 20,
-                valueLabel: (v) => '${v.round()} ms',
+                valueLabel: (v) => context.l10n.milliseconds(v.round()),
                 onChanged: (v) => swipe((s, w) => s.copyWith(swipe: w.copyWith(trailFadeMs: v.round()))),
               ),
               SettingsSwitchTile(
                 icon: Icons.visibility_outlined,
-                title: 'Live preview',
-                subtitle: 'Show the likely word while you glide',
+                title: context.l10n.typingLivePreview,
+                subtitle: context.l10n.typingLivePreviewBody,
                 value: w.livePreview,
                 onChanged: w.enabled ? (v) => swipe((s, w) => s.copyWith(swipe: w.copyWith(livePreview: v))) : null,
               ),
               SettingsSwitchTile(
                 icon: Icons.space_bar,
-                title: 'Space bar moves the cursor',
-                subtitle: 'Drag on the space bar to move the cursor',
+                title: context.l10n.typingSpaceMovesCursor,
+                subtitle: context.l10n.typingSpaceMovesCursorBody,
                 value: w.spaceCursorControl,
                 onChanged: w.enabled
                     ? (v) => swipe((s, w) => s.copyWith(swipe: w.copyWith(spaceCursorControl: v)))
@@ -188,8 +190,8 @@ class TypingScreen extends StatelessWidget {
               ),
               SettingsSwitchTile(
                 icon: Icons.backspace_outlined,
-                title: 'Swipe backspace to delete words',
-                subtitle: 'Slide left on backspace to select and delete words',
+                title: context.l10n.typingSwipeBackspace,
+                subtitle: context.l10n.typingSwipeBackspaceBody,
                 value: w.backspaceSwipeDelete,
                 onChanged: w.enabled
                     ? (v) => swipe((s, w) => s.copyWith(swipe: w.copyWith(backspaceSwipeDelete: v)))

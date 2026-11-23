@@ -12,6 +12,7 @@ import '../../core/input_field_info.dart';
 import '../../settings/sections/typing_settings.dart';
 import '../../theme/keyboard_theme_data.dart';
 import '../input/input_controller.dart';
+import '../a11y/key_semantics.dart';
 import '../input/keyboard_page.dart';
 import '../layout/layout_engine.dart';
 import 'key_press_animator.dart';
@@ -70,6 +71,7 @@ class KeysPainter extends CustomPainter {
     required this.textCache,
     this.onActivate,
     this.spaceLabel,
+    this.overlayProvidesSemantics = false,
   }) : super(repaint: animator);
 
   final LaidOutKeyboard laid;
@@ -86,6 +88,9 @@ class KeysPainter extends CustomPainter {
 
   /// Accessibility "tap" on a key.
   final void Function(PlacedKey key)? onActivate;
+
+  /// True when `KeySemanticsLayer` (a11y/key_semantics.dart) draws the key nodes instead.
+  final bool overlayProvidesSemantics;
 
   late final List<KeyVisual> _visuals = [
     for (final k in laid.keys)
@@ -234,8 +239,13 @@ class KeysPainter extends CustomPainter {
       oldDelegate.spaceLabel != spaceLabel ||
       oldDelegate.animator != animator;
 
+  /// Fallback TalkBack nodes, one per key, in row order. A key's tap types its main output. The
+  /// custom actions (long-press alternatives, flick directions) need widget-level Semantics: the
+  /// keys layer (`KeySemanticsLayer`, a11y/key_semantics.dart) provides them and sets
+  /// [overlayProvidesSemantics] to drop these nodes, so TalkBack never sees a key twice.
   @override
   SemanticsBuilderCallback get semanticsBuilder => (Size size) {
+    if (overlayProvidesSemantics) return const [];
     final visuals = _resolve();
     return [
       for (final k in laid.keys)
@@ -244,7 +254,9 @@ class KeysPainter extends CustomPainter {
           properties: SemanticsProperties(
             label: visuals[k.index].semantics,
             button: true,
+            selected: keyIsCurrentPage(k.def, page) ? true : null,
             onTap: onActivate == null ? null : () => onActivate!(k),
+            sortKey: OrdinalSortKey(k.row * 1000.0 + k.column),
             textDirection: TextDirection.ltr,
           ),
         ),
@@ -253,5 +265,10 @@ class KeysPainter extends CustomPainter {
 
   @override
   bool shouldRebuildSemantics(covariant KeysPainter oldDelegate) =>
-      oldDelegate.laid != laid || oldDelegate.page != page || oldDelegate.field != field || oldDelegate.shift != shift;
+      oldDelegate.laid != laid ||
+      oldDelegate.page != page ||
+      oldDelegate.field != field ||
+      oldDelegate.shift != shift ||
+      oldDelegate.spaceLabel != spaceLabel ||
+      oldDelegate.onActivate != onActivate;
 }

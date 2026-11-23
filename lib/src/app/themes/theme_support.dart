@@ -13,6 +13,8 @@ import '../../theme/keyboard_theme_data.dart';
 import '../../theme/theme_resolver.dart';
 import '../../theme/theme_spec.dart';
 
+import 'package:kosha/src/app/l10n.dart';
+
 /// Longest theme name, in characters.
 const int kThemeNameMax = 30;
 
@@ -144,8 +146,8 @@ class _PreviewKey {
 String newCustomThemeId() => CustomThemeIds.idFor(CustomThemeIds.newUuid());
 
 /// The name to use for a copy of [name], within [kThemeNameMax] characters.
-String copyNameFor(String name) {
-  const suffix = ' copy';
+String copyNameFor(String name, AppLocalizations l10n) {
+  final suffix = l10n.themeCopySuffix;
   final base = name.length + suffix.length > kThemeNameMax ? name.substring(0, kThemeNameMax - suffix.length) : name;
-  return '$base$suffix';
+  return l10n.themeCopyName(base);
 }

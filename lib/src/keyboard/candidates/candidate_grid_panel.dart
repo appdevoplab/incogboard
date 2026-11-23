@@ -5,6 +5,7 @@
 // a pick, and by itself when the composer has nothing left to show.
 import 'package:flutter/widgets.dart';
 
+import '../a11y/candidate_labels.dart';
 import '../input/composer.dart';
 import '../panels/keyboard_panel.dart';
 
@@ -70,7 +71,7 @@ class _CandidateGridState extends State<_CandidateGrid> {
             final highlighted = i == state.highlighted;
             return Semantics(
               button: true,
-              label: 'Candidate ${c.text}${c.annotation == null ? '' : ', ${c.annotation}'}',
+              label: candidateSemanticsLabel(c, index: i, total: state.candidates.length),
               excludeSemantics: true,
               child: GestureDetector(
                 behavior: HitTestBehavior.opaque,
