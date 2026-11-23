@@ -113,7 +113,11 @@ These need the owner of each file. None of them is needed to build the release A
    per-browser list needs the package names) or drop it from the plan. Orchestrator decision.
 5. **Open-source registration** (only if F-Droid re-signs): `assets/adi-registration.properties` is published with a
    release when the repository asks for it. Not created. (orchestrator, later)
-6. **Format gate on main.** `dart format --line-length 120 --set-exit-if-changed lib test pigeons` fails on the
+6. **CI release build needs a flavour** (`.github/workflows/ci.yml`, Agent A's file): the step
+   `flutter build apk --release --split-per-abi` must become `flutter build apk --release --flavor foss --split-per-abi`.
+   Builds without `--flavor` fail with the Flutter tool error tested for debug (see `RELEASING.md`). The release
+   permission gate path `build/app/outputs/flutter-apk/*-release.apk` still matches. (orchestrator)
+7. **Format gate on main.** `dart format --line-length 120 --set-exit-if-changed lib test pigeons` fails on the
    eight generated files `lib/l10n/app_localizations*.dart` (tracked; Flutter 3.50 gen-l10n output is not formatted).
    CI's format step fails for the same reason. Fix: run `dart format --line-length 120 lib/l10n` once, or exclude
    the generated files in `ci.yml` (Agent A's file). `build_release.ps1` excludes them meanwhile. (orchestrator)
