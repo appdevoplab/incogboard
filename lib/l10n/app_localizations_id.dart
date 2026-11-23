@@ -16,7 +16,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get homeTagline => 'Pengetikan pribadi, di ponsel ini';
 
   @override
-  String get homeOfflinePromise => 'Kosha berfungsi luring dan tidak mengirim apa pun ke mana pun.';
+  String get homeOfflinePromise =>
+      'Kosha berfungsi luring dan tidak mengirim apa pun ke mana pun.';
 
   @override
   String get cancel => 'Batal';
@@ -94,7 +95,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get homeTranslationSubtitle => 'Terjemahkan saat mengetik, luring';
 
   @override
-  String get homePrivacySubtitle => 'Apa yang disimpan, penyamaran, kunci aplikasi, dan cadangan';
+  String get homePrivacySubtitle =>
+      'Apa yang disimpan, penyamaran, kunci aplikasi, dan cadangan';
 
   @override
   String get homeAboutSubtitle => 'Versi, lisensi, dan kode sumber';
@@ -139,7 +141,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get aboutSourceCode => 'Kode sumber';
 
   @override
-  String get aboutSourceBody => 'Kosha adalah GPL-3.0-or-later. Kode sumbernya tersedia di halaman proyek.';
+  String get aboutSourceBody =>
+      'Kosha adalah GPL-3.0-or-later. Kode sumbernya tersedia di halaman proyek.';
 
   @override
   String get aboutLicences => 'Lisensi';
@@ -148,7 +151,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get aboutOpenSource => 'Lisensi sumber terbuka';
 
   @override
-  String get aboutOpenSourceBody => 'Flutter, material_ui, dan setiap paket yang dipakai Kosha';
+  String get aboutOpenSourceBody =>
+      'Flutter, material_ui, dan setiap paket yang dipakai Kosha';
 
   @override
   String get aboutTextLoadFailed => 'Teks ini tidak dapat dimuat.';
@@ -166,7 +170,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get languagesAllEnabled => 'Semua bahasa aktif';
 
   @override
-  String get languagesAllEnabledBody => 'Hapus salah satu di atas untuk memberi ruang.';
+  String get languagesAllEnabledBody =>
+      'Hapus salah satu di atas untuk memberi ruang.';
 
   @override
   String get languagesMultilingual => 'Pengetikan multibahasa';
@@ -186,7 +191,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get languagesOptions => 'Opsi bahasa';
 
   @override
-  String get languagesZhSubtitle => 'Pinyin, karakter tradisional, dan paket kamus';
+  String get languagesZhSubtitle =>
+      'Pinyin, karakter tradisional, dan paket kamus';
 
   @override
   String get languagesJaSubtitle => 'Input flick, konversi, dan paket kamus';
@@ -218,7 +224,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get feelHapticFeedback => 'Umpan balik haptik';
 
   @override
-  String get feelHapticFeedbackBody => 'Getaran singkat di setiap tombol, mengikuti pengaturan sistem';
+  String get feelHapticFeedbackBody =>
+      'Getaran singkat di setiap tombol, mengikuti pengaturan sistem';
 
   @override
   String get feelHapticStrength => 'Kekuatan haptik';
@@ -266,16 +273,19 @@ class AppLocalizationsId extends AppLocalizations {
   String get panelsClipboardHistory => 'Riwayat papan klip';
 
   @override
-  String get panelsClipboardHistoryBody => 'Simpan yang Anda salin, terenkripsi di ponsel ini';
+  String get panelsClipboardHistoryBody =>
+      'Simpan yang Anda salin, terenkripsi di ponsel ini';
 
   @override
   String get panelsRecentChip => 'Chip salinan terbaru';
 
   @override
-  String get panelsRecentChipBody => 'Tawarkan salinan terakhir Anda di bilah saran selama semenit';
+  String get panelsRecentChipBody =>
+      'Tawarkan salinan terakhir Anda di bilah saran selama semenit';
 
   @override
-  String get panelsKeepUnpinned => 'Simpan salinan yang tidak disematkan selama';
+  String get panelsKeepUnpinned =>
+      'Simpan salinan yang tidak disematkan selama';
 
   @override
   String get panelsClipsToKeep => 'Klip yang disimpan';
@@ -287,13 +297,15 @@ class AppLocalizationsId extends AppLocalizations {
   String get emojiSuggestions => 'Saran emoji';
 
   @override
-  String get emojiSuggestionsPanelBody => 'Tawarkan emoji untuk beberapa kata di bilah saran';
+  String get emojiSuggestionsPanelBody =>
+      'Tawarkan emoji untuk beberapa kata di bilah saran';
 
   @override
   String get panelsPasswordsNeverSaved => 'Kata sandi tidak pernah disimpan';
 
   @override
-  String get panelsSensitiveBody => 'Salinan yang ditandai Android sebagai sensitif tidak pernah disimpan.';
+  String get panelsSensitiveBody =>
+      'Salinan yang ditandai Android sebagai sensitif tidak pernah disimpan.';
 
   @override
   String get typingCorrections => 'Koreksi';
@@ -302,7 +314,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get typingAutocorrect => 'Koreksi otomatis';
 
   @override
-  String get typingAutocorrectBody => 'Memperbaiki salah ketik yang mungkin saat kata selesai';
+  String get typingAutocorrectBody =>
+      'Memperbaiki salah ketik yang mungkin saat kata selesai';
 
   @override
   String get typingAutoCapitalise => 'Kapitalisasi otomatis';
@@ -320,7 +333,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get typingSmartPunctuation => 'Tanda baca cerdas';
 
   @override
-  String get typingSmartPunctuationBody => 'Merapikan spasi di sekitar tanda baca dan memakai tanda kutip lokal';
+  String get typingSmartPunctuationBody =>
+      'Merapikan spasi di sekitar tanda baca dan memakai tanda kutip lokal';
 
   @override
   String get typingSuggestions => 'Saran';
@@ -341,7 +355,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get typingHideOffensive => 'Sembunyikan kata kasar';
 
   @override
-  String get typingHideOffensiveBody => 'Tidak pernah disarankan kecuali diketik lengkap';
+  String get typingHideOffensiveBody =>
+      'Tidak pernah disarankan kecuali diketik lengkap';
 
   @override
   String get typingKeys => 'Tombol';
@@ -395,25 +410,29 @@ class AppLocalizationsId extends AppLocalizations {
   String get typingLivePreview => 'Pratinjau langsung';
 
   @override
-  String get typingLivePreviewBody => 'Menampilkan kata yang mungkin saat meluncur';
+  String get typingLivePreviewBody =>
+      'Menampilkan kata yang mungkin saat meluncur';
 
   @override
   String get typingSpaceMovesCursor => 'Bilah spasi memindahkan kursor';
 
   @override
-  String get typingSpaceMovesCursorBody => 'Seret di bilah spasi untuk memindahkan kursor';
+  String get typingSpaceMovesCursorBody =>
+      'Seret di bilah spasi untuk memindahkan kursor';
 
   @override
   String get typingSwipeBackspace => 'Geser hapus untuk menghapus kata';
 
   @override
-  String get typingSwipeBackspaceBody => 'Geser ke kiri pada hapus untuk memilih dan menghapus kata';
+  String get typingSwipeBackspaceBody =>
+      'Geser ke kiri pada hapus untuk memilih dan menghapus kata';
 
   @override
   String get voiceTyping => 'Mengetik dengan suara';
 
   @override
-  String get voiceTypingBody => 'Bicara untuk mengetik. Pengenalan berjalan di ponsel ini.';
+  String get voiceTypingBody =>
+      'Bicara untuk mengetik. Pengenalan berjalan di ponsel ini.';
 
   @override
   String get voiceRecognition => 'Pengenalan';
@@ -422,13 +441,16 @@ class AppLocalizationsId extends AppLocalizations {
   String get voiceDetectLanguage => 'Deteksi bahasa otomatis';
 
   @override
-  String get voiceDetectLanguageBody => 'Whisper mengenali bahasa yang Anda ucapkan.';
+  String get voiceDetectLanguageBody =>
+      'Whisper mengenali bahasa yang Anda ucapkan.';
 
   @override
-  String get voiceModelPacksBody => 'Pasang atau hapus paket suara dan terjemahan';
+  String get voiceModelPacksBody =>
+      'Pasang atau hapus paket suara dan terjemahan';
 
   @override
-  String get voiceAudioStays => 'Audio tetap di ponsel ini dan tidak pernah disimpan.';
+  String get voiceAudioStays =>
+      'Audio tetap di ponsel ini dan tidak pernah disimpan.';
 
   @override
   String get voicePackAutomatic => 'Otomatis';
@@ -440,7 +462,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get voicePack => 'Paket suara';
 
   @override
-  String get voiceNoPack => 'Tidak ada paket suara terpasang. Pasang satu di Paket model.';
+  String get voiceNoPack =>
+      'Tidak ada paket suara terpasang. Pasang satu di Paket model.';
 
   @override
   String get voiceLooking => 'Mencari paket yang terpasang';
@@ -498,7 +521,8 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get packsIntro => 'Paket diperiksa sebelum dipasang. Isinya hanya data, tidak pernah kode.';
+  String get packsIntro =>
+      'Paket diperiksa sebelum dipasang. Isinya hanya data, tidak pernah kode.';
 
   @override
   String get packsImport => 'Impor';
@@ -516,13 +540,15 @@ class AppLocalizationsId extends AppLocalizations {
   String get packsNoVoice => 'Tidak ada paket suara terpasang';
 
   @override
-  String get packsNoVoiceBody => 'Mengetik dengan suara memerlukan paket suara.';
+  String get packsNoVoiceBody =>
+      'Mengetik dengan suara memerlukan paket suara.';
 
   @override
   String get packsNoTranslation => 'Tidak ada paket terjemahan terpasang';
 
   @override
-  String get packsNoTranslationBody => 'Terjemahan memerlukan satu paket untuk setiap arah.';
+  String get packsNoTranslationBody =>
+      'Terjemahan memerlukan satu paket untuk setiap arah.';
 
   @override
   String get packsDictionaries => 'Kamus';
@@ -531,7 +557,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get packsNoDictionary => 'Tidak ada paket kamus terpasang';
 
   @override
-  String get packsNoDictionaryBody => 'Mengetik bahasa Mandarin dan Jepang memerlukan paket kamus.';
+  String get packsNoDictionaryBody =>
+      'Mengetik bahasa Mandarin dan Jepang memerlukan paket kamus.';
 
   @override
   String get packsNothingStored => 'Belum ada yang disimpan.';
@@ -542,22 +569,28 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get packErrorBadSignature => 'Paket ini tidak ditandatangani untuk Kosha, jadi tidak ada yang dipasang.';
+  String get packErrorBadSignature =>
+      'Paket ini tidak ditandatangani untuk Kosha, jadi tidak ada yang dipasang.';
 
   @override
-  String get packErrorBadFormat => 'File ini bukan paket Kosha. Tidak ada yang dipasang.';
+  String get packErrorBadFormat =>
+      'File ini bukan paket Kosha. Tidak ada yang dipasang.';
 
   @override
-  String get packErrorTooLarge => 'Paket ini terlalu besar untuk dipasang di ponsel ini.';
+  String get packErrorTooLarge =>
+      'Paket ini terlalu besar untuk dipasang di ponsel ini.';
 
   @override
-  String get packErrorVersion => 'Paket ini memerlukan versi Kosha yang lebih baru.';
+  String get packErrorVersion =>
+      'Paket ini memerlukan versi Kosha yang lebih baru.';
 
   @override
-  String get packErrorNoSpace => 'Ruang kosong tidak cukup untuk memasang paket ini.';
+  String get packErrorNoSpace =>
+      'Ruang kosong tidak cukup untuk memasang paket ini.';
 
   @override
-  String get packErrorGeneric => 'Paket tidak dapat dipasang. Tidak ada yang diubah.';
+  String get packErrorGeneric =>
+      'Paket tidak dapat dipasang. Tidak ada yang diubah.';
 
   @override
   String get translateDefaultPair => 'Pasangan bahasa default';
@@ -581,13 +614,15 @@ class AppLocalizationsId extends AppLocalizations {
   String get translatePackInstalled => 'Paket terpasang';
 
   @override
-  String get translatePackNotInstalled => 'Paket belum terpasang. Dapatkan di Paket model.';
+  String get translatePackNotInstalled =>
+      'Paket belum terpasang. Dapatkan di Paket model.';
 
   @override
   String get translateInstalled => 'Arah yang terpasang';
 
   @override
-  String get translateInstalledBody => 'Setiap arah adalah satu paket, misalnya Inggris → Spanyol.';
+  String get translateInstalledBody =>
+      'Setiap arah adalah satu paket, misalnya Inggris → Spanyol.';
 
   @override
   String translatePackMeta(String license, String size) {
@@ -602,16 +637,19 @@ class AppLocalizationsId extends AppLocalizations {
       'Terjemahan berjalan di ponsel ini. Tidak ada yang Anda terjemahkan yang disimpan.';
 
   @override
-  String get privacyUnlockReason => 'Buka kunci Kosha untuk melihat pengaturan dan data Anda';
+  String get privacyUnlockReason =>
+      'Buka kunci Kosha untuk melihat pengaturan dan data Anda';
 
   @override
-  String get privacyLockUnavailable => 'Kunci perangkat tidak tersedia sekarang. Coba lagi sebentar lagi.';
+  String get privacyLockUnavailable =>
+      'Kunci perangkat tidak tersedia sekarang. Coba lagi sebentar lagi.';
 
   @override
   String get privacyLockedTitle => 'Kosha terkunci';
 
   @override
-  String get privacyLockedBody => 'Buka dengan sidik jari atau PIN perangkat Anda untuk melanjutkan.';
+  String get privacyLockedBody =>
+      'Buka dengan sidik jari atau PIN perangkat Anda untuk melanjutkan.';
 
   @override
   String get privacyUnlock => 'Buka';
@@ -622,19 +660,24 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get backupUnlockRetrySaved => 'Buka kunci ponsel, lalu coba lagi. Tidak ada yang disimpan.';
+  String get backupUnlockRetrySaved =>
+      'Buka kunci ponsel, lalu coba lagi. Tidak ada yang disimpan.';
 
   @override
-  String get backupSaveFailed => 'Cadangan tidak dapat disimpan. Tidak ada yang diubah.';
+  String get backupSaveFailed =>
+      'Cadangan tidak dapat disimpan. Tidak ada yang diubah.';
 
   @override
-  String get backupWrongPassphrase => 'Frasa sandi salah, atau file rusak. Tidak ada yang diubah.';
+  String get backupWrongPassphrase =>
+      'Frasa sandi salah, atau file rusak. Tidak ada yang diubah.';
 
   @override
-  String get backupInvalidFile => 'File ini bukan cadangan Kosha yang valid. Tidak ada yang diubah.';
+  String get backupInvalidFile =>
+      'File ini bukan cadangan Kosha yang valid. Tidak ada yang diubah.';
 
   @override
-  String get backupTooLarge => 'File ini terlalu besar untuk menjadi cadangan Kosha.';
+  String get backupTooLarge =>
+      'File ini terlalu besar untuk menjadi cadangan Kosha.';
 
   @override
   String get backupNewerVersion =>
@@ -644,7 +687,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get backupBusy => 'Tutup dulu jendela file yang lain, lalu coba lagi.';
 
   @override
-  String get backupOpenFailed => 'Cadangan tidak dapat dibuka. Tidak ada yang diubah.';
+  String get backupOpenFailed =>
+      'Cadangan tidak dapat dibuka. Tidak ada yang diubah.';
 
   @override
   String get backupEmpty => 'Cadangan ini kosong.';
@@ -661,13 +705,15 @@ class AppLocalizationsId extends AppLocalizations {
   String get backupMerge => 'Gabung';
 
   @override
-  String get backupMergeBody => 'Simpan yang ada di ponsel ini dan tambahkan isi cadangan.';
+  String get backupMergeBody =>
+      'Simpan yang ada di ponsel ini dan tambahkan isi cadangan.';
 
   @override
   String get backupReplace => 'Ganti';
 
   @override
-  String get backupReplaceBody => 'Samakan bagian yang dipilih dengan cadangan. Data di sini dihapus lebih dulu.';
+  String get backupReplaceBody =>
+      'Samakan bagian yang dipilih dengan cadangan. Data di sini dihapus lebih dulu.';
 
   @override
   String get commonContinue => 'Lanjut';
@@ -680,10 +726,12 @@ class AppLocalizationsId extends AppLocalizations {
       'Bagian yang dipilih di ponsel ini akan dihapus dan diganti. Tidak bisa dibatalkan.';
 
   @override
-  String get backupUnlockRetryChanged => 'Buka kunci ponsel, lalu coba lagi. Tidak ada yang diubah.';
+  String get backupUnlockRetryChanged =>
+      'Buka kunci ponsel, lalu coba lagi. Tidak ada yang diubah.';
 
   @override
-  String get backupRestoreFailed => 'Kosha tidak dapat menyelesaikan pemulihan. Sebagian data mungkin belum tertulis.';
+  String get backupRestoreFailed =>
+      'Kosha tidak dapat menyelesaikan pemulihan. Sebagian data mungkin belum tertulis.';
 
   @override
   String get restoreNothingNew => 'Tidak ada yang baru dipulihkan.';
@@ -700,85 +748,141 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String restoreLearnedFor(int count) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count bahasa');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count bahasa',
+    );
     return 'kata yang dipelajari untuk $_temp0';
   }
 
   @override
   String countFiles(int count) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count file');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count file',
+    );
     return '$_temp0';
   }
 
   @override
   String countWords(int count) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count kata');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count kata',
+    );
     return '$_temp0';
   }
 
   @override
   String countLanguages(int count) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count bahasa');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count bahasa',
+    );
     return '$_temp0';
   }
 
   @override
   String countShortcuts(int count) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count pintasan');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count pintasan',
+    );
     return '$_temp0';
   }
 
   @override
   String countClipboardItems(int count) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count item papan klip');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count item papan klip',
+    );
     return '$_temp0';
   }
 
   @override
   String countThemeFiles(int count) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count file tema');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count file tema',
+    );
     return '$_temp0';
   }
 
   @override
   String countPinnedItems(int count) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count item tersemat');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count item tersemat',
+    );
     return '$_temp0';
   }
 
   @override
   String countPacks(int count) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count paket');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count paket',
+    );
     return '$_temp0';
   }
 
   @override
   String countBlockedWords(int count) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count kata diblokir');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count kata diblokir',
+    );
     return '$_temp0';
   }
 
   @override
   String countTimes(int count) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count kali');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count kali',
+    );
     return '$_temp0';
   }
 
   @override
   String timeMinutesAgo(int count) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count menit lalu');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count menit lalu',
+    );
     return '$_temp0';
   }
 
   @override
   String timeHoursAgo(int count) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count jam lalu');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count jam lalu',
+    );
     return '$_temp0';
   }
 
   @override
   String timeDaysAgo(int count) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count hari lalu');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count hari lalu',
+    );
     return '$_temp0';
   }
 
@@ -814,7 +918,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get privacySaveFailed => 'Perubahan tidak dapat disimpan. Coba lagi.';
 
   @override
-  String get privacyCouldNotReadWords => 'Kosha tidak dapat membaca kata-kata ini.';
+  String get privacyCouldNotReadWords =>
+      'Kosha tidak dapat membaca kata-kata ini.';
 
   @override
   String get privacyCannotReadWordsNow =>
@@ -864,7 +969,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get privacyNeverSuggested => 'Tidak pernah disarankan';
 
   @override
-  String get privacyBlockedExplain => 'Kosha tidak akan menyarankan atau mengoreksi ke kata-kata ini.';
+  String get privacyBlockedExplain =>
+      'Kosha tidak akan menyarankan atau mengoreksi ke kata-kata ini.';
 
   @override
   String get privacyNoBlockedWords => 'Tidak ada kata yang diblokir.';
@@ -874,7 +980,11 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String privacyWordLastUsed(int count, String when) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count kali');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count kali',
+    );
     return 'Diketik $_temp0 · terakhir $when';
   }
 
@@ -904,20 +1014,24 @@ class AppLocalizationsId extends AppLocalizations {
   String get privacyTryAgain => 'Coba lagi';
 
   @override
-  String get privacyCenterLoadFailed => 'Kosha tidak dapat membaca data privasinya. Coba lagi nanti.';
+  String get privacyCenterLoadFailed =>
+      'Kosha tidak dapat membaca data privasinya. Coba lagi nanti.';
 
   @override
   String get privacyDevBuildNetwork =>
       'Build ini meminta akses internet. Kosha seharusnya tidak pernah melakukannya. Mohon laporkan.';
 
   @override
-  String get privacyNoInternetPermission => 'Kosha tidak memiliki izin internet. Tidak ada yang bisa dikirim.';
+  String get privacyNoInternetPermission =>
+      'Kosha tidak memiliki izin internet. Tidak ada yang bisa dikirim.';
 
   @override
-  String get privacyDevBuildNote => 'Ini adalah build pengembangan. Izin jaringannya hanya untuk alat pengembangan.';
+  String get privacyDevBuildNote =>
+      'Ini adalah build pengembangan. Izin jaringannya hanya untuk alat pengembangan.';
 
   @override
-  String get privacyDevBuildShort => 'Build pengembangan. Kosha tetap tidak memiliki izin internet.';
+  String get privacyDevBuildShort =>
+      'Build pengembangan. Kosha tetap tidak memiliki izin internet.';
 
   @override
   String privacyStorageSize(String size, String when) {
@@ -928,11 +1042,16 @@ class AppLocalizationsId extends AppLocalizations {
   String get privacyCustomThemes => 'Tema kustom';
 
   @override
-  String get privacyNoPacks => 'Tidak ada yang terpasang. Paket suara dan terjemahan muncul di sini.';
+  String get privacyNoPacks =>
+      'Tidak ada yang terpasang. Paket suara dan terjemahan muncul di sini.';
 
   @override
   String privacyPacksSize(int count, String size) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count paket');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count paket',
+    );
     return '$_temp0 · $size';
   }
 
@@ -978,7 +1097,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get privacyNoAppsYet => 'Belum ada aplikasi';
 
   @override
-  String get privacyNoAppsYetBody => 'Aplikasi tempat Anda mengetik akan muncul di sini.';
+  String get privacyNoAppsYetBody =>
+      'Aplikasi tempat Anda mengetik akan muncul di sini.';
 
   @override
   String get privacyAlwaysIncognitoApps => 'Aplikasi selalu dalam penyamaran';
@@ -990,7 +1110,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get privacyOfferShortcuts => 'Tawarkan pintasan';
 
   @override
-  String get privacyOfferShortcutsBody => 'Tampilkan singkatan Anda, seperti \"omw\", sebagai saran pertama.';
+  String get privacyOfferShortcutsBody =>
+      'Tampilkan singkatan Anda, seperti \"omw\", sebagai saran pertama.';
 
   @override
   String get privacyEditShortcuts => 'Edit pintasan';
@@ -999,7 +1120,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get privacyNoShortcutsYet => 'Belum ada';
 
   @override
-  String get privacyLearnedAndClipboard => 'Kata yang dipelajari dan papan klip';
+  String get privacyLearnedAndClipboard =>
+      'Kata yang dipelajari dan papan klip';
 
   @override
   String get privacyNoWordsLearnedYet => 'Belum ada kata yang dipelajari';
@@ -1014,7 +1136,8 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get privacyClipboardHistoryEmpty => 'Riwayat kosong. Ubah pengaturan papan klip di Panel.';
+  String get privacyClipboardHistoryEmpty =>
+      'Riwayat kosong. Ubah pengaturan papan klip di Panel.';
 
   @override
   String privacyClipboardInHistory(String size) {
@@ -1042,13 +1165,15 @@ class AppLocalizationsId extends AppLocalizations {
       'Kunci aplikasi menggunakan sidik jari atau PIN perangkat. Atur PIN, pola, atau sandi di pengaturan keamanan Android, lalu kembali.';
 
   @override
-  String get privacyTurnOnAppLockReason => 'Nyalakan kunci aplikasi untuk Kosha';
+  String get privacyTurnOnAppLockReason =>
+      'Nyalakan kunci aplikasi untuk Kosha';
 
   @override
   String get privacyNotAvailable => 'Tidak tersedia sekarang';
 
   @override
-  String get privacyNotAvailableBody => 'Kunci perangkat tidak dapat digunakan. Kunci aplikasi tetap mati.';
+  String get privacyNotAvailableBody =>
+      'Kunci perangkat tidak dapat digunakan. Kunci aplikasi tetap mati.';
 
   @override
   String get privacyBackupTitle => 'Cadangan';
@@ -1057,7 +1182,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get privacyBackupRestore => 'Cadangan dan pemulihan';
 
   @override
-  String get privacyBackupRestoreBody => 'Berkas .koshabackup terenkripsi yang Anda simpan. Anda memilih isinya.';
+  String get privacyBackupRestoreBody =>
+      'Berkas .koshabackup terenkripsi yang Anda simpan. Anda memilih isinya.';
 
   @override
   String get privacyDeleteData => 'Hapus data';
@@ -1066,7 +1192,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get privacyEraseEverything => 'Hapus semuanya';
 
   @override
-  String get privacyEraseEverythingBody => 'Semua kategori di atas, tema kustom Anda, dan kunci yang melindunginya.';
+  String get privacyEraseEverythingBody =>
+      'Semua kategori di atas, tema kustom Anda, dan kunci yang melindunginya.';
 
   @override
   String privacyDeleteTitle(String category) {
@@ -1080,7 +1207,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get privacyWillDelete => 'Ini akan menghapus secara permanen:';
 
   @override
-  String get privacyResetSettings => 'Juga atur ulang semua pengaturan ke default';
+  String get privacyResetSettings =>
+      'Juga atur ulang semua pengaturan ke default';
 
   @override
   String get privacyCannotBeUndone => 'Tidak bisa dibatalkan.';
@@ -1089,7 +1217,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get privacyDeleted => 'Dihapus.';
 
   @override
-  String get privacyDeleteFailed => 'Kosha tidak dapat menghapus semuanya. Coba lagi.';
+  String get privacyDeleteFailed =>
+      'Kosha tidak dapat menghapus semuanya. Coba lagi.';
 
   @override
   String get privacyOk => 'OK';
@@ -1113,7 +1242,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get backupRestoreFromFile => 'Pulihkan dari file cadangan';
 
   @override
-  String get backupRestoreFromFileBody => 'Buka file .koshabackup, periksa isinya, lalu gabungkan atau ganti.';
+  String get backupRestoreFromFileBody =>
+      'Buka file .koshabackup, periksa isinya, lalu gabungkan atau ganti.';
 
   @override
   String get backupChoosePassphrase => 'Pilih frasa sandi';
@@ -1122,7 +1252,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get backupEnterPassphrase => 'Masukkan frasa sandi';
 
   @override
-  String get backupWriteItDown => 'Tulis di tempat yang aman. Frasa sandi yang hilang tidak bisa dipulihkan.';
+  String get backupWriteItDown =>
+      'Tulis di tempat yang aman. Frasa sandi yang hilang tidak bisa dipulihkan.';
 
   @override
   String get backupPassphrase => 'Frasa sandi';
@@ -1160,7 +1291,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get backupNothingYet => 'Belum ada';
 
   @override
-  String get backupSettingsSummary => 'Tema, bahasa, pengetikan, dan pilihan privasi';
+  String get backupSettingsSummary =>
+      'Tema, bahasa, pengetikan, dan pilihan privasi';
 
   @override
   String backupLearnedSummary(String languages, String words) {
@@ -1174,18 +1306,27 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String backupAlreadyHere(int count) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count pintasan sudah ada');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count pintasan sudah ada',
+    );
     return '$_temp0';
   }
 
   @override
   String backupThemesAlreadyHere(int count) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count file tema sudah ada');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count file tema sudah ada',
+    );
     return '$_temp0';
   }
 
   @override
-  String get backupClipboardKept => 'papan klip dibiarkan (tata letak tidak dikenal)';
+  String get backupClipboardKept =>
+      'papan klip dibiarkan (tata letak tidak dikenal)';
 
   @override
   String get backupEmojiKept => 'emoji terbaru dipertahankan';
@@ -1195,7 +1336,11 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String backupLearnedAdded(int count) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count bahasa');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count bahasa',
+    );
     return 'kata yang dipelajari untuk $_temp0';
   }
 
@@ -1205,7 +1350,8 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get shortcutDeleteBody => 'Ini menghapus pintasan. Tidak bisa dibatalkan.';
+  String get shortcutDeleteBody =>
+      'Ini menghapus pintasan. Tidak bisa dibatalkan.';
 
   @override
   String get shortcutAdd => 'Tambah pintasan';
@@ -1214,7 +1360,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get shortcutSearch => 'Cari pintasan';
 
   @override
-  String get shortcutNoMatch => 'Tidak ada pintasan yang cocok dengan pencarian Anda.';
+  String get shortcutNoMatch =>
+      'Tidak ada pintasan yang cocok dengan pencarian Anda.';
 
   @override
   String shortcutDeleteTooltip(String trigger) {
@@ -1225,7 +1372,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get shortcutNoneYet => 'Belum ada pintasan';
 
   @override
-  String get shortcutExplain => 'Pintasan mengubah singkatan menjadi teks yang lebih panjang. Contoh:';
+  String get shortcutExplain =>
+      'Pintasan mengubah singkatan menjadi teks yang lebih panjang. Contoh:';
 
   @override
   String shortcutExamples(String first, String second) {
@@ -1233,7 +1381,8 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get shortcutEncrypted => 'Pintasan terenkripsi di ponsel ini, seperti kata yang dipelajari.';
+  String get shortcutEncrypted =>
+      'Pintasan terenkripsi di ponsel ini, seperti kata yang dipelajari.';
 
   @override
   String get shortcutNew => 'Pintasan baru';
@@ -1275,7 +1424,8 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get shortcutProblemEmptyTrigger => 'Ketik singkatan yang ingin diperluas.';
+  String get shortcutProblemEmptyTrigger =>
+      'Ketik singkatan yang ingin diperluas.';
 
   @override
   String shortcutProblemTriggerTooLong(num count) {
@@ -1283,10 +1433,12 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get shortcutProblemTriggerCharacters => 'singkatan hanya boleh berisi huruf, angka, dan tanda kutip satu.';
+  String get shortcutProblemTriggerCharacters =>
+      'singkatan hanya boleh berisi huruf, angka, dan tanda kutip satu.';
 
   @override
-  String get shortcutProblemEmptyExpansion => 'Ketik apa yang harus diperluas dari singkatan ini.';
+  String get shortcutProblemEmptyExpansion =>
+      'Ketik apa yang harus diperluas dari singkatan ini.';
 
   @override
   String shortcutProblemExpansionTooLong(num count) {
@@ -1294,7 +1446,8 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get shortcutProblemDuplicate => 'Anda sudah punya pintasan dengan singkatan ini.';
+  String get shortcutProblemDuplicate =>
+      'Anda sudah punya pintasan dengan singkatan ini.';
 
   @override
   String shortcutProblemTooMany(num count) {
@@ -1331,7 +1484,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get onboardingKeyboardNotYours => 'Kosha belum menjadi keyboard Anda.';
 
   @override
-  String get onboardingTurnOnFirst => 'Nyalakan Kosha di langkah sebelumnya terlebih dahulu.';
+  String get onboardingTurnOnFirst =>
+      'Nyalakan Kosha di langkah sebelumnya terlebih dahulu.';
 
   @override
   String get onboardingChooseKeyboard => 'Pilih keyboard';
@@ -1347,7 +1501,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get onboardingReleaseInternet => 'Build ini bisa mengakses internet.';
 
   @override
-  String get onboardingNoInternet => 'Kosha tidak punya izin internet, jadi tidak bisa mengirim apa pun ke mana pun.';
+  String get onboardingNoInternet =>
+      'Kosha tidak punya izin internet, jadi tidak bisa mengirim apa pun ke mana pun.';
 
   @override
   String get onboardingWarningTitle => 'Mengapa peringatan ini tidak berlaku';
@@ -1383,7 +1538,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get onboardingTryTyping => 'Ketik satu kalimat';
 
   @override
-  String get onboardingTrySwipe => 'Geser satu kata: luncur dari huruf ke huruf';
+  String get onboardingTrySwipe =>
+      'Geser satu kata: luncur dari huruf ke huruf';
 
   @override
   String get onboardingTryAccents => 'Tekan lama huruf untuk melihat aksennya';
@@ -1442,7 +1598,8 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get onboardingNoLanguageMatch => 'Tidak ada bahasa yang cocok dengan pencarian itu.';
+  String get onboardingNoLanguageMatch =>
+      'Tidak ada bahasa yang cocok dengan pencarian itu.';
 
   @override
   String get themeCreate => 'Buat tema';
@@ -1587,7 +1744,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get themeSourcePerRole => 'Per peran';
 
   @override
-  String get themeWallpaperNeedsAndroid12 => 'Warna wallpaper memerlukan Android 12 atau yang lebih baru.';
+  String get themeWallpaperNeedsAndroid12 =>
+      'Warna wallpaper memerlukan Android 12 atau yang lebih baru.';
 
   @override
   String get themeSeedColour => 'Warna dasar';
@@ -1600,7 +1758,10 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String themeEditingColours(String mode) {
-    String _temp0 = intl.Intl.selectLogic(mode, {'dark': 'Mengedit warna gelap', 'other': 'Mengedit warna terang'});
+    String _temp0 = intl.Intl.selectLogic(mode, {
+      'dark': 'Mengedit warna gelap',
+      'other': 'Mengedit warna terang',
+    });
     return '$_temp0';
   }
 
@@ -1659,7 +1820,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get themeTypePhoto => 'Foto';
 
   @override
-  String get themeNoPhotoYet => 'Belum ada foto. Pilih satu untuk dipotong ke ukuran keyboard.';
+  String get themeNoPhotoYet =>
+      'Belum ada foto. Pilih satu untuk dipotong ke ukuran keyboard.';
 
   @override
   String get themeChoosePhoto => 'Pilih foto';
@@ -1719,7 +1881,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get themeKeyPressAnimation => 'Animasi saat tombol ditekan';
 
   @override
-  String get themeReduceMotion => '«Hapus animasi» aktif di pengaturan sistem, sehingga tombol tidak dianimasikan.';
+  String get themeReduceMotion =>
+      '«Hapus animasi» aktif di pengaturan sistem, sehingga tombol tidak dianimasikan.';
 
   @override
   String get themeMotionOff => 'Nonaktif';
@@ -1829,7 +1992,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get themeCropBlurOff => 'Nonaktif';
 
   @override
-  String get themeCropNote => 'Blur disimpan ke dalam gambar. Redup diatur di editor dan langsung diterapkan.';
+  String get themeCropNote =>
+      'Blur disimpan ke dalam gambar. Redup diatur di editor dan langsung diterapkan.';
 
   @override
   String get themeHexLabel => 'Hex';
@@ -1888,10 +2052,12 @@ class AppLocalizationsId extends AppLocalizations {
   String get themeSystemColoursUnavailable => 'Warna sistem tidak tersedia.';
 
   @override
-  String get themeKoshaDynamicFollows => 'Kosha Dynamic mengikuti wallpaper Anda';
+  String get themeKoshaDynamicFollows =>
+      'Kosha Dynamic mengikuti wallpaper Anda';
 
   @override
-  String get themeKoshaDynamicBody => 'Warnanya diperbarui saat wallpaper berubah';
+  String get themeKoshaDynamicBody =>
+      'Warnanya diperbarui saat wallpaper berubah';
 
   @override
   String get themeSectionPresets => 'Preset';
@@ -1910,12 +2076,17 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String privacyThemesSize(int count, String size) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count file tema');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count file tema',
+    );
     return '$_temp0 · $size';
   }
 
   @override
-  String get backupUnlockToSeeCount => 'Buka kunci ponsel untuk melihat jumlahnya';
+  String get backupUnlockToSeeCount =>
+      'Buka kunci ponsel untuk melihat jumlahnya';
 
   @override
   String get shortcutHelp =>
@@ -1982,7 +2153,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get chineseTraditional => 'Aksara tradisional';
 
   @override
-  String get chineseTraditionalBody => 'Tampilkan kandidat dalam aksara tradisional (standar Taiwan).';
+  String get chineseTraditionalBody =>
+      'Tampilkan kandidat dalam aksara tradisional (standar Taiwan).';
 
   @override
   String get chineseFuzzy => 'Pinyin longgar';
@@ -1998,7 +2170,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get chineseClearPhrases => 'Hapus frasa yang dipelajari';
 
   @override
-  String get chineseClearPhrasesBody => 'Melupakan kata yang Anda pilih. Kamus tetap ada.';
+  String get chineseClearPhrasesBody =>
+      'Melupakan kata yang Anda pilih. Kamus tetap ada.';
 
   @override
   String get chineseFooter =>
@@ -2024,7 +2197,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get chineseDictName => 'Kamus Mandarin';
 
   @override
-  String get chinesePackMissing => 'Belum dipasang. Mengetik Mandarin memerlukannya; pasang di Paket model.';
+  String get chinesePackMissing =>
+      'Belum dipasang. Mengetik Mandarin memerlukannya; pasang di Paket model.';
 
   @override
   String chinesePackInstalled(String license) {
@@ -2050,7 +2224,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get japaneseFlickOnly => 'Hanya geser';
 
   @override
-  String get japaneseFlickOnlyBody => 'Tanpa ketuk berulang: mengetuk あ dua kali mengetik ああ, bukan い';
+  String get japaneseFlickOnlyBody =>
+      'Tanpa ketuk berulang: mengetuk あ dua kali mengetik ああ, bukan い';
 
   @override
   String get japaneseHalfWidth => 'Spasi lebar normal';
@@ -2071,19 +2246,22 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get japaneseNotInstalled => 'Belum dipasang. Kana tetap bisa diketik; kanji memerlukan paket.';
+  String get japaneseNotInstalled =>
+      'Belum dipasang. Kana tetap bisa diketik; kanji memerlukan paket.';
 
   @override
   String get japaneseClearWords => 'Hapus kata yang dipelajari';
 
   @override
-  String get japaneseClearWordsBody => 'Melupakan kata Jepang yang Anda pilih. Disimpan terenkripsi di ponsel ini.';
+  String get japaneseClearWordsBody =>
+      'Melupakan kata Jepang yang Anda pilih. Disimpan terenkripsi di ponsel ini.';
 
   @override
   String get japaneseClearTitle => 'Hapus kata Jepang yang dipelajari?';
 
   @override
-  String get japaneseClearBody => 'Semua kata Jepang yang Anda pilih dihapus. Tindakan ini tidak dapat dibatalkan.';
+  String get japaneseClearBody =>
+      'Semua kata Jepang yang Anda pilih dihapus. Tindakan ini tidak dapat dibatalkan.';
 
   @override
   String get privacyStoredChinesePhrases => 'Frasa Mandarin';

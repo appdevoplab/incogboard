@@ -27,6 +27,10 @@ KeyboardFeature createJapaneseFeature() => _JapaneseFeature();
 /// The engine name of the Japanese dictionary pack (`dict-ja-mozc`).
 const String _engine = 'mozc';
 
+/// Loads the dictionary on another isolate. A top-level function, so the closure sent to the isolate
+/// captures only [dir]: a closure made inside the feature would drag the composer (and its futures) along.
+Future<JapaneseDictionary> _loadDictionaryInIsolate(String dir) => Isolate.run(() => JapaneseDictionary.load(dir));
+
 /// The pack route in the settings app (KoshaRoutes.packs).
 const String _packsRoute = 'packs';
 
@@ -165,7 +169,7 @@ class _JapaneseFeature extends KeyboardFeature {
         } else {
           final sw = Stopwatch()..start();
           final dir = found.$2.path;
-          final dict = await Isolate.run(() => JapaneseDictionary.load(dir));
+          final dict = await _loadDictionaryInIsolate(dir);
           _dict = dict;
           composer.setDictionary(dict);
           KoshaLog.d(
