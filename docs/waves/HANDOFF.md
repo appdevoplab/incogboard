@@ -1,6 +1,39 @@
 # Handoff: continue from here after /clear
 
-State as of 2026-11-23 (afternoon). `main` is clean; nothing is pushed. **Wave 4 is done and merged: E, D, A, B, C.** Next is Wave 5 (release): the option questions are answered (see "Do next"); the briefs are written, the agents are not launched.
+State as of 2026-11-23 (evening). `main` is clean; nothing is pushed. **Waves 0-5 are merged** (Wave 5: A security audit, C data packs, B release engineering). What is left is the user's list ("Before the first store release") and the polish items.
+
+## Wave 5 result (merged 2026-11-23)
+
+- **A:** `docs/security/` (threat model, audit with 20 findings, licence audit: 157 of 158 components ok), `SECURITY.md`, hardened CI (actions pinned by SHA; I added `--flavor foss`), Dependabot, `tool/audit/`, `test/security/`, `docs/brand/trademark-check.md` (risk medium; closest is the App Store app "Kosha: Private Vault"; recommends "Kosha Keyboard" plus a professional class 9/42 search).
+- **C:** pack key list (`PackKeys.trusted`; release key list in `ReleasePackKeys.kt`; dev key only in debuggable builds), `make_pack.dart --key` required (dev key only with `KOSHA_ALLOW_DEV_KEY=1`), `--verify`/`--key-id`, the Model packs screen (how to get, Copy link, Verify, free space), the Play asset-pack seam, four modules in `android/asset_packs/`, `tool/packs/build_bundle.ps1`.
+- **B:** flavours `foss` and `play` (identical today), release signing from `android/key.properties` or `KOSHA_*` variables, `tool/release/` (keys, application id swap, version bump, build, reproducibility check), fastlane texts (en-US full, six locales title and short text, machine drafts), F-Droid draft recipe, privacy policy, Data safety answers, `docs/release/` incl. `checklist.md`, a draft-only `release.yml`.
+- **Orchestrator after the merge:**
+  - Applied A's patches P1 (restore validates settings before writing), P4 (overflow-safe pack size), P5 (PBKDF2 cap 2M).
+  - **Release keys generated** in `%USERPROFILE%\.kosha\release\` (`kosha-release.p12`, `release-keystore.password`, `key.properties`, `pack-release.pem`, `pack-release.pub.b64`/`.pub.pem`). Keystore SHA-256 `6E:07:C8:BC:...:7D:B4:1D`; pack key id `ec3c5b2aebea85ac`. **The user must back up that folder to two offline places.** `android/key.properties` is a git-ignored copy.
+  - The pack public key is in `ReleasePackKeys.kt`; the JVM release-gate test passes with `KOSHA_RELEASE_GATE=1`.
+  - All four dev packs (zh, ja, voice base, translate en-es) are re-signed with the release key in `%USERPROFILE%\.kosha\packs\signed\`; the dev-signed originals are in `signed\dev-signed\`. Only these four were re-signed; other staged packs (other translation pairs, voice small) were never signed.
+- **Checks on merged `main`:** format clean, analyze 0, `flutter test` 1404 pass (5 skipped), JVM 104+ pass for foss, both flavours build per ABI (arm64 83,988,755 B = 80.1 MiB), permission gate and network audit pass, release APK signed with the release key (verified with apksigner).
+- **Emulator (foss release, x86_64):** keyboard starts, Japanese romaji converts (にほんご candidates before the pack was imported); a release build rejects dev-signed packs (all showed "not installed") and accepts release-signed ones (zh and ja imported through the picker, Model packs screen shows how-to text and Copy link).
+- **Not covered:** Chinese typing and Japanese conversion with the release-signed pack after reinstall (import worked, typing not retested), the Verify button (see below), the Play flow (no AAB yet), TalkBack.
+
+## Before the first store release (user)
+
+1. Back up `%USERPROFILE%\.kosha\release\` twice, offline; keep the password in a password manager.
+2. GitHub username: run `tool/release/set_application_id.ps1 io.github.<username>.kosha`; fill the About source URL and the release-page URL (`https://example.invalid/kosha/releases` placeholder in the packs screen) and `<contact email>` in `docs/release/privacy-policy.md`.
+3. Decisions: D1 sensitive-field rule (password-only today, plan says wider: patch P2 in `docs/security/audit.md`); D2 confirm before a backup restore changes privacy settings (SEC-17); SEC-03 AAD on the secure store (patch P3, format v2, do before any real user data exists); keep the R8 log rule or strip `w`/`e` too (SEC-14); Play asset delivery library (Google terms; adds INSTALL_PACKAGES and foreground-service permissions that must be removed with `tools:node="remove"`); whether voice and translation packs go through Play or stay import-only; keystore in GitHub secrets or offline only; pack private key unencrypted or add a passphrase to `make_pack`; F-Droid route (committed prebuilt `.so` files need provenance; fallback is a GitHub release plus an own repo); developer account type and public name; Android developer verification (`docs/release/developer-verification.md`).
+4. Licences to confirm: IPAdic terms in the Mozc dictionary, OFL font aggregation, Opus-MT CC-BY attribution, pt-BR and Arabic lists (`docs/security/licences.md`).
+5. Trademark: professional search before submission (`docs/brand/trademark-check.md`).
+6. Native-speaker review of every `x-review` string and the store texts.
+
+## Open work for the orchestrator or a polish wave
+
+- **Pigeon wiring for pack maintenance** (`docs/packs/README.md`, "Bridge additions"): the Verify installed packs button does nothing until `PackMaintenance` gets its Pigeon methods (check, checkAll, free space). Also not done: multi-select import, a size check before import, the signer key id in the import summary.
+- Move `android/asset_packs/PlayAssetPackSource.kt.txt` into `src/play/kotlin/...`, add the asset-pack includes to `settings.gradle.kts` and the `play` dependencies, then build the AAB and test on-demand delivery with bundletool `--local-testing` (patches in `docs/release/asset-packs.md`).
+- The onboarding warning text does not match Play's keyboard disclosure wording: proposed text in B's report ("A keyboard can collect everything you type, including passwords. Kosha has no internet access, so it cannot send anything you type anywhere."); change `onboardingWarningBody` in all ARBs (x-review).
+- Browser auto-incognito is in the plan but not in the code (the privacy policy says so): implement or drop it.
+- Remaining audit patches: P2, P3, P6 (track the Gradle wrapper with a checksum), SEC-05/06/08-11/15 in `docs/security/audit.md`.
+- `device_bench.ps1` fix; Japanese segment-resize buttons and `symbols_ja`; 48 dp targets; locale to the keyboard engine; the reduced onnxruntime build (blocked); memory over budget (154 MB PSS with Japanese).
+- Visible Dart flavour (needs a Pigeon method); builds without `--flavor` now fail, use `--flavor foss` (default for `flutter run`).
 
 ## Where things stand
 
