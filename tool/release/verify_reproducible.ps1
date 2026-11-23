@@ -14,7 +14,8 @@ param(
     [string]$Flavor = 'foss',
     [string]$Abi = 'android-arm64',
     [string]$WorkRoot = (Join-Path $env:TEMP 'kosha-repro'),
-    [switch]$KeepClones
+    [switch]$KeepClones,
+    [switch]$SameDirectory
 )
 
 $ErrorActionPreference = 'Stop'
@@ -64,12 +65,30 @@ function Get-EntryHash([System.IO.Compression.ZipArchiveEntry]$Entry) {
 }
 
 Write-Host "Commit $commit, flavour $Flavor, $Abi"
-Write-Host '==> Clone A and build'
-Get-Clone $cloneA
-$apkA = Build-Apk $cloneA
-Write-Host '==> Clone B (another folder) and build'
-Get-Clone $cloneB
-$apkB = Build-Apk $cloneB
+if ($SameDirectory) {
+    # Same path twice: a fresh clone at the same folder, built twice. Separates the build-path leak from
+    # any other non-determinism. F-Droid builds at one fixed path, so this is the case that matters for it.
+    $cloneB = $cloneA
+    Write-Host '==> Clone and build (path 1)'
+    Get-Clone $cloneA
+    $apkA = Build-Apk $cloneA
+    $keep = Join-Path $run 'first.apk'
+    Copy-Item -LiteralPath $apkA -Destination $keep
+    Remove-Item -Recurse -Force $cloneA
+    Write-Host '==> Fresh clone at the same path and build (path 2)'
+    Get-Clone $cloneA
+    $apkA = Build-Apk $cloneA
+    $apkB = Join-Path $run 'second.apk'
+    Copy-Item -LiteralPath $apkA -Destination $apkB
+    $apkA = $keep
+} else {
+    Write-Host '==> Clone A and build'
+    Get-Clone $cloneA
+    $apkA = Build-Apk $cloneA
+    Write-Host '==> Clone B (another folder) and build'
+    Get-Clone $cloneB
+    $apkB = Build-Apk $cloneB
+}
 
 # --- Normalising comparison ----------------------------------------------------------------------
 $zipA = [System.IO.Compression.ZipFile]::OpenRead($apkA)
@@ -107,7 +126,8 @@ $shaA = (Get-FileHash -Algorithm SHA256 -LiteralPath $apkA).Hash.ToLower()
 $shaB = (Get-FileHash -Algorithm SHA256 -LiteralPath $apkB).Hash.ToLower()
 
 $report = New-Object System.Collections.Generic.List[string]
-$report.Add("Reproducibility check, commit $commit, flavour $Flavor, $Abi")
+$mode = if ($SameDirectory) { 'two builds at the same path' } else { 'two builds at two different paths' }
+$report.Add("Reproducibility check, commit $commit, flavour $Flavor, $Abi, $mode")
 $report.Add("Date: $(Get-Date -Format 'yyyy-MM-dd')")
 $report.Add("APK A sha256: $shaA  ($([math]::Round((Get-Item $apkA).Length / 1MB, 2)) MiB)")
 $report.Add("APK B sha256: $shaB  ($([math]::Round((Get-Item $apkB).Length / 1MB, 2)) MiB)")
