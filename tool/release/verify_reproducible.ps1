@@ -28,7 +28,8 @@ if (& git status --porcelain) { throw 'Commit or stash your changes first: the c
 $commit = (& git rev-parse HEAD).Trim()
 $run = Join-Path $WorkRoot (Get-Date -Format 'yyyyMMdd-HHmmss')
 $cloneA = Join-Path $run 'a'
-$cloneB = Join-Path $run 'second-clone-in-another-folder'
+# Short folder names: the Flutter shader build writes long paths, and MAX_PATH (260) breaks it on Windows.
+$cloneB = Join-Path $run 'b'
 New-Item -ItemType Directory -Force -Path $run | Out-Null
 
 function Get-Clone([string]$Dir) {
