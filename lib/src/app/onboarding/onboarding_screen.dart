@@ -15,6 +15,8 @@ import '../routes.dart';
 import '../shell/settings_actions.dart';
 import 'onboarding_steps.dart';
 
+import 'package:kosha/src/app/l10n.dart';
+
 const int _stepCount = 6;
 const Duration _switchPoll = Duration(milliseconds: 500);
 
@@ -131,8 +133,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     final scheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Set up Kosha'),
-        actions: [IconButton(tooltip: 'Close setup', icon: const Icon(Icons.close), onPressed: _leave)],
+        title: Text(context.l10n.onboardingSetUp),
+        actions: [
+          IconButton(tooltip: context.l10n.onboardingCloseSetup, icon: const Icon(Icons.close), onPressed: _leave),
+        ],
       ),
       body: SafeArea(
         child: Column(
@@ -143,12 +147,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 children: [
                   Expanded(
                     child: Semantics(
-                      label: 'Step ${_step + 1} of $_stepCount',
+                      label: context.l10n.onboardingStepOf('${_step + 1}', '$_stepCount'),
                       child: LinearProgressIndicator(value: (_step + 1) / _stepCount, color: scheme.primary),
                     ),
                   ),
                   const SizedBox(width: 12),
-                  Text('${_step + 1}/$_stepCount', style: Theme.of(context).textTheme.labelLarge),
+                  Text(
+                    context.l10n.onboardingStepFraction('${_step + 1}', '$_stepCount'),
+                    style: Theme.of(context).textTheme.labelLarge,
+                  ),
                 ],
               ),
             ),
@@ -162,11 +169,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
               child: Row(
                 children: [
-                  if (_step > 0) TextButton(onPressed: () => _goTo(_step - 1), child: const Text('Back')),
+                  if (_step > 0)
+                    TextButton(onPressed: () => _goTo(_step - 1), child: Text(context.l10n.onboardingBack)),
                   const Spacer(),
-                  if (!_stepDone && !last) TextButton(onPressed: () => _goTo(_step + 1), child: const Text('Skip')),
+                  if (!_stepDone && !last)
+                    TextButton(onPressed: () => _goTo(_step + 1), child: Text(context.l10n.onboardingSkip)),
                   const SizedBox(width: 8),
-                  FilledButton(onPressed: last ? _finish : () => _goTo(_step + 1), child: Text(last ? 'Done' : 'Next')),
+                  FilledButton(
+                    onPressed: last ? _finish : () => _goTo(_step + 1),
+                    child: Text(last ? context.l10n.onboardingDone : context.l10n.onboardingNext),
+                  ),
                 ],
               ),
             ),
@@ -181,7 +193,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     1 => SwitchStep(enabled: _enabled, selected: _selected, onChoose: () => unawaited(app?.showInputMethodPicker())),
     2 => PrivacyStep(internet: _internet, debugBuild: _debugBuild),
     3 => const PersonaliseStep(),
-    4 => const TryStep(),
+    4 => TryStep(),
     _ => const FinishStep(),
   };
 }

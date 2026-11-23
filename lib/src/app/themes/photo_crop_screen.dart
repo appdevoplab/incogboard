@@ -13,6 +13,7 @@ import 'package:material_ui/material_ui.dart';
 import '../../core/log.dart';
 import '../../theme/custom/background_image.dart';
 import '../../theme/custom/custom_theme_store.dart';
+
 import 'package:kosha/src/app/l10n.dart';
 
 /// Blur slider range, in logical pixels of the frame.
@@ -138,11 +139,11 @@ class _PhotoCropScreenState extends State<PhotoCropScreen> {
       if (!mounted) return;
       Navigator.of(context).pop(PhotoCropResult(uuid: widget.photoUuid, blur: _blur));
     } on Object catch (e) {
-      KoshaLog.w('Theme', 'photo render failed', e.runtimeType);
+      KoshaLog.w(context.l10n.onboardingThemeTitle, 'photo render failed', e.runtimeType);
       if (mounted) {
         setState(() {
           _saving = false;
-          _error = 'The photo could not be saved.';
+          _error = context.l10n.themeCropSaveFailed;
         });
       }
     }
@@ -155,13 +156,13 @@ class _PhotoCropScreenState extends State<PhotoCropScreen> {
     final crop = _crop;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Crop photo'),
+        title: Text(context.l10n.themeCropTitle),
         actions: [
           TextButton(
             onPressed: image == null || _saving ? null : _useCrop,
             child: _saving
                 ? const SizedBox.square(dimension: 18, child: CircularProgressIndicator(strokeWidth: 2))
-                : const Text('Use photo'),
+                : Text(context.l10n.themeUsePhoto),
           ),
         ],
       ),
@@ -182,7 +183,7 @@ class _PhotoCropScreenState extends State<PhotoCropScreen> {
               padding: EdgeInsets.zero,
               children: [
                 Semantics(
-                  label: 'Photo crop. Drag to move the photo and pinch or use the zoom slider to zoom.',
+                  label: context.l10n.themeCropSemantics,
                   container: true,
                   child: GestureDetector(
                     behavior: HitTestBehavior.opaque,
@@ -206,7 +207,7 @@ class _PhotoCropScreenState extends State<PhotoCropScreen> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       _CropSlider(
-                        label: 'Zoom',
+                        label: context.l10n.themeCropZoom,
                         value: crop.zoom,
                         min: 1,
                         max: PhotoCrop.maxZoom,
@@ -214,18 +215,15 @@ class _PhotoCropScreenState extends State<PhotoCropScreen> {
                         onChanged: _setZoom,
                       ),
                       _CropSlider(
-                        label: 'Blur',
+                        label: context.l10n.themeCropBlur,
                         value: _blur,
                         min: 0,
                         max: kMaxBlur,
-                        valueText: _blur == 0 ? context.l10n.off : '${_blur.round()} dp',
+                        valueText: _blur == 0 ? context.l10n.off : context.l10n.dpValue(_blur.round()),
                         onChanged: (v) => setState(() => _blur = v),
                       ),
                       const SizedBox(height: 8),
-                      Text(
-                        'The blur is saved into the picture. The dim is set in the editor and applied live.',
-                        style: TextStyle(color: scheme.onSurfaceVariant),
-                      ),
+                      Text(context.l10n.themeCropNote, style: TextStyle(color: scheme.onSurfaceVariant)),
                     ],
                   ),
                 ),

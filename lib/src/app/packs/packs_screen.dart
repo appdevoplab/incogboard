@@ -14,6 +14,7 @@ import '../app_services.dart';
 import '../common/settings_widgets.dart';
 import '../privacy/privacy_format.dart';
 import 'pack_text.dart';
+
 import 'package:kosha/src/app/l10n.dart';
 
 class PacksScreen extends StatefulWidget {
@@ -53,12 +54,13 @@ class _PacksScreenState extends State<PacksScreen> {
   }
 
   Future<void> _import() async {
+    final l10n = context.l10n;
     final services = _services!;
     String? uri;
     try {
       uri = await services.app.openDocument(const ['application/octet-stream', 'application/x-koshapack']);
     } on PlatformException {
-      _show(context.l10n.packsOpenFailed);
+      _show(l10n.packsOpenFailed);
       return;
     }
     if (uri == null) return; // The user cancelled.
@@ -66,9 +68,9 @@ class _PacksScreenState extends State<PacksScreen> {
     try {
       final pack = await services.app.importPack(uri);
       await services.notifyDataChanged(const [DataSections.packs]);
-      _show('Installed ${pack.name}.');
+      _show(l10n.packsInstalled(pack.name));
     } on PlatformException catch (e) {
-      _show(importErrorText(e.code));
+      _show(importErrorText(e.code, l10n));
     } finally {
       if (mounted) setState(() => _busy = false);
       _reload();
@@ -76,17 +78,18 @@ class _PacksScreenState extends State<PacksScreen> {
   }
 
   Future<void> _delete(PackInfoMessage pack) async {
+    final l10n = context.l10n;
     final services = _services!;
     final sure = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Delete ${pack.name}?'),
+        title: Text(l10n.packsDeleteTitle(pack.name)),
         content: const Text(
           'Its files are removed from this phone. You can import the pack again later from its file.',
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.of(context).pop(false), child: Text(context.l10n.cancel)),
-          FilledButton(onPressed: () => Navigator.of(context).pop(true), child: Text(context.l10n.delete)),
+          TextButton(onPressed: () => Navigator.of(context).pop(false), child: Text(l10n.cancel)),
+          FilledButton(onPressed: () => Navigator.of(context).pop(true), child: Text(l10n.delete)),
         ],
       ),
     );
@@ -94,9 +97,9 @@ class _PacksScreenState extends State<PacksScreen> {
     try {
       await services.app.deletePack(pack.id);
       await services.notifyDataChanged(const [DataSections.packs]);
-      _show('Deleted ${pack.name}.');
+      _show(l10n.packsDeleted(pack.name));
     } on PlatformException {
-      _show('Kosha could not delete ${pack.name}. Try again.');
+      _show(l10n.packsDeleteFailed(pack.name));
     }
     _reload();
   }
@@ -110,8 +113,8 @@ class _PacksScreenState extends State<PacksScreen> {
           return SettingsPage(
             title: context.l10n.settingsModelPacks,
             children: [
-              const SettingsGroup(
-                children: [SettingsTile(icon: Icons.error_outline, title: 'Kosha could not read its packs')],
+              SettingsGroup(
+                children: [SettingsTile(icon: Icons.error_outline, title: context.l10n.packsCouldNotRead)],
               ),
             ],
           );
@@ -126,10 +129,7 @@ class _PacksScreenState extends State<PacksScreen> {
         final total = packs.fold<int>(0, (sum, p) => sum + p.sizeBytes);
         return SettingsPage(
           title: context.l10n.settingsModelPacks,
-          header: Padding(
-            padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
-            child: Text(context.l10n.packsIntro),
-          ),
+          header: Padding(padding: EdgeInsets.fromLTRB(16, 8, 16, 8), child: Text(context.l10n.packsIntro)),
           children: [
             SettingsGroup(
               title: context.l10n.packsImport,
@@ -183,7 +183,7 @@ class _PacksScreenState extends State<PacksScreen> {
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
               child: Text(
-                packs.isEmpty ? context.l10n.packsNothingStored : 'Installed packs use ${formatBytes(total)} on this phone.',
+                packs.isEmpty ? context.l10n.packsNothingStored : context.l10n.packsInstalledUse(formatBytes(total)),
               ),
             ),
           ],
@@ -207,9 +207,13 @@ class _PackTile extends StatelessWidget {
       PackKind.dictionary => Icons.menu_book_outlined,
     }),
     title: Text(pack.name),
-    subtitle: Text(packDescription(pack)),
+    subtitle: Text(packDescription(pack, context.l10n)),
     contentPadding: const EdgeInsets.only(left: 16, right: 8),
     minTileHeight: 56,
-    trailing: IconButton(tooltip: 'Delete ${pack.name}', onPressed: onDelete, icon: const Icon(Icons.delete_outline)),
+    trailing: IconButton(
+      tooltip: context.l10n.packsDeleteTooltip(pack.name),
+      onPressed: onDelete,
+      icon: const Icon(Icons.delete_outline),
+    ),
   );
 }

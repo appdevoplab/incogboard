@@ -5,6 +5,7 @@
 // large headers, shape morphing) but must keep these constructors and
 // parameters working, because Wave 2-B and 2-C build on them in parallel.
 import 'package:material_ui/material_ui.dart';
+import 'package:kosha/src/app/l10n.dart';
 
 /// A screen with a large collapsing header and a scrolling body.
 class SettingsPage extends StatelessWidget {
@@ -281,7 +282,7 @@ class SettingsChoiceChips<T> extends StatelessWidget {
           label: Text(o.label),
           selected: o.value == selected,
           onSelected: o.enabled && o.value != selected ? (_) => onSelected(o.value) : null,
-          tooltip: o.enabled ? null : 'Coming in a later update',
+          tooltip: o.enabled ? null : context.l10n.settingsComingLater,
         ),
     ],
   );

@@ -18,6 +18,7 @@ import '../common/settings_widgets.dart';
 import 'privacy_deps.dart';
 import 'privacy_format.dart';
 import 'privacy_widgets.dart';
+
 import 'package:kosha/src/app/l10n.dart';
 
 class BackupScreen extends StatefulWidget {
@@ -85,6 +86,7 @@ class _BackupScreenState extends State<BackupScreen> {
   // ---- export -------------------------------------------------------------------
 
   Future<void> _export() async {
+    final l10n = context.l10n;
     final services = _services!;
     final deps = _deps ??= await PrivacyDeps.load(services);
     _setBusy(true);
@@ -105,11 +107,11 @@ class _BackupScreenState extends State<BackupScreen> {
       final uri = await services.app.createDocument(_fileName(), 'application/octet-stream');
       if (uri == null) return; // The user cancelled the save dialog.
       await services.app.writeDocument(uri, sealed);
-      _message('Backup saved (${formatBytes(sealed.length)}). Keep your passphrase safe.');
+      _message(l10n.backupSaved(formatBytes(sealed.length)));
     } on BackupLockedException {
-      _message('Unlock your phone, then try again. Nothing was saved.');
+      _message(l10n.backupUnlockRetrySaved);
     } on PlatformException {
-      _message('The backup could not be saved. Nothing was changed.');
+      _message(l10n.backupSaveFailed);
     } finally {
       _setBusy(false);
     }
@@ -124,6 +126,7 @@ class _BackupScreenState extends State<BackupScreen> {
   // ---- import -------------------------------------------------------------------
 
   Future<void> _import() async {
+    final l10n = context.l10n;
     final services = _services!;
     final deps = _deps ??= await PrivacyDeps.load(services);
     _setBusy(true);
@@ -137,24 +140,24 @@ class _BackupScreenState extends State<BackupScreen> {
 
       final plain = await services.app.openBackup(bytes, passphrase);
       if (plain == null) {
-        _message('Wrong passphrase, or the file is damaged. Nothing was changed.');
+        _message(l10n.backupWrongPassphrase);
         return;
       }
       final BackupPayload payload;
       try {
         payload = BackupPayload.decode(plain);
       } on BackupFormatException {
-        _message('This file is not a valid Kosha backup. Nothing was changed.');
+        _message(l10n.backupInvalidFile);
         return;
       }
       if (!mounted) return;
       await _previewAndRestore(payload, deps);
     } on PlatformException catch (e) {
       _message(switch (e.code) {
-        'too_large' => 'This file is too large to be a Kosha backup.',
-        'unsupported_version' => 'This backup was made by a newer version of Kosha. Update Kosha to restore it.',
-        'busy' => 'Finish the other file window first, then try again.',
-        _ => 'The backup could not be opened. Nothing was changed.',
+        'too_large' => l10n.backupTooLarge,
+        'unsupported_version' => l10n.backupNewerVersion,
+        'busy' => l10n.backupBusy,
+        _ => l10n.backupOpenFailed,
       });
     } finally {
       _setBusy(false);
@@ -162,10 +165,11 @@ class _BackupScreenState extends State<BackupScreen> {
   }
 
   Future<void> _previewAndRestore(BackupPayload payload, PrivacyDeps deps) async {
+    final l10n = context.l10n;
     final contents = payload.contents;
     final present = contents.present.toList()..sort((a, b) => a.index.compareTo(b.index));
     if (present.isEmpty) {
-      _message('This backup has nothing in it.');
+      _message(l10n.backupEmpty);
       return;
     }
     final chosen = {...present};
@@ -175,13 +179,13 @@ class _BackupScreenState extends State<BackupScreen> {
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setDialog) => AlertDialog(
-          title: const Text('Restore backup'),
+          title: Text(l10n.backupRestoreTitle),
           content: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Made ${_date(payload.createdAt)} by Kosha ${payload.appVersion}.'),
+                Text(l10n.backupMadeBy(_date(payload.createdAt), payload.appVersion)),
                 const SizedBox(height: 12),
                 for (final section in present)
                   CheckboxListTile(
@@ -201,20 +205,20 @@ class _BackupScreenState extends State<BackupScreen> {
                 RadioGroup<RestoreMode>(
                   groupValue: mode,
                   onChanged: (v) => setDialog(() => mode = v ?? RestoreMode.merge),
-                  child: const Column(
+                  child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       RadioListTile<RestoreMode>(
                         contentPadding: EdgeInsets.zero,
                         value: RestoreMode.merge,
-                        title: Text('Merge'),
-                        subtitle: Text('Keep what is on this phone and add what is in the backup.'),
+                        title: Text(l10n.backupMerge),
+                        subtitle: Text(l10n.backupMergeBody),
                       ),
                       RadioListTile<RestoreMode>(
                         contentPadding: EdgeInsets.zero,
                         value: RestoreMode.replace,
-                        title: Text('Replace'),
-                        subtitle: Text('Make the chosen sections match the backup. Data here is deleted first.'),
+                        title: Text(l10n.backupReplace),
+                        subtitle: Text(l10n.backupReplaceBody),
                       ),
                     ],
                   ),
@@ -223,10 +227,10 @@ class _BackupScreenState extends State<BackupScreen> {
             ),
           ),
           actions: [
-            TextButton(onPressed: () => Navigator.of(context).pop(), child: Text(context.l10n.cancel)),
+            TextButton(onPressed: () => Navigator.of(context).pop(), child: Text(l10n.cancel)),
             FilledButton(
               onPressed: chosen.isEmpty ? null : () => Navigator.of(context).pop((include: {...chosen}, mode: mode)),
-              child: const Text('Continue'),
+              child: Text(l10n.commonContinue),
             ),
           ],
         ),
@@ -237,11 +241,11 @@ class _BackupScreenState extends State<BackupScreen> {
       final sure = await showDialog<bool>(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text('Replace data on this phone?'),
-          content: const Text('The chosen sections on this phone are deleted and replaced. This cannot be undone.'),
+          title: Text(l10n.backupReplaceTitle),
+          content: Text(l10n.backupReplaceConfirm),
           actions: [
-            TextButton(onPressed: () => Navigator.of(context).pop(false), child: Text(context.l10n.cancel)),
-            FilledButton(onPressed: () => Navigator.of(context).pop(true), child: const Text('Replace')),
+            TextButton(onPressed: () => Navigator.of(context).pop(false), child: Text(l10n.cancel)),
+            FilledButton(onPressed: () => Navigator.of(context).pop(true), child: Text(l10n.backupReplace)),
           ],
         ),
       );
@@ -256,28 +260,28 @@ class _BackupScreenState extends State<BackupScreen> {
         });
       }
     } on RestoreLockedException {
-      _message('Unlock your phone, then try again. Nothing was changed.');
+      _message(l10n.backupUnlockRetryChanged);
     } on PlatformException {
-      _message('Kosha could not finish the restore. Some data may not have been written.');
+      _message(l10n.backupRestoreFailed);
     }
   }
 
   String _reportText(RestoreReport r) {
     final parts = <String>[
-      if (r.learnedLanguages > 0) 'learned words for ${plural(r.learnedLanguages, 'language')}',
-      if (r.shortcutsAdded > 0) plural(r.shortcutsAdded, 'shortcut'),
-      if (r.clipboardAdded > 0) plural(r.clipboardAdded, 'clipboard item'),
-      if (r.themesAdded > 0) plural(r.themesAdded, 'theme file'),
-      if (r.settingsApplied) 'settings',
+      if (r.learnedLanguages > 0) context.l10n.restoreLearnedFor(r.learnedLanguages),
+      if (r.shortcutsAdded > 0) context.l10n.countShortcuts(r.shortcutsAdded),
+      if (r.clipboardAdded > 0) context.l10n.countClipboardItems(r.clipboardAdded),
+      if (r.themesAdded > 0) context.l10n.countThemeFiles(r.themesAdded),
+      if (r.settingsApplied) context.l10n.backupSettingsApplied,
     ];
     final skipped = <String>[
-      if (r.shortcutsSkipped > 0) '${r.shortcutsSkipped} shortcuts already here',
-      if (r.themesSkipped > 0) '${r.themesSkipped} theme files already here',
-      if (r.clipboardSkipped) 'clipboard left alone (unknown layout)',
-      if (r.emojiKept) 'emoji recents kept',
+      if (r.shortcutsSkipped > 0) context.l10n.backupAlreadyHere(r.shortcutsSkipped),
+      if (r.themesSkipped > 0) context.l10n.backupThemesAlreadyHere(r.themesSkipped),
+      if (r.clipboardSkipped) context.l10n.backupClipboardKept,
+      if (r.emojiKept) context.l10n.backupEmojiKept,
     ];
-    final added = parts.isEmpty ? 'Restored nothing new.' : 'Restored ${parts.join(', ')}.';
-    return skipped.isEmpty ? added : '$added Skipped: ${skipped.join(', ')}.';
+    final added = parts.isEmpty ? context.l10n.restoreNothingNew : context.l10n.restoreSummary(parts.join(', '));
+    return skipped.isEmpty ? added : context.l10n.restoreSummarySkipped(added, skipped.join(', '));
   }
 
   String _date(DateTime t) {
@@ -289,17 +293,20 @@ class _BackupScreenState extends State<BackupScreen> {
   /// [restoring]: the restore dialog ticks every section the file holds, so the export-only note on
   /// the clipboard (off by default) does not apply there.
   String _countText(BackupSection section, BackupSummary? s, {bool restoring = false}) {
-    if (s == null) return 'Unlock your phone to see the count';
+    if (s == null) return context.l10n.backupUnlockToSeeCount;
     return switch (section) {
-      BackupSection.settings => 'Theme, languages, typing and privacy choices',
-      BackupSection.learned => '${plural(s.learnedWords, 'word')} in ${plural(s.learnedLanguages, 'language')}',
-      BackupSection.shortcuts => plural(s.shortcuts, 'shortcut'),
+      BackupSection.settings => context.l10n.backupSettingsSummary,
+      BackupSection.learned => context.l10n.backupLearnedSummary(
+        context.l10n.countWords(s.learnedWords),
+        context.l10n.countLanguages(s.learnedLanguages),
+      ),
+      BackupSection.shortcuts => context.l10n.countShortcuts(s.shortcuts),
       BackupSection.clipboard =>
         restoring
-            ? plural(s.clipboardItems, 'pinned item')
-            : '${plural(s.clipboardItems, 'pinned item')}. Off unless you turn it on.',
-      BackupSection.emoji => s.emojiBytes == 0 ? 'Nothing yet' : formatBytes(s.emojiBytes),
-      BackupSection.themes => '${plural(s.themes, 'file')} · ${formatBytes(s.themeBytes)}',
+            ? context.l10n.countPinnedItems(s.clipboardItems)
+            : context.l10n.backupPinnedOff(context.l10n.countPinnedItems(s.clipboardItems)),
+      BackupSection.emoji => s.emojiBytes == 0 ? context.l10n.backupNothingYet : formatBytes(s.emojiBytes),
+      BackupSection.themes => context.l10n.privacyThemesSize(s.themes, formatBytes(s.themeBytes)),
     };
   }
 
@@ -312,7 +319,7 @@ class _BackupScreenState extends State<BackupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Backup and restore')),
+      appBar: AppBar(title: Text(context.l10n.privacyBackupRestore)),
       body: FutureBuilder<BackupSummary?>(
         future: _summary,
         builder: (context, snapshot) {
@@ -320,19 +327,14 @@ class _BackupScreenState extends State<BackupScreen> {
           final waiting = snapshot.connectionState != ConnectionState.done;
           return ScreenBody(
             children: [
-              const PrivacyStatusCard(
-                icon: Icons.lock_outline,
-                text:
-                    'A backup is one file, encrypted with a passphrase you choose. Only that passphrase opens it. '
-                    'If you forget the passphrase, nobody can recover the backup, including Kosha.',
-              ),
+              PrivacyStatusCard(icon: Icons.lock_outline, text: context.l10n.backupExplainer),
               const SizedBox(height: 20),
               if (waiting)
                 const Center(
                   child: Padding(padding: EdgeInsets.all(16), child: CircularProgressIndicator()),
                 ),
               SettingsGroup(
-                title: 'Make a backup',
+                title: context.l10n.backupMakeTitle,
                 children: [
                   for (final section in BackupSection.values)
                     SwitchListTile(
@@ -353,8 +355,8 @@ class _BackupScreenState extends State<BackupScreen> {
                   if (_include.contains(BackupSection.themes))
                     SwitchListTile(
                       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                      title: const Text('Include background images'),
-                      subtitle: const Text('Photos make the file much larger.'),
+                      title: Text(context.l10n.backupIncludeImages),
+                      subtitle: Text(context.l10n.backupPhotosLarger),
                       value: _themeImages,
                       onChanged: _busy ? null : (v) => setState(() => _themeImages = v),
                     ),
@@ -363,16 +365,16 @@ class _BackupScreenState extends State<BackupScreen> {
               FilledButton.icon(
                 onPressed: _busy || _include.isEmpty ? null : () => unawaited(_export()),
                 icon: const Icon(Icons.save_alt),
-                label: const Text('Create encrypted backup'),
+                label: Text(context.l10n.backupCreateButton),
               ),
               const SizedBox(height: 28),
               SettingsGroup(
-                title: 'Restore',
+                title: context.l10n.backupRestoreSection,
                 children: [
                   SettingsTile(
                     icon: Icons.restore,
-                    title: 'Restore from a backup file',
-                    subtitle: 'Open a .koshabackup file, check what is in it, then merge or replace.',
+                    title: context.l10n.backupRestoreFromFile,
+                    subtitle: context.l10n.backupRestoreFromFileBody,
                     onTap: _busy ? null : () => unawaited(_import()),
                   ),
                 ],
@@ -415,7 +417,7 @@ class _PassphraseDialogState extends State<_PassphraseDialog> {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     return AlertDialog(
-      title: Text(widget.create ? 'Choose a passphrase' : 'Enter the passphrase'),
+      title: Text(widget.create ? context.l10n.backupChoosePassphrase : context.l10n.backupEnterPassphrase),
       content: ListenableBuilder(
         listenable: Listenable.merge([_pass, _again]),
         builder: (context, _) {
@@ -426,7 +428,7 @@ class _PassphraseDialogState extends State<_PassphraseDialog> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (widget.create) const Text('Write it down somewhere safe. A lost passphrase cannot be recovered.'),
+                if (widget.create) Text(context.l10n.backupWriteItDown),
                 const SizedBox(height: 12),
                 TextField(
                   controller: _pass,
@@ -434,7 +436,7 @@ class _PassphraseDialogState extends State<_PassphraseDialog> {
                   autofocus: true,
                   enableSuggestions: false,
                   autocorrect: false,
-                  decoration: const InputDecoration(labelText: 'Passphrase', border: OutlineInputBorder()),
+                  decoration: InputDecoration(labelText: context.l10n.backupPassphrase, border: OutlineInputBorder()),
                   onChanged: (_) => setState(() {}),
                 ),
                 if (widget.create) ...[
@@ -445,19 +447,19 @@ class _PassphraseDialogState extends State<_PassphraseDialog> {
                     enableSuggestions: false,
                     autocorrect: false,
                     decoration: InputDecoration(
-                      labelText: 'Type it again',
+                      labelText: context.l10n.backupTypeAgain,
                       border: const OutlineInputBorder(),
-                      errorText: mismatch ? 'The passphrases do not match' : null,
+                      errorText: mismatch ? context.l10n.backupMismatch : null,
                     ),
                     onChanged: (_) => setState(() {}),
                   ),
                   const SizedBox(height: 12),
                   Semantics(
-                    label: 'Passphrase strength: ${strength.label}',
+                    label: context.l10n.backupStrength(strength.label(context.l10n)),
                     child: LinearProgressIndicator(value: strength.fraction, color: scheme.primary),
                   ),
                   const SizedBox(height: 4),
-                  Text(strength.label, style: Theme.of(context).textTheme.bodySmall),
+                  Text(strength.label(context.l10n), style: Theme.of(context).textTheme.bodySmall),
                 ],
               ],
             ),
@@ -470,7 +472,7 @@ class _PassphraseDialogState extends State<_PassphraseDialog> {
           listenable: Listenable.merge([_pass, _again]),
           builder: (context, _) => FilledButton(
             onPressed: _canSave ? () => Navigator.of(context).pop(_pass.text) : null,
-            child: Text(widget.create ? 'Continue' : 'Open'),
+            child: Text(widget.create ? context.l10n.commonContinue : context.l10n.backupOpen),
           ),
         ),
       ],

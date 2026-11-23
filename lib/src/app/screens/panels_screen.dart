@@ -8,14 +8,15 @@ import 'package:material_ui/material_ui.dart';
 import '../../settings/kosha_settings.dart';
 import '../common/settings_widgets.dart';
 import '../shell/settings_actions.dart';
+
 import 'package:kosha/src/app/l10n.dart';
 
 /// Expiry choices in minutes. The clipboard section clamps to a week.
-const List<ChoiceOption<int>> _expiryChoices = [
-  ChoiceOption(15, '15 minutes'),
-  ChoiceOption(60, '1 hour'),
-  ChoiceOption(1440, '1 day'),
-  ChoiceOption(10080, '1 week'),
+List<ChoiceOption<int>> _expiryChoices(AppLocalizations l10n) => [
+  ChoiceOption(15, l10n.durationMinutes15),
+  ChoiceOption(60, l10n.durationHour),
+  ChoiceOption(1440, l10n.durationDay),
+  ChoiceOption(10080, l10n.durationWeek),
 ];
 
 class PanelsScreen extends StatelessWidget {
@@ -58,8 +59,8 @@ class PanelsScreen extends StatelessWidget {
           SettingsPanel(
             title: context.l10n.panelsKeepUnpinned,
             child: SettingsChoiceChips<int>(
-              options: _expiryChoices,
-              selected: _expiryChoices.where((o) => o.value == c.expiryMinutes).firstOrNull?.value,
+              options: _expiryChoices(context.l10n),
+              selected: _expiryChoices(context.l10n).where((o) => o.value == c.expiryMinutes).firstOrNull?.value,
               onSelected: (minutes) => writeSettings(
                 context,
                 SettingsSection.clipboard,

@@ -13,6 +13,8 @@ import '../../security/app_auth.dart';
 import '../app_services.dart';
 import 'privacy_widgets.dart';
 
+import 'package:kosha/src/app/l10n.dart';
+
 class AppLockGate extends StatefulWidget {
   const AppLockGate({super.key, required this.child, this.authenticator, this.clock});
 
@@ -107,15 +109,13 @@ class _AppLockGateState extends State<AppLockGate> {
     if (_prompting) return;
     _prompting = true;
     try {
-      final outcome = await _auth.authenticate('Unlock Kosha to see your settings and data');
+      final outcome = await _auth.authenticate(context.l10n.privacyUnlockReason);
       if (!mounted) return;
       if (outcome == AuthOutcome.success) {
         _unlockState();
       } else {
         setState(() {
-          _message = outcome == AuthOutcome.unavailable
-              ? 'Your device lock is not available right now. Try again in a moment.'
-              : null;
+          _message = outcome == AuthOutcome.unavailable ? context.l10n.privacyLockUnavailable : null;
         });
       }
     } finally {
@@ -138,10 +138,10 @@ class _AppLockGateState extends State<AppLockGate> {
               children: [
                 const PrivacyMascotSlot(size: 96),
                 const SizedBox(height: 24),
-                Text('Kosha is locked', style: text.headlineSmall, textAlign: TextAlign.center),
+                Text(context.l10n.privacyLockedTitle, style: text.headlineSmall, textAlign: TextAlign.center),
                 const SizedBox(height: 8),
                 Text(
-                  'Unlock with your fingerprint or your device PIN to continue.',
+                  context.l10n.privacyLockedBody,
                   style: text.bodyMedium?.copyWith(color: scheme.onSurfaceVariant),
                   textAlign: TextAlign.center,
                 ),
@@ -157,7 +157,7 @@ class _AppLockGateState extends State<AppLockGate> {
                 FilledButton.icon(
                   onPressed: _prompting ? null : () => unawaited(_unlock()),
                   icon: const Icon(Icons.lock_open),
-                  label: const Text('Unlock'),
+                  label: Text(context.l10n.privacyUnlock),
                 ),
               ],
             ),

@@ -12,6 +12,7 @@ import '../app_services.dart';
 import '../common/settings_widgets.dart';
 import '../onboarding/kosha_mascot.dart';
 import 'notices.dart';
+
 import 'package:kosha/src/app/l10n.dart';
 
 class AboutScreen extends StatefulWidget {
@@ -69,10 +70,7 @@ class _AboutScreenState extends State<AboutScreen> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
                 child: koshaSourceCodeUrl.isEmpty
-                    ? Text(
-                        context.l10n.aboutSourceBody,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      )
+                    ? Text(context.l10n.aboutSourceBody, style: Theme.of(context).textTheme.bodyMedium)
                     : SelectableText(koshaSourceCodeUrl, style: Theme.of(context).textTheme.bodyLarge),
               ),
             ],
@@ -84,8 +82,11 @@ class _AboutScreenState extends State<AboutScreen> {
                 icon: Icons.article_outlined,
                 title: context.l10n.aboutOpenSource,
                 subtitle: context.l10n.aboutOpenSourceBody,
-                onTap: () =>
-                    showLicensePage(context: context, applicationName: context.l10n.appName, applicationVersion: info?.versionName),
+                onTap: () => showLicensePage(
+                  context: context,
+                  applicationName: context.l10n.appName,
+                  applicationVersion: info?.versionName,
+                ),
               ),
               for (final notice in KoshaNotices.all.skip(1))
                 SettingsTile(

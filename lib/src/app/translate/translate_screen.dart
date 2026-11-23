@@ -15,6 +15,7 @@ import '../common/settings_widgets.dart';
 import '../privacy/privacy_format.dart';
 import '../routes.dart';
 import '../packs/pack_text.dart';
+
 import 'package:kosha/src/app/l10n.dart';
 
 /// The directions offered as the default pair: English with each supported language, both ways.
@@ -90,7 +91,9 @@ class _TranslateScreenState extends State<TranslateScreen> {
                 for (final (from, to) in defaultPairChoices)
                   RadioListTile<String>(
                     value: pairKey(from, to),
-                    title: Text('${languageInfo(from).englishName} → ${languageInfo(to).englishName}'),
+                    title: Text(
+                      context.l10n.translatePairName(languageInfo(from).englishName, languageInfo(to).englishName),
+                    ),
                   ),
               ],
             ),
@@ -136,7 +139,10 @@ class _TranslateScreenState extends State<TranslateScreen> {
                   children: [
                     SettingsTile(
                       icon: Icons.swap_horiz,
-                      title: '${languageInfo(t.from).englishName} → ${languageInfo(t.to).englishName}',
+                      title: context.l10n.translatePairName(
+                        languageInfo(t.from).englishName,
+                        languageInfo(t.to).englishName,
+                      ),
                       subtitle: installed.contains(current)
                           ? context.l10n.translatePackInstalled
                           : context.l10n.translatePackNotInstalled,
@@ -159,8 +165,8 @@ class _TranslateScreenState extends State<TranslateScreen> {
                           for (final p in packs)
                             SettingsTile(
                               icon: Icons.check_circle_outline,
-                              title: packDescription(p).split(' · ').first,
-                              subtitle: '${formatBytes(p.sizeBytes)} · ${p.license}',
+                              title: packLanguages(p, context.l10n),
+                              subtitle: context.l10n.translatePackMeta(formatBytes(p.sizeBytes), p.license),
                             ),
                         ],
                 ),
@@ -175,10 +181,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
                     ),
                   ],
                 ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(16, 0, 16, 24),
-                  child: Text(context.l10n.translateRunsOnPhone),
-                ),
+                Padding(padding: EdgeInsets.fromLTRB(16, 0, 16, 24), child: Text(context.l10n.translateRunsOnPhone)),
               ],
             );
           },

@@ -25,21 +25,30 @@ import '../common/settings_widgets.dart';
 import 'color_picker_dialog.dart';
 import 'photo_crop_screen.dart';
 import 'theme_support.dart';
+
 import 'package:kosha/src/app/l10n.dart';
 
 /// Motion presets and the press-animation intensity each maps to (see [ThemeSpec.motionIntensity]).
-List<(String, double)> _motionChoices = [(context.l10n.off, 0), ('Subtle', 0.5), ('Standard', 1), ('Bouncy', 2)];
+/// The press-animation intensity of each motion preset, in the order the choices are shown.
+const List<double> _motionValues = [0, 0.5, 1, 2];
 
-const List<(ThemeSchemeVariant, String)> _variantChoices = [
-  (ThemeSchemeVariant.tonalSpot, 'Tonal spot'),
-  (ThemeSchemeVariant.vibrant, 'Vibrant'),
-  (ThemeSchemeVariant.expressive, 'Expressive'),
-  (ThemeSchemeVariant.fidelity, 'Fidelity'),
-  (ThemeSchemeVariant.content, 'Content'),
-  (ThemeSchemeVariant.monochrome, 'Monochrome'),
-  (ThemeSchemeVariant.neutral, 'Neutral'),
-  (ThemeSchemeVariant.rainbow, 'Rainbow'),
-  (ThemeSchemeVariant.fruitSalad, 'Fruit salad'),
+List<(String, double)> _motionChoices(AppLocalizations l10n) => [
+  (l10n.themeMotionOff, 0),
+  (l10n.themeMotionSubtle, 0.5),
+  (l10n.themeMotionStandard, 1),
+  (l10n.themeMotionBouncy, 2),
+];
+
+List<(ThemeSchemeVariant, String)> _variantChoices(AppLocalizations l10n) => [
+  (ThemeSchemeVariant.tonalSpot, l10n.themeSchemeTonalSpot),
+  (ThemeSchemeVariant.vibrant, l10n.themeSchemeVibrant),
+  (ThemeSchemeVariant.expressive, l10n.themeSchemeExpressive),
+  (ThemeSchemeVariant.fidelity, l10n.themeSchemeFidelity),
+  (ThemeSchemeVariant.content, l10n.themeSchemeContent),
+  (ThemeSchemeVariant.monochrome, l10n.themeSchemeMonochrome),
+  (ThemeSchemeVariant.neutral, l10n.themeSchemeNeutral),
+  (ThemeSchemeVariant.rainbow, l10n.themeSchemeRainbow),
+  (ThemeSchemeVariant.fruitSalad, l10n.themeSchemeFruitSalad),
 ];
 
 /// Edits a custom theme. [themeId] null starts a new one.
@@ -121,6 +130,7 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
   }
 
   Future<void> _load() async {
+    final l10n = context.l10n;
     final services = _services!;
     final settings = services.settings.value;
     _darkMode = settings.appearance.darkMode;
@@ -134,7 +144,7 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
     try {
       _palettes = (await services.platform.getSystemColors())?.palettes;
     } on Object catch (e) {
-      KoshaLog.w('Theme', 'system colours unavailable', e.runtimeType);
+      KoshaLog.w(l10n.onboardingThemeTitle, 'system colours unavailable', e.runtimeType);
     }
     final dataDir = await services.platform.getDataDirectory();
     _themesDir = themesDirectoryFor(dataDir);
@@ -145,14 +155,14 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
     if (id != null) {
       stored = await _store!.read(id);
       if (stored == null) {
-        if (mounted) setState(() => _loadError = 'This theme could not be opened.');
+        if (mounted) setState(() => _loadError = l10n.themeOpenFailed);
         return;
       }
     }
     final spec = stored ?? _newSpec();
     final uuid = CustomThemeIds.uuidOf(spec.id);
     if (uuid == null) {
-      if (mounted) setState(() => _loadError = 'This theme could not be opened.');
+      if (mounted) setState(() => _loadError = l10n.themeOpenFailed);
       return;
     }
     if (!mounted) return;
@@ -169,7 +179,7 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
   /// Defaults for a new theme: the brand seed, tonal spot, a pill-shaped key style.
   ThemeSpec _newSpec() => ThemeSpec(
     id: newCustomThemeId(),
-    name: 'My theme',
+    name: context.l10n.themeDefaultName,
     colorSource: ThemeColorSource.seed,
     seedColor: koshaYellow,
     variant: ThemeSchemeVariant.tonalSpot,
@@ -241,11 +251,11 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
     final discard = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Discard changes?'),
-        content: const Text('Your changes to this theme will be lost.'),
+        title: Text(context.l10n.themeDiscardTitle),
+        content: Text(context.l10n.themeDiscardBody),
         actions: [
-          TextButton(onPressed: () => Navigator.of(context).pop(false), child: const Text('Keep editing')),
-          FilledButton(onPressed: () => Navigator.of(context).pop(true), child: const Text('Discard')),
+          TextButton(onPressed: () => Navigator.of(context).pop(false), child: Text(context.l10n.themeKeepEditing)),
+          FilledButton(onPressed: () => Navigator.of(context).pop(true), child: Text(context.l10n.themeDiscard)),
         ],
       ),
     );
@@ -264,6 +274,7 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
   }
 
   Future<void> _save() async {
+    final l10n = context.l10n;
     final services = _services;
     final store = _store;
     final name = _nameController.text.trim();
@@ -299,9 +310,9 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
       _isNew = false;
       _dirty = false;
     } on Object catch (e) {
-      KoshaLog.w('Theme', 'save failed', e.runtimeType);
+      KoshaLog.w(l10n.onboardingThemeTitle, 'save failed', e.runtimeType);
       if (mounted) setState(() => _saving = false);
-      _snack('Could not save the theme.');
+      _snack(l10n.themeSaveFailed);
       return;
     }
     if (mounted) setState(() => _saving = false);
@@ -313,14 +324,15 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
   // ---------------------------------------------------------------------------
 
   Future<void> _choosePhoto() async {
+    final l10n = context.l10n;
     final store = _store;
     if (store == null) return;
     final XFile? picked;
     try {
       picked = await ImagePicker().pickImage(source: ImageSource.gallery);
     } on Object catch (e) {
-      KoshaLog.w('Theme', 'photo picker failed', e.runtimeType);
-      _snack('The photo picker could not open.');
+      KoshaLog.w(l10n.onboardingThemeTitle, 'photo picker failed', e.runtimeType);
+      _snack(l10n.themePhotoPickerFailed);
       return;
     }
     if (picked == null) return;
@@ -380,7 +392,7 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
     final services = _services;
     if (!_loaded || services == null) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Theme')),
+        appBar: AppBar(title: Text(context.l10n.onboardingThemeTitle)),
         body: Center(
           child: _loadError != null
               ? Padding(
@@ -414,7 +426,7 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(_isNew ? 'New theme' : 'Edit theme'),
+          title: Text(_isNew ? context.l10n.themeNewTitle : context.l10n.themeEditTitle),
           actions: [
             Padding(
               padding: const EdgeInsets.only(right: 8),
@@ -466,7 +478,7 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
 
     return [
       SettingsGroup(
-        title: 'Name',
+        title: context.l10n.themeNameField,
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
@@ -474,49 +486,49 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
               controller: _nameController,
               maxLength: kThemeNameMax,
               decoration: InputDecoration(
-                labelText: 'Theme name',
-                errorText: _nameController.text.trim().isEmpty ? 'A name is required' : null,
+                labelText: context.l10n.themeNameLabel,
+                errorText: _nameController.text.trim().isEmpty ? context.l10n.themeNameRequired : null,
               ),
             ),
           ),
         ],
       ),
       SettingsGroup(
-        title: 'Look',
+        title: context.l10n.themeSectionLook,
         children: [
           _ControlTile(
-            title: 'Dark mode',
+            title: context.l10n.themeDarkMode,
             child: SegmentedButton<DarkModePreference>(
-              segments: const [
-                ButtonSegment(value: DarkModePreference.system, label: Text('System')),
-                ButtonSegment(value: DarkModePreference.light, label: Text('Light')),
-                ButtonSegment(value: DarkModePreference.dark, label: Text('Dark')),
+              segments: [
+                ButtonSegment(value: DarkModePreference.system, label: Text(context.l10n.themeChoiceSystem)),
+                ButtonSegment(value: DarkModePreference.light, label: Text(context.l10n.themeChoiceLight)),
+                ButtonSegment(value: DarkModePreference.dark, label: Text(context.l10n.themeChoiceDark)),
               ],
               selected: {_darkMode},
               onSelectionChanged: (s) => _edit(() => _darkMode = s.first),
             ),
           ),
           SettingsSwitchTile(
-            title: 'Pure black',
-            subtitle: dark ? 'Black background' : 'Only in dark mode',
+            title: context.l10n.themePureBlack,
+            subtitle: dark ? context.l10n.themePureBlackBody : context.l10n.themePureBlackOnlyDark,
             icon: Icons.dark_mode_outlined,
             value: _pureBlack,
             onChanged: dark ? (v) => _edit(() => _pureBlack = v) : null,
           ),
           _ControlTile(
-            title: 'Contrast',
+            title: context.l10n.themeContrast,
             child: SegmentedButton<ContrastPreference>(
-              segments: const [
-                ButtonSegment(value: ContrastPreference.standard, label: Text('Standard')),
-                ButtonSegment(value: ContrastPreference.medium, label: Text('Medium')),
-                ButtonSegment(value: ContrastPreference.high, label: Text('High')),
+              segments: [
+                ButtonSegment(value: ContrastPreference.standard, label: Text(context.l10n.themeChoiceStandard)),
+                ButtonSegment(value: ContrastPreference.medium, label: Text(context.l10n.themeChoiceMedium)),
+                ButtonSegment(value: ContrastPreference.high, label: Text(context.l10n.themeChoiceHigh)),
               ],
               selected: {_contrast},
               onSelectionChanged: (s) => _edit(() => _contrast = s.first),
             ),
           ),
           _SliderRow(
-            label: 'Keyboard height',
+            label: context.l10n.themeKeyboardHeight,
             value: _heightScale,
             min: 0.7,
             max: 1.5,
@@ -526,44 +538,52 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
         ],
       ),
       SettingsGroup(
-        title: 'Colours',
+        title: context.l10n.themeSectionColours,
         children: [
           _ControlTile(
-            title: 'Source',
+            title: context.l10n.themeSource,
             child: SegmentedButton<ThemeColorSource>(
               segments: [
-                ButtonSegment(value: ThemeColorSource.dynamic, enabled: hasPalettes, label: const Text('Wallpaper')),
-                const ButtonSegment(value: ThemeColorSource.seed, label: Text('Seed')),
-                const ButtonSegment(value: ThemeColorSource.custom, label: Text('Per role')),
+                ButtonSegment(
+                  value: ThemeColorSource.dynamic,
+                  enabled: hasPalettes,
+                  label: Text(context.l10n.themeSourceWallpaper),
+                ),
+                ButtonSegment(value: ThemeColorSource.seed, label: Text(context.l10n.themeSourceSeed)),
+                ButtonSegment(value: ThemeColorSource.custom, label: Text(context.l10n.themeSourcePerRole)),
               ],
               selected: {dynamicSource && !hasPalettes ? ThemeColorSource.seed : draft.colorSource},
               onSelectionChanged: (s) => _setDraft((d) => d.copyWith(colorSource: s.first)),
             ),
           ),
           if (!hasPalettes)
-            const Padding(
+            Padding(
               padding: EdgeInsets.fromLTRB(16, 0, 16, 12),
-              child: Text('Wallpaper colours need Android 12 or newer.'),
+              child: Text(context.l10n.themeWallpaperNeedsAndroid12),
             ),
           if (!dynamicSource) ...[
             _ControlTile(
-              title: 'Seed colour',
+              title: context.l10n.themeSeedColour,
               child: _SeedSwatches(
                 selected: draft.seedColor,
                 onPick: (argb) => _setDraft((d) => d.copyWith(seedColor: argb)),
                 onCustom: () async {
-                  final argb = await showColorPicker(context, initial: draft.seedColor, title: 'Seed colour');
+                  final argb = await showColorPicker(
+                    context,
+                    initial: draft.seedColor,
+                    title: context.l10n.themeSeedColour,
+                  );
                   if (argb != null) _setDraft((d) => d.copyWith(seedColor: argb));
                 },
               ),
             ),
             _ControlTile(
-              title: 'Scheme',
+              title: context.l10n.themeScheme,
               child: Wrap(
                 spacing: 8,
                 runSpacing: 8,
                 children: [
-                  for (final (variant, label) in _variantChoices)
+                  for (final (variant, label) in _variantChoices(context.l10n))
                     ChoiceChip(
                       label: Text(label),
                       selected: draft.variant == variant,
@@ -575,8 +595,8 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
           ],
           if (draft.colorSource == ThemeColorSource.custom)
             ExpansionTile(
-              title: const Text('Colour roles'),
-              subtitle: Text(dark ? 'Editing the dark colours' : 'Editing the light colours'),
+              title: Text(context.l10n.themeColourRoles),
+              subtitle: Text(context.l10n.themeEditingColours(dark ? 'dark' : 'light')),
               children: [
                 for (final role in kEditorRoles)
                   _RoleTile(
@@ -597,7 +617,7 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
                   ),
                 TextButton(
                   onPressed: () => _setDraft((d) => d.copyWith(customRoles: const {}, customRolesDark: null)),
-                  child: const Text('Reset all roles'),
+                  child: Text(context.l10n.themeResetRoles),
                 ),
               ],
             ),
@@ -607,43 +627,43 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
         title: context.l10n.typingKeys,
         children: [
           _SliderRow(
-            label: 'Shape',
+            label: context.l10n.themeShape,
             value: 1 - draft.keyRadius * 2,
             min: 0,
             max: 1,
-            valueText: _shapeName(draft.keyRadius),
-            leftHint: 'Pill',
-            rightHint: 'Square',
+            valueText: _shapeName(draft.keyRadius, context.l10n),
+            leftHint: context.l10n.themeShapePill,
+            rightHint: context.l10n.themeShapeSquare,
             onChanged: (v) => _setDraft((d) {
               final radius = (1 - v) * 0.5;
               return d.copyWith(keyRadius: radius, fontRoundness: radius * 200);
             }),
           ),
           SettingsSwitchTile(
-            title: 'Key borders',
+            title: context.l10n.themeKeyBorders,
             value: draft.borderWidth > 0,
             onChanged: (on) => _setDraft((d) => d.copyWith(borderWidth: on ? 1.0 : 0.0)),
           ),
           if (draft.borderWidth > 0)
             _SliderRow(
-              label: 'Border width',
+              label: context.l10n.themeBorderWidth,
               value: draft.borderWidth,
               min: 1,
               max: 4,
               divisions: 6,
-              valueText: '${draft.borderWidth.toStringAsFixed(1)} dp',
+              valueText: context.l10n.dpValue(draft.borderWidth),
               onChanged: (v) => _setDraft((d) => d.copyWith(borderWidth: v)),
             ),
           _SliderRow(
-            label: 'Key gap',
+            label: context.l10n.themeKeyGap,
             value: draft.keyGap,
             min: 0,
             max: 16,
-            valueText: '${draft.keyGap.round()} dp',
+            valueText: context.l10n.dpValue(draft.keyGap.round()),
             onChanged: (v) => _setDraft((d) => d.copyWith(keyGap: v)),
           ),
           _SliderRow(
-            label: 'Font weight',
+            label: context.l10n.themeFontWeight,
             value: draft.labelWeight.toDouble(),
             min: 100,
             max: 900,
@@ -652,7 +672,7 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
             onChanged: (v) => _setDraft((d) => d.copyWith(labelWeight: v.round())),
           ),
           _SliderRow(
-            label: 'Font size',
+            label: context.l10n.themeFontSize,
             value: draft.labelScale,
             min: 0.7,
             max: 1.5,
@@ -660,23 +680,23 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
             onChanged: (v) => _setDraft((d) => d.copyWith(labelScale: v)),
           ),
           SettingsSwitchTile(
-            title: 'Hint characters',
-            subtitle: 'Small characters on long press',
+            title: context.l10n.themeHintCharacters,
+            subtitle: context.l10n.themeHintCharactersBody,
             value: _hintLabels,
             onChanged: (v) => _edit(() => _hintLabels = v),
           ),
         ],
       ),
       SettingsGroup(
-        title: 'Background',
+        title: context.l10n.themeBackground,
         children: [
           _ControlTile(
-            title: 'Type',
+            title: context.l10n.themeBackgroundType,
             child: SegmentedButton<ThemeBackgroundType>(
-              segments: const [
-                ButtonSegment(value: ThemeBackgroundType.solid, label: Text('Solid')),
-                ButtonSegment(value: ThemeBackgroundType.gradient, label: Text('Gradient')),
-                ButtonSegment(value: ThemeBackgroundType.image, label: Text('Photo')),
+              segments: [
+                ButtonSegment(value: ThemeBackgroundType.solid, label: Text(context.l10n.themeTypeSolid)),
+                ButtonSegment(value: ThemeBackgroundType.gradient, label: Text(context.l10n.themeTypeGradient)),
+                ButtonSegment(value: ThemeBackgroundType.image, label: Text(context.l10n.themeTypePhoto)),
               ],
               selected: {bg.type},
               onSelectionChanged: (s) => _setDraft((d) => d.copyWith(background: _backgroundOf(d, s.first))),
@@ -697,24 +717,24 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
                         errorBuilder: (_, _, _) => const SizedBox(height: 96),
                       ),
                     )
-                  : const Text('No photo yet. Choose one to crop it to the keyboard.'),
+                  : Text(context.l10n.themeNoPhotoYet),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
               child: Wrap(
                 spacing: 8,
                 children: [
-                  FilledButton.tonal(onPressed: _choosePhoto, child: const Text('Choose photo')),
+                  FilledButton.tonal(onPressed: _choosePhoto, child: Text(context.l10n.themeChoosePhoto)),
                   if (_photoBytes != null && hasPhoto)
                     OutlinedButton(
                       onPressed: () => unawaited(_openCrop(_photoBytes!, bg.blur)),
-                      child: const Text('Edit crop and blur'),
+                      child: Text(context.l10n.themeEditCrop),
                     ),
                 ],
               ),
             ),
             _SliderRow(
-              label: 'Dim',
+              label: context.l10n.themeDim,
               value: bg.dim,
               min: 0,
               max: 0.8,
@@ -725,24 +745,30 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
         ],
       ),
       SettingsGroup(
-        title: 'Popups and trail',
+        title: context.l10n.themeSectionPopups,
         children: [
           SettingsSwitchTile(
-            title: 'Solid popups',
-            subtitle: dynamicSource ? 'Not with wallpaper colours' : 'Popups in the primary colour',
+            title: context.l10n.themeSolidPopups,
+            subtitle: dynamicSource
+                ? context.l10n.themeSolidPopupsBodyWallpaper
+                : context.l10n.themeSolidPopupsBodyPrimary,
             value: draft.accents.popupFill != null,
             onChanged: dynamicSource
                 ? null
                 : (on) => _setDraft((d) => d.copyWith(accents: _solidPopups(d, on, scheme))),
           ),
-          SettingsSwitchTile(title: 'Swipe trail', value: _trailOn, onChanged: (v) => _edit(() => _trailOn = v)),
+          SettingsSwitchTile(
+            title: context.l10n.themeSwipeTrail,
+            value: _trailOn,
+            onChanged: (v) => _edit(() => _trailOn = v),
+          ),
           if (_trailOn) ...[
             _SliderRow(
               label: context.l10n.typingTrailWidth,
               value: _trailWidth,
               min: 2,
               max: 16,
-              valueText: '${_trailWidth.round()} dp',
+              valueText: context.l10n.dpValue(_trailWidth.round()),
               onChanged: (v) => _edit(() => _trailWidth = v),
             ),
             _SliderRow(
@@ -751,22 +777,22 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
               min: 0,
               max: 2000,
               divisions: 20,
-              valueText: _trailFade == 0 ? 'Instant' : '$_trailFade ms',
+              valueText: _trailFade == 0 ? context.l10n.themeTrailInstant : context.l10n.milliseconds(_trailFade),
               onChanged: (v) => _edit(() => _trailFade = v.round()),
             ),
           ],
           _ControlTile(
-            title: 'Trail colours',
+            title: context.l10n.themeTrailColours,
             child: Row(
               children: [
                 _ColorChip(
-                  label: 'Start',
+                  label: context.l10n.themeTrailStart,
                   color: Color(draft.accents.trailStart ?? scheme.primary.toARGB32()),
                   onTap: () async {
                     final argb = await showColorPicker(
                       context,
                       initial: draft.accents.trailStart ?? scheme.primary.toARGB32(),
-                      title: 'Trail start',
+                      title: context.l10n.themeTrailStartTitle,
                     );
                     if (argb != null) {
                       _setDraft((d) => d.copyWith(accents: d.accents.copyWith(trailStart: argb)));
@@ -775,13 +801,13 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
                 ),
                 const SizedBox(width: 12),
                 _ColorChip(
-                  label: 'End',
+                  label: context.l10n.themeTrailEnd,
                   color: Color(draft.accents.trailEnd ?? scheme.tertiary.toARGB32()),
                   onTap: () async {
                     final argb = await showColorPicker(
                       context,
                       initial: draft.accents.trailEnd ?? scheme.tertiary.toARGB32(),
-                      title: 'Trail end',
+                      title: context.l10n.themeTrailEndTitle,
                     );
                     if (argb != null) {
                       _setDraft((d) => d.copyWith(accents: d.accents.copyWith(trailEnd: argb)));
@@ -799,21 +825,21 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
         ],
       ),
       SettingsGroup(
-        title: 'Motion',
+        title: context.l10n.themeSectionMotion,
         children: [
           _ControlTile(
-            title: 'Key press animation',
+            title: context.l10n.themeKeyPressAnimation,
             child: SegmentedButton<double>(
-              segments: [for (final (label, value) in _motionChoices) ButtonSegment(value: value, label: Text(label))],
+              segments: [
+                for (final (label, value) in _motionChoices(context.l10n))
+                  ButtonSegment(value: value, label: Text(label)),
+              ],
               selected: {_nearestMotion(draft.motionIntensity)},
               onSelectionChanged: (s) => _setDraft((d) => d.copyWith(motionIntensity: s.first)),
             ),
           ),
           if (MediaQuery.disableAnimationsOf(context))
-            const Padding(
-              padding: EdgeInsets.fromLTRB(16, 0, 16, 12),
-              child: Text('Remove animations is on in system settings, so keys do not animate.'),
-            ),
+            Padding(padding: EdgeInsets.fromLTRB(16, 0, 16, 12), child: Text(context.l10n.themeReduceMotion)),
         ],
       ),
     ];
@@ -825,7 +851,7 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
         _setDraft((d) => d.copyWith(background: d.background.copyWith(gradientColors: next)));
     return [
       _ControlTile(
-        title: 'Colours',
+        title: context.l10n.themeSectionColours,
         child: Wrap(
           spacing: 12,
           runSpacing: 8,
@@ -833,10 +859,14 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
           children: [
             for (var i = 0; i < stops.length; i++)
               _ColorChip(
-                label: 'Stop ${i + 1}',
+                label: context.l10n.themeStopLabel('${i + 1}'),
                 color: Color(stops[i]),
                 onTap: () async {
-                  final argb = await showColorPicker(context, initial: stops[i], title: 'Stop ${i + 1}');
+                  final argb = await showColorPicker(
+                    context,
+                    initial: stops[i],
+                    title: context.l10n.themePickStopTitle('${i + 1}'),
+                  );
                   if (argb == null) return;
                   final next = [...stops]..[i] = argb;
                   setStops(next);
@@ -846,19 +876,19 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
               TextButton.icon(
                 onPressed: () => setStops([...stops, stops.last]),
                 icon: const Icon(Icons.add),
-                label: const Text('Add stop'),
+                label: Text(context.l10n.themeAddStop),
               ),
             if (stops.length > 2)
               TextButton.icon(
                 onPressed: () => setStops(stops.sublist(0, stops.length - 1)),
                 icon: const Icon(Icons.remove),
-                label: const Text('Remove stop'),
+                label: Text(context.l10n.themeRemoveStop),
               ),
           ],
         ),
       ),
       _SliderRow(
-        label: 'Angle',
+        label: context.l10n.themeAngle,
         value: bg.gradientAngle,
         min: 0,
         max: 360,
@@ -900,17 +930,17 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
   });
 
   double _nearestMotion(double v) {
-    var best = _motionChoices.first.$2;
-    for (final (_, value) in _motionChoices) {
+    var best = _motionValues.first;
+    for (final value in _motionValues) {
       if ((value - v).abs() < (best - v).abs()) best = value;
     }
     return best;
   }
 
-  static String _shapeName(double keyRadius) {
-    if (keyRadius >= 0.42) return 'Pill';
-    if (keyRadius >= 0.16) return 'Rounded';
-    return 'Square';
+  static String _shapeName(double keyRadius, AppLocalizations l10n) {
+    if (keyRadius >= 0.42) return l10n.themeShapePill;
+    if (keyRadius >= 0.16) return l10n.themeShapeRounded;
+    return l10n.themeShapeSquare;
   }
 
   /// `surfaceContainerHighest` becomes "Surface container highest".
@@ -1042,7 +1072,7 @@ class _SeedSwatches extends StatelessWidget {
         _Swatch(
           color: Color(selected),
           selected: !inList,
-          label: inList ? 'Custom colour' : 'Custom colour #${hexOf(selected)}',
+          label: inList ? context.l10n.themeCustomColour : context.l10n.themeCustomColourHex(hexOf(selected)),
           icon: Icons.colorize,
           onTap: onCustom,
         ),
@@ -1106,7 +1136,7 @@ class _ColorChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Semantics(
     button: true,
-    label: '$label colour, #${hexOf(color.toARGB32())}',
+    label: context.l10n.themeSwatchLabel(label, hexOf(color.toARGB32())),
     child: ActionChip(
       avatar: CircleAvatar(backgroundColor: color, radius: 10),
       label: Text(label),
@@ -1136,10 +1166,10 @@ class _RoleTile extends StatelessWidget {
     minVerticalPadding: 8,
     leading: CircleAvatar(backgroundColor: color ?? const Color(0xFF000000), radius: 12),
     title: Text(label),
-    subtitle: Text(overridden ? 'Set' : 'From the scheme'),
+    subtitle: Text(overridden ? context.l10n.themeOverridden : context.l10n.themeFromScheme),
     trailing: overridden
         ? IconButton(
-            tooltip: 'Use the scheme colour for $label',
+            tooltip: context.l10n.themeUseSchemeColour(label),
             onPressed: onReset,
             icon: const Icon(Icons.restart_alt),
           )
