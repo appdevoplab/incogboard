@@ -14,6 +14,7 @@ import '../../settings/kosha_settings.dart';
 import '../app_services.dart';
 import '../common/settings_widgets.dart';
 import '../routes.dart';
+import '../l10n.dart';
 import '../shell/settings_actions.dart';
 
 class ChineseScreen extends StatelessWidget {
@@ -24,14 +25,14 @@ class ChineseScreen extends StatelessWidget {
     builder: (context, settings) {
       final c = settings.chinese;
       return SettingsPage(
-        title: 'Chinese',
+        title: context.l10n.chineseTitle,
         children: [
           SettingsGroup(
             children: [
               SettingsSwitchTile(
                 icon: Icons.translate,
-                title: 'Traditional characters',
-                subtitle: 'Show candidates in Traditional characters (Taiwan standard).',
+                title: context.l10n.chineseTraditional,
+                subtitle: context.l10n.chineseTraditionalBody,
                 value: c.traditional,
                 onChanged: (on) => writeSettings(
                   context,
@@ -41,8 +42,8 @@ class ChineseScreen extends StatelessWidget {
               ),
               SettingsSwitchTile(
                 icon: Icons.swap_horiz,
-                title: 'Fuzzy pinyin',
-                subtitle: 'Also accept z and zh, c and ch, s and sh, n and l, an and ang, en and eng, in and ing.',
+                title: context.l10n.chineseFuzzy,
+                subtitle: context.l10n.chineseFuzzyBody,
                 value: c.fuzzyPinyin,
                 onChanged: (on) => writeSettings(
                   context,
@@ -52,23 +53,20 @@ class ChineseScreen extends StatelessWidget {
               ),
             ],
           ),
-          const SettingsGroup(title: 'Dictionary', children: [_PackTile()]),
+          SettingsGroup(title: context.l10n.cjkDictionary, children: const [_PackTile()]),
           SettingsGroup(
             children: [
               SettingsTile(
                 icon: Icons.delete_outline,
-                title: 'Clear learned phrases',
-                subtitle: 'Forget the words you picked. The dictionary stays.',
+                title: context.l10n.chineseClearPhrases,
+                subtitle: context.l10n.chineseClearPhrasesBody,
                 onTap: () => unawaited(_confirmClear(context)),
               ),
             ],
           ),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(20, 8, 20, 24),
-            child: Text(
-              'Chinese is typed on this phone. Learned phrases are encrypted and never leave it.',
-              textAlign: TextAlign.center,
-            ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
+            child: Text(context.l10n.chineseFooter, textAlign: TextAlign.center),
           ),
         ],
       );
@@ -79,11 +77,11 @@ class ChineseScreen extends StatelessWidget {
     final ok = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Clear learned phrases?'),
-        content: const Text('The words you picked for Chinese are removed. This cannot be undone.'),
+        title: Text(context.l10n.chineseClearTitle),
+        content: Text(context.l10n.chineseClearBody),
         actions: [
-          TextButton(onPressed: () => Navigator.of(context).pop(false), child: const Text('Cancel')),
-          TextButton(onPressed: () => Navigator.of(context).pop(true), child: const Text('Clear')),
+          TextButton(onPressed: () => Navigator.of(context).pop(false), child: Text(context.l10n.cancel)),
+          TextButton(onPressed: () => Navigator.of(context).pop(true), child: Text(context.l10n.cjkClear)),
         ],
       ),
     );
@@ -96,7 +94,7 @@ class ChineseScreen extends StatelessWidget {
       // The blob may already be gone; the list is empty either way.
     }
     if (context.mounted) {
-      ScaffoldMessenger.maybeOf(context)?.showSnackBar(const SnackBar(content: Text('Learned phrases cleared')));
+      ScaffoldMessenger.maybeOf(context)?.showSnackBar(SnackBar(content: Text(context.l10n.chinesePhrasesCleared)));
     }
   }
 }
@@ -136,13 +134,13 @@ class _PackTileState extends State<_PackTile> {
       final packs = snap.data ?? const <PackInfoMessage>[];
       void open() => unawaited(Navigator.of(context).pushNamed(KoshaRoutes.packs));
       if (loading) {
-        return const SettingsTile(icon: Icons.inventory_2_outlined, title: 'Looking for the dictionary');
+        return SettingsTile(icon: Icons.inventory_2_outlined, title: context.l10n.chineseLooking);
       }
       if (packs.isEmpty) {
         return SettingsTile(
           icon: Icons.inventory_2_outlined,
-          title: 'Chinese dictionary',
-          subtitle: 'Not installed. Chinese typing needs it; install it under Model packs.',
+          title: context.l10n.chineseDictName,
+          subtitle: context.l10n.chinesePackMissing,
           onTap: open,
         );
       }
@@ -150,7 +148,7 @@ class _PackTileState extends State<_PackTile> {
       return SettingsTile(
         icon: Icons.inventory_2_outlined,
         title: pack.name,
-        subtitle: 'Installed. ${pack.license}',
+        subtitle: context.l10n.chinesePackInstalled(pack.license),
         trailing: Text(_mb(pack.sizeBytes)),
         onTap: open,
       );

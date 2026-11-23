@@ -67,8 +67,7 @@ import 'app_localizations_pt.dart';
 /// be consistent with the languages listed in the AppLocalizations.supportedLocales
 /// property.
 abstract class AppLocalizations {
-  AppLocalizations(String locale)
-    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -76,8 +75,7 @@ abstract class AppLocalizations {
     return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
   }
 
-  static const LocalizationsDelegate<AppLocalizations> delegate =
-      _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -89,13 +87,12 @@ abstract class AppLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
-      <LocalizationsDelegate<dynamic>>[
-        delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ];
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
+    delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+  ];
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
@@ -3599,10 +3596,225 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Remove {app} from the list'**
   String privacyRemoveAppTooltip(String app);
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'Chinese'**
+  String get chineseTitle;
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'Traditional characters'**
+  String get chineseTraditional;
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'Show candidates in Traditional characters (Taiwan standard).'**
+  String get chineseTraditionalBody;
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'Fuzzy pinyin'**
+  String get chineseFuzzy;
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'Also accept z and zh, c and ch, s and sh, n and l, an and ang, en and eng, in and ing.'**
+  String get chineseFuzzyBody;
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'Dictionary'**
+  String get cjkDictionary;
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'Clear learned phrases'**
+  String get chineseClearPhrases;
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'Forget the words you picked. The dictionary stays.'**
+  String get chineseClearPhrasesBody;
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'Chinese is typed on this phone. Learned phrases are encrypted and never leave it.'**
+  String get chineseFooter;
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'Clear learned phrases?'**
+  String get chineseClearTitle;
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'The words you picked for Chinese are removed. This cannot be undone.'**
+  String get chineseClearBody;
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get cjkClear;
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'Learned phrases cleared'**
+  String get chinesePhrasesCleared;
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'Looking for the dictionary'**
+  String get chineseLooking;
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'Chinese dictionary'**
+  String get chineseDictName;
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'Not installed. Chinese typing needs it; install it under Model packs.'**
+  String get chinesePackMissing;
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'Installed. {license}'**
+  String chinesePackInstalled(String license);
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'Japanese'**
+  String get japaneseTitle;
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'Layout'**
+  String get japaneseLayout;
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'12-key (flick)'**
+  String get japaneseLayout12;
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'Romaji (QWERTY)'**
+  String get japaneseLayoutRomaji;
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'Typing'**
+  String get japaneseTyping;
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'Flick only'**
+  String get japaneseFlickOnly;
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'No multi-tap: tapping あ twice types ああ, not い'**
+  String get japaneseFlickOnlyBody;
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'Half-width space'**
+  String get japaneseHalfWidth;
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'Space types a normal space when nothing is being typed. Off types a full-width space.'**
+  String get japaneseHalfWidthBody;
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'Dictionary pack'**
+  String get japaneseDictPack;
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'Checking...'**
+  String get japaneseChecking;
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'{name} is installed. Kanji conversion is on.'**
+  String japaneseInstalled(String name);
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'Not installed. Kana still types; kanji need the pack.'**
+  String get japaneseNotInstalled;
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'Clear learned words'**
+  String get japaneseClearWords;
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'Forgets the Japanese words you picked. Stored encrypted on this phone.'**
+  String get japaneseClearWordsBody;
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'Clear learned Japanese words?'**
+  String get japaneseClearTitle;
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'This deletes every Japanese word you picked. It cannot be undone.'**
+  String get japaneseClearBody;
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'Chinese phrases'**
+  String get privacyStoredChinesePhrases;
+
+  /// Chinese/Japanese options screen text
+  ///
+  /// In en, this message translates to:
+  /// **'Japanese words'**
+  String get privacyStoredJapaneseWords;
 }
 
-class _AppLocalizationsDelegate
-    extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
@@ -3611,15 +3823,7 @@ class _AppLocalizationsDelegate
   }
 
   @override
-  bool isSupported(Locale locale) => <String>[
-    'de',
-    'en',
-    'es',
-    'fr',
-    'hi',
-    'id',
-    'pt',
-  ].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['de', 'en', 'es', 'fr', 'hi', 'id', 'pt'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;

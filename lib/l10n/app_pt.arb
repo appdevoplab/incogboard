@@ -1073,5 +1073,149 @@
   "packsCouldNotRead": "O Kosha não conseguiu ler seus pacotes",
   "packsDeleteTooltip": "Excluir {name}",
   "privacyNothingStored": "Nada guardado ainda",
-  "privacyRemoveAppTooltip": "Remover {app} da lista"
+  "privacyRemoveAppTooltip": "Remover {app} da lista",
+  "chineseTitle": "Chinês",
+  "@chineseTitle": {
+    "x-review": true
+  },
+  "chineseTraditional": "Caracteres tradicionais",
+  "@chineseTraditional": {
+    "x-review": true
+  },
+  "chineseTraditionalBody": "Mostra os candidatos em caracteres tradicionais (padrão de Taiwan).",
+  "@chineseTraditionalBody": {
+    "x-review": true
+  },
+  "chineseFuzzy": "Pinyin aproximado",
+  "@chineseFuzzy": {
+    "x-review": true
+  },
+  "chineseFuzzyBody": "Aceita também z e zh, c e ch, s e sh, n e l, an e ang, en e eng, in e ing.",
+  "@chineseFuzzyBody": {
+    "x-review": true
+  },
+  "cjkDictionary": "Dicionário",
+  "@cjkDictionary": {
+    "x-review": true
+  },
+  "chineseClearPhrases": "Apagar frases aprendidas",
+  "@chineseClearPhrases": {
+    "x-review": true
+  },
+  "chineseClearPhrasesBody": "Esquece as palavras que você escolheu. O dicionário permanece.",
+  "@chineseClearPhrasesBody": {
+    "x-review": true
+  },
+  "chineseFooter": "O chinês é digitado neste telefone. As frases aprendidas são criptografadas e nunca saem dele.",
+  "@chineseFooter": {
+    "x-review": true
+  },
+  "chineseClearTitle": "Apagar as frases aprendidas?",
+  "@chineseClearTitle": {
+    "x-review": true
+  },
+  "chineseClearBody": "As palavras escolhidas para o chinês serão removidas. Isso não pode ser desfeito.",
+  "@chineseClearBody": {
+    "x-review": true
+  },
+  "cjkClear": "Apagar",
+  "@cjkClear": {
+    "x-review": true
+  },
+  "chinesePhrasesCleared": "Frases aprendidas apagadas",
+  "@chinesePhrasesCleared": {
+    "x-review": true
+  },
+  "chineseLooking": "Procurando o dicionário",
+  "@chineseLooking": {
+    "x-review": true
+  },
+  "chineseDictName": "Dicionário de chinês",
+  "@chineseDictName": {
+    "x-review": true
+  },
+  "chinesePackMissing": "Não instalado. A digitação em chinês precisa dele; instale em Pacotes de modelos.",
+  "@chinesePackMissing": {
+    "x-review": true
+  },
+  "chinesePackInstalled": "Instalado. {license}",
+  "@chinesePackInstalled": {
+    "x-review": true
+  },
+  "japaneseTitle": "Japonês",
+  "@japaneseTitle": {
+    "x-review": true
+  },
+  "japaneseLayout": "Layout",
+  "@japaneseLayout": {
+    "x-review": true
+  },
+  "japaneseLayout12": "12 teclas (deslizar)",
+  "@japaneseLayout12": {
+    "x-review": true
+  },
+  "japaneseLayoutRomaji": "Romaji (QWERTY)",
+  "@japaneseLayoutRomaji": {
+    "x-review": true
+  },
+  "japaneseTyping": "Digitação",
+  "@japaneseTyping": {
+    "x-review": true
+  },
+  "japaneseFlickOnly": "Somente deslizar",
+  "@japaneseFlickOnly": {
+    "x-review": true
+  },
+  "japaneseFlickOnlyBody": "Sem toques múltiplos: tocar あ duas vezes digita ああ, não い",
+  "@japaneseFlickOnlyBody": {
+    "x-review": true
+  },
+  "japaneseHalfWidth": "Espaço de largura normal",
+  "@japaneseHalfWidth": {
+    "x-review": true
+  },
+  "japaneseHalfWidthBody": "O espaço digita um espaço normal quando nada está sendo digitado. Desativado, digita um espaço de largura total.",
+  "@japaneseHalfWidthBody": {
+    "x-review": true
+  },
+  "japaneseDictPack": "Pacote de dicionário",
+  "@japaneseDictPack": {
+    "x-review": true
+  },
+  "japaneseChecking": "Verificando...",
+  "@japaneseChecking": {
+    "x-review": true
+  },
+  "japaneseInstalled": "{name} está instalado. A conversão para kanji está ativada.",
+  "@japaneseInstalled": {
+    "x-review": true
+  },
+  "japaneseNotInstalled": "Não instalado. O kana ainda é digitado; o kanji precisa do pacote.",
+  "@japaneseNotInstalled": {
+    "x-review": true
+  },
+  "japaneseClearWords": "Apagar palavras aprendidas",
+  "@japaneseClearWords": {
+    "x-review": true
+  },
+  "japaneseClearWordsBody": "Esquece as palavras japonesas que você escolheu. Armazenadas criptografadas neste telefone.",
+  "@japaneseClearWordsBody": {
+    "x-review": true
+  },
+  "japaneseClearTitle": "Apagar as palavras japonesas aprendidas?",
+  "@japaneseClearTitle": {
+    "x-review": true
+  },
+  "japaneseClearBody": "Todas as palavras japonesas escolhidas serão apagadas. Isso não pode ser desfeito.",
+  "@japaneseClearBody": {
+    "x-review": true
+  },
+  "privacyStoredChinesePhrases": "Frases em chinês",
+  "@privacyStoredChinesePhrases": {
+    "x-review": true
+  },
+  "privacyStoredJapaneseWords": "Palavras em japonês",
+  "@privacyStoredJapaneseWords": {
+    "x-review": true
+  }
 }

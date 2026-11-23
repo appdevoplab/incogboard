@@ -14,9 +14,8 @@ String languageName(String code) => languageInfo(code).englishName;
 
 /// What a stored blob holds, for the privacy center's list. Never shows contents.
 String friendlyBlobName(String name, AppLocalizations l10n) {
-  // The Chinese and Japanese rows are the orchestrator's (English until it localises them).
-  if (name == DataBlobs.learnedZhPhrases) return 'Chinese phrases';
-  if (name == DataBlobs.learnedJaWords) return 'Japanese words';
+  if (name == DataBlobs.learnedZhPhrases) return l10n.privacyStoredChinesePhrases;
+  if (name == DataBlobs.learnedJaWords) return l10n.privacyStoredJapaneseWords;
   if (name.startsWith(DataBlobs.learnedPrefix)) {
     return l10n.privacyStoredLearned(languageName(name.substring(DataBlobs.learnedPrefix.length)));
   }

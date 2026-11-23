@@ -3,7 +3,6 @@
 // OWNER: Wave 4-B. Japanese typing options (route KoshaRoutes.japanese). Writes the `japanese`
 // settings section (flick only, half-width space) and the default Japanese layout
 // (`languages.layouts['ja']`), shows the dictionary pack status, and clears the learned words.
-// Strings are plain English for now (Agent C localises the rest of the app).
 import 'dart:async';
 
 import 'package:material_ui/material_ui.dart';
@@ -16,6 +15,7 @@ import '../../settings/kosha_settings.dart';
 import '../app_services.dart';
 import '../common/settings_widgets.dart';
 import '../routes.dart';
+import '../l10n.dart';
 import '../shell/settings_actions.dart';
 
 class JapaneseScreen extends StatefulWidget {
@@ -49,14 +49,14 @@ class _JapaneseScreenState extends State<JapaneseScreen> {
       final j = settings.japanese;
       final layout = settings.languages.layouts['ja'] ?? 'kana12_ja';
       return SettingsPage(
-        title: 'Japanese',
+        title: context.l10n.japaneseTitle,
         children: [
           SettingsPanel(
-            title: 'Layout',
+            title: context.l10n.japaneseLayout,
             child: SettingsChoiceChips<String>(
-              options: const [
-                ChoiceOption('kana12_ja', '12-key (flick)'),
-                ChoiceOption('romaji_ja', 'Romaji (QWERTY)'),
+              options: [
+                ChoiceOption('kana12_ja', context.l10n.japaneseLayout12),
+                ChoiceOption('romaji_ja', context.l10n.japaneseLayoutRomaji),
               ],
               selected: layout,
               onSelected: (id) => writeSettings(
@@ -67,12 +67,12 @@ class _JapaneseScreenState extends State<JapaneseScreen> {
             ),
           ),
           SettingsGroup(
-            title: 'Typing',
+            title: context.l10n.japaneseTyping,
             children: [
               SettingsSwitchTile(
                 icon: Icons.touch_app_outlined,
-                title: 'Flick only',
-                subtitle: 'No multi-tap: tapping あ twice types ああ, not い',
+                title: context.l10n.japaneseFlickOnly,
+                subtitle: context.l10n.japaneseFlickOnlyBody,
                 value: j.flickOnly,
                 onChanged: (on) => writeSettings(
                   context,
@@ -82,8 +82,8 @@ class _JapaneseScreenState extends State<JapaneseScreen> {
               ),
               SettingsSwitchTile(
                 icon: Icons.space_bar_outlined,
-                title: 'Half-width space',
-                subtitle: 'Space types a normal space when nothing is being typed. Off types a full-width space.',
+                title: context.l10n.japaneseHalfWidth,
+                subtitle: context.l10n.japaneseHalfWidthBody,
                 value: j.halfWidthSpace,
                 onChanged: (on) => writeSettings(
                   context,
@@ -94,7 +94,7 @@ class _JapaneseScreenState extends State<JapaneseScreen> {
             ],
           ),
           SettingsGroup(
-            title: 'Dictionary',
+            title: context.l10n.cjkDictionary,
             children: [
               FutureBuilder<List<PackInfoMessage>>(
                 future: _packs,
@@ -103,20 +103,20 @@ class _JapaneseScreenState extends State<JapaneseScreen> {
                   final installed = packs != null && packs.isNotEmpty;
                   return SettingsTile(
                     icon: Icons.inventory_2_outlined,
-                    title: 'Dictionary pack',
+                    title: context.l10n.japaneseDictPack,
                     subtitle: !snap.hasData
-                        ? 'Checking...'
+                        ? context.l10n.japaneseChecking
                         : installed
-                        ? '${packs.first.name} is installed. Kanji conversion is on.'
-                        : 'Not installed. Kana still types; kanji need the pack.',
+                        ? context.l10n.japaneseInstalled(packs.first.name)
+                        : context.l10n.japaneseNotInstalled,
                     onTap: () => unawaited(Navigator.of(context).pushNamed(KoshaRoutes.packs)),
                   );
                 },
               ),
               SettingsTile(
                 icon: Icons.delete_outline,
-                title: 'Clear learned words',
-                subtitle: 'Forgets the Japanese words you picked. Stored encrypted on this phone.',
+                title: context.l10n.japaneseClearWords,
+                subtitle: context.l10n.japaneseClearWordsBody,
                 onTap: () => unawaited(_clearLearned(context)),
               ),
             ],
@@ -130,17 +130,17 @@ class _JapaneseScreenState extends State<JapaneseScreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Clear learned Japanese words?'),
-        content: const Text('This deletes every Japanese word you picked. It cannot be undone.'),
+        title: Text(context.l10n.japaneseClearTitle),
+        content: Text(context.l10n.japaneseClearBody),
         actions: [
-          TextButton(onPressed: () => Navigator.of(context).pop(false), child: const Text('Cancel')),
+          TextButton(onPressed: () => Navigator.of(context).pop(false), child: Text(context.l10n.cancel)),
           FilledButton(
             style: FilledButton.styleFrom(
               backgroundColor: Theme.of(context).colorScheme.error,
               foregroundColor: Theme.of(context).colorScheme.onError,
             ),
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Clear'),
+            child: Text(context.l10n.cjkClear),
           ),
         ],
       ),
