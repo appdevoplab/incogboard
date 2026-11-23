@@ -126,6 +126,12 @@ class BackupRestorer {
     required RestoreMode mode,
   }) async {
     final replace = mode == RestoreMode.replace;
+    // Validate the settings section before anything is written: a malformed section must not leave a
+    // half-applied restore (in replace mode the learned blobs are deleted first).
+    final incomingSettings = contents.settings;
+    final parsedSettings = include.contains(BackupSection.settings) && incomingSettings != null
+        ? KoshaSettings.fromJson(incomingSettings)
+        : null;
     final blobNames = {for (final b in await platform.secureList()) b.name};
 
     // Checks first: every existing blob that a merge will read must be readable now.
@@ -236,10 +242,8 @@ class BackupRestorer {
     }
 
     var settingsApplied = false;
-    final incomingSettings = contents.settings;
-    if (include.contains(BackupSection.settings) && incomingSettings != null) {
-      final parsed = KoshaSettings.fromJson(incomingSettings);
-      await settings.update((_) => parsed, sections: SettingsSection.all);
+    if (parsedSettings != null) {
+      await settings.update((_) => parsedSettings, sections: SettingsSection.all);
       settingsApplied = true;
     }
 

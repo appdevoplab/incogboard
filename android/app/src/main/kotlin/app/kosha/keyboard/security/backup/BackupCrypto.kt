@@ -47,7 +47,7 @@ internal object BackupCrypto {
 
     private const val MAGIC = "KOSHBK"
     private const val KDF_PBKDF2_SHA256 = 1
-    private const val MAX_ITERATIONS = 10_000_000
+    private const val MAX_ITERATIONS = 2_000_000
     private const val SALT_BYTES = 16
     private const val IV_BYTES = 12
     private const val KEY_BITS = 256
