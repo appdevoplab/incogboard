@@ -1,60 +1,38 @@
 # Handoff: continue from here after /clear
 
-State as of 2026-11-23 (morning). `main` is clean; nothing is pushed. **Wave 4 is mid-merge: E, D, A, B are merged; C is not finished.**
+State as of 2026-11-23 (afternoon). `main` is clean; nothing is pushed. **Wave 4 is done and merged: E, D, A, B, C.** Next is Wave 5 (release); the option questions to the user come first (see "Do next").
 
 ## Where things stand
 
-- **Merged on `main`:** E brand (`05d71a7`), D perf/QA (`a9d8a4b`), A Chinese (`47248ec`), B Japanese (`d0ab376`). Their worktrees and branches are removed.
-- **C (a11y + l10n) is NOT done.** It was stopped by a usage limit, resumed, then stopped by the orchestrator when the user paused. Its work is on branch `worktree-agent-a01a391e601d1c4ef` (worktree `.claude/worktrees/agent-a01a391e601d1c4ef`, still present):
-  - `96c0287`: the TalkBack part (done).
-  - `e82a126` and `463a8b5`: WIP string/ARB work (47 files, unverified, quality gate not run).
-  - When stopped it was working on Hindi/Indonesian "needs review" flags in the ARBs, a hard-coded-string scanner test, and a Flutter warning that German is not supported by all localisation delegates.
-  - Its edits outside `lib/src/app/**`, `lib/l10n`, `a11y` are all on its allowed list (strip, candidates, clipboard panel, keys_painter, key_visuals). Check whether it changed `lib/src/app/app.dart` (orchestrator-owned; it was told to revert unless string-only).
-- **After-merge work already on `main`:**
-  - `830b8fb`: fixed D's two InputController bugs (a restart over a composing word dropped it; insertText over a composer preedit lost the preedit). Repros unskipped; the fuzz test now exercises both paths. D's test files converted to LF; `dart_test.yaml` declares the `perf` tag; manifest has `android:roundIcon` (E).
-  - `.claude/worktrees/` is in `.git/info/exclude` (a `git add -A` had picked up the worktree gitlinks once).
-  - Chinese pack staging now writes `NOTICE.txt` (rime-ice GPL-3.0 and OpenCC Apache-2.0 texts). Re-staged in `%USERPROFILE%\.kosha\packs\staging\dict-zh-rime-ice`: zh.kdict 36.8 MB, s2twp.tsv 1.2 MB, NOTICE.txt. **Not signed yet.**
-  - `326b31f`: Japanese golden corpus replaced. The Aozora corpus (pre-war spellings, top-1 20%, ruby licence unclear) became Tatoeba furigana (CC BY 2.0 FR, `tool/japanese/build_golden_tatoeba.py`, raw data in `%USERPROFILE%\.kosha\packs\download\tatoeba`). The test counts kana/kanji spelling variants (下さい/ください) as right and checks top-5 for whole kanji words only. Result: top-1 83.7% (exact 64.0%), segment top-5 95.4%.
-  - `67d81ec`: `DataBlobs.learnedZhPhrases`, `learnedJaWords`, `learnedOpaque`, `isLearnedWords`. Wipe and sizes already covered both (prefix `learned_`), but backup restore decoded them as LearnedData, which would have erased them. Now they are restored byte for byte (a merge keeps the phone's copy). Tests added.
-- **Not run yet on merged `main`:** full `flutter analyze` and `flutter test`, JVM tests, debug build, emulator, release gate. Only targeted suites ran: fuzz + keyboard (340), security (50), Japanese golden.
-- **onnxruntime reduced build (D, Part 1) is BLOCKED:** from this PC GitHub returns 404 for `microsoft/onnxruntime` (repo page, tags, archive; the orchestrator confirmed it), while other repos work. D left `tool/onnxruntime/{model_ops.py,model_ops.txt,check_aar.ps1,build_android.ps1}` (39 operators over 30 models; build script untested). `build.gradle.kts` is unchanged, so the APK stays about 79 MB.
+- **Merged on `main`:** E brand, D perf/QA, A Chinese, B Japanese, C a11y + l10n (`Merge Wave 4 C`). All agent branches are removed.
+  - One empty folder, `.claude/worktrees/agent-a6b134817bc89dd83`, could not be deleted (a process held it open); it is not a registered worktree and is excluded from git. Delete it by hand after a reboot.
+- **After-merge work done:**
+  - Privacy center lists `learned_zh_phrases` / `learned_ja_words` ("Chinese phrases" / "Japanese words", size, no viewer) and the privacy screens use the `locked` chest.
+  - Chinese and Japanese screens and the learned rows are in the ARBs (7 locales, all flagged `x-review`); `android:localeConfig` is in the manifest (the per-app language list works: German and Hindi checked).
+  - Both dictionary packs are signed and copied to `%USERPROFILE%\.kosha\packs\signed\` (`dict-zh-rime-ice` 38.1 MB, `dict-ja-mozc` 20.3 MB; key `pack-dev.pem`).
+  - Notices for Chinese, Japanese and onnxruntime are folded into `THIRD_PARTY_NOTICES.md` and `assets/notices/third-party-data.txt` (the per-area files stay, scripts reference them).
+  - **Bug found on the emulator and fixed:** Japanese conversion never loaded its dictionary on a device (`Isolate.run` closure captured the composer, which holds a Future: "object is unsendable"). Host tests cannot catch this. `_loadDictionaryInIsolate` is now a top-level function. After the fix "nihongo" gives 日本語 first, 421 ms load. Chinese reads its files in an isolate through a top-level function and was fine.
+- **Checks on merged `main`:** `dart format` clean, `flutter analyze` 0 issues, `flutter test` 1352 pass, `flutter build apk --debug`, JVM tests 105 (5 skipped), release build and gate pass (no INTERNET; VIBRATE, RECORD_AUDIO, USE_BIOMETRIC, USE_FINGERPRINT, app-private receiver). Release sizes: arm64 80.1 MB (83,988,099 bytes), armeabi-v7a 69.2 MB, x86_64 87.5 MB.
+- **Emulator smoke test (emulator-5554, API 37):** both packs imported through Model packs (Downloads picker); English autocorrect ("teh i dont" gives "the I don't"); Hindi "namaste" gives नमस्ते; Arabic keys type Arabic; Chinese "nihao" gives 你好, "zhongguoren" gives 中国人 with the candidate grid, partial picks work; Japanese 12-key flick, multi-tap and ゛゜小 work (き, と, small ぃ), romaji "nihongo" converts to 日本語; settings app in German and Hindi; release build runs with the new theme; the voice panel opens and says a voice pack is needed for Japanese (the Whisper pack lists neither ja nor zh).
+- **Not covered:** TalkBack on a device, Traditional output and full-width punctuation on the device, segment moves, the no-pack chip, the icon/splash in dark, voice and translation end to end (unchanged code, not rerun), `device_bench.ps1 -Phase voice`.
+- **onnxruntime reduced build (D) is still BLOCKED:** GitHub returns 404 for `microsoft/onnxruntime` from this PC. Scripts are in `tool/onnxruntime/` (untested). The APK stays about 80 MB.
+- **`tool/bench/device_bench.ps1` printed empty timing columns** (it clears logcat before reading it, and the PSS parse is wrong); numbers in `docs/perf/budgets.md` came from manual `dumpsys meminfo`. Fix the script.
 
 ## Do next (in order)
 
-1. **Finish C.** Launch one agent (`Agent`, `isolation: "worktree"`, `model: "haiku"`, `effort: "high"`, background) with this prompt:
-   `You are Wave 4 agent C (accessibility and localisation) on the Kosha keyboard. A previous run was stopped mid-way. First run: git merge worktree-agent-a01a391e601d1c4ef. Then read docs/waves/wave4/COMMON.md and docs/waves/wave4/C-a11y-l10n.md, check what is already done (the TalkBack part is committed; the ARB/string move is WIP), and finish it: review flags for hi and id, the hard-coded-string scanner, the German localisation-delegate warning, then the full quality gate. Do not edit lib/src/app/app.dart. Do not localise lib/src/app/chinese/, lib/src/app/japanese/ or the learned rows in privacy_format.dart and privacy_center_screen.dart: the orchestrator does those. Commit early and often. End with the report COMMON.md asks for.`
-   After it reports: `git log main..<branch>`, `git diff main...<branch> --stat` vs `--ignore-cr-at-eol`, files outside its ownership; then `git merge --no-ff`. Remove both C worktrees and branches (unlock, `git worktree remove --force`, `git branch -d`).
-2. **Remaining after-merge chores:**
-   - Privacy center: `privacy_center_screen.dart` (`learnedBlobNames`) and `privacy_format.dart` must use `DataBlobs.isLearnedWords` for the learned-words viewer list, and show `learned_zh_phrases` / `learned_ja_words` as "Chinese phrases" / "Japanese words" with their size and no viewer.
-   - Move A's and B's screen strings (`lib/src/app/chinese/chinese_screen.dart`, `lib/src/app/japanese/japanese_screen.dart`) into the ARBs (all 7 locales).
-   - E's mascot: `lib/src/app/privacy/privacy_widgets.dart:15` gets `pose: KoshaPose.locked`; the other call sites keep the default (open). Consider `glowing` for voice/translation and `quiet` for incognito and empty states.
-   - Manifest: `android:localeConfig="@xml/locales_config"` (C's `res/xml/locales_config.xml`).
-   - B's gaps: segment resize needs a button pair in the candidate strip (orchestrator file; the composer already handles `segmentShorter`/`segmentLonger`); `symbols_ja.json` is not built.
-   - **Sign the packs** (key `%USERPROFILE%\.kosha\keys\pack-dev.pem`; check `dart run tool/make_pack.dart --help` for the key flag), then copy them to `%USERPROFILE%\.kosha\packs\signed\`:
-     - Chinese: `dart run tool/make_pack.dart --dir "C:\Users\kgnan\.kosha\packs\staging\dict-zh-rime-ice" --id dict-zh-rime-ice --kind dictionary --name "Chinese (Simplified) dictionary" --languages zh --engine rime-ice --license GPL-3.0-or-later --out build/packs/dict-zh-rime-ice.koshapack`
-     - Japanese: staging exists from 2026-11-22 (japanese.lex.gz 18.3 MB, japanese.conn.gz 2.0 MB, NOTICE.txt). Rerun `tool/packs/japanese/stage_mozc.ps1` and use the make_pack line it prints (`dict-ja-mozc`, BSD-3-Clause).
-3. **Checks on merged `main`:** `dart format --line-length 120 lib test pigeons`, `flutter analyze` (0 issues), `flutter test` (expect about 1230+), `flutter build apk --debug`, `cd android; .\gradlew.bat :app:testDebugUnitTest` (105, 5 skipped).
-4. **Emulator smoke test** (emulator-5554 only: `$env:ANDROID_SERIAL='emulator-5554'`; `. .\tool\adb_ime.ps1`; `tool/ui_smoke.ps1`):
-   - import both dictionary packs in Model packs;
-   - typing regressions (English autocorrect, Hindi, Arabic);
-   - Chinese "nihao", "zhongguoren", "nh", a partial pick, the grid, Traditional output, full-width punctuation, the no-pack chip;
-   - Japanese flick, multi-tap, ゛゜小, romaji "nihongo" with conversion and segment moves;
-   - TalkBack on the keys; the settings app in Hindi and German;
-   - the new icon, themed icon, splash in light and dark;
-   - voice and translation still work;
-   - `tool/bench/device_bench.ps1 -Phase latin` and `-Phase voice` (D's script; refuses other serials), then fill the device table in `docs/perf/budgets.md`.
-5. **Release gate:** `flutter build apk --release --split-per-abi`, then in Git Bash `bash tool/check_release_permissions.sh build/app/outputs/flutter-apk/*-release.apk`; note the arm64 size.
-6. Fold `docs/notices/{chinese,japanese,onnxruntime}.md` (and C's, if any) into `THIRD_PARTY_NOTICES.md` and `assets/notices/third-party-data.txt`.
-7. Update this file, `docs/waves/README.md` and memory. Summarise the open items for the user and **ask the Wave 5 option questions before writing anything**: GitHub username for `io.github.<username>.kosha`, a trademark check of the name "Kosha", the release signing key, plus the open items below.
+1. **Ask the user the Wave 5 option questions before writing anything:** GitHub username for `io.github.<username>.kosha`; a trademark check of the name "Kosha"; the release signing key (new, or an existing one); Play (`play`) and F-Droid (`foss`) flavours, or one; the open items below that need their decision.
+2. Then write the Wave 5 briefs under `docs/waves/wave5/` (A security audit, B release engineering, C data packs; see `docs/waves/README.md`).
+3. Small follow-ups that are not Wave 5: strip buttons for segment resize and `symbols_ja.json` (B's gaps); 48 dp touch targets and passing the locale to the keyboard engine (`docs/a11y/report.md`); fix `device_bench.ps1`; a native-speaker review of the `x-review` strings; speech for ja/zh (needs a Whisper pack that lists them).
 
-## Wave 4 open items for the user (so far)
+## Wave 4 open items for the user
 
-- **onnxruntime source unreachable** (GitHub 404 for microsoft/onnxruntime from this PC): the reduced build needs another network or a source mirror. The APK stays 79 MB arm64 until then.
-- **Licences to confirm:** the IPAdic terms inside the Mozc dictionary (a custom permissive licence with an ICOT clause; B asks whether it is fine for GPL-3.0-or-later). Tatoeba CC BY 2.0 FR is test data only, not shipped.
-- **Chinese (A):** no next-word predictions (rime-ice has no bigrams); no as-you-type completions ("nih" does not offer 你好); fuzzy pinyin is single-substitution only; Traditional conversion not checked byte for byte against OpenCC. Golden top-1 90.7%, top-5 99.7% (the corpus comes from the same dictionary, so it measures segmentation and ranking). Pack 36.3 MB, load 84 ms on the PC, RSS +57 MB.
-- **Japanese (B):** pack 20.3 MB, load 201 ms on the PC, RSS +75 MB; conversion p95 0.83 ms. Misses are homophones (飼って→買って). Segment resize needs strip buttons; `symbols_ja` is missing.
-- **Memory:** +57 MB (zh) or +75 MB (ja) on top of the keyboard is close to the 120 MB keyboard budget; measure on the emulator with `device_bench.ps1`.
-- **Perf (D, host):** key → commit p95 0.61 ms, suggest p95 1.14 ms (3 languages), swipe p95 1.19 ms, frame p95 7.34 ms. Device numbers pending.
+- **onnxruntime source unreachable** (GitHub 404 for microsoft/onnxruntime from this PC): the reduced build needs another network or a source mirror. The APK stays about 80 MB arm64 until then, well over the 60 MB target.
+- **Memory:** release build with Japanese loaded is 154 MB PSS / 285 MB RSS for the whole app process, over the 120 MB keyboard budget. Chinese is similar (+57 MB on the PC). A smaller dictionary representation (or loading it lazily) is the next lever.
+- **Licences to confirm:** the IPAdic terms inside the Mozc dictionary (a custom permissive licence with an ICOT clause; B asks whether it is fine for GPL-3.0-or-later). Tatoeba CC BY 2.0 FR is test data only, not shipped. The earlier Wave 3 items stand (pt-BR list, Arabic list).
+- **Chinese (A):** no next-word predictions (rime-ice has no bigrams); no as-you-type completions ("nih" does not offer 你好); fuzzy pinyin is single-substitution only; Traditional conversion not checked byte for byte against OpenCC. Golden top-1 90.7%, top-5 99.7%. Pack 36.3 MB, load 84 ms on the PC.
+- **Japanese (B):** pack 20.3 MB; conversion p95 0.83 ms on the PC; misses are homophones (飼って gives 買って). Segment resize needs strip buttons; `symbols_ja` is missing. Golden: top-1 83.7%, segment top-5 95.4%.
+- **Translations are machine-made:** every non-English string is flagged `x-review`; Hindi in full. A native read is needed before release.
+- **Perf (D, host):** key to commit p95 0.61 ms, suggest p95 1.14 ms (3 languages), swipe p95 1.19 ms. Device latency in-app was not captured (see the bench script note).
 
 ## Wave 4 decisions (user, 2026-11-22 evening)
 

@@ -40,23 +40,22 @@ Notes:
 
 ## Device results (emulator, `tool/bench/device_bench.ps1`)
 
-Not run yet. The orchestrator runs it with the emulator attached and no other device:
+Run 2026-11-23 on emulator-5554 (API 37, x86_64), debug build for the latin run, release build for memory.
+The script's own timing columns came back empty (it clears the log before reading it), so only the host-side
+tap times and a manual `dumpsys meminfo` are recorded here. Fix the script before relying on it.
 
-```
-powershell -ExecutionPolicy Bypass -File tool\bench\device_bench.ps1 -Phase latin
-powershell -ExecutionPolicy Bypass -File tool\bench\device_bench.ps1 -Phase voice
-```
+| Measure | Value | Budget |
+|---|---|---|
+| Key -> commit, host-side `input tap` (includes adb), median / p95, 43 keys | 47.8 ms / 70.6 ms | < 30 ms in-app (host-side figure overstates it) |
+| First show / later show (app log) | not captured | to set |
+| Janky frames | not captured | to set |
+| TOTAL PSS, debug build, Japanese loaded | 379 MB (RSS 508 MB) | 120 MB keyboard / 250 MB |
+| TOTAL PSS, release build, Japanese loaded | 154 MB (RSS 285 MB) | 120 MB keyboard / 250 MB |
+| Dictionary load, Japanese (log) | 421 ms, 1,220,368 entries, 62 MB | |
+| Voice phase | not run (the Whisper pack does not list ja or zh) | |
 
-Paste the printed tables here, with the `[Boot]` / `[Keyboard]` / `[dict]` log lines for cold and
-later shows.
-
-| Measure | Latin only | Voice loaded | Budget |
-|---|---|---|---|
-| First show, cold engine | pending | pending | to set |
-| Later show | pending | pending | to set |
-| Key -> commit (in-app, `[Keyboard]`) | pending | pending | < 30 ms |
-| Janky frames while typing | pending | pending | to set |
-| TOTAL PSS | pending | pending | to set |
+The release figure covers the whole app process (keyboard engine plus settings), with Japanese loaded; it is over the
+120 MB keyboard budget.
 
 ## APK size (onnxruntime)
 
