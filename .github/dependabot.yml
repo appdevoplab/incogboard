@@ -1,0 +1,40 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Weekly, grouped update proposals for GitHub Actions, Gradle and pub. Proposals are pull requests
+# only; nothing is merged or published automatically.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: ci
+    groups:
+      actions:
+        patterns: ["*"]
+
+  - package-ecosystem: gradle
+    directory: /android
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: build
+    groups:
+      gradle-dependencies:
+        patterns: ["*"]
+    ignore:
+      # Pinned to 1.28.0 on purpose: 1.29+ ships HTTP telemetry, a startup provider, INTERNET and
+      # ACCESS_NETWORK_STATE (see android/app/build.gradle.kts and tool/check_release_permissions.sh).
+      # Upgrading needs the privacy audit in docs/security/audit.md first.
+      - dependency-name: "com.microsoft.onnxruntime:*"
+        versions: [">=1.29"]
+
+  - package-ecosystem: pub
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: deps
+    groups:
+      pub-dependencies:
+        patterns: ["*"]
