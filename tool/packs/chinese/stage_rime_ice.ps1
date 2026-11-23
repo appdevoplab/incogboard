@@ -78,4 +78,4 @@ $size = (Get-ChildItem -File $dest | Measure-Object -Property Length -Sum).Sum
 Write-Output ("dict-zh-rime-ice staged: {0:N1} MB in {1}" -f ($size / 1MB), $dest)
 Write-Output ''
 Write-Output 'Sign the pack (the orchestrator runs this with the signing key):'
-Write-Output "dart run tool/make_pack.dart --dir `"$dest`" --id dict-zh-rime-ice --kind dictionary --name `"Chinese (Simplified) dictionary`" --languages zh --engine rime-ice --license GPL-3.0-or-later --out build/packs/dict-zh-rime-ice.koshapack"
+Write-Output "dart run tool/make_pack.dart --dir `"$dest`" --id dict-zh-rime-ice --kind dictionary --name `"Chinese (Simplified) dictionary`" --languages zh --engine rime-ice --license GPL-3.0-or-later --key <signing key .pem> --out build/packs/dict-zh-rime-ice.koshapack"
