@@ -45,7 +45,8 @@ function Build-Apk([string]$Dir) {
         & flutter pub get | Out-Null
         if ($LASTEXITCODE -ne 0) { throw "flutter pub get failed in $Dir" }
         $watch = [System.Diagnostics.Stopwatch]::StartNew()
-        & flutter build apk --release --flavor $Flavor --split-per-abi --target-platform $Abi
+        # Out-Host keeps flutter's output off the pipeline, so the function returns only the APK path.
+        & flutter build apk --release --flavor $Flavor --split-per-abi --target-platform $Abi | Out-Host
         if ($LASTEXITCODE -ne 0) { throw "flutter build failed in $Dir" }
         Write-Host ("    built in {0} s" -f [math]::Round($watch.Elapsed.TotalSeconds, 0))
         # Flutter names split flavour APKs app-<abi>-<flavour>-release.apk.
