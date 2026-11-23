@@ -11,6 +11,7 @@ import '../routes.dart';
 import '../shell/settings_actions.dart';
 import 'kosha_mascot.dart';
 import 'onboarding_languages.dart';
+
 import 'package:kosha/src/app/l10n.dart';
 
 /// Shared layout: a scrollable column with a heading and body text.
@@ -91,17 +92,19 @@ class EnableStep extends StatelessWidget {
   @override
   Widget build(BuildContext context) => _StepPage(
     mascot: const KoshaMascot(size: 112),
-    title: 'Turn on Kosha',
-    body:
-        'Android keeps a list of the keyboards you have turned on. Turn Kosha on in that list, '
-        'then come back here. Kosha notices the change by itself.',
+    title: context.l10n.onboardingTurnOnTitle,
+    body: context.l10n.onboardingTurnOnBody,
     children: [
-      _StatusCard(done: enabled, doneText: 'Kosha is turned on.', pendingText: 'Kosha is not turned on yet.'),
+      _StatusCard(
+        done: enabled,
+        doneText: context.l10n.onboardingKeyboardOn,
+        pendingText: context.l10n.onboardingKeyboardOff,
+      ),
       const SizedBox(height: 16),
       FilledButton.icon(
         onPressed: onOpenSettings,
         icon: const Icon(Icons.open_in_new),
-        label: const Text('Open keyboard settings'),
+        label: Text(context.l10n.onboardingOpenKeyboardSettings),
       ),
     ],
   );
@@ -117,21 +120,19 @@ class SwitchStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => _StepPage(
-    title: 'Switch to Kosha',
-    body:
-        'Choose Kosha as the keyboard you type with. Android may show a short list first. '
-        'This screen updates by itself.',
+    title: context.l10n.onboardingSwitchTitle,
+    body: context.l10n.onboardingSwitchBody,
     children: [
       _StatusCard(
         done: selected,
-        doneText: 'Kosha is your keyboard.',
-        pendingText: enabled ? 'Kosha is not your keyboard yet.' : 'Turn Kosha on in the previous step first.',
+        doneText: context.l10n.onboardingKeyboardIsYours,
+        pendingText: enabled ? context.l10n.onboardingKeyboardNotYours : context.l10n.onboardingTurnOnFirst,
       ),
       const SizedBox(height: 16),
       FilledButton.icon(
         onPressed: onChoose,
         icon: const Icon(Icons.keyboard_alt_outlined),
-        label: const Text('Choose keyboard'),
+        label: Text(context.l10n.onboardingChooseKeyboard),
       ),
     ],
   );
@@ -149,31 +150,27 @@ class PrivacyStep extends StatelessWidget {
   Widget build(BuildContext context) {
     final String internetText;
     if (internet == null) {
-      internetText = 'Checking the app permissions…';
+      internetText = context.l10n.onboardingCheckingPermissions;
     } else if (internet!) {
-      internetText = debugBuild
-          ? 'This debug build can reach the internet. Debug builds have that permission for development only.'
-          : 'This build can reach the internet.';
+      internetText = debugBuild ? context.l10n.onboardingDebugInternet : context.l10n.onboardingReleaseInternet;
     } else {
-      internetText = 'Kosha has no internet permission, so it cannot send anything anywhere.';
+      internetText = context.l10n.onboardingNoInternet;
     }
     return _StepPage(
-      title: 'Why the warning does not apply',
-      body:
-          'Android warns that any keyboard may collect what you type. That warning is about keyboards '
-          'that can reach the internet. Kosha cannot.',
+      title: context.l10n.onboardingWarningTitle,
+      body: context.l10n.onboardingWarningBody,
       children: [
         SettingsGroup(
           children: [
             SettingsTile(
               icon: internet == false ? Icons.lock_outline : Icons.wifi_off_outlined,
-              title: 'Internet access',
+              title: context.l10n.onboardingInternetAccess,
               subtitle: internetText,
             ),
-            const SettingsTile(
+            SettingsTile(
               icon: Icons.phone_android_outlined,
-              title: 'Everything stays on this phone',
-              subtitle: 'Learned words, clipboard and settings are encrypted with a key in Android Keystore.',
+              title: context.l10n.onboardingEverythingHere,
+              subtitle: context.l10n.onboardingEverythingHereBody,
             ),
           ],
         ),
@@ -188,13 +185,13 @@ class PersonaliseStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => _StepPage(
-    title: 'Pick languages and a theme',
-    body: 'Choose the languages you type in. Several can be on at once, and you can change them later in Languages.',
+    title: context.l10n.onboardingLanguagesTitle,
+    body: context.l10n.onboardingLanguagesBody,
     children: [
       SettingsPanel(title: context.l10n.settingsLanguages, child: OnboardingLanguagePicker()),
       const SizedBox(height: 4),
       SettingsPanel(
-        title: 'Theme',
+        title: context.l10n.onboardingThemeTitle,
         child: LiveSettings(
           builder: (context, settings) => Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -212,7 +209,7 @@ class PersonaliseStep extends StatelessWidget {
               Builder(
                 builder: (context) => TextButton(
                   onPressed: () => Navigator.of(context).pushNamed(KoshaRoutes.themes),
-                  child: const Text('More themes'),
+                  child: Text(context.l10n.onboardingMoreThemes),
                 ),
               ),
             ],
@@ -232,29 +229,31 @@ class TryStep extends StatefulWidget {
 }
 
 class _TryStepState extends State<TryStep> {
-  static const List<String> _tasks = [
-    'Type a sentence',
-    'Swipe a word: glide from letter to letter',
-    'Long-press a letter to see its accents',
+  static const int _taskCount = 3;
+
+  static List<String> _taskTitles(AppLocalizations l10n) => [
+    l10n.onboardingTryTyping,
+    l10n.onboardingTrySwipe,
+    l10n.onboardingTryAccents,
   ];
-  final List<bool> _done = List.filled(_tasks.length, false);
+  final List<bool> _done = List.filled(_taskCount, false);
 
   @override
   Widget build(BuildContext context) => _StepPage(
-    title: 'Try it',
-    body: 'Tap the box below. The keyboard appears, and you can try each thing on the checklist.',
+    title: context.l10n.onboardingTryTitle,
+    body: context.l10n.onboardingTryBody,
     children: [
-      const TextField(
-        decoration: InputDecoration(border: OutlineInputBorder(), labelText: 'Try typing here'),
+      TextField(
+        decoration: InputDecoration(border: OutlineInputBorder(), labelText: context.l10n.onboardingTryField),
       ),
       const SizedBox(height: 16),
       SettingsGroup(
-        title: 'Checklist',
+        title: context.l10n.onboardingChecklist,
         children: [
-          for (var i = 0; i < _tasks.length; i++)
+          for (var i = 0; i < _taskCount; i++)
             CheckboxListTile(
               value: _done[i],
-              title: Text(_tasks[i]),
+              title: Text(_taskTitles(context.l10n)[i]),
               contentPadding: const EdgeInsets.symmetric(horizontal: 16),
               onChanged: (v) => setState(() => _done[i] = v ?? false),
             ),
@@ -271,10 +270,8 @@ class FinishStep extends StatelessWidget {
   @override
   Widget build(BuildContext context) => _StepPage(
     mascot: const KoshaMascot(size: 112),
-    title: 'You are all set',
-    body:
-        'Kosha is ready. Everything can be changed later in Settings: languages, typing, feel, panels and '
-        'themes. Tap Done to finish.',
+    title: context.l10n.onboardingAllSetTitle,
+    body: context.l10n.onboardingAllSetBody,
     children: const [],
   );
 }

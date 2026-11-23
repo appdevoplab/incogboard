@@ -12,6 +12,7 @@ import '../common/settings_widgets.dart';
 import '../app_services.dart';
 import '../routes.dart';
 import '../shell/settings_actions.dart';
+
 import 'package:kosha/src/app/l10n.dart';
 
 class VoiceScreen extends StatelessWidget {
@@ -117,18 +118,21 @@ class _VoicePackTileState extends State<_VoicePackTile> {
         children: [
           SimpleDialogOption(
             onPressed: () => Navigator.of(context).pop(''),
-            child: Text(widget.selectedId.isEmpty ? context.l10n.voicePackAutomaticSelected : context.l10n.voicePackAutomatic),
+            child: Text(
+              widget.selectedId.isEmpty ? context.l10n.voicePackAutomaticSelected : context.l10n.voicePackAutomatic,
+            ),
           ),
           for (final p in packs)
             SimpleDialogOption(
               onPressed: () => Navigator.of(context).pop(p.id),
-              child: Text('${p.name}  ·  ${_mb(p.sizeBytes)}${p.id == widget.selectedId ? '  (selected)' : ''}'),
+              child: Text(
+                p.id == widget.selectedId
+                    ? context.l10n.voicePackItemSelected(p.name, _mb(p.sizeBytes))
+                    : context.l10n.voicePackItem(p.name, _mb(p.sizeBytes)),
+              ),
             ),
           if (packs.isEmpty)
-            Padding(
-              padding: EdgeInsets.fromLTRB(24, 0, 24, 16),
-              child: Text(context.l10n.voiceNoPack),
-            ),
+            Padding(padding: EdgeInsets.fromLTRB(24, 0, 24, 16), child: Text(context.l10n.voiceNoPack)),
         ],
       ),
     );

@@ -18,6 +18,7 @@ import '../common/settings_widgets.dart';
 import 'theme_card.dart';
 import 'theme_editor_screen.dart';
 import 'theme_support.dart';
+
 import 'package:kosha/src/app/l10n.dart';
 
 enum _CardAction { edit, duplicate, rename, delete }
@@ -71,7 +72,7 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
     try {
       return (await services.platform.getSystemColors())?.palettes;
     } on Object catch (e) {
-      KoshaLog.w('Theme', 'system colours unavailable', e.runtimeType);
+      KoshaLog.w(context.l10n.onboardingThemeTitle, 'system colours unavailable', e.runtimeType);
       return null;
     }
   }
@@ -85,11 +86,12 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
 
   /// Writes settings and tells the user if that fails. Appearance changes reach the keyboard engine.
   Future<void> _commit(KoshaSettings Function(KoshaSettings current) change) async {
+    final l10n = context.l10n;
     try {
       await _services!.settings.update(change, sections: const [SettingsSection.appearance]);
     } on Object catch (e) {
-      KoshaLog.w('Theme', 'settings write failed', e.runtimeType);
-      _snack('Could not save the setting.');
+      KoshaLog.w(l10n.onboardingThemeTitle, 'settings write failed', e.runtimeType);
+      _snack(l10n.themeSettingFailed);
     }
   }
 
@@ -136,18 +138,20 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
   }
 
   Future<void> _duplicate(ThemeSpec spec) async {
+    final l10n = context.l10n;
     final store = _store;
     if (store == null) return;
     try {
-      await store.duplicate(spec, copyNameFor(spec.name));
+      await store.duplicate(spec, copyNameFor(spec.name, context.l10n));
       await _reloadCustom();
     } on Object catch (e) {
-      KoshaLog.w('Theme', 'duplicate failed', e.runtimeType);
-      _snack('Could not copy the theme.');
+      KoshaLog.w(l10n.onboardingThemeTitle, 'duplicate failed', e.runtimeType);
+      _snack(l10n.themeDuplicateFailed);
     }
   }
 
   Future<void> _rename(ThemeSpec spec) async {
+    final l10n = context.l10n;
     final name = await showDialog<String>(
       context: context,
       builder: (_) => _RenameDialog(initial: spec.name),
@@ -158,25 +162,22 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
       await store.write(spec.copyWith(name: name));
       await _reloadCustom();
     } on Object catch (e) {
-      KoshaLog.w('Theme', 'rename failed', e.runtimeType);
-      _snack('Could not rename the theme.');
+      KoshaLog.w(l10n.onboardingThemeTitle, 'rename failed', e.runtimeType);
+      _snack(l10n.themeRenameFailed);
     }
   }
 
   Future<void> _delete(ThemeSpec spec) async {
+    final l10n = context.l10n;
     final inUse = _services!.settings.value.appearance.themeId == spec.id;
     final ok = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Delete "${spec.name}"?'),
-        content: Text(
-          inUse
-              ? 'This theme is selected. Kosha Dynamic will be used instead. This cannot be undone.'
-              : 'This cannot be undone.',
-        ),
+        title: Text(context.l10n.themeDeleteTitle(spec.name)),
+        content: Text(inUse ? l10n.themeDeleteSelectedBody : l10n.privacyCannotBeUndone),
         actions: [
-          TextButton(onPressed: () => Navigator.of(context).pop(false), child: Text(context.l10n.cancel)),
-          FilledButton(onPressed: () => Navigator.of(context).pop(true), child: Text(context.l10n.delete)),
+          TextButton(onPressed: () => Navigator.of(context).pop(false), child: Text(l10n.cancel)),
+          FilledButton(onPressed: () => Navigator.of(context).pop(true), child: Text(l10n.delete)),
         ],
       ),
     );
@@ -187,8 +188,8 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
       await _commit((c) => _bumpRevision(c, themeId: inUse ? ThemePresets.koshaDynamic.id : null));
       await _reloadCustom();
     } on Object catch (e) {
-      KoshaLog.w('Theme', 'delete failed', e.runtimeType);
-      _snack('Could not delete the theme.');
+      KoshaLog.w(l10n.onboardingThemeTitle, 'delete failed', e.runtimeType);
+      _snack(l10n.themeDeleteFailed);
     }
   }
 
@@ -225,15 +226,15 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
       title: context.l10n.settingsThemes,
       children: [
         SettingsGroup(
-          title: 'Appearance',
+          title: context.l10n.themeAppearance,
           children: [
             _ControlTile(
-              title: 'Dark mode',
+              title: context.l10n.themeDarkMode,
               child: SegmentedButton<DarkModePreference>(
-                segments: const [
-                  ButtonSegment(value: DarkModePreference.system, label: Text('System')),
-                  ButtonSegment(value: DarkModePreference.light, label: Text('Light')),
-                  ButtonSegment(value: DarkModePreference.dark, label: Text('Dark')),
+                segments: [
+                  ButtonSegment(value: DarkModePreference.system, label: Text(context.l10n.themeChoiceSystem)),
+                  ButtonSegment(value: DarkModePreference.light, label: Text(context.l10n.themeChoiceLight)),
+                  ButtonSegment(value: DarkModePreference.dark, label: Text(context.l10n.themeChoiceDark)),
                 ],
                 selected: {appearance.darkMode},
                 onSelectionChanged: (s) =>
@@ -241,8 +242,8 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
               ),
             ),
             SettingsSwitchTile(
-              title: 'Pure black',
-              subtitle: dark ? 'Black background in dark mode' : 'Only in dark mode',
+              title: context.l10n.themePureBlack,
+              subtitle: dark ? context.l10n.themeGalleryPureBlackDark : context.l10n.themePureBlackOnlyDark,
               icon: Icons.dark_mode_outlined,
               value: appearance.pureBlack,
               onChanged: dark
@@ -250,12 +251,12 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
                   : null,
             ),
             _ControlTile(
-              title: 'Contrast',
+              title: context.l10n.themeContrast,
               child: SegmentedButton<ContrastPreference>(
-                segments: const [
-                  ButtonSegment(value: ContrastPreference.standard, label: Text('Standard')),
-                  ButtonSegment(value: ContrastPreference.medium, label: Text('Medium')),
-                  ButtonSegment(value: ContrastPreference.high, label: Text('High')),
+                segments: [
+                  ButtonSegment(value: ContrastPreference.standard, label: Text(context.l10n.themeChoiceStandard)),
+                  ButtonSegment(value: ContrastPreference.medium, label: Text(context.l10n.themeChoiceMedium)),
+                  ButtonSegment(value: ContrastPreference.high, label: Text(context.l10n.themeChoiceHigh)),
                 ],
                 selected: {appearance.contrast},
                 onSelectionChanged: (s) =>
@@ -263,14 +264,14 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
               ),
             ),
             if (palettes != null)
-              const SettingsTile(
-                title: 'Kosha Dynamic follows your wallpaper',
-                subtitle: 'Its colours update when the wallpaper changes',
+              SettingsTile(
+                title: context.l10n.themeKoshaDynamicFollows,
+                subtitle: context.l10n.themeKoshaDynamicBody,
                 icon: Icons.wallpaper_outlined,
               ),
           ],
         ),
-        const _SectionTitle('Presets'),
+        _SectionTitle(context.l10n.themeSectionPresets),
         SizedBox(
           height: 268,
           child: CarouselView(
@@ -291,7 +292,7 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
             ],
           ),
         ),
-        const _SectionTitle('My themes'),
+        _SectionTitle(context.l10n.themeSectionMyThemes),
         SizedBox(
           height: 268,
           child: CarouselView(
@@ -308,12 +309,12 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
                   selected: appearance.themeId == spec.id,
                   onTap: () => _select(spec.id),
                   menu: PopupMenuButton<_CardAction>(
-                    tooltip: 'Options for ${spec.name}',
+                    tooltip: context.l10n.themeCardOptions(spec.name),
                     onSelected: (a) => unawaited(_onAction(spec, a)),
                     itemBuilder: (_) => [
-                      PopupMenuItem(value: _CardAction.edit, child: Text('Edit')),
-                      PopupMenuItem(value: _CardAction.duplicate, child: Text('Duplicate')),
-                      PopupMenuItem(value: _CardAction.rename, child: Text('Rename')),
+                      PopupMenuItem(value: _CardAction.edit, child: Text(context.l10n.themeEdit)),
+                      PopupMenuItem(value: _CardAction.duplicate, child: Text(context.l10n.themeDuplicate)),
+                      PopupMenuItem(value: _CardAction.rename, child: Text(context.l10n.themeRename)),
                       PopupMenuItem(value: _CardAction.delete, child: Text(context.l10n.delete)),
                     ],
                   ),
@@ -323,11 +324,11 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
           ),
         ),
         const SizedBox(height: 16),
-        const _SectionTitle('Try typing'),
-        const TextField(
+        _SectionTitle(context.l10n.themeTryTyping),
+        TextField(
           decoration: InputDecoration(
-            labelText: 'Type here to try the theme',
-            helperText: 'The keyboard appears here when Kosha is selected.',
+            labelText: context.l10n.themeTryLabel,
+            helperText: context.l10n.themeTryHelper,
             border: OutlineInputBorder(),
           ),
         ),
@@ -391,17 +392,20 @@ class _RenameDialogState extends State<_RenameDialog> {
   Widget build(BuildContext context) {
     final name = _controller.text.trim();
     return AlertDialog(
-      title: const Text('Rename theme'),
+      title: Text(context.l10n.themeRenameTitle),
       content: TextField(
         controller: _controller,
         autofocus: true,
         maxLength: kThemeNameMax,
         onChanged: (_) => setState(() {}),
-        decoration: const InputDecoration(labelText: 'Name'),
+        decoration: InputDecoration(labelText: context.l10n.themeNameField),
       ),
       actions: [
         TextButton(onPressed: () => Navigator.of(context).pop(), child: Text(context.l10n.cancel)),
-        FilledButton(onPressed: name.isEmpty ? null : () => Navigator.of(context).pop(name), child: Text(context.l10n.save)),
+        FilledButton(
+          onPressed: name.isEmpty ? null : () => Navigator.of(context).pop(name),
+          child: Text(context.l10n.save),
+        ),
       ],
     );
   }

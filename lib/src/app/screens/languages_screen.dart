@@ -12,6 +12,7 @@ import '../common/settings_widgets.dart';
 import '../routes.dart';
 import '../shell/language_catalog.dart';
 import '../shell/settings_actions.dart';
+
 import 'package:kosha/src/app/l10n.dart';
 
 class LanguagesScreen extends StatelessWidget {
@@ -71,9 +72,7 @@ class LanguagesScreen extends StatelessWidget {
               SettingsSwitchTile(
                 icon: Icons.layers_outlined,
                 title: context.l10n.languagesMultilingual,
-                subtitle:
-                    'Suggest words from up to three enabled languages that share the layout\'s script. '
-                    'A word that any of them knows is never auto-corrected.',
+                subtitle: context.l10n.languagesMultilingualBody,
                 value: l.multilingual,
                 onChanged: (v) => _write(context, (x) => x.copyWith(multilingual: v)),
               ),
@@ -202,7 +201,7 @@ class _EnabledRow extends StatelessWidget {
               ReorderableDragStartListener(
                 index: index,
                 child: Semantics(
-                  label: 'Drag to reorder ${info.englishName}',
+                  label: context.l10n.languagesReorderLabel(info.englishName),
                   child: const SizedBox(width: 48, height: 64, child: Icon(Icons.drag_indicator)),
                 ),
               ),
@@ -212,7 +211,7 @@ class _EnabledRow extends StatelessWidget {
                   children: [
                     Text(info.nativeName, style: Theme.of(context).textTheme.titleMedium),
                     Text(
-                      index == 0 ? '${info.englishName}, default' : info.englishName,
+                      index == 0 ? context.l10n.languageDefaultLabel(info.englishName) : info.englishName,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(color: scheme.onSurfaceVariant),
                     ),
                   ],
@@ -220,7 +219,7 @@ class _EnabledRow extends StatelessWidget {
               ),
               if (info.layouts.length > 1)
                 PopupMenuButton<String>(
-                  tooltip: 'Layout for ${info.englishName}',
+                  tooltip: context.l10n.languageLayoutTooltip(info.englishName),
                   initialValue: layout.id,
                   onSelected: (layoutId) =>
                       LanguagesScreen._write(context, (x) => x.copyWith(layouts: {...x.layouts, id: layoutId})),
@@ -238,7 +237,7 @@ class _EnabledRow extends StatelessWidget {
                   child: Text(layout.name, style: Theme.of(context).textTheme.labelLarge),
                 ),
               IconButton(
-                tooltip: 'Remove ${info.englishName}',
+                tooltip: context.l10n.languageRemoveTooltip(info.englishName),
                 icon: const Icon(Icons.remove_circle_outline),
                 onPressed: canRemove
                     ? () => LanguagesScreen._write(context, (x) => x.copyWith(enabled: [...x.enabled]..remove(id)))

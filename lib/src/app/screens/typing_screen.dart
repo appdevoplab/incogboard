@@ -7,6 +7,7 @@ import 'package:material_ui/material_ui.dart';
 import '../../settings/kosha_settings.dart';
 import '../common/settings_widgets.dart';
 import '../shell/settings_actions.dart';
+
 import 'package:kosha/src/app/l10n.dart';
 
 class TypingScreen extends StatelessWidget {
@@ -109,7 +110,7 @@ class TypingScreen extends StatelessWidget {
                 min: 150,
                 max: 1000,
                 divisions: 17,
-                valueLabel: (v) => '${v.round()} ms',
+                valueLabel: (v) => context.l10n.milliseconds(v.round()),
                 onChanged: (v) => typing((s, t) => s.copyWith(typing: t.copyWith(longPressDelayMs: v.round()))),
               ),
               SettingsSwitchTile(
@@ -158,7 +159,7 @@ class TypingScreen extends StatelessWidget {
                 min: 2,
                 max: 16,
                 divisions: 14,
-                valueLabel: (v) => '${v.round()} dp',
+                valueLabel: (v) => context.l10n.dpValue(v.round()),
                 onChanged: (v) => swipe((s, w) => s.copyWith(swipe: w.copyWith(trailWidth: v))),
               ),
               SettingsSliderTile(
@@ -168,7 +169,7 @@ class TypingScreen extends StatelessWidget {
                 min: 0,
                 max: 2000,
                 divisions: 20,
-                valueLabel: (v) => '${v.round()} ms',
+                valueLabel: (v) => context.l10n.milliseconds(v.round()),
                 onChanged: (v) => swipe((s, w) => s.copyWith(swipe: w.copyWith(trailFadeMs: v.round()))),
               ),
               SettingsSwitchTile(

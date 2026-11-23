@@ -298,13 +298,13 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Version {versionName} ({versionCode})'**
-  String aboutVersion(Object versionCode, Object versionName);
+  String aboutVersion(String versionCode, String versionName);
 
   /// About screen: version line in a debug build. Max 60 characters
   ///
   /// In en, this message translates to:
   /// **'Version {versionName} ({versionCode}) · debug build'**
-  String aboutVersionDebug(Object versionCode, Object versionName);
+  String aboutVersionDebug(String versionCode, String versionName);
 
   /// About screen: shown while the version loads
   ///
@@ -460,25 +460,25 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Drag to reorder {language}'**
-  String languagesReorderLabel(Object language);
+  String languagesReorderLabel(String language);
 
   /// Languages: label for the first language. {language} is a language name
   ///
   /// In en, this message translates to:
   /// **'{language}, default'**
-  String languageDefaultLabel(Object language);
+  String languageDefaultLabel(String language);
 
   /// Languages: tooltip on the layout button. {language} is a language name. Max 40 characters
   ///
   /// In en, this message translates to:
   /// **'Layout for {language}'**
-  String languageLayoutTooltip(Object language);
+  String languageLayoutTooltip(String language);
 
   /// Languages: tooltip on the remove button. {language} is a language name. Max 30 characters
   ///
   /// In en, this message translates to:
   /// **'Remove {language}'**
-  String languageRemoveTooltip(Object language);
+  String languageRemoveTooltip(String language);
 
   /// Feel: section title
   ///
@@ -952,31 +952,31 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{name} · {size}'**
-  String voicePackItem(Object name, Object size);
+  String voicePackItem(String name, String size);
 
   /// Voice pack picker: the chosen pack with its size. {name} is the pack name, {size} a size
   ///
   /// In en, this message translates to:
   /// **'{name} · {size} (selected)'**
-  String voicePackItemSelected(Object name, Object size);
+  String voicePackItemSelected(String name, String size);
 
   /// A size in megabytes, such as 120 MB. {count} is a number
   ///
   /// In en, this message translates to:
   /// **'{count} MB'**
-  String megabytes(Object count);
+  String megabytes(num count);
 
   /// A duration in milliseconds. {count} is a number. Max 12 characters
   ///
   /// In en, this message translates to:
   /// **'{count} ms'**
-  String milliseconds(Object count);
+  String milliseconds(num count);
 
   /// A size in density-independent pixels. {count} is a number. Max 12 characters
   ///
   /// In en, this message translates to:
   /// **'{count} dp'**
-  String dpValue(Object count);
+  String dpValue(num count);
 
   /// Packs: shown when the file picker fails
   ///
@@ -988,25 +988,25 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Installed {name}.'**
-  String packsInstalled(Object name);
+  String packsInstalled(String name);
 
   /// Packs: dialog title before a pack is deleted. {name} is the pack name
   ///
   /// In en, this message translates to:
   /// **'Delete {name}?'**
-  String packsDeleteTitle(Object name);
+  String packsDeleteTitle(String name);
 
   /// Packs: snackbar after a pack is deleted. {name} is the pack name
   ///
   /// In en, this message translates to:
   /// **'Deleted {name}.'**
-  String packsDeleted(Object name);
+  String packsDeleted(String name);
 
   /// Packs: shown when a delete fails. {name} is the pack name
   ///
   /// In en, this message translates to:
   /// **'Kosha could not delete {name}. Try again.'**
-  String packsDeleteFailed(Object name);
+  String packsDeleteFailed(String name);
 
   /// Packs: explains packs. Two lines at most
   ///
@@ -1090,7 +1090,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Installed packs use {size} on this phone.'**
-  String packsInstalledUse(Object size);
+  String packsInstalledUse(String size);
 
   /// Pack install error: the signature is wrong. Two lines at most
   ///
@@ -1138,7 +1138,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{from} → {to}'**
-  String translatePairName(Object from, Object to);
+  String translatePairName(String from, String to);
 
   /// Translation: switch title. Max 30 characters
   ///
@@ -1186,7 +1186,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{size} · {license}'**
-  String translatePackMeta(Object license, Object size);
+  String translatePackMeta(String license, String size);
 
   /// Translation: row subtitle for model packs. Two lines at most
   ///
@@ -1199,6 +1199,2400 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Translation runs on this phone. Nothing you translate is saved.'**
   String get translateRunsOnPhone;
+
+  /// Shown by the system fingerprint prompt. Max 60 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock Kosha to see your settings and data'**
+  String get privacyUnlockReason;
+
+  /// App lock: the device lock cannot be used now. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Your device lock is not available right now. Try again in a moment.'**
+  String get privacyLockUnavailable;
+
+  /// App lock screen title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Kosha is locked'**
+  String get privacyLockedTitle;
+
+  /// App lock screen: explains how to unlock. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock with your fingerprint or your device PIN to continue.'**
+  String get privacyLockedBody;
+
+  /// App lock screen: unlock button. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock'**
+  String get privacyUnlock;
+
+  /// Backup: snackbar after saving. {size} is a file size such as 2.4 MB
+  ///
+  /// In en, this message translates to:
+  /// **'Backup saved ({size}). Keep your passphrase safe.'**
+  String backupSaved(String size);
+
+  /// Backup: saving needs the phone unlocked. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock your phone, then try again. Nothing was saved.'**
+  String get backupUnlockRetrySaved;
+
+  /// Backup: saving failed. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'The backup could not be saved. Nothing was changed.'**
+  String get backupSaveFailed;
+
+  /// Restore: wrong passphrase or broken file. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong passphrase, or the file is damaged. Nothing was changed.'**
+  String get backupWrongPassphrase;
+
+  /// Restore: wrong file type. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'This file is not a valid Kosha backup. Nothing was changed.'**
+  String get backupInvalidFile;
+
+  /// Restore: file too big. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'This file is too large to be a Kosha backup.'**
+  String get backupTooLarge;
+
+  /// Restore: backup from a newer app. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'This backup was made by a newer version of Kosha. Update Kosha to restore it.'**
+  String get backupNewerVersion;
+
+  /// Restore: another file window is open. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Finish the other file window first, then try again.'**
+  String get backupBusy;
+
+  /// Restore: any other open failure. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'The backup could not be opened. Nothing was changed.'**
+  String get backupOpenFailed;
+
+  /// Restore: the backup is empty. Max 50 characters
+  ///
+  /// In en, this message translates to:
+  /// **'This backup has nothing in it.'**
+  String get backupEmpty;
+
+  /// Restore: dialog title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Restore backup'**
+  String get backupRestoreTitle;
+
+  /// Restore: when and with which version the backup was made. {date} and {version} are text
+  ///
+  /// In en, this message translates to:
+  /// **'Made {date} by Kosha {version}.'**
+  String backupMadeBy(String date, String version);
+
+  /// Restore: choice to add to existing data. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Merge'**
+  String get backupMerge;
+
+  /// Restore: merge choice explanation. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Keep what is on this phone and add what is in the backup.'**
+  String get backupMergeBody;
+
+  /// Restore: choice to overwrite existing data. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Replace'**
+  String get backupReplace;
+
+  /// Restore: replace choice explanation. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Make the chosen sections match the backup. Data here is deleted first.'**
+  String get backupReplaceBody;
+
+  /// Continue button in dialogs and onboarding. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get commonContinue;
+
+  /// Restore: confirmation title. Max 50 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Replace data on this phone?'**
+  String get backupReplaceTitle;
+
+  /// Restore: replace confirmation. Three lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'The chosen sections on this phone are deleted and replaced. This cannot be undone.'**
+  String get backupReplaceConfirm;
+
+  /// Restore: needs the phone unlocked. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock your phone, then try again. Nothing was changed.'**
+  String get backupUnlockRetryChanged;
+
+  /// Restore: failed partway. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Kosha could not finish the restore. Some data may not have been written.'**
+  String get backupRestoreFailed;
+
+  /// Restore summary when nothing was added. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Restored nothing new.'**
+  String get restoreNothingNew;
+
+  /// Restore summary: {items} is a list of added things, already written, such as "3 shortcuts, settings"
+  ///
+  /// In en, this message translates to:
+  /// **'Restored {items}.'**
+  String restoreSummary(String items);
+
+  /// Restore summary with things that were already here. {added} is the summary above, {skipped} a list
+  ///
+  /// In en, this message translates to:
+  /// **'{added} Skipped: {skipped}.'**
+  String restoreSummarySkipped(String added, String skipped);
+
+  /// Restore summary part: learned words in some languages. Lowercase, it follows "Restored"
+  ///
+  /// In en, this message translates to:
+  /// **'learned words for {count, plural, one {1 language} other {{count} languages}}'**
+  String restoreLearnedFor(int count);
+
+  /// Count of files. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one {1 file} other {{count} files}}'**
+  String countFiles(int count);
+
+  /// Count of learned words. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one {1 word} other {{count} words}}'**
+  String countWords(int count);
+
+  /// Count of languages. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one {1 language} other {{count} languages}}'**
+  String countLanguages(int count);
+
+  /// Count of personal shortcuts. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one {1 shortcut} other {{count} shortcuts}}'**
+  String countShortcuts(int count);
+
+  /// Count of clipboard items. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one {1 clipboard item} other {{count} clipboard items}}'**
+  String countClipboardItems(int count);
+
+  /// Count of theme files. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one {1 theme file} other {{count} theme files}}'**
+  String countThemeFiles(int count);
+
+  /// Count of pinned clipboard items. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one {1 pinned item} other {{count} pinned items}}'**
+  String countPinnedItems(int count);
+
+  /// Count of model packs. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one {1 pack} other {{count} packs}}'**
+  String countPacks(int count);
+
+  /// Count of blocked words. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one {1 blocked word} other {{count} blocked words}}'**
+  String countBlockedWords(int count);
+
+  /// Count of how often a word was typed. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one {1 time} other {{count} times}}'**
+  String countTimes(int count);
+
+  /// Time since something happened, in minutes. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one {1 minute ago} other {{count} minutes ago}}'**
+  String timeMinutesAgo(int count);
+
+  /// Time since something happened, in hours. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one {1 hour ago} other {{count} hours ago}}'**
+  String timeHoursAgo(int count);
+
+  /// Time since something happened, in days. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one {1 day ago} other {{count} days ago}}'**
+  String timeDaysAgo(int count);
+
+  /// Time since something happened: under a minute. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'just now'**
+  String get timeJustNow;
+
+  /// Language name in English, used in pack and privacy lists. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Portuguese'**
+  String get languagePortuguese;
+
+  /// Pack line: languages, size and licence, joined with middle dots. Max 80 characters
+  ///
+  /// In en, this message translates to:
+  /// **'{languages} · {size} · {license}'**
+  String packMeta(String languages, String license, String size);
+
+  /// Privacy: title of learned words for one language. {language} is a language name
+  ///
+  /// In en, this message translates to:
+  /// **'Learned words ({language})'**
+  String privacyLearnedWordsTitle(String language);
+
+  /// Privacy: confirmation title. {language} is a language name. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Clear {language} words?'**
+  String privacyClearLanguageTitle(String language);
+
+  /// Privacy: confirmation text. Three lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'This deletes every word learned in this language, and the words you blocked. It cannot be undone.'**
+  String get privacyClearLanguageBody;
+
+  /// Privacy: confirm button that clears data. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get privacyClear;
+
+  /// Privacy: a change failed to save. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Could not save the change. Try again.'**
+  String get privacySaveFailed;
+
+  /// Learned words: failed to load. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Kosha could not read these words.'**
+  String get privacyCouldNotReadWords;
+
+  /// Learned words: locked data. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Kosha cannot read these words right now. Unlock your phone, then try again.'**
+  String get privacyCannotReadWordsNow;
+
+  /// Learned words: empty list. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'No words learned in this language yet. Kosha learns a word after you type it a few times.'**
+  String get privacyNoWordsLanguage;
+
+  /// Learned words: button tooltip with the blocked count. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Blocked words ({count})'**
+  String privacyBlockedWordsTooltip(num count);
+
+  /// Learned words: sort button tooltip. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Sort'**
+  String get privacySortTooltip;
+
+  /// Learned words: sort option. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Most used first'**
+  String get privacySortMostUsed;
+
+  /// Learned words: sort option. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'A to Z'**
+  String get privacySortAZ;
+
+  /// Learned words and others: more-actions button tooltip. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get privacyMoreTooltip;
+
+  /// Learned words: menu item. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Clear this language'**
+  String get privacyClearThisLanguage;
+
+  /// Learned words: search field label. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Search words'**
+  String get privacySearchWords;
+
+  /// Learned words: summary line. {words} and {blocked} are counts such as "3 words"
+  ///
+  /// In en, this message translates to:
+  /// **'{words} · {blocked}'**
+  String privacyWordsSummary(String blocked, String words);
+
+  /// Learned words: empty search list. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'No words yet.'**
+  String get privacyNoWordsYet;
+
+  /// Learned words: search with no result. {query} is what the user searched for
+  ///
+  /// In en, this message translates to:
+  /// **'No words match \"{query}\".'**
+  String privacyNoWordsMatch(String query);
+
+  /// Learned words: section title for blocked words. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Never suggested'**
+  String get privacyNeverSuggested;
+
+  /// Learned words: explains blocked words. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Kosha will not suggest or correct to these words.'**
+  String get privacyBlockedExplain;
+
+  /// Learned words: empty blocked list. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'No blocked words.'**
+  String get privacyNoBlockedWords;
+
+  /// Learned words: unblock a word. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Allow again'**
+  String get privacyAllowAgain;
+
+  /// Learned word detail: how often, and when it was last typed. {when} is a time phrase such as "today"
+  ///
+  /// In en, this message translates to:
+  /// **'Typed {count, plural, one {1 time} other {{count} times}} · last {when}'**
+  String privacyWordLastUsed(int count, String when);
+
+  /// Learned word detail: typed once, not suggested yet. {when} is a time phrase
+  ///
+  /// In en, this message translates to:
+  /// **'Typed once so far, not suggested yet · last {when}'**
+  String privacyWordNotYetSuggested(String when);
+
+  /// Time phrase used in word details. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'today'**
+  String get privacyToday;
+
+  /// Time phrase used in word details. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'yesterday'**
+  String get privacyYesterday;
+
+  /// Learned word: tooltip of the word's menu. {word} is a learned word
+  ///
+  /// In en, this message translates to:
+  /// **'Actions for {word}'**
+  String privacyActionsFor(String word);
+
+  /// Learned word menu item. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Forget this word'**
+  String get privacyForgetWord;
+
+  /// Learned word menu item. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Never suggest this word'**
+  String get privacyNeverSuggestWord;
+
+  /// Error state button. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get privacyTryAgain;
+
+  /// Privacy center: failed to load. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Kosha could not read its privacy data. Try again later.'**
+  String get privacyCenterLoadFailed;
+
+  /// Privacy center: a release build asks for internet. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'This build requests internet access. Kosha should never do that. Please report it.'**
+  String get privacyDevBuildNetwork;
+
+  /// Privacy center: release build status. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Kosha has no internet permission. It cannot send anything.'**
+  String get privacyNoInternetPermission;
+
+  /// Privacy center: debug build status. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'This is a development build. Its network permission is for development tools only.'**
+  String get privacyDevBuildNote;
+
+  /// Privacy center: short debug build status. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Development build. Kosha still has no internet permission.'**
+  String get privacyDevBuildShort;
+
+  /// Privacy center: stored data size and when it changed. {size} is a size, {when} a time phrase
+  ///
+  /// In en, this message translates to:
+  /// **'{size} · changed {when}'**
+  String privacyStorageSize(String size, String when);
+
+  /// Privacy center: stored data row. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Custom themes'**
+  String get privacyCustomThemes;
+
+  /// Privacy center: no packs installed. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'None installed. Voice and translation packs appear here.'**
+  String get privacyNoPacks;
+
+  /// Privacy center: packs count and size. {size} is a size
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one {1 pack} other {{count} packs}} · {size}'**
+  String privacyPacksSize(int count, String size);
+
+  /// Privacy center: group title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'What Kosha stores'**
+  String get privacyWhatKoshaStores;
+
+  /// Privacy center: explains sizes. Three lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Kosha shows only sizes here, never what is inside. Sizes include the last saved copy, which keeps your data safe if a save is interrupted.'**
+  String get privacyShowsSizesOnly;
+
+  /// Privacy center: section title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Typing privacy'**
+  String get privacyTypingPrivacy;
+
+  /// Privacy center: switch title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Learn new words'**
+  String get privacyLearnNewWords;
+
+  /// Privacy center: switch subtitle. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Learn words and phrases from what you type. Never in password fields or incognito.'**
+  String get privacyLearnNewWordsBody;
+
+  /// Privacy center: switch title. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Incognito'**
+  String get privacyIncognito;
+
+  /// Privacy center: switch subtitle. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Learn and remember nothing while on. Browser incognito tabs turn this on by themselves.'**
+  String get privacyIncognitoBody;
+
+  /// Privacy center: switch title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Hide from screenshots'**
+  String get privacyHideScreenshots;
+
+  /// Privacy center: switch subtitle. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Stop screenshots and screen recordings of the keyboard in every app. Password fields are always hidden.'**
+  String get privacyHideScreenshotsBody;
+
+  /// Privacy center: section title for apps where Kosha turns off. Max 50 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Turned off automatically in these apps'**
+  String get privacyAutoOffApps;
+
+  /// Privacy center: explains the app list. Three lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Kosha keeps app names only to fill this list. They are encrypted, never recorded while incognito, and you can clear them below.'**
+  String get privacyAutoOffAppsBody;
+
+  /// Privacy center: empty app list. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'No apps yet'**
+  String get privacyNoAppsYet;
+
+  /// Privacy center: empty app list detail. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Apps you type in will appear here.'**
+  String get privacyNoAppsYetBody;
+
+  /// Privacy center: group title. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Always incognito apps'**
+  String get privacyAlwaysIncognitoApps;
+
+  /// Privacy center and shortcuts screen title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Personal shortcuts'**
+  String get privacyPersonalShortcuts;
+
+  /// Privacy center: switch title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Offer shortcuts'**
+  String get privacyOfferShortcuts;
+
+  /// Privacy center: switch subtitle. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Show your short forms, such as \"omw\", as the first suggestion.'**
+  String get privacyOfferShortcutsBody;
+
+  /// Privacy center: row title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Edit shortcuts'**
+  String get privacyEditShortcuts;
+
+  /// Privacy center: no shortcuts yet. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'None yet'**
+  String get privacyNoShortcutsYet;
+
+  /// Privacy center: section title. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Learned words and clipboard'**
+  String get privacyLearnedAndClipboard;
+
+  /// Privacy center: empty learned words. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'No words learned yet'**
+  String get privacyNoWordsLearnedYet;
+
+  /// Privacy center: explains learned words. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Words you type are learned here once Kosha has seen them a few times.'**
+  String get privacyWordsLearnedBody;
+
+  /// Privacy center: row subtitle for learned words. {when} is a time phrase
+  ///
+  /// In en, this message translates to:
+  /// **'Review, remove or block words · {when}'**
+  String privacyReviewWords(String when);
+
+  /// Privacy center: clipboard history empty. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'History is empty. Change clipboard settings in Panels.'**
+  String get privacyClipboardHistoryEmpty;
+
+  /// Privacy center: clipboard history size. {size} is a size
+  ///
+  /// In en, this message translates to:
+  /// **'{size} in history. Change clipboard settings in Panels.'**
+  String privacyClipboardInHistory(String size);
+
+  /// Privacy center: section title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'App lock'**
+  String get privacyAppLock;
+
+  /// Privacy center: switch title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Lock Kosha'**
+  String get privacyLockKosha;
+
+  /// Privacy center: switch subtitle. Three lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Ask for your fingerprint or device PIN when the app opens, or after it was in the background.'**
+  String get privacyLockKoshaBody;
+
+  /// Privacy center: slider and dialog title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Lock after'**
+  String get privacyLockAfter;
+
+  /// Privacy center: dialog title when the device has no lock. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Set a screen lock first'**
+  String get privacySetScreenLockFirst;
+
+  /// Privacy center: dialog text. Three lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'App lock uses your fingerprint or device PIN. Set a PIN, pattern or password in Android\'s security settings, then come back.'**
+  String get privacySetScreenLockBody;
+
+  /// Shown by the system fingerprint prompt when turning on app lock. Max 60 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on app lock for Kosha'**
+  String get privacyTurnOnAppLockReason;
+
+  /// Privacy center: dialog title when the device lock cannot be used. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Not available right now'**
+  String get privacyNotAvailable;
+
+  /// Privacy center: dialog text. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Your device lock could not be used. App lock stays off.'**
+  String get privacyNotAvailableBody;
+
+  /// Privacy center: section title. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Backup'**
+  String get privacyBackupTitle;
+
+  /// Privacy center row title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Backup and restore'**
+  String get privacyBackupRestore;
+
+  /// Privacy center row subtitle. Two lines at most. .koshabackup is a file extension
+  ///
+  /// In en, this message translates to:
+  /// **'An encrypted .koshabackup file you keep. You choose what goes in it.'**
+  String get privacyBackupRestoreBody;
+
+  /// Privacy center: section title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Delete data'**
+  String get privacyDeleteData;
+
+  /// Privacy center row title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Erase everything'**
+  String get privacyEraseEverything;
+
+  /// Privacy center row subtitle. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Every category above, your custom themes, and the key that protects them.'**
+  String get privacyEraseEverythingBody;
+
+  /// Privacy center: confirmation title. {category} is a category name in lower case
+  ///
+  /// In en, this message translates to:
+  /// **'Delete {category}?'**
+  String privacyDeleteTitle(String category);
+
+  /// Privacy center: confirmation title for erasing all. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Erase everything?'**
+  String get privacyEraseTitle;
+
+  /// Privacy center: confirmation list heading. Max 60 characters
+  ///
+  /// In en, this message translates to:
+  /// **'This will permanently delete:'**
+  String get privacyWillDelete;
+
+  /// Privacy center: switch in the erase dialog. Max 60 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Also reset all settings to their defaults'**
+  String get privacyResetSettings;
+
+  /// Confirmation dialog: warning text. Max 60 characters
+  ///
+  /// In en, this message translates to:
+  /// **'This cannot be undone.'**
+  String get privacyCannotBeUndone;
+
+  /// Privacy center: snackbar after deleting. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted.'**
+  String get privacyDeleted;
+
+  /// Privacy center: deletion failed. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Kosha could not delete everything. Try again.'**
+  String get privacyDeleteFailed;
+
+  /// Dialog confirm button for information dialogs. Max 10 characters
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get privacyOk;
+
+  /// Backup screen: section title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Make a backup'**
+  String get backupMakeTitle;
+
+  /// Backup: switch title. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Include background images'**
+  String get backupIncludeImages;
+
+  /// Backup: switch subtitle. Max 60 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Photos make the file much larger.'**
+  String get backupPhotosLarger;
+
+  /// Backup: button. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Create encrypted backup'**
+  String get backupCreateButton;
+
+  /// Backup screen: section title. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Restore'**
+  String get backupRestoreSection;
+
+  /// Backup: row title. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Restore from a backup file'**
+  String get backupRestoreFromFile;
+
+  /// Backup: row subtitle. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Open a .koshabackup file, check what is in it, then merge or replace.'**
+  String get backupRestoreFromFileBody;
+
+  /// Backup: passphrase dialog title when creating. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a passphrase'**
+  String get backupChoosePassphrase;
+
+  /// Backup: passphrase dialog title when opening. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the passphrase'**
+  String get backupEnterPassphrase;
+
+  /// Backup: warning when creating. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Write it down somewhere safe. A lost passphrase cannot be recovered.'**
+  String get backupWriteItDown;
+
+  /// Backup: passphrase field label. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Passphrase'**
+  String get backupPassphrase;
+
+  /// Backup: confirm passphrase field label. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Type it again'**
+  String get backupTypeAgain;
+
+  /// Backup: error under the confirm field. Max 50 characters
+  ///
+  /// In en, this message translates to:
+  /// **'The passphrases do not match'**
+  String get backupMismatch;
+
+  /// Backup: strength meter label. {strength} is Too short, Weak, Fair, Good or Strong
+  ///
+  /// In en, this message translates to:
+  /// **'Passphrase strength: {strength}'**
+  String backupStrength(String strength);
+
+  /// Passphrase strength label: too short. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Use at least 8 characters'**
+  String get strengthTooShort;
+
+  /// Passphrase strength: weak. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Weak'**
+  String get strengthWeak;
+
+  /// Passphrase strength: fair. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Fair'**
+  String get strengthFair;
+
+  /// Passphrase strength: good. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Good'**
+  String get strengthGood;
+
+  /// Passphrase strength: strong. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Strong'**
+  String get strengthStrong;
+
+  /// Backup: button to open a file. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get backupOpen;
+
+  /// Backup: section size when the store is empty. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing yet'**
+  String get backupNothingYet;
+
+  /// Backup: what the settings section holds. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Theme, languages, typing and privacy choices'**
+  String get backupSettingsSummary;
+
+  /// Backup: learned words summary. {words} and {languages} are counts such as "3 words in 2 languages"
+  ///
+  /// In en, this message translates to:
+  /// **'{words} in {languages}'**
+  String backupLearnedSummary(String languages, String words);
+
+  /// Backup: clipboard section summary when it is off. {items} is a count such as "2 pinned items"
+  ///
+  /// In en, this message translates to:
+  /// **'{items}. Off unless you turn it on.'**
+  String backupPinnedOff(String items);
+
+  /// Restore summary: shortcuts skipped because they exist. Max 60 characters
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one {1 shortcut already here} other {{count} shortcuts already here}}'**
+  String backupAlreadyHere(int count);
+
+  /// Restore summary: theme files skipped because they exist. Max 60 characters
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one {1 theme file already here} other {{count} theme files already here}}'**
+  String backupThemesAlreadyHere(int count);
+
+  /// Restore summary part: clipboard not restored. Lowercase, follows "Restored"
+  ///
+  /// In en, this message translates to:
+  /// **'clipboard left alone (unknown layout)'**
+  String get backupClipboardKept;
+
+  /// Restore summary part: recent emoji kept. Lowercase
+  ///
+  /// In en, this message translates to:
+  /// **'emoji recents kept'**
+  String get backupEmojiKept;
+
+  /// Restore summary part: settings were applied. Lowercase
+  ///
+  /// In en, this message translates to:
+  /// **'settings'**
+  String get backupSettingsApplied;
+
+  /// Restore summary part: learned words added. Lowercase. Same wording as restoreLearnedFor
+  ///
+  /// In en, this message translates to:
+  /// **'learned words for {count, plural, one {1 language} other {{count} languages}}'**
+  String backupLearnedAdded(int count);
+
+  /// Shortcuts: dialog title. {trigger} is the short form. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Delete \"{trigger}\"?'**
+  String shortcutDeleteTitle(String trigger);
+
+  /// Shortcuts: dialog text. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'This removes the shortcut. It cannot be undone.'**
+  String get shortcutDeleteBody;
+
+  /// Shortcuts: button. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Add shortcut'**
+  String get shortcutAdd;
+
+  /// Shortcuts: search field label. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Search shortcuts'**
+  String get shortcutSearch;
+
+  /// Shortcuts: empty search result. Max 50 characters
+  ///
+  /// In en, this message translates to:
+  /// **'No shortcuts match your search.'**
+  String get shortcutNoMatch;
+
+  /// Shortcuts: delete button tooltip. {trigger} is the short form. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Delete {trigger}'**
+  String shortcutDeleteTooltip(String trigger);
+
+  /// Shortcuts: empty list title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'No shortcuts yet'**
+  String get shortcutNoneYet;
+
+  /// Shortcuts: explains what a shortcut is. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'A shortcut turns a short form into longer text. Examples:'**
+  String get shortcutExplain;
+
+  /// Shortcuts: two example lines, each "short form → expansion". {first} and {second} are the example lines
+  ///
+  /// In en, this message translates to:
+  /// **'{first}\n{second}'**
+  String shortcutExamples(String first, String second);
+
+  /// Shortcuts: privacy note. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Shortcuts are encrypted on this phone, like your learned words.'**
+  String get shortcutEncrypted;
+
+  /// Shortcuts: dialog title for a new shortcut. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'New shortcut'**
+  String get shortcutNew;
+
+  /// Shortcuts: dialog title for editing. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Edit shortcut'**
+  String get shortcutEdit;
+
+  /// Shortcuts: field label. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Short form'**
+  String get shortcutShortForm;
+
+  /// Shortcuts: field label. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Expands to'**
+  String get shortcutExpandsTo;
+
+  /// Accessibility label of the privacy mascot picture. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Kosha privacy mascot'**
+  String get privacyMascotLabel;
+
+  /// Privacy: stored data name. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Emoji recents'**
+  String get privacyStoredEmoji;
+
+  /// Privacy: stored data name for the app list. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Apps list'**
+  String get privacyStoredApps;
+
+  /// Privacy: stored data name for anything else. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Other stored data'**
+  String get privacyStoredOther;
+
+  /// A size in bytes. {count} is a number
+  ///
+  /// In en, this message translates to:
+  /// **'{count} B'**
+  String privacyUnitBytes(num count);
+
+  /// A size in kilobytes. {count} is a number
+  ///
+  /// In en, this message translates to:
+  /// **'{count} KB'**
+  String privacyUnitKilobytes(num count);
+
+  /// A size in megabytes. {count} is a number
+  ///
+  /// In en, this message translates to:
+  /// **'{count} MB'**
+  String privacyUnitMegabytes(num count);
+
+  /// Shortcut error: empty short form. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Type the short form you want to expand.'**
+  String get shortcutProblemEmptyTrigger;
+
+  /// Shortcut error: too long. {count} is a number
+  ///
+  /// In en, this message translates to:
+  /// **'The short form can be at most {count} characters.'**
+  String shortcutProblemTriggerTooLong(num count);
+
+  /// Shortcut error: bad characters. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Use only letters, digits and apostrophes in the short form.'**
+  String get shortcutProblemTriggerCharacters;
+
+  /// Shortcut error: empty expansion. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Type what the short form should expand to.'**
+  String get shortcutProblemEmptyExpansion;
+
+  /// Shortcut error: expansion too long. {count} is a number
+  ///
+  /// In en, this message translates to:
+  /// **'The expansion can be at most {count} characters.'**
+  String shortcutProblemExpansionTooLong(num count);
+
+  /// Shortcut error: duplicate. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'You already have a shortcut with this short form.'**
+  String get shortcutProblemDuplicate;
+
+  /// Shortcut error: too many. {count} is a number
+  ///
+  /// In en, this message translates to:
+  /// **'You can keep at most {count} shortcuts.'**
+  String shortcutProblemTooMany(num count);
+
+  /// Onboarding: step title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on Kosha'**
+  String get onboardingTurnOnTitle;
+
+  /// Onboarding: step explanation. Three lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Android keeps a list of the keyboards you have turned on. Turn Kosha on in that list, then come back here. Kosha notices the change by itself.'**
+  String get onboardingTurnOnBody;
+
+  /// Onboarding: status when Kosha is on. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Kosha is turned on.'**
+  String get onboardingKeyboardOn;
+
+  /// Onboarding: status when Kosha is off. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Kosha is not turned on yet.'**
+  String get onboardingKeyboardOff;
+
+  /// Onboarding: button. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Open keyboard settings'**
+  String get onboardingOpenKeyboardSettings;
+
+  /// Onboarding: step title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to Kosha'**
+  String get onboardingSwitchTitle;
+
+  /// Onboarding: step explanation. Three lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Kosha as the keyboard you type with. Android may show a short list first. This screen updates by itself.'**
+  String get onboardingSwitchBody;
+
+  /// Onboarding: status when Kosha is chosen. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Kosha is your keyboard.'**
+  String get onboardingKeyboardIsYours;
+
+  /// Onboarding: status when Kosha is on but not chosen. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Kosha is not your keyboard yet.'**
+  String get onboardingKeyboardNotYours;
+
+  /// Onboarding: status when the previous step is not done. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Turn Kosha on in the previous step first.'**
+  String get onboardingTurnOnFirst;
+
+  /// Onboarding: button. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Choose keyboard'**
+  String get onboardingChooseKeyboard;
+
+  /// Onboarding: privacy step while permissions are read. Max 60 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Checking the app permissions…'**
+  String get onboardingCheckingPermissions;
+
+  /// Onboarding: debug build privacy note. Three lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'This debug build can reach the internet. Debug builds have that permission for development only.'**
+  String get onboardingDebugInternet;
+
+  /// Onboarding: privacy note for a build that can reach the internet. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'This build can reach the internet.'**
+  String get onboardingReleaseInternet;
+
+  /// Onboarding: privacy note. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Kosha has no internet permission, so it cannot send anything anywhere.'**
+  String get onboardingNoInternet;
+
+  /// Onboarding: explanation title. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Why the warning does not apply'**
+  String get onboardingWarningTitle;
+
+  /// Onboarding: explanation. Four lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Android warns that any keyboard may collect what you type. That warning is about keyboards that can reach the internet. Kosha cannot.'**
+  String get onboardingWarningBody;
+
+  /// Onboarding: privacy row title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Internet access'**
+  String get onboardingInternetAccess;
+
+  /// Onboarding: privacy row title. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Everything stays on this phone'**
+  String get onboardingEverythingHere;
+
+  /// Onboarding: privacy row subtitle. Two lines at most. Android Keystore is the name of the Android key store
+  ///
+  /// In en, this message translates to:
+  /// **'Learned words, clipboard and settings are encrypted with a key in Android Keystore.'**
+  String get onboardingEverythingHereBody;
+
+  /// Onboarding: step title. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Pick languages and a theme'**
+  String get onboardingLanguagesTitle;
+
+  /// Onboarding: step explanation. Three lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the languages you type in. Several can be on at once, and you can change them later in Languages.'**
+  String get onboardingLanguagesBody;
+
+  /// Onboarding: theme card title. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get onboardingThemeTitle;
+
+  /// Onboarding: button. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'More themes'**
+  String get onboardingMoreThemes;
+
+  /// Onboarding: try-it checklist item. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Type a sentence'**
+  String get onboardingTryTyping;
+
+  /// Onboarding: try-it checklist item. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe a word: glide from letter to letter'**
+  String get onboardingTrySwipe;
+
+  /// Onboarding: try-it checklist item. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Long-press a letter to see its accents'**
+  String get onboardingTryAccents;
+
+  /// Onboarding: step title. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Try it'**
+  String get onboardingTryTitle;
+
+  /// Onboarding: step explanation. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the box below. The keyboard appears, and you can try each thing on the checklist.'**
+  String get onboardingTryBody;
+
+  /// Onboarding: text field label. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Try typing here'**
+  String get onboardingTryField;
+
+  /// Onboarding: section title for the try-it list. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Checklist'**
+  String get onboardingChecklist;
+
+  /// Onboarding: last step title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'You are all set'**
+  String get onboardingAllSetTitle;
+
+  /// Onboarding: last step explanation. Three lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Kosha is ready. Everything can be changed later in Settings: languages, typing, feel, panels and themes. Tap Done to finish.'**
+  String get onboardingAllSetBody;
+
+  /// Onboarding: screen title in the app bar. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Set up Kosha'**
+  String get onboardingSetUp;
+
+  /// Onboarding: progress label for screen readers. {step} and {total} are numbers
+  ///
+  /// In en, this message translates to:
+  /// **'Step {step} of {total}'**
+  String onboardingStepOf(String step, String total);
+
+  /// Onboarding: compact progress text. Max 10 characters
+  ///
+  /// In en, this message translates to:
+  /// **'{step}/{total}'**
+  String onboardingStepFraction(String step, String total);
+
+  /// Onboarding: back button. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get onboardingBack;
+
+  /// Onboarding: skip button. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get onboardingSkip;
+
+  /// Onboarding: next button. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get onboardingNext;
+
+  /// Onboarding and dialogs: finish button. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get onboardingDone;
+
+  /// Onboarding: search field hint. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Search languages'**
+  String get onboardingSearchLanguages;
+
+  /// Onboarding: summary of the selected languages. {languages} is a list of names
+  ///
+  /// In en, this message translates to:
+  /// **'Selected: {languages}'**
+  String onboardingSelected(String languages);
+
+  /// Onboarding: empty search result. Max 50 characters
+  ///
+  /// In en, this message translates to:
+  /// **'No language matches that search.'**
+  String get onboardingNoLanguageMatch;
+
+  /// Themes: button and label to create a theme. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Create theme'**
+  String get themeCreate;
+
+  /// Themes: card label when selected. {name} is the theme name
+  ///
+  /// In en, this message translates to:
+  /// **'{name}, selected'**
+  String themeSelectedLabel(String name);
+
+  /// Themes: tooltip of a theme card's menu. {name} is the theme name
+  ///
+  /// In en, this message translates to:
+  /// **'Options for {name}'**
+  String themeCardOptions(String name);
+
+  /// Themes: menu item. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get themeEdit;
+
+  /// Themes: menu item. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate'**
+  String get themeDuplicate;
+
+  /// Themes: menu item. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Rename'**
+  String get themeRename;
+
+  /// Themes: menu item to delete a theme. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get themeDeleteAction;
+
+  /// Themes: section title for the try-it field. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Try typing'**
+  String get themeTryTyping;
+
+  /// Themes: label of the try-it field. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Type here to try the theme'**
+  String get themeTryLabel;
+
+  /// Themes: helper under the try-it field. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'The keyboard appears here when Kosha is selected.'**
+  String get themeTryHelper;
+
+  /// Themes: rename dialog title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Rename theme'**
+  String get themeRenameTitle;
+
+  /// Theme editor and rename dialog: field label. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get themeNameField;
+
+  /// Theme editor: app bar title when editing. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Edit theme'**
+  String get themeEditTitle;
+
+  /// Theme editor: app bar title when creating. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'New theme'**
+  String get themeNewTitle;
+
+  /// Theme editor: app bar title while loading. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get themeEditorTitle;
+
+  /// Theme editor: loading failed. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'This theme could not be opened.'**
+  String get themeOpenFailed;
+
+  /// Theme editor: save failed. Max 50 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Could not save the theme.'**
+  String get themeSaveFailed;
+
+  /// Theme editor: photo picker failed. Max 50 characters
+  ///
+  /// In en, this message translates to:
+  /// **'The photo picker could not open.'**
+  String get themePhotoPickerFailed;
+
+  /// Theme editor: confirmation title. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Discard changes?'**
+  String get themeDiscardTitle;
+
+  /// Theme editor: confirmation text. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Your changes to this theme will be lost.'**
+  String get themeDiscardBody;
+
+  /// Theme editor: button to stay. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Keep editing'**
+  String get themeKeepEditing;
+
+  /// Theme editor: button to discard. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Discard'**
+  String get themeDiscard;
+
+  /// Theme editor: save button. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get themeSave;
+
+  /// Theme editor: error under the name field. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'A name is required'**
+  String get themeNameRequired;
+
+  /// Theme editor: name field label. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Theme name'**
+  String get themeNameLabel;
+
+  /// Default name for a new theme. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'My theme'**
+  String get themeDefaultName;
+
+  /// Theme editor: section title. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get themeSectionName;
+
+  /// Theme editor: section title. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Look'**
+  String get themeSectionLook;
+
+  /// Theme editor: setting title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Dark mode'**
+  String get themeDarkMode;
+
+  /// Theme editor: segmented choice. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get themeChoiceSystem;
+
+  /// Theme editor: segmented choice. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get themeChoiceLight;
+
+  /// Theme editor: segmented choice. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get themeChoiceDark;
+
+  /// Theme editor: switch title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Pure black'**
+  String get themePureBlack;
+
+  /// Theme editor: switch subtitle when dark. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Black background'**
+  String get themePureBlackBody;
+
+  /// Theme editor: switch subtitle when not dark. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Only in dark mode'**
+  String get themePureBlackOnlyDark;
+
+  /// Themes gallery: switch subtitle when dark. Max 50 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Black background in dark mode'**
+  String get themeGalleryPureBlackDark;
+
+  /// Theme editor: setting title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Contrast'**
+  String get themeContrast;
+
+  /// Theme editor: segmented choice. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Standard'**
+  String get themeChoiceStandard;
+
+  /// Theme editor: segmented choice. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Medium'**
+  String get themeChoiceMedium;
+
+  /// Theme editor: segmented choice. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'High'**
+  String get themeChoiceHigh;
+
+  /// Theme editor: slider title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Keyboard height'**
+  String get themeKeyboardHeight;
+
+  /// Theme editor: section title. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Colours'**
+  String get themeSectionColours;
+
+  /// Theme editor: colour source title. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Source'**
+  String get themeSource;
+
+  /// Theme editor: colour source choice. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Wallpaper'**
+  String get themeSourceWallpaper;
+
+  /// Theme editor: colour source choice. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Seed'**
+  String get themeSourceSeed;
+
+  /// Theme editor: colour source choice. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Per role'**
+  String get themeSourcePerRole;
+
+  /// Theme editor: note when the wallpaper source is not available. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Wallpaper colours need Android 12 or newer.'**
+  String get themeWallpaperNeedsAndroid12;
+
+  /// Theme editor: colour setting title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Seed colour'**
+  String get themeSeedColour;
+
+  /// Theme editor: colour scheme title. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Scheme'**
+  String get themeScheme;
+
+  /// Theme editor: row title for each colour role. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Colour roles'**
+  String get themeColourRoles;
+
+  /// Theme editor: subtitle of colour roles. {mode} is dark or light
+  ///
+  /// In en, this message translates to:
+  /// **'{mode, select, dark {Editing the dark colours} other {Editing the light colours}}'**
+  String themeEditingColours(String mode);
+
+  /// Theme editor: button to reset every colour role. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Reset all roles'**
+  String get themeResetRoles;
+
+  /// Theme editor: section title. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Keys'**
+  String get themeKeys;
+
+  /// Theme editor: key shape slider title. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Shape'**
+  String get themeShape;
+
+  /// Theme editor: key shape named Pill. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Pill'**
+  String get themeShapePill;
+
+  /// Theme editor: key shape named Rounded. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Rounded'**
+  String get themeShapeRounded;
+
+  /// Theme editor: key shape named Square. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Square'**
+  String get themeShapeSquare;
+
+  /// Theme editor: switch title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Key borders'**
+  String get themeKeyBorders;
+
+  /// Theme editor: slider title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Border width'**
+  String get themeBorderWidth;
+
+  /// Theme editor: slider title. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Key gap'**
+  String get themeKeyGap;
+
+  /// Theme editor: slider title. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Font weight'**
+  String get themeFontWeight;
+
+  /// Theme editor: slider title. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Font size'**
+  String get themeFontSize;
+
+  /// Theme editor: switch title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Hint characters'**
+  String get themeHintCharacters;
+
+  /// Theme editor: switch subtitle. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Small characters on long press'**
+  String get themeHintCharactersBody;
+
+  /// Theme editor: section title. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Background'**
+  String get themeBackground;
+
+  /// Theme editor: background type title. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get themeBackgroundType;
+
+  /// Theme editor: background type choice. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Solid'**
+  String get themeTypeSolid;
+
+  /// Theme editor: background type choice. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Gradient'**
+  String get themeTypeGradient;
+
+  /// Theme editor: background type choice. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Photo'**
+  String get themeTypePhoto;
+
+  /// Theme editor: empty photo background. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'No photo yet. Choose one to crop it to the keyboard.'**
+  String get themeNoPhotoYet;
+
+  /// Theme editor: button. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Choose photo'**
+  String get themeChoosePhoto;
+
+  /// Theme editor: button for the photo crop screen. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Edit crop and blur'**
+  String get themeEditCrop;
+
+  /// Theme editor: slider title. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Dim'**
+  String get themeDim;
+
+  /// Theme editor: section title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Popups and trail'**
+  String get themeSectionPopups;
+
+  /// Theme editor: switch title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Solid popups'**
+  String get themeSolidPopups;
+
+  /// Theme editor: switch subtitle with wallpaper colours. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Not with wallpaper colours'**
+  String get themeSolidPopupsBodyWallpaper;
+
+  /// Theme editor: switch subtitle. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Popups in the primary colour'**
+  String get themeSolidPopupsBodyPrimary;
+
+  /// Theme editor: switch title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe trail'**
+  String get themeSwipeTrail;
+
+  /// Theme editor: slider title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Trail width'**
+  String get themeTrailWidth;
+
+  /// Theme editor: slider title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Trail fade'**
+  String get themeTrailFade;
+
+  /// Theme editor: trail fade value when zero. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Instant'**
+  String get themeTrailInstant;
+
+  /// Theme editor: section title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Trail colours'**
+  String get themeTrailColours;
+
+  /// Theme editor: trail colour label. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get themeTrailStart;
+
+  /// Theme editor: trail colour label. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'End'**
+  String get themeTrailEnd;
+
+  /// Theme editor: colour picker title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Trail start'**
+  String get themeTrailStartTitle;
+
+  /// Theme editor: colour picker title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Trail end'**
+  String get themeTrailEndTitle;
+
+  /// Theme editor: trail colour choice. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic'**
+  String get themeAutomatic;
+
+  /// Theme editor: section title. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Motion'**
+  String get themeSectionMotion;
+
+  /// Theme editor: switch title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Key press animation'**
+  String get themeKeyPressAnimation;
+
+  /// Theme editor: note when the system reduces motion. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Remove animations is on in system settings, so keys do not animate.'**
+  String get themeReduceMotion;
+
+  /// Theme editor: motion choice: none. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get themeMotionOff;
+
+  /// Theme editor: motion choice. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Subtle'**
+  String get themeMotionSubtle;
+
+  /// Theme editor: motion choice. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Standard'**
+  String get themeMotionStandard;
+
+  /// Theme editor: motion choice. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Bouncy'**
+  String get themeMotionBouncy;
+
+  /// Theme editor: Material colour scheme name. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Tonal spot'**
+  String get themeSchemeTonalSpot;
+
+  /// Theme editor: Material colour scheme name. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Vibrant'**
+  String get themeSchemeVibrant;
+
+  /// Theme editor: Material colour scheme name. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Expressive'**
+  String get themeSchemeExpressive;
+
+  /// Theme editor: Material colour scheme name. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Fidelity'**
+  String get themeSchemeFidelity;
+
+  /// Theme editor: Material colour scheme name. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Content'**
+  String get themeSchemeContent;
+
+  /// Theme editor: Material colour scheme name. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Monochrome'**
+  String get themeSchemeMonochrome;
+
+  /// Theme editor: Material colour scheme name. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Neutral'**
+  String get themeSchemeNeutral;
+
+  /// Theme editor: Material colour scheme name. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Rainbow'**
+  String get themeSchemeRainbow;
+
+  /// Theme editor: Material colour scheme name. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Fruit salad'**
+  String get themeSchemeFruitSalad;
+
+  /// Theme editor: a custom colour with its hex code. {hex} is six hex digits
+  ///
+  /// In en, this message translates to:
+  /// **'Custom colour #{hex}'**
+  String themeCustomColourHex(String hex);
+
+  /// Theme editor: colour swatch label. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Custom colour'**
+  String get themeCustomColour;
+
+  /// Theme editor: colour swatch label. {label} is a role name, {hex} six hex digits
+  ///
+  /// In en, this message translates to:
+  /// **'{label} colour, #{hex}'**
+  String themeSwatchLabel(String hex, String label);
+
+  /// Theme editor: tooltip to reset one colour. {label} is a role name
+  ///
+  /// In en, this message translates to:
+  /// **'Use the scheme colour for {label}'**
+  String themeUseSchemeColour(String label);
+
+  /// Theme editor: colour role subtitle when not overridden. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'From the scheme'**
+  String get themeFromScheme;
+
+  /// Theme editor: colour role subtitle when overridden. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Set'**
+  String get themeOverridden;
+
+  /// Theme editor: gradient colour stop name. {n} is a number
+  ///
+  /// In en, this message translates to:
+  /// **'Stop {n}'**
+  String themeStopLabel(String n);
+
+  /// Theme editor: colour picker title for a gradient stop. {n} is a number
+  ///
+  /// In en, this message translates to:
+  /// **'Stop {n}'**
+  String themePickStopTitle(String n);
+
+  /// Theme editor: button. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Add stop'**
+  String get themeAddStop;
+
+  /// Theme editor: button. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Remove stop'**
+  String get themeRemoveStop;
+
+  /// Theme editor: gradient angle slider title. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Angle'**
+  String get themeAngle;
+
+  /// Theme editor: tooltip. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Use the scheme colour'**
+  String get themeUseSchemeTooltipLabel;
+
+  /// Photo crop screen: title. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Crop photo'**
+  String get themeCropTitle;
+
+  /// Photo crop screen: confirm button. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Use photo'**
+  String get themeUsePhoto;
+
+  /// Photo crop: save failed. Max 50 characters
+  ///
+  /// In en, this message translates to:
+  /// **'The photo could not be saved.'**
+  String get themeCropSaveFailed;
+
+  /// Photo crop: accessibility label of the crop area. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Photo crop. Drag to move the photo and pinch or use the zoom slider to zoom.'**
+  String get themeCropSemantics;
+
+  /// Photo crop: slider title. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Zoom'**
+  String get themeCropZoom;
+
+  /// Photo crop: slider title. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Blur'**
+  String get themeCropBlur;
+
+  /// Photo crop: blur value when zero. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get themeCropBlurOff;
+
+  /// Photo crop: note. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'The blur is saved into the picture. The dim is set in the editor and applied live.'**
+  String get themeCropNote;
+
+  /// Colour picker: hex field label. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Hex'**
+  String get themeHexLabel;
+
+  /// Colour picker: error for a bad hex code. Max 50 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Use six hex digits, such as F5B700'**
+  String get themeHexError;
+
+  /// Colour picker: slider. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Hue'**
+  String get themeHue;
+
+  /// Colour picker: slider. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Saturation'**
+  String get themeSaturation;
+
+  /// Colour picker: slider. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Brightness'**
+  String get themeBrightness;
+
+  /// Colour picker: instruction. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a shade, then tap Use.'**
+  String get themePickShadeHint;
+
+  /// Colour picker: confirm button. Max 12 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Use'**
+  String get themePickColourUse;
+
+  /// Suffix added to a duplicated theme name. Starts with a space
+  ///
+  /// In en, this message translates to:
+  /// **' copy'**
+  String get themeCopySuffix;
+
+  /// Name of a duplicated theme. {name} is the original name
+  ///
+  /// In en, this message translates to:
+  /// **'{name} copy'**
+  String themeCopyName(String name);
+
+  /// Themes gallery: delete dialog title. {name} is the theme name. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Delete \"{name}\"?'**
+  String themeDeleteTitle(String name);
+
+  /// Themes gallery: delete dialog text for the selected theme. Three lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'This theme is selected. Kosha Dynamic will be used instead. This cannot be undone.'**
+  String get themeDeleteSelectedBody;
+
+  /// Themes gallery: delete dialog text. Max 60 characters
+  ///
+  /// In en, this message translates to:
+  /// **'This cannot be undone.'**
+  String get themeDeleteBody;
+
+  /// Themes gallery: delete failed. Max 50 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Could not delete the theme.'**
+  String get themeDeleteFailed;
+
+  /// Themes gallery: rename failed. Max 50 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Could not rename the theme.'**
+  String get themeRenameFailed;
+
+  /// Themes gallery: duplicate failed. Max 50 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Could not copy the theme.'**
+  String get themeDuplicateFailed;
+
+  /// Themes gallery: setting write failed. Max 50 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Could not save the setting.'**
+  String get themeSettingFailed;
+
+  /// Themes: snackbar when the system colours cannot be read. Max 60 characters
+  ///
+  /// In en, this message translates to:
+  /// **'System colours are unavailable.'**
+  String get themeSystemColoursUnavailable;
+
+  /// Themes gallery: switch title. Max 50 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Kosha Dynamic follows your wallpaper'**
+  String get themeKoshaDynamicFollows;
+
+  /// Themes gallery: switch subtitle. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Its colours update when the wallpaper changes'**
+  String get themeKoshaDynamicBody;
+
+  /// Themes gallery: section title. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Presets'**
+  String get themeSectionPresets;
+
+  /// Themes gallery: section title. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'My themes'**
+  String get themeSectionMyThemes;
+
+  /// Themes gallery: section title. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Try typing'**
+  String get themeSectionTry;
+
+  /// Themes gallery: section title. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get themeAppearance;
+
+  /// Themes gallery: title. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Themes'**
+  String get themesTitle;
+
+  /// Privacy center and backup: custom themes count and size. {size} is a size such as 14 KB
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one {1 theme file} other {{count} theme files}} · {size}'**
+  String privacyThemesSize(int count, String size);
+
+  /// Backup: a section count is locked until the phone is unlocked. Max 60 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock your phone to see the count'**
+  String get backupUnlockToSeeCount;
+
+  /// Shortcuts screen: explains shortcuts with two examples. Three lines. Keep the arrows and the line breaks
+  ///
+  /// In en, this message translates to:
+  /// **'A shortcut turns a short form into longer text. Examples:\nomw → on my way\naddr → your address'**
+  String get shortcutHelp;
+
+  /// Privacy: stored data name for learned words of one language. {language} is a language name
+  ///
+  /// In en, this message translates to:
+  /// **'Learned words ({language})'**
+  String privacyStoredLearned(String language);
+
+  /// Settings: tooltip on an option that is not available yet. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Coming in a later update'**
+  String get settingsComingLater;
+
+  /// Backup screen: explains how backups are protected. Three lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'A backup is one file, encrypted with a passphrase you choose. Only that passphrase opens it. If you forget the passphrase, nobody can recover the backup, including Kosha.'**
+  String get backupExplainer;
+
+  /// Privacy center: one line of a deletion list, a category name and what it holds. {title} and {detail} are text. Max 80 characters
+  ///
+  /// In en, this message translates to:
+  /// **'{title}: {detail}'**
+  String privacyCategoryLine(String detail, String title);
+
+  /// Shortcuts: example short form shown as a hint. Replace with a short example that fits the language
+  ///
+  /// In en, this message translates to:
+  /// **'omw'**
+  String get shortcutShortFormHint;
+
+  /// Shortcuts: example expansion shown as a hint. Replace with a short example that fits the language
+  ///
+  /// In en, this message translates to:
+  /// **'on my way'**
+  String get shortcutExpansionHint;
+
+  /// Panels: clipboard duration option. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'15 minutes'**
+  String get durationMinutes15;
+
+  /// Panels: clipboard duration option. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'1 hour'**
+  String get durationHour;
+
+  /// Panels: clipboard duration option. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'1 day'**
+  String get durationDay;
+
+  /// Panels: clipboard duration option. Max 20 characters
+  ///
+  /// In en, this message translates to:
+  /// **'1 week'**
+  String get durationWeek;
+
+  /// Onboarding: close button tooltip. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Close setup'**
+  String get onboardingCloseSetup;
+
+  /// Packs: list failed to load. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'Kosha could not read its packs'**
+  String get packsCouldNotRead;
+
+  /// Packs: delete button tooltip. {name} is the pack name. Max 40 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Delete {name}'**
+  String packsDeleteTooltip(String name);
+
+  /// Privacy center: no stored data. Max 30 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing stored yet'**
+  String get privacyNothingStored;
+
+  /// Privacy center: button to remove an app from the list. {app} is an app name. Max 60 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Remove {app} from the list'**
+  String privacyRemoveAppTooltip(String app);
 }
 
 class _AppLocalizationsDelegate

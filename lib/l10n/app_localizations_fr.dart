@@ -107,12 +107,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get aboutTitle => 'À propos';
 
   @override
-  String aboutVersion(Object versionCode, Object versionName) {
+  String aboutVersion(String versionCode, String versionName) {
     return 'Version $versionName ($versionCode)';
   }
 
   @override
-  String aboutVersionDebug(Object versionCode, Object versionName) {
+  String aboutVersionDebug(String versionCode, String versionName) {
     return 'Version $versionName ($versionCode) · version de débogage';
   }
 
@@ -202,22 +202,22 @@ class AppLocalizationsFr extends AppLocalizations {
       'Saisie par glissement, conversion et paquets de dictionnaires';
 
   @override
-  String languagesReorderLabel(Object language) {
+  String languagesReorderLabel(String language) {
     return 'Faites glisser pour réordonner $language';
   }
 
   @override
-  String languageDefaultLabel(Object language) {
+  String languageDefaultLabel(String language) {
     return '$language, par défaut';
   }
 
   @override
-  String languageLayoutTooltip(Object language) {
+  String languageLayoutTooltip(String language) {
     return 'Disposition pour $language';
   }
 
   @override
-  String languageRemoveTooltip(Object language) {
+  String languageRemoveTooltip(String language) {
     return 'Retirer $language';
   }
 
@@ -479,27 +479,27 @@ class AppLocalizationsFr extends AppLocalizations {
   String get voiceLooking => 'Recherche des packs installés';
 
   @override
-  String voicePackItem(Object name, Object size) {
+  String voicePackItem(String name, String size) {
     return '$name · $size';
   }
 
   @override
-  String voicePackItemSelected(Object name, Object size) {
+  String voicePackItemSelected(String name, String size) {
     return '$name · $size (sélectionné)';
   }
 
   @override
-  String megabytes(Object count) {
+  String megabytes(num count) {
     return '$count Mo';
   }
 
   @override
-  String milliseconds(Object count) {
+  String milliseconds(num count) {
     return '$count ms';
   }
 
   @override
-  String dpValue(Object count) {
+  String dpValue(num count) {
     return '$count dp';
   }
 
@@ -508,22 +508,22 @@ class AppLocalizationsFr extends AppLocalizations {
       'Kosha n\'a pas pu ouvrir le sélecteur de fichiers.';
 
   @override
-  String packsInstalled(Object name) {
+  String packsInstalled(String name) {
     return '$name installé.';
   }
 
   @override
-  String packsDeleteTitle(Object name) {
+  String packsDeleteTitle(String name) {
     return 'Supprimer $name ?';
   }
 
   @override
-  String packsDeleted(Object name) {
+  String packsDeleted(String name) {
     return '$name supprimé.';
   }
 
   @override
-  String packsDeleteFailed(Object name) {
+  String packsDeleteFailed(String name) {
     return 'Kosha n\'a pas pu supprimer $name. Réessayez.';
   }
 
@@ -571,7 +571,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get packsNothingStored => 'Rien n\'est encore stocké.';
 
   @override
-  String packsInstalledUse(Object size) {
+  String packsInstalledUse(String size) {
     return 'Les packs installés occupent $size sur ce téléphone.';
   }
 
@@ -603,7 +603,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get translateDefaultPair => 'Paire de langues par défaut';
 
   @override
-  String translatePairName(Object from, Object to) {
+  String translatePairName(String from, String to) {
     return '$from → $to';
   }
 
@@ -632,7 +632,7 @@ class AppLocalizationsFr extends AppLocalizations {
       'Chaque sens est un pack, par exemple anglais → espagnol.';
 
   @override
-  String translatePackMeta(Object license, Object size) {
+  String translatePackMeta(String license, String size) {
     return '$size · $license';
   }
 
@@ -643,4 +643,1550 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get translateRunsOnPhone =>
       'La traduction se fait sur ce téléphone. Rien de ce que vous traduisez n\'est enregistré.';
+
+  @override
+  String get privacyUnlockReason =>
+      'Déverrouillez Kosha pour voir vos réglages et données';
+
+  @override
+  String get privacyLockUnavailable =>
+      'Le verrouillage de l\'appareil n\'est pas disponible pour le moment. Réessayez dans un instant.';
+
+  @override
+  String get privacyLockedTitle => 'Kosha est verrouillé';
+
+  @override
+  String get privacyLockedBody =>
+      'Déverrouillez avec votre empreinte ou le code de votre appareil pour continuer.';
+
+  @override
+  String get privacyUnlock => 'Déverrouiller';
+
+  @override
+  String backupSaved(String size) {
+    return 'Sauvegarde enregistrée ($size). Gardez votre phrase de passe en lieu sûr.';
+  }
+
+  @override
+  String get backupUnlockRetrySaved =>
+      'Déverrouillez le téléphone, puis réessayez. Rien n\'a été enregistré.';
+
+  @override
+  String get backupSaveFailed =>
+      'La sauvegarde n\'a pas pu être enregistrée. Rien n\'a été modifié.';
+
+  @override
+  String get backupWrongPassphrase =>
+      'Phrase de passe incorrecte ou fichier endommagé. Rien n\'a été modifié.';
+
+  @override
+  String get backupInvalidFile =>
+      'Ce fichier n\'est pas une sauvegarde Kosha valide. Rien n\'a été modifié.';
+
+  @override
+  String get backupTooLarge =>
+      'Ce fichier est trop volumineux pour être une sauvegarde Kosha.';
+
+  @override
+  String get backupNewerVersion =>
+      'Cette sauvegarde a été faite par une version plus récente de Kosha. Mettez Kosha à jour pour la restaurer.';
+
+  @override
+  String get backupBusy =>
+      'Fermez d\'abord l\'autre fenêtre de fichiers, puis réessayez.';
+
+  @override
+  String get backupOpenFailed =>
+      'La sauvegarde n\'a pas pu être ouverte. Rien n\'a été modifié.';
+
+  @override
+  String get backupEmpty => 'Cette sauvegarde est vide.';
+
+  @override
+  String get backupRestoreTitle => 'Restaurer la sauvegarde';
+
+  @override
+  String backupMadeBy(String date, String version) {
+    return 'Créée le $date avec Kosha $version.';
+  }
+
+  @override
+  String get backupMerge => 'Fusionner';
+
+  @override
+  String get backupMergeBody =>
+      'Garde ce qui est sur ce téléphone et ajoute ce qui est dans la sauvegarde.';
+
+  @override
+  String get backupReplace => 'Remplacer';
+
+  @override
+  String get backupReplaceBody =>
+      'Fait correspondre les sections choisies à la sauvegarde. Les données actuelles sont d\'abord supprimées.';
+
+  @override
+  String get commonContinue => 'Continuer';
+
+  @override
+  String get backupReplaceTitle => 'Remplacer les données de ce téléphone ?';
+
+  @override
+  String get backupReplaceConfirm =>
+      'Les sections choisies sur ce téléphone sont supprimées et remplacées. Action irréversible.';
+
+  @override
+  String get backupUnlockRetryChanged =>
+      'Déverrouillez le téléphone, puis réessayez. Rien n\'a été modifié.';
+
+  @override
+  String get backupRestoreFailed =>
+      'Kosha n\'a pas pu terminer la restauration. Certaines données n\'ont peut-être pas été écrites.';
+
+  @override
+  String get restoreNothingNew => 'Rien de nouveau n\'a été restauré.';
+
+  @override
+  String restoreSummary(String items) {
+    return 'Restauré : $items.';
+  }
+
+  @override
+  String restoreSummarySkipped(String added, String skipped) {
+    return '$added Ignoré : $skipped.';
+  }
+
+  @override
+  String restoreLearnedFor(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count langues',
+      one: '1 langue',
+    );
+    return 'mots appris pour $_temp0';
+  }
+
+  @override
+  String countFiles(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count fichiers',
+      one: '1 fichier',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String countWords(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count mots',
+      one: '1 mot',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String countLanguages(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count langues',
+      one: '1 langue',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String countShortcuts(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count raccourcis',
+      one: '1 raccourci',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String countClipboardItems(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count éléments du presse-papiers',
+      one: '1 élément du presse-papiers',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String countThemeFiles(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count fichiers de thème',
+      one: '1 fichier de thème',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String countPinnedItems(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count éléments épinglés',
+      one: '1 élément épinglé',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String countPacks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count packs',
+      one: '1 pack',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String countBlockedWords(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count mots bloqués',
+      one: '1 mot bloqué',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String countTimes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count fois',
+      one: '1 fois',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeMinutesAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'il y a $count minutes',
+      one: 'il y a 1 minute',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeHoursAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'il y a $count heures',
+      one: 'il y a 1 heure',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'il y a $count jours',
+      one: 'il y a 1 jour',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get timeJustNow => 'à l\'instant';
+
+  @override
+  String get languagePortuguese => 'Portugais';
+
+  @override
+  String packMeta(String languages, String license, String size) {
+    return '$languages · $size · $license';
+  }
+
+  @override
+  String privacyLearnedWordsTitle(String language) {
+    return 'Mots appris ($language)';
+  }
+
+  @override
+  String privacyClearLanguageTitle(String language) {
+    return 'Effacer les mots de $language ?';
+  }
+
+  @override
+  String get privacyClearLanguageBody =>
+      'Cela supprime tous les mots appris dans cette langue, ainsi que les mots bloqués. Action irréversible.';
+
+  @override
+  String get privacyClear => 'Effacer';
+
+  @override
+  String get privacySaveFailed =>
+      'Impossible d\'enregistrer la modification. Réessayez.';
+
+  @override
+  String get privacyCouldNotReadWords => 'Kosha n\'a pas pu lire ces mots.';
+
+  @override
+  String get privacyCannotReadWordsNow =>
+      'Kosha ne peut pas lire ces mots pour le moment. Déverrouillez le téléphone, puis réessayez.';
+
+  @override
+  String get privacyNoWordsLanguage =>
+      'Aucun mot appris dans cette langue pour l\'instant. Kosha apprend un mot après l\'avoir tapé plusieurs fois.';
+
+  @override
+  String privacyBlockedWordsTooltip(num count) {
+    return 'Mots bloqués ($count)';
+  }
+
+  @override
+  String get privacySortTooltip => 'Trier';
+
+  @override
+  String get privacySortMostUsed => 'Les plus utilisés d\'abord';
+
+  @override
+  String get privacySortAZ => 'De A à Z';
+
+  @override
+  String get privacyMoreTooltip => 'Plus';
+
+  @override
+  String get privacyClearThisLanguage => 'Effacer cette langue';
+
+  @override
+  String get privacySearchWords => 'Rechercher des mots';
+
+  @override
+  String privacyWordsSummary(String blocked, String words) {
+    return '$words · $blocked';
+  }
+
+  @override
+  String get privacyNoWordsYet => 'Aucun mot pour l\'instant.';
+
+  @override
+  String privacyNoWordsMatch(String query) {
+    return 'Aucun mot ne correspond à « $query ».';
+  }
+
+  @override
+  String get privacyNeverSuggested => 'Jamais suggérés';
+
+  @override
+  String get privacyBlockedExplain =>
+      'Kosha ne suggérera ni ne corrigera ces mots.';
+
+  @override
+  String get privacyNoBlockedWords => 'Aucun mot bloqué.';
+
+  @override
+  String get privacyAllowAgain => 'Autoriser à nouveau';
+
+  @override
+  String privacyWordLastUsed(int count, String when) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count fois',
+      one: 'une fois',
+    );
+    return 'Tapé $_temp0 · dernière fois $when';
+  }
+
+  @override
+  String privacyWordNotYetSuggested(String when) {
+    return 'Tapé une fois jusqu\'ici, pas encore suggéré · dernière fois $when';
+  }
+
+  @override
+  String get privacyToday => 'aujourd\'hui';
+
+  @override
+  String get privacyYesterday => 'hier';
+
+  @override
+  String privacyActionsFor(String word) {
+    return 'Actions pour $word';
+  }
+
+  @override
+  String get privacyForgetWord => 'Oublier ce mot';
+
+  @override
+  String get privacyNeverSuggestWord => 'Ne jamais suggérer ce mot';
+
+  @override
+  String get privacyTryAgain => 'Réessayer';
+
+  @override
+  String get privacyCenterLoadFailed =>
+      'Kosha n\'a pas pu lire ses données de confidentialité. Réessayez plus tard.';
+
+  @override
+  String get privacyDevBuildNetwork =>
+      'Cette version demande l\'accès à Internet. Kosha ne devrait jamais le faire. Merci de le signaler.';
+
+  @override
+  String get privacyNoInternetPermission =>
+      'Kosha n\'a pas l\'autorisation Internet. Il ne peut rien envoyer.';
+
+  @override
+  String get privacyDevBuildNote =>
+      'Ceci est une version de développement. Son autorisation réseau sert uniquement aux outils de développement.';
+
+  @override
+  String get privacyDevBuildShort =>
+      'Version de développement. Kosha n\'a toujours pas l\'autorisation Internet.';
+
+  @override
+  String privacyStorageSize(String size, String when) {
+    return '$size · modifié $when';
+  }
+
+  @override
+  String get privacyCustomThemes => 'Thèmes personnalisés';
+
+  @override
+  String get privacyNoPacks =>
+      'Aucun installé. Les packs de voix et de traduction apparaissent ici.';
+
+  @override
+  String privacyPacksSize(int count, String size) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count packs',
+      one: '1 pack',
+    );
+    return '$_temp0 · $size';
+  }
+
+  @override
+  String get privacyWhatKoshaStores => 'Ce que Kosha stocke';
+
+  @override
+  String get privacyShowsSizesOnly =>
+      'Kosha n\'affiche ici que des tailles, jamais le contenu. Les tailles incluent la dernière copie enregistrée, qui protège vos données si une sauvegarde est interrompue.';
+
+  @override
+  String get privacyTypingPrivacy => 'Confidentialité de la saisie';
+
+  @override
+  String get privacyLearnNewWords => 'Apprendre de nouveaux mots';
+
+  @override
+  String get privacyLearnNewWordsBody =>
+      'Apprend les mots et expressions de votre saisie. Jamais dans les champs de mot de passe ni en mode incognito.';
+
+  @override
+  String get privacyIncognito => 'Incognito';
+
+  @override
+  String get privacyIncognitoBody =>
+      'N\'apprend ni ne retient rien quand il est activé. Les onglets incognito du navigateur l\'activent d\'eux-mêmes.';
+
+  @override
+  String get privacyHideScreenshots => 'Masquer des captures d\'écran';
+
+  @override
+  String get privacyHideScreenshotsBody =>
+      'Empêche les captures et enregistrements d\'écran du clavier dans toutes les applis. Les champs de mot de passe sont toujours masqués.';
+
+  @override
+  String get privacyAutoOffApps => 'Désactivé automatiquement dans ces applis';
+
+  @override
+  String get privacyAutoOffAppsBody =>
+      'Kosha ne garde les noms d\'applis que pour remplir cette liste. Ils sont chiffrés, jamais enregistrés en incognito, et vous pouvez les effacer ci-dessous.';
+
+  @override
+  String get privacyNoAppsYet => 'Aucune appli pour l\'instant';
+
+  @override
+  String get privacyNoAppsYetBody =>
+      'Les applis dans lesquelles vous écrivez apparaîtront ici.';
+
+  @override
+  String get privacyAlwaysIncognitoApps => 'Applis toujours en incognito';
+
+  @override
+  String get privacyPersonalShortcuts => 'Raccourcis personnels';
+
+  @override
+  String get privacyOfferShortcuts => 'Proposer les raccourcis';
+
+  @override
+  String get privacyOfferShortcutsBody =>
+      'Affiche vos abréviations, comme « omw », en première suggestion.';
+
+  @override
+  String get privacyEditShortcuts => 'Modifier les raccourcis';
+
+  @override
+  String get privacyNoShortcutsYet => 'Aucun pour l\'instant';
+
+  @override
+  String get privacyLearnedAndClipboard => 'Mots appris et presse-papiers';
+
+  @override
+  String get privacyNoWordsLearnedYet => 'Aucun mot appris pour l\'instant';
+
+  @override
+  String get privacyWordsLearnedBody =>
+      'Les mots que vous tapez sont appris ici après que Kosha les a vus plusieurs fois.';
+
+  @override
+  String privacyReviewWords(String when) {
+    return 'Revoir, retirer ou bloquer des mots · $when';
+  }
+
+  @override
+  String get privacyClipboardHistoryEmpty =>
+      'L\'historique est vide. Modifiez les réglages du presse-papiers dans Panneaux.';
+
+  @override
+  String privacyClipboardInHistory(String size) {
+    return '$size dans l\'historique. Modifiez les réglages du presse-papiers dans Panneaux.';
+  }
+
+  @override
+  String get privacyAppLock => 'Verrouillage de l\'app';
+
+  @override
+  String get privacyLockKosha => 'Verrouiller Kosha';
+
+  @override
+  String get privacyLockKoshaBody =>
+      'Demande votre empreinte ou le code de l\'appareil à l\'ouverture de l\'app, ou après un passage en arrière-plan.';
+
+  @override
+  String get privacyLockAfter => 'Verrouiller après';
+
+  @override
+  String get privacySetScreenLockFirst =>
+      'Définissez d\'abord un verrouillage d\'écran';
+
+  @override
+  String get privacySetScreenLockBody =>
+      'El bloqueo de la app usa su huella o el PIN del dispositivo. Defina un PIN, patrón o contraseña en los ajustes de seguridad de Android y vuelva.';
+
+  @override
+  String get privacyTurnOnAppLockReason =>
+      'Activer le verrouillage de l\'app pour Kosha';
+
+  @override
+  String get privacyNotAvailable => 'Pas disponible pour le moment';
+
+  @override
+  String get privacyNotAvailableBody =>
+      'Le verrouillage de l\'appareil n\'a pas pu être utilisé. Le verrouillage de l\'app reste désactivé.';
+
+  @override
+  String get privacyBackupTitle => 'Sauvegarde';
+
+  @override
+  String get privacyBackupRestore => 'Sauvegarde et restauration';
+
+  @override
+  String get privacyBackupRestoreBody =>
+      'Un fichier .koshabackup chiffré que vous conservez. Vous choisissez ce qu\'il contient.';
+
+  @override
+  String get privacyDeleteData => 'Supprimer les données';
+
+  @override
+  String get privacyEraseEverything => 'Tout effacer';
+
+  @override
+  String get privacyEraseEverythingBody =>
+      'Toutes les catégories ci-dessus, vos thèmes personnalisés et la clé qui les protège.';
+
+  @override
+  String privacyDeleteTitle(String category) {
+    return 'Supprimer $category ?';
+  }
+
+  @override
+  String get privacyEraseTitle => 'Tout effacer ?';
+
+  @override
+  String get privacyWillDelete => 'Cela supprimera définitivement :';
+
+  @override
+  String get privacyResetSettings =>
+      'Réinitialiser aussi tous les réglages par défaut';
+
+  @override
+  String get privacyCannotBeUndone => 'Action irréversible.';
+
+  @override
+  String get privacyDeleted => 'Supprimé.';
+
+  @override
+  String get privacyDeleteFailed =>
+      'Kosha n\'a pas pu tout supprimer. Réessayez.';
+
+  @override
+  String get privacyOk => 'OK';
+
+  @override
+  String get backupMakeTitle => 'Faire une sauvegarde';
+
+  @override
+  String get backupIncludeImages => 'Inclure les images de fond';
+
+  @override
+  String get backupPhotosLarger =>
+      'Les photos rendent le fichier beaucoup plus lourd.';
+
+  @override
+  String get backupCreateButton => 'Créer une sauvegarde chiffrée';
+
+  @override
+  String get backupRestoreSection => 'Restaurer';
+
+  @override
+  String get backupRestoreFromFile =>
+      'Restaurer depuis un fichier de sauvegarde';
+
+  @override
+  String get backupRestoreFromFileBody =>
+      'Ouvrez un fichier .koshabackup, vérifiez son contenu, puis fusionnez ou remplacez.';
+
+  @override
+  String get backupChoosePassphrase => 'Choisissez une phrase de passe';
+
+  @override
+  String get backupEnterPassphrase => 'Saisissez la phrase de passe';
+
+  @override
+  String get backupWriteItDown =>
+      'Notez-la dans un endroit sûr. Une phrase de passe perdue ne peut pas être récupérée.';
+
+  @override
+  String get backupPassphrase => 'Phrase de passe';
+
+  @override
+  String get backupTypeAgain => 'Retapez-la';
+
+  @override
+  String get backupMismatch => 'Les phrases de passe ne correspondent pas';
+
+  @override
+  String backupStrength(String strength) {
+    return 'Solidité de la phrase : $strength';
+  }
+
+  @override
+  String get strengthTooShort => 'Utilisez au moins 8 caractères';
+
+  @override
+  String get strengthWeak => 'Faible';
+
+  @override
+  String get strengthFair => 'Correcte';
+
+  @override
+  String get strengthGood => 'Bonne';
+
+  @override
+  String get strengthStrong => 'Forte';
+
+  @override
+  String get backupOpen => 'Ouvrir';
+
+  @override
+  String get backupNothingYet => 'Rien pour l\'instant';
+
+  @override
+  String get backupSettingsSummary =>
+      'Thème, langues, saisie et choix de confidentialité';
+
+  @override
+  String backupLearnedSummary(String languages, String words) {
+    return '$words dans $languages';
+  }
+
+  @override
+  String backupPinnedOff(String items) {
+    return '$items. Désactivé sauf si vous l\'activez.';
+  }
+
+  @override
+  String backupAlreadyHere(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count raccourcis déjà présents',
+      one: '1 raccourci déjà présent',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String backupThemesAlreadyHere(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count fichiers de thème déjà présents',
+      one: '1 fichier de thème déjà présent',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get backupClipboardKept =>
+      'presse-papiers laissé intact (disposition inconnue)';
+
+  @override
+  String get backupEmojiKept => 'emojis récents conservés';
+
+  @override
+  String get backupSettingsApplied => 'réglages';
+
+  @override
+  String backupLearnedAdded(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count langues',
+      one: '1 langue',
+    );
+    return 'mots appris pour $_temp0';
+  }
+
+  @override
+  String shortcutDeleteTitle(String trigger) {
+    return 'Supprimer « $trigger » ?';
+  }
+
+  @override
+  String get shortcutDeleteBody =>
+      'Cela supprime le raccourci. Action irréversible.';
+
+  @override
+  String get shortcutAdd => 'Ajouter un raccourci';
+
+  @override
+  String get shortcutSearch => 'Rechercher des raccourcis';
+
+  @override
+  String get shortcutNoMatch =>
+      'Aucun raccourci ne correspond à votre recherche.';
+
+  @override
+  String shortcutDeleteTooltip(String trigger) {
+    return 'Supprimer $trigger';
+  }
+
+  @override
+  String get shortcutNoneYet => 'Aucun raccourci pour l\'instant';
+
+  @override
+  String get shortcutExplain =>
+      'Un raccourci transforme une abréviation en texte plus long. Exemples :';
+
+  @override
+  String shortcutExamples(String first, String second) {
+    return '$first\n$second';
+  }
+
+  @override
+  String get shortcutEncrypted =>
+      'Les raccourcis sont chiffrés sur ce téléphone, comme vos mots appris.';
+
+  @override
+  String get shortcutNew => 'Nouveau raccourci';
+
+  @override
+  String get shortcutEdit => 'Modifier le raccourci';
+
+  @override
+  String get shortcutShortForm => 'Abréviation';
+
+  @override
+  String get shortcutExpandsTo => 'Se développe en';
+
+  @override
+  String get privacyMascotLabel => 'Mascotte de confidentialité de Kosha';
+
+  @override
+  String get privacyStoredEmoji => 'Emoji récents';
+
+  @override
+  String get privacyStoredApps => 'Liste des applis';
+
+  @override
+  String get privacyStoredOther => 'Autres données stockées';
+
+  @override
+  String privacyUnitBytes(num count) {
+    return '$count o';
+  }
+
+  @override
+  String privacyUnitKilobytes(num count) {
+    return '$count Ko';
+  }
+
+  @override
+  String privacyUnitMegabytes(num count) {
+    return '$count Mo';
+  }
+
+  @override
+  String get shortcutProblemEmptyTrigger =>
+      'Saisissez l\'abréviation à développer.';
+
+  @override
+  String shortcutProblemTriggerTooLong(num count) {
+    return 'L\'abréviation peut comporter au plus $count caractères.';
+  }
+
+  @override
+  String get shortcutProblemTriggerCharacters =>
+      'Utilisez uniquement des lettres, des chiffres et des apostrophes dans l\'abréviation.';
+
+  @override
+  String get shortcutProblemEmptyExpansion =>
+      'Saisissez ce que l\'abréviation doit développer.';
+
+  @override
+  String shortcutProblemExpansionTooLong(num count) {
+    return 'Le développement peut comporter au plus $count caractères.';
+  }
+
+  @override
+  String get shortcutProblemDuplicate =>
+      'Vous avez déjà un raccourci avec cette abréviation.';
+
+  @override
+  String shortcutProblemTooMany(num count) {
+    return 'Vous pouvez garder au plus $count raccourcis.';
+  }
+
+  @override
+  String get onboardingTurnOnTitle => 'Activer Kosha';
+
+  @override
+  String get onboardingTurnOnBody =>
+      'Android conserve une liste des claviers activés. Activez Kosha dans cette liste, puis revenez ici. Kosha détecte le changement tout seul.';
+
+  @override
+  String get onboardingKeyboardOn => 'Kosha est activé.';
+
+  @override
+  String get onboardingKeyboardOff => 'Kosha n\'est pas encore activé.';
+
+  @override
+  String get onboardingOpenKeyboardSettings => 'Ouvrir les réglages du clavier';
+
+  @override
+  String get onboardingSwitchTitle => 'Passer à Kosha';
+
+  @override
+  String get onboardingSwitchBody =>
+      'Choisissez Kosha comme clavier de saisie. Android peut afficher d\'abord une courte liste. Cet écran se met à jour tout seul.';
+
+  @override
+  String get onboardingKeyboardIsYours => 'Kosha est votre clavier.';
+
+  @override
+  String get onboardingKeyboardNotYours =>
+      'Kosha n\'est pas encore votre clavier.';
+
+  @override
+  String get onboardingTurnOnFirst =>
+      'Activez d\'abord Kosha à l\'étape précédente.';
+
+  @override
+  String get onboardingChooseKeyboard => 'Choisir le clavier';
+
+  @override
+  String get onboardingCheckingPermissions =>
+      'Vérification des autorisations de l\'app…';
+
+  @override
+  String get onboardingDebugInternet =>
+      'Cette version de débogage peut accéder à Internet. Elle n\'a cette autorisation que pour le développement.';
+
+  @override
+  String get onboardingReleaseInternet =>
+      'Cette version peut accéder à Internet.';
+
+  @override
+  String get onboardingNoInternet =>
+      'Kosha n\'a pas l\'autorisation Internet : il ne peut rien envoyer nulle part.';
+
+  @override
+  String get onboardingWarningTitle =>
+      'Pourquoi l\'avertissement ne s\'applique pas';
+
+  @override
+  String get onboardingWarningBody =>
+      'Android avertit que tout clavier peut collecter ce que vous tapez. Cet avertissement concerne les claviers qui peuvent accéder à Internet. Kosha ne le peut pas.';
+
+  @override
+  String get onboardingInternetAccess => 'Accès à Internet';
+
+  @override
+  String get onboardingEverythingHere => 'Tout reste sur ce téléphone';
+
+  @override
+  String get onboardingEverythingHereBody =>
+      'Les mots appris, le presse-papiers et les réglages sont chiffrés avec une clé de l\'Android Keystore.';
+
+  @override
+  String get onboardingLanguagesTitle => 'Choisissez les langues et un thème';
+
+  @override
+  String get onboardingLanguagesBody =>
+      'Choisissez les langues dans lesquelles vous tapez. Plusieurs peuvent être activées en même temps, et vous pourrez les modifier plus tard dans Langues.';
+
+  @override
+  String get onboardingThemeTitle => 'Thème';
+
+  @override
+  String get onboardingMoreThemes => 'Plus de thèmes';
+
+  @override
+  String get onboardingTryTyping => 'Tapez une phrase';
+
+  @override
+  String get onboardingTrySwipe =>
+      'Glissez un mot : passez de lettre en lettre';
+
+  @override
+  String get onboardingTryAccents =>
+      'Appuyez longuement sur une lettre pour voir ses accents';
+
+  @override
+  String get onboardingTryTitle => 'Essayez';
+
+  @override
+  String get onboardingTryBody =>
+      'Touchez la case ci-dessous. Le clavier apparaît, et vous pouvez essayer chaque point de la liste.';
+
+  @override
+  String get onboardingTryField => 'Essayez d\'écrire ici';
+
+  @override
+  String get onboardingChecklist => 'Liste de contrôle';
+
+  @override
+  String get onboardingAllSetTitle => 'Vous êtes prêt';
+
+  @override
+  String get onboardingAllSetBody =>
+      'Kosha est prêt. Tout peut être modifié plus tard dans Réglages : langues, saisie, ressenti, panneaux et thèmes. Touchez Terminé pour finir.';
+
+  @override
+  String get onboardingSetUp => 'Configurer Kosha';
+
+  @override
+  String onboardingStepOf(String step, String total) {
+    return 'Étape $step sur $total';
+  }
+
+  @override
+  String onboardingStepFraction(String step, String total) {
+    return '$step/$total';
+  }
+
+  @override
+  String get onboardingBack => 'Retour';
+
+  @override
+  String get onboardingSkip => 'Passer';
+
+  @override
+  String get onboardingNext => 'Suivant';
+
+  @override
+  String get onboardingDone => 'Terminé';
+
+  @override
+  String get onboardingSearchLanguages => 'Rechercher des langues';
+
+  @override
+  String onboardingSelected(String languages) {
+    return 'Sélectionnées : $languages';
+  }
+
+  @override
+  String get onboardingNoLanguageMatch =>
+      'Aucune langue ne correspond à cette recherche.';
+
+  @override
+  String get themeCreate => 'Créer un thème';
+
+  @override
+  String themeSelectedLabel(String name) {
+    return '$name, sélectionné';
+  }
+
+  @override
+  String themeCardOptions(String name) {
+    return 'Options pour $name';
+  }
+
+  @override
+  String get themeEdit => 'Modifier';
+
+  @override
+  String get themeDuplicate => 'Dupliquer';
+
+  @override
+  String get themeRename => 'Renommer';
+
+  @override
+  String get themeDeleteAction => 'Supprimer';
+
+  @override
+  String get themeTryTyping => 'Essayer de taper';
+
+  @override
+  String get themeTryLabel => 'Tapez ici pour essayer le thème';
+
+  @override
+  String get themeTryHelper =>
+      'Le clavier apparaît ici lorsque Kosha est sélectionné.';
+
+  @override
+  String get themeRenameTitle => 'Renommer le thème';
+
+  @override
+  String get themeNameField => 'Nom';
+
+  @override
+  String get themeEditTitle => 'Modifier le thème';
+
+  @override
+  String get themeNewTitle => 'Nouveau thème';
+
+  @override
+  String get themeEditorTitle => 'Thème';
+
+  @override
+  String get themeOpenFailed => 'Ce thème n\'a pas pu être ouvert.';
+
+  @override
+  String get themeSaveFailed => 'Impossible d\'enregistrer le thème.';
+
+  @override
+  String get themePhotoPickerFailed =>
+      'Le sélecteur de photos n\'a pas pu s\'ouvrir.';
+
+  @override
+  String get themeDiscardTitle => 'Abandonner les modifications ?';
+
+  @override
+  String get themeDiscardBody =>
+      'Vos modifications de ce thème seront perdues.';
+
+  @override
+  String get themeKeepEditing => 'Continuer les modifications';
+
+  @override
+  String get themeDiscard => 'Abandonner';
+
+  @override
+  String get themeSave => 'Enregistrer';
+
+  @override
+  String get themeNameRequired => 'Un nom est requis';
+
+  @override
+  String get themeNameLabel => 'Nom du thème';
+
+  @override
+  String get themeDefaultName => 'Mon thème';
+
+  @override
+  String get themeSectionName => 'Nom';
+
+  @override
+  String get themeSectionLook => 'Apparence';
+
+  @override
+  String get themeDarkMode => 'Mode sombre';
+
+  @override
+  String get themeChoiceSystem => 'Système';
+
+  @override
+  String get themeChoiceLight => 'Clair';
+
+  @override
+  String get themeChoiceDark => 'Sombre';
+
+  @override
+  String get themePureBlack => 'Noir pur';
+
+  @override
+  String get themePureBlackBody => 'Fond noir';
+
+  @override
+  String get themePureBlackOnlyDark => 'Seulement en mode sombre';
+
+  @override
+  String get themeGalleryPureBlackDark => 'Fond noir en mode sombre';
+
+  @override
+  String get themeContrast => 'Contraste';
+
+  @override
+  String get themeChoiceStandard => 'Standard';
+
+  @override
+  String get themeChoiceMedium => 'Moyen';
+
+  @override
+  String get themeChoiceHigh => 'Élevé';
+
+  @override
+  String get themeKeyboardHeight => 'Hauteur du clavier';
+
+  @override
+  String get themeSectionColours => 'Couleurs';
+
+  @override
+  String get themeSource => 'Source';
+
+  @override
+  String get themeSourceWallpaper => 'Fond d\'écran';
+
+  @override
+  String get themeSourceSeed => 'Couleur de base';
+
+  @override
+  String get themeSourcePerRole => 'Par rôle';
+
+  @override
+  String get themeWallpaperNeedsAndroid12 =>
+      'Les couleurs du fond d\'écran nécessitent Android 12 ou une version plus récente.';
+
+  @override
+  String get themeSeedColour => 'Couleur de base';
+
+  @override
+  String get themeScheme => 'Schéma';
+
+  @override
+  String get themeColourRoles => 'Rôles de couleur';
+
+  @override
+  String themeEditingColours(String mode) {
+    String _temp0 = intl.Intl.selectLogic(mode, {
+      'dark': 'Modification des couleurs sombres',
+      'other': 'Modification des couleurs claires',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get themeResetRoles => 'Réinitialiser tous les rôles';
+
+  @override
+  String get themeKeys => 'Touches';
+
+  @override
+  String get themeShape => 'Forme';
+
+  @override
+  String get themeShapePill => 'Pilule';
+
+  @override
+  String get themeShapeRounded => 'Arrondie';
+
+  @override
+  String get themeShapeSquare => 'Carrée';
+
+  @override
+  String get themeKeyBorders => 'Bordures des touches';
+
+  @override
+  String get themeBorderWidth => 'Épaisseur de bordure';
+
+  @override
+  String get themeKeyGap => 'Espacement des touches';
+
+  @override
+  String get themeFontWeight => 'Graisse de police';
+
+  @override
+  String get themeFontSize => 'Taille de police';
+
+  @override
+  String get themeHintCharacters => 'Caractères d\'indication';
+
+  @override
+  String get themeHintCharactersBody => 'Petits caractères à l\'appui long';
+
+  @override
+  String get themeBackground => 'Arrière-plan';
+
+  @override
+  String get themeBackgroundType => 'Type';
+
+  @override
+  String get themeTypeSolid => 'Uni';
+
+  @override
+  String get themeTypeGradient => 'Dégradé';
+
+  @override
+  String get themeTypePhoto => 'Photo';
+
+  @override
+  String get themeNoPhotoYet =>
+      'Aucune photo pour l\'instant. Choisissez-en une pour la recadrer au clavier.';
+
+  @override
+  String get themeChoosePhoto => 'Choisir une photo';
+
+  @override
+  String get themeEditCrop => 'Modifier le recadrage et le flou';
+
+  @override
+  String get themeDim => 'Assombrir';
+
+  @override
+  String get themeSectionPopups => 'Bulles et trace';
+
+  @override
+  String get themeSolidPopups => 'Bulles unies';
+
+  @override
+  String get themeSolidPopupsBodyWallpaper =>
+      'No avec les couleurs du fond d\'écran';
+
+  @override
+  String get themeSolidPopupsBodyPrimary => 'Bulles dans la couleur principale';
+
+  @override
+  String get themeSwipeTrail => 'Trace du glissement';
+
+  @override
+  String get themeTrailWidth => 'Largeur de la trace';
+
+  @override
+  String get themeTrailFade => 'Estompage de la trace';
+
+  @override
+  String get themeTrailInstant => 'Instantané';
+
+  @override
+  String get themeTrailColours => 'Couleurs de la trace';
+
+  @override
+  String get themeTrailStart => 'Début';
+
+  @override
+  String get themeTrailEnd => 'Fin';
+
+  @override
+  String get themeTrailStartTitle => 'Début de la trace';
+
+  @override
+  String get themeTrailEndTitle => 'Fin de la trace';
+
+  @override
+  String get themeAutomatic => 'Automatique';
+
+  @override
+  String get themeSectionMotion => 'Mouvement';
+
+  @override
+  String get themeKeyPressAnimation => 'Animation à l\'appui des touches';
+
+  @override
+  String get themeReduceMotion =>
+      '« Supprimer les animations » est activé dans les réglages système, donc les touches ne s\'animent pas.';
+
+  @override
+  String get themeMotionOff => 'Désactivé';
+
+  @override
+  String get themeMotionSubtle => 'Discret';
+
+  @override
+  String get themeMotionStandard => 'Standard';
+
+  @override
+  String get themeMotionBouncy => 'Rebondissant';
+
+  @override
+  String get themeSchemeTonalSpot => 'Point tonal';
+
+  @override
+  String get themeSchemeVibrant => 'Vibrant';
+
+  @override
+  String get themeSchemeExpressive => 'Expressif';
+
+  @override
+  String get themeSchemeFidelity => 'Fidélité';
+
+  @override
+  String get themeSchemeContent => 'Contenu';
+
+  @override
+  String get themeSchemeMonochrome => 'Monochrome';
+
+  @override
+  String get themeSchemeNeutral => 'Neutre';
+
+  @override
+  String get themeSchemeRainbow => 'Arc-en-ciel';
+
+  @override
+  String get themeSchemeFruitSalad => 'Salade de fruits';
+
+  @override
+  String themeCustomColourHex(String hex) {
+    return 'Couleur personnalisée #$hex';
+  }
+
+  @override
+  String get themeCustomColour => 'Couleur personnalisée';
+
+  @override
+  String themeSwatchLabel(String hex, String label) {
+    return 'Couleur $label, #$hex';
+  }
+
+  @override
+  String themeUseSchemeColour(String label) {
+    return 'Utiliser la couleur du schéma pour $label';
+  }
+
+  @override
+  String get themeFromScheme => 'Depuis le schéma';
+
+  @override
+  String get themeOverridden => 'Défini';
+
+  @override
+  String themeStopLabel(String n) {
+    return 'Arrêt $n';
+  }
+
+  @override
+  String themePickStopTitle(String n) {
+    return 'Arrêt $n';
+  }
+
+  @override
+  String get themeAddStop => 'Ajouter un arrêt';
+
+  @override
+  String get themeRemoveStop => 'Retirer un arrêt';
+
+  @override
+  String get themeAngle => 'Angle';
+
+  @override
+  String get themeUseSchemeTooltipLabel => 'Utiliser la couleur du schéma';
+
+  @override
+  String get themeCropTitle => 'Recadrer la photo';
+
+  @override
+  String get themeUsePhoto => 'Utiliser la photo';
+
+  @override
+  String get themeCropSaveFailed => 'La photo n\'a pas pu être enregistrée.';
+
+  @override
+  String get themeCropSemantics =>
+      'Recadrage de photo. Faites glisser pour déplacer la photo et pincez ou utilisez le curseur de zoom pour zoomer.';
+
+  @override
+  String get themeCropZoom => 'Zoom';
+
+  @override
+  String get themeCropBlur => 'Flou';
+
+  @override
+  String get themeCropBlurOff => 'Désactivé';
+
+  @override
+  String get themeCropNote =>
+      'Le flou est enregistré dans l\'image. L\'assombrissement se règle dans l\'éditeur et s\'applique en direct.';
+
+  @override
+  String get themeHexLabel => 'Hex';
+
+  @override
+  String get themeHexError =>
+      'Utilisez six chiffres hexadécimaux, comme F5B700';
+
+  @override
+  String get themeHue => 'Teinte';
+
+  @override
+  String get themeSaturation => 'Saturation';
+
+  @override
+  String get themeBrightness => 'Luminosité';
+
+  @override
+  String get themePickShadeHint =>
+      'Choisissez une nuance, puis touchez Utiliser.';
+
+  @override
+  String get themePickColourUse => 'Utiliser';
+
+  @override
+  String get themeCopySuffix => 'copie';
+
+  @override
+  String themeCopyName(String name) {
+    return 'Copie de $name';
+  }
+
+  @override
+  String themeDeleteTitle(String name) {
+    return 'Supprimer « $name » ?';
+  }
+
+  @override
+  String get themeDeleteSelectedBody =>
+      'Ce thème est sélectionné. Kosha Dynamic sera utilisé à la place. Action irréversible.';
+
+  @override
+  String get themeDeleteBody => 'Action irréversible.';
+
+  @override
+  String get themeDeleteFailed => 'Impossible de supprimer le thème.';
+
+  @override
+  String get themeRenameFailed => 'Impossible de renommer le thème.';
+
+  @override
+  String get themeDuplicateFailed => 'Impossible de copier le thème.';
+
+  @override
+  String get themeSettingFailed => 'Impossible d\'enregistrer le réglage.';
+
+  @override
+  String get themeSystemColoursUnavailable =>
+      'Les couleurs du système ne sont pas disponibles.';
+
+  @override
+  String get themeKoshaDynamicFollows =>
+      'Kosha Dynamic suit votre fond d\'écran';
+
+  @override
+  String get themeKoshaDynamicBody =>
+      'Ses couleurs se mettent à jour quand le fond d\'écran change';
+
+  @override
+  String get themeSectionPresets => 'Préréglages';
+
+  @override
+  String get themeSectionMyThemes => 'Mes thèmes';
+
+  @override
+  String get themeSectionTry => 'Essayer de taper';
+
+  @override
+  String get themeAppearance => 'Apparence';
+
+  @override
+  String get themesTitle => 'Thèmes';
+
+  @override
+  String privacyThemesSize(int count, String size) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count fichiers de thème',
+      one: '1 fichier de thème',
+    );
+    return '$_temp0 · $size';
+  }
+
+  @override
+  String get backupUnlockToSeeCount =>
+      'Déverrouillez le téléphone pour voir le nombre';
+
+  @override
+  String get shortcutHelp =>
+      'Un raccourci transforme une abréviation en texte plus long. Exemples :\nomw → on my way\naddr → your address';
+
+  @override
+  String privacyStoredLearned(String language) {
+    return 'Mots appris ($language)';
+  }
+
+  @override
+  String get settingsComingLater =>
+      'Disponible dans une mise à jour ultérieure';
+
+  @override
+  String get backupExplainer =>
+      'Une sauvegarde est un seul fichier, chiffré avec une phrase de passe que vous choisissez. Seule cette phrase l\'ouvre. Si vous oubliez la phrase, personne ne peut récupérer la sauvegarde, pas même Kosha.';
+
+  @override
+  String privacyCategoryLine(String detail, String title) {
+    return '$title : $detail';
+  }
+
+  @override
+  String get shortcutShortFormHint => 'omw';
+
+  @override
+  String get shortcutExpansionHint => 'en route';
+
+  @override
+  String get durationMinutes15 => '15 minutes';
+
+  @override
+  String get durationHour => '1 heure';
+
+  @override
+  String get durationDay => '1 jour';
+
+  @override
+  String get durationWeek => '1 semaine';
+
+  @override
+  String get onboardingCloseSetup => 'Fermer la configuration';
+
+  @override
+  String get packsCouldNotRead => 'Kosha n\'a pas pu lire ses packs';
+
+  @override
+  String packsDeleteTooltip(String name) {
+    return 'Supprimer $name';
+  }
+
+  @override
+  String get privacyNothingStored => 'Rien n\'est encore stocké';
+
+  @override
+  String privacyRemoveAppTooltip(String app) {
+    return 'Retirer $app de la liste';
+  }
 }

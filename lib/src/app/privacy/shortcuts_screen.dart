@@ -11,6 +11,7 @@ import '../../security/shortcuts_store.dart';
 import '../app_services.dart';
 import 'privacy_format.dart';
 import 'privacy_widgets.dart';
+
 import 'package:kosha/src/app/l10n.dart';
 
 class ShortcutsScreen extends StatefulWidget {
@@ -68,7 +69,7 @@ class _ShortcutsScreenState extends State<ShortcutsScreen> {
         : await store.update(existing.trigger, draft.trigger, draft.expansion);
     if (!mounted) return;
     if (problem != null) {
-      showPrivacyMessage(context, shortcutProblemText(problem));
+      showPrivacyMessage(context, shortcutProblemText(problem, context.l10n));
       return;
     }
     await _changed();
@@ -78,8 +79,8 @@ class _ShortcutsScreenState extends State<ShortcutsScreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Delete "${shortcut.trigger}"?'),
-        content: const Text('This removes the shortcut. It cannot be undone.'),
+        title: Text(context.l10n.shortcutDeleteTitle(shortcut.trigger)),
+        content: Text(context.l10n.shortcutDeleteBody),
         actions: [
           TextButton(onPressed: () => Navigator.of(context).pop(false), child: Text(context.l10n.cancel)),
           FilledButton(
@@ -106,13 +107,13 @@ class _ShortcutsScreenState extends State<ShortcutsScreen> {
         if (query.isEmpty || s.trigger.toLowerCase().contains(query) || s.expansion.toLowerCase().contains(query)) s,
     ];
     return Scaffold(
-      appBar: AppBar(title: const Text('Personal shortcuts')),
+      appBar: AppBar(title: Text(context.l10n.privacyPersonalShortcuts)),
       floatingActionButton: _loading || _items.length >= ShortcutRules.maxShortcuts
           ? null
           : FloatingActionButton.extended(
               onPressed: () => unawaited(_edit()),
               icon: const Icon(Icons.add),
-              label: const Text('Add shortcut'),
+              label: Text(context.l10n.shortcutAdd),
             ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
@@ -123,9 +124,9 @@ class _ShortcutsScreenState extends State<ShortcutsScreen> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                   child: TextField(
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       prefixIcon: Icon(Icons.search),
-                      labelText: 'Search shortcuts',
+                      labelText: context.l10n.shortcutSearch,
                       border: OutlineInputBorder(),
                     ),
                     onChanged: (v) => setState(() => _query = v),
@@ -133,7 +134,7 @@ class _ShortcutsScreenState extends State<ShortcutsScreen> {
                 ),
                 Expanded(
                   child: visible.isEmpty
-                      ? const Center(child: Text('No shortcuts match your search.'))
+                      ? Center(child: Text(context.l10n.shortcutNoMatch))
                       : ListView.builder(
                           padding: const EdgeInsets.only(bottom: 96),
                           itemCount: visible.length,
@@ -145,7 +146,7 @@ class _ShortcutsScreenState extends State<ShortcutsScreen> {
                               contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                               onTap: () => unawaited(_edit(existing: s)),
                               trailing: IconButton(
-                                tooltip: 'Delete ${s.trigger}',
+                                tooltip: context.l10n.shortcutDeleteTooltip(s.trigger),
                                 icon: const Icon(Icons.delete_outline),
                                 onPressed: () => unawaited(_delete(s)),
                               ),
@@ -173,21 +174,11 @@ class _Empty extends StatelessWidget {
           children: [
             const PrivacyMascotSlot(size: 88),
             const SizedBox(height: 16),
-            Text('No shortcuts yet', style: text.titleMedium),
+            Text(context.l10n.shortcutNoneYet, style: text.titleMedium),
             const SizedBox(height: 8),
-            Text(
-              'A shortcut turns a short form into longer text. Examples:\n'
-              'omw → on my way\n'
-              'addr → your address',
-              textAlign: TextAlign.center,
-              style: text.bodyMedium,
-            ),
+            Text(context.l10n.shortcutHelp, textAlign: TextAlign.center, style: text.bodyMedium),
             const SizedBox(height: 8),
-            Text(
-              'Shortcuts are encrypted on this phone, like your learned words.',
-              textAlign: TextAlign.center,
-              style: text.bodySmall,
-            ),
+            Text(context.l10n.shortcutEncrypted, textAlign: TextAlign.center, style: text.bodySmall),
           ],
         ),
       ),
@@ -222,9 +213,9 @@ class _ShortcutDialogState extends State<_ShortcutDialog> {
     final t = _trigger.text;
     if (t.trim().isEmpty) return null; // the empty field is explained by the save button staying off
     final problem = ShortcutRules.checkTrigger(t);
-    if (problem != null) return shortcutProblemText(problem);
+    if (problem != null) return shortcutProblemText(problem, context.l10n);
     if (widget.takenTriggers.contains(t.trim().toLowerCase())) {
-      return shortcutProblemText(ShortcutProblem.duplicateTrigger);
+      return shortcutProblemText(ShortcutProblem.duplicateTrigger, context.l10n);
     }
     return null;
   }
@@ -233,7 +224,7 @@ class _ShortcutDialogState extends State<_ShortcutDialog> {
     final e = _expansion.text;
     if (e.trim().isEmpty) return null;
     final problem = ShortcutRules.checkExpansion(e);
-    return problem == null ? null : shortcutProblemText(problem);
+    return problem == null ? null : shortcutProblemText(problem, context.l10n);
   }
 
   bool get _canSave =>
@@ -245,7 +236,7 @@ class _ShortcutDialogState extends State<_ShortcutDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(widget.existing == null ? 'New shortcut' : 'Edit shortcut'),
+      title: Text(widget.existing == null ? context.l10n.shortcutNew : context.l10n.shortcutEdit),
       content: SingleChildScrollView(
         child: ListenableBuilder(
           listenable: Listenable.merge([_trigger, _expansion]),
@@ -257,8 +248,8 @@ class _ShortcutDialogState extends State<_ShortcutDialog> {
                 autofocus: widget.existing == null,
                 maxLength: ShortcutRules.maxTriggerLength,
                 decoration: InputDecoration(
-                  labelText: 'Short form',
-                  hintText: 'omw',
+                  labelText: context.l10n.shortcutShortForm,
+                  hintText: context.l10n.shortcutShortFormHint,
                   errorText: _triggerError,
                   border: const OutlineInputBorder(),
                 ),
@@ -270,8 +261,8 @@ class _ShortcutDialogState extends State<_ShortcutDialog> {
                 maxLines: 4,
                 maxLength: ShortcutRules.maxExpansionLength,
                 decoration: InputDecoration(
-                  labelText: 'Expands to',
-                  hintText: 'on my way',
+                  labelText: context.l10n.shortcutExpandsTo,
+                  hintText: context.l10n.shortcutExpansionHint,
                   errorText: _expansionError,
                   border: const OutlineInputBorder(),
                 ),

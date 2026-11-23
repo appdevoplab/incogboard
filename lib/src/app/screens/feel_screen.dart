@@ -8,6 +8,7 @@ import 'package:material_ui/material_ui.dart';
 import '../../settings/kosha_settings.dart';
 import '../common/settings_widgets.dart';
 import '../shell/settings_actions.dart';
+
 import 'package:kosha/src/app/l10n.dart';
 
 String _percent(double v) => '${(v * 100).round()}%';

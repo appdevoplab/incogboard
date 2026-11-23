@@ -14,6 +14,7 @@ import '../../security/app_auth.dart';
 import '../app_services.dart';
 import 'privacy_format.dart';
 import 'privacy_widgets.dart';
+
 import 'package:kosha/src/app/l10n.dart';
 
 class LearnedWordsScreen extends StatefulWidget {
@@ -91,7 +92,7 @@ class _LearnedWordsScreenState extends State<LearnedWordsScreen> {
       await services.secureStore.write(_blobName, data.encode());
       await services.notifyDataChanged(const [DataSections.learned]);
     } on Object {
-      if (mounted) showPrivacyMessage(context, 'Could not save the change. Try again.');
+      if (mounted) showPrivacyMessage(context, context.l10n.privacySaveFailed);
     }
     if (mounted) setState(() {});
   }
@@ -112,10 +113,8 @@ class _LearnedWordsScreenState extends State<LearnedWordsScreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Clear ${languageName(widget.languageId)} words?'),
-        content: const Text(
-          'This deletes every word learned in this language, and the words you blocked. It cannot be undone.',
-        ),
+        title: Text(context.l10n.privacyClearLanguageTitle(languageName(widget.languageId))),
+        content: Text(context.l10n.privacyClearLanguageBody),
         actions: [
           TextButton(onPressed: () => Navigator.of(context).pop(false), child: Text(context.l10n.cancel)),
           FilledButton(
@@ -124,7 +123,7 @@ class _LearnedWordsScreenState extends State<LearnedWordsScreen> {
               foregroundColor: Theme.of(context).colorScheme.onError,
             ),
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Clear'),
+            child: Text(context.l10n.privacyClear),
           ),
         ],
       ),
@@ -139,12 +138,12 @@ class _LearnedWordsScreenState extends State<LearnedWordsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final title = 'Learned words (${languageName(widget.languageId)})';
+    final title = context.l10n.privacyLearnedWordsTitle(languageName(widget.languageId));
     return FutureBuilder<_Loaded>(
       future: _future,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return _Message(title: title, text: 'Kosha could not read these words.', onRetry: _retry);
+          return _Message(title: title, text: context.l10n.privacyCouldNotReadWords, onRetry: _retry);
         }
         if (!snapshot.hasData) {
           return Scaffold(
@@ -154,18 +153,11 @@ class _LearnedWordsScreenState extends State<LearnedWordsScreen> {
         }
         final loaded = snapshot.requireData;
         if (loaded.locked) {
-          return _Message(
-            title: title,
-            text: 'Kosha cannot read these words right now. Unlock your phone, then try again.',
-            onRetry: _retry,
-          );
+          return _Message(title: title, text: context.l10n.privacyCannotReadWordsNow, onRetry: _retry);
         }
         final data = loaded.data;
         if (data == null) {
-          return _Message(
-            title: title,
-            text: 'No words learned in this language yet. Kosha learns a word after you type it a few times.',
-          );
+          return _Message(title: title, text: context.l10n.privacyNoWordsLanguage);
         }
         return _body(title, data);
       },
@@ -190,27 +182,27 @@ class _LearnedWordsScreenState extends State<LearnedWordsScreen> {
         title: Text(title),
         actions: [
           IconButton(
-            tooltip: 'Blocked words (${data.blocked.length})',
+            tooltip: context.l10n.privacyBlockedWordsTooltip(data.blocked.length),
             icon: const Icon(Icons.block),
             onPressed: () => _showBlocked(data),
           ),
           PopupMenuButton<_Sort>(
-            tooltip: 'Sort',
-            icon: const Icon(Icons.sort),
+            tooltip: context.l10n.privacySortTooltip,
+            icon: Icon(Icons.sort),
             initialValue: _sort,
             onSelected: (s) => setState(() => _sort = s),
-            itemBuilder: (context) => const [
-              PopupMenuItem(value: _Sort.score, child: Text('Most used first')),
-              PopupMenuItem(value: _Sort.alphabetical, child: Text('A to Z')),
+            itemBuilder: (context) => [
+              PopupMenuItem(value: _Sort.score, child: Text(context.l10n.privacySortMostUsed)),
+              PopupMenuItem(value: _Sort.alphabetical, child: Text(context.l10n.privacySortAZ)),
             ],
           ),
           PopupMenuButton<_MoreAction>(
-            tooltip: 'More',
+            tooltip: context.l10n.privacyMoreTooltip,
             onSelected: (action) {
               if (action == _MoreAction.clearLanguage) unawaited(_clearLanguage());
             },
-            itemBuilder: (context) => const [
-              PopupMenuItem(value: _MoreAction.clearLanguage, child: Text('Clear this language')),
+            itemBuilder: (context) => [
+              PopupMenuItem(value: _MoreAction.clearLanguage, child: Text(context.l10n.privacyClearThisLanguage)),
             ],
           ),
         ],
@@ -220,9 +212,9 @@ class _LearnedWordsScreenState extends State<LearnedWordsScreen> {
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
             child: TextField(
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 prefixIcon: Icon(Icons.search),
-                labelText: 'Search words',
+                labelText: context.l10n.privacySearchWords,
                 border: OutlineInputBorder(),
               ),
               onChanged: (v) => setState(() => _query = v),
@@ -233,7 +225,10 @@ class _LearnedWordsScreenState extends State<LearnedWordsScreen> {
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                '${plural(data.words.length, 'word')} · ${plural(data.blocked.length, 'blocked word')}',
+                context.l10n.privacyWordsSummary(
+                  context.l10n.countWords(data.words.length),
+                  context.l10n.countBlockedWords(data.blocked.length),
+                ),
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(color: scheme.primary),
               ),
             ),
@@ -244,7 +239,9 @@ class _LearnedWordsScreenState extends State<LearnedWordsScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(24),
                       child: Text(
-                        query.isEmpty ? 'No words yet.' : 'No words match "${_query.trim()}".',
+                        query.isEmpty
+                            ? context.l10n.privacyNoWordsYet
+                            : context.l10n.privacyNoWordsMatch(_query.trim()),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -280,11 +277,11 @@ class _LearnedWordsScreenState extends State<LearnedWordsScreen> {
               shrinkWrap: true,
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
               children: [
-                Text('Never suggested', style: Theme.of(context).textTheme.titleMedium),
+                Text(context.l10n.privacyNeverSuggested, style: Theme.of(context).textTheme.titleMedium),
                 const SizedBox(height: 4),
-                const Text('Kosha will not suggest or correct to these words.'),
+                Text(context.l10n.privacyBlockedExplain),
                 const SizedBox(height: 8),
-                if (blocked.isEmpty) const Text('No blocked words.'),
+                if (blocked.isEmpty) Text(context.l10n.privacyNoBlockedWords),
                 for (final key in blocked)
                   ListTile(
                     title: Text(key),
@@ -293,7 +290,7 @@ class _LearnedWordsScreenState extends State<LearnedWordsScreen> {
                         await _unblock(data, key);
                         setSheet(() {});
                       },
-                      child: const Text('Allow again'),
+                      child: Text(context.l10n.privacyAllowAgain),
                     ),
                   ),
               ],
@@ -317,21 +314,23 @@ class _WordTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final days = today - word.day;
-    final when = days <= 0 ? 'today' : (days == 1 ? 'yesterday' : '$days days ago');
+    final when = days <= 0
+        ? context.l10n.privacyToday
+        : (days == 1 ? context.l10n.privacyYesterday : context.l10n.timeDaysAgo(days));
     final known = word.commits >= kCommitsToKnow;
     final detail = known
-        ? 'Typed ${plural(word.commits, 'time')} · last $when'
-        : 'Typed once so far, not suggested yet · last $when';
+        ? context.l10n.privacyWordLastUsed(word.commits, when)
+        : context.l10n.privacyWordNotYetSuggested(when);
     return ListTile(
       title: Text(word.surface),
       subtitle: Text(detail),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+      contentPadding: EdgeInsets.symmetric(horizontal: 16),
       trailing: PopupMenuButton<_WordAction>(
-        tooltip: 'Actions for ${word.surface}',
+        tooltip: context.l10n.privacyActionsFor(word.surface),
         onSelected: onAction,
-        itemBuilder: (context) => const [
-          PopupMenuItem(value: _WordAction.forget, child: Text('Forget this word')),
-          PopupMenuItem(value: _WordAction.block, child: Text('Never suggest this word')),
+        itemBuilder: (context) => [
+          PopupMenuItem(value: _WordAction.forget, child: Text(context.l10n.privacyForgetWord)),
+          PopupMenuItem(value: _WordAction.block, child: Text(context.l10n.privacyNeverSuggestWord)),
         ],
       ),
     );
@@ -357,7 +356,7 @@ class _Message extends StatelessWidget {
             Text(text, textAlign: TextAlign.center),
             if (onRetry != null) ...[
               const SizedBox(height: 16),
-              FilledButton(onPressed: onRetry, child: const Text('Try again')),
+              FilledButton(onPressed: onRetry, child: Text(context.l10n.privacyTryAgain)),
             ],
           ],
         ),

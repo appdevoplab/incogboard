@@ -15,7 +15,6 @@ import '../onboarding/kosha_mascot.dart';
 import '../routes.dart';
 import '../shell/language_catalog.dart';
 import '../shell/settings_actions.dart';
-import 'package:kosha/src/app/l10n.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
