@@ -13,6 +13,7 @@ import 'package:material_ui/material_ui.dart';
 import '../../core/log.dart';
 import '../../theme/custom/background_image.dart';
 import '../../theme/custom/custom_theme_store.dart';
+import 'package:kosha/src/app/l10n.dart';
 
 /// Blur slider range, in logical pixels of the frame.
 const double kMaxBlur = 24;
@@ -217,7 +218,7 @@ class _PhotoCropScreenState extends State<PhotoCropScreen> {
                         value: _blur,
                         min: 0,
                         max: kMaxBlur,
-                        valueText: _blur == 0 ? 'Off' : '${_blur.round()} dp',
+                        valueText: _blur == 0 ? context.l10n.off : '${_blur.round()} dp',
                         onChanged: (v) => setState(() => _blur = v),
                       ),
                       const SizedBox(height: 8),

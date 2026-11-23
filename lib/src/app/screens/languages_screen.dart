@@ -12,6 +12,7 @@ import '../common/settings_widgets.dart';
 import '../routes.dart';
 import '../shell/language_catalog.dart';
 import '../shell/settings_actions.dart';
+import 'package:kosha/src/app/l10n.dart';
 
 class LanguagesScreen extends StatelessWidget {
   const LanguagesScreen({super.key});
@@ -27,15 +28,15 @@ class LanguagesScreen extends StatelessWidget {
       ];
       final anyDigits = enabled.any((info) => info.nativeDigits != null);
       return SettingsPage(
-        title: 'Languages',
+        title: context.l10n.settingsLanguages,
         children: [
           SettingsPanel(
-            title: 'Enabled, first is the default',
+            title: context.l10n.languagesEnabledHeader,
             child: _EnabledList(settings: l),
           ),
           if (enabled.length > 1)
             SettingsPanel(
-              title: 'Active language',
+              title: context.l10n.languagesActive,
               child: SettingsChoiceChips<String>(
                 options: [for (final info in enabled) ChoiceOption(info.id, info.nativeName)],
                 selected: l.active,
@@ -43,7 +44,7 @@ class LanguagesScreen extends StatelessWidget {
               ),
             ),
           SettingsGroup(
-            title: 'Add a language',
+            title: context.l10n.languagesAdd,
             children: [
               for (final info in available)
                 SettingsTile(
@@ -58,10 +59,10 @@ class LanguagesScreen extends StatelessWidget {
                   ),
                 ),
               if (available.isEmpty)
-                const SettingsTile(
+                SettingsTile(
                   icon: Icons.check_circle_outline,
-                  title: 'Every language is enabled',
-                  subtitle: 'Remove one above to make room.',
+                  title: context.l10n.languagesAllEnabled,
+                  subtitle: context.l10n.languagesAllEnabledBody,
                 ),
             ],
           ),
@@ -69,7 +70,7 @@ class LanguagesScreen extends StatelessWidget {
             children: [
               SettingsSwitchTile(
                 icon: Icons.layers_outlined,
-                title: 'Multilingual typing',
+                title: context.l10n.languagesMultilingual,
                 subtitle:
                     'Suggest words from up to three enabled languages that share the layout\'s script. '
                     'A word that any of them knows is never auto-corrected.',
@@ -79,8 +80,8 @@ class LanguagesScreen extends StatelessWidget {
               if (anyDigits)
                 SettingsSwitchTile(
                   icon: Icons.pin_outlined,
-                  title: 'Native digits',
-                  subtitle: 'Type digits in the script of the active language where it has them (०१२, ٠١٢).',
+                  title: context.l10n.languagesNativeDigits,
+                  subtitle: context.l10n.languagesNativeDigitsBody,
                   value: l.nativeDigits,
                   onChanged: (v) => _write(context, (x) => x.copyWith(nativeDigits: v)),
                 ),
@@ -89,20 +90,20 @@ class LanguagesScreen extends StatelessWidget {
           // Wave 4: options of the Chinese and Japanese input methods.
           if (l.enabled.contains('zh') || l.enabled.contains('ja'))
             SettingsGroup(
-              title: 'Language options',
+              title: context.l10n.languagesOptions,
               children: [
                 if (l.enabled.contains('zh'))
                   SettingsTile(
                     icon: Icons.translate,
                     title: '中文 (Chinese)',
-                    subtitle: 'Pinyin, Traditional characters and dictionary packs',
+                    subtitle: context.l10n.languagesZhSubtitle,
                     onTap: () => Navigator.of(context).pushNamed(KoshaRoutes.chinese),
                   ),
                 if (l.enabled.contains('ja'))
                   SettingsTile(
                     icon: Icons.translate,
                     title: '日本語 (Japanese)',
-                    subtitle: 'Flick input, conversion and dictionary packs',
+                    subtitle: context.l10n.languagesJaSubtitle,
                     onTap: () => Navigator.of(context).pushNamed(KoshaRoutes.japanese),
                   ),
               ],

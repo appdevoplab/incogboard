@@ -11,6 +11,7 @@ import '../routes.dart';
 import '../shell/settings_actions.dart';
 import 'kosha_mascot.dart';
 import 'onboarding_languages.dart';
+import 'package:kosha/src/app/l10n.dart';
 
 /// Shared layout: a scrollable column with a heading and body text.
 class _StepPage extends StatelessWidget {
@@ -190,7 +191,7 @@ class PersonaliseStep extends StatelessWidget {
     title: 'Pick languages and a theme',
     body: 'Choose the languages you type in. Several can be on at once, and you can change them later in Languages.',
     children: [
-      SettingsPanel(title: 'Languages', child: OnboardingLanguagePicker()),
+      SettingsPanel(title: context.l10n.settingsLanguages, child: OnboardingLanguagePicker()),
       const SizedBox(height: 4),
       SettingsPanel(
         title: 'Theme',

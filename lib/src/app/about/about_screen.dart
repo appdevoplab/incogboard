@@ -12,6 +12,7 @@ import '../app_services.dart';
 import '../common/settings_widgets.dart';
 import '../onboarding/kosha_mascot.dart';
 import 'notices.dart';
+import 'package:kosha/src/app/l10n.dart';
 
 class AboutScreen extends StatefulWidget {
   const AboutScreen({super.key});
@@ -35,41 +36,41 @@ class _AboutScreenState extends State<AboutScreen> {
     builder: (context, snapshot) {
       final info = snapshot.data;
       final version = info == null
-          ? 'Reading version…'
+          ? context.l10n.aboutReadingVersion
           : 'Version ${info.versionName} (${info.versionCode})${info.isDebugBuild ? ' · debug build' : ''}';
       return SettingsPage(
-        title: 'About',
-        header: SettingsHero(mascot: const KoshaMascot(size: 72), title: 'Kosha', subtitle: version),
+        title: context.l10n.settingsAbout,
+        header: SettingsHero(mascot: KoshaMascot(size: 72), title: context.l10n.appName, subtitle: version),
         children: [
           SettingsGroup(
-            title: 'Privacy',
-            children: const [
+            title: context.l10n.settingsPrivacy,
+            children: [
               SettingsTile(
                 icon: Icons.wifi_off_outlined,
-                title: 'Kosha cannot use the internet',
-                subtitle: 'Release builds have no internet permission, so nothing you type leaves this phone.',
+                title: context.l10n.aboutNoInternet,
+                subtitle: context.l10n.aboutNoInternetBody,
               ),
             ],
           ),
           SettingsGroup(
-            title: 'Licence',
+            title: context.l10n.aboutLicence,
             children: [
               SettingsTile(
                 icon: Icons.gavel_outlined,
-                title: 'GNU General Public Licence v3 or later',
-                subtitle: 'Kosha is free software. You may study, change and share it under the GPL.',
+                title: context.l10n.aboutGplTitle,
+                subtitle: context.l10n.aboutGplBody,
                 onTap: () => _openNotice(context, KoshaNotices.all.first),
               ),
             ],
           ),
           SettingsGroup(
-            title: 'Source code',
+            title: context.l10n.aboutSourceCode,
             children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
                 child: koshaSourceCodeUrl.isEmpty
                     ? Text(
-                        'Kosha is GPL-3.0-or-later. Its source code is available from the project page.',
+                        context.l10n.aboutSourceBody,
                         style: Theme.of(context).textTheme.bodyMedium,
                       )
                     : SelectableText(koshaSourceCodeUrl, style: Theme.of(context).textTheme.bodyLarge),
@@ -77,14 +78,14 @@ class _AboutScreenState extends State<AboutScreen> {
             ],
           ),
           SettingsGroup(
-            title: 'Licences',
+            title: context.l10n.aboutLicences,
             children: [
               SettingsTile(
                 icon: Icons.article_outlined,
-                title: 'Open-source licences',
-                subtitle: 'Flutter, material_ui and every package Kosha uses',
+                title: context.l10n.aboutOpenSource,
+                subtitle: context.l10n.aboutOpenSourceBody,
                 onTap: () =>
-                    showLicensePage(context: context, applicationName: 'Kosha', applicationVersion: info?.versionName),
+                    showLicensePage(context: context, applicationName: context.l10n.appName, applicationVersion: info?.versionName),
               ),
               for (final notice in KoshaNotices.all.skip(1))
                 SettingsTile(
@@ -124,7 +125,7 @@ class NoticeTextPage extends StatelessWidget {
       future: rootBundle.loadString(asset),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return const Center(child: Text('This text could not be loaded.'));
+          return Center(child: Text(context.l10n.aboutTextLoadFailed));
         }
         final text = snapshot.data;
         if (text == null) return const Center(child: CircularProgressIndicator());

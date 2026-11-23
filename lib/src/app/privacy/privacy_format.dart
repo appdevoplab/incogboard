@@ -4,6 +4,7 @@
 // counts and the backup passphrase strength. Pure Dart, so they are unit-tested directly.
 import '../../core/data_sections.dart';
 import '../../security/shortcuts_store.dart';
+import 'package:kosha/src/app/l10n.dart';
 
 const Map<String, String> _languageNames = {
   'en': 'English',
@@ -29,7 +30,7 @@ String friendlyBlobName(String name) {
     return 'Learned words (${languageName(name.substring(DataBlobs.learnedPrefix.length))})';
   }
   return switch (name) {
-    DataBlobs.clipboard => 'Clipboard history',
+    DataBlobs.clipboard => context.l10n.panelsClipboardHistory,
     DataBlobs.emoji => 'Emoji recents',
     DataBlobs.shortcuts => 'Personal shortcuts',
     DataBlobs.seenApps => 'Apps list',

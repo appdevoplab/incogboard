@@ -15,6 +15,7 @@ import '../common/settings_widgets.dart';
 import '../privacy/privacy_format.dart';
 import '../routes.dart';
 import '../packs/pack_text.dart';
+import 'package:kosha/src/app/l10n.dart';
 
 /// The directions offered as the default pair: English with each supported language, both ways.
 const List<(String, String)> defaultPairChoices = [
@@ -78,7 +79,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
     final picked = await showDialog<String>(
       context: context,
       builder: (context) => SimpleDialog(
-        title: const Text('Default language pair'),
+        title: Text(context.l10n.translateDefaultPair),
         children: [
           RadioGroup<String>(
             groupValue: pairKey(current.from, current.to),
@@ -117,41 +118,41 @@ class _TranslateScreenState extends State<TranslateScreen> {
             final installed = installedPairKeys(packs);
             final current = pairKey(t.from, t.to);
             return SettingsPage(
-              title: 'Translation',
+              title: context.l10n.settingsTranslation,
               children: [
                 SettingsGroup(
                   children: [
                     SettingsSwitchTile(
                       icon: Icons.translate,
-                      title: 'Offline translation',
-                      subtitle: 'Translate as you type in the keyboard, and selected text in any app.',
+                      title: context.l10n.translateOffline,
+                      subtitle: context.l10n.translateOfflineBody,
                       value: t.enabled,
                       onChanged: (v) => unawaited(_update((s) => s.copyWith(enabled: v))),
                     ),
                   ],
                 ),
                 SettingsGroup(
-                  title: 'Default pair',
+                  title: context.l10n.translateDefaultPairTile,
                   children: [
                     SettingsTile(
                       icon: Icons.swap_horiz,
                       title: '${languageInfo(t.from).englishName} → ${languageInfo(t.to).englishName}',
                       subtitle: installed.contains(current)
-                          ? 'Pack installed'
-                          : 'Pack not installed. Get it in Model packs.',
+                          ? context.l10n.translatePackInstalled
+                          : context.l10n.translatePackNotInstalled,
                       enabled: t.enabled,
                       onTap: t.enabled ? () => unawaited(_pickDefaultPair(t)) : null,
                     ),
                   ],
                 ),
                 SettingsGroup(
-                  title: 'Installed directions',
+                  title: context.l10n.translateInstalled,
                   children: packs.isEmpty
-                      ? const [
+                      ? [
                           SettingsTile(
                             icon: Icons.download_for_offline_outlined,
-                            title: 'No translation packs installed',
-                            subtitle: 'Each direction is one pack, for example English → Spanish.',
+                            title: context.l10n.packsNoTranslation,
+                            subtitle: context.l10n.translateInstalledBody,
                           ),
                         ]
                       : [
@@ -167,16 +168,16 @@ class _TranslateScreenState extends State<TranslateScreen> {
                   children: [
                     SettingsTile(
                       icon: Icons.download_for_offline_outlined,
-                      title: 'Model packs',
-                      subtitle: 'Install or delete translation packs',
+                      title: context.l10n.settingsModelPacks,
+                      subtitle: context.l10n.translateModelPacksBody,
                       onTap: () =>
                           unawaited(Navigator.of(context).pushNamed(KoshaRoutes.packs).then((_) => _reloadPacks())),
                     ),
                   ],
                 ),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.fromLTRB(16, 0, 16, 24),
-                  child: Text('Translation runs on this phone. Nothing you translate is saved.'),
+                  child: Text(context.l10n.translateRunsOnPhone),
                 ),
               ],
             );

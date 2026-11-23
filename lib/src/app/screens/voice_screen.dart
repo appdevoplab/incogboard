@@ -12,6 +12,7 @@ import '../common/settings_widgets.dart';
 import '../app_services.dart';
 import '../routes.dart';
 import '../shell/settings_actions.dart';
+import 'package:kosha/src/app/l10n.dart';
 
 class VoiceScreen extends StatelessWidget {
   const VoiceScreen({super.key});
@@ -21,14 +22,14 @@ class VoiceScreen extends StatelessWidget {
     builder: (context, settings) {
       final v = settings.voice;
       return SettingsPage(
-        title: 'Voice',
+        title: context.l10n.settingsVoice,
         children: [
           SettingsGroup(
             children: [
               SettingsSwitchTile(
                 icon: Icons.mic_none_outlined,
-                title: 'Voice typing',
-                subtitle: 'Speak to type. Recognition runs on this phone.',
+                title: context.l10n.voiceTyping,
+                subtitle: context.l10n.voiceTypingBody,
                 value: v.enabled,
                 onChanged: (on) => writeSettings(
                   context,
@@ -39,13 +40,13 @@ class VoiceScreen extends StatelessWidget {
             ],
           ),
           SettingsGroup(
-            title: 'Recognition',
+            title: context.l10n.voiceRecognition,
             children: [
               _VoicePackTile(selectedId: v.modelId),
               SettingsSwitchTile(
                 icon: Icons.translate,
-                title: 'Detect language automatically',
-                subtitle: 'Whisper works out which language you speak.',
+                title: context.l10n.voiceDetectLanguage,
+                subtitle: context.l10n.voiceDetectLanguageBody,
                 value: v.autoDetectLanguage,
                 onChanged: (on) => writeSettings(
                   context,
@@ -55,15 +56,15 @@ class VoiceScreen extends StatelessWidget {
               ),
               SettingsTile(
                 icon: Icons.inventory_2_outlined,
-                title: 'Model packs',
-                subtitle: 'Install or remove voice and translation packs',
+                title: context.l10n.settingsModelPacks,
+                subtitle: context.l10n.voiceModelPacksBody,
                 onTap: () => unawaited(Navigator.of(context).pushNamed(KoshaRoutes.packs)),
               ),
             ],
           ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.fromLTRB(20, 8, 20, 24),
-            child: Text('Audio stays on this phone and is never saved.', textAlign: TextAlign.center),
+            child: Text(context.l10n.voiceAudioStays, textAlign: TextAlign.center),
           ),
         ],
       );
@@ -101,7 +102,7 @@ class _VoicePackTileState extends State<_VoicePackTile> {
   }
 
   String _label(List<PackInfoMessage> packs) {
-    if (widget.selectedId.isEmpty) return 'Automatic';
+    if (widget.selectedId.isEmpty) return context.l10n.voicePackAutomatic;
     for (final p in packs) {
       if (p.id == widget.selectedId) return p.name;
     }
@@ -112,11 +113,11 @@ class _VoicePackTileState extends State<_VoicePackTile> {
     final chosen = await showDialog<String>(
       context: context,
       builder: (context) => SimpleDialog(
-        title: const Text('Voice pack'),
+        title: Text(context.l10n.voicePack),
         children: [
           SimpleDialogOption(
             onPressed: () => Navigator.of(context).pop(''),
-            child: Text(widget.selectedId.isEmpty ? 'Automatic (selected)' : 'Automatic'),
+            child: Text(widget.selectedId.isEmpty ? context.l10n.voicePackAutomaticSelected : context.l10n.voicePackAutomatic),
           ),
           for (final p in packs)
             SimpleDialogOption(
@@ -124,9 +125,9 @@ class _VoicePackTileState extends State<_VoicePackTile> {
               child: Text('${p.name}  ·  ${_mb(p.sizeBytes)}${p.id == widget.selectedId ? '  (selected)' : ''}'),
             ),
           if (packs.isEmpty)
-            const Padding(
+            Padding(
               padding: EdgeInsets.fromLTRB(24, 0, 24, 16),
-              child: Text('No voice pack is installed. Install one under Model packs.'),
+              child: Text(context.l10n.voiceNoPack),
             ),
         ],
       ),
@@ -145,8 +146,8 @@ class _VoicePackTileState extends State<_VoicePackTile> {
       final loading = snap.connectionState != ConnectionState.done;
       return SettingsTile(
         icon: Icons.settings_voice_outlined,
-        title: 'Voice pack',
-        subtitle: loading ? 'Looking for installed packs' : null,
+        title: context.l10n.voicePack,
+        subtitle: loading ? context.l10n.voiceLooking : null,
         trailing: Text(loading ? '' : _label(packs)),
         onTap: loading ? null : () => unawaited(_choose(packs)),
       );
