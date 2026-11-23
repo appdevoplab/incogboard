@@ -180,11 +180,27 @@ instead, once the decision is made (checklist). Build settings: no obfuscation a
 `--split-debug-info` (the app holds no secrets, and split symbols would be one more artifact to keep); no
 `--dart-define` except `KOSHA_SOURCE_URL`; VCS information not used (not available for APK builds).
 
-Result of the first run: see the section "Verification results" below.
-
 ## Verification results
 
-(Filled in after the run, see the commit history.)
+Commit `1f846aa`, flavour `foss`, `android-arm64`, 23 November 2026. The run uses `tool/release/verify_reproducible.ps1`.
+
+**Run 1, two builds at two different paths** (the brief's default): 460 entries identical; 2 entries differ, and both
+differences come from the build location:
+
+- `lib/arm64-v8a/libapp.so` (Dart AOT snapshot, 1,077,368 bytes differ). The snapshot contains the absolute location of
+  the build's `.dart_tool` as a source URI (`e:///C:/Users/…/<clone folder>/.dart_tool/flutter_build/…`). Each clone
+  folder name therefore changes the library.
+- `lib/arm64-v8a/libdartjni.so` (20 bytes differ). Those 20 bytes are the GNU build-id, which is a hash of the file and
+  changes with the debug strings that carry the clone path.
+
+**Run 2, two fresh clones at the same path**, built one after the other: 462 entries identical, 0 different, same entry
+order, same timestamps. The whole-file hash still differs, so the differences are outside the entries (the zip container
+and the signing block). These were not analysed further, because the verification compares entries by design.
+
+Conclusion: the foss arm64 build is deterministic for a fixed commit and a fixed build path. It is **not** path
+independent. F-Droid builds at one fixed path, which is the case that matters for its verification. Removing the
+path from `libapp.so` was not tested; `--split-debug-info`, `--obfuscate` and a fixed build directory are the options to
+try (not done). The `play` flavour has not been checked.
 
 ## Rebuild for F-Droid
 
