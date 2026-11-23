@@ -57,7 +57,7 @@ jobs:
       - name: Unit tests
         run: flutter test
       - name: Release build (per ABI)
-        run: flutter build apk --release --split-per-abi
+        run: flutter build apk --release --flavor foss --split-per-abi
       - name: JVM unit tests
         working-directory: android
         run: ./gradlew :app:testDebugUnitTest --no-daemon
@@ -88,10 +88,10 @@ jobs:
       # android/gradlew is not tracked (android/.gitignore). Flutter writes the wrapper and local.properties
       # during any build; --config-only does that without compiling.
       - name: Generate the Gradle wrapper (Flutter config only)
-        run: flutter build apk --config-only
+        run: flutter build apk --config-only --flavor foss
       - name: Resolve the Gradle release runtime classpath
         working-directory: android
-        run: ./gradlew :app:dependencies --configuration releaseRuntimeClasspath --no-daemon > "$RUNNER_TEMP/gradle-classpath.txt"
+        run: ./gradlew :app:dependencies --configuration fossReleaseRuntimeClasspath --no-daemon > "$RUNNER_TEMP/gradle-classpath.txt"
       - name: Licence check (fails on unknown or incompatible licences)
         run: dart run tool/audit/licences.dart --gradle "$RUNNER_TEMP/gradle-classpath.txt" --check
       - name: Advisory check against OSV (informational; OSV outages do not fail CI)
