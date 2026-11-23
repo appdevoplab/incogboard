@@ -65,7 +65,13 @@ class _CenterData {
 
   List<String> get learnedBlobNames => [
     for (final b in blobs)
-      if (b.name.startsWith(DataBlobs.learnedPrefix)) b.name,
+      if (DataBlobs.isLearnedWords(b.name)) b.name,
+  ];
+
+  /// Learned data the viewer cannot list (Chinese phrases, Japanese words): shown with a size only.
+  List<SecureBlobInfo> get opaqueLearned => [
+    for (final b in blobs)
+      if (DataBlobs.learnedOpaque.contains(b.name)) b,
   ];
 
   SecureBlobInfo? blob(String name) {
@@ -354,7 +360,7 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
     return SettingsGroup(
       title: context.l10n.privacyLearnedAndClipboard,
       children: [
-        if (d.learnedBlobNames.isEmpty)
+        if (d.learnedBlobNames.isEmpty && d.opaqueLearned.isEmpty)
           SettingsTile(
             icon: Icons.text_fields,
             title: context.l10n.privacyNoWordsLearnedYet,
@@ -371,6 +377,13 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
               _open(LearnedWordsScreen(languageId: name.substring(DataBlobs.learnedPrefix.length)))
                   .then((_) => _reload()),
             ),
+          ),
+        for (final b in d.opaqueLearned)
+          SettingsTile(
+            icon: Icons.translate,
+            title: friendlyBlobName(b.name, context.l10n),
+            subtitle:
+                '${formatBytes(b.sizeBytes)} · ${timeAgo(b.modifiedMillis, nowMillis: nowMillis, l10n: context.l10n)}',
           ),
         SettingsTile(
           icon: Icons.content_paste_outlined,

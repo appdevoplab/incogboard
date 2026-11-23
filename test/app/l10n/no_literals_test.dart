@@ -9,8 +9,8 @@ import 'package:flutter_test/flutter_test.dart';
 
 /// Places where a user sees text. The literal that follows is checked.
 final _sink = RegExp(
-  r"\b(Text|title|subtitle|label|tooltip|hintText|labelText|helperText|errorText|valueText|"
-  r"semanticLabel|semanticsLabel|message|content|placeholder|description|_message|_show|_snack|_info)"
+  r'\b(Text|title|subtitle|label|tooltip|hintText|labelText|helperText|errorText|valueText|'
+  r'semanticLabel|semanticsLabel|message|content|placeholder|description|_message|_show|_snack|_info)'
   r"\s*[:(]\s*(?:const\s+)?(?:Text\(\s*)?'((?:[^'\\\n]|\\.)*)'",
   multiLine: true,
 );

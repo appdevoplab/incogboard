@@ -2,7 +2,6 @@
 //
 // The main settings screens build in every shipped language at font scale 1.3, without exceptions
 // or overflow. German and Hindi have the longest strings, so they are checked first.
-import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:kosha/src/app/about/about_screen.dart';
