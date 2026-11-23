@@ -346,7 +346,13 @@ class InputController {
   Future<void> startInput(InputFieldInfo f, {bool restarting = false}) async {
     final same = restarting && f == field.value;
     final gen = ++_startGen;
-    _dropComposer(finish: false);
+    // A restart keeps what was being typed in the field; a new field starts clean.
+    _dropComposer(finish: restarting);
+    if (restarting && _composing.isNotEmpty) {
+      _composing = '';
+      _taps.clear();
+      _send(_input.finishComposingText());
+    }
     field.value = f;
     _resetTransient();
     _lastEditMs = _clock();
@@ -552,7 +558,7 @@ class InputController {
 
   /// Multi-character outputs such as ".com" or "R$".
   void _commitLiteral(String text) {
-    if (_composing.isNotEmpty) _commitComposingAsTyped();
+    if (_composing.isNotEmpty || _shownPreedit.isNotEmpty) _commitComposingAsTyped();
     _commitPlain(text);
     _updateSuggestions();
   }

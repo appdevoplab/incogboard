@@ -94,7 +94,7 @@ class _Op {
       case _Kind.userSelect:
         return 'userSelect(${a.toStringAsFixed(2)}, ${b.toStringAsFixed(2)})';
       case _Kind.startInput:
-        return 'startInput($text)';
+        return 'startInput($text, restart ${a < 0.5})';
       case _Kind.pick:
         return 'pick(${_show(text)}, kind ${a.round()})';
       case _Kind.customKey:
@@ -264,9 +264,7 @@ class _World {
       case _Kind.text:
         c.onText(op.text);
       case _Kind.insertText:
-        // Panels and clipboard callers finish composing first (see InputController.finishComposing).
-        // Inserting over a composer's preedit without that is a known gap, see the skipped test.
-        if (c.composerActive) c.finishComposing();
+        // Inserting over a composer's preedit keeps the preedit as typed (fixed after Wave 4-D).
         c.insertText(op.text);
       case _Kind.space:
         c.onSpace();
@@ -286,12 +284,15 @@ class _World {
         final end = (op.b * (len + 1)).floor().clamp(0, len);
         await editor.setSelection(start < end ? start : end, start < end ? end : start);
       case _Kind.startInput:
-        // A field change always ends the old connection first (the framework finishes any
-        // composition there). Restarting over a live composing word is a known gap, see the skipped
-        // test at the end of this file.
-        fieldName = op.text;
-        c.finishInput();
-        await c.startInput(fieldFor(fieldName));
+        // Half the time the same field restarts over whatever is composing (kept as typed); otherwise
+        // the old connection ends first, as the framework does for a field change.
+        if (op.a < 0.5) {
+          await c.startInput(fieldFor(fieldName), restarting: true);
+        } else {
+          fieldName = op.text;
+          c.finishInput();
+          await c.startInput(fieldFor(fieldName));
+        }
       case _Kind.finishInput:
         c.finishInput();
       case _Kind.pick:
@@ -484,7 +485,7 @@ List<_Op> _generate(int seed) {
       case _Kind.userSelect:
         ops.add(_Op(kind, '', rnd.nextDouble(), rnd.nextDouble()));
       case _Kind.startInput:
-        ops.add(_Op(kind, pick(_fieldNames)));
+        ops.add(_Op(kind, pick(_fieldNames), rnd.nextDouble()));
       case _Kind.pick:
         ops.add(_Op(kind, pick(_words), rnd.nextInt(10).toDouble()));
       case _Kind.page:
@@ -522,33 +523,27 @@ void main() {
     });
   }
 
-  test(
-    'BUG (Wave 4-D finding): restarting the input over a live composing word loses the word',
-    () async {
-      // Expected: the composing "Q" is kept as typed when the field restarts, so the result is "Q7".
-      // Actual: startInput drops the controller's composing word without finishing the editor's
-      // composing region, so the next commit replaces "Q" and the text is "7".
-      final editor = FakeEditor();
-      final c = InputController(
-        input: editor,
-        predictor: FakePredictor(),
-        gestureDecoder: FakeGestureDecoder(),
-        settings: () => const KoshaSettings(),
-        clock: () => 0,
-      );
-      editor.onSelectionChanged = c.onSelectionChanged;
-      c.onText('Q');
-      await c.startInput(InputFieldInfo.plainText, restarting: true);
-      c.onText('7');
-      expect(editor.text, 'Q7');
-    },
-    skip:
-        'Known bug in InputController.startInput (_resetTransient drops _composing without '
-        'finishComposingText). Fix in the orchestrator-owned input controller, then unskip.',
-  );
+  test('Fixed (Wave 4-D finding): restarting the input over a live composing word loses the word', () async {
+    // Expected: the composing "Q" is kept as typed when the field restarts, so the result is "Q7".
+    // Actual: startInput drops the controller's composing word without finishing the editor's
+    // composing region, so the next commit replaces "Q" and the text is "7".
+    final editor = FakeEditor();
+    final c = InputController(
+      input: editor,
+      predictor: FakePredictor(),
+      gestureDecoder: FakeGestureDecoder(),
+      settings: () => const KoshaSettings(),
+      clock: () => 0,
+    );
+    editor.onSelectionChanged = c.onSelectionChanged;
+    c.onText('Q');
+    await c.startInput(InputFieldInfo.plainText, restarting: true);
+    c.onText('7');
+    expect(editor.text, 'Q7');
+  });
 
   test(
-    'BUG (Wave 4-D finding): insertText over a composer preedit leaves the composer holding the old buffer',
+    'Fixed (Wave 4-D finding): insertText over a composer preedit leaves the composer holding the old buffer',
     () async {
       // Expected: the preedit "x" is kept as typed, so the field reads "xhelo" and the composer is empty.
       // Actual: _commitLiteral only finishes the controller's own composing word, so the editor's
@@ -570,9 +565,5 @@ void main() {
       expect(editor.text, 'xhelo');
       expect(composer.state.isEmpty, isTrue);
     },
-    skip:
-        'Known bug in InputController._commitLiteral: it calls _commitComposingAsTyped only when the '
-        'controller\'s own _composing is non-empty, not when a composer preedit is shown. One-line fix: also '
-        'call it when _shownPreedit is non-empty. Orchestrator-owned file; then unskip.',
   );
 }
