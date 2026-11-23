@@ -56,3 +56,16 @@ android/key.properties
 # Local tooling
 /tool/out/
 *.tmp
+
+# Release signing (docs/release/RELEASING.md). The keys live outside the repository; these are a backstop.
+*.p12
+*.pfx
+*.pem
+*.password
+keystore.properties
+android/keystore.properties
+release-keys/
+
+# Gradle output at the Android root (not covered by the Flutter template ignore)
+/android/build/
+/android/.kotlin/
