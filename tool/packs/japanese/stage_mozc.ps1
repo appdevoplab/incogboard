@@ -75,4 +75,4 @@ Write-Host "Staged: $staging"
 Get-ChildItem $staging | ForEach-Object { Write-Host ("  {0}  {1} bytes" -f $_.Name, $_.Length) }
 Write-Host ''
 Write-Host 'Pack line (the orchestrator signs it):'
-Write-Host "dart run tool/make_pack.dart --dir `"$staging`" --id dict-ja-mozc --kind dictionary --name `"Japanese dictionary (Mozc)`" --languages ja --engine mozc --license BSD-3-Clause --version 1 --out build/packs/dict-ja-mozc.koshapack"
+Write-Host "dart run tool/make_pack.dart --dir `"$staging`" --id dict-ja-mozc --kind dictionary --name `"Japanese dictionary (Mozc)`" --languages ja --engine mozc --license BSD-3-Clause --version 1 --key <signing key .pem> --out build/packs/dict-ja-mozc.koshapack"

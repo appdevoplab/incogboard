@@ -97,7 +97,7 @@ foreach ($m in $Models) {
 
     $id = "voice-whisper-$m"
     $name = "Whisper $m (multilingual, offline)"
-    $commands += "dart run tool/make_pack.dart --dir `"build/packs/staging/$id`" --id $id --kind voice --name `"$name`" --languages $Languages --engine sherpa-onnx-whisper --license MIT --out build/packs/$id.koshapack"
+    $commands += "dart run tool/make_pack.dart --dir `"build/packs/staging/$id`" --id $id --kind voice --name `"$name`" --languages $Languages --engine sherpa-onnx-whisper --license MIT --key <signing key .pem> --out build/packs/$id.koshapack"
 }
 
 Write-Host ''

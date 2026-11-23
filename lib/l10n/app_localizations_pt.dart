@@ -16,8 +16,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get homeTagline => 'Digitação privada, neste celular';
 
   @override
-  String get homeOfflinePromise =>
-      'O Kosha funciona offline e não envia nada a lugar nenhum.';
+  String get homeOfflinePromise => 'O Kosha funciona offline e não envia nada a lugar nenhum.';
 
   @override
   String get cancel => 'Cancelar';
@@ -71,8 +70,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settingsModelPacks => 'Pacotes de modelos';
 
   @override
-  String get homeSetupTurnOn =>
-      'Ative o Kosha na lista de teclados do Android.';
+  String get homeSetupTurnOn => 'Ative o Kosha na lista de teclados do Android.';
 
   @override
   String get homeSetupChoose => 'Escolha o Kosha como o teclado que você usa.';
@@ -96,8 +94,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get homeTranslationSubtitle => 'Traduz enquanto você digita, offline';
 
   @override
-  String get homePrivacySubtitle =>
-      'O que é guardado, incógnito, bloqueio do app e backup';
+  String get homePrivacySubtitle => 'O que é guardado, incógnito, bloqueio do app e backup';
 
   @override
   String get homeAboutSubtitle => 'Versão, licenças e código-fonte';
@@ -135,15 +132,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get aboutGplTitle => 'Licença Pública Geral GNU v3 ou posterior';
 
   @override
-  String get aboutGplBody =>
-      'O Kosha é software livre. Você pode estudá-lo, alterá-lo e compartilhá-lo sob a GPL.';
+  String get aboutGplBody => 'O Kosha é software livre. Você pode estudá-lo, alterá-lo e compartilhá-lo sob a GPL.';
 
   @override
   String get aboutSourceCode => 'Código-fonte';
 
   @override
-  String get aboutSourceBody =>
-      'O Kosha é GPL-3.0-or-later. O código-fonte está disponível na página do projeto.';
+  String get aboutSourceBody => 'O Kosha é GPL-3.0-or-later. O código-fonte está disponível na página do projeto.';
 
   @override
   String get aboutLicences => 'Licenças';
@@ -152,8 +147,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get aboutOpenSource => 'Licenças de código aberto';
 
   @override
-  String get aboutOpenSourceBody =>
-      'Flutter, material_ui e todos os pacotes que o Kosha usa';
+  String get aboutOpenSourceBody => 'Flutter, material_ui e todos os pacotes que o Kosha usa';
 
   @override
   String get aboutTextLoadFailed => 'Não foi possível carregar este texto.';
@@ -184,19 +178,16 @@ class AppLocalizationsPt extends AppLocalizations {
   String get languagesNativeDigits => 'Dígitos nativos';
 
   @override
-  String get languagesNativeDigitsBody =>
-      'Digita números na escrita do idioma ativo quando ele os tem (०१२, ٠١٢).';
+  String get languagesNativeDigitsBody => 'Digita números na escrita do idioma ativo quando ele os tem (०१२, ٠١٢).';
 
   @override
   String get languagesOptions => 'Opções de idioma';
 
   @override
-  String get languagesZhSubtitle =>
-      'Pinyin, caracteres tradicionais e pacotes de dicionário';
+  String get languagesZhSubtitle => 'Pinyin, caracteres tradicionais e pacotes de dicionário';
 
   @override
-  String get languagesJaSubtitle =>
-      'Entrada por deslize, conversão e pacotes de dicionário';
+  String get languagesJaSubtitle => 'Entrada por deslize, conversão e pacotes de dicionário';
 
   @override
   String languagesReorderLabel(String language) {
@@ -225,8 +216,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get feelHapticFeedback => 'Retorno tátil';
 
   @override
-  String get feelHapticFeedbackBody =>
-      'Uma vibração curta em cada tecla, seguindo a configuração do sistema';
+  String get feelHapticFeedbackBody => 'Uma vibração curta em cada tecla, seguindo a configuração do sistema';
 
   @override
   String get feelHapticStrength => 'Intensidade tátil';
@@ -274,15 +264,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get panelsClipboardHistory => 'Histórico da área de transferência';
 
   @override
-  String get panelsClipboardHistoryBody =>
-      'Guarda o que você copia, criptografado neste celular';
+  String get panelsClipboardHistoryBody => 'Guarda o que você copia, criptografado neste celular';
 
   @override
   String get panelsRecentChip => 'Chip de cópia recente';
 
   @override
-  String get panelsRecentChipBody =>
-      'Oferece sua última cópia na barra de sugestões por um minuto';
+  String get panelsRecentChipBody => 'Oferece sua última cópia na barra de sugestões por um minuto';
 
   @override
   String get panelsKeepUnpinned => 'Manter cópias não fixadas por';
@@ -297,15 +285,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get emojiSuggestions => 'Sugestões de emoji';
 
   @override
-  String get emojiSuggestionsPanelBody =>
-      'Oferece um emoji para algumas palavras na barra de sugestões';
+  String get emojiSuggestionsPanelBody => 'Oferece um emoji para algumas palavras na barra de sugestões';
 
   @override
   String get panelsPasswordsNeverSaved => 'Senhas nunca são salvas';
 
   @override
-  String get panelsSensitiveBody =>
-      'Cópias que o Android marca como sensíveis nunca são mantidas.';
+  String get panelsSensitiveBody => 'Cópias que o Android marca como sensíveis nunca são mantidas.';
 
   @override
   String get typingCorrections => 'Correções';
@@ -314,8 +300,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get typingAutocorrect => 'Autocorreção';
 
   @override
-  String get typingAutocorrectBody =>
-      'Corrige prováveis erros de digitação ao terminar uma palavra';
+  String get typingAutocorrectBody => 'Corrige prováveis erros de digitação ao terminar uma palavra';
 
   @override
   String get typingAutoCapitalise => 'Maiúscula automática';
@@ -327,15 +312,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get typingDoubleSpace => 'Espaço duplo para ponto';
 
   @override
-  String get typingDoubleSpaceBody =>
-      'Dois toques na barra de espaço escrevem “. ”';
+  String get typingDoubleSpaceBody => 'Dois toques na barra de espaço escrevem “. ”';
 
   @override
   String get typingSmartPunctuation => 'Pontuação inteligente';
 
   @override
-  String get typingSmartPunctuationBody =>
-      'Ajusta espaços ao redor da pontuação e usa aspas locais';
+  String get typingSmartPunctuationBody => 'Ajusta espaços ao redor da pontuação e usa aspas locais';
 
   @override
   String get typingSuggestions => 'Sugestões';
@@ -356,8 +339,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get typingHideOffensive => 'Ocultar palavras ofensivas';
 
   @override
-  String get typingHideOffensiveBody =>
-      'Nunca sugere, a menos que você os digite por completo';
+  String get typingHideOffensiveBody => 'Nunca sugere, a menos que você os digite por completo';
 
   @override
   String get typingKeys => 'Teclas';
@@ -381,15 +363,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get typingHintLabels => 'Rótulos de dica';
 
   @override
-  String get typingHintLabelsBody =>
-      'Pequenos símbolos nas teclas, como acentos';
+  String get typingHintLabelsBody => 'Pequenos símbolos nas teclas, como acentos';
 
   @override
   String get typingLowercaseLabels => 'Rótulos em minúsculas';
 
   @override
-  String get typingLowercaseLabelsBody =>
-      'Mantém as letras em minúscula com Shift ativado';
+  String get typingLowercaseLabelsBody => 'Mantém as letras em minúscula com Shift ativado';
 
   @override
   String get typingSwipe => 'Deslizar';
@@ -398,8 +378,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get typingSwipeTyping => 'Digitação por deslize';
 
   @override
-  String get typingSwipeTypingBody =>
-      'Deslize sobre as letras para escrever uma palavra';
+  String get typingSwipeTypingBody => 'Deslize sobre as letras para escrever uma palavra';
 
   @override
   String get typingShowTrail => 'Mostrar o rastro';
@@ -414,29 +393,25 @@ class AppLocalizationsPt extends AppLocalizations {
   String get typingLivePreview => 'Visualização ao vivo';
 
   @override
-  String get typingLivePreviewBody =>
-      'Mostra a palavra provável enquanto você desliza';
+  String get typingLivePreviewBody => 'Mostra a palavra provável enquanto você desliza';
 
   @override
   String get typingSpaceMovesCursor => 'A barra de espaço move o cursor';
 
   @override
-  String get typingSpaceMovesCursorBody =>
-      'Arraste na barra de espaço para mover o cursor';
+  String get typingSpaceMovesCursorBody => 'Arraste na barra de espaço para mover o cursor';
 
   @override
   String get typingSwipeBackspace => 'Deslizar em apagar para excluir palavras';
 
   @override
-  String get typingSwipeBackspaceBody =>
-      'Deslize para a esquerda em apagar para selecionar e excluir palavras';
+  String get typingSwipeBackspaceBody => 'Deslize para a esquerda em apagar para selecionar e excluir palavras';
 
   @override
   String get voiceTyping => 'Digitação por voz';
 
   @override
-  String get voiceTypingBody =>
-      'Fale para digitar. O reconhecimento roda neste celular.';
+  String get voiceTypingBody => 'Fale para digitar. O reconhecimento roda neste celular.';
 
   @override
   String get voiceRecognition => 'Reconhecimento';
@@ -445,12 +420,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get voiceDetectLanguage => 'Detectar o idioma automaticamente';
 
   @override
-  String get voiceDetectLanguageBody =>
-      'O Whisper descobre em qual idioma você fala.';
+  String get voiceDetectLanguageBody => 'O Whisper descobre em qual idioma você fala.';
 
   @override
-  String get voiceModelPacksBody =>
-      'Instalar ou remover pacotes de voz e tradução';
+  String get voiceModelPacksBody => 'Instalar ou remover pacotes de voz e tradução';
 
   @override
   String get voiceAudioStays => 'O áudio fica neste celular e nunca é salvo.';
@@ -465,8 +438,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get voicePack => 'Pacote de voz';
 
   @override
-  String get voiceNoPack =>
-      'Nenhum pacote de voz está instalado. Instale um em Pacotes de modelos.';
+  String get voiceNoPack => 'Nenhum pacote de voz está instalado. Instale um em Pacotes de modelos.';
 
   @override
   String get voiceLooking => 'Procurando pacotes instalados';
@@ -497,8 +469,7 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get packsOpenFailed =>
-      'O Kosha não conseguiu abrir o seletor de arquivos.';
+  String get packsOpenFailed => 'O Kosha não conseguiu abrir o seletor de arquivos.';
 
   @override
   String packsInstalled(String name) {
@@ -525,8 +496,7 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get packsIntro =>
-      'Os pacotes são verificados antes de serem instalados. Contêm apenas dados, nunca código.';
+  String get packsIntro => 'Os pacotes são verificados antes de serem instalados. Contêm apenas dados, nunca código.';
 
   @override
   String get packsImport => 'Importar';
@@ -538,22 +508,19 @@ class AppLocalizationsPt extends AppLocalizations {
   String get packsChecking => 'Verificando e instalando…';
 
   @override
-  String get packsImportBody =>
-      'Um arquivo .koshapack, por exemplo dos Downloads';
+  String get packsImportBody => 'Um arquivo .koshapack, por exemplo dos Downloads';
 
   @override
   String get packsNoVoice => 'Nenhum pacote de voz instalado';
 
   @override
-  String get packsNoVoiceBody =>
-      'A digitação por voz precisa de um pacote de voz.';
+  String get packsNoVoiceBody => 'A digitação por voz precisa de um pacote de voz.';
 
   @override
   String get packsNoTranslation => 'Nenhum pacote de tradução instalado';
 
   @override
-  String get packsNoTranslationBody =>
-      'A tradução precisa de um pacote para cada direção.';
+  String get packsNoTranslationBody => 'A tradução precisa de um pacote para cada direção.';
 
   @override
   String get packsDictionaries => 'Dicionários';
@@ -562,8 +529,79 @@ class AppLocalizationsPt extends AppLocalizations {
   String get packsNoDictionary => 'Nenhum pacote de dicionário instalado';
 
   @override
-  String get packsNoDictionaryBody =>
-      'A digitação em chinês e japonês precisa de um pacote de dicionário.';
+  String get packsNoDictionaryBody => 'A digitação em chinês e japonês precisa de um pacote de dicionário.';
+
+  @override
+  String get packsGetTitle => 'Obter pacotes';
+
+  @override
+  String get packsExplainTitle => 'Os pacotes são arquivos que você mesmo adiciona.';
+
+  @override
+  String get packsExplainBody =>
+      'Baixe-os na página de lançamentos do projeto em outro aparelho, copie-os para este celular e depois importe.';
+
+  @override
+  String get packsCopyLink => 'Copiar o link da página de lançamentos';
+
+  @override
+  String get packsLinkCopied => 'Link copiado. Abra-o em outro aparelho.';
+
+  @override
+  String get packsPlayTitle => 'Obter pelo Google Play';
+
+  @override
+  String get packsPlayNote => 'O Google Play baixa estes pacotes, não o Kosha. O próprio Kosha nunca usa a rede.';
+
+  @override
+  String get packsGet => 'Obter';
+
+  @override
+  String get packsStatusNotRequested => 'Ainda não baixado';
+
+  @override
+  String get packsStatusWaiting => 'Aguardando Wi-Fi ou dados móveis';
+
+  @override
+  String get packsStatusDownloading => 'Baixando pelo Google Play';
+
+  @override
+  String get packsStatusInstalling => 'Verificando e instalando';
+
+  @override
+  String get packsStatusFailed => 'O Google Play não conseguiu entregar. Tente de novo.';
+
+  @override
+  String packsOfferMeta(Object size, Object status) {
+    return '$size · $status';
+  }
+
+  @override
+  String get packsVerifyTitle => 'Verificar pacotes instalados';
+
+  @override
+  String get packsVerifyBody => 'Confere cada arquivo de cada pacote instalado com a lista assinada. Nada é alterado.';
+
+  @override
+  String packsVerifyOk(Object count) {
+    return '$count pacotes instalados verificados. Todos os arquivos conferem.';
+  }
+
+  @override
+  String packsVerifyDamaged(Object count) {
+    return '$count pacotes instalados têm arquivos danificados ou ausentes. Apague-os e importe de novo.';
+  }
+
+  @override
+  String get packsVerifyUnavailable => 'A verificação de pacotes não está disponível nesta versão do Kosha.';
+
+  @override
+  String get packsVerifyFailed => 'O Kosha não conseguiu verificar os pacotes. Nada foi alterado.';
+
+  @override
+  String packsFreeSpace(Object size) {
+    return '$size livres neste celular.';
+  }
 
   @override
   String get packsNothingStored => 'Nada guardado ainda.';
@@ -574,28 +612,22 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get packErrorBadSignature =>
-      'Este pacote não está assinado para o Kosha, então nada foi instalado.';
+  String get packErrorBadSignature => 'Este pacote não está assinado para o Kosha, então nada foi instalado.';
 
   @override
-  String get packErrorBadFormat =>
-      'Este arquivo não é um pacote do Kosha. Nada foi instalado.';
+  String get packErrorBadFormat => 'Este arquivo não é um pacote do Kosha. Nada foi instalado.';
 
   @override
-  String get packErrorTooLarge =>
-      'Este pacote é grande demais para este celular.';
+  String get packErrorTooLarge => 'Este pacote é grande demais para este celular.';
 
   @override
-  String get packErrorVersion =>
-      'Este pacote precisa de uma versão mais nova do Kosha.';
+  String get packErrorVersion => 'Este pacote precisa de uma versão mais nova do Kosha.';
 
   @override
-  String get packErrorNoSpace =>
-      'Não há espaço livre suficiente para instalar este pacote.';
+  String get packErrorNoSpace => 'Não há espaço livre suficiente para instalar este pacote.';
 
   @override
-  String get packErrorGeneric =>
-      'Não foi possível instalar o pacote. Nada foi alterado.';
+  String get packErrorGeneric => 'Não foi possível instalar o pacote. Nada foi alterado.';
 
   @override
   String get translateDefaultPair => 'Par de idiomas padrão';
@@ -609,8 +641,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get translateOffline => 'Tradução offline';
 
   @override
-  String get translateOfflineBody =>
-      'Traduz enquanto você digita no teclado e o texto selecionado em qualquer app.';
+  String get translateOfflineBody => 'Traduz enquanto você digita no teclado e o texto selecionado em qualquer app.';
 
   @override
   String get translateDefaultPairTile => 'Par padrão';
@@ -619,15 +650,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get translatePackInstalled => 'Pacote instalado';
 
   @override
-  String get translatePackNotInstalled =>
-      'Pacote não instalado. Obtenha-o em Pacotes de modelos.';
+  String get translatePackNotInstalled => 'Pacote não instalado. Obtenha-o em Pacotes de modelos.';
 
   @override
   String get translateInstalled => 'Direções instaladas';
 
   @override
-  String get translateInstalledBody =>
-      'Cada direção é um pacote, por exemplo inglês → espanhol.';
+  String get translateInstalledBody => 'Cada direção é um pacote, por exemplo inglês → espanhol.';
 
   @override
   String translatePackMeta(String license, String size) {
@@ -635,16 +664,13 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get translateModelPacksBody =>
-      'Instalar ou excluir pacotes de tradução';
+  String get translateModelPacksBody => 'Instalar ou excluir pacotes de tradução';
 
   @override
-  String get translateRunsOnPhone =>
-      'A tradução roda neste celular. Nada do que você traduz é salvo.';
+  String get translateRunsOnPhone => 'A tradução roda neste celular. Nada do que você traduz é salvo.';
 
   @override
-  String get privacyUnlockReason =>
-      'Desbloqueie o Kosha para ver suas configurações e dados';
+  String get privacyUnlockReason => 'Desbloqueie o Kosha para ver suas configurações e dados';
 
   @override
   String get privacyLockUnavailable =>
@@ -654,8 +680,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get privacyLockedTitle => 'O Kosha está bloqueado';
 
   @override
-  String get privacyLockedBody =>
-      'Desbloqueie com sua digital ou o PIN do dispositivo para continuar.';
+  String get privacyLockedBody => 'Desbloqueie com sua digital ou o PIN do dispositivo para continuar.';
 
   @override
   String get privacyUnlock => 'Desbloquear';
@@ -666,36 +691,29 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get backupUnlockRetrySaved =>
-      'Desbloqueie o celular e tente de novo. Nada foi salvo.';
+  String get backupUnlockRetrySaved => 'Desbloqueie o celular e tente de novo. Nada foi salvo.';
 
   @override
-  String get backupSaveFailed =>
-      'Não foi possível salvar o backup. Nada foi alterado.';
+  String get backupSaveFailed => 'Não foi possível salvar o backup. Nada foi alterado.';
 
   @override
-  String get backupWrongPassphrase =>
-      'Frase-senha incorreta ou arquivo danificado. Nada foi alterado.';
+  String get backupWrongPassphrase => 'Frase-senha incorreta ou arquivo danificado. Nada foi alterado.';
 
   @override
-  String get backupInvalidFile =>
-      'Este arquivo não é um backup válido do Kosha. Nada foi alterado.';
+  String get backupInvalidFile => 'Este arquivo não é um backup válido do Kosha. Nada foi alterado.';
 
   @override
-  String get backupTooLarge =>
-      'Este arquivo é grande demais para ser um backup do Kosha.';
+  String get backupTooLarge => 'Este arquivo é grande demais para ser um backup do Kosha.';
 
   @override
   String get backupNewerVersion =>
       'Este backup foi feito por uma versão mais nova do Kosha. Atualize o Kosha para restaurá-lo.';
 
   @override
-  String get backupBusy =>
-      'Feche primeiro a outra janela de arquivos e tente de novo.';
+  String get backupBusy => 'Feche primeiro a outra janela de arquivos e tente de novo.';
 
   @override
-  String get backupOpenFailed =>
-      'Não foi possível abrir o backup. Nada foi alterado.';
+  String get backupOpenFailed => 'Não foi possível abrir o backup. Nada foi alterado.';
 
   @override
   String get backupEmpty => 'Este backup não tem nada.';
@@ -712,8 +730,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get backupMerge => 'Mesclar';
 
   @override
-  String get backupMergeBody =>
-      'Mantém o que está neste celular e adiciona o que está no backup.';
+  String get backupMergeBody => 'Mantém o que está neste celular e adiciona o que está no backup.';
 
   @override
   String get backupReplace => 'Substituir';
@@ -733,8 +750,7 @@ class AppLocalizationsPt extends AppLocalizations {
       'As seções escolhidas neste celular são apagadas e substituídas. Não é possível desfazer.';
 
   @override
-  String get backupUnlockRetryChanged =>
-      'Desbloqueie o celular e tente de novo. Nada foi alterado.';
+  String get backupUnlockRetryChanged => 'Desbloqueie o celular e tente de novo. Nada foi alterado.';
 
   @override
   String get backupRestoreFailed =>
@@ -755,56 +771,31 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String restoreLearnedFor(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count idiomas',
-      one: '1 idioma',
-    );
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count idiomas', one: '1 idioma');
     return 'palavras aprendidas em $_temp0';
   }
 
   @override
   String countFiles(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count arquivos',
-      one: '1 arquivo',
-    );
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count arquivos', one: '1 arquivo');
     return '$_temp0';
   }
 
   @override
   String countWords(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count palavras',
-      one: '1 palavra',
-    );
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count palavras', one: '1 palavra');
     return '$_temp0';
   }
 
   @override
   String countLanguages(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count idiomas',
-      one: '1 idioma',
-    );
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count idiomas', one: '1 idioma');
     return '$_temp0';
   }
 
   @override
   String countShortcuts(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count atalhos',
-      one: '1 atalho',
-    );
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count atalhos', one: '1 atalho');
     return '$_temp0';
   }
 
@@ -843,12 +834,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String countPacks(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count pacotes',
-      one: '1 pacote',
-    );
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count pacotes', one: '1 pacote');
     return '$_temp0';
   }
 
@@ -865,45 +851,25 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String countTimes(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count vezes',
-      one: '1 vez',
-    );
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count vezes', one: '1 vez');
     return '$_temp0';
   }
 
   @override
   String timeMinutesAgo(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'há $count minutos',
-      one: 'há 1 minuto',
-    );
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: 'há $count minutos', one: 'há 1 minuto');
     return '$_temp0';
   }
 
   @override
   String timeHoursAgo(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'há $count horas',
-      one: 'há 1 hora',
-    );
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: 'há $count horas', one: 'há 1 hora');
     return '$_temp0';
   }
 
   @override
   String timeDaysAgo(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'há $count dias',
-      one: 'há 1 dia',
-    );
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: 'há $count dias', one: 'há 1 dia');
     return '$_temp0';
   }
 
@@ -936,12 +902,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get privacyClear => 'Limpar';
 
   @override
-  String get privacySaveFailed =>
-      'Não foi possível salvar a alteração. Tente novamente.';
+  String get privacySaveFailed => 'Não foi possível salvar a alteração. Tente novamente.';
 
   @override
-  String get privacyCouldNotReadWords =>
-      'O Kosha não conseguiu ler estas palavras.';
+  String get privacyCouldNotReadWords => 'O Kosha não conseguiu ler estas palavras.';
 
   @override
   String get privacyCannotReadWordsNow =>
@@ -991,8 +955,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get privacyNeverSuggested => 'Nunca sugeridas';
 
   @override
-  String get privacyBlockedExplain =>
-      'O Kosha não vai sugerir nem corrigir para estas palavras.';
+  String get privacyBlockedExplain => 'O Kosha não vai sugerir nem corrigir para estas palavras.';
 
   @override
   String get privacyNoBlockedWords => 'Nenhuma palavra bloqueada.';
@@ -1002,12 +965,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String privacyWordLastUsed(int count, String when) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count vezes',
-      one: 'uma vez',
-    );
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count vezes', one: 'uma vez');
     return 'Digitada $_temp0 · última vez $when';
   }
 
@@ -1037,24 +995,21 @@ class AppLocalizationsPt extends AppLocalizations {
   String get privacyTryAgain => 'Tentar de novo';
 
   @override
-  String get privacyCenterLoadFailed =>
-      'O Kosha não conseguiu ler seus dados de privacidade. Tente mais tarde.';
+  String get privacyCenterLoadFailed => 'O Kosha não conseguiu ler seus dados de privacidade. Tente mais tarde.';
 
   @override
   String get privacyDevBuildNetwork =>
       'Esta versão pede acesso à internet. O Kosha nunca deveria fazer isso. Por favor, informe.';
 
   @override
-  String get privacyNoInternetPermission =>
-      'O Kosha não tem permissão de internet. Ele não pode enviar nada.';
+  String get privacyNoInternetPermission => 'O Kosha não tem permissão de internet. Ele não pode enviar nada.';
 
   @override
   String get privacyDevBuildNote =>
       'Esta é uma versão de desenvolvimento. Sua permissão de rede é só para ferramentas de desenvolvimento.';
 
   @override
-  String get privacyDevBuildShort =>
-      'Versão de desenvolvimento. O Kosha continua sem permissão de internet.';
+  String get privacyDevBuildShort => 'Versão de desenvolvimento. O Kosha continua sem permissão de internet.';
 
   @override
   String privacyStorageSize(String size, String when) {
@@ -1065,17 +1020,11 @@ class AppLocalizationsPt extends AppLocalizations {
   String get privacyCustomThemes => 'Temas personalizados';
 
   @override
-  String get privacyNoPacks =>
-      'Nenhum instalado. Pacotes de voz e tradução aparecem aqui.';
+  String get privacyNoPacks => 'Nenhum instalado. Pacotes de voz e tradução aparecem aqui.';
 
   @override
   String privacyPacksSize(int count, String size) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count pacotes',
-      one: '1 pacote',
-    );
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count pacotes', one: '1 pacote');
     return '$_temp0 · $size';
   }
 
@@ -1121,8 +1070,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get privacyNoAppsYet => 'Nenhum app ainda';
 
   @override
-  String get privacyNoAppsYetBody =>
-      'Os apps onde você digita aparecerão aqui.';
+  String get privacyNoAppsYetBody => 'Os apps onde você digita aparecerão aqui.';
 
   @override
   String get privacyAlwaysIncognitoApps => 'Apps sempre anônimos';
@@ -1134,8 +1082,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get privacyOfferShortcuts => 'Oferecer atalhos';
 
   @override
-  String get privacyOfferShortcutsBody =>
-      'Mostra suas abreviações, como \"omw\", como primeira sugestão.';
+  String get privacyOfferShortcutsBody => 'Mostra suas abreviações, como \"omw\", como primeira sugestão.';
 
   @override
   String get privacyEditShortcuts => 'Editar atalhos';
@@ -1144,8 +1091,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get privacyNoShortcutsYet => 'Nenhum ainda';
 
   @override
-  String get privacyLearnedAndClipboard =>
-      'Palavras aprendidas e área de transferência';
+  String get privacyLearnedAndClipboard => 'Palavras aprendidas e área de transferência';
 
   @override
   String get privacyNoWordsLearnedYet => 'Nenhuma palavra aprendida ainda';
@@ -1189,8 +1135,7 @@ class AppLocalizationsPt extends AppLocalizations {
       'O bloqueio do app usa sua digital ou o PIN do dispositivo. Defina um PIN, padrão ou senha nas configurações de segurança do Android e volte.';
 
   @override
-  String get privacyTurnOnAppLockReason =>
-      'Ativar o bloqueio do app para o Kosha';
+  String get privacyTurnOnAppLockReason => 'Ativar o bloqueio do app para o Kosha';
 
   @override
   String get privacyNotAvailable => 'Não disponível agora';
@@ -1231,8 +1176,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get privacyWillDelete => 'Isto excluirá permanentemente:';
 
   @override
-  String get privacyResetSettings =>
-      'Também redefinir todas as configurações para o padrão';
+  String get privacyResetSettings => 'Também redefinir todas as configurações para o padrão';
 
   @override
   String get privacyCannotBeUndone => 'Não é possível desfazer.';
@@ -1241,8 +1185,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get privacyDeleted => 'Excluído.';
 
   @override
-  String get privacyDeleteFailed =>
-      'O Kosha não conseguiu excluir tudo. Tente novamente.';
+  String get privacyDeleteFailed => 'O Kosha não conseguiu excluir tudo. Tente novamente.';
 
   @override
   String get privacyOk => 'OK';
@@ -1276,8 +1219,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get backupEnterPassphrase => 'Digite a frase-senha';
 
   @override
-  String get backupWriteItDown =>
-      'Anote em um lugar seguro. Uma frase-senha perdida não pode ser recuperada.';
+  String get backupWriteItDown => 'Anote em um lugar seguro. Uma frase-senha perdida não pode ser recuperada.';
 
   @override
   String get backupPassphrase => 'Frase-senha';
@@ -1315,8 +1257,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get backupNothingYet => 'Nada ainda';
 
   @override
-  String get backupSettingsSummary =>
-      'Tema, idiomas, digitação e opções de privacidade';
+  String get backupSettingsSummary => 'Tema, idiomas, digitação e opções de privacidade';
 
   @override
   String backupLearnedSummary(String languages, String words) {
@@ -1351,8 +1292,7 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get backupClipboardKept =>
-      'área de transferência mantida (layout desconhecido)';
+  String get backupClipboardKept => 'área de transferência mantida (layout desconhecido)';
 
   @override
   String get backupEmojiKept => 'emojis recentes mantidos';
@@ -1362,12 +1302,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String backupLearnedAdded(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count idiomas',
-      one: '1 idioma',
-    );
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count idiomas', one: '1 idioma');
     return 'palavras aprendidas em $_temp0';
   }
 
@@ -1377,8 +1312,7 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get shortcutDeleteBody =>
-      'Isso remove o atalho. Não é possível desfazer.';
+  String get shortcutDeleteBody => 'Isso remove o atalho. Não é possível desfazer.';
 
   @override
   String get shortcutAdd => 'Adicionar atalho';
@@ -1398,8 +1332,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get shortcutNoneYet => 'Nenhum atalho ainda';
 
   @override
-  String get shortcutExplain =>
-      'Um atalho transforma uma abreviação em um texto mais longo. Exemplos:';
+  String get shortcutExplain => 'Um atalho transforma uma abreviação em um texto mais longo. Exemplos:';
 
   @override
   String shortcutExamples(String first, String second) {
@@ -1407,8 +1340,7 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get shortcutEncrypted =>
-      'Os atalhos são criptografados neste celular, como suas palavras aprendidas.';
+  String get shortcutEncrypted => 'Os atalhos são criptografados neste celular, como suas palavras aprendidas.';
 
   @override
   String get shortcutNew => 'Novo atalho';
@@ -1450,8 +1382,7 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get shortcutProblemEmptyTrigger =>
-      'Digite a abreviação que você quer expandir.';
+  String get shortcutProblemEmptyTrigger => 'Digite a abreviação que você quer expandir.';
 
   @override
   String shortcutProblemTriggerTooLong(num count) {
@@ -1459,12 +1390,10 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get shortcutProblemTriggerCharacters =>
-      'Use apenas letras, números e apóstrofos na abreviação.';
+  String get shortcutProblemTriggerCharacters => 'Use apenas letras, números e apóstrofos na abreviação.';
 
   @override
-  String get shortcutProblemEmptyExpansion =>
-      'Digite o que a abreviação deve expandir.';
+  String get shortcutProblemEmptyExpansion => 'Digite o que a abreviação deve expandir.';
 
   @override
   String shortcutProblemExpansionTooLong(num count) {
@@ -1472,8 +1401,7 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get shortcutProblemDuplicate =>
-      'Você já tem um atalho com esta abreviação.';
+  String get shortcutProblemDuplicate => 'Você já tem um atalho com esta abreviação.';
 
   @override
   String shortcutProblemTooMany(num count) {
@@ -1510,23 +1438,20 @@ class AppLocalizationsPt extends AppLocalizations {
   String get onboardingKeyboardNotYours => 'O Kosha ainda não é o seu teclado.';
 
   @override
-  String get onboardingTurnOnFirst =>
-      'Primeiro ative o Kosha na etapa anterior.';
+  String get onboardingTurnOnFirst => 'Primeiro ative o Kosha na etapa anterior.';
 
   @override
   String get onboardingChooseKeyboard => 'Escolher teclado';
 
   @override
-  String get onboardingCheckingPermissions =>
-      'Verificando as permissões do app…';
+  String get onboardingCheckingPermissions => 'Verificando as permissões do app…';
 
   @override
   String get onboardingDebugInternet =>
       'Esta versão de depuração pode acessar a internet. Builds de depuração têm essa permissão só para desenvolvimento.';
 
   @override
-  String get onboardingReleaseInternet =>
-      'Esta versão pode acessar a internet.';
+  String get onboardingReleaseInternet => 'Esta versão pode acessar a internet.';
 
   @override
   String get onboardingNoInternet =>
@@ -1566,19 +1491,16 @@ class AppLocalizationsPt extends AppLocalizations {
   String get onboardingTryTyping => 'Digite uma frase';
 
   @override
-  String get onboardingTrySwipe =>
-      'Deslize uma palavra: passe de letra em letra';
+  String get onboardingTrySwipe => 'Deslize uma palavra: passe de letra em letra';
 
   @override
-  String get onboardingTryAccents =>
-      'Pressione uma letra por muito tempo para ver os acentos';
+  String get onboardingTryAccents => 'Pressione uma letra por muito tempo para ver os acentos';
 
   @override
   String get onboardingTryTitle => 'Experimente';
 
   @override
-  String get onboardingTryBody =>
-      'Toque na caixa abaixo. O teclado aparece, e você pode testar cada item da lista.';
+  String get onboardingTryBody => 'Toque na caixa abaixo. O teclado aparece, e você pode testar cada item da lista.';
 
   @override
   String get onboardingTryField => 'Digite aqui para testar';
@@ -1627,8 +1549,7 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get onboardingNoLanguageMatch =>
-      'Nenhum idioma corresponde a essa busca.';
+  String get onboardingNoLanguageMatch => 'Nenhum idioma corresponde a essa busca.';
 
   @override
   String get themeCreate => 'Criar tema';
@@ -1662,8 +1583,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get themeTryLabel => 'Digite aqui para testar o tema';
 
   @override
-  String get themeTryHelper =>
-      'O teclado aparece aqui quando o Kosha está selecionado.';
+  String get themeTryHelper => 'O teclado aparece aqui quando o Kosha está selecionado.';
 
   @override
   String get themeRenameTitle => 'Renomear tema';
@@ -1687,8 +1607,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get themeSaveFailed => 'Não foi possível salvar o tema.';
 
   @override
-  String get themePhotoPickerFailed =>
-      'Não foi possível abrir o seletor de fotos.';
+  String get themePhotoPickerFailed => 'Não foi possível abrir o seletor de fotos.';
 
   @override
   String get themeDiscardTitle => 'Descartar alterações?';
@@ -1775,8 +1694,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get themeSourcePerRole => 'Por função';
 
   @override
-  String get themeWallpaperNeedsAndroid12 =>
-      'As cores do papel de parede precisam do Android 12 ou mais recente.';
+  String get themeWallpaperNeedsAndroid12 => 'As cores do papel de parede precisam do Android 12 ou mais recente.';
 
   @override
   String get themeSeedColour => 'Cor base';
@@ -1833,8 +1751,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get themeHintCharacters => 'Caracteres de dica';
 
   @override
-  String get themeHintCharactersBody =>
-      'Caracteres pequenos ao pressionar por muito tempo';
+  String get themeHintCharactersBody => 'Caracteres pequenos ao pressionar por muito tempo';
 
   @override
   String get themeBackground => 'Fundo';
@@ -1852,8 +1769,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get themeTypePhoto => 'Foto';
 
   @override
-  String get themeNoPhotoYet =>
-      'Nenhuma foto ainda. Escolha uma para recortá-la ao teclado.';
+  String get themeNoPhotoYet => 'Nenhuma foto ainda. Escolha uma para recortá-la ao teclado.';
 
   @override
   String get themeChoosePhoto => 'Escolher foto';
@@ -1871,8 +1787,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get themeSolidPopups => 'Pop-ups sólidos';
 
   @override
-  String get themeSolidPopupsBodyWallpaper =>
-      'Não com cores do papel de parede';
+  String get themeSolidPopupsBodyWallpaper => 'Não com cores do papel de parede';
 
   @override
   String get themeSolidPopupsBodyPrimary => 'Pop-ups na cor primária';
@@ -2025,8 +1940,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get themeCropBlurOff => 'Desativado';
 
   @override
-  String get themeCropNote =>
-      'O desfoque é salvo na imagem. O escurecimento é definido no editor e aplicado ao vivo.';
+  String get themeCropNote => 'O desfoque é salvo na imagem. O escurecimento é definido no editor e aplicado ao vivo.';
 
   @override
   String get themeHexLabel => 'Hex';
@@ -2082,16 +1996,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get themeSettingFailed => 'Não foi possível salvar a configuração.';
 
   @override
-  String get themeSystemColoursUnavailable =>
-      'As cores do sistema não estão disponíveis.';
+  String get themeSystemColoursUnavailable => 'As cores do sistema não estão disponíveis.';
 
   @override
-  String get themeKoshaDynamicFollows =>
-      'O Kosha Dynamic segue seu papel de parede';
+  String get themeKoshaDynamicFollows => 'O Kosha Dynamic segue seu papel de parede';
 
   @override
-  String get themeKoshaDynamicBody =>
-      'Suas cores são atualizadas quando o papel de parede muda';
+  String get themeKoshaDynamicBody => 'Suas cores são atualizadas quando o papel de parede muda';
 
   @override
   String get themeSectionPresets => 'Predefinições';
@@ -2120,8 +2031,7 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get backupUnlockToSeeCount =>
-      'Desbloqueie o celular para ver a contagem';
+  String get backupUnlockToSeeCount => 'Desbloqueie o celular para ver a contagem';
 
   @override
   String get shortcutHelp =>
@@ -2188,15 +2098,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get chineseTraditional => 'Caracteres tradicionais';
 
   @override
-  String get chineseTraditionalBody =>
-      'Mostra os candidatos em caracteres tradicionais (padrão de Taiwan).';
+  String get chineseTraditionalBody => 'Mostra os candidatos em caracteres tradicionais (padrão de Taiwan).';
 
   @override
   String get chineseFuzzy => 'Pinyin aproximado';
 
   @override
-  String get chineseFuzzyBody =>
-      'Aceita também z e zh, c e ch, s e sh, n e l, an e ang, en e eng, in e ing.';
+  String get chineseFuzzyBody => 'Aceita também z e zh, c e ch, s e sh, n e l, an e ang, en e eng, in e ing.';
 
   @override
   String get cjkDictionary => 'Dicionário';
@@ -2205,8 +2113,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get chineseClearPhrases => 'Apagar frases aprendidas';
 
   @override
-  String get chineseClearPhrasesBody =>
-      'Esquece as palavras que você escolheu. O dicionário permanece.';
+  String get chineseClearPhrasesBody => 'Esquece as palavras que você escolheu. O dicionário permanece.';
 
   @override
   String get chineseFooter =>
@@ -2216,8 +2123,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get chineseClearTitle => 'Apagar as frases aprendidas?';
 
   @override
-  String get chineseClearBody =>
-      'As palavras escolhidas para o chinês serão removidas. Isso não pode ser desfeito.';
+  String get chineseClearBody => 'As palavras escolhidas para o chinês serão removidas. Isso não pode ser desfeito.';
 
   @override
   String get cjkClear => 'Apagar';
@@ -2232,8 +2138,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get chineseDictName => 'Dicionário de chinês';
 
   @override
-  String get chinesePackMissing =>
-      'Não instalado. A digitação em chinês precisa dele; instale em Pacotes de modelos.';
+  String get chinesePackMissing => 'Não instalado. A digitação em chinês precisa dele; instale em Pacotes de modelos.';
 
   @override
   String chinesePackInstalled(String license) {
@@ -2259,8 +2164,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get japaneseFlickOnly => 'Somente deslizar';
 
   @override
-  String get japaneseFlickOnlyBody =>
-      'Sem toques múltiplos: tocar あ duas vezes digita ああ, não い';
+  String get japaneseFlickOnlyBody => 'Sem toques múltiplos: tocar あ duas vezes digita ああ, não い';
 
   @override
   String get japaneseHalfWidth => 'Espaço de largura normal';
@@ -2281,8 +2185,7 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get japaneseNotInstalled =>
-      'Não instalado. O kana ainda é digitado; o kanji precisa do pacote.';
+  String get japaneseNotInstalled => 'Não instalado. O kana ainda é digitado; o kanji precisa do pacote.';
 
   @override
   String get japaneseClearWords => 'Apagar palavras aprendidas';
@@ -2295,8 +2198,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get japaneseClearTitle => 'Apagar as palavras japonesas aprendidas?';
 
   @override
-  String get japaneseClearBody =>
-      'Todas as palavras japonesas escolhidas serão apagadas. Isso não pode ser desfeito.';
+  String get japaneseClearBody => 'Todas as palavras japonesas escolhidas serão apagadas. Isso não pode ser desfeito.';
 
   @override
   String get privacyStoredChinesePhrases => 'Frases em chinês';

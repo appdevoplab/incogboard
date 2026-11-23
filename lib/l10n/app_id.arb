@@ -329,6 +329,90 @@
   "@packsNoDictionaryBody": {
     "x-review": true
   },
+  "packsGetTitle": "Dapatkan paket",
+  "@packsGetTitle": {
+    "x-review": true
+  },
+  "packsExplainTitle": "Paket adalah berkas yang Anda tambahkan sendiri.",
+  "@packsExplainTitle": {
+    "x-review": true
+  },
+  "packsExplainBody": "Unduh dari halaman rilis proyek di perangkat lain, salin ke ponsel ini, lalu impor.",
+  "@packsExplainBody": {
+    "x-review": true
+  },
+  "packsCopyLink": "Salin tautan halaman rilis",
+  "@packsCopyLink": {
+    "x-review": true
+  },
+  "packsLinkCopied": "Tautan disalin. Buka di perangkat lain.",
+  "@packsLinkCopied": {
+    "x-review": true
+  },
+  "packsPlayTitle": "Dapatkan lewat Google Play",
+  "@packsPlayTitle": {
+    "x-review": true
+  },
+  "packsPlayNote": "Google Play yang mengunduh paket ini, bukan Kosha. Kosha sendiri tidak pernah memakai jaringan.",
+  "@packsPlayNote": {
+    "x-review": true
+  },
+  "packsGet": "Dapatkan",
+  "@packsGet": {
+    "x-review": true
+  },
+  "packsStatusNotRequested": "Belum diunduh",
+  "@packsStatusNotRequested": {
+    "x-review": true
+  },
+  "packsStatusWaiting": "Menunggu Wi-Fi atau data seluler",
+  "@packsStatusWaiting": {
+    "x-review": true
+  },
+  "packsStatusDownloading": "Mengunduh lewat Google Play",
+  "@packsStatusDownloading": {
+    "x-review": true
+  },
+  "packsStatusInstalling": "Memeriksa dan memasang",
+  "@packsStatusInstalling": {
+    "x-review": true
+  },
+  "packsStatusFailed": "Google Play tidak dapat mengirimkannya. Coba lagi.",
+  "@packsStatusFailed": {
+    "x-review": true
+  },
+  "packsOfferMeta": "{size} · {status}",
+  "@packsOfferMeta": {
+    "x-review": true
+  },
+  "packsVerifyTitle": "Periksa paket terpasang",
+  "@packsVerifyTitle": {
+    "x-review": true
+  },
+  "packsVerifyBody": "Memeriksa setiap berkas dari setiap paket terpasang dengan daftar yang ditandatangani. Tidak ada yang diubah.",
+  "@packsVerifyBody": {
+    "x-review": true
+  },
+  "packsVerifyOk": "{count} paket terpasang diperiksa. Semua berkas cocok.",
+  "@packsVerifyOk": {
+    "x-review": true
+  },
+  "packsVerifyDamaged": "{count} paket terpasang memiliki berkas rusak atau hilang. Hapus lalu impor lagi.",
+  "@packsVerifyDamaged": {
+    "x-review": true
+  },
+  "packsVerifyUnavailable": "Pemeriksaan paket belum tersedia di versi Kosha ini.",
+  "@packsVerifyUnavailable": {
+    "x-review": true
+  },
+  "packsVerifyFailed": "Kosha tidak dapat memeriksa paket. Tidak ada yang diubah.",
+  "@packsVerifyFailed": {
+    "x-review": true
+  },
+  "packsFreeSpace": "{size} kosong di ponsel ini.",
+  "@packsFreeSpace": {
+    "x-review": true
+  },
   "packsNothingStored": "Belum ada yang disimpan.",
   "packsInstalledUse": "Paket terpasang memakai {size} di ponsel ini.",
   "packErrorBadSignature": "Paket ini tidak ditandatangani untuk Kosha, jadi tidak ada yang dipasang.",

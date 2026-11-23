@@ -56,3 +56,6 @@ android/key.properties
 # Local tooling
 /tool/out/
 *.tmp
+
+# Wave 5-C: signed packs copied into the Play asset pack modules for the bundle (never commit)
+android/asset_packs/*/src/main/assets/

@@ -328,6 +328,90 @@
   "@packsNoDictionaryBody": {
     "x-review": true
   },
+  "packsGetTitle": "Obtener paquetes",
+  "@packsGetTitle": {
+    "x-review": true
+  },
+  "packsExplainTitle": "Los paquetes son archivos que añades tú.",
+  "@packsExplainTitle": {
+    "x-review": true
+  },
+  "packsExplainBody": "Descárgalos desde la página de publicaciones del proyecto en otro dispositivo, cópialos a este teléfono y luego impórtalos.",
+  "@packsExplainBody": {
+    "x-review": true
+  },
+  "packsCopyLink": "Copiar el enlace de la página de publicaciones",
+  "@packsCopyLink": {
+    "x-review": true
+  },
+  "packsLinkCopied": "Enlace copiado. Ábrelo en otro dispositivo.",
+  "@packsLinkCopied": {
+    "x-review": true
+  },
+  "packsPlayTitle": "Obtener a través de Google Play",
+  "@packsPlayTitle": {
+    "x-review": true
+  },
+  "packsPlayNote": "Google Play descarga estos paquetes, no Kosha. Kosha nunca usa la red.",
+  "@packsPlayNote": {
+    "x-review": true
+  },
+  "packsGet": "Obtener",
+  "@packsGet": {
+    "x-review": true
+  },
+  "packsStatusNotRequested": "Aún no descargado",
+  "@packsStatusNotRequested": {
+    "x-review": true
+  },
+  "packsStatusWaiting": "Esperando Wi-Fi o datos móviles",
+  "@packsStatusWaiting": {
+    "x-review": true
+  },
+  "packsStatusDownloading": "Descargando con Google Play",
+  "@packsStatusDownloading": {
+    "x-review": true
+  },
+  "packsStatusInstalling": "Comprobando e instalando",
+  "@packsStatusInstalling": {
+    "x-review": true
+  },
+  "packsStatusFailed": "Google Play no pudo entregarlo. Inténtalo de nuevo.",
+  "@packsStatusFailed": {
+    "x-review": true
+  },
+  "packsOfferMeta": "{size} · {status}",
+  "@packsOfferMeta": {
+    "x-review": true
+  },
+  "packsVerifyTitle": "Verificar paquetes instalados",
+  "@packsVerifyTitle": {
+    "x-review": true
+  },
+  "packsVerifyBody": "Comprueba cada archivo de cada paquete instalado con su lista firmada. No se cambia nada.",
+  "@packsVerifyBody": {
+    "x-review": true
+  },
+  "packsVerifyOk": "Se han comprobado {count} paquetes instalados. Todos los archivos coinciden.",
+  "@packsVerifyOk": {
+    "x-review": true
+  },
+  "packsVerifyDamaged": "{count} paquetes instalados tienen archivos dañados o que faltan. Elimínalos e impórtalos de nuevo.",
+  "@packsVerifyDamaged": {
+    "x-review": true
+  },
+  "packsVerifyUnavailable": "La comprobación de paquetes no está disponible en esta versión de Kosha.",
+  "@packsVerifyUnavailable": {
+    "x-review": true
+  },
+  "packsVerifyFailed": "Kosha no pudo comprobar los paquetes. No se cambió nada.",
+  "@packsVerifyFailed": {
+    "x-review": true
+  },
+  "packsFreeSpace": "{size} libres en este teléfono.",
+  "@packsFreeSpace": {
+    "x-review": true
+  },
   "packsNothingStored": "Todavía no hay nada guardado.",
   "packsInstalledUse": "Los paquetes instalados usan {size} en este teléfono.",
   "packErrorBadSignature": "Este paquete no está firmado para Kosha, así que no se instaló nada.",
