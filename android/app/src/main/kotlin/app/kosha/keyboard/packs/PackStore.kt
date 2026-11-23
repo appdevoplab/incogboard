@@ -2,6 +2,7 @@
 package app.kosha.keyboard.packs
 
 import android.content.Context
+import android.content.pm.ApplicationInfo
 import java.io.DataInputStream
 import java.io.EOFException
 import java.io.File
@@ -14,8 +15,8 @@ import java.security.spec.X509EncodedKeySpec
 import java.util.Base64
 
 /**
- * Verified model packs (voice and translation), installed under `noBackupFilesDir/packs/<id>/`.
- * OWNER: orchestrator. Engines (Wave 3-D voice, Wave 3-T translation) read files through [dir].
+ * Verified model packs (voice, translation, dictionary), installed under `noBackupFilesDir/packs/<id>/`.
+ * Engines (Wave 3-D voice, Wave 3-T translation, Wave 4 dictionaries) read files through [dir].
  *
  * Container (`.koshapack`, all integers big-endian):
  * ```
@@ -29,6 +30,14 @@ import java.util.Base64
  * ```
  * Each file's SHA-256 is in the signed manifest, so the whole pack is covered by the signature.
  * A pack is data only: nothing in it is ever executed or loaded as code.
+ *
+ * Trust: the manifest may be signed by any key in [trustedKeys]. The format has no key field: the
+ * signer is the trusted key that verifies, and its id is [keyId] (first 8 bytes of SHA-256 over the
+ * DER public key). Old packs signed by the dev key keep installing in debug builds, because the dev
+ * key is only in the trusted list there (see [PackKeys]).
+ *
+ * OWNER: Wave 5-C (pack key rotation). Installation keeps its atomic shape: files go to a temporary
+ * folder, are hashed against the signed manifest, and only then renamed into place.
  */
 class PackStore(private val root: File, private val trustedKeys: List<PublicKey>) {
 
@@ -46,7 +55,7 @@ class PackStore(private val root: File, private val trustedKeys: List<PublicKey>
         val dir = File(root, id)
         val manifestBytes = File(dir, MANIFEST).takeIf { it.isFile }?.readBytes() ?: return null
         val sig = File(dir, SIGNATURE).takeIf { it.isFile }?.readBytes() ?: return null
-        if (!verify(manifestBytes, sig)) return null
+        val signer = signer(manifestBytes, sig) ?: return null
         val manifest = try {
             PackManifest.parse(manifestBytes)
         } catch (e: PackException) {
@@ -54,8 +63,48 @@ class PackStore(private val root: File, private val trustedKeys: List<PublicKey>
         }
         if (manifest.id != id) return null
         val size = dir.walkTopDown().filter { it.isFile }.sumOf { it.length() }
-        return InstalledPack(manifest, dir, size)
+        return InstalledPack(manifest, dir, size, keyId(signer))
     }
+
+    /**
+     * Re-checks an installed pack against its signed manifest: every listed file must exist with the
+     * declared size and SHA-256. Null when [id] is not installed. Hashes whole files: call off the UI thread.
+     */
+    @Synchronized
+    fun check(id: String): PackCheck? {
+        if (!ID_RE.matches(id) || !File(root, id).isDirectory) return null
+        val pack = open(id) ?: return PackCheck(id, manifestOk = false, missingFiles = 0, damagedFiles = 0)
+        var missing = 0
+        var damaged = 0
+        val buffer = ByteArray(BUFFER)
+        for (f in pack.manifest.files) {
+            val file = File(pack.dir, f.path)
+            if (!file.isFile) {
+                missing++
+                continue
+            }
+            if (file.length() != f.size) {
+                damaged++
+                continue
+            }
+            val digest = MessageDigest.getInstance("SHA-256")
+            file.inputStream().use { input ->
+                while (true) {
+                    val n = input.read(buffer)
+                    if (n < 0) break
+                    digest.update(buffer, 0, n)
+                }
+            }
+            if (digest.digest().toHex() != f.sha256) damaged++
+        }
+        return PackCheck(id, manifestOk = true, missingFiles = missing, damagedFiles = damaged)
+    }
+
+    /** [check] for every installed pack, sorted by id. Call off the UI thread. */
+    @Synchronized
+    fun checkAll(): List<PackCheck> = root.listFiles { f -> f.isDirectory && ID_RE.matches(f.name) }
+        ?.map { it.name }?.sorted()?.mapNotNull { check(it) }
+        ?: emptyList()
 
     /** Folder holding the pack's files (paths as in the manifest), or null when not installed. */
     fun dir(id: String): File? = open(id)?.dir
@@ -85,12 +134,14 @@ class PackStore(private val root: File, private val trustedKeys: List<PublicKey>
         } catch (e: EOFException) {
             throw PackException("bad_format", "truncated header")
         }
-        if (!verify(manifestBytes, sig)) throw PackException("bad_signature", "signature does not verify")
+        if (signer(manifestBytes, sig) == null) throw PackException("bad_signature", "signature does not verify")
         val manifest = PackManifest.parse(manifestBytes)
         val total = manifest.files.sumOf { it.size }
         if (total > maxBytes) throw PackException("too_large", "pack is $total bytes")
         root.mkdirs()
-        if (root.usableSpace in 0 until total + FREE_SPACE_MARGIN) throw PackException("no_space", "not enough space")
+        // usableSpace is 0 when the platform cannot tell; then the write itself reports a full disk.
+        val free = root.usableSpace
+        if (free > 0L && free < total + FREE_SPACE_MARGIN) throw PackException("no_space", "not enough space")
 
         val tmp = File(root, ".tmp-${manifest.id}-${System.nanoTime()}")
         try {
@@ -144,7 +195,8 @@ class PackStore(private val root: File, private val trustedKeys: List<PublicKey>
         }
     }
 
-    private fun verify(manifest: ByteArray, sig: ByteArray): Boolean = trustedKeys.any { key ->
+    /** The trusted key that verifies [sig] over [manifest], or null. */
+    private fun signer(manifest: ByteArray, sig: ByteArray): PublicKey? = trustedKeys.firstOrNull { key ->
         try {
             Signature.getInstance("SHA256withECDSA").run {
                 initVerify(key)
@@ -161,10 +213,12 @@ class PackStore(private val root: File, private val trustedKeys: List<PublicKey>
         const val MANIFEST = "manifest.json"
         const val SIGNATURE = "manifest.sig"
         const val MAX_PACK_BYTES = 2L * 1024 * 1024 * 1024
+        const val MAX_FILES = 64
         private const val MAX_MANIFEST = 64 * 1024
         private const val MAX_SIGNATURE = 512
         private const val BUFFER = 64 * 1024
         private const val FREE_SPACE_MARGIN = 16L * 1024 * 1024
+        private const val KEY_ID_BYTES = 8
         internal val MAGIC = "KOSHAPAK".toByteArray(Charsets.US_ASCII)
         internal val ID_RE = Regex("[a-z0-9][a-z0-9._-]{0,63}")
 
@@ -173,18 +227,44 @@ class PackStore(private val root: File, private val trustedKeys: List<PublicKey>
 
         /** One store per process (both engines share its lock). */
         fun get(context: Context): PackStore = instance ?: synchronized(this) {
-            instance ?: PackStore(File(context.noBackupFilesDir, "packs"), PackKeys.trusted()).also {
+            instance ?: PackStore(
+                File(context.noBackupFilesDir, "packs"),
+                PackKeys.trusted(debuggable = isDebuggable(context)),
+            ).also {
                 it.cleanUp()
                 instance = it
             }
         }
+
+        /** Debug builds (and only they) also trust the development key. */
+        internal fun isDebuggable(context: Context): Boolean =
+            (context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0
+
+        /** Key id: the first 8 bytes of SHA-256 over the DER public key, as lowercase hex. */
+        fun keyId(key: PublicKey): String =
+            MessageDigest.getInstance("SHA-256").digest(key.encoded).copyOf(KEY_ID_BYTES).toHex()
 
         fun publicKey(base64Der: String): PublicKey =
             KeyFactory.getInstance("EC").generatePublic(X509EncodedKeySpec(Base64.getDecoder().decode(base64Der)))
     }
 }
 
-data class InstalledPack(val manifest: PackManifest, val dir: File, val sizeBytes: Long)
+/** An installed pack whose manifest verified. [signerKeyId] is the id of the trusted key that signed it. */
+data class InstalledPack(
+    val manifest: PackManifest,
+    val dir: File,
+    val sizeBytes: Long,
+    /** Empty when the pack was built by hand in a test; [PackStore.open] always sets it. */
+    val signerKeyId: String = "",
+)
+
+/**
+ * Result of re-checking one installed pack. [manifestOk] is false when the signed manifest no longer
+ * verifies (or cannot be parsed). Counts are files; no paths are returned, so none can leak to the UI.
+ */
+data class PackCheck(val id: String, val manifestOk: Boolean, val missingFiles: Int, val damagedFiles: Int) {
+    val ok: Boolean get() = manifestOk && missingFiles == 0 && damagedFiles == 0
+}
 
 class PackException(val code: String, message: String) : Exception(message)
 
