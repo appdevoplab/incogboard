@@ -229,15 +229,15 @@ class _ClipboardPanelViewState extends State<ClipboardPanelView> {
     return ListView.builder(
       padding: const EdgeInsets.fromLTRB(8, 2, 8, 8),
       itemCount: items.length,
-      itemBuilder: (context, i) => _card(theme, style, items[i]),
+      itemBuilder: (context, i) => _card(theme, style, items[i], position: i + 1, count: items.length),
     );
   }
 
-  Widget _card(KeyboardThemeData theme, PanelStyle style, ClipItem item) {
+  Widget _card(KeyboardThemeData theme, PanelStyle style, ClipItem item, {required int position, required int count}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: PanelButton(
-        semanticsLabel: 'Paste clipboard item',
+        semanticsLabel: 'Paste clipboard item, $position of $count',
         height: null,
         fill: theme.letterKey.fill,
         pressedFill: theme.letterKey.pressedFill,

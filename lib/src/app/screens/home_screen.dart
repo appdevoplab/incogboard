@@ -70,8 +70,8 @@ class _HomeScreenState extends State<HomeScreen> {
   bool get _setupIncomplete => _enabled == false || _selected == false;
 
   String get _setupText {
-    if (_enabled == false) return 'Turn Kosha on in Android\'s keyboard list.';
-    return 'Choose Kosha as the keyboard you type with.';
+    if (_enabled == false) return context.l10n.homeSetupTurnOn;
+    return context.l10n.homeSetupChoose;
   }
 
   @override
@@ -92,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 SettingsTile(
                   icon: Icons.task_alt_outlined,
-                  title: 'Finish setting up Kosha',
+                  title: context.l10n.homeFinishSetup,
                   subtitle: _setupText,
                   onTap: () => open(KoshaRoutes.onboarding),
                 ),
@@ -102,44 +102,44 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               SettingsTile(
                 icon: Icons.translate,
-                title: 'Languages',
+                title: context.l10n.settingsLanguages,
                 subtitle: languageLabel(settings.languages.active),
                 onTap: () => open(KoshaRoutes.languages),
               ),
               SettingsTile(
                 icon: Icons.keyboard_outlined,
-                title: 'Typing',
-                subtitle: 'Corrections, suggestions, keys and swipe',
+                title: context.l10n.settingsTyping,
+                subtitle: context.l10n.homeTypingSubtitle,
                 onTap: () => open(KoshaRoutes.typing),
               ),
               SettingsTile(
                 icon: Icons.vibration,
-                title: 'Feel',
-                subtitle: 'Haptics, sounds, height and one-handed mode',
+                title: context.l10n.settingsFeel,
+                subtitle: context.l10n.homeFeelSubtitle,
                 onTap: () => open(KoshaRoutes.feel),
               ),
               SettingsTile(
                 icon: Icons.palette_outlined,
-                title: 'Themes',
+                title: context.l10n.settingsThemes,
                 subtitle: ThemePresets.byId(settings.appearance.themeId).name,
                 onTap: () => open(KoshaRoutes.themes),
               ),
               SettingsTile(
                 icon: Icons.dashboard_customize_outlined,
-                title: 'Panels',
-                subtitle: 'Clipboard and emoji',
+                title: context.l10n.settingsPanels,
+                subtitle: context.l10n.homePanelsSubtitle,
                 onTap: () => open(KoshaRoutes.panels),
               ),
               SettingsTile(
                 icon: Icons.mic_none_outlined,
-                title: 'Voice',
-                subtitle: 'Speak to type, on this phone',
+                title: context.l10n.settingsVoice,
+                subtitle: context.l10n.homeVoiceSubtitle,
                 onTap: () => open(KoshaRoutes.voice),
               ),
               SettingsTile(
                 icon: Icons.translate,
-                title: 'Translation',
-                subtitle: 'Translate as you type, offline',
+                title: context.l10n.settingsTranslation,
+                subtitle: context.l10n.homeTranslationSubtitle,
                 onTap: () => open(KoshaRoutes.translate),
               ),
             ],
@@ -148,14 +148,14 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               SettingsTile(
                 icon: Icons.shield_outlined,
-                title: 'Privacy',
-                subtitle: 'What is stored, incognito, app lock and backup',
+                title: context.l10n.settingsPrivacy,
+                subtitle: context.l10n.homePrivacySubtitle,
                 onTap: () => open(KoshaRoutes.privacy),
               ),
               SettingsTile(
                 icon: Icons.info_outline,
-                title: 'About',
-                subtitle: 'Version, licences and source code',
+                title: context.l10n.settingsAbout,
+                subtitle: context.l10n.homeAboutSubtitle,
                 onTap: () => open(KoshaRoutes.about),
               ),
             ],

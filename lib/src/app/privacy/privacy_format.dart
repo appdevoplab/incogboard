@@ -1,39 +1,28 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
 // Plain-language helpers for the privacy screens: friendly names for stored blobs, byte sizes,
-// counts and the backup passphrase strength. Pure Dart, so they are unit-tested directly.
+// counts and the backup passphrase strength. Pure Dart, so they are unit-tested directly. Words
+// come from the localisations passed in (AppLocalizations), so no BuildContext is needed.
 import '../../core/data_sections.dart';
+import '../../engine/lang/registry.dart';
 import '../../security/shortcuts_store.dart';
 
-const Map<String, String> _languageNames = {
-  'en': 'English',
-  'es': 'Spanish',
-  'fr': 'French',
-  'de': 'German',
-  'pt': 'Portuguese',
-  'it': 'Italian',
-  'id': 'Indonesian',
-  'hi': 'Hindi',
-  'nl': 'Dutch',
-  'ru': 'Russian',
-  'tr': 'Turkish',
-  'ar': 'Arabic',
-};
+import 'package:kosha/src/app/l10n.dart';
 
-/// The language's name in English, or its code when it is not in the table.
-String languageName(String code) => _languageNames[code] ?? code;
+/// The language's name in English (LanguageInfo), or its code when it is not known.
+String languageName(String code) => languageInfo(code).englishName;
 
 /// What a stored blob holds, for the privacy center's list. Never shows contents.
-String friendlyBlobName(String name) {
+String friendlyBlobName(String name, AppLocalizations l10n) {
   if (name.startsWith(DataBlobs.learnedPrefix)) {
-    return 'Learned words (${languageName(name.substring(DataBlobs.learnedPrefix.length))})';
+    return l10n.privacyStoredLearned(languageName(name.substring(DataBlobs.learnedPrefix.length)));
   }
   return switch (name) {
-    DataBlobs.clipboard => 'Clipboard history',
-    DataBlobs.emoji => 'Emoji recents',
-    DataBlobs.shortcuts => 'Personal shortcuts',
-    DataBlobs.seenApps => 'Apps list',
-    _ => 'Other stored data',
+    DataBlobs.clipboard => l10n.panelsClipboardHistory,
+    DataBlobs.emoji => l10n.privacyStoredEmoji,
+    DataBlobs.shortcuts => l10n.privacyPersonalShortcuts,
+    DataBlobs.seenApps => l10n.privacyStoredApps,
+    _ => l10n.privacyStoredOther,
   };
 }
 
@@ -48,7 +37,7 @@ String formatCount(int value) {
   return buffer.toString();
 }
 
-/// Bytes as "512 B", "14 KB" or "2.4 MB".
+/// Bytes as "512 B", "14 KB" or "2.4 MB". Unit abbreviations are not translated.
 String formatBytes(int bytes) {
   if (bytes < 1024) return '$bytes B';
   if (bytes < 1024 * 1024) return '${(bytes / 1024).round()} KB';
@@ -56,43 +45,43 @@ String formatBytes(int bytes) {
   return '${mb.toStringAsFixed(mb < 10 ? 1 : 0)} MB';
 }
 
-/// "3 seconds ago", "5 minutes ago", "2 days ago", given the milliseconds since the epoch.
-String timeAgo(int millis, {required int nowMillis}) {
+/// "just now", "5 minutes ago", "2 days ago", given the milliseconds since the epoch.
+String timeAgo(int millis, {required int nowMillis, required AppLocalizations l10n}) {
   final seconds = ((nowMillis - millis) / 1000).round();
-  if (seconds < 60) return 'just now';
+  if (seconds < 60) return l10n.timeJustNow;
   final minutes = seconds ~/ 60;
-  if (minutes < 60) return minutes == 1 ? '1 minute ago' : '$minutes minutes ago';
+  if (minutes < 60) return l10n.timeMinutesAgo(minutes);
   final hours = minutes ~/ 60;
-  if (hours < 24) return hours == 1 ? '1 hour ago' : '$hours hours ago';
-  final days = hours ~/ 24;
-  return days == 1 ? '1 day ago' : '$days days ago';
+  if (hours < 24) return l10n.timeHoursAgo(hours);
+  return l10n.timeDaysAgo(hours ~/ 24);
 }
 
-/// Plural helper: "1 shortcut", "12 shortcuts".
-String plural(int count, String singular, [String? pluralForm]) =>
-    '${formatCount(count)} ${count == 1 ? singular : (pluralForm ?? '${singular}s')}';
-
 /// Message for a refused shortcut.
-String shortcutProblemText(ShortcutProblem problem) => switch (problem) {
-  ShortcutProblem.emptyTrigger => 'Type the short form you want to expand.',
-  ShortcutProblem.triggerTooLong => 'The short form can be at most ${ShortcutRules.maxTriggerLength} characters.',
-  ShortcutProblem.triggerCharacters => 'Use only letters, digits and apostrophes in the short form.',
-  ShortcutProblem.emptyExpansion => 'Type what the short form should expand to.',
-  ShortcutProblem.expansionTooLong => 'The expansion can be at most ${ShortcutRules.maxExpansionLength} characters.',
-  ShortcutProblem.duplicateTrigger => 'You already have a shortcut with this short form.',
-  ShortcutProblem.tooManyShortcuts => 'You can keep at most ${ShortcutRules.maxShortcuts} shortcuts.',
+String shortcutProblemText(ShortcutProblem problem, AppLocalizations l10n) => switch (problem) {
+  ShortcutProblem.emptyTrigger => l10n.shortcutProblemEmptyTrigger,
+  ShortcutProblem.triggerTooLong => l10n.shortcutProblemTriggerTooLong(ShortcutRules.maxTriggerLength),
+  ShortcutProblem.triggerCharacters => l10n.shortcutProblemTriggerCharacters,
+  ShortcutProblem.emptyExpansion => l10n.shortcutProblemEmptyExpansion,
+  ShortcutProblem.expansionTooLong => l10n.shortcutProblemExpansionTooLong(ShortcutRules.maxExpansionLength),
+  ShortcutProblem.duplicateTrigger => l10n.shortcutProblemDuplicate,
+  ShortcutProblem.tooManyShortcuts => l10n.shortcutProblemTooMany(ShortcutRules.maxShortcuts),
 };
 
 enum PassphraseStrength {
-  tooShort('Use at least 8 characters'),
-  weak('Weak'),
-  fair('Fair'),
-  good('Good'),
-  strong('Strong');
+  tooShort,
+  weak,
+  fair,
+  good,
+  strong;
 
-  const PassphraseStrength(this.label);
-
-  final String label;
+  /// The word for this strength, in the current language.
+  String label(AppLocalizations l10n) => switch (this) {
+    PassphraseStrength.tooShort => l10n.strengthTooShort,
+    PassphraseStrength.weak => l10n.strengthWeak,
+    PassphraseStrength.fair => l10n.strengthFair,
+    PassphraseStrength.good => l10n.strengthGood,
+    PassphraseStrength.strong => l10n.strengthStrong,
+  };
 
   /// Fraction for a meter, 0 to 1.
   double get fraction => switch (this) {
