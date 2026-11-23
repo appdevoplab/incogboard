@@ -25,6 +25,8 @@ String languageName(String code) => _languageNames[code] ?? code;
 
 /// What a stored blob holds, for the privacy center's list. Never shows contents.
 String friendlyBlobName(String name) {
+  if (name == DataBlobs.learnedZhPhrases) return 'Chinese phrases';
+  if (name == DataBlobs.learnedJaWords) return 'Japanese words';
   if (name.startsWith(DataBlobs.learnedPrefix)) {
     return 'Learned words (${languageName(name.substring(DataBlobs.learnedPrefix.length))})';
   }

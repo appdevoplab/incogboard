@@ -63,7 +63,13 @@ class _CenterData {
 
   List<String> get learnedBlobNames => [
     for (final b in blobs)
-      if (b.name.startsWith(DataBlobs.learnedPrefix)) b.name,
+      if (DataBlobs.isLearnedWords(b.name)) b.name,
+  ];
+
+  /// Learned data the viewer cannot list (Chinese phrases, Japanese words): shown with a size only.
+  List<SecureBlobInfo> get opaqueLearned => [
+    for (final b in blobs)
+      if (DataBlobs.learnedOpaque.contains(b.name)) b,
   ];
 
   SecureBlobInfo? blob(String name) {
@@ -359,7 +365,7 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
     return SettingsGroup(
       title: 'Learned words and clipboard',
       children: [
-        if (d.learnedBlobNames.isEmpty)
+        if (d.learnedBlobNames.isEmpty && d.opaqueLearned.isEmpty)
           const SettingsTile(
             icon: Icons.text_fields,
             title: 'No words learned yet',
@@ -374,6 +380,12 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
               _open(LearnedWordsScreen(languageId: name.substring(DataBlobs.learnedPrefix.length)))
                   .then((_) => _reload()),
             ),
+          ),
+        for (final b in d.opaqueLearned)
+          SettingsTile(
+            icon: Icons.translate,
+            title: friendlyBlobName(b.name),
+            subtitle: '${formatBytes(b.sizeBytes)} · ${timeAgo(b.modifiedMillis, nowMillis: nowMillis)}',
           ),
         SettingsTile(
           icon: Icons.content_paste_outlined,
