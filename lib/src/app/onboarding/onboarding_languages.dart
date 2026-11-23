@@ -12,6 +12,8 @@ import '../common/settings_widgets.dart';
 import '../shell/language_catalog.dart';
 import '../shell/settings_actions.dart';
 
+import 'package:kosha/src/app/l10n.dart';
+
 class OnboardingLanguagePicker extends StatefulWidget {
   const OnboardingLanguagePicker({super.key});
 
@@ -79,7 +81,7 @@ class _OnboardingLanguagePickerState extends State<OnboardingLanguagePicker> {
             controller: _search,
             onChanged: (_) => setState(() {}),
             decoration: InputDecoration(
-              hintText: 'Search languages',
+              hintText: context.l10n.onboardingSearchLanguages,
               prefixIcon: const Icon(Icons.search),
               border: OutlineInputBorder(borderRadius: BorderRadius.circular(24)),
               isDense: false,
@@ -87,7 +89,7 @@ class _OnboardingLanguagePickerState extends State<OnboardingLanguagePicker> {
           ),
           const SizedBox(height: 12),
           Text(
-            'Selected: ${[for (final id in languages.enabled) languageLabel(id)].join(', ')}',
+            context.l10n.onboardingSelected([for (final id in languages.enabled) languageLabel(id)].join(', ')),
             style: Theme.of(context).textTheme.bodySmall?.copyWith(color: scheme.onSurfaceVariant),
           ),
           const SizedBox(height: 8),
@@ -115,7 +117,7 @@ class _OnboardingLanguagePickerState extends State<OnboardingLanguagePicker> {
               ),
             ),
           if (results.isEmpty)
-            const Padding(padding: EdgeInsets.all(16), child: Text('No language matches that search.')),
+            Padding(padding: EdgeInsets.all(16), child: Text(context.l10n.onboardingNoLanguageMatch)),
         ],
       );
     },

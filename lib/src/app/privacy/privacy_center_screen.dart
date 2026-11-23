@@ -23,6 +23,8 @@ import 'privacy_format.dart';
 import 'privacy_widgets.dart';
 import 'shortcuts_screen.dart';
 
+import 'package:kosha/src/app/l10n.dart';
+
 class PrivacyCenterScreen extends StatefulWidget {
   const PrivacyCenterScreen({super.key, this.authenticator});
 
@@ -152,11 +154,11 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
         future: _future,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            return const Scaffold(body: Center(child: Text('Kosha could not read its privacy data. Try again later.')));
+            return Scaffold(body: Center(child: Text(context.l10n.privacyCenterLoadFailed)));
           }
           if (!snapshot.hasData) return const Scaffold(body: Center(child: CircularProgressIndicator()));
           return SettingsPage(
-            title: 'Privacy',
+            title: context.l10n.settingsPrivacy,
             header: const Padding(
               padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
               child: Align(alignment: Alignment.centerLeft, child: PrivacyMascotSlot()),
@@ -188,29 +190,27 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
         children: [
           PrivacyStatusCard(
             icon: Icons.developer_mode,
-            text: d.internetPermission
-                ? 'This is a development build. Its network permission is for development tools only.'
-                : 'Development build. Kosha still has no internet permission.',
+            text: d.internetPermission ? context.l10n.privacyDevBuildNote : context.l10n.privacyDevBuildShort,
           ),
         ],
       );
     }
     if (d.internetPermission) {
-      return const SettingsGroup(
+      return SettingsGroup(
         children: [
           PrivacyStatusCard(
             icon: Icons.warning_amber,
-            text: 'This build requests internet access. Kosha should never do that. Please report it.',
+            text: context.l10n.privacyDevBuildNetwork,
             tone: PrivacyTone.bad,
           ),
         ],
       );
     }
-    return const SettingsGroup(
+    return SettingsGroup(
       children: [
         PrivacyStatusCard(
           icon: Icons.verified_user_outlined,
-          text: 'Kosha has no internet permission. It cannot send anything.',
+          text: context.l10n.privacyNoInternetPermission,
           tone: PrivacyTone.good,
         ),
       ],
@@ -225,36 +225,33 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
       for (final b in d.blobs)
         SettingsTile(
           icon: Icons.inventory_2_outlined,
-          title: friendlyBlobName(b.name),
-          subtitle: '${formatBytes(b.sizeBytes)} · changed ${timeAgo(b.modifiedMillis, nowMillis: nowMillis)}',
+          title: friendlyBlobName(b.name, context.l10n),
+          subtitle: context.l10n.privacyStorageSize(
+            formatBytes(b.sizeBytes),
+            timeAgo(b.modifiedMillis, nowMillis: nowMillis, l10n: context.l10n),
+          ),
         ),
       if (d.themeFiles > 0)
         SettingsTile(
           icon: Icons.palette_outlined,
-          title: 'Custom themes',
-          subtitle: '${plural(d.themeFiles, 'file')} · ${formatBytes(d.themeBytes)}',
+          title: context.l10n.privacyCustomThemes,
+          subtitle: context.l10n.privacyThemesSize(d.themeFiles, formatBytes(d.themeBytes)),
         ),
       SettingsTile(
         icon: Icons.download_for_offline_outlined,
-        title: 'Model packs',
+        title: context.l10n.settingsModelPacks,
         subtitle: d.packs.isEmpty
-            ? 'None installed. Voice and translation packs appear here.'
-            : '${plural(d.packs.length, 'pack')} · ${formatBytes(d.packBytes)}',
+            ? context.l10n.privacyNoPacks
+            : context.l10n.privacyPacksSize(d.packs.length, formatBytes(d.packBytes)),
         onTap: () => unawaited(Navigator.of(context).pushNamed(KoshaRoutes.packs).then((_) => _reload())),
       ),
       if (d.blobs.isEmpty && d.themeFiles == 0 && d.packs.isEmpty)
-        const SettingsTile(icon: Icons.inbox_outlined, title: 'Nothing stored yet'),
+        SettingsTile(icon: Icons.inbox_outlined, title: context.l10n.privacyNothingStored),
     ];
     return Column(
       children: [
-        SettingsGroup(title: 'What Kosha stores', children: blobTiles),
-        const Padding(
-          padding: EdgeInsets.fromLTRB(16, 0, 16, 20),
-          child: Text(
-            'Kosha shows only sizes here, never what is inside. Sizes include the last saved copy, which keeps your '
-            'data safe if a save is interrupted.',
-          ),
-        ),
+        SettingsGroup(title: context.l10n.privacyWhatKoshaStores, children: blobTiles),
+        Padding(padding: EdgeInsets.fromLTRB(16, 0, 16, 20), child: Text(context.l10n.privacyShowsSizesOnly)),
       ],
     );
   }
@@ -262,28 +259,26 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
   // ---- 3. Typing privacy --------------------------------------------------------------
 
   Widget _typing(PrivacySettings p) => SettingsGroup(
-    title: 'Typing privacy',
+    title: context.l10n.privacyTypingPrivacy,
     children: [
       SettingsSwitchTile(
         icon: Icons.auto_awesome_outlined,
-        title: 'Learn new words',
-        subtitle: 'Learn words and phrases from what you type. Never in password fields or incognito.',
+        title: context.l10n.privacyLearnNewWords,
+        subtitle: context.l10n.privacyLearnNewWordsBody,
         value: p.learning,
         onChanged: (v) => unawaited(_updatePrivacy((c) => c.copyWith(learning: v))),
       ),
       SettingsSwitchTile(
         icon: Icons.visibility_off_outlined,
-        title: 'Incognito',
-        subtitle: 'Learn and remember nothing while on. Browser incognito tabs turn this on by themselves.',
+        title: context.l10n.privacyIncognito,
+        subtitle: context.l10n.privacyIncognitoBody,
         value: p.incognito,
         onChanged: (v) => unawaited(_updatePrivacy((c) => c.copyWith(incognito: v))),
       ),
       SettingsSwitchTile(
         icon: Icons.screenshot_outlined,
-        title: 'Hide from screenshots',
-        subtitle:
-            'Stop screenshots and screen recordings of the keyboard in every app. Password fields are always '
-            'hidden.',
+        title: context.l10n.privacyHideScreenshots,
+        subtitle: context.l10n.privacyHideScreenshotsBody,
         value: p.hideFromScreenshots,
         onChanged: (v) => unawaited(_updatePrivacy((c) => c.copyWith(hideFromScreenshots: v))),
       ),
@@ -294,18 +289,16 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
 
   Widget _incognitoApps(_CenterData d, PrivacySettings p) {
     final rows = <Widget>[
-      const SettingsTile(
+      SettingsTile(
         icon: Icons.info_outline,
-        title: 'Turned off automatically in these apps',
-        subtitle:
-            'Kosha keeps app names only to fill this list. They are encrypted, never recorded while incognito, '
-            'and you can clear them below.',
+        title: context.l10n.privacyAutoOffApps,
+        subtitle: context.l10n.privacyAutoOffAppsBody,
       ),
       if (d.apps.isEmpty)
-        const SettingsTile(
+        SettingsTile(
           icon: Icons.apps_outlined,
-          title: 'No apps yet',
-          subtitle: 'Apps you type in will appear here.',
+          title: context.l10n.privacyNoAppsYet,
+          subtitle: context.l10n.privacyNoAppsYetBody,
         ),
       for (final app in d.apps)
         _AppIncognitoTile(
@@ -315,7 +308,7 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
           onRemove: () => _removeApp(app.packageName),
         ),
     ];
-    return SettingsGroup(title: 'Always incognito apps', children: rows);
+    return SettingsGroup(title: context.l10n.privacyAlwaysIncognitoApps, children: rows);
   }
 
   Future<void> _setAppIncognito(String packageName, bool on) async {
@@ -339,19 +332,21 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
   // ---- 5. Personal shortcuts ----------------------------------------------------------
 
   Widget _shortcutsGroup(_CenterData d, PrivacySettings p) => SettingsGroup(
-    title: 'Personal shortcuts',
+    title: context.l10n.privacyPersonalShortcuts,
     children: [
       SettingsSwitchTile(
         icon: Icons.keyboard_alt_outlined,
-        title: 'Offer shortcuts',
-        subtitle: 'Show your short forms, such as "omw", as the first suggestion.',
+        title: context.l10n.privacyOfferShortcuts,
+        subtitle: context.l10n.privacyOfferShortcutsBody,
         value: p.personalShortcuts,
         onChanged: (v) => unawaited(_updatePrivacy((c) => c.copyWith(personalShortcuts: v))),
       ),
       SettingsTile(
         icon: Icons.edit_note,
-        title: 'Edit shortcuts',
-        subtitle: d.shortcutCount == 0 ? 'None yet' : plural(d.shortcutCount, 'shortcut'),
+        title: context.l10n.privacyEditShortcuts,
+        subtitle: d.shortcutCount == 0
+            ? context.l10n.privacyNoShortcutsYet
+            : context.l10n.countShortcuts(d.shortcutCount),
         onTap: () => unawaited(_open(const ShortcutsScreen()).then((_) => _reload())),
       ),
     ],
@@ -363,19 +358,21 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
     final nowMillis = d.nowMillis;
     final clipboard = d.blob(DataBlobs.clipboard);
     return SettingsGroup(
-      title: 'Learned words and clipboard',
+      title: context.l10n.privacyLearnedAndClipboard,
       children: [
         if (d.learnedBlobNames.isEmpty && d.opaqueLearned.isEmpty)
-          const SettingsTile(
+          SettingsTile(
             icon: Icons.text_fields,
-            title: 'No words learned yet',
-            subtitle: 'Words you type are learned here once Kosha has seen them a few times.',
+            title: context.l10n.privacyNoWordsLearnedYet,
+            subtitle: context.l10n.privacyWordsLearnedBody,
           ),
         for (final name in d.learnedBlobNames)
           SettingsTile(
             icon: Icons.menu_book_outlined,
-            title: friendlyBlobName(name),
-            subtitle: 'Review, remove or block words · ${timeAgo(d.blob(name)!.modifiedMillis, nowMillis: nowMillis)}',
+            title: friendlyBlobName(name, context.l10n),
+            subtitle: context.l10n.privacyReviewWords(
+              timeAgo(d.blob(name)!.modifiedMillis, nowMillis: nowMillis, l10n: context.l10n),
+            ),
             onTap: () => unawaited(
               _open(LearnedWordsScreen(languageId: name.substring(DataBlobs.learnedPrefix.length)))
                   .then((_) => _reload()),
@@ -384,15 +381,16 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
         for (final b in d.opaqueLearned)
           SettingsTile(
             icon: Icons.translate,
-            title: friendlyBlobName(b.name),
-            subtitle: '${formatBytes(b.sizeBytes)} · ${timeAgo(b.modifiedMillis, nowMillis: nowMillis)}',
+            title: friendlyBlobName(b.name, context.l10n),
+            subtitle:
+                '${formatBytes(b.sizeBytes)} · ${timeAgo(b.modifiedMillis, nowMillis: nowMillis, l10n: context.l10n)}',
           ),
         SettingsTile(
           icon: Icons.content_paste_outlined,
-          title: 'Clipboard',
+          title: context.l10n.panelsClipboard,
           subtitle: clipboard == null
-              ? 'History is empty. Change clipboard settings in Panels.'
-              : '${formatBytes(clipboard.sizeBytes)} in history. Change clipboard settings in Panels.',
+              ? context.l10n.privacyClipboardHistoryEmpty
+              : context.l10n.privacyClipboardInHistory(formatBytes(clipboard.sizeBytes)),
           onTap: () => Navigator.of(context).pushNamed(KoshaRoutes.panels),
         ),
       ],
@@ -402,18 +400,18 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
   // ---- 7. App lock -------------------------------------------------------------------
 
   Widget _appLockGroup(PrivacySettings p) => SettingsGroup(
-    title: 'App lock',
+    title: context.l10n.privacyAppLock,
     children: [
       SettingsSwitchTile(
         icon: Icons.fingerprint,
-        title: 'Lock Kosha',
-        subtitle: 'Ask for your fingerprint or device PIN when the app opens, or after it was in the background.',
+        title: context.l10n.privacyLockKosha,
+        subtitle: context.l10n.privacyLockKoshaBody,
         value: p.appLock,
         onChanged: (v) => unawaited(_setAppLock(v)),
       ),
       SettingsTile(
         icon: Icons.timer_outlined,
-        title: 'Lock after',
+        title: context.l10n.privacyLockAfter,
         subtitle: AppLockPolicy.timeoutLabel(p.appLockTimeoutSeconds),
         enabled: p.appLock,
         onTap: p.appLock ? () => unawaited(_pickTimeout(p)) : null,
@@ -422,26 +420,23 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
   );
 
   Future<void> _setAppLock(bool on) async {
+    final l10n = context.l10n;
     if (!on) {
       await _updatePrivacy((c) => c.copyWith(appLock: false));
       return;
     }
     if (!await _auth.isDeviceSecure()) {
       if (!mounted) return;
-      await _info(
-        'Set a screen lock first',
-        'App lock uses your fingerprint or device PIN. Set a PIN, pattern or password in Android\'s security '
-            'settings, then come back.',
-      );
+      await _info(l10n.privacySetScreenLockFirst, context.l10n.privacySetScreenLockBody);
       return;
     }
     // Turning it on needs one successful check first, so the user knows it works.
-    final outcome = await _auth.authenticate('Turn on app lock for Kosha');
+    final outcome = await _auth.authenticate(l10n.privacyTurnOnAppLockReason);
     if (!mounted) return;
     if (outcome == AuthOutcome.success) {
       await _updatePrivacy((c) => c.copyWith(appLock: true));
     } else if (outcome == AuthOutcome.unavailable) {
-      await _info('Not available right now', 'Your device lock could not be used. App lock stays off.');
+      await _info(l10n.privacyNotAvailable, l10n.privacyNotAvailableBody);
     }
   }
 
@@ -449,7 +444,7 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
     final picked = await showDialog<int>(
       context: context,
       builder: (context) => SimpleDialog(
-        title: const Text('Lock after'),
+        title: Text(context.l10n.privacyLockAfter),
         children: [
           RadioGroup<int>(
             groupValue: p.appLockTimeoutSeconds,
@@ -472,12 +467,12 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
   // ---- 8. Backup ---------------------------------------------------------------------
 
   Widget _backupGroup() => SettingsGroup(
-    title: 'Backup',
+    title: context.l10n.privacyBackupTitle,
     children: [
       SettingsTile(
         icon: Icons.archive_outlined,
-        title: 'Backup and restore',
-        subtitle: 'An encrypted .koshabackup file you keep. You choose what goes in it.',
+        title: context.l10n.privacyBackupRestore,
+        subtitle: context.l10n.privacyBackupRestoreBody,
         onTap: () => unawaited(_open(const BackupScreen()).then((_) => _reload())),
       ),
     ],
@@ -486,7 +481,7 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
   // ---- 9. Wipe -----------------------------------------------------------------------
 
   Widget _wipeGroup(_CenterData d) => SettingsGroup(
-    title: 'Delete data',
+    title: context.l10n.privacyDeleteData,
     children: [
       for (final c in WipeCategory.values)
         SettingsTile(
@@ -497,8 +492,8 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
         ),
       SettingsTile(
         icon: Icons.delete_forever_outlined,
-        title: 'Erase everything',
-        subtitle: 'Every category above, your custom themes, and the key that protects them.',
+        title: context.l10n.privacyEraseEverything,
+        subtitle: context.l10n.privacyEraseEverythingBody,
         onTap: () => unawaited(_confirmWipe(WipeCategory.values.toSet(), everything: true)),
       ),
     ],
@@ -512,40 +507,47 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setDialog) => AlertDialog(
-          title: Text(everything ? 'Erase everything?' : 'Delete ${categories.first.title.toLowerCase()}?'),
+          title: Text(
+            everything
+                ? context.l10n.privacyEraseTitle
+                : context.l10n.privacyDeleteTitle(categories.first.title.toLowerCase()),
+          ),
           content: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('This will permanently delete:'),
+                Text(context.l10n.privacyWillDelete),
                 const SizedBox(height: 8),
                 for (final c in categories)
-                  Padding(padding: const EdgeInsets.only(bottom: 8), child: Text('${c.title}: ${c.detail}')),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Text(context.l10n.privacyCategoryLine(c.title, c.detail)),
+                  ),
                 if (everything)
                   CheckboxListTile(
                     contentPadding: EdgeInsets.zero,
                     value: resetSettings,
-                    title: const Text('Also reset all settings to their defaults'),
+                    title: Text(context.l10n.privacyResetSettings),
                     onChanged: (v) => setDialog(() => resetSettings = v ?? false),
                   ),
                 const SizedBox(height: 8),
                 Text(
-                  'This cannot be undone.',
+                  context.l10n.privacyCannotBeUndone,
                   style: TextStyle(color: Theme.of(context).colorScheme.error, fontWeight: FontWeight.w600),
                 ),
               ],
             ),
           ),
           actions: [
-            TextButton(onPressed: () => Navigator.of(context).pop(false), child: const Text('Cancel')),
+            TextButton(onPressed: () => Navigator.of(context).pop(false), child: Text(context.l10n.cancel)),
             FilledButton(
               style: FilledButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.error,
                 foregroundColor: Theme.of(context).colorScheme.onError,
               ),
               onPressed: () => Navigator.of(context).pop(true),
-              child: const Text('Delete'),
+              child: Text(context.l10n.delete),
             ),
           ],
         ),
@@ -558,9 +560,9 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
       } else {
         await deps.wiper.wipe(categories);
       }
-      if (mounted) showPrivacyMessage(context, 'Deleted.');
+      if (mounted) showPrivacyMessage(context, context.l10n.privacyDeleted);
     } on Object {
-      if (mounted) showPrivacyMessage(context, 'Kosha could not delete everything. Try again.');
+      if (mounted) showPrivacyMessage(context, context.l10n.privacyDeleteFailed);
     }
     _reload();
   }
@@ -572,7 +574,7 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
     builder: (context) => AlertDialog(
       title: Text(title),
       content: Text(body),
-      actions: [FilledButton(onPressed: () => Navigator.of(context).pop(), child: const Text('OK'))],
+      actions: [FilledButton(onPressed: () => Navigator.of(context).pop(), child: Text(context.l10n.privacyOk))],
     ),
   );
 
@@ -605,7 +607,11 @@ class _AppIncognitoTile extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Switch(value: incognito, onChanged: onIncognito),
-          IconButton(tooltip: 'Remove $label from the list', onPressed: onRemove, icon: const Icon(Icons.close)),
+          IconButton(
+            tooltip: context.l10n.privacyRemoveAppTooltip(label),
+            onPressed: onRemove,
+            icon: const Icon(Icons.close),
+          ),
         ],
       ),
     );

@@ -8,17 +8,18 @@
 // The generated `AppLocalizations.localizationsDelegates` list is not used: it names
 // flutter_localizations' Material delegate, while this app's Material comes from material_ui.
 import 'package:flutter/widgets.dart';
-import 'package:flutter_localizations/flutter_localizations.dart' show GlobalWidgetsLocalizations;
 import 'package:material_ui/material_ui.dart' show GlobalMaterialLocalizations;
 
 import '../../l10n/app_localizations.dart';
 
 export '../../l10n/app_localizations.dart';
 
-const List<LocalizationsDelegate<Object>> koshaLocalizationsDelegates = [
+// material_ui's MaterialApp always appends English-only Default*Localizations, so every other locale
+// needs the global Cupertino delegate (material_ui's own, matching that type) as well as Material and
+// Widgets. Adding only flutter_localizations' Cupertino delegate does not satisfy the check.
+const List<LocalizationsDelegate<dynamic>> koshaLocalizationsDelegates = [
   AppLocalizations.delegate,
-  GlobalMaterialLocalizations.delegate,
-  GlobalWidgetsLocalizations.delegate,
+  ...GlobalMaterialLocalizations.delegates,
 ];
 
 const List<Locale> koshaSupportedLocales = AppLocalizations.supportedLocales;

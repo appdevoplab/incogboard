@@ -4,6 +4,7 @@
 // Returns an opaque ARGB int, or null when cancelled.
 import 'package:flutter/services.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:kosha/src/app/l10n.dart';
 
 /// Shows the picker, starting from [initial] (ARGB). Null if the user cancels.
 Future<int?> showColorPicker(BuildContext context, {required int initial, required String title}) => showDialog<int>(
@@ -84,35 +85,45 @@ class _ColorPickerDialogState extends State<_ColorPickerDialog> {
               ),
             ),
             const SizedBox(height: 12),
-            _hsvSlider(label: 'Hue', value: _hsv.hue, max: 360, onChanged: (v) => _setHsv(_hsv.withHue(v))),
             _hsvSlider(
-              label: 'Saturation',
+              label: context.l10n.themeHue,
+              value: _hsv.hue,
+              max: 360,
+              onChanged: (v) => _setHsv(_hsv.withHue(v)),
+            ),
+            _hsvSlider(
+              label: context.l10n.themeSaturation,
               value: _hsv.saturation,
               max: 1,
               onChanged: (v) => _setHsv(_hsv.withSaturation(v)),
             ),
-            _hsvSlider(label: 'Brightness', value: _hsv.value, max: 1, onChanged: (v) => _setHsv(_hsv.withValue(v))),
+            _hsvSlider(
+              label: context.l10n.themeBrightness,
+              value: _hsv.value,
+              max: 1,
+              onChanged: (v) => _setHsv(_hsv.withValue(v)),
+            ),
             const SizedBox(height: 8),
             TextField(
               controller: _hex,
               maxLength: 7,
               onChanged: _onHexChanged,
               decoration: InputDecoration(
-                labelText: 'Hex',
+                labelText: context.l10n.themeHexLabel,
                 prefixText: '#',
-                errorText: _hexValid ? null : 'Use six hex digits, such as F5B700',
+                errorText: _hexValid ? null : context.l10n.themeHexError,
                 counterText: '',
               ),
               inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[#0-9a-fA-F]'))],
             ),
             const SizedBox(height: 4),
-            Text('Pick a shade, then tap Use.', style: TextStyle(color: scheme.onSurfaceVariant)),
+            Text(context.l10n.themePickShadeHint, style: TextStyle(color: scheme.onSurfaceVariant)),
           ],
         ),
       ),
       actions: [
-        TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('Cancel')),
-        FilledButton(onPressed: () => Navigator.of(context).pop(color.toARGB32()), child: const Text('Use')),
+        TextButton(onPressed: () => Navigator.of(context).pop(), child: Text(context.l10n.cancel)),
+        FilledButton(onPressed: () => Navigator.of(context).pop(color.toARGB32()), child: Text(context.l10n.useAction)),
       ],
     );
   }
