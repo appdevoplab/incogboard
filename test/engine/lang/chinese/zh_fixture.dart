@@ -42,7 +42,8 @@ const List<(String, String, double)> fixtureWords = [
 ];
 
 /// Simplified to Traditional for the fixture, in the `s2twp.tsv` format.
-const String fixtureTsv = 'A\t软件\t軟件\n'
+const String fixtureTsv =
+    'A\t软件\t軟件\n'
     'B\t国\t國\n'
     'B\t软\t軟\n'
     'B\t件\t件\n'

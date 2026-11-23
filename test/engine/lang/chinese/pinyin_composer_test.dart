@@ -35,8 +35,7 @@ class _Harness {
 
   /// Types [s]; a space is a space key, an apostrophe an apostrophe, anything else a character.
   List<ComposerStep> type(String s) => [
-    for (final ch in s.split(''))
-      ch == ' ' ? composer.onSpace() : composer.onText(ch),
+    for (final ch in s.split('')) ch == ' ' ? composer.onSpace() : composer.onText(ch),
   ];
 
   List<String> get texts => [for (final c in composer.state.candidates) c.text];
@@ -273,7 +272,7 @@ void main() {
       final h = _Harness(lexicon: lexicon);
       h.type('nihao');
       var notified = 0;
-      h.composer.changes!.addListener(() => notified++);
+      h.composer.changes.addListener(() => notified++);
       lexicon.install(
         ZhLoaded(
           dictionary: fixtureDictionary(),

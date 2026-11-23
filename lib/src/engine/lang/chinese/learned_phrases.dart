@@ -96,9 +96,7 @@ class LearnedPhrases {
   Uint8List encode() {
     final json = jsonEncode({
       'v': 1,
-      'p': {
-        for (final e in _byLetters.entries) e.key: e.value,
-      },
+      'p': {for (final e in _byLetters.entries) e.key: e.value},
     });
     return Uint8List.fromList(utf8.encode(json));
   }

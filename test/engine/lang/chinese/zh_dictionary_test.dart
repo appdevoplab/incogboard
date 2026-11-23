@@ -37,7 +37,7 @@ void main() {
       expect(d.hasKey('zz'), isFalse, reason: 'sorts after every key');
       expect(d.hasKey('a'), isFalse, reason: 'sorts before every key');
       expect(texts(d.entriesFor('xia')), ['下', '夏']);
-      expect(texts(d.entriesFor('xian')), ['先']);
+      expect(texts(d.entriesFor('xian')), ['先', '西安'], reason: '西安 has the key xian too; 先 is likelier');
       expect(texts(d.entriesFor('zhongguoren')), ['中国人']);
     });
 

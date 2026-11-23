@@ -117,10 +117,8 @@ RimeEntries entriesFromRime({
   final wordTotal = words.fold<double>(0, (s, w) => s + w.$3);
   final charTotal = charList.fold<double>(0, (s, c) => s + c.$3);
   final out = <ZhDictEntryInput>[
-    for (final (text, syl, weight) in words)
-      ZhDictEntryInput(text, syl, _log10(weight, wordTotal)),
-    for (final (text, syl, weight) in charList)
-      ZhDictEntryInput(text, syl, _log10(weight, charTotal)),
+    for (final (text, syl, weight) in words) ZhDictEntryInput(text, syl, _log10(weight, wordTotal)),
+    for (final (text, syl, weight) in charList) ZhDictEntryInput(text, syl, _log10(weight, charTotal)),
   ];
   return RimeEntries(out, words.length, charList.length, baseDropped, extRows, charRows);
 }

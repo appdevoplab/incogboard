@@ -133,12 +133,7 @@ class PinyinSegmenter {
         }
       }
       byStart[i].add(
-        PinyinUnit(
-          i,
-          i + 1,
-          ZhEntry(text: letters[i], syllables: letters[i], logP: unknownLogP),
-          unknown: true,
-        ),
+        PinyinUnit(i, i + 1, ZhEntry(text: letters[i], syllables: letters[i], logP: unknownLogP), unknown: true),
       );
     }
     return byStart;
@@ -178,9 +173,7 @@ class PinyinSegmenter {
   /// first. Used for whole-buffer candidates and for prefixes.
   List<PinyinUnit> wholeMatches(String letters) {
     if (letters.isEmpty) return const [];
-    final out = <PinyinUnit>[
-      for (final e in dictionary.entriesFor(letters)) PinyinUnit(0, letters.length, e),
-    ];
+    final out = <PinyinUnit>[for (final e in dictionary.entriesFor(letters)) PinyinUnit(0, letters.length, e)];
     if (fuzzy) {
       for (final v in fuzzyVariants(letters)) {
         for (final e in dictionary.entriesFor(v)) {
