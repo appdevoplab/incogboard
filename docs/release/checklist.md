@@ -35,7 +35,7 @@ merge agent does it, in the repository or on the device). Order matters within e
 13. **Write down the SHA-256 fingerprints** the script prints (keystore and pack key). They go into the Console and
     the release notes. (user)
 14. **Set the local signing**: copy `key.properties` to `android\key.properties` (git-ignored), or set the four
-    `INCOGBOARD_*` variables for the session. (user)
+    `KOSHA_*` variables for the session. (user)
 15. **For GitHub, set the release environment secrets and variables** listed in `RELEASING.md`, section
     "Secrets for GitHub": `KOSHA_KEYSTORE_BASE64`, `KOSHA_KEYSTORE_PASSWORD`, `KOSHA_KEY_PASSWORD`,
     `KOSHA_KEY_ALIAS`, the variables `KOSHA_SOURCE_URL` and `KOSHA_RELEASE_CERT_SHA256`. (user)
