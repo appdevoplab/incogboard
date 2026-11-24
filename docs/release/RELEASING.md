@@ -50,7 +50,7 @@ powershell -ExecutionPolicy Bypass -File tool\release\set_application_id.ps1 <ne
 The places that name the applicationId:
 
 - `android/app/build.gradle.kts`: the constant `incogboardApplicationId`. This is the only value the build reads.
-- `tool/adb_ime.ps1`: `$script:Pkg`. The IME component (`<id>/.ime.IncogBoardImeService`) is derived from it.
+- `tool/adb_ime.ps1`: `$script:Pkg`. The IME component (`<id>/app.incogboard.keyboard.ime.IncogBoardImeService`, full class name because the namespace differs from the id) is derived from it.
 - `tool/bench/device_bench.ps1`: the `-Package` default.
 - `metadata/io.github.appdevoplab.incogboard.yml`: the F-Droid recipe. The file is renamed to match the id.
 - Release documents under `docs/release/`: every mention of the id, except lines that talk about the namespace.

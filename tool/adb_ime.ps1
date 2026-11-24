@@ -6,7 +6,7 @@
 $ErrorActionPreference = 'Stop'
 $script:Adb = Join-Path $env:ANDROID_HOME 'platform-tools\adb.exe'
 $script:Pkg = 'io.github.appdevoplab.incogboard'
-$script:ImeId = "$script:Pkg/.ime.IncogBoardImeService"
+$script:ImeId = "$script:Pkg/app.incogboard.keyboard.ime.IncogBoardImeService"  # full class name: the namespace differs from the id
 
 function Invoke-Adb { & $script:Adb @args }
 
@@ -27,7 +27,7 @@ function Enable-IncogBoard {
 
 function Open-Testbed([string]$Field = 'text', [switch]$Keep) {
     $clear = if ($Keep) { 'false' } else { 'true' }
-    Invoke-Adb shell am start -n "$script:Pkg/.testbed.TestbedActivity" --es focus $Field --ez clear $clear | Out-Null
+    Invoke-Adb shell am start -n "$script:Pkg/app.incogboard.keyboard.testbed.TestbedActivity" --es focus $Field --ez clear $clear | Out-Null
 }
 
 function Clear-TestbedLog { Invoke-Adb logcat -c }
