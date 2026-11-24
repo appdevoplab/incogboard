@@ -120,6 +120,9 @@ enum ContextMenuAction {
 /// Wave 4 adds `dictionary` (Chinese and Japanese conversion data, read from the pack folder).
 enum PackKind { voice, translation, dictionary }
 
+/// Where a store delivery stands (play flavour). Mirrors `PackOfferStatus` in lib/src/packs/pack_maintenance.dart.
+enum PackOfferStatusMessage { notRequested, waitingForNetwork, downloading, installing, failed, ready }
+
 enum VoiceStartStatus { started, noPermission, noModel, busy, failed }
 
 enum VoiceEventKind {
@@ -932,6 +935,162 @@ class PackInfoMessage {
   }
 }
 
+/// Result of re-checking one installed pack against its signed manifest. Counts only, never paths.
+class PackCheckMessage {
+  PackCheckMessage({
+    required this.id,
+    required this.manifestOk,
+    required this.missingFiles,
+    required this.damagedFiles,
+  });
+
+  String id;
+
+  bool manifestOk;
+
+  int missingFiles;
+
+  int damagedFiles;
+
+  List<Object?> _toList() {
+    return <Object?>[id, manifestOk, missingFiles, damagedFiles];
+  }
+
+  Object encode() {
+    return _toList();
+  }
+
+  static PackCheckMessage decode(Object result) {
+    result as List<Object?>;
+    return PackCheckMessage(
+      id: result[0]! as String,
+      manifestOk: result[1]! as bool,
+      missingFiles: result[2]! as int,
+      damagedFiles: result[3]! as int,
+    );
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  bool operator ==(Object other) {
+    if (other is! PackCheckMessage || other.runtimeType != runtimeType) {
+      return false;
+    }
+    if (identical(this, other)) {
+      return true;
+    }
+    return _deepEquals(id, other.id) &&
+        _deepEquals(manifestOk, other.manifestOk) &&
+        _deepEquals(missingFiles, other.missingFiles) &&
+        _deepEquals(damagedFiles, other.damagedFiles);
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  int get hashCode => _deepHash(<Object?>[runtimeType, ..._toList()]);
+
+  @override
+  String toString() {
+    return 'PackCheckMessage(id: $id, manifestOk: $manifestOk, missingFiles: $missingFiles, damagedFiles: $damagedFiles)';
+  }
+}
+
+/// Free space on the storage that holds packs.
+class PackStorageMessage {
+  PackStorageMessage({required this.freeBytes});
+
+  int freeBytes;
+
+  List<Object?> _toList() {
+    return <Object?>[freeBytes];
+  }
+
+  Object encode() {
+    return _toList();
+  }
+
+  static PackStorageMessage decode(Object result) {
+    result as List<Object?>;
+    return PackStorageMessage(freeBytes: result[0]! as int);
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  bool operator ==(Object other) {
+    if (other is! PackStorageMessage || other.runtimeType != runtimeType) {
+      return false;
+    }
+    if (identical(this, other)) {
+      return true;
+    }
+    return _deepEquals(freeBytes, other.freeBytes);
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  int get hashCode => _deepHash(<Object?>[runtimeType, ..._toList()]);
+
+  @override
+  String toString() {
+    return 'PackStorageMessage(freeBytes: $freeBytes)';
+  }
+}
+
+/// A pack the store can deliver to this phone. Empty list in import-only builds (foss).
+class PackOfferMessage {
+  PackOfferMessage({required this.id, required this.name, required this.sizeBytes, required this.status});
+
+  String id;
+
+  String name;
+
+  int sizeBytes;
+
+  PackOfferStatusMessage status;
+
+  List<Object?> _toList() {
+    return <Object?>[id, name, sizeBytes, status];
+  }
+
+  Object encode() {
+    return _toList();
+  }
+
+  static PackOfferMessage decode(Object result) {
+    result as List<Object?>;
+    return PackOfferMessage(
+      id: result[0]! as String,
+      name: result[1]! as String,
+      sizeBytes: result[2]! as int,
+      status: result[3]! as PackOfferStatusMessage,
+    );
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  bool operator ==(Object other) {
+    if (other is! PackOfferMessage || other.runtimeType != runtimeType) {
+      return false;
+    }
+    if (identical(this, other)) {
+      return true;
+    }
+    return _deepEquals(id, other.id) &&
+        _deepEquals(name, other.name) &&
+        _deepEquals(sizeBytes, other.sizeBytes) &&
+        _deepEquals(status, other.status);
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  int get hashCode => _deepHash(<Object?>[runtimeType, ..._toList()]);
+
+  @override
+  String toString() {
+    return 'PackOfferMessage(id: $id, name: $name, sizeBytes: $sizeBytes, status: $status)';
+  }
+}
+
 class VoiceRequestMessage {
   VoiceRequestMessage({this.language, required this.packId, required this.autoDetect});
 
@@ -1061,53 +1220,65 @@ class _PigeonCodec extends StandardMessageCodec {
     } else if (value is PackKind) {
       buffer.putUint8(133);
       writeValue(buffer, value.index);
-    } else if (value is VoiceStartStatus) {
+    } else if (value is PackOfferStatusMessage) {
       buffer.putUint8(134);
       writeValue(buffer, value.index);
-    } else if (value is VoiceEventKind) {
+    } else if (value is VoiceStartStatus) {
       buffer.putUint8(135);
       writeValue(buffer, value.index);
-    } else if (value is EditorInfoMessage) {
+    } else if (value is VoiceEventKind) {
       buffer.putUint8(136);
-      writeValue(buffer, value.encode());
-    } else if (value is SelectionMessage) {
+      writeValue(buffer, value.index);
+    } else if (value is EditorInfoMessage) {
       buffer.putUint8(137);
       writeValue(buffer, value.encode());
-    } else if (value is SurroundingTextMessage) {
+    } else if (value is SelectionMessage) {
       buffer.putUint8(138);
       writeValue(buffer, value.encode());
-    } else if (value is ClipMessage) {
+    } else if (value is SurroundingTextMessage) {
       buffer.putUint8(139);
       writeValue(buffer, value.encode());
-    } else if (value is WindowMetricsMessage) {
+    } else if (value is ClipMessage) {
       buffer.putUint8(140);
       writeValue(buffer, value.encode());
-    } else if (value is SystemColorsMessage) {
+    } else if (value is WindowMetricsMessage) {
       buffer.putUint8(141);
       writeValue(buffer, value.encode());
-    } else if (value is RectMessage) {
+    } else if (value is SystemColorsMessage) {
       buffer.putUint8(142);
       writeValue(buffer, value.encode());
-    } else if (value is WindowLayoutMessage) {
+    } else if (value is RectMessage) {
       buffer.putUint8(143);
       writeValue(buffer, value.encode());
-    } else if (value is FeedbackConfigMessage) {
+    } else if (value is WindowLayoutMessage) {
       buffer.putUint8(144);
       writeValue(buffer, value.encode());
-    } else if (value is SecureBlobInfo) {
+    } else if (value is FeedbackConfigMessage) {
       buffer.putUint8(145);
       writeValue(buffer, value.encode());
-    } else if (value is AppInfoMessage) {
+    } else if (value is SecureBlobInfo) {
       buffer.putUint8(146);
       writeValue(buffer, value.encode());
-    } else if (value is PackInfoMessage) {
+    } else if (value is AppInfoMessage) {
       buffer.putUint8(147);
       writeValue(buffer, value.encode());
-    } else if (value is VoiceRequestMessage) {
+    } else if (value is PackInfoMessage) {
       buffer.putUint8(148);
       writeValue(buffer, value.encode());
-    } else if (value is VoiceEventMessage) {
+    } else if (value is PackCheckMessage) {
       buffer.putUint8(149);
+      writeValue(buffer, value.encode());
+    } else if (value is PackStorageMessage) {
+      buffer.putUint8(150);
+      writeValue(buffer, value.encode());
+    } else if (value is PackOfferMessage) {
+      buffer.putUint8(151);
+      writeValue(buffer, value.encode());
+    } else if (value is VoiceRequestMessage) {
+      buffer.putUint8(152);
+      writeValue(buffer, value.encode());
+    } else if (value is VoiceEventMessage) {
+      buffer.putUint8(153);
       writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
@@ -1134,37 +1305,46 @@ class _PigeonCodec extends StandardMessageCodec {
         return value == null ? null : PackKind.values[value];
       case 134:
         final value = readValue(buffer) as int?;
-        return value == null ? null : VoiceStartStatus.values[value];
+        return value == null ? null : PackOfferStatusMessage.values[value];
       case 135:
         final value = readValue(buffer) as int?;
-        return value == null ? null : VoiceEventKind.values[value];
+        return value == null ? null : VoiceStartStatus.values[value];
       case 136:
-        return EditorInfoMessage.decode(readValue(buffer)!);
+        final value = readValue(buffer) as int?;
+        return value == null ? null : VoiceEventKind.values[value];
       case 137:
-        return SelectionMessage.decode(readValue(buffer)!);
+        return EditorInfoMessage.decode(readValue(buffer)!);
       case 138:
-        return SurroundingTextMessage.decode(readValue(buffer)!);
+        return SelectionMessage.decode(readValue(buffer)!);
       case 139:
-        return ClipMessage.decode(readValue(buffer)!);
+        return SurroundingTextMessage.decode(readValue(buffer)!);
       case 140:
-        return WindowMetricsMessage.decode(readValue(buffer)!);
+        return ClipMessage.decode(readValue(buffer)!);
       case 141:
-        return SystemColorsMessage.decode(readValue(buffer)!);
+        return WindowMetricsMessage.decode(readValue(buffer)!);
       case 142:
-        return RectMessage.decode(readValue(buffer)!);
+        return SystemColorsMessage.decode(readValue(buffer)!);
       case 143:
-        return WindowLayoutMessage.decode(readValue(buffer)!);
+        return RectMessage.decode(readValue(buffer)!);
       case 144:
-        return FeedbackConfigMessage.decode(readValue(buffer)!);
+        return WindowLayoutMessage.decode(readValue(buffer)!);
       case 145:
-        return SecureBlobInfo.decode(readValue(buffer)!);
+        return FeedbackConfigMessage.decode(readValue(buffer)!);
       case 146:
-        return AppInfoMessage.decode(readValue(buffer)!);
+        return SecureBlobInfo.decode(readValue(buffer)!);
       case 147:
-        return PackInfoMessage.decode(readValue(buffer)!);
+        return AppInfoMessage.decode(readValue(buffer)!);
       case 148:
-        return VoiceRequestMessage.decode(readValue(buffer)!);
+        return PackInfoMessage.decode(readValue(buffer)!);
       case 149:
+        return PackCheckMessage.decode(readValue(buffer)!);
+      case 150:
+        return PackStorageMessage.decode(readValue(buffer)!);
+      case 151:
+        return PackOfferMessage.decode(readValue(buffer)!);
+      case 152:
+        return VoiceRequestMessage.decode(readValue(buffer)!);
+      case 153:
         return VoiceEventMessage.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
@@ -2382,6 +2562,113 @@ class AppHostApi {
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[id]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
     _extractReplyValueOrThrow(pigeonVar_replyList, pigeonVar_channelName, isNullValid: true);
+  }
+
+  /// Re-checks every installed pack against its signed manifest and file hashes.
+  Future<List<PackCheckMessage>> verifyPacks() async {
+    final pigeonVar_channelName = 'dev.flutter.pigeon.incogboard.AppHostApi.verifyPacks$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
+    return (pigeonVar_replyValue! as List<Object?>).cast<PackCheckMessage>();
+  }
+
+  /// Usable space on the storage that holds packs, or null when it cannot be read.
+  Future<PackStorageMessage?> packStorage() async {
+    final pigeonVar_channelName = 'dev.flutter.pigeon.incogboard.AppHostApi.packStorage$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: true,
+    );
+    return pigeonVar_replyValue as PackStorageMessage?;
+  }
+
+  /// 'import' (packs come from files the user imports: foss) or 'store' (the store delivers some: play).
+  Future<String> packDelivery() async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.incogboard.AppHostApi.packDelivery$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
+    return pigeonVar_replyValue! as String;
+  }
+
+  /// Packs the store can deliver, with their state. Empty for 'import'.
+  Future<List<PackOfferMessage>> packOffers() async {
+    final pigeonVar_channelName = 'dev.flutter.pigeon.incogboard.AppHostApi.packOffers$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
+    return (pigeonVar_replyValue! as List<Object?>).cast<PackOfferMessage>();
+  }
+
+  /// Asks the store to deliver pack [id]. Throws code `unsupported` in import-only builds.
+  Future<void> requestPack(String id) async {
+    final pigeonVar_channelName = 'dev.flutter.pigeon.incogboard.AppHostApi.requestPack$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[id]);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    _extractReplyValueOrThrow(pigeonVar_replyList, pigeonVar_channelName, isNullValid: true);
+  }
+
+  /// Installs the store's copy of [id] with the same signature and hash checks as an imported file.
+  /// Throws code `not_delivered` when the store has not delivered it yet, or the import codes
+  /// (`bad_signature`, `bad_format`, `too_large`, `unsupported_version`, `no_space`).
+  Future<PackInfoMessage> installDeliveredPack(String id) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.incogboard.AppHostApi.installDeliveredPack$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[id]);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: false,
+    );
+    return pigeonVar_replyValue! as PackInfoMessage;
   }
 }
 

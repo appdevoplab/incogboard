@@ -4,9 +4,13 @@
 // packs, free storage, and (play flavour only) packs the store delivers. Dart stays flavour-agnostic: the
 // screen asks [PackMaintenance] and shows what it gets back.
 //
-// The real implementation needs Pigeon methods that do not exist yet (see docs/packs/README.md, "Bridge
-// additions"). Until the orchestrator adds them, [UnavailablePackMaintenance] is wired in, and the screen
+// [UnavailablePackMaintenance] is the fallback when the bridge cannot be reached, and the screen
 // says those features are not in this build. Nothing here touches the network.
+//
+// [BridgePackMaintenance] is the real implementation over the settings-app Pigeon calls. The screen uses it
+// unless a test passes its own [PackMaintenance].
+
+import '../bridge/messages.g.dart';
 
 /// The website where packs are published. One constant, so the release docs can fill it in.
 /// PLACEHOLDER until the project's public URL exists (Wave 5-B docs). The app cannot open links itself
@@ -92,4 +96,57 @@ class UnavailablePackMaintenance implements PackMaintenance {
 
   @override
   Future<List<PackCheck>> verifyInstalled() async => throw const PackMaintenanceUnavailable();
+}
+
+/// The real thing: maintenance through the settings-app Pigeon calls. Create it with [load], which reads
+/// how this build delivers packs (the answer never changes while the app runs).
+class BridgePackMaintenance implements PackMaintenance {
+  BridgePackMaintenance._(this._api, this.delivery);
+
+  final AppHostApi _api;
+
+  @override
+  final PackDelivery delivery;
+
+  /// Asks the platform how packs reach this build. Throws when the bridge is not available.
+  static Future<BridgePackMaintenance> load(AppHostApi api) async {
+    final kind = await api.packDelivery();
+    return BridgePackMaintenance._(api, kind == 'store' ? PackDelivery.storeDelivery : PackDelivery.importOnly);
+  }
+
+  @override
+  Future<List<PackOffer>> offers() async {
+    if (delivery == PackDelivery.importOnly) return const [];
+    final offers = await _api.packOffers();
+    return [
+      for (final o in offers) PackOffer(id: o.id, name: o.name, sizeBytes: o.sizeBytes, status: _status(o.status)),
+    ];
+  }
+
+  @override
+  Future<void> request(String id) => _api.requestPack(id);
+
+  @override
+  Future<PackStorage?> storage() async {
+    final s = await _api.packStorage();
+    return s == null ? null : PackStorage(freeBytes: s.freeBytes);
+  }
+
+  @override
+  Future<List<PackCheck>> verifyInstalled() async {
+    final checks = await _api.verifyPacks();
+    return [
+      for (final c in checks)
+        PackCheck(id: c.id, manifestOk: c.manifestOk, missingFiles: c.missingFiles, damagedFiles: c.damagedFiles),
+    ];
+  }
+
+  static PackOfferStatus _status(PackOfferStatusMessage m) => switch (m) {
+    PackOfferStatusMessage.notRequested => PackOfferStatus.notRequested,
+    PackOfferStatusMessage.waitingForNetwork => PackOfferStatus.waitingForNetwork,
+    PackOfferStatusMessage.downloading => PackOfferStatus.downloading,
+    PackOfferStatusMessage.installing => PackOfferStatus.installing,
+    PackOfferStatusMessage.failed => PackOfferStatus.failed,
+    PackOfferStatusMessage.ready => PackOfferStatus.ready,
+  };
 }

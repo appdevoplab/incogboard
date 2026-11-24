@@ -9,7 +9,9 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.ComponentActivity
 import android.net.Uri
+import app.incogboard.keyboard.packs.DeliveredPacks
 import app.incogboard.keyboard.packs.PackException
+import app.incogboard.keyboard.packs.PackSources
 import app.incogboard.keyboard.packs.PackStore
 import app.incogboard.keyboard.security.backup.BackupCrypto
 import app.incogboard.keyboard.security.backup.BackupDocuments
@@ -87,6 +89,39 @@ internal class AppHostApiImpl(
     }
 
     override fun deletePack(id: String) = PackStore.get(activity).delete(id)
+
+    // ---- Pack maintenance (Wave 5-C) ----------------------------------------------------
+
+    private val packSource by lazy { PackSources.forBuild(activity) }
+
+    override fun verifyPacks(): List<PackCheckMessage> =
+        PackStore.get(activity).checkAll().map { it.toMessage() }
+
+    override fun packStorage(): PackStorageMessage? {
+        val free = activity.noBackupFilesDir.usableSpace
+        return if (free > 0L) PackStorageMessage(free) else null
+    }
+
+    override fun packDelivery(): String = if (packSource.storeDelivered) "store" else "import"
+
+    override fun packOffers(): List<PackOfferMessage> = packSource.offers().map { it.toMessage() }
+
+    override fun requestPack(id: String) {
+        try {
+            packSource.request(id)
+        } catch (e: UnsupportedOperationException) {
+            throw FlutterError("unsupported", e.message, null)
+        }
+    }
+
+    override fun installDeliveredPack(id: String): PackInfoMessage {
+        val installed = try {
+            DeliveredPacks.install(packSource, PackStore.get(activity), id)
+        } catch (e: PackException) {
+            throw FlutterError(e.code, e.message, null)
+        } ?: throw FlutterError("not_delivered", "the store has not delivered this pack yet", null)
+        return installed.toMessage()
+    }
 
     /** Maps [BackupException] to the FlutterError code Dart matches on. */
     private inline fun <T> backupErrors(block: () -> T): T = try {

@@ -117,9 +117,14 @@ APK does not trust it even though the public key constant is present in the bina
 
 ## Bridge additions (orchestrator, Pigeon)
 
-The Dart side (`lib/src/packs/pack_maintenance.dart`) is ready. Until these Pigeon calls exist it uses
-`UnavailablePackMaintenance`, and the screen says those features are not in this build. Proposed additions
-(`pigeons/messages.dart`, orchestrator-owned):
+**Done (2026-11-24).** The calls below exist in `AppHostApi` (`pigeons/messages.dart`), with these differences
+from the proposal: the Pigeon types are `PackCheckMessage`, `PackStorageMessage`, `PackOfferMessage` and
+`PackOfferStatusMessage` (the Dart enum `PackOfferStatus` already exists in `pack_maintenance.dart`), all calls
+are on `AppHostApi`, and `PackInfoMessage` did NOT gain `signerKeyId` (nothing in Dart shows it yet). Kotlin:
+`AppHostApiImpl` (pack maintenance section) and `bridge/PackMessages.kt`. Dart: `BridgePackMaintenance` in
+`pack_maintenance.dart`, used by `PacksScreen` unless a test passes its own; if the bridge cannot be reached the
+screen falls back to `UnavailablePackMaintenance`. `installDeliveredPack` exists on the bridge but no screen
+calls it yet (the play flavour needs it once `PlayAssetPackSource` is moved in). The proposal as written:
 
 ```dart
 // Wave 5-C: pack maintenance
