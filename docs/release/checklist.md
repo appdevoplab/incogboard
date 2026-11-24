@@ -5,8 +5,8 @@ merge agent does it, in the repository or on the device). Order matters within e
 
 ## A. Accounts and decisions (user)
 
-1. **Choose the developer name and the public contact email.** Put the email in `privacy-policy.md` in place of
-   `<contact email>`, and in the store listings. (user)
+1. **Choose the developer name and the public contact.** Done 2026-11-24: the contact is the GitHub issues page
+   (`privacy-policy.md`, `store-listing.md`). Play still asks for a developer email in the Console. (user)
 2. **Create the GitHub account or choose the username.** It is needed for `io.github.<username>.kosha`, the
    repository URL, the About source link and the F-Droid recipe. (user)
 3. **Choose the Android developer account type**: Android Developer Console (GitHub, own F-Droid repo), Play

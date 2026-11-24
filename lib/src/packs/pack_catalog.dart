@@ -43,6 +43,14 @@ const List<CatalogPack> kPackCatalog = [
     fileName: 'voice-whisper-base.koshapack',
     sizeBytes: 161253964,
   ),
+  // Optional: far more accurate English than Whisper base, but about 700 MB of memory while dictating.
+  CatalogPack(
+    id: 'voice-parakeet-en',
+    kind: PackKind.voice,
+    name: 'English voice, high accuracy (Parakeet; needs about 700 MB of memory while you dictate)',
+    fileName: 'voice-parakeet-en.koshapack',
+    sizeBytes: 661933244,
+  ),
   CatalogPack(
     id: 'translate-en-es',
     kind: PackKind.translation,

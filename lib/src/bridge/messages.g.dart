@@ -2125,6 +2125,26 @@ class PlatformHostApi {
     return pigeonVar_replyValue as Uint8List?;
   }
 
+  /// Like [secureRead], for the backup restore only (SEC-06): null when the blob is missing or damaged,
+  /// and an error with code `secure_store_locked` while the key cannot be used (phone locked).
+  Future<Uint8List?> secureReadStrict(String name) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.incogboard.PlatformHostApi.secureReadStrict$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[name]);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+      pigeonVar_replyList,
+      pigeonVar_channelName,
+      isNullValid: true,
+    );
+    return pigeonVar_replyValue as Uint8List?;
+  }
+
   Future<void> secureWrite(String name, Uint8List data) async {
     final pigeonVar_channelName =
         'dev.flutter.pigeon.incogboard.PlatformHostApi.secureWrite$pigeonVar_messageChannelSuffix';

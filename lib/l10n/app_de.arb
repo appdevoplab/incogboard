@@ -533,6 +533,10 @@
   "@backupSaveFailed": {
     "x-review": true
   },
+  "backupCheckFailed": "Die gespeicherte Datei ließ sich nicht prüfen und ist eventuell beschädigt. Speichere das Backup erneut als neue Datei.",
+  "@backupCheckFailed": {
+    "x-review": true
+  },
   "backupWrongPassphrase": "Falsche Passphrase oder beschädigte Datei. Es wurde nichts geändert.",
   "@backupWrongPassphrase": {
     "x-review": true

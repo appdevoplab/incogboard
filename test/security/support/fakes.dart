@@ -9,18 +9,27 @@ import 'package:incogboard/src/bridge/messages.g.dart';
 import 'package:incogboard/src/core/secure_blob_store.dart';
 
 /// Keeps blobs in memory. Names in [locked] read as null, as they do while the phone is locked,
-/// but still show up in [PlatformHostApi.secureList] (see [MockPlatform]).
-class FakeBlobStore implements SecureBlobStore {
+/// but still show up in [PlatformHostApi.secureList] (see [MockPlatform]). Names in [damaged] read as
+/// null too; the strict read tells the two apart (SEC-06).
+class FakeBlobStore implements SecureBlobStore, StrictSecureBlobRead {
   final Map<String, Uint8List> blobs = {};
   final Set<String> locked = {};
+  final Set<String> damaged = {};
   int writes = 0;
 
   @override
-  Future<Uint8List?> read(String name) async => locked.contains(name) ? null : blobs[name];
+  Future<Uint8List?> read(String name) async => locked.contains(name) || damaged.contains(name) ? null : blobs[name];
+
+  @override
+  Future<Uint8List?> readStrict(String name) async {
+    if (locked.contains(name)) throw const SecureStoreLockedException();
+    return damaged.contains(name) ? null : blobs[name];
+  }
 
   @override
   Future<void> write(String name, Uint8List data) async {
     writes++;
+    damaged.remove(name);
     blobs[name] = Uint8List.fromList(data);
   }
 

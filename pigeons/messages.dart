@@ -418,6 +418,11 @@ abstract class PlatformHostApi {
   /// app storage. [name] must match [a-z0-9_.-]{1,64}.
   @TaskQueue(type: TaskQueueType.serialBackgroundThread)
   Uint8List? secureRead(String name);
+
+  /// Like [secureRead], for the backup restore only (SEC-06): null when the blob is missing or damaged,
+  /// and an error with code `secure_store_locked` while the key cannot be used (phone locked).
+  @TaskQueue(type: TaskQueueType.serialBackgroundThread)
+  Uint8List? secureReadStrict(String name);
   @TaskQueue(type: TaskQueueType.serialBackgroundThread)
   void secureWrite(String name, Uint8List data);
   @TaskQueue(type: TaskQueueType.serialBackgroundThread)

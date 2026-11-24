@@ -795,6 +795,10 @@ class AppLocalizationsEs extends AppLocalizations {
       'No se pudo guardar la copia. No se cambió nada.';
 
   @override
+  String get backupCheckFailed =>
+      'No se pudo comprobar el archivo guardado; puede estar dañado. Vuelve a guardar la copia como un archivo nuevo.';
+
+  @override
   String get backupWrongPassphrase =>
       'Frase de contraseña incorrecta o archivo dañado. No se cambió nada.';
 

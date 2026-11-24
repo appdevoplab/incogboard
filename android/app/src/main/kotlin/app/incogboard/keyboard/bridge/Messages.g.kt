@@ -2329,6 +2329,11 @@ interface PlatformHostApi {
    * app storage. [name] must match [a-z0-9_.-]{1,64}.
    */
   fun secureRead(name: String): ByteArray?
+  /**
+   * Like [secureRead], for the backup restore only (SEC-06): null when the blob is missing or damaged,
+   * and an error with code `secure_store_locked` while the key cannot be used (phone locked).
+   */
+  fun secureReadStrict(name: String): ByteArray?
   fun secureWrite(name: String, data: ByteArray)
   fun secureDelete(name: String)
   fun secureWipeAll()
@@ -2388,6 +2393,23 @@ interface PlatformHostApi {
             val nameArg = args[0] as String
             val wrapped: List<Any?> = try {
               listOf(api.secureRead(nameArg))
+            } catch (exception: Throwable) {
+              MessagesPigeonUtils.wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.incogboard.PlatformHostApi.secureReadStrict$separatedMessageChannelSuffix", codec, taskQueue)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val nameArg = args[0] as String
+            val wrapped: List<Any?> = try {
+              listOf(api.secureReadStrict(nameArg))
             } catch (exception: Throwable) {
               MessagesPigeonUtils.wrapError(exception)
             }

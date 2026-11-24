@@ -1434,6 +1434,12 @@ abstract class AppLocalizations {
   /// **'The backup could not be saved. Nothing was changed.'**
   String get backupSaveFailed;
 
+  /// Backup: the file was written but reading it back did not match. Two lines at most
+  ///
+  /// In en, this message translates to:
+  /// **'The saved file could not be checked, so it may be damaged. Save the backup again as a new file.'**
+  String get backupCheckFailed;
+
   /// Restore: wrong passphrase or broken file. Two lines at most
   ///
   /// In en, this message translates to:

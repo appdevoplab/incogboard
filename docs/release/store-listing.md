@@ -27,8 +27,9 @@ before the listing goes live (see `checklist.md`).
   description only.
 - **F-Droid:** Writing (in `metadata/io.github.appdevoplab.incogboard.yml`).
 - **Content rating:** see `data-safety.md`, section 5. Expected lowest age band.
-- **Contact details:** the developer email is `<contact email>` in `privacy-policy.md`. Play requires a contact
-  email and a privacy policy URL; the website is optional (the repository URL can be given).
+- **Contact details:** the public contact is the GitHub issues page (https://github.com/appdevoplab/incogboard/issues,
+  user's choice 2026-11-24), also in `privacy-policy.md`. Play still requires a developer email in the Console;
+  the user enters it there. The website is optional (the repository URL can be given).
 
 ## Privacy policy URL
 

@@ -40,6 +40,9 @@ internal class PlatformHostApiImpl(
     /** Null when missing, corrupt, or the device is locked (the keyboard still works without it). */
     override fun secureRead(name: String): ByteArray? = secure { store.read(name) }
 
+    /** Restore only: null when missing or damaged, `secure_store_locked` while the key is unusable (SEC-06). */
+    override fun secureReadStrict(name: String): ByteArray? = secure { store.readStrict(name) }
+
     /** Throws a PlatformException (code `secure_store_*`) when the data could not be saved. */
     override fun secureWrite(name: String, data: ByteArray) = secure { store.write(name, data) }
 

@@ -282,6 +282,26 @@ class SecureStoreTest {
     }
 
     @Test
+    fun strictReadTellsLockedApartFromDamagedAndMissing() {
+        store.write("a", bytes("one"))
+        store.write("b", bytes("two"))
+        // Damage both copies of "b" (the file and its .bak): a strict read says null, not locked.
+        File(dir, "b.bin").writeBytes(byteArrayOf(1, 12, 0, 0))
+        File(dir, "b.bak").delete()
+        assertArrayEquals(bytes("one"), store.readStrict("a"))
+        assertNull(store.readStrict("b"))
+        assertNull(store.readStrict("missing"))
+        keys.failure = FakeKeys.Locked()
+        try {
+            store.readStrict("a")
+            fail("expected LOCKED")
+        } catch (e: SecureStoreException) {
+            assertEquals(SecureStoreException.LOCKED, e.code)
+        }
+        assertNull(store.read("a"))
+    }
+
+    @Test
     fun invalidatedKeyIsRecreatedOnWriteAndOldDataIsDropped() {
         store.write("a", bytes("one"))
         store.write("b", bytes("old"))

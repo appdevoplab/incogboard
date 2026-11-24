@@ -778,6 +778,10 @@ class AppLocalizationsHi extends AppLocalizations {
       'बैकअप सहेजा नहीं जा सका। कुछ भी नहीं बदला गया।';
 
   @override
+  String get backupCheckFailed =>
+      'सहेजी गई फ़ाइल की जाँच नहीं हो सकी, वह खराब हो सकती है। बैकअप को नई फ़ाइल के रूप में फिर से सहेजें।';
+
+  @override
   String get backupWrongPassphrase =>
       'पासफ़्रेज़ गलत है, या फ़ाइल खराब है। कुछ भी नहीं बदला गया।';
 

@@ -533,6 +533,10 @@
   "@backupSaveFailed": {
     "x-review": true
   },
+  "backupCheckFailed": "Le fichier enregistré n'a pas pu être vérifié et est peut-être endommagé. Enregistrez à nouveau la sauvegarde dans un nouveau fichier.",
+  "@backupCheckFailed": {
+    "x-review": true
+  },
   "backupWrongPassphrase": "Phrase de passe incorrecte ou fichier endommagé. Rien n'a été modifié.",
   "@backupWrongPassphrase": {
     "x-review": true

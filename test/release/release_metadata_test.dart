@@ -179,10 +179,11 @@ void main() {
       }
     });
 
-    test('the privacy policy states the no-network position and has the contact placeholder', () {
+    test('the privacy policy states the no-network position and names a public contact', () {
       final policy = _read('docs/release/privacy-policy.md');
       expect(policy, contains('does not send anything you type'));
-      expect(policy, contains('<contact email>'));
+      expect(policy, isNot(contains('<contact email>')));
+      expect(policy, contains('https://github.com/appdevoplab/incogboard/issues'));
     });
   });
 

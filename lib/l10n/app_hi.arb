@@ -1071,6 +1071,10 @@
     "description": "Backup: saving failed. Two lines at most",
     "x-review": true
   },
+  "backupCheckFailed": "सहेजी गई फ़ाइल की जाँच नहीं हो सकी, वह खराब हो सकती है। बैकअप को नई फ़ाइल के रूप में फिर से सहेजें।",
+  "@backupCheckFailed": {
+    "x-review": true
+  },
   "backupWrongPassphrase": "पासफ़्रेज़ गलत है, या फ़ाइल खराब है। कुछ भी नहीं बदला गया।",
   "@backupWrongPassphrase": {
     "description": "Restore: wrong passphrase or broken file. Two lines at most",

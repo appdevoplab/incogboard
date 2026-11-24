@@ -793,6 +793,10 @@ class AppLocalizationsFr extends AppLocalizations {
       'La sauvegarde n\'a pas pu être enregistrée. Rien n\'a été modifié.';
 
   @override
+  String get backupCheckFailed =>
+      'Le fichier enregistré n\'a pas pu être vérifié et est peut-être endommagé. Enregistrez à nouveau la sauvegarde dans un nouveau fichier.';
+
+  @override
   String get backupWrongPassphrase =>
       'Phrase de passe incorrecte ou fichier endommagé. Rien n\'a été modifié.';
 

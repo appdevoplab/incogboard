@@ -241,6 +241,25 @@ void main() {
       expect(notified, isEmpty);
     });
 
+    test('a damaged blob no longer blocks a merge: the backup copy replaces it (SEC-06)', () async {
+      store.blobs['learned_en'] = _learned('en', words: {'hello': 1});
+      store.damaged.add('learned_en');
+
+      final report = await restorer.apply(
+        BackupContents(
+          learned: {
+            'learned_en': _learned('en', words: {'world': 1}),
+          },
+        ),
+        include: {BackupSection.learned},
+        mode: RestoreMode.merge,
+      );
+
+      final restored = LearnedData.decode('en', store.blobs['learned_en']);
+      expect(restored.words.keys, ['world']);
+      expect(report.learnedLanguages, 1);
+    });
+
     test('theme merge keeps existing files; replace clears the folder first', () async {
       await themes.write('ocean.json', _bytes('phone ocean'));
       await themes.write('old.json', _bytes('old'));

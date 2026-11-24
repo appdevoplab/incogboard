@@ -793,6 +793,10 @@ class AppLocalizationsDe extends AppLocalizations {
       'Das Backup konnte nicht gespeichert werden. Es wurde nichts geändert.';
 
   @override
+  String get backupCheckFailed =>
+      'Die gespeicherte Datei ließ sich nicht prüfen und ist eventuell beschädigt. Speichere das Backup erneut als neue Datei.';
+
+  @override
   String get backupWrongPassphrase =>
       'Falsche Passphrase oder beschädigte Datei. Es wurde nichts geändert.';
 

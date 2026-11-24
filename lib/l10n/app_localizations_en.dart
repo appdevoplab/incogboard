@@ -778,6 +778,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'The backup could not be saved. Nothing was changed.';
 
   @override
+  String get backupCheckFailed =>
+      'The saved file could not be checked, so it may be damaged. Save the backup again as a new file.';
+
+  @override
   String get backupWrongPassphrase =>
       'Wrong passphrase, or the file is damaged. Nothing was changed.';
 

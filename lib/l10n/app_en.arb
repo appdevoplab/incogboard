@@ -1007,6 +1007,10 @@
   "@backupSaveFailed": {
     "description": "Backup: saving failed. Two lines at most"
   },
+  "backupCheckFailed": "The saved file could not be checked, so it may be damaged. Save the backup again as a new file.",
+  "@backupCheckFailed": {
+    "description": "Backup: the file was written but reading it back did not match. Two lines at most"
+  },
   "backupWrongPassphrase": "Wrong passphrase, or the file is damaged. Nothing was changed.",
   "@backupWrongPassphrase": {
     "description": "Restore: wrong passphrase or broken file. Two lines at most"

@@ -534,6 +534,10 @@
   "@backupSaveFailed": {
     "x-review": true
   },
+  "backupCheckFailed": "File yang disimpan tidak dapat diperiksa, jadi mungkin rusak. Simpan cadangan lagi sebagai file baru.",
+  "@backupCheckFailed": {
+    "x-review": true
+  },
   "backupWrongPassphrase": "Frasa sandi salah, atau file rusak. Tidak ada yang diubah.",
   "@backupWrongPassphrase": {
     "x-review": true

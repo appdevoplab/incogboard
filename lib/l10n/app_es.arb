@@ -533,6 +533,10 @@
   "@backupSaveFailed": {
     "x-review": true
   },
+  "backupCheckFailed": "No se pudo comprobar el archivo guardado; puede estar dañado. Vuelve a guardar la copia como un archivo nuevo.",
+  "@backupCheckFailed": {
+    "x-review": true
+  },
   "backupWrongPassphrase": "Frase de contraseña incorrecta o archivo dañado. No se cambió nada.",
   "@backupWrongPassphrase": {
     "x-review": true

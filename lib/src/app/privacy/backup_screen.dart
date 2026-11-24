@@ -6,6 +6,7 @@
 // PRIVACY: passphrases, contents and file names are never logged or shown outside this screen.
 import 'dart:async';
 
+import 'package:flutter/foundation.dart' show listEquals;
 import 'package:flutter/services.dart' show PlatformException;
 import 'package:material_ui/material_ui.dart';
 
@@ -109,6 +110,13 @@ class _BackupScreenState extends State<BackupScreen> {
       final uri = await services.app.createDocument(_fileName(), 'application/octet-stream');
       if (uri == null) return; // The user cancelled the save dialog.
       await services.app.writeDocument(uri, sealed);
+      // SEC-08: the chosen file is replaced, so read it back. A write that failed half way must not be
+      // reported as a saved backup.
+      final check = await services.app.readDocument(uri, kMaxBackupBytes);
+      if (!listEquals(check, sealed)) {
+        _message(l10n.backupCheckFailed);
+        return;
+      }
       _message(l10n.backupSaved(formatBytes(sealed.length)));
     } on BackupLockedException {
       _message(l10n.backupUnlockRetrySaved);
@@ -122,7 +130,8 @@ class _BackupScreenState extends State<BackupScreen> {
   String _fileName() {
     final now = DateTime.now();
     String two(int v) => v.toString().padLeft(2, '0');
-    return 'incogboard-${now.year}${two(now.month)}${two(now.day)}.koshabackup';
+    // Date and time, so the suggested name is a new file and an older backup is not replaced by default.
+    return 'incogboard-${now.year}${two(now.month)}${two(now.day)}-${two(now.hour)}${two(now.minute)}.koshabackup';
   }
 
   // ---- import -------------------------------------------------------------------

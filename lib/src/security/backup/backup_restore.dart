@@ -143,9 +143,20 @@ class BackupRestorer {
     ];
     for (final name in needsRead) {
       if (!blobNames.contains(name)) continue;
-      final bytes = await store.read(name);
-      if (bytes == null) throw const RestoreLockedException();
-      existing[name] = bytes;
+      final s = store;
+      if (s is StrictSecureBlobRead) {
+        // SEC-06: only a locked phone stops the restore. A damaged blob reads as null and is merged as
+        // empty, so the backup's copy replaces it instead of failing with "phone is locked" forever.
+        try {
+          existing[name] = await (s as StrictSecureBlobRead).readStrict(name);
+        } on SecureStoreLockedException {
+          throw const RestoreLockedException();
+        }
+      } else {
+        final bytes = await s.read(name);
+        if (bytes == null) throw const RestoreLockedException();
+        existing[name] = bytes;
+      }
     }
 
     var learnedLanguages = 0;

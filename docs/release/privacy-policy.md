@@ -8,7 +8,8 @@ IncogBoard is a keyboard. A keyboard sees what you type, so this policy says pla
 ## 1. Who we are
 
 IncogBoard is free software, licensed under the GNU General Public License v3.0 or later. It is developed by
-the IncogBoard contributors. Contact: `<contact email>`.
+the IncogBoard contributors. Contact: open an issue at https://github.com/appdevoplab/incogboard/issues (public; do not post
+anything private there).
 
 ## 2. No network access
 

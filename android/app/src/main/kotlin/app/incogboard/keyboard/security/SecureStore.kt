@@ -113,6 +113,22 @@ class SecureStore(private val dir: File, private val keys: KeyProvider) {
         }
     }
 
+    /**
+     * Like [read], but a key that cannot be used right now (locked device, or a key that was just
+     * invalidated) throws [SecureStoreException.LOCKED] instead of reading as null. Null still means
+     * missing or damaged. Used by the backup restore, which must not merge into data it could not read
+     * (SEC-06).
+     */
+    @Synchronized
+    fun readStrict(name: String): ByteArray? {
+        val target = fileFor(name)
+        return try {
+            decryptOrThrow(target, name) ?: decryptOrThrow(File(dir, name + BAK_SUFFIX), name)
+        } catch (e: KeyUnavailable) {
+            throw SecureStoreException(SecureStoreException.LOCKED, "the encryption key cannot be used right now")
+        }
+    }
+
     @Synchronized
     fun delete(name: String) {
         fileFor(name).delete()

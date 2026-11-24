@@ -783,6 +783,10 @@ class AppLocalizationsId extends AppLocalizations {
       'Cadangan tidak dapat disimpan. Tidak ada yang diubah.';
 
   @override
+  String get backupCheckFailed =>
+      'File yang disimpan tidak dapat diperiksa, jadi mungkin rusak. Simpan cadangan lagi sebagai file baru.';
+
+  @override
   String get backupWrongPassphrase =>
       'Frasa sandi salah, atau file rusak. Tidak ada yang diubah.';
 

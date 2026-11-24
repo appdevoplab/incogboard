@@ -4,6 +4,8 @@
 // learned words, n-grams, clipboard history, personal shortcuts.
 import 'dart:typed_data';
 
+import 'package:flutter/services.dart' show PlatformException;
+
 import '../bridge/messages.g.dart';
 
 abstract interface class SecureBlobStore {
@@ -18,8 +20,23 @@ abstract interface class SecureBlobStore {
   Future<void> wipeAll();
 }
 
+/// Thrown by [StrictSecureBlobRead.readStrict] while the phone is locked (the key cannot be used).
+class SecureStoreLockedException implements Exception {
+  const SecureStoreLockedException();
+
+  @override
+  String toString() => 'SecureStoreLockedException';
+}
+
+/// A read that tells a locked phone apart from missing or damaged data (SEC-06). Only the backup restore
+/// needs it: everywhere else "no data yet" is the right answer for all three.
+abstract interface class StrictSecureBlobRead {
+  /// Null when the blob is missing or damaged; throws [SecureStoreLockedException] while the phone is locked.
+  Future<Uint8List?> readStrict(String name);
+}
+
 /// AES-256-GCM via the Android Keystore (Kotlin SecureStore).
-class PlatformSecureBlobStore implements SecureBlobStore {
+class PlatformSecureBlobStore implements SecureBlobStore, StrictSecureBlobRead {
   PlatformSecureBlobStore(this._api);
 
   final PlatformHostApi _api;
@@ -34,6 +51,18 @@ class PlatformSecureBlobStore implements SecureBlobStore {
   }
 
   @override
+  Future<Uint8List?> readStrict(String name) async {
+    try {
+      return await _api.secureReadStrict(name);
+    } on PlatformException catch (e) {
+      if (e.code == _lockedCode) throw const SecureStoreLockedException();
+      rethrow;
+    }
+  }
+
+  static const String _lockedCode = 'secure_store_locked';
+
+  @override
   Future<void> write(String name, Uint8List data) => _api.secureWrite(name, data);
 
   @override
@@ -44,11 +73,14 @@ class PlatformSecureBlobStore implements SecureBlobStore {
 }
 
 /// For tests and previews.
-class InMemorySecureBlobStore implements SecureBlobStore {
+class InMemorySecureBlobStore implements SecureBlobStore, StrictSecureBlobRead {
   final Map<String, Uint8List> _blobs = {};
 
   @override
   Future<Uint8List?> read(String name) async => _blobs[name];
+
+  @override
+  Future<Uint8List?> readStrict(String name) async => _blobs[name];
 
   @override
   Future<void> write(String name, Uint8List data) async => _blobs[name] = Uint8List.fromList(data);

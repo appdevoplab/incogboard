@@ -533,6 +533,10 @@
   "@backupSaveFailed": {
     "x-review": true
   },
+  "backupCheckFailed": "Não foi possível verificar o arquivo salvo; ele pode estar danificado. Salve o backup novamente como um arquivo novo.",
+  "@backupCheckFailed": {
+    "x-review": true
+  },
   "backupWrongPassphrase": "Frase-senha incorreta ou arquivo danificado. Nada foi alterado.",
   "@backupWrongPassphrase": {
     "x-review": true

@@ -788,6 +788,10 @@ class AppLocalizationsPt extends AppLocalizations {
       'Não foi possível salvar o backup. Nada foi alterado.';
 
   @override
+  String get backupCheckFailed =>
+      'Não foi possível verificar o arquivo salvo; ele pode estar danificado. Salve o backup novamente como um arquivo novo.';
+
+  @override
   String get backupWrongPassphrase =>
       'Frase-senha incorreta ou arquivo danificado. Nada foi alterado.';
 
