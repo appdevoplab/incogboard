@@ -13,6 +13,8 @@ import '../../security/app_auth.dart';
 import '../../security/backup/backup_collect.dart';
 import '../../security/backup/backup_payload.dart';
 import '../../security/backup/backup_restore.dart';
+import '../../security/backup/privacy_changes.dart';
+import '../../settings/incogboard_settings.dart';
 import '../app_services.dart';
 import '../common/settings_widgets.dart';
 import 'privacy_deps.dart';
@@ -251,6 +253,7 @@ class _BackupScreenState extends State<BackupScreen> {
       );
       if (sure != true) return;
     }
+    if (!await _confirmPrivacyChanges(contents, result.include, deps)) return;
     try {
       final report = await deps.restorer.apply(contents, include: result.include, mode: result.mode);
       _message(_reportText(report));
@@ -264,6 +267,56 @@ class _BackupScreenState extends State<BackupScreen> {
     } on PlatformException {
       _message(l10n.backupRestoreFailed);
     }
+  }
+
+  /// D2 (SEC-17): a restore of the settings section also replaces the privacy settings. When that would change
+  /// any of them, name each one and ask first. True to go ahead (also when nothing changes).
+  Future<bool> _confirmPrivacyChanges(BackupContents contents, Set<BackupSection> include, PrivacyDeps deps) async {
+    final incomingJson = contents.settings;
+    if (!include.contains(BackupSection.settings) || incomingJson == null) return true;
+    final List<PrivacyChange> changes;
+    try {
+      changes = privacyChanges(deps.settings.value.privacy, IncogBoardSettings.fromJson(incomingJson).privacy);
+    } on FormatException {
+      return true; // apply() rejects a malformed settings section before it writes anything.
+    }
+    if (changes.isEmpty || !mounted) return true;
+    final l10n = context.l10n;
+    String name(PrivacySetting s) => switch (s) {
+      PrivacySetting.learning => l10n.privacyLearnNewWords,
+      PrivacySetting.incognito => l10n.privacyIncognito,
+      PrivacySetting.incognitoApps => l10n.privacyAlwaysIncognitoApps,
+      PrivacySetting.hideFromScreenshots => l10n.privacyHideScreenshots,
+      PrivacySetting.appLock => l10n.privacyLockIncogBoard,
+    };
+    String value(Object v) => switch (v) {
+      true => l10n.backupStateOn,
+      false => l10n.off,
+      final int n => l10n.backupAppsCount(n),
+      _ => '$v',
+    };
+    final sure = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.backupPrivacyChangesTitle),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(l10n.backupPrivacyChangesBody),
+              const SizedBox(height: 12),
+              for (final c in changes) Text(l10n.backupPrivacyChangeLine(name(c.setting), value(c.from), value(c.to))),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.of(context).pop(false), child: Text(l10n.cancel)),
+          FilledButton(onPressed: () => Navigator.of(context).pop(true), child: Text(l10n.backupRestoreAndChange)),
+        ],
+      ),
+    );
+    return sure == true;
   }
 
   String _reportText(RestoreReport r) {

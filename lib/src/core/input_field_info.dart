@@ -284,8 +284,9 @@ class InputFieldInfo {
   /// send raw key events instead.
   bool get isRawKeyMode => kind == FieldKind.none;
 
-  /// Sensitive = password: no popups, no suggestions, no learning, no voice, FLAG_SECURE.
-  bool get isSensitive => isPassword;
+  /// Sensitive = a password, or a field that asks for no personalised learning or no suggestions (decision D1,
+  /// 2026-11-24): no popups, no suggestions, no learning, no voice, no translation, FLAG_SECURE.
+  bool get isSensitive => isPassword || noPersonalizedLearning || noSuggestionsFlag;
 
   bool get allowsSuggestions => kind == FieldKind.text && !isPassword && !noSuggestionsFlag;
 

@@ -5,8 +5,8 @@
 // or throws a typed error (FormatException, RangeError from a bounds check, or BackupFormatException).
 // It never throws anything else, and it returns quickly.
 //
-// Tests with `skip: 'SEC-..'` pin behaviour that docs/security/audit.md lists as a finding. They fail
-// today and are skipped so the suite stays green. Remove the skip when the finding is fixed.
+// SEC-09, SEC-10 and SEC-11 (docs/security/audit.md) are fixed: their tests run. A test with
+// `skip: 'SEC-..'` would pin a finding that is still open.
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -144,13 +144,12 @@ void main() {
     });
 
     test('a truncated file is reported as FormatException', () {
-      // SEC-10: a short file reaches sublistView and throws RangeError instead of FormatException.
       final bytes = buildMdict(source);
       expect(
         () => MdictLexicon.fromBytes(Uint8List.sublistView(bytes, 0, bytes.length - 1)),
         throwsA(isA<FormatException>()),
       );
-    }, skip: 'SEC-10: truncated mdict throws RangeError, not FormatException (audit.md)');
+    });
   });
 
   group('translit table (assets/translit)', () {
@@ -180,16 +179,14 @@ void main() {
     });
 
     test('a truncated table is reported as FormatException', () {
-      // SEC-09: entries are read without bounds checks, so this throws RangeError.
       final bytes = table();
       expect(() => TranslitTable.fromBytes(Uint8List.sublistView(bytes, 0, bytes.length - 2)), throwsFormatException);
-    }, skip: 'SEC-09: translit table truncation throws RangeError (audit.md)');
+    });
 
     test('a count header far beyond the data is refused without a large allocation', () {
-      // SEC-09: the decoder allocates Uint8List(count) before reading any entry. This test is not run
-      // on the current code: count 0xFFFFFFFF would allocate 4 GiB.
+      // SEC-09: the count is checked against the file size before anything is allocated.
       expect(() => TranslitTable.fromBytes(table(count: 0xFFFFFFFF)), throwsFormatException);
-    }, skip: 'SEC-09: count is trusted before allocation (audit.md); would allocate up to 4 GiB');
+    });
   });
 
   group('zh.kdict (Chinese pack)', () {
@@ -233,10 +230,10 @@ void main() {
     });
 
     test('header counts that point past the end are rejected when the file opens', () {
-      // SEC-11: the offsets are checked only at lookup time, so this opens and a lookup throws RangeError.
+      // SEC-11: every table must lie inside the file when it opens.
       final bytes = zhFile(fields: [5, 5, 5, 5, 4, 1000000, 1000000, 1000000]);
       expect(() => ZhDictionary.fromBytes(bytes), throwsFormatException);
-    }, skip: 'SEC-11: zh.kdict header offsets are not validated at open (audit.md)');
+    });
   });
 
   group('japanese lexicon (japanese.lex.gz + japanese.conn.gz)', () {

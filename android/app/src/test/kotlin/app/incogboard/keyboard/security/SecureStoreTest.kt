@@ -88,6 +88,27 @@ class SecureStoreTest {
     }
 
     @Test
+    fun blobCopiedOverAnotherNameDoesNotDecrypt() {
+        store.write("learned_en", bytes("words"))
+        store.write("clipboard", bytes("history"))
+        File(dir, "learned_en.bin").copyTo(File(dir, "clipboard.bin"), overwrite = true)
+        File(dir, "clipboard.bak").delete()
+        assertNull(store.read("clipboard"))
+        assertArrayEquals(bytes("words"), store.read("learned_en"))
+    }
+
+    @Test
+    fun versionOneFilesAreUnreadable() {
+        store.write("words", bytes("hello"))
+        val file = File(dir, "words.bin")
+        val raw = file.readBytes()
+        raw[0] = 1 // the old format, without the name binding
+        file.writeBytes(raw)
+        File(dir, "words.bak").delete()
+        assertNull(store.read("words"))
+    }
+
+    @Test
     fun missingBlobReadsAsNull() {
         assertNull(store.read("nothing"))
     }
@@ -103,7 +124,7 @@ class SecureStoreTest {
         val plain = bytes("format check")
         store.write("fmt", plain)
         val raw = File(dir, "fmt.bin").readBytes()
-        assertEquals(1, raw[0].toInt())
+        assertEquals(2, raw[0].toInt())
         assertEquals(12, raw[1].toInt())
         // 2 header bytes + 12 iv + ciphertext (plain length) + 16 byte tag
         assertEquals(2 + 12 + plain.size + 16, raw.size)

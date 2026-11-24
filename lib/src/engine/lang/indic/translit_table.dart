@@ -42,15 +42,26 @@ class TranslitTable {
     }
     if (b[4] != 1) throw FormatException('unsupported translit version ${b[4]}');
     final count = ByteData.sublistView(b, 5, 9).getUint32(0, Endian.little);
+    // Every entry takes at least three bytes (two lengths and a score): a larger count is a corrupt file, and
+    // is refused before anything is allocated (SEC-09).
+    if (count > (b.length - 9) ~/ 3) throw const FormatException('translit table count is larger than the file');
     final romans = <String>[];
     final natives = <String>[];
     final scores = Uint8List(count);
     var p = 9;
+    void need(int n) {
+      if (p + n > b.length) throw const FormatException('translit table is truncated');
+    }
+
     for (var i = 0; i < count; i++) {
+      need(1);
       final rl = b[p++];
+      need(rl);
       romans.add(String.fromCharCodes(b, p, p + rl));
       p += rl;
+      need(1);
       final nl = b[p++];
+      need(nl + 1);
       natives.add(utf8.decode(b.sublist(p, p + nl)));
       p += nl;
       scores[i] = b[p++];

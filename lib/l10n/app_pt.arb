@@ -540,6 +540,12 @@
   "commonContinue": "Continuar",
   "backupReplaceTitle": "Substituir os dados deste celular?",
   "backupReplaceConfirm": "As seções escolhidas neste celular são apagadas e substituídas. Não é possível desfazer.",
+  "backupPrivacyChangesTitle": "Este backup altera suas configurações de privacidade",
+  "backupPrivacyChangesBody": "Restaurar as configurações vai alterar estas configurações de privacidade neste telefone. Confira antes de continuar.",
+  "backupPrivacyChangeLine": "{setting}: {from} → {to}",
+  "backupStateOn": "Ativado",
+  "backupAppsCount": "{count, plural, one {1 app} other {{count} apps}}",
+  "backupRestoreAndChange": "Restaurar e alterar",
   "backupUnlockRetryChanged": "Desbloqueie o celular e tente de novo. Nada foi alterado.",
   "backupRestoreFailed": "O IncogBoard não conseguiu concluir a restauração. Alguns dados podem não ter sido gravados.",
   "@backupRestoreFailed": {

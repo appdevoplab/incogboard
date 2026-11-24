@@ -818,6 +818,36 @@ class AppLocalizationsFr extends AppLocalizations {
       'Les sections choisies sur ce téléphone sont supprimées et remplacées. Action irréversible.';
 
   @override
+  String get backupPrivacyChangesTitle =>
+      'Cette sauvegarde modifie vos réglages de confidentialité';
+
+  @override
+  String get backupPrivacyChangesBody =>
+      'La restauration des réglages modifiera ces réglages de confidentialité sur ce téléphone. Vérifiez-les avant de continuer.';
+
+  @override
+  String backupPrivacyChangeLine(String setting, String from, String to) {
+    return '$setting : $from → $to';
+  }
+
+  @override
+  String get backupStateOn => 'Activé';
+
+  @override
+  String backupAppsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count applis',
+      one: '1 appli',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get backupRestoreAndChange => 'Restaurer et modifier';
+
+  @override
   String get backupUnlockRetryChanged =>
       'Déverrouillez le téléphone, puis réessayez. Rien n\'a été modifié.';
 

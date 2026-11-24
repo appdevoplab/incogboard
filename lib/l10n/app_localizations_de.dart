@@ -817,6 +817,36 @@ class AppLocalizationsDe extends AppLocalizations {
       'Die gewählten Bereiche auf diesem Gerät werden gelöscht und ersetzt. Das kann nicht rückgängig gemacht werden.';
 
   @override
+  String get backupPrivacyChangesTitle =>
+      'Dieses Backup ändert deine Datenschutz-Einstellungen';
+
+  @override
+  String get backupPrivacyChangesBody =>
+      'Beim Wiederherstellen der Einstellungen werden diese Datenschutz-Einstellungen auf diesem Telefon geändert. Prüfe sie, bevor du fortfährst.';
+
+  @override
+  String backupPrivacyChangeLine(String setting, String from, String to) {
+    return '$setting: $from → $to';
+  }
+
+  @override
+  String get backupStateOn => 'An';
+
+  @override
+  String backupAppsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Apps',
+      one: '1 App',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get backupRestoreAndChange => 'Wiederherstellen und ändern';
+
+  @override
   String get backupUnlockRetryChanged =>
       'Entsperre das Gerät und versuche es erneut. Es wurde nichts geändert.';
 

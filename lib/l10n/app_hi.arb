@@ -1115,6 +1115,12 @@
     "description": "Restore: replace confirmation. Three lines at most",
     "x-review": true
   },
+  "backupPrivacyChangesTitle": "यह बैकअप आपकी गोपनीयता सेटिंग बदलता है",
+  "backupPrivacyChangesBody": "सेटिंग बहाल करने पर इस फ़ोन की ये गोपनीयता सेटिंग बदल जाएँगी। आगे बढ़ने से पहले इन्हें देख लें।",
+  "backupPrivacyChangeLine": "{setting}: {from} → {to}",
+  "backupStateOn": "चालू",
+  "backupAppsCount": "{count, plural, one {1 ऐप} other {{count} ऐप}}",
+  "backupRestoreAndChange": "बहाल करें और बदलें",
   "backupUnlockRetryChanged": "फ़ोन अनलॉक करके फिर कोशिश करें। कुछ भी नहीं बदला गया।",
   "@backupUnlockRetryChanged": {
     "description": "Restore: needs the phone unlocked. Two lines at most",

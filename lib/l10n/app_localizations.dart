@@ -1476,6 +1476,42 @@ abstract class AppLocalizations {
   /// **'The chosen sections on this phone are deleted and replaced. This cannot be undone.'**
   String get backupReplaceConfirm;
 
+  /// Restore: title of the confirmation that lists privacy settings the backup would change
+  ///
+  /// In en, this message translates to:
+  /// **'This backup changes your privacy settings'**
+  String get backupPrivacyChangesTitle;
+
+  /// Restore: explains the list of privacy settings below it
+  ///
+  /// In en, this message translates to:
+  /// **'Restoring the settings will change these privacy settings on this phone. Check them before you continue.'**
+  String get backupPrivacyChangesBody;
+
+  /// Restore: one changed privacy setting. {setting} is the setting's name, {from} and {to} are the old and new value (On, Off, or a number of apps)
+  ///
+  /// In en, this message translates to:
+  /// **'{setting}: {from} → {to}'**
+  String backupPrivacyChangeLine(String setting, String from, String to);
+
+  /// A privacy setting's value: on (the off value is the existing 'off' string)
+  ///
+  /// In en, this message translates to:
+  /// **'On'**
+  String get backupStateOn;
+
+  /// Restore: number of apps in the always-incognito list
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one {1 app} other {{count} apps}}'**
+  String backupAppsCount(int count);
+
+  /// Restore: button that restores and changes the listed privacy settings
+  ///
+  /// In en, this message translates to:
+  /// **'Restore and change'**
+  String get backupRestoreAndChange;
+
   /// Restore: needs the phone unlocked. Two lines at most
   ///
   /// In en, this message translates to:
