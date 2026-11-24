@@ -3,21 +3,21 @@
 // The Indic feature: English-letter typing in Hindi (transform on and off with the layout, Hinglish output,
 // swipe mapping, no transform in URL fields), through a pumped KeyboardApp.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/bridge/messages.g.dart';
-import 'package:kosha/src/core/input_field_info.dart';
-import 'package:kosha/src/engine/contracts.dart';
-import 'package:kosha/src/features/indic/indic_feature.dart';
-import 'package:kosha/src/keyboard/keyboard_app.dart';
-import 'package:kosha/src/keyboard/keyboard_session.dart';
-import 'package:kosha/src/settings/kosha_settings.dart';
+import 'package:incogboard/src/bridge/messages.g.dart';
+import 'package:incogboard/src/core/input_field_info.dart';
+import 'package:incogboard/src/engine/contracts.dart';
+import 'package:incogboard/src/features/indic/indic_feature.dart';
+import 'package:incogboard/src/keyboard/keyboard_app.dart';
+import 'package:incogboard/src/keyboard/keyboard_session.dart';
+import 'package:incogboard/src/settings/incogboard_settings.dart';
 
 import '../../keyboard/support/app_harness.dart';
 
-const _hindi = KoshaSettings(
+const _hindi = IncogBoardSettings(
   languages: LanguageSettings(enabled: ['en', 'hi'], active: 'hi', layouts: {'hi': 'translit_hi'}),
 );
 
-const _hinglish = KoshaSettings(
+const _hinglish = IncogBoardSettings(
   languages: LanguageSettings(
     enabled: ['en', 'hi'],
     active: 'hi',
@@ -54,7 +54,7 @@ void _type(KeyboardSession s, String word) {
 
 Future<(AppHarness, KeyboardSession)> _boot(
   WidgetTester tester, {
-  KoshaSettings settings = _hindi,
+  IncogBoardSettings settings = _hindi,
   EditorInfoMessage? field,
 }) async {
   final h = AppHarness(settings: settings);
@@ -78,7 +78,7 @@ void main() {
   testWidgets('space commits the native word, even with autocorrect off', (tester) async {
     final (h, s) = await _boot(
       tester,
-      settings: const KoshaSettings(
+      settings: const IncogBoardSettings(
         typing: TypingSettings(autoCorrect: false),
         languages: LanguageSettings(enabled: ['en', 'hi'], active: 'hi', layouts: {'hi': 'translit_hi'}),
       ),

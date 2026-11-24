@@ -1,4 +1,4 @@
-# Kosha performance budgets
+# IncogBoard performance budgets
 
 Owner: Wave 4-D (performance and QA). Budgets come from the approved plan ("Performance budgets").
 Host numbers come from `flutter test test/perf` (tag `perf`) in the JIT test VM on the dev PC, so

@@ -13,7 +13,7 @@ import '../../theme/keyboard_theme_data.dart';
 import '../../theme/theme_resolver.dart';
 import '../../theme/theme_spec.dart';
 
-import 'package:kosha/src/app/l10n.dart';
+import 'package:incogboard/src/app/l10n.dart';
 
 /// Longest theme name, in characters.
 const int kThemeNameMax = 30;
@@ -23,8 +23,8 @@ String themesDirectoryFor(String dataDirectory) => '$dataDirectory/themes';
 
 /// Seed colours offered in the editor: the brand colours and a spread of hues.
 const List<int> kSeedSwatches = [
-  0xFFF5B700, // Kosha yellow
-  0xFF3E2723, // Kosha brown
+  0xFFF5B700, // IncogBoard yellow
+  0xFF3E2723, // IncogBoard brown
   0xFF8F6FD8, // lavender
   0xFF0B79C4, // ocean
   0xFF2FA67F, // mint

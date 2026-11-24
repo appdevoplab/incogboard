@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:kosha/src/design/design.dart';
-import 'package:kosha/src/theme/theme.dart';
+import 'package:incogboard/src/design/design.dart';
+import 'package:incogboard/src/theme/theme.dart';
 
 import 'theme_test_support.dart';
 

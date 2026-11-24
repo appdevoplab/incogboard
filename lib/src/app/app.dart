@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// OWNER: Wave 2-A (settings app). The shell: Kosha's brand and Material You themes, the lock gate
+// OWNER: Wave 2-A (settings app). The shell: IncogBoard's brand and Material You themes, the lock gate
 // around everything, named routes (launch route and route requests from the keyboard), and the
-// first-run setup. Keep KoshaSettingsApp's constructor stable. main() wraps it in AppScope.
+// first-run setup. Keep IncogBoardSettingsApp's constructor stable. main() wraps it in AppScope.
 import 'dart:async';
 
 import 'package:material_ui/material_ui.dart';
@@ -14,23 +14,23 @@ import 'l10n.dart';
 import 'privacy/app_lock_gate.dart';
 import 'routes.dart';
 import 'shell/app_router.dart';
-import 'shell/kosha_theme.dart';
+import 'shell/incogboard_theme.dart';
 
-class KoshaSettingsApp extends StatefulWidget {
-  const KoshaSettingsApp({super.key});
+class IncogBoardSettingsApp extends StatefulWidget {
+  const IncogBoardSettingsApp({super.key});
 
   @override
-  State<KoshaSettingsApp> createState() => _KoshaSettingsAppState();
+  State<IncogBoardSettingsApp> createState() => _IncogBoardSettingsAppState();
 }
 
-class _KoshaSettingsAppState extends State<KoshaSettingsApp> {
+class _IncogBoardSettingsAppState extends State<IncogBoardSettingsApp> {
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
   StreamSubscription<String>? _routeRequests;
   AppServices? _services;
 
   /// False until the launch route and the system colours are read.
   bool _ready = false;
-  String _initialRoute = KoshaRoutes.home;
+  String _initialRoute = IncogBoardRoutes.home;
   List<int>? _palettes;
 
   @override
@@ -48,13 +48,13 @@ class _KoshaSettingsAppState extends State<KoshaSettingsApp> {
   }
 
   Future<void> _start(AppServices services) async {
-    KoshaNotices.register();
+    IncogBoardNotices.register();
     final launch = await _read(() => services.app.takeLaunchRoute());
     final colors = await _read(() => services.platform.getSystemColors());
     if (!mounted) return;
     final done = services.settings.value.languages.onboardingDone;
     setState(() {
-      _initialRoute = launch ?? (done ? KoshaRoutes.home : KoshaRoutes.onboarding);
+      _initialRoute = launch ?? (done ? IncogBoardRoutes.home : IncogBoardRoutes.onboarding);
       _palettes = colors?.palettes;
       _ready = true;
     });
@@ -66,7 +66,7 @@ class _KoshaSettingsAppState extends State<KoshaSettingsApp> {
     try {
       return await call();
     } on Object catch (e) {
-      KoshaLog.w('App', 'host call failed', e.runtimeType);
+      IncogBoardLog.w('App', 'host call failed', e.runtimeType);
       return null;
     }
   }
@@ -89,14 +89,18 @@ class _KoshaSettingsAppState extends State<KoshaSettingsApp> {
         final contrast = contrastLevelOf(services.settings.value.appearance.contrast);
         final palettes = _palettes;
         return MaterialApp(
-          title: 'Kosha',
+          title: 'IncogBoard',
           debugShowCheckedModeBanner: false,
           // Wave 4-C fills lib/l10n/app_<locale>.arb; screens read strings with AppLocalizations.of(context).
-          localizationsDelegates: koshaLocalizationsDelegates,
-          supportedLocales: koshaSupportedLocales,
+          localizationsDelegates: incogboardLocalizationsDelegates,
+          supportedLocales: incogboardSupportedLocales,
           navigatorKey: _navigatorKey,
-          theme: koshaThemeData(koshaSchemeFor(Brightness.light, palettes: palettes, contrastLevel: contrast)),
-          darkTheme: koshaThemeData(koshaSchemeFor(Brightness.dark, palettes: palettes, contrastLevel: contrast)),
+          theme: incogboardThemeData(
+            incogboardSchemeFor(Brightness.light, palettes: palettes, contrastLevel: contrast),
+          ),
+          darkTheme: incogboardThemeData(
+            incogboardSchemeFor(Brightness.dark, palettes: palettes, contrastLevel: contrast),
+          ),
           themeMode: ThemeMode.system,
           initialRoute: _initialRoute,
           onGenerateRoute: routeFor,

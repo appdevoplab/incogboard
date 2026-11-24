@@ -6,13 +6,13 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/engine/dictionary/mdict_lexicon.dart';
-import 'package:kosha/src/engine/dictionary/text_fold.dart';
+import 'package:incogboard/src/engine/dictionary/mdict_lexicon.dart';
+import 'package:incogboard/src/engine/dictionary/text_fold.dart';
 
 void main() {
   group('build_dictionary tool, every script', () {
     test('keeps short Devanagari and Cyrillic words, drops all-caps Cyrillic noise', () async {
-      final dir = Directory.systemTemp.createTempSync('kosha_dict_scripts');
+      final dir = Directory.systemTemp.createTempSync('incogboard_dict_scripts');
       addTearDown(() => dir.deleteSync(recursive: true));
       final input = File('${dir.path}/scripts.combined')
         ..writeAsStringSync(

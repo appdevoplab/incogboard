@@ -4,10 +4,10 @@
 // do, and the panel's messages and text flow work end to end with a mocked ImeHostApi.
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:kosha/src/bridge/messages.g.dart';
-import 'package:kosha/src/core/input_field_info.dart';
-import 'package:kosha/src/features/voice/voice_feature.dart';
-import 'package:kosha/src/settings/kosha_settings.dart';
+import 'package:incogboard/src/bridge/messages.g.dart';
+import 'package:incogboard/src/core/input_field_info.dart';
+import 'package:incogboard/src/features/voice/voice_feature.dart';
+import 'package:incogboard/src/settings/incogboard_settings.dart';
 
 import '../../keyboard/support/app_harness.dart';
 
@@ -126,7 +126,7 @@ void main() {
   });
 
   testWidgets('incognito never opens the panel', (tester) async {
-    final h = AppHarness(settings: const KoshaSettings(privacy: PrivacySettings(incognito: true)));
+    final h = AppHarness(settings: const IncogBoardSettings(privacy: PrivacySettings(incognito: true)));
     allowMic(h);
     when(() => h.host.startVoice(any())).thenAnswer((_) async => VoiceStartStatus.started);
     await h.pump(tester, features: [createVoiceFeature()]);
@@ -140,7 +140,7 @@ void main() {
   });
 
   testWidgets('voice switched off in settings explains it and offers the voice settings', (tester) async {
-    final h = AppHarness(settings: KoshaSettings(voice: const VoiceSettings(enabled: false)));
+    final h = AppHarness(settings: IncogBoardSettings(voice: const VoiceSettings(enabled: false)));
     allowMic(h);
     await h.pump(tester, features: [createVoiceFeature()]);
     await h.focus(tester);

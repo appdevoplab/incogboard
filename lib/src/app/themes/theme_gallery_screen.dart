@@ -8,7 +8,7 @@ import 'dart:async';
 import 'package:material_ui/material_ui.dart';
 
 import '../../core/log.dart';
-import '../../settings/kosha_settings.dart';
+import '../../settings/incogboard_settings.dart';
 import '../../theme/custom/custom_theme_store.dart';
 import '../../theme/keyboard_theme_data.dart';
 import '../../theme/presets.dart';
@@ -19,7 +19,7 @@ import 'theme_card.dart';
 import 'theme_editor_screen.dart';
 import 'theme_support.dart';
 
-import 'package:kosha/src/app/l10n.dart';
+import 'package:incogboard/src/app/l10n.dart';
 
 enum _CardAction { edit, duplicate, rename, delete }
 
@@ -72,7 +72,7 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
     try {
       return (await services.platform.getSystemColors())?.palettes;
     } on Object catch (e) {
-      KoshaLog.w(context.l10n.onboardingThemeTitle, 'system colours unavailable', e.runtimeType);
+      IncogBoardLog.w(context.l10n.onboardingThemeTitle, 'system colours unavailable', e.runtimeType);
       return null;
     }
   }
@@ -85,12 +85,12 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
   }
 
   /// Writes settings and tells the user if that fails. Appearance changes reach the keyboard engine.
-  Future<void> _commit(KoshaSettings Function(KoshaSettings current) change) async {
+  Future<void> _commit(IncogBoardSettings Function(IncogBoardSettings current) change) async {
     final l10n = context.l10n;
     try {
       await _services!.settings.update(change, sections: const [SettingsSection.appearance]);
     } on Object catch (e) {
-      KoshaLog.w(l10n.onboardingThemeTitle, 'settings write failed', e.runtimeType);
+      IncogBoardLog.w(l10n.onboardingThemeTitle, 'settings write failed', e.runtimeType);
       _snack(l10n.themeSettingFailed);
     }
   }
@@ -106,7 +106,7 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
 
   /// Bumps the custom theme revision so the keyboard re-reads files that changed; optionally also
   /// changes the selected theme (used when the selected custom theme is deleted).
-  static KoshaSettings _bumpRevision(KoshaSettings c, {String? themeId}) => c.copyWith(
+  static IncogBoardSettings _bumpRevision(IncogBoardSettings c, {String? themeId}) => c.copyWith(
     appearance: c.appearance.copyWith(themeId: themeId, customThemeRevision: c.appearance.customThemeRevision + 1),
   );
 
@@ -145,7 +145,7 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
       await store.duplicate(spec, copyNameFor(spec.name, context.l10n));
       await _reloadCustom();
     } on Object catch (e) {
-      KoshaLog.w(l10n.onboardingThemeTitle, 'duplicate failed', e.runtimeType);
+      IncogBoardLog.w(l10n.onboardingThemeTitle, 'duplicate failed', e.runtimeType);
       _snack(l10n.themeDuplicateFailed);
     }
   }
@@ -162,7 +162,7 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
       await store.write(spec.copyWith(name: name));
       await _reloadCustom();
     } on Object catch (e) {
-      KoshaLog.w(l10n.onboardingThemeTitle, 'rename failed', e.runtimeType);
+      IncogBoardLog.w(l10n.onboardingThemeTitle, 'rename failed', e.runtimeType);
       _snack(l10n.themeRenameFailed);
     }
   }
@@ -185,10 +185,10 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
     if (ok != true || store == null) return;
     try {
       await store.delete(spec.id);
-      await _commit((c) => _bumpRevision(c, themeId: inUse ? ThemePresets.koshaDynamic.id : null));
+      await _commit((c) => _bumpRevision(c, themeId: inUse ? ThemePresets.incogboardDynamic.id : null));
       await _reloadCustom();
     } on Object catch (e) {
-      KoshaLog.w(l10n.onboardingThemeTitle, 'delete failed', e.runtimeType);
+      IncogBoardLog.w(l10n.onboardingThemeTitle, 'delete failed', e.runtimeType);
       _snack(l10n.themeDeleteFailed);
     }
   }
@@ -203,7 +203,7 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
     );
   }
 
-  Widget _buildPage(BuildContext context, KoshaSettings settings) {
+  Widget _buildPage(BuildContext context, IncogBoardSettings settings) {
     final appearance = settings.appearance;
     final systemDark = MediaQuery.platformBrightnessOf(context) == Brightness.dark;
     final dark =
@@ -265,8 +265,8 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
             ),
             if (palettes != null)
               SettingsTile(
-                title: context.l10n.themeKoshaDynamicFollows,
-                subtitle: context.l10n.themeKoshaDynamicBody,
+                title: context.l10n.themeIncogBoardDynamicFollows,
+                subtitle: context.l10n.themeIncogBoardDynamicBody,
                 icon: Icons.wallpaper_outlined,
               ),
           ],

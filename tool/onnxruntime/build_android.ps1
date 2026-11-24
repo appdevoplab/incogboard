@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
-# Rebuilds the reduced onnxruntime 1.28.0 AAR for Kosha (Wave 4-D, plan Part 1). Run from the repo root.
+# Rebuilds the reduced onnxruntime 1.28.0 AAR for IncogBoard (Wave 4-D, plan Part 1). Run from the repo root.
 #
 # STATUS: NOT RUN. Written from the brief, not tested. The build could not start because the
 # onnxruntime source (github.com/microsoft/onnxruntime, tag v1.28.0) was not downloadable from this
@@ -13,7 +13,7 @@
 #   2. one build per ABI (arm64-v8a, armeabi-v7a, x86_64) with MinSizeRel, the reduced op set, the
 #      Java API and no tests;
 #   3. the AAR packaging step;
-#   4. copy to android\app\libs\onnxruntime-kosha-1.28.0.aar and run check_aar.ps1.
+#   4. copy to android\app\libs\onnxruntime-incogboard-1.28.0.aar and run check_aar.ps1.
 #
 # Do NOT change android\app\build.gradle.kts unless check_aar.ps1 passes.
 param(
@@ -26,7 +26,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $repo = (Resolve-Path "$PSScriptRoot\..\..").Path
-$aarOut = Join-Path $repo 'android\app\libs\onnxruntime-kosha-1.28.0.aar'
+$aarOut = Join-Path $repo 'android\app\libs\onnxruntime-incogboard-1.28.0.aar'
 
 if (-not (Test-Path (Join-Path $Src 'build.bat'))) {
   throw "onnxruntime v1.28.0 source not found at $Src (set -Src). Clone https://github.com/microsoft/onnxruntime at tag v1.28.0."

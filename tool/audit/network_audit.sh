@@ -72,7 +72,7 @@ for apk in "$@"; do
   echo "$manifest" | grep -E '^ +E: (activity|service|receiver|provider)' | sed 's/^ */  /' || true
 
   # 3. Dex class scan.
-  dex=$(mktemp "${TMPDIR:-/tmp}/kosha-dex.XXXXXX")
+  dex=$(mktemp "${TMPDIR:-/tmp}/incogboard-dex.XXXXXX")
   unzip -p "$apk" 'classes*.dex' > "$dex" 2>/dev/null || true
   if [ ! -s "$dex" ]; then
     fail "$apk has no classes*.dex"

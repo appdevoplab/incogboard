@@ -31,7 +31,7 @@ const String _engine = 'mozc';
 /// captures only [dir]: a closure made inside the feature would drag the composer (and its futures) along.
 Future<JapaneseDictionary> _loadDictionaryInIsolate(String dir) => Isolate.run(() => JapaneseDictionary.load(dir));
 
-/// The pack route in the settings app (KoshaRoutes.packs).
+/// The pack route in the settings app (IncogBoardRoutes.packs).
 const String _packsRoute = 'packs';
 
 final Stopwatch _clock = Stopwatch()..start();
@@ -126,7 +126,7 @@ class _JapaneseFeature extends KeyboardFeature {
         _learning.clear();
         _learning.absorb(JapaneseLearning.fromBytes(bytes));
       } on Object catch (e) {
-        KoshaLog.w('Japanese', 'learned words not read', e.runtimeType);
+        IncogBoardLog.w('Japanese', 'learned words not read', e.runtimeType);
       }
     }());
   }
@@ -137,7 +137,7 @@ class _JapaneseFeature extends KeyboardFeature {
     final bytes = _learning.toBytes();
     unawaited(
       s.services.secureStore.write(JapaneseLearning.blobName, bytes).catchError((Object e) {
-        KoshaLog.w('Japanese', 'learned words not saved', e.runtimeType);
+        IncogBoardLog.w('Japanese', 'learned words not saved', e.runtimeType);
       }),
     );
   }
@@ -165,20 +165,20 @@ class _JapaneseFeature extends KeyboardFeature {
       try {
         final found = await InstalledPacks(s.services.platform).open('ja', engine: _engine);
         if (found == null) {
-          KoshaLog.d('Japanese', 'no dictionary pack installed');
+          IncogBoardLog.d('Japanese', 'no dictionary pack installed');
         } else {
           final sw = Stopwatch()..start();
           final dir = found.$2.path;
           final dict = await _loadDictionaryInIsolate(dir);
           _dict = dict;
           composer.setDictionary(dict);
-          KoshaLog.d(
+          IncogBoardLog.d(
             'Japanese',
             'dictionary loaded in ${sw.elapsedMilliseconds} ms: ${dict.entryCount} entries, ${dict.sizeInBytes} bytes',
           );
         }
       } on Object catch (e) {
-        KoshaLog.w('Japanese', 'dictionary not loaded', e.runtimeType);
+        IncogBoardLog.w('Japanese', 'dictionary not loaded', e.runtimeType);
       } finally {
         _dictLoading = false;
         composer.setLoading(false);

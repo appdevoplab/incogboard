@@ -1,6 +1,6 @@
-Kosha themes data. See THIRD_PARTY_NOTICES.md for sources and licenses.
+IncogBoard themes data. See THIRD_PARTY_NOTICES.md for sources and licenses.
 
-The built-in presets (Kosha Dynamic, Kosha Gold, Lavender, Ocean, Mint, Coral,
+The built-in presets (IncogBoard Dynamic, IncogBoard Gold, Lavender, Ocean, Mint, Coral,
 Rose, Graphite) are defined in Dart (lib/src/theme/presets.dart) so resolving a
 theme is synchronous. Custom themes (theme editor, Wave 2) are stored as JSON
 files in this format, one file per theme, and selected through

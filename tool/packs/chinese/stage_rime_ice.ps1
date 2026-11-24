@@ -63,7 +63,7 @@ if ($LASTEXITCODE -ne 0) { throw 'build_zh_dict failed' }
 
 # NOTICE.txt: the sources, the pinned commits and both licence texts travel inside the pack.
 $notice = @()
-$notice += 'dict-zh-rime-ice: Chinese (Simplified) dictionary for Kosha, converted from rime-ice and OpenCC.'
+$notice += 'dict-zh-rime-ice: Chinese (Simplified) dictionary for IncogBoard, converted from rime-ice and OpenCC.'
 $notice += "rime-ice: https://github.com/iDvel/rime-ice (cn_dicts/base, ext, 8105), commit $rimeSha. Licence: GPL-3.0."
 $notice += "OpenCC: https://github.com/BYVoid/OpenCC (data/dictionary ST*, TW*), commit $openccSha. Licence: Apache-2.0."
 $notice += 'Converted: entries re-encoded into the zh.kdict binary format; OpenCC tables merged into s2twp.tsv.'

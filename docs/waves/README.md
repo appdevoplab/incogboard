@@ -17,7 +17,7 @@
    - Check suggestions and autocorrect ("teh " → "the ").
    - Check themes in light and dark mode.
 5. Release check: `flutter build apk --release --split-per-abi`, then `bash tool/check_release_permissions.sh build/app/outputs/flutter-apk/*-release.apk` (Git Bash): no network permissions and no onnxruntime telemetry.
-6. Commit the merge, and update the memory file kosha-project.md with the wave status.
+6. Commit the merge, and update the memory file incogboard-project.md with the wave status.
 
 ## Wave 2: product (5 agents)
 
@@ -44,7 +44,7 @@
 
 | Agent | Owns | Brief |
 |---|---|---|
-| A | `lib/src/app/shell,onboarding,settings,languages/**` | Settings shell (M3E grouped containers, large headers). Onboarding: enable, then switch, then the "may collect text" explainer, then pick languages and theme, then try it, illustrated with the Kosha mascot. Typing, feel and panels settings screens. Implement AppFlutterApi so the app reloads settings. Optional `material_3_expressive` package only after a licence/code audit. |
+| A | `lib/src/app/shell,onboarding,settings,languages/**` | Settings shell (M3E grouped containers, large headers). Onboarding: enable, then switch, then the "may collect text" explainer, then pick languages and theme, then try it, illustrated with the IncogBoard mascot. Typing, feel and panels settings screens. Implement AppFlutterApi so the app reloads settings. Optional `material_3_expressive` package only after a licence/code audit. |
 | B | `lib/src/app/privacy/**`, `lib/src/security/**`, Kotlin backup crypto under `android/.../security/backup/` | Privacy center: proof of no internet, stored-data sizes, incognito rules per app, wipe per category, learned-words viewer and editor, personal shortcuts. App lock with local_auth (strong biometric or device credential), a timeout, and FLAG_SECURE plus no recents thumbnail on sensitive screens. Encrypted `.koshabackup` file: PBKDF2-SHA256 with 600k iterations, AES-256-GCM, SAF picker, preview, then merge or replace. |
 | C | `lib/src/app/themes/**`, plus theme repository additions in `lib/src/theme/custom/**` | Theme gallery as an M3 carousel. Editor with a live preview of the real keyboard widget and a try-typing field. Photo background through the Photo Picker, with crop and pre-rendered blur/dim saved to app storage. Custom themes stored as JSON. |
 | D | `lib/src/features/emoji,clipboard,editing/**`, `tool/build_emoji.dart`, `assets/emoji/**` | Emoji from `emoji-test.txt` plus CLDR annotations (Unicode licence) for every planned language. Search uses the keyboard's own keys. Skin tone remembered per emoji, recents, hasGlyphs filtering, and kaomoji and symbols tabs. Clipboard panel: pins, expiry, recent-copy chip, masked sensitive items, all through SecureBlobStore. Editing panel: arrows, selection, cut/copy/paste, undo/redo, home/end. Emoji suggestions in the strip. |
@@ -104,12 +104,12 @@ Original plan for the wave:
 
 ## Wave 4: CJK, brand and polish (5)
 
-**Status (2026-11-23 afternoon): done.** E, D, A, B, C merged on `main`; checks, emulator smoke test and release gate passed (arm64 80.1 MB); both dictionary packs signed. Details and open items: `HANDOFF.md`. Earlier: setup done: Myna → Kosha rename (`4a3c394`), BIS InScript layouts (`238cbcc`), seams (`f2fd99a`: composer, candidate strip and grid, flick, zh/ja, dictionary packs, l10n). Briefs: `docs/waves/wave4/` (COMMON, A-chinese, B-japanese, C-a11y-l10n, D-perf, E-brand); ownership in `docs/PARALLEL_WORK.md`. User decisions: `HANDOFF.md`, "Wave 4 decisions". Launch all five on Haiku, high effort. **Merge order was** E, D, A, B, C.
+**Status (2026-11-23 afternoon): done.** E, D, A, B, C merged on `main`; checks, emulator smoke test and release gate passed (arm64 80.1 MB); both dictionary packs signed. Details and open items: `HANDOFF.md`. Earlier: setup done: Myna → IncogBoard rename (`4a3c394`), BIS InScript layouts (`238cbcc`), seams (`f2fd99a`: composer, candidate strip and grid, flick, zh/ja, dictionary packs, l10n). Briefs: `docs/waves/wave4/` (COMMON, A-chinese, B-japanese, C-a11y-l10n, D-perf, E-brand); ownership in `docs/PARALLEL_WORK.md`. User decisions: `HANDOFF.md`, "Wave 4 decisions". Launch all five on Haiku, high effort. **Merge order was** E, D, A, B, C.
 
-- **E (from Wave 3):** brand (name Kosha = "treasury, store of gold"):
+- **E (from Wave 3):** brand (name IncogBoard = "treasury, store of gold"):
   - Adaptive icon (foreground, background, monochrome): a rounded treasure chest whose lock is a keyboard key, gold on Material You colours.
   - Splash.
-  - No character mascot: the chest replaces `KoshaMascot` (today still the bird drawing), with poses open, locked, glowing, closed.
+  - No character mascot: the chest replaces `IncogBoardMascot` (today still the bird drawing), with poses open, locked, glowing, closed.
   - Play 512 icon, feature graphic, store screenshots template.
 
 - **A:** Chinese pinyin, as a Dart lattice converter:

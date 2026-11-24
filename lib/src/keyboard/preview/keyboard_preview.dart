@@ -10,7 +10,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../core/input_field_info.dart';
 import '../../packs/pack_repository.dart';
-import '../../settings/kosha_settings.dart';
+import '../../settings/incogboard_settings.dart';
 import '../../theme/keyboard_theme_data.dart';
 import '../input/input_controller.dart';
 import '../input/keyboard_page.dart';
@@ -39,7 +39,7 @@ class KeyboardPreview extends StatefulWidget {
   });
 
   final KeyboardThemeData theme;
-  final KoshaSettings settings;
+  final IncogBoardSettings settings;
 
   /// Layout asset id (`assets/layouts/<id>.json`).
   final String layoutId;

@@ -4,17 +4,17 @@
 // or overflow. German and Hindi have the longest strings, so they are checked first.
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:kosha/src/app/about/about_screen.dart';
-import 'package:kosha/src/app/app_services.dart';
-import 'package:kosha/src/app/l10n.dart';
-import 'package:kosha/src/app/screens/feel_screen.dart';
-import 'package:kosha/src/app/screens/home_screen.dart';
-import 'package:kosha/src/app/screens/languages_screen.dart';
-import 'package:kosha/src/app/screens/panels_screen.dart';
-import 'package:kosha/src/app/screens/typing_screen.dart';
-import 'package:kosha/src/app/screens/voice_screen.dart';
-import 'package:kosha/src/app/shell/kosha_theme.dart';
-import 'package:kosha/src/settings/kosha_settings.dart';
+import 'package:incogboard/src/app/about/about_screen.dart';
+import 'package:incogboard/src/app/app_services.dart';
+import 'package:incogboard/src/app/l10n.dart';
+import 'package:incogboard/src/app/screens/feel_screen.dart';
+import 'package:incogboard/src/app/screens/home_screen.dart';
+import 'package:incogboard/src/app/screens/languages_screen.dart';
+import 'package:incogboard/src/app/screens/panels_screen.dart';
+import 'package:incogboard/src/app/screens/typing_screen.dart';
+import 'package:incogboard/src/app/screens/voice_screen.dart';
+import 'package:incogboard/src/app/shell/incogboard_theme.dart';
+import 'package:incogboard/src/settings/incogboard_settings.dart';
 
 import '../../app/support/app_fakes.dart';
 
@@ -34,15 +34,15 @@ void main() {
   for (final code in _locales) {
     for (final entry in _screens.entries) {
       testWidgets('${entry.key} builds in $code at font scale 1.3', (tester) async {
-        final fakes = AppFakes(settings: const KoshaSettings(languages: LanguageSettings(onboardingDone: true)));
+        final fakes = AppFakes(settings: const IncogBoardSettings(languages: LanguageSettings(onboardingDone: true)));
         await tester.pumpWidget(
           AppScope(
             services: fakes.services,
             child: MaterialApp(
               locale: Locale(code),
-              supportedLocales: koshaSupportedLocales,
-              localizationsDelegates: koshaLocalizationsDelegates,
-              theme: koshaThemeData(koshaBrandScheme(Brightness.light)),
+              supportedLocales: incogboardSupportedLocales,
+              localizationsDelegates: incogboardLocalizationsDelegates,
+              theme: incogboardThemeData(incogboardBrandScheme(Brightness.light)),
               builder: (context, child) => MediaQuery(
                 data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1.3)),
                 child: child!,

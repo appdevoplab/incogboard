@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/core/secure_blob_store.dart';
-import 'package:kosha/src/engine/dictionary/lexicon_factory.dart';
-import 'package:kosha/src/engine/suggest/text_predictor.dart';
+import 'package:incogboard/src/core/secure_blob_store.dart';
+import 'package:incogboard/src/engine/dictionary/lexicon_factory.dart';
+import 'package:incogboard/src/engine/suggest/text_predictor.dart';
 
 import 'support.dart';
 
 void main() {
   test('suggest() latency with the full English dictionary', () async {
     final geometry = qwertyGeometry();
-    final predictor = KoshaTextPredictor(
+    final predictor = IncogBoardTextPredictor(
       lexicons: createLexiconSource(packs: FilePackRepository()),
       store: InMemorySecureBlobStore(),
     );

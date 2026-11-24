@@ -5,10 +5,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:kosha/src/app/l10n.dart';
-import 'package:kosha/src/app/screens/voice_screen.dart';
-import 'package:kosha/src/bridge/messages.g.dart';
-import 'package:kosha/src/settings/kosha_settings.dart';
+import 'package:incogboard/src/app/l10n.dart';
+import 'package:incogboard/src/app/screens/voice_screen.dart';
+import 'package:incogboard/src/bridge/messages.g.dart';
+import 'package:incogboard/src/settings/incogboard_settings.dart';
 
 import '../support/app_fakes.dart';
 
@@ -24,16 +24,16 @@ PackInfoMessage _pack(String id, PackKind kind, String name) => PackInfoMessage(
 );
 
 /// The settings a write produced: applies the captured change to [base].
-KoshaSettings _applied(AppFakes fakes, {KoshaSettings base = const KoshaSettings()}) {
+IncogBoardSettings _applied(AppFakes fakes, {IncogBoardSettings base = const IncogBoardSettings()}) {
   final change =
       verify(() => fakes.store.update(captureAny(), sections: any(named: 'sections'))).captured.last
-          as KoshaSettings Function(KoshaSettings);
+          as IncogBoardSettings Function(IncogBoardSettings);
   return change(base);
 }
 
 void main() {
   setUpAll(() {
-    registerFallbackValue((KoshaSettings s) => s);
+    registerFallbackValue((IncogBoardSettings s) => s);
     registerFallbackValue(<String>[]);
   });
 
@@ -50,7 +50,7 @@ void main() {
     );
   });
 
-  Future<void> pump(WidgetTester tester, KoshaSettings settings) async {
+  Future<void> pump(WidgetTester tester, IncogBoardSettings settings) async {
     fakes = AppFakes(settings: settings);
     when(() => fakes.platform.listPacks()).thenAnswer(
       (_) async => [
@@ -62,12 +62,12 @@ void main() {
     await pumpWithServices(
       tester,
       fakes.services,
-      const MaterialApp(localizationsDelegates: koshaLocalizationsDelegates, home: VoiceScreen()),
+      const MaterialApp(localizationsDelegates: incogboardLocalizationsDelegates, home: VoiceScreen()),
     );
   }
 
   testWidgets('shows the switch, Automatic pack, language detection and the privacy line', (tester) async {
-    await pump(tester, const KoshaSettings());
+    await pump(tester, const IncogBoardSettings());
 
     expect(find.text('Voice typing'), findsOneWidget);
     expect(find.text('Voice pack'), findsOneWidget);
@@ -77,7 +77,7 @@ void main() {
   });
 
   testWidgets('turning voice typing off writes the voice section', (tester) async {
-    await pump(tester, const KoshaSettings());
+    await pump(tester, const IncogBoardSettings());
 
     await tester.tap(find.byType(Switch).first);
     await tester.pumpAndSettle();
@@ -87,14 +87,14 @@ void main() {
   });
 
   testWidgets('a selected pack shows its name', (tester) async {
-    await pump(tester, const KoshaSettings(voice: VoiceSettings(modelId: 'voice-whisper-small')));
+    await pump(tester, const IncogBoardSettings(voice: VoiceSettings(modelId: 'voice-whisper-small')));
 
     expect(find.text('Whisper small'), findsOneWidget);
     expect(find.text('Automatic'), findsNothing);
   });
 
   testWidgets('choosing a voice pack lists only voice packs and writes the id', (tester) async {
-    await pump(tester, const KoshaSettings());
+    await pump(tester, const IncogBoardSettings());
 
     await tester.tap(find.text('Voice pack'));
     await tester.pumpAndSettle();
@@ -110,7 +110,7 @@ void main() {
   });
 
   testWidgets('automatic detection switch writes autoDetectLanguage', (tester) async {
-    await pump(tester, const KoshaSettings());
+    await pump(tester, const IncogBoardSettings());
 
     await tester.tap(find.widgetWithText(SwitchListTile, 'Detect language automatically'));
     await tester.pumpAndSettle();

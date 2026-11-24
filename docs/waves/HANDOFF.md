@@ -2,6 +2,14 @@
 
 State as of 2026-11-23 (evening). `main` is clean; nothing is pushed. **Waves 0-5 are merged** (Wave 5: A security audit, C data packs, B release engineering). What is left is the user's list ("Before the first store release") and the polish items.
 
+## Renamed to IncogBoard (2026-11-24)
+
+The app is now **IncogBoard** (was Kosha). Package and namespace `app.incogboard.keyboard` (placeholder applicationId, becomes `io.github.<username>.incogboard`), Dart package `incogboard`, Kotlin dir `app/incogboard`, classes `IncogBoardImeService`/`IncogBoardApplication`, functions `Install-IncogBoard`/`Enable-IncogBoard`, F-Droid recipe `metadata/app.incogboard.keyboard.yml`. Checks after the rename: format (width 120), analyze 0 issues, 1404 Flutter tests, JVM tests, foss and play release builds, permission gate.
+
+**Deliberately unchanged** (persisted, signed or on the user's machine; changing them breaks existing data or keys): the pack format `.koshapack` and magic `KOSHAPAK`, the backup format `.koshabackup`, the Keystore alias `kosha.secure_store.v1`, every `KOSHA_*` environment variable and CI secret name, `%USERPROFILE%\.kosha\` (keys, packs, release), `kosha-release.p12` and alias `kosha-release`, and the known-answer plaintext "Kosha backup test vector" in `BackupCryptoTest`. Not rewritten (historical): `docs/waves/wave4`, `docs/waves/wave5`, `docs/PARALLEL_WORK.md`, `docs/waves/translator.md`, `docs/brand/trademark-check.md` (that trademark check was for "Kosha": redo it for "IncogBoard" before the store release). Stale pre-rename APKs without a flavour name may sit in `build/app/outputs/flutter-apk/`: gate only `app-*-foss-release.apk` and `app-*-play-release.apk`. Do not run plain `dart format .`: use `dart format --line-length 120 lib test pigeons tool/audit`.
+
+Steps 1 to 4 below were NOT started in this session (the rename came first). Read paths below with `kosha` as `incogboard`.
+
 ## Do next (in order)
 
 1. **Pigeon wiring for pack maintenance** so Verify installed packs works (`docs/packs/README.md`, "Bridge additions"): add the methods to `pigeons/messages.dart`, regenerate (`dart run pigeon --input pigeons/messages.dart`, then `dart format --line-length 120 lib/src/bridge/messages.g.dart`), implement in `PlatformHostApiImpl.kt` (CRLF file: edit with Python, not sed), replace `UnavailablePackMaintenance`. Add a Dart-visible flavour value in the same change if cheap.
@@ -12,9 +20,9 @@ State as of 2026-11-23 (evening). `main` is clean; nothing is pushed. **Waves 0-
 
 ## Wave 5 result (merged 2026-11-23)
 
-- **A:** `docs/security/` (threat model, audit with 20 findings, licence audit: 157 of 158 components ok), `SECURITY.md`, hardened CI (actions pinned by SHA; I added `--flavor foss`), Dependabot, `tool/audit/`, `test/security/`, `docs/brand/trademark-check.md` (risk medium; closest is the App Store app "Kosha: Private Vault"; recommends "Kosha Keyboard" plus a professional class 9/42 search).
+- **A:** `docs/security/` (threat model, audit with 20 findings, licence audit: 157 of 158 components ok), `SECURITY.md`, hardened CI (actions pinned by SHA; I added `--flavor foss`), Dependabot, `tool/audit/`, `test/security/`, `docs/brand/trademark-check.md` (risk medium; closest is the App Store app "IncogBoard: Private Vault"; recommends "IncogBoard Keyboard" plus a professional class 9/42 search).
 - **C:** pack key list (`PackKeys.trusted`; release key list in `ReleasePackKeys.kt`; dev key only in debuggable builds), `make_pack.dart --key` required (dev key only with `KOSHA_ALLOW_DEV_KEY=1`), `--verify`/`--key-id`, the Model packs screen (how to get, Copy link, Verify, free space), the Play asset-pack seam, four modules in `android/asset_packs/`, `tool/packs/build_bundle.ps1`.
-- **B:** flavours `foss` and `play` (identical today), release signing from `android/key.properties` or `KOSHA_*` variables, `tool/release/` (keys, application id swap, version bump, build, reproducibility check), fastlane texts (en-US full, six locales title and short text, machine drafts), F-Droid draft recipe, privacy policy, Data safety answers, `docs/release/` incl. `checklist.md`, a draft-only `release.yml`.
+- **B:** flavours `foss` and `play` (identical today), release signing from `android/key.properties` or `INCOGBOARD_*` variables, `tool/release/` (keys, application id swap, version bump, build, reproducibility check), fastlane texts (en-US full, six locales title and short text, machine drafts), F-Droid draft recipe, privacy policy, Data safety answers, `docs/release/` incl. `checklist.md`, a draft-only `release.yml`.
 - **Orchestrator after the merge:**
   - Applied A's patches P1 (restore validates settings before writing), P4 (overflow-safe pack size), P5 (PBKDF2 cap 2M).
   - **Release keys generated** in `%USERPROFILE%\.kosha\release\` (`kosha-release.p12`, `release-keystore.password`, `key.properties`, `pack-release.pem`, `pack-release.pub.b64`/`.pub.pem`). Keystore SHA-256 `6E:07:C8:BC:...:7D:B4:1D`; pack key id `ec3c5b2aebea85ac`. **The user must back up that folder to two offline places.** `android/key.properties` is a git-ignored copy.
@@ -27,7 +35,7 @@ State as of 2026-11-23 (evening). `main` is clean; nothing is pushed. **Waves 0-
 ## Before the first store release (user)
 
 1. Back up `%USERPROFILE%\.kosha\release\` twice, offline; keep the password in a password manager.
-2. GitHub username: run `tool/release/set_application_id.ps1 io.github.<username>.kosha`; fill the About source URL and the release-page URL (`https://example.invalid/kosha/releases` placeholder in the packs screen) and `<contact email>` in `docs/release/privacy-policy.md`.
+2. GitHub username: run `tool/release/set_application_id.ps1 io.github.<username>.kosha`; fill the About source URL and the release-page URL (`https://example.invalid/incogboard/releases` placeholder in the packs screen) and `<contact email>` in `docs/release/privacy-policy.md`.
 3. Decisions: D1 sensitive-field rule (password-only today, plan says wider: patch P2 in `docs/security/audit.md`); D2 confirm before a backup restore changes privacy settings (SEC-17); SEC-03 AAD on the secure store (patch P3, format v2, do before any real user data exists); keep the R8 log rule or strip `w`/`e` too (SEC-14); Play asset delivery library (Google terms; adds INSTALL_PACKAGES and foreground-service permissions that must be removed with `tools:node="remove"`); whether voice and translation packs go through Play or stay import-only; keystore in GitHub secrets or offline only; pack private key unencrypted or add a passphrase to `make_pack`; F-Droid route (committed prebuilt `.so` files need provenance; fallback is a GitHub release plus an own repo); developer account type and public name; Android developer verification (`docs/release/developer-verification.md`).
 4. Licences to confirm: IPAdic terms in the Mozc dictionary, OFL font aggregation, Opus-MT CC-BY attribution, pt-BR and Arabic lists (`docs/security/licences.md`).
 5. Trademark: professional search before submission (`docs/brand/trademark-check.md`).
@@ -37,7 +45,7 @@ State as of 2026-11-23 (evening). `main` is clean; nothing is pushed. **Waves 0-
 
 - **Pigeon wiring for pack maintenance** (`docs/packs/README.md`, "Bridge additions"): the Verify installed packs button does nothing until `PackMaintenance` gets its Pigeon methods (check, checkAll, free space). Also not done: multi-select import, a size check before import, the signer key id in the import summary.
 - Move `android/asset_packs/PlayAssetPackSource.kt.txt` into `src/play/kotlin/...`, add the asset-pack includes to `settings.gradle.kts` and the `play` dependencies, then build the AAB and test on-demand delivery with bundletool `--local-testing` (patches in `docs/release/asset-packs.md`).
-- The onboarding warning text does not match Play's keyboard disclosure wording: proposed text in B's report ("A keyboard can collect everything you type, including passwords. Kosha has no internet access, so it cannot send anything you type anywhere."); change `onboardingWarningBody` in all ARBs (x-review).
+- The onboarding warning text does not match Play's keyboard disclosure wording: proposed text in B's report ("A keyboard can collect everything you type, including passwords. IncogBoard has no internet access, so it cannot send anything you type anywhere."); change `onboardingWarningBody` in all ARBs (x-review).
 - Browser auto-incognito is in the plan but not in the code (the privacy policy says so): implement or drop it.
 - Remaining audit patches: P2, P3, P6 (track the Gradle wrapper with a checksum), SEC-05/06/08-11/15 in `docs/security/audit.md`.
 - `device_bench.ps1` fix; Japanese segment-resize buttons and `symbols_ja`; 48 dp targets; locale to the keyboard engine; the reduced onnxruntime build (blocked); memory over budget (154 MB PSS with Japanese).
@@ -61,7 +69,7 @@ State as of 2026-11-23 (evening). `main` is clean; nothing is pushed. **Waves 0-
 
 ## Wave 4 follow-ups (historical; the current list is at the top)
 
-1. **Wave 5 option answers (user, 2026-11-23):** keep the placeholder `app.kosha.keyboard` for now (swap to `io.github.<username>.kosha` at the end; the About source link waits for the username); add a trademark-check task for "Kosha" to Wave 5 (public registries and store listings, not legal advice); generate a new release keystore and pack-signing key outside the repo (the user backs them up; replace the dev pack key); build both flavours, `play` (on-demand asset packs) and `foss` (full build plus signed pack import).
+1. **Wave 5 option answers (user, 2026-11-23):** keep the placeholder `app.incogboard.keyboard` for now (swap to `io.github.<username>.kosha` at the end; the About source link waits for the username); add a trademark-check task for "IncogBoard" to Wave 5 (public registries and store listings, not legal advice); generate a new release keystore and pack-signing key outside the repo (the user backs them up; replace the dev pack key); build both flavours, `play` (on-demand asset packs) and `foss` (full build plus signed pack import).
 2. **Wave 5 briefs are written** (`docs/waves/wave5/`: COMMON, A security audit + trademark check, B release engineering, C data packs). Launch the three agents (Agent, `isolation: worktree`, `model: haiku`, `effort: high`, background) with a short prompt pointing at COMMON.md and the brief; merge order A, C, B. After the merge: run `tool/release/make_release_keys.ps1` (generates the keystore and pack key outside the repo; the user backs them up), put the release pack key into `ReleasePackKeys.kt`, re-sign the packs, apply the patches the agents list for orchestrator files, run the full checks, the emulator test and the release gate for both flavours.
 3. Small follow-ups that are not Wave 5: strip buttons for segment resize and `symbols_ja.json` (B's gaps); 48 dp touch targets and passing the locale to the keyboard engine (`docs/a11y/report.md`); fix `device_bench.ps1`; a native-speaker review of the `x-review` strings; speech for ja/zh (needs a Whisper pack that lists them).
 
@@ -77,7 +85,7 @@ State as of 2026-11-23 (evening). `main` is clean; nothing is pushed. **Waves 0-
 
 ## Wave 4 decisions (user, 2026-11-22 evening)
 
-- **Name: Kosha** (Sanskrit/Hindi *kosha*, "treasury, a store of gold": your words are your treasure, kept with you). **Full rename** in the Wave 4 setup by the orchestrator, before agents start: app name, strings, docs, notices, Dart package `myna`→`kosha`, Kotlin packages and classes (`MynaImeService`→`KoshaImeService`, `MynaMascot`, `MynaLog`, …), backup/pack magic names where safe. **Done in `4a3c394`:** besides the code, the placeholder applicationId became `app.kosha.keyboard` (keeping `app.myna.keyboard` would have mismatched the Kotlin namespace in every adb script and IME id; Wave 5 sets `io.github.<username>.kosha`). Formats keep their byte lengths: pack magic `KOSHAPAK` (`.koshapack`), backup magic `KOSHBK` (`.koshabackup`); keystore alias `kosha.secure_store.v1`; theme ids `kosha_*`. Old dev data does not carry over: the emulator was reinstalled and both packs re-imported. The archived Wave 1-3 briefs keep the old name. Name not trademark-checked yet (Wave 5).
+- **Name: IncogBoard** (Sanskrit/Hindi *incogboard*, "treasury, a store of gold": your words are your treasure, kept with you). **Full rename** in the Wave 4 setup by the orchestrator, before agents start: app name, strings, docs, notices, Dart package `myna`→`incogboard`, Kotlin packages and classes (`MynaImeService`→`IncogBoardImeService`, `MynaMascot`, `MynaLog`, …), backup/pack magic names where safe. **Done in `4a3c394`:** besides the code, the placeholder applicationId became `app.incogboard.keyboard` (keeping `app.myna.keyboard` would have mismatched the Kotlin namespace in every adb script and IME id; Wave 5 sets `io.github.<username>.kosha`). Formats keep their byte lengths: pack magic `KOSHAPAK` (`.koshapack`), backup magic `KOSHBK` (`.koshabackup`); keystore alias `kosha.secure_store.v1`; theme ids `incogboard_*`. Old dev data does not carry over: the emulator was reinstalled and both packs re-imported. The archived Wave 1-3 briefs keep the old name. Name not trademark-checked yet (Wave 5).
 - **Brand: "treasure chest key"** icon: a small rounded treasure chest whose lock is a keyboard key, gold on Material You colours. No character mascot; the chest has the poses (open, locked, glowing, closed) in place of the myna bird.
 - **InScript (done, `238cbcc`):** `tool/indic/make_inscript.dart` writes the 5 layouts from the BIS tables (xkeyboard-config `deva`, `ben_inscript`, `tam`, `tel`); 11 columns; extra characters on popups (listed in the tool); `test/keyboard/layouts_inscript_test.dart`. `make_layouts.py` now writes only translit and phonetic. On the emulator: Hindi नमस्ते, Tamil வணக்கம் (ண = Shift+ம). The phonetic layouts are still unchecked against any chart.
 - **APK size:** the perf agent (D) builds a reduced-operator onnxruntime 1.28 (only the operators the Whisper and Opus-MT models use; no telemetry; keep the `VERS_1.28.0` symbol version or re-patch sherpa).
@@ -92,8 +100,8 @@ State as of 2026-11-23 (evening). `main` is clean; nothing is pushed. **Waves 0-
 - **Languages:** zh (`pinyin_zh`) and ja (`kana12_ja` default, `romaji_ja`) seeded in agent files; `CjkRules`; `LayoutChoice.composes` (blend = active only). The 12-key layout has its own globe key (`withLanguageKey` skips narrow space keys).
 - **Packs:** `PackKind.dictionary`, `PlatformHostApi.getPackDirectory`, `lib/src/packs/installed_packs.dart`, a Dictionaries group on Model packs.
 - **Settings:** `chinese`/`japanese` sections, routes with stub screens linked from Languages ("Language options").
-- **l10n:** flutter_localizations + intl 0.20.3; `l10n.yaml`, `lib/l10n/app_en.arb` (generated `app_localizations*.dart` committed, excluded from analysis); `lib/src/app/l10n.dart` (`koshaLocalizationsDelegates` with material_ui's Material delegate, `context.l10n`). Every test `MaterialApp` passes the delegates.
-- After the merge: register blobs `learned_zh_phrases` and `learned_ja_words` (wipe, backup, privacy sizes); move A/B screen strings into the ARBs; apply E's `KoshaMascot(pose:)` call sites; add `android:localeConfig` (C) and `android:roundIcon` (E) to the manifest; sign the CJK dictionary packs.
+- **l10n:** flutter_localizations + intl 0.20.3; `l10n.yaml`, `lib/l10n/app_en.arb` (generated `app_localizations*.dart` committed, excluded from analysis); `lib/src/app/l10n.dart` (`incogboardLocalizationsDelegates` with material_ui's Material delegate, `context.l10n`). Every test `MaterialApp` passes the delegates.
+- After the merge: register blobs `learned_zh_phrases` and `learned_ja_words` (wipe, backup, privacy sizes); move A/B screen strings into the ARBs; apply E's `IncogBoardMascot(pose:)` call sites; add `android:localeConfig` (C) and `android:roundIcon` (E) to the manifest; sign the CJK dictionary packs.
 
 ## Wave 3 finish (2026-11-22 evening)
 
@@ -132,8 +140,8 @@ State as of 2026-11-23 (evening). `main` is clean; nothing is pushed. **Waves 0-
 - Long-press popups have no accessibility nodes. Hold with `adb shell input motionevent DOWN x y`, wait ~900 ms, `MOVE` to the item (the first sits over the key, then one key width each), `UP`. A plain hold-and-release commits the first item.
 - The voice panel closes itself after 5 s of silence, so tap Stop/Cancel by coordinates within that time (a `--windows` dump takes ~1.5 s).
 - If the emulator is not running: `Start-Process "$env:ANDROID_HOME\emulator\emulator.exe" -ArgumentList '-avd','Medium_Phone_API_37.0','-no-snapshot-save'`, then `Wait-Device`.
-- Reinstalling the APK, or force-stopping the app while Kosha is the keyboard, makes Android switch to Gboard: run `Enable-Kosha` after both, and force-stop before enabling, not after.
-- Change languages quickly by editing `no_backup/data/settings.json` through `run-as app.kosha.keyboard` (force-stop first; a fresh install has no `settings.json` until a setting changes).
+- Reinstalling the APK, or force-stopping the app while IncogBoard is the keyboard, makes Android switch to Gboard: run `Enable-IncogBoard` after both, and force-stop before enabling, not after.
+- Change languages quickly by editing `no_backup/data/settings.json` through `run-as app.incogboard.keyboard` (force-stop first; a fresh install has no `settings.json` until a setting changes).
 - The testbed field is the EditText under its label (tap y≈142 for `text`), not the label.
 
 - **User decisions for Wave 2 (2026-11-21):**
@@ -236,7 +244,7 @@ State as of 2026-11-23 (evening). `main` is clean; nothing is pushed. **Waves 0-
 
 ## Open questions for the user
 
-1. GitHub username, for `io.github.<username>.kosha`: deferred to Wave 5 (placeholder `app.kosha.keyboard` until then).
-2. ~~The app name~~: decided 2026-11-22, **Kosha** (see "Wave 4 decisions").
+1. GitHub username, for `io.github.<username>.kosha`: deferred to Wave 5 (placeholder `app.incogboard.keyboard` until then).
+2. ~~The app name~~: decided 2026-11-22, **IncogBoard** (see "Wave 4 decisions").
 
 Answered 2026-11-21: only hi/mr/bn/ta/te for Indic; voice uses sherpa-onnx + Whisper with no bundled model (packs only); the translator joins Wave 3; packs use a dev signing key until Wave 5.

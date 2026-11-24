@@ -47,7 +47,7 @@ class TranslatePanel extends KeyboardPanel {
 
   final KeyboardSession session;
 
-  /// Kosha language ids of the pair.
+  /// IncogBoard language ids of the pair.
   final String from;
   final String to;
 
@@ -86,7 +86,7 @@ class TranslatePanel extends KeyboardPanel {
       ),
     ),
     onInsert: () => controller.insertTranslation(),
-    onGetPack: () => unawaited(session.services.host.openSettings(KoshaRoutes.packs)),
+    onGetPack: () => unawaited(session.services.host.openSettings(IncogBoardRoutes.packs)),
     onClose: panel.close,
   );
 

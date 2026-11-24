@@ -1,18 +1,18 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/core/input_field_info.dart';
-import 'package:kosha/src/engine/lang/chinese/pinyin_composer.dart';
-import 'package:kosha/src/engine/lang/chinese/s2twp.dart';
-import 'package:kosha/src/engine/lang/chinese/zh_lexicon.dart';
-import 'package:kosha/src/features/chinese/chinese_feature.dart';
-import 'package:kosha/src/keyboard/keyboard_app.dart';
-import 'package:kosha/src/keyboard/keyboard_session.dart';
-import 'package:kosha/src/settings/kosha_settings.dart';
+import 'package:incogboard/src/core/input_field_info.dart';
+import 'package:incogboard/src/engine/lang/chinese/pinyin_composer.dart';
+import 'package:incogboard/src/engine/lang/chinese/s2twp.dart';
+import 'package:incogboard/src/engine/lang/chinese/zh_lexicon.dart';
+import 'package:incogboard/src/features/chinese/chinese_feature.dart';
+import 'package:incogboard/src/keyboard/keyboard_app.dart';
+import 'package:incogboard/src/keyboard/keyboard_session.dart';
+import 'package:incogboard/src/settings/incogboard_settings.dart';
 
 import '../../engine/lang/chinese/zh_fixture.dart';
 import '../../keyboard/support/app_harness.dart';
 
-const KoshaSettings _zh = KoshaSettings(
+const IncogBoardSettings _zh = IncogBoardSettings(
   languages: LanguageSettings(enabled: ['zh', 'en'], active: 'zh'),
 );
 

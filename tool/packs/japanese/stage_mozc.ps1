@@ -17,7 +17,7 @@ param(
 $ErrorActionPreference = 'Stop'
 $repo = Resolve-Path (Join-Path $PSScriptRoot '..\..\..')
 $base = "https://raw.githubusercontent.com/google/mozc/$Commit"
-$work = Join-Path $env:TEMP "kosha-mozc-$Commit"
+$work = Join-Path $env:TEMP "incogboard-mozc-$Commit"
 $staging = Join-Path $env:USERPROFILE '.kosha\packs\staging\dict-ja-mozc'
 
 New-Item -ItemType Directory -Force -Path $work | Out-Null
@@ -58,7 +58,7 @@ try {
 
 # NOTICE.txt: the source, the pinned commit, and both licence texts the Mozc dictionary carries.
 $notice = @()
-$notice += 'dict-ja-mozc: Japanese dictionary for Kosha, converted from the Mozc open-source dictionary.'
+$notice += 'dict-ja-mozc: Japanese dictionary for IncogBoard, converted from the Mozc open-source dictionary.'
 $notice += "Source: https://github.com/google/mozc (src/data/dictionary_oss), commit $Commit"
 $notice += 'Licence: BSD-3-Clause (Mozc), with the IPAdic-derived terms and the Okinawa dictionary notice in the README below.'
 $notice += 'Converted: readings folded to hiragana, entries with other characters dropped, connection matrix kept whole.'

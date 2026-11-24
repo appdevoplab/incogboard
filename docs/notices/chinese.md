@@ -8,7 +8,7 @@ or downloads the data; the pack is signed and installed like the other model pac
 
 - Source: https://github.com/iDvel/rime-ice, commit `927e1cf1d3eeb9bf4be85e3f684dba4dd485b6f6`
   (2026-11-11), files `cn_dicts/base.dict.yaml`, `cn_dicts/ext.dict.yaml`, `cn_dicts/8105.dict.yaml`.
-- Licence: GPL-3.0 (compatible with Kosha's GPL-3.0-or-later).
+- Licence: GPL-3.0 (compatible with IncogBoard's GPL-3.0-or-later).
 - Its own base words come from the 华宇野风 system dictionary, THUOCL (Tsinghua), a modern Chinese
   common word list, and the Tencent word vectors; rime-ice credits these in its header.
 - Used: the word rows of base (weight 1000 and above) and ext (flat weight 100), and the 8105

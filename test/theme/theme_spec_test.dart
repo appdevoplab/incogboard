@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/theme/theme.dart';
+import 'package:incogboard/src/theme/theme.dart';
 
 void main() {
   group('JSON round trip', () {
@@ -163,20 +163,29 @@ void main() {
       expect(ids.toSet().length, ids.length);
       expect(
         ids,
-        containsAll(['kosha_dynamic', 'kosha_gold', 'lavender', 'ocean', 'mint', 'coral', 'rose', 'graphite']),
+        containsAll([
+          'incogboard_dynamic',
+          'incogboard_gold',
+          'lavender',
+          'ocean',
+          'mint',
+          'coral',
+          'rose',
+          'graphite',
+        ]),
       );
     });
 
-    test('byId falls back to Kosha Dynamic', () {
+    test('byId falls back to IncogBoard Dynamic', () {
       expect(ThemePresets.byId('ocean').id, 'ocean');
-      expect(ThemePresets.byId('nope').id, 'kosha_dynamic');
+      expect(ThemePresets.byId('nope').id, 'incogboard_dynamic');
       expect(ThemePresets.isPresetId('nope'), isFalse);
     });
 
     test('brand colours', () {
-      expect(ThemePresets.koshaGold.customRoles['primary'], koshaYellow);
-      expect(ThemePresets.koshaGold.customRoles['onPrimary'], koshaBrown);
-      expect(ThemePresets.koshaDynamic.colorSource, ThemeColorSource.dynamic);
+      expect(ThemePresets.incogboardGold.customRoles['primary'], incogboardYellow);
+      expect(ThemePresets.incogboardGold.customRoles['onPrimary'], incogboardBrown);
+      expect(ThemePresets.incogboardDynamic.colorSource, ThemeColorSource.dynamic);
       expect(ThemePresets.graphite.variant, ThemeSchemeVariant.monochrome);
     });
   });

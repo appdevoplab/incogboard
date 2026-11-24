@@ -6,7 +6,7 @@
 //   dart run tool/indic/export_schemes.dart > <scratch>/schemes.json
 import 'dart:convert';
 
-import 'package:kosha/src/engine/lang/indic/scheme.dart';
+import 'package:incogboard/src/engine/lang/indic/scheme.dart';
 
 void main() {
   final out = <String, Object?>{};

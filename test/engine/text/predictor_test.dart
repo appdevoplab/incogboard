@@ -2,12 +2,12 @@
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/core/input_field_info.dart';
-import 'package:kosha/src/core/secure_blob_store.dart';
-import 'package:kosha/src/engine/contracts.dart';
-import 'package:kosha/src/engine/dictionary/lexicon_factory.dart';
-import 'package:kosha/src/engine/in_memory_lexicon.dart';
-import 'package:kosha/src/engine/suggest/text_predictor.dart';
+import 'package:incogboard/src/core/input_field_info.dart';
+import 'package:incogboard/src/core/secure_blob_store.dart';
+import 'package:incogboard/src/engine/contracts.dart';
+import 'package:incogboard/src/engine/dictionary/lexicon_factory.dart';
+import 'package:incogboard/src/engine/in_memory_lexicon.dart';
+import 'package:incogboard/src/engine/suggest/text_predictor.dart';
 
 import 'support.dart';
 
@@ -22,15 +22,15 @@ const InputFieldInfo _passwordField = InputFieldInfo(
 
 void main() {
   late LexiconSource lexicons;
-  late KoshaTextPredictor predictor;
+  late IncogBoardTextPredictor predictor;
   final geometry = qwertyGeometry();
 
-  Future<KoshaTextPredictor> makePredictor({
+  Future<IncogBoardTextPredictor> makePredictor({
     SecureBlobStore? store,
     DateTime Function()? clock,
     Duration? saveDelay,
   }) async {
-    final p = KoshaTextPredictor(
+    final p = IncogBoardTextPredictor(
       lexicons: lexicons,
       store: store ?? InMemorySecureBlobStore(),
       clock: clock,
@@ -270,7 +270,7 @@ void main() {
   });
 
   group('learning', () {
-    void commit(KoshaTextPredictor p, String word, {List<String> previous = const [], bool learn = true}) =>
+    void commit(IncogBoardTextPredictor p, String word, {List<String> previous = const [], bool learn = true}) =>
         p.onWordCommitted(word, previousWords: previous, allowLearning: learn);
 
     test('a new word becomes known after two commits', () {
@@ -375,7 +375,7 @@ void main() {
 
     test('learned counts decay with time', () {
       var now = DateTime.utc(2026, 1, 1);
-      final decaying = KoshaTextPredictor(
+      final decaying = IncogBoardTextPredictor(
         lexicons: lexicons,
         store: InMemorySecureBlobStore(),
         clock: () => now,
@@ -415,7 +415,7 @@ void main() {
     });
 
     test('works with a plain Lexicon that is not an MDICT file', () async {
-      final p = KoshaTextPredictor(
+      final p = IncogBoardTextPredictor(
         lexicons: InMemoryLexiconSource({
           'en': InMemoryLexicon('en', ['the', 'thanks', 'you', 'hello', 'help'], bigrams: {('thank', 'you'): 5}),
         }),
@@ -428,7 +428,7 @@ void main() {
     });
 
     test('blends up to three languages', () async {
-      final p = KoshaTextPredictor(
+      final p = IncogBoardTextPredictor(
         lexicons: InMemoryLexiconSource({
           'en': InMemoryLexicon('en', ['hello', 'world']),
           'es': InMemoryLexicon('es', ['hola', 'mundo']),

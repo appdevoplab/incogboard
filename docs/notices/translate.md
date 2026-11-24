@@ -1,6 +1,6 @@
 # Notices: offline translation (Wave 3-T)
 
-Kosha's translation runs OPUS-MT neural models on the phone with ONNX Runtime. The app never bundles
+IncogBoard's translation runs OPUS-MT neural models on the phone with ONNX Runtime. The app never bundles
 a model: each direction is a signed model pack that the user imports (see `tool/packs/translate/`).
 
 ## Engine

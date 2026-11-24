@@ -16,14 +16,14 @@ final _sink = RegExp(
 );
 
 /// Literals that may stay in English: the app name, and native names of languages.
-const _allowed = {'Kosha', '中文 (Chinese)', '日本語 (Japanese)'};
+const _allowed = {'IncogBoard', '中文 (Chinese)', '日本語 (Japanese)'};
 
 /// Files that are not the settings app's own screens: the Chinese and Japanese screens (agents A
 /// and B write them in English), the mascot (agent E), and the localisation glue itself.
 bool _excluded(String path) =>
     path.contains('/chinese/') ||
     path.contains('/japanese/') ||
-    path.endsWith('kosha_mascot.dart') ||
+    path.endsWith('incogboard_mascot.dart') ||
     path.endsWith('/l10n.dart');
 
 void main() {

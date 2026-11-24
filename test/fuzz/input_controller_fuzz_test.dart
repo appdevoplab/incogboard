@@ -21,11 +21,11 @@ import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/core/input_field_info.dart';
-import 'package:kosha/src/engine/contracts.dart';
-import 'package:kosha/src/keyboard/input/input_controller.dart';
-import 'package:kosha/src/keyboard/input/keyboard_page.dart';
-import 'package:kosha/src/settings/kosha_settings.dart';
+import 'package:incogboard/src/core/input_field_info.dart';
+import 'package:incogboard/src/engine/contracts.dart';
+import 'package:incogboard/src/keyboard/input/input_controller.dart';
+import 'package:incogboard/src/keyboard/input/keyboard_page.dart';
+import 'package:incogboard/src/settings/incogboard_settings.dart';
 
 import '../keyboard/support/fakes.dart';
 import '../support/fake_editor.dart';
@@ -203,7 +203,7 @@ class _World {
   late final FakeEditor editor;
   late final FakePredictor predictor;
   late final InputController controller;
-  KoshaSettings settings = const KoshaSettings();
+  IncogBoardSettings settings = const IncogBoardSettings();
 
   /// Fake milliseconds. Frozen during an operation (so the controller's own edits count as echoes)
   /// and advanced between operations.
@@ -247,7 +247,7 @@ class _World {
   }
 
   void syncSettings() {
-    settings = KoshaSettings(
+    settings = IncogBoardSettings(
       privacy: PrivacySettings(learning: learning, incognito: incognito),
     );
   }
@@ -532,7 +532,7 @@ void main() {
       input: editor,
       predictor: FakePredictor(),
       gestureDecoder: FakeGestureDecoder(),
-      settings: () => const KoshaSettings(),
+      settings: () => const IncogBoardSettings(),
       clock: () => 0,
     );
     editor.onSelectionChanged = c.onSelectionChanged;
@@ -554,7 +554,7 @@ void main() {
         input: editor,
         predictor: FakePredictor(),
         gestureDecoder: FakeGestureDecoder(),
-        settings: () => const KoshaSettings(),
+        settings: () => const IncogBoardSettings(),
         clock: () => 0,
       );
       editor.onSelectionChanged = c.onSelectionChanged;

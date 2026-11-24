@@ -9,18 +9,18 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/core/input_field_info.dart';
-import 'package:kosha/src/keyboard/a11y/key_semantics.dart';
-import 'package:kosha/src/keyboard/input/input_controller.dart';
-import 'package:kosha/src/keyboard/input/keyboard_page.dart';
-import 'package:kosha/src/keyboard/layout/layout_engine.dart';
-import 'package:kosha/src/keyboard/layout/layout_model.dart';
-import 'package:kosha/src/keyboard/view/key_press_animator.dart';
-import 'package:kosha/src/keyboard/view/key_visuals.dart';
-import 'package:kosha/src/keyboard/view/keys_painter.dart';
-import 'package:kosha/src/settings/sections/typing_settings.dart';
-import 'package:kosha/src/theme/presets.dart';
-import 'package:kosha/src/theme/theme_resolver.dart';
+import 'package:incogboard/src/core/input_field_info.dart';
+import 'package:incogboard/src/keyboard/a11y/key_semantics.dart';
+import 'package:incogboard/src/keyboard/input/input_controller.dart';
+import 'package:incogboard/src/keyboard/input/keyboard_page.dart';
+import 'package:incogboard/src/keyboard/layout/layout_engine.dart';
+import 'package:incogboard/src/keyboard/layout/layout_model.dart';
+import 'package:incogboard/src/keyboard/view/key_press_animator.dart';
+import 'package:incogboard/src/keyboard/view/key_visuals.dart';
+import 'package:incogboard/src/keyboard/view/keys_painter.dart';
+import 'package:incogboard/src/settings/sections/typing_settings.dart';
+import 'package:incogboard/src/theme/presets.dart';
+import 'package:incogboard/src/theme/theme_resolver.dart';
 
 /// A ticker source for the press animator; the tests never start it.
 class _Vsync implements TickerProvider {
@@ -46,7 +46,7 @@ Future<void> _pump(
   KeyboardPage page = KeyboardPage.letters,
   void Function(PlacedKey key)? onActivate,
 }) async {
-  final theme = resolveKeyboardThemeFromSpec(ThemePresets.koshaGold, dark: false);
+  final theme = resolveKeyboardThemeFromSpec(ThemePresets.incogboardGold, dark: false);
   final laid = KeyboardLayoutEngine.layout(def, _size, keyGap: theme.keyGap, split: false, compact: false);
   final painter = KeysPainter(
     laid: laid,
@@ -190,7 +190,7 @@ void main() {
     final handle = tester.ensureSemantics();
     await _pump(tester, _sample, onActivate: (_) {});
     // The expected order is the layout's own: row by row, each row left to right.
-    final theme = resolveKeyboardThemeFromSpec(ThemePresets.koshaGold, dark: false);
+    final theme = resolveKeyboardThemeFromSpec(ThemePresets.incogboardGold, dark: false);
     final laid = KeyboardLayoutEngine.layout(_sample, _size, keyGap: theme.keyGap, split: false, compact: false);
     final expected = [
       for (final k in laid.keys)

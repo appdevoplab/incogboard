@@ -3,7 +3,7 @@
 #
 # Privacy gate: fails if any release APK requests a network permission, or bundles the onnxruntime
 # telemetry code (onnxruntime-android 1.29+ ships an HttpClient started by a TelemetryInitializer
-# provider; Kosha pins 1.28.0, see android/app/build.gradle.kts).
+# provider; IncogBoard pins 1.28.0, see android/app/build.gradle.kts).
 # Usage: tool/check_release_permissions.sh build/app/outputs/flutter-apk/*-release.apk
 set -euo pipefail
 

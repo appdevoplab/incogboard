@@ -4,7 +4,7 @@
 # Nothing is published: the output stays in build\release-report\ for a person to review.
 #
 #   powershell -ExecutionPolicy Bypass -File tool\release\build_release.ps1
-#   powershell -ExecutionPolicy Bypass -File tool\release\build_release.ps1 -SourceUrl https://github.com/<user>/kosha -SkipChecks
+#   powershell -ExecutionPolicy Bypass -File tool\release\build_release.ps1 -SourceUrl https://github.com/<user>/incogboard -SkipChecks
 #
 # Steps: clean tree check, pinned Flutter check, signing check, format, analyze, flutter test, JVM tests,
 # then per flavour: flutter build apk --release --flavor <f> --split-per-abi, the permission gate

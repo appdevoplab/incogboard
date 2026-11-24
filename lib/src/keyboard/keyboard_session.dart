@@ -15,8 +15,8 @@ import '../core/log.dart';
 import '../core/seen_apps.dart';
 import '../engine/contracts.dart';
 import '../engine/lang/registry.dart';
-import '../engine/suggest/text_predictor.dart' show KoshaTextPredictor;
-import '../settings/kosha_settings.dart';
+import '../engine/suggest/text_predictor.dart' show IncogBoardTextPredictor;
+import '../settings/incogboard_settings.dart';
 import 'input/input_controller.dart';
 import 'input/keyboard_page.dart';
 import 'layout/layout_engine.dart';
@@ -88,7 +88,7 @@ class KeyboardSession {
     try {
       p.onClosed();
     } on Object catch (e) {
-      KoshaLog.w('Keyboard', 'panel close failed', e.runtimeType);
+      IncogBoardLog.w('Keyboard', 'panel close failed', e.runtimeType);
     }
   }
 
@@ -157,7 +157,7 @@ class KeyboardSession {
         sections: [SettingsSection.languages],
       );
     } on Object catch (err) {
-      KoshaLog.w('Keyboard', 'language switch failed', err.runtimeType);
+      IncogBoardLog.w('Keyboard', 'language switch failed', err.runtimeType);
     }
   }
 
@@ -213,7 +213,7 @@ class KeyboardSession {
     try {
       await services.predictor.setActiveLanguages(activeLanguages);
     } on Object catch (err) {
-      KoshaLog.w('Keyboard', 'could not activate languages', err.runtimeType);
+      IncogBoardLog.w('Keyboard', 'could not activate languages', err.runtimeType);
     }
   }
 
@@ -232,7 +232,7 @@ class KeyboardSession {
       final colors = await services.platform.getSystemColors();
       if (!_disposed) systemColors.value = colors;
     } on Object catch (err) {
-      KoshaLog.w('Keyboard', 'system colors unavailable', err.runtimeType);
+      IncogBoardLog.w('Keyboard', 'system colors unavailable', err.runtimeType);
     }
   }
 
@@ -248,14 +248,14 @@ class KeyboardSession {
     if (DataSections.affects(sections, DataSections.learned)) {
       unawaited(
         services.predictor.reloadLearnedData().catchError(
-          (Object e) => KoshaLog.w('Keyboard', 'learned reload failed', e.runtimeType),
+          (Object e) => IncogBoardLog.w('Keyboard', 'learned reload failed', e.runtimeType),
         ),
       );
     }
     if (DataSections.affects(sections, DataSections.seenApps)) seenApps.invalidate();
   }
 
-  /// Remembers the app for the incognito picker: never while incognito, never Kosha itself.
+  /// Remembers the app for the incognito picker: never while incognito, never IncogBoard itself.
   Future<void> _recordApp(InputFieldInfo field) async {
     final pkg = field.packageName;
     if (pkg == null || pkg.isEmpty || input.isIncognito) return;
@@ -270,7 +270,7 @@ class KeyboardSession {
 
   void _applyBlockOffensive() {
     final p = services.predictor;
-    if (p is KoshaTextPredictor) p.blockOffensive = services.settings.value.typing.blockOffensiveWords;
+    if (p is IncogBoardTextPredictor) p.blockOffensive = services.settings.value.typing.blockOffensiveWords;
   }
 
   void _trimMemory() {
@@ -317,10 +317,10 @@ class KeyboardSession {
                 soundVolume: f.soundVolume,
               ),
             )
-            .catchError((Object err) => KoshaLog.w('Keyboard', 'feedback config failed', err.runtimeType)),
+            .catchError((Object err) => IncogBoardLog.w('Keyboard', 'feedback config failed', err.runtimeType)),
       );
     } on Object catch (err) {
-      KoshaLog.w('Keyboard', 'feedback config failed', err.runtimeType);
+      IncogBoardLog.w('Keyboard', 'feedback config failed', err.runtimeType);
     }
   }
 
@@ -332,12 +332,12 @@ class KeyboardSession {
     try {
       unawaited(
         services.host.setSecureWindow(secure).catchError((Object err) {
-          KoshaLog.w('Keyboard', 'secure window failed', err.runtimeType);
+          IncogBoardLog.w('Keyboard', 'secure window failed', err.runtimeType);
           _secure = null;
         }),
       );
     } on Object catch (err) {
-      KoshaLog.w('Keyboard', 'secure window failed', err.runtimeType);
+      IncogBoardLog.w('Keyboard', 'secure window failed', err.runtimeType);
       _secure = null;
     }
   }
@@ -348,7 +348,7 @@ class KeyboardSession {
 
   /// The layout to show for [page], adapted to [field], the active language and the settings;
   /// null until loaded.
-  KeyboardLayoutDef? layoutFor(KeyboardPage page, InputFieldInfo field, KoshaSettings settings) {
+  KeyboardLayoutDef? layoutFor(KeyboardPage page, InputFieldInfo field, IncogBoardSettings settings) {
     final id = layoutIdForPage(page, letters: _letterLayoutId());
     final base = layouts.peek(id);
     if (base == null) return null;
@@ -399,12 +399,12 @@ class KeyboardSession {
                 for (final source in gestureWordSources) ...source(activeLanguages),
               ],
             )
-            .catchError((Object err) => KoshaLog.w('Keyboard', 'decoder prepare failed', err.runtimeType)),
+            .catchError((Object err) => IncogBoardLog.w('Keyboard', 'decoder prepare failed', err.runtimeType)),
       );
     } on Object catch (err) {
-      KoshaLog.w('Keyboard', 'geometry update failed', err.runtimeType);
+      IncogBoardLog.w('Keyboard', 'geometry update failed', err.runtimeType);
     }
-    KoshaLog.d('Keyboard', 'geometry pushed (${geometry.keys.length} keys) in ${sw.elapsedMicroseconds} us');
+    IncogBoardLog.d('Keyboard', 'geometry pushed (${geometry.keys.length} keys) in ${sw.elapsedMicroseconds} us');
   }
 
   void dispose() {

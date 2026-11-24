@@ -1,6 +1,6 @@
 # Third-party notices
 
-Kosha is GPL-3.0-or-later. It includes or builds on the following. Every bundled data source must be listed here with its license and attribution, and also shown in the app's About → Licenses screen.
+IncogBoard is GPL-3.0-or-later. It includes or builds on the following. Every bundled data source must be listed here with its license and attribution, and also shown in the app's About → Licenses screen.
 
 ## Code
 
@@ -33,7 +33,7 @@ Kosha is GPL-3.0-or-later. It includes or builds on the following. Every bundled
 
 ### English dictionary
 
-- Built by `tool/build_dictionary.dart` into Kosha's own `MDICT` format: about 147k words with frequencies, flags for possibly offensive words, apostrophe corrections and about 344k next-word pairs.
+- Built by `tool/build_dictionary.dart` into IncogBoard's own `MDICT` format: about 147k words with frequencies, flags for possibly offensive words, apostrophe corrections and about 344k next-word pairs.
 - Original list: AOSP LatinIME `dictionaries/en_US_wordlist.combined.gz` (https://android.googlesource.com/platform/packages/inputmethods/LatinIME/, branch `main`, commit `127336e9f29d69607eab55982324b210279ae8c5` checked 2026-11-21). That file has no next-word pairs.
 - Build input actually used: `wordlists/main_en_US.combined` from https://codeberg.org/Helium314/aosp-dictionaries (branch `main`, downloaded 2026-11-21). It comes from OpenBoard v1.4.5 `en_wordlist.combined.gz` (https://github.com/openboard-team/openboard/blob/v1.4.5/dictionaries/en_wordlist.combined.gz), which is the same AOSP word set (160,715 words) plus the next-word pairs.
 - License: Apache License 2.0 (LatinIME `NOTICE`), compatible with GPL-3.0-or-later.
@@ -240,14 +240,14 @@ Shipped native libraries (only `libsherpa-onnx-jni.so`; the `c-api`/`cxx-api` li
 `com.microsoft.onnxruntime:onnxruntime-android:1.28.0` (MIT); 1.28.2 is not published for Android, and 1.29+ adds telemetry.
 
 **Modification (Apache-2.0 section 4b):** the release libraries ask for `OrtGetApiBase@VERS_1.28.2`, and Android's linker
-enforces symbol versions, so they did not load against 1.28.0 ("cannot locate symbol OrtGetApiBase"). Kosha changes one
+enforces symbol versions, so they did not load against 1.28.0 ("cannot locate symbol OrtGetApiBase"). IncogBoard changes one
 entry of each library's ELF version-needs table from `VERS_1.28.2` to `VERS_1.28.0` and updates its hash: 2 bytes per file,
 done by `tool/patch_sherpa_ort_version.dart` and checked by `test/tool/patch_sherpa_ort_version_test.dart`. OrtGetApiBase
 is the only onnxruntime symbol sherpa imports, and the OrtApi level (28) is the same in 1.28.0 and 1.28.2. Checked on the
 emulator (API 37, x86_64) on 2026-11-22: the library loads and the Whisper base pack runs.
 
 Kotlin API files copied unmodified (apart from a two-line provenance comment at the top) into
-`app/src/main/kotlin/app/kosha/keyboard/voice/sherpa/`, from `android/SherpaOnnxAar/sherpa_onnx/src/main/java/com/k2fsa/sherpa/onnx/`
+`app/src/main/kotlin/app/incogboard/keyboard/voice/sherpa/`, from `android/SherpaOnnxAar/sherpa_onnx/src/main/java/com/k2fsa/sherpa/onnx/`
 of the same tag: `FeatureConfig.kt`, `HomophoneReplacerConfig.kt`, `QnnConfig.kt`, `OfflineRecognizer.kt`,
 `OfflineStream.kt`, `Vad.kt`. Their package stays `com.k2fsa.sherpa.onnx` because the JNI symbols bind to it.
 
@@ -295,7 +295,7 @@ API, so re-pin only on purpose.
 
 ### Notices: offline translation (Wave 3-T)
 
-Kosha's translation runs OPUS-MT neural models on the phone with ONNX Runtime. The app never bundles
+IncogBoard's translation runs OPUS-MT neural models on the phone with ONNX Runtime. The app never bundles
 a model: each direction is a signed model pack that the user imports (see `tool/packs/translate/`).
 
 #### Engine
@@ -362,7 +362,7 @@ or downloads the data; the pack is signed and installed like the other model pac
 
 - Source: https://github.com/iDvel/rime-ice, commit `927e1cf1d3eeb9bf4be85e3f684dba4dd485b6f6`
   (2026-11-11), files `cn_dicts/base.dict.yaml`, `cn_dicts/ext.dict.yaml`, `cn_dicts/8105.dict.yaml`.
-- Licence: GPL-3.0 (compatible with Kosha's GPL-3.0-or-later).
+- Licence: GPL-3.0 (compatible with IncogBoard's GPL-3.0-or-later).
 - Its own base words come from the 华宇野风 system dictionary, THUOCL (Tsinghua), a modern Chinese
   common word list, and the Tencent word vectors; rime-ice credits these in its header.
 - Used: the word rows of base (weight 1000 and above) and ext (flat weight 100), and the 8105
@@ -661,7 +661,7 @@ Public Domain Dataです。使用・変更・配布に関しては一切の制�
 
 ### ONNX Runtime: licence, version, build and status
 
-Owner: Wave 4-D. Kosha runs ONNX models through sherpa-onnx (voice) and the `ai.onnxruntime` Java API
+Owner: Wave 4-D. IncogBoard runs ONNX models through sherpa-onnx (voice) and the `ai.onnxruntime` Java API
 (translation). The runtime is pinned to 1.28.0; 1.29 and later ship HTTP telemetry and the INTERNET
 permission, so they are not used.
 

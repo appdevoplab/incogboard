@@ -2,9 +2,9 @@
 //
 // A few hundred words' worth of fixture for the Chinese tests: a tiny zh.kdict built with the real
 // writer, and a tiny s2twp.tsv. The scores are hand-picked log10 probabilities.
-import 'package:kosha/src/engine/lang/chinese/s2twp.dart';
-import 'package:kosha/src/engine/lang/chinese/zh_dictionary.dart';
-import 'package:kosha/src/engine/lang/chinese/zh_lexicon.dart';
+import 'package:incogboard/src/engine/lang/chinese/s2twp.dart';
+import 'package:incogboard/src/engine/lang/chinese/zh_dictionary.dart';
+import 'package:incogboard/src/engine/lang/chinese/zh_lexicon.dart';
 
 import '../../../../tool/chinese/zh_dict_writer.dart';
 

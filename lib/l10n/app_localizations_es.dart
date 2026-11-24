@@ -10,14 +10,14 @@ class AppLocalizationsEs extends AppLocalizations {
   AppLocalizationsEs([String locale = 'es']) : super(locale);
 
   @override
-  String get appName => 'Kosha';
+  String get appName => 'IncogBoard';
 
   @override
   String get homeTagline => 'Escritura privada, en este teléfono';
 
   @override
   String get homeOfflinePromise =>
-      'Kosha funciona sin conexión y no envía nada a ningún sitio.';
+      'IncogBoard funciona sin conexión y no envía nada a ningún sitio.';
 
   @override
   String get cancel => 'Cancelar';
@@ -72,14 +72,14 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get homeSetupTurnOn =>
-      'Activa Kosha en la lista de teclados de Android.';
+      'Activa IncogBoard en la lista de teclados de Android.';
 
   @override
   String get homeSetupChoose =>
-      'Elige Kosha como el teclado con el que escribes.';
+      'Elige IncogBoard como el teclado con el que escribes.';
 
   @override
-  String get homeFinishSetup => 'Termina de configurar Kosha';
+  String get homeFinishSetup => 'Termina de configurar IncogBoard';
 
   @override
   String get homeTypingSubtitle =>
@@ -126,7 +126,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get aboutPrivacy => 'Privacidad';
 
   @override
-  String get aboutNoInternet => 'Kosha no puede usar Internet';
+  String get aboutNoInternet => 'IncogBoard no puede usar Internet';
 
   @override
   String get aboutNoInternetBody =>
@@ -140,14 +140,14 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get aboutGplBody =>
-      'Kosha es software libre. Puedes estudiarlo, modificarlo y compartirlo bajo la GPL.';
+      'IncogBoard es software libre. Puedes estudiarlo, modificarlo y compartirlo bajo la GPL.';
 
   @override
   String get aboutSourceCode => 'Código fuente';
 
   @override
   String get aboutSourceBody =>
-      'Kosha es GPL-3.0-or-later. Su código fuente está disponible en la página del proyecto.';
+      'IncogBoard es GPL-3.0-or-later. Su código fuente está disponible en la página del proyecto.';
 
   @override
   String get aboutLicences => 'Licencias';
@@ -157,7 +157,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get aboutOpenSourceBody =>
-      'Flutter, material_ui y cada paquete que usa Kosha';
+      'Flutter, material_ui y cada paquete que usa IncogBoard';
 
   @override
   String get aboutTextLoadFailed => 'No se pudo cargar este texto.';
@@ -506,7 +506,8 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get packsOpenFailed => 'Kosha no pudo abrir el selector de archivos.';
+  String get packsOpenFailed =>
+      'IncogBoard no pudo abrir el selector de archivos.';
 
   @override
   String packsInstalled(String name) {
@@ -529,7 +530,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String packsDeleteFailed(String name) {
-    return 'Kosha no pudo eliminar $name. Inténtalo de nuevo.';
+    return 'IncogBoard no pudo eliminar $name. Inténtalo de nuevo.';
   }
 
   @override
@@ -594,7 +595,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get packsPlayNote =>
-      'Google Play descarga estos paquetes, no Kosha. Kosha nunca usa la red.';
+      'Google Play descarga estos paquetes, no IncogBoard. IncogBoard nunca usa la red.';
 
   @override
   String get packsGet => 'Obtener';
@@ -639,11 +640,11 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get packsVerifyUnavailable =>
-      'La comprobación de paquetes no está disponible en esta versión de Kosha.';
+      'La comprobación de paquetes no está disponible en esta versión de IncogBoard.';
 
   @override
   String get packsVerifyFailed =>
-      'Kosha no pudo comprobar los paquetes. No se cambió nada.';
+      'IncogBoard no pudo comprobar los paquetes. No se cambió nada.';
 
   @override
   String packsFreeSpace(Object size) {
@@ -660,11 +661,11 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get packErrorBadSignature =>
-      'Este paquete no está firmado para Kosha, así que no se instaló nada.';
+      'Este paquete no está firmado para IncogBoard, así que no se instaló nada.';
 
   @override
   String get packErrorBadFormat =>
-      'Este archivo no es un paquete de Kosha. No se instaló nada.';
+      'Este archivo no es un paquete de IncogBoard. No se instaló nada.';
 
   @override
   String get packErrorTooLarge =>
@@ -672,7 +673,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get packErrorVersion =>
-      'Este paquete necesita una versión más nueva de Kosha.';
+      'Este paquete necesita una versión más nueva de IncogBoard.';
 
   @override
   String get packErrorNoSpace =>
@@ -729,14 +730,14 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get privacyUnlockReason =>
-      'Desbloquea Kosha para ver tus ajustes y datos';
+      'Desbloquea IncogBoard para ver tus ajustes y datos';
 
   @override
   String get privacyLockUnavailable =>
       'El bloqueo del dispositivo no está disponible ahora. Inténtalo de nuevo en un momento.';
 
   @override
-  String get privacyLockedTitle => 'Kosha está bloqueado';
+  String get privacyLockedTitle => 'IncogBoard está bloqueado';
 
   @override
   String get privacyLockedBody =>
@@ -764,15 +765,15 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get backupInvalidFile =>
-      'Este archivo no es una copia de Kosha válida. No se cambió nada.';
+      'Este archivo no es una copia de IncogBoard válida. No se cambió nada.';
 
   @override
   String get backupTooLarge =>
-      'Este archivo es demasiado grande para ser una copia de Kosha.';
+      'Este archivo es demasiado grande para ser una copia de IncogBoard.';
 
   @override
   String get backupNewerVersion =>
-      'Esta copia la creó una versión más reciente de Kosha. Actualiza Kosha para restaurarla.';
+      'Esta copia la creó una versión más reciente de IncogBoard. Actualiza IncogBoard para restaurarla.';
 
   @override
   String get backupBusy =>
@@ -790,7 +791,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String backupMadeBy(String date, String version) {
-    return 'Creada el $date con Kosha $version.';
+    return 'Creada el $date con IncogBoard $version.';
   }
 
   @override
@@ -823,7 +824,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get backupRestoreFailed =>
-      'Kosha no pudo terminar la restauración. Es posible que algunos datos no se escribieran.';
+      'IncogBoard no pudo terminar la restauración. Es posible que algunos datos no se escribieran.';
 
   @override
   String get restoreNothingNew => 'No se restauró nada nuevo.';
@@ -1025,15 +1026,16 @@ class AppLocalizationsEs extends AppLocalizations {
       'No se pudo guardar el cambio. Inténtalo de nuevo.';
 
   @override
-  String get privacyCouldNotReadWords => 'Kosha no pudo leer estas palabras.';
+  String get privacyCouldNotReadWords =>
+      'IncogBoard no pudo leer estas palabras.';
 
   @override
   String get privacyCannotReadWordsNow =>
-      'Kosha no puede leer estas palabras ahora. Desbloquea el teléfono y vuelve a intentarlo.';
+      'IncogBoard no puede leer estas palabras ahora. Desbloquea el teléfono y vuelve a intentarlo.';
 
   @override
   String get privacyNoWordsLanguage =>
-      'Todavía no se han aprendido palabras en este idioma. Kosha aprende una palabra después de escribirla varias veces.';
+      'Todavía no se han aprendido palabras en este idioma. IncogBoard aprende una palabra después de escribirla varias veces.';
 
   @override
   String privacyBlockedWordsTooltip(num count) {
@@ -1076,7 +1078,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get privacyBlockedExplain =>
-      'Kosha no sugerirá ni corregirá a estas palabras.';
+      'IncogBoard no sugerirá ni corregirá a estas palabras.';
 
   @override
   String get privacyNoBlockedWords => 'No hay palabras bloqueadas.';
@@ -1122,15 +1124,15 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get privacyCenterLoadFailed =>
-      'Kosha no pudo leer sus datos de privacidad. Inténtalo más tarde.';
+      'IncogBoard no pudo leer sus datos de privacidad. Inténtalo más tarde.';
 
   @override
   String get privacyDevBuildNetwork =>
-      'Esta versión pide acceso a Internet. Kosha nunca debería hacerlo. Por favor, repórtalo.';
+      'Esta versión pide acceso a Internet. IncogBoard nunca debería hacerlo. Por favor, repórtalo.';
 
   @override
   String get privacyNoInternetPermission =>
-      'Kosha no tiene permiso de Internet. No puede enviar nada.';
+      'IncogBoard no tiene permiso de Internet. No puede enviar nada.';
 
   @override
   String get privacyDevBuildNote =>
@@ -1138,7 +1140,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get privacyDevBuildShort =>
-      'Versión de desarrollo. Kosha sigue sin permiso de Internet.';
+      'Versión de desarrollo. IncogBoard sigue sin permiso de Internet.';
 
   @override
   String privacyStorageSize(String size, String when) {
@@ -1164,11 +1166,11 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get privacyWhatKoshaStores => 'Lo que guarda Kosha';
+  String get privacyWhatIncogBoardStores => 'Lo que guarda IncogBoard';
 
   @override
   String get privacyShowsSizesOnly =>
-      'Kosha muestra aquí solo tamaños, nunca lo que hay dentro. Los tamaños incluyen la última copia guardada, que protege tus datos si un guardado se interrumpe.';
+      'IncogBoard muestra aquí solo tamaños, nunca lo que hay dentro. Los tamaños incluyen la última copia guardada, que protege tus datos si un guardado se interrumpe.';
 
   @override
   String get privacyTypingPrivacy => 'Privacidad al escribir';
@@ -1199,7 +1201,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get privacyAutoOffAppsBody =>
-      'Kosha guarda los nombres de las apps solo para llenar esta lista. Están cifrados, nunca se registran en incógnito, y puedes borrarlos abajo.';
+      'IncogBoard guarda los nombres de las apps solo para llenar esta lista. Están cifrados, nunca se registran en incógnito, y puedes borrarlos abajo.';
 
   @override
   String get privacyNoAppsYet => 'Todavía no hay apps';
@@ -1234,7 +1236,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get privacyWordsLearnedBody =>
-      'Las palabras que escribes se aprenden aquí cuando Kosha las ha visto algunas veces.';
+      'Las palabras que escribes se aprenden aquí cuando IncogBoard las ha visto algunas veces.';
 
   @override
   String privacyReviewWords(String when) {
@@ -1254,10 +1256,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get privacyAppLock => 'Bloqueo de la app';
 
   @override
-  String get privacyLockKosha => 'Bloquear Kosha';
+  String get privacyLockIncogBoard => 'Bloquear IncogBoard';
 
   @override
-  String get privacyLockKoshaBody =>
+  String get privacyLockIncogBoardBody =>
       'Pide tu huella o el PIN del dispositivo al abrir la app o después de estar en segundo plano.';
 
   @override
@@ -1273,7 +1275,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get privacyTurnOnAppLockReason =>
-      'Activa el bloqueo de la app para Kosha';
+      'Activa el bloqueo de la app para IncogBoard';
 
   @override
   String get privacyNotAvailable => 'No disponible ahora';
@@ -1325,7 +1327,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get privacyDeleteFailed =>
-      'Kosha no pudo eliminar todo. Inténtalo de nuevo.';
+      'IncogBoard no pudo eliminar todo. Inténtalo de nuevo.';
 
   @override
   String get privacyOk => 'OK';
@@ -1507,7 +1509,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get shortcutExpandsTo => 'Se expande a';
 
   @override
-  String get privacyMascotLabel => 'Mascota de privacidad de Kosha';
+  String get privacyMascotLabel => 'Mascota de privacidad de IncogBoard';
 
   @override
   String get privacyStoredEmoji => 'Emoji recientes';
@@ -1565,37 +1567,37 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get onboardingTurnOnTitle => 'Activa Kosha';
+  String get onboardingTurnOnTitle => 'Activa IncogBoard';
 
   @override
   String get onboardingTurnOnBody =>
-      'Android guarda una lista de los teclados activados. Activa Kosha en esa lista y vuelve aquí. Kosha detecta el cambio por sí mismo.';
+      'Android guarda una lista de los teclados activados. Activa IncogBoard en esa lista y vuelve aquí. IncogBoard detecta el cambio por sí mismo.';
 
   @override
-  String get onboardingKeyboardOn => 'Kosha está activado.';
+  String get onboardingKeyboardOn => 'IncogBoard está activado.';
 
   @override
-  String get onboardingKeyboardOff => 'Kosha aún no está activado.';
+  String get onboardingKeyboardOff => 'IncogBoard aún no está activado.';
 
   @override
   String get onboardingOpenKeyboardSettings => 'Abrir ajustes del teclado';
 
   @override
-  String get onboardingSwitchTitle => 'Cambia a Kosha';
+  String get onboardingSwitchTitle => 'Cambia a IncogBoard';
 
   @override
   String get onboardingSwitchBody =>
-      'Elige Kosha como teclado con el que escribes. Android puede mostrar primero una lista breve. Esta pantalla se actualiza sola.';
+      'Elige IncogBoard como teclado con el que escribes. Android puede mostrar primero una lista breve. Esta pantalla se actualiza sola.';
 
   @override
-  String get onboardingKeyboardIsYours => 'Kosha es tu teclado.';
+  String get onboardingKeyboardIsYours => 'IncogBoard es tu teclado.';
 
   @override
-  String get onboardingKeyboardNotYours => 'Kosha aún no es tu teclado.';
+  String get onboardingKeyboardNotYours => 'IncogBoard aún no es tu teclado.';
 
   @override
   String get onboardingTurnOnFirst =>
-      'Primero activa Kosha en el paso anterior.';
+      'Primero activa IncogBoard en el paso anterior.';
 
   @override
   String get onboardingChooseKeyboard => 'Elegir teclado';
@@ -1614,14 +1616,14 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get onboardingNoInternet =>
-      'Kosha no tiene permiso de Internet, así que no puede enviar nada a ningún sitio.';
+      'IncogBoard no tiene permiso de Internet, así que no puede enviar nada a ningún sitio.';
 
   @override
   String get onboardingWarningTitle => 'Por qué la advertencia no aplica';
 
   @override
   String get onboardingWarningBody =>
-      'Android advierte que cualquier teclado puede recopilar lo que escribes. Esa advertencia se refiere a teclados que pueden acceder a Internet. Kosha no puede.';
+      'Android advierte que cualquier teclado puede recopilar lo que escribes. Esa advertencia se refiere a teclados que pueden acceder a Internet. IncogBoard no puede.';
 
   @override
   String get onboardingInternetAccess => 'Acceso a Internet';
@@ -1674,10 +1676,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get onboardingAllSetBody =>
-      'Kosha está listo. Todo se puede cambiar después en Ajustes: idiomas, escritura, sensación, paneles y temas. Toca Listo para terminar.';
+      'IncogBoard está listo. Todo se puede cambiar después en Ajustes: idiomas, escritura, sensación, paneles y temas. Toca Listo para terminar.';
 
   @override
-  String get onboardingSetUp => 'Configurar Kosha';
+  String get onboardingSetUp => 'Configurar IncogBoard';
 
   @override
   String onboardingStepOf(String step, String total) {
@@ -1746,7 +1748,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get themeTryHelper =>
-      'El teclado aparece aquí cuando Kosha está seleccionado.';
+      'El teclado aparece aquí cuando IncogBoard está seleccionado.';
 
   @override
   String get themeRenameTitle => 'Cambiar nombre del tema';
@@ -2148,7 +2150,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get themeDeleteSelectedBody =>
-      'Este tema está seleccionado. Se usará Kosha Dynamic en su lugar. No se puede deshacer.';
+      'Este tema está seleccionado. Se usará IncogBoard Dynamic en su lugar. No se puede deshacer.';
 
   @override
   String get themeDeleteBody => 'Esto no se puede deshacer.';
@@ -2170,11 +2172,11 @@ class AppLocalizationsEs extends AppLocalizations {
       'Los colores del sistema no están disponibles.';
 
   @override
-  String get themeKoshaDynamicFollows =>
-      'Kosha Dynamic sigue tu fondo de pantalla';
+  String get themeIncogBoardDynamicFollows =>
+      'IncogBoard Dynamic sigue tu fondo de pantalla';
 
   @override
-  String get themeKoshaDynamicBody =>
+  String get themeIncogBoardDynamicBody =>
       'Sus colores se actualizan cuando cambia el fondo de pantalla';
 
   @override
@@ -2221,7 +2223,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get backupExplainer =>
-      'Una copia es un solo archivo, cifrado con una frase de contraseña que tú eliges. Solo esa frase lo abre. Si olvidas la frase, nadie puede recuperar la copia, ni siquiera Kosha.';
+      'Una copia es un solo archivo, cifrado con una frase de contraseña que tú eliges. Solo esa frase lo abre. Si olvidas la frase, nadie puede recuperar la copia, ni siquiera IncogBoard.';
 
   @override
   String privacyCategoryLine(String detail, String title) {
@@ -2250,7 +2252,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get onboardingCloseSetup => 'Cerrar configuración';
 
   @override
-  String get packsCouldNotRead => 'Kosha no pudo leer sus paquetes';
+  String get packsCouldNotRead => 'IncogBoard no pudo leer sus paquetes';
 
   @override
   String packsDeleteTooltip(String name) {

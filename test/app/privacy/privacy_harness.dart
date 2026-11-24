@@ -6,11 +6,11 @@ import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:kosha/src/app/l10n.dart';
-import 'package:kosha/src/app/app_services.dart';
-import 'package:kosha/src/security/app_auth.dart';
-import 'package:kosha/src/settings/kosha_settings.dart';
-import 'package:kosha/src/settings/settings_store.dart';
+import 'package:incogboard/src/app/l10n.dart';
+import 'package:incogboard/src/app/app_services.dart';
+import 'package:incogboard/src/security/app_auth.dart';
+import 'package:incogboard/src/settings/incogboard_settings.dart';
+import 'package:incogboard/src/settings/settings_store.dart';
 
 import '../../security/support/fakes.dart';
 
@@ -37,7 +37,7 @@ class FakeAuth implements AppAuthenticator {
 }
 
 class PrivacyHarness {
-  PrivacyHarness({KoshaSettings settings = const KoshaSettings()})
+  PrivacyHarness({IncogBoardSettings settings = const IncogBoardSettings()})
     : store = FakeBlobStore(),
       platform = MockPlatform(),
       app = MockAppHost() {
@@ -58,7 +58,7 @@ class PrivacyHarness {
   Widget host(Widget child) => AppScope(
     services: services,
     child: MaterialApp(
-      localizationsDelegates: koshaLocalizationsDelegates,
+      localizationsDelegates: incogboardLocalizationsDelegates,
       theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF6750A4))),
       home: child,
     ),

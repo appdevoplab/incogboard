@@ -1,6 +1,6 @@
 # Security policy
 
-Kosha is a private, offline keyboard for Android. Its security goals are in `docs/security/threat-model.md`, and the audit of the current code is in `docs/security/audit.md`.
+IncogBoard is a private, offline keyboard for Android. Its security goals are in `docs/security/threat-model.md`, and the audit of the current code is in `docs/security/audit.md`.
 
 ## Reporting a vulnerability
 
@@ -22,7 +22,7 @@ Please do not send real personal data, real backups or real passphrases. Describ
 
 ## Scope
 
-In scope: the Kosha app (keyboard, settings app, voice and translation packs, backup and restore, pack import), its build scripts, and the release pipeline in this repository.
+In scope: the IncogBoard app (keyboard, settings app, voice and translation packs, backup and restore, pack import), its build scripts, and the release pipeline in this repository.
 
 Out of scope: Android itself, other keyboards and apps, and the signing keys held by the maintainer outside this repository.
 

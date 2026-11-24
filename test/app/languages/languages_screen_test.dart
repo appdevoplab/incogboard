@@ -7,12 +7,12 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart' show IconButton, Icons, Material, MaterialApp, TextField;
 import 'package:mocktail/mocktail.dart';
-import 'package:kosha/src/app/l10n.dart';
-import 'package:kosha/src/app/app_services.dart';
-import 'package:kosha/src/app/onboarding/onboarding_languages.dart';
-import 'package:kosha/src/app/screens/languages_screen.dart';
-import 'package:kosha/src/app/shell/language_catalog.dart';
-import 'package:kosha/src/settings/kosha_settings.dart';
+import 'package:incogboard/src/app/l10n.dart';
+import 'package:incogboard/src/app/app_services.dart';
+import 'package:incogboard/src/app/onboarding/onboarding_languages.dart';
+import 'package:incogboard/src/app/screens/languages_screen.dart';
+import 'package:incogboard/src/app/shell/language_catalog.dart';
+import 'package:incogboard/src/settings/incogboard_settings.dart';
 
 import '../support/app_fakes.dart' show AppFakes;
 
@@ -25,28 +25,28 @@ Future<void> _pumpScreen(WidgetTester tester, AppServices services, Widget child
   await tester.pumpWidget(
     AppScope(
       services: services,
-      child: MaterialApp(localizationsDelegates: koshaLocalizationsDelegates, home: child),
+      child: MaterialApp(localizationsDelegates: incogboardLocalizationsDelegates, home: child),
     ),
   );
   await tester.pumpAndSettle();
 }
 
 /// Applies the last change written to the store to [base] and returns the new languages section.
-LanguageSettings _lastWrite(AppFakes fakes, KoshaSettings base) {
+LanguageSettings _lastWrite(AppFakes fakes, IncogBoardSettings base) {
   final captured = verify(() => fakes.store.update(captureAny(), sections: captureAny(named: 'sections'))).captured;
-  final change = captured.first as KoshaSettings Function(KoshaSettings);
+  final change = captured.first as IncogBoardSettings Function(IncogBoardSettings);
   expect(captured.last, [SettingsSection.languages]);
   return change(base).languages;
 }
 
 void main() {
   setUpAll(() {
-    registerFallbackValue((KoshaSettings s) => s);
+    registerFallbackValue((IncogBoardSettings s) => s);
   });
 
   group('Languages screen', () {
     testWidgets('enabled languages show their layout; changing it writes the layout choice', (tester) async {
-      const base = KoshaSettings(
+      const base = IncogBoardSettings(
         languages: LanguageSettings(enabled: ['en', 'de'], layouts: {'de': 'qwertz'}),
       );
       final fakes = AppFakes(settings: base);
@@ -63,7 +63,7 @@ void main() {
     });
 
     testWidgets('adding a language appends it to the enabled list', (tester) async {
-      const base = KoshaSettings(languages: LanguageSettings(enabled: ['en']));
+      const base = IncogBoardSettings(languages: LanguageSettings(enabled: ['en']));
       final fakes = AppFakes(settings: base);
       await _pumpScreen(tester, fakes.services, const LanguagesScreen());
 
@@ -74,7 +74,7 @@ void main() {
     });
 
     testWidgets('the last enabled language cannot be removed', (tester) async {
-      const base = KoshaSettings(languages: LanguageSettings(enabled: ['en']));
+      const base = IncogBoardSettings(languages: LanguageSettings(enabled: ['en']));
       final fakes = AppFakes(settings: base);
       await _pumpScreen(tester, fakes.services, const LanguagesScreen());
 
@@ -83,7 +83,7 @@ void main() {
     });
 
     testWidgets('removing a language keeps the others and makes the first one active when needed', (tester) async {
-      const base = KoshaSettings(
+      const base = IncogBoardSettings(
         languages: LanguageSettings(enabled: ['de', 'en'], active: 'de'),
       );
       final fakes = AppFakes(settings: base);
@@ -98,7 +98,7 @@ void main() {
     });
 
     testWidgets('dragging a language below the next one reorders the enabled list', (tester) async {
-      const base = KoshaSettings(languages: LanguageSettings(enabled: ['en', 'de', 'fr']));
+      const base = IncogBoardSettings(languages: LanguageSettings(enabled: ['en', 'de', 'fr']));
       final fakes = AppFakes(settings: base);
       await _pumpScreen(tester, fakes.services, const LanguagesScreen());
 
@@ -109,7 +109,7 @@ void main() {
     });
 
     testWidgets('the multilingual switch writes the languages section', (tester) async {
-      const base = KoshaSettings(languages: LanguageSettings(enabled: ['en', 'ar'], multilingual: true));
+      const base = IncogBoardSettings(languages: LanguageSettings(enabled: ['en', 'ar'], multilingual: true));
       final fakes = AppFakes(settings: base);
       await _pumpScreen(tester, fakes.services, const LanguagesScreen());
 
@@ -144,7 +144,7 @@ void main() {
 
   group('onboarding language step', () {
     testWidgets('search narrows the list and tapping a language adds it to the selection', (tester) async {
-      const base = KoshaSettings(languages: LanguageSettings(enabled: ['en']));
+      const base = IncogBoardSettings(languages: LanguageSettings(enabled: ['en']));
       final fakes = AppFakes(settings: base);
       await _pumpScreen(
         tester,

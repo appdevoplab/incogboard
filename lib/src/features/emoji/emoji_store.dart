@@ -71,7 +71,7 @@ class EmojiStore {
       final bytes = read.bytes;
       if (bytes != null) _apply(bytes);
     } on Object catch (e) {
-      KoshaLog.w('Emoji', 'recents unreadable', e.runtimeType);
+      IncogBoardLog.w('Emoji', 'recents unreadable', e.runtimeType);
     } finally {
       _loaded = true;
       _loading = null;
@@ -95,7 +95,7 @@ class EmojiStore {
       _glyphKey = j['gk'] as String? ?? '';
       _hidden = {for (final h in (j['h'] as List<Object?>? ?? const [])) h! as String};
     } on Object catch (e) {
-      KoshaLog.w('Emoji', 'recents discarded', e.runtimeType);
+      IncogBoardLog.w('Emoji', 'recents discarded', e.runtimeType);
       _recents.clear();
       _tones.clear();
       _hidden = const {};
@@ -192,7 +192,7 @@ class EmojiStore {
       await _blob.store.write(DataBlobs.emoji, Uint8List.fromList(utf8.encode(json)));
     } on Object catch (e) {
       _dirty = true;
-      KoshaLog.w('Emoji', 'save failed', e.runtimeType);
+      IncogBoardLog.w('Emoji', 'save failed', e.runtimeType);
     }
   }
 

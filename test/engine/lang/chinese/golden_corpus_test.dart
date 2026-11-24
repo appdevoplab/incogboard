@@ -10,9 +10,9 @@
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/engine/lang/chinese/learned_phrases.dart';
-import 'package:kosha/src/engine/lang/chinese/pinyin_composer.dart';
-import 'package:kosha/src/engine/lang/chinese/zh_lexicon.dart';
+import 'package:incogboard/src/engine/lang/chinese/learned_phrases.dart';
+import 'package:incogboard/src/engine/lang/chinese/pinyin_composer.dart';
+import 'package:incogboard/src/engine/lang/chinese/zh_lexicon.dart';
 
 String? _stagedDir() {
   final home = Platform.environment['USERPROFILE'] ?? Platform.environment['HOME'];

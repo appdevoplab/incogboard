@@ -3,12 +3,12 @@
 // Wave 3-A: the space-bar language picker inside the keyboard, with the fake host and editor.
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:kosha/src/features/languages/languages_feature.dart';
-import 'package:kosha/src/features/shared/panel_style.dart' show PanelSwitch;
-import 'package:kosha/src/keyboard/keyboard_app.dart';
-import 'package:kosha/src/keyboard/keyboard_session.dart';
-import 'package:kosha/src/keyboard/panels/keyboard_panel.dart';
-import 'package:kosha/src/settings/kosha_settings.dart';
+import 'package:incogboard/src/features/languages/languages_feature.dart';
+import 'package:incogboard/src/features/shared/panel_style.dart' show PanelSwitch;
+import 'package:incogboard/src/keyboard/keyboard_app.dart';
+import 'package:incogboard/src/keyboard/keyboard_session.dart';
+import 'package:incogboard/src/keyboard/panels/keyboard_panel.dart';
+import 'package:incogboard/src/settings/incogboard_settings.dart';
 
 import '../../keyboard/support/app_harness.dart';
 
@@ -22,7 +22,7 @@ class _Probe extends KeyboardFeature {
   }
 }
 
-KoshaSettings _settings({required List<String> enabled, String active = 'en'}) => KoshaSettings(
+IncogBoardSettings _settings({required List<String> enabled, String active = 'en'}) => IncogBoardSettings(
   languages: LanguageSettings(enabled: enabled, active: active, layouts: const {'de': 'qwertz'}),
   typing: const TypingSettings(nextWordPrediction: false),
 );
@@ -78,7 +78,7 @@ void main() {
       verify(() => h.host.showInputMethodPicker()).called(1);
     });
 
-    testWidgets('with one language the system picker opens instead of the Kosha picker', (tester) async {
+    testWidgets('with one language the system picker opens instead of the IncogBoard picker', (tester) async {
       final h = AppHarness(settings: _settings(enabled: ['en']));
       final probe = _Probe();
       await h.pump(tester, features: [probe]);

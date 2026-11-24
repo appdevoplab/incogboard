@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
-# Lists the operators that the staged Kosha models use, for the reduced onnxruntime build
+# Lists the operators that the staged IncogBoard models use, for the reduced onnxruntime build
 # (Wave 4-D). Reads the model graphs only (never writes to the staging folder). Subgraphs
 # (If, Loop, Scan bodies) are included.
 #

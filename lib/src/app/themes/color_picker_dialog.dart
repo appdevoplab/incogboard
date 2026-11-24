@@ -4,7 +4,7 @@
 // Returns an opaque ARGB int, or null when cancelled.
 import 'package:flutter/services.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:kosha/src/app/l10n.dart';
+import 'package:incogboard/src/app/l10n.dart';
 
 /// Shows the picker, starting from [initial] (ARGB). Null if the user cancels.
 Future<int?> showColorPicker(BuildContext context, {required int initial, required String title}) => showDialog<int>(

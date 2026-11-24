@@ -7,24 +7,24 @@ import 'dart:typed_data';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:kosha/src/app/japanese/japanese_screen.dart';
-import 'package:kosha/src/app/l10n.dart';
-import 'package:kosha/src/bridge/messages.g.dart';
-import 'package:kosha/src/engine/lang/japanese/japanese_learning.dart';
-import 'package:kosha/src/settings/kosha_settings.dart';
+import 'package:incogboard/src/app/japanese/japanese_screen.dart';
+import 'package:incogboard/src/app/l10n.dart';
+import 'package:incogboard/src/bridge/messages.g.dart';
+import 'package:incogboard/src/engine/lang/japanese/japanese_learning.dart';
+import 'package:incogboard/src/settings/incogboard_settings.dart';
 
 import '../support/app_fakes.dart';
 
-KoshaSettings _applied(AppFakes fakes, {KoshaSettings base = const KoshaSettings()}) {
+IncogBoardSettings _applied(AppFakes fakes, {IncogBoardSettings base = const IncogBoardSettings()}) {
   final change =
       verify(() => fakes.store.update(captureAny(), sections: any(named: 'sections'))).captured.last
-          as KoshaSettings Function(KoshaSettings);
+          as IncogBoardSettings Function(IncogBoardSettings);
   return change(base);
 }
 
 void main() {
   setUpAll(() {
-    registerFallbackValue((KoshaSettings s) => s);
+    registerFallbackValue((IncogBoardSettings s) => s);
     registerFallbackValue(<String>[]);
   });
 
@@ -32,7 +32,7 @@ void main() {
 
   Future<void> pump(
     WidgetTester tester, {
-    KoshaSettings settings = const KoshaSettings(),
+    IncogBoardSettings settings = const IncogBoardSettings(),
     bool withPack = false,
   }) async {
     fakes = AppFakes(settings: settings);
@@ -54,7 +54,7 @@ void main() {
     await pumpWithServices(
       tester,
       fakes.services,
-      const MaterialApp(localizationsDelegates: koshaLocalizationsDelegates, home: JapaneseScreen()),
+      const MaterialApp(localizationsDelegates: incogboardLocalizationsDelegates, home: JapaneseScreen()),
     );
     await tester.pumpAndSettle();
   }

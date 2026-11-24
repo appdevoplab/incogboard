@@ -153,7 +153,7 @@ Future<int> _verify(File pack, String pubkeyPath) async {
   try {
     final fileLength = await raf.length();
     final magic = await _readExact(raf, _magic.length);
-    if (String.fromCharCodes(magic) != _magic) return _fail('not a Kosha pack');
+    if (String.fromCharCodes(magic) != _magic) return _fail('not a IncogBoard pack');
     final version = _u32(await _readExact(raf, 4));
     if (version != _formatVersion) return _fail('unsupported format version $version');
     final manifestLen = _u32(await _readExact(raf, 4));
@@ -163,7 +163,7 @@ Future<int> _verify(File pack, String pubkeyPath) async {
     if (sigLen < 8 || sigLen > _maxSignature) return _fail('bad signature length');
     final sig = await _readExact(raf, sigLen);
 
-    final tmp = Directory.systemTemp.createTempSync('koshaverify');
+    final tmp = Directory.systemTemp.createTempSync('incogboardverify');
     try {
       final manifestFile = File('${tmp.path}/manifest.json')..writeAsBytesSync(manifest);
       final sigFile = File('${tmp.path}/manifest.sig')..writeAsBytesSync(sig);

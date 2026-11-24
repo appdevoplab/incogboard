@@ -3,8 +3,8 @@ import 'dart:math' as math;
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/engine/gesture/gesture_math.dart';
-import 'package:kosha/src/engine/gesture/template_index.dart';
+import 'package:incogboard/src/engine/gesture/gesture_math.dart';
+import 'package:incogboard/src/engine/gesture/template_index.dart';
 
 import 'gesture_test_support.dart';
 

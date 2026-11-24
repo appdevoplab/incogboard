@@ -9,7 +9,7 @@ import 'dart:ui' show Offset, Rect;
 import 'package:flutter/foundation.dart';
 
 import '../../core/log.dart';
-import '../../settings/kosha_settings.dart';
+import '../../settings/incogboard_settings.dart';
 import '../keyboard_session.dart';
 import '../panels/keyboard_panel.dart';
 import 'mode_geometry.dart';
@@ -187,17 +187,17 @@ class ModesController extends ChangeNotifier {
 
   static const double _strip = 44;
 
-  void _write(KoshaSettings Function(KoshaSettings current) change, {required List<String> sections}) {
+  void _write(IncogBoardSettings Function(IncogBoardSettings current) change, {required List<String> sections}) {
     final session = _session;
     if (session == null) return;
     try {
       unawaited(
         session.services.settings
             .update(change, sections: sections)
-            .catchError((Object e) => KoshaLog.w('Modes', 'settings write failed', e.runtimeType)),
+            .catchError((Object e) => IncogBoardLog.w('Modes', 'settings write failed', e.runtimeType)),
       );
     } on Object catch (e) {
-      KoshaLog.w('Modes', 'settings write failed', e.runtimeType);
+      IncogBoardLog.w('Modes', 'settings write failed', e.runtimeType);
     }
   }
 
@@ -215,10 +215,10 @@ class ModesController extends ChangeNotifier {
       unawaited(
         session.services.host
             .setWindowLayout(p.message)
-            .catchError((Object e) => KoshaLog.w('Modes', 'window layout failed', e.runtimeType)),
+            .catchError((Object e) => IncogBoardLog.w('Modes', 'window layout failed', e.runtimeType)),
       );
     } on Object catch (e) {
-      KoshaLog.w('Modes', 'window layout failed', e.runtimeType);
+      IncogBoardLog.w('Modes', 'window layout failed', e.runtimeType);
     }
   }
 }

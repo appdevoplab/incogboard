@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
 // Boots the keyboard (IME) engine. Called from keyboardMain() in main.dart,
-// which KoshaImeService starts as a separate Flutter engine.
+// which IncogBoardImeService starts as a separate Flutter engine.
 // OWNER: orchestrator. Features are attached in this order; for each hook the
 // first feature that provides it wins.
 import 'package:flutter/widgets.dart';
@@ -23,7 +23,7 @@ Future<void> runKeyboard() async {
   WidgetsFlutterBinding.ensureInitialized();
   final sw = Stopwatch()..start();
   final services = await KeyboardServices.create();
-  KoshaLog.d('Boot', 'services ready in ${sw.elapsedMilliseconds} ms');
+  IncogBoardLog.d('Boot', 'services ready in ${sw.elapsedMilliseconds} ms');
   runApp(
     KeyboardApp(
       services: services,

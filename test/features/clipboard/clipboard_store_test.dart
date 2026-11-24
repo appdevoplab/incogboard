@@ -4,12 +4,12 @@
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/core/secure_blob_store.dart';
-import 'package:kosha/src/features/shared/panel_blob.dart';
-import 'package:kosha/src/features/clipboard/clipboard_controller.dart';
-import 'package:kosha/src/features/clipboard/clipboard_panel.dart';
-import 'package:kosha/src/features/clipboard/clipboard_store.dart';
-import 'package:kosha/src/settings/sections/clipboard_settings.dart';
+import 'package:incogboard/src/core/secure_blob_store.dart';
+import 'package:incogboard/src/features/shared/panel_blob.dart';
+import 'package:incogboard/src/features/clipboard/clipboard_controller.dart';
+import 'package:incogboard/src/features/clipboard/clipboard_panel.dart';
+import 'package:incogboard/src/features/clipboard/clipboard_store.dart';
+import 'package:incogboard/src/settings/sections/clipboard_settings.dart';
 
 const int _minute = 60 * 1000;
 

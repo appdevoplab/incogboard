@@ -6,14 +6,14 @@ import 'dart:async';
 
 import 'package:material_ui/material_ui.dart';
 
-import '../../settings/kosha_settings.dart';
+import '../../settings/incogboard_settings.dart';
 import '../app_services.dart';
 
 /// Rebuilds [builder] whenever the settings change, whichever engine changed them.
 class LiveSettings extends StatelessWidget {
   const LiveSettings({super.key, required this.builder});
 
-  final Widget Function(BuildContext context, KoshaSettings settings) builder;
+  final Widget Function(BuildContext context, IncogBoardSettings settings) builder;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +24,10 @@ class LiveSettings extends StatelessWidget {
 
 /// Applies [change] and writes the result. [section] is the [SettingsSection] that changed, so the
 /// keyboard reloads it. Fire and forget: the store notifies listeners at once.
-void writeSettings(BuildContext context, String section, KoshaSettings Function(KoshaSettings current) change) {
+void writeSettings(
+  BuildContext context,
+  String section,
+  IncogBoardSettings Function(IncogBoardSettings current) change,
+) {
   unawaited(AppScope.of(context).settings.update(change, sections: [section]));
 }

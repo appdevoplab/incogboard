@@ -3,7 +3,7 @@
 #
 # Repository hygiene gate (CI job "hygiene"). Fails when the tracked files contain:
 #   - signing or key material by file name (.jks, .keystore, .pem, .p12, .pfx, key.properties)
-#   - Kosha data that must never be committed (.koshabackup, .koshapack, .kdict dictionaries are
+#   - IncogBoard data that must never be committed (.koshabackup, .koshapack, .kdict dictionaries are
 #     allowed only under assets/, so they are not listed here)
 #   - a private key in the text of any file
 #   - any file over 5 MB
@@ -21,7 +21,7 @@ files=$(git ls-files)
 
 bad_names=$(printf '%s\n' "$files" | grep -E -i "$NAME_RE" || true)
 if [ -n "$bad_names" ]; then
-  echo "FAIL: key material or Kosha data files are tracked:" >&2
+  echo "FAIL: key material or IncogBoard data files are tracked:" >&2
   printf '  %s\n' $bad_names >&2
   status=1
 fi
@@ -53,6 +53,6 @@ fi
 
 if [ "$status" -eq 0 ]; then
   count=$(printf '%s\n' "$files" | grep -c . || true)
-  echo "OK: $count tracked files, no key material, no Kosha data files, none over 5 MB."
+  echo "OK: $count tracked files, no key material, no IncogBoard data files, none over 5 MB."
 fi
 exit $status

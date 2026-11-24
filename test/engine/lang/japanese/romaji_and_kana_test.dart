@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/engine/lang/japanese/kana.dart';
-import 'package:kosha/src/engine/lang/japanese/romaji.dart';
+import 'package:incogboard/src/engine/lang/japanese/kana.dart';
+import 'package:incogboard/src/engine/lang/japanese/romaji.dart';
 
 String _type(String romaji, {bool flush = true}) {
   final r = RomajiInput();

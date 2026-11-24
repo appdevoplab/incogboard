@@ -3,7 +3,7 @@
 // InputController: the keyboard's typing brain. Pure Dart: it talks to the
 // editor only through [InputSink], so it is unit-tested against FakeEditor.
 //
-// PRIVACY: never log typed text. Only events and sizes go to KoshaLog.
+// PRIVACY: never log typed text. Only events and sizes go to IncogBoardLog.
 import 'dart:async';
 
 import 'package:characters/characters.dart';
@@ -15,7 +15,7 @@ import '../../core/input_field_info.dart';
 import '../../core/log.dart';
 import '../../engine/contracts.dart';
 import '../../engine/language_rules.dart';
-import '../../settings/kosha_settings.dart';
+import '../../settings/incogboard_settings.dart';
 import 'composer.dart';
 import 'keyboard_page.dart';
 
@@ -157,7 +157,7 @@ class InputController {
   final InputSink _input;
   final TextPredictor _predictor;
   final GestureDecoder _decoder;
-  final KoshaSettings Function() _settings;
+  final IncogBoardSettings Function() _settings;
   final LanguageRulesResolver _rulesFor;
   final LanguageId Function() _language;
   final int Function() _clock;
@@ -237,7 +237,7 @@ class InputController {
   // ---- Derived ----------------------------------------------------------
 
   InputFieldInfo get currentField => field.value;
-  KoshaSettings get settings => _settings();
+  IncogBoardSettings get settings => _settings();
   LanguageRules get _rules => _rulesFor(_language());
 
   /// The word being composed (empty when none). Exposed for tests and the view.
@@ -278,7 +278,9 @@ class InputController {
   }
 
   void _send(Future<Object?> call) {
-    unawaited(call.then<void>((_) {}, onError: (Object e) => KoshaLog.w('Input', 'editor call failed', e.runtimeType)));
+    unawaited(
+      call.then<void>((_) {}, onError: (Object e) => IncogBoardLog.w('Input', 'editor call failed', e.runtimeType)),
+    );
   }
 
   void _batch(void Function() body) {
@@ -1022,7 +1024,7 @@ class InputController {
         try {
           result = t(result, context);
         } on Object catch (e) {
-          KoshaLog.w('Input', 'suggestion transform failed', e.runtimeType);
+          IncogBoardLog.w('Input', 'suggestion transform failed', e.runtimeType);
         }
       }
       _lastResult = result;
@@ -1055,7 +1057,7 @@ class InputController {
       try {
         out = d(out, q);
       } on Object catch (e) {
-        KoshaLog.w('Input', 'suggestion decorator failed', e.runtimeType);
+        IncogBoardLog.w('Input', 'suggestion decorator failed', e.runtimeType);
       }
     }
     return out;
@@ -1141,7 +1143,7 @@ class InputController {
       try {
         candidates = t(candidates);
       } on Object catch (e) {
-        KoshaLog.w('Input', 'swipe transform failed', e.runtimeType);
+        IncogBoardLog.w('Input', 'swipe transform failed', e.runtimeType);
       }
     }
     if (candidates.isEmpty) return;
@@ -1209,7 +1211,7 @@ class InputController {
     try {
       step = call(c);
     } on Object catch (e) {
-      KoshaLog.w('Input', 'composer failed', e.runtimeType);
+      IncogBoardLog.w('Input', 'composer failed', e.runtimeType);
       _dropComposer();
       return false;
     }
@@ -1254,7 +1256,7 @@ class InputController {
       try {
         c.reset();
       } on Object catch (e) {
-        KoshaLog.w('Input', 'composer reset failed', e.runtimeType);
+        IncogBoardLog.w('Input', 'composer reset failed', e.runtimeType);
       }
     }
     if (!composerState.value.isEmpty) composerState.value = ComposerState.empty;

@@ -1,6 +1,6 @@
 # ONNX Runtime: licence, version, build and status
 
-Owner: Wave 4-D. Kosha runs ONNX models through sherpa-onnx (voice) and the `ai.onnxruntime` Java API
+Owner: Wave 4-D. IncogBoard runs ONNX models through sherpa-onnx (voice) and the `ai.onnxruntime` Java API
 (translation). The runtime is pinned to 1.28.0; 1.29 and later ship HTTP telemetry and the INTERNET
 permission, so they are not used.
 

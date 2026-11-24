@@ -8,11 +8,11 @@ import 'package:mocktail/mocktail.dart';
 
 import '../../security/support/fakes.dart';
 
-import 'package:kosha/src/app/privacy/privacy_center_screen.dart';
-import 'package:kosha/src/core/data_sections.dart';
-import 'package:kosha/src/engine/learn/learned_data.dart';
-import 'package:kosha/src/security/app_auth.dart';
-import 'package:kosha/src/security/shortcuts_store.dart';
+import 'package:incogboard/src/app/privacy/privacy_center_screen.dart';
+import 'package:incogboard/src/core/data_sections.dart';
+import 'package:incogboard/src/engine/learn/learned_data.dart';
+import 'package:incogboard/src/security/app_auth.dart';
+import 'package:incogboard/src/security/shortcuts_store.dart';
 
 import 'privacy_harness.dart';
 
@@ -49,7 +49,7 @@ void main() {
   testWidgets('shows the no-internet proof and what is stored, by name and size only', (tester) async {
     await pumpCenter(tester, FakeAuth());
 
-    expect(find.text('Kosha has no internet permission. It cannot send anything.'), findsOneWidget);
+    expect(find.text('IncogBoard has no internet permission. It cannot send anything.'), findsOneWidget);
     expect(find.text('Learned words (English)'), findsOneWidget);
     expect(find.text('Clipboard history'), findsOneWidget);
     expect(find.textContaining('hello'), findsNothing); // never shows contents
@@ -75,7 +75,7 @@ void main() {
     final auth = FakeAuth()..answers.add(AuthOutcome.success);
     await pumpCenter(tester, auth);
 
-    final lock = find.widgetWithText(SwitchListTile, 'Lock Kosha');
+    final lock = find.widgetWithText(SwitchListTile, 'Lock IncogBoard');
     await reveal(tester, lock);
     await tester.tap(lock);
     await tester.pumpAndSettle();
@@ -88,7 +88,7 @@ void main() {
     final auth = FakeAuth()..answers.add(AuthOutcome.cancelled);
     await pumpCenter(tester, auth);
 
-    final lock = find.widgetWithText(SwitchListTile, 'Lock Kosha');
+    final lock = find.widgetWithText(SwitchListTile, 'Lock IncogBoard');
     await reveal(tester, lock);
     await tester.tap(lock);
     await tester.pumpAndSettle();
@@ -100,7 +100,7 @@ void main() {
     final auth = FakeAuth(secure: false);
     await pumpCenter(tester, auth);
 
-    final lock = find.widgetWithText(SwitchListTile, 'Lock Kosha');
+    final lock = find.widgetWithText(SwitchListTile, 'Lock IncogBoard');
     await reveal(tester, lock);
     await tester.tap(lock);
     await tester.pumpAndSettle();

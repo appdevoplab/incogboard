@@ -5,43 +5,43 @@
 // all derived from the same spec (see theme_resolver.dart).
 import 'theme_spec.dart';
 
-/// Brand gold (the Kosha treasure chest; the seed of the brand scheme) and brand dark brown
+/// Brand gold (the IncogBoard treasure chest; the seed of the brand scheme) and brand dark brown
 /// (the chest's straps and keycap, and the launcher background). See tool/brand/render.py.
-const int koshaYellow = 0xFFEFB33A;
-const int koshaBrown = 0xFF3E2723;
+const int incogboardYellow = 0xFFEFB33A;
+const int incogboardBrown = 0xFF3E2723;
 
-const String defaultThemeId = 'kosha_dynamic';
+const String defaultThemeId = 'incogboard_dynamic';
 
 abstract final class ThemePresets {
   /// Wallpaper colours on Android 12+, brand seed otherwise.
-  static const ThemeSpec koshaDynamic = ThemeSpec(
-    id: 'kosha_dynamic',
-    name: 'Kosha Dynamic',
+  static const ThemeSpec incogboardDynamic = ThemeSpec(
+    id: 'incogboard_dynamic',
+    name: 'IncogBoard Dynamic',
     colorSource: ThemeColorSource.dynamic,
-    seedColor: koshaYellow,
+    seedColor: incogboardYellow,
     variant: ThemeSchemeVariant.fidelity,
   );
 
   /// The brand look: warm yellow primary with dark-brown accents.
-  static const ThemeSpec koshaGold = ThemeSpec(
-    id: 'kosha_gold',
-    name: 'Kosha Gold',
+  static const ThemeSpec incogboardGold = ThemeSpec(
+    id: 'incogboard_gold',
+    name: 'IncogBoard Gold',
     colorSource: ThemeColorSource.custom,
-    seedColor: koshaYellow,
+    seedColor: incogboardYellow,
     variant: ThemeSchemeVariant.fidelity,
     customRoles: {
-      'primary': koshaYellow,
-      'onPrimary': koshaBrown,
+      'primary': incogboardYellow,
+      'onPrimary': incogboardBrown,
       'primaryContainer': 0xFFFFE08C,
-      'onPrimaryContainer': koshaBrown,
+      'onPrimaryContainer': incogboardBrown,
       'secondary': 0xFF8D6E63,
       'onSecondary': 0xFFFFFFFF,
       'secondaryContainer': 0xFFF1DFC4,
-      'onSecondaryContainer': koshaBrown,
+      'onSecondaryContainer': incogboardBrown,
       'tertiary': 0xFF6D4C41,
       'onTertiary': 0xFFFFFFFF,
       'tertiaryContainer': 0xFFFFDBC8,
-      'onTertiaryContainer': koshaBrown,
+      'onTertiaryContainer': incogboardBrown,
       'surface': 0xFFFFF8EA,
       'onSurface': 0xFF2A1F1B,
       'onSurfaceVariant': 0xFF5D4A42,
@@ -52,16 +52,16 @@ abstract final class ThemePresets {
       'outlineVariant': 0xFFE3D2B5,
     },
     customRolesDark: {
-      'primary': koshaYellow,
-      'onPrimary': koshaBrown,
+      'primary': incogboardYellow,
+      'onPrimary': incogboardBrown,
       'primaryContainer': 0xFF5C4400,
       'onPrimaryContainer': 0xFFFFE08C,
       'secondary': 0xFFD7BFA8,
-      'onSecondary': koshaBrown,
+      'onSecondary': incogboardBrown,
       'secondaryContainer': 0xFF4F4130,
       'onSecondaryContainer': 0xFFF1DFC4,
       'tertiary': 0xFFE0B9A4,
-      'onTertiary': koshaBrown,
+      'onTertiary': incogboardBrown,
       'tertiaryContainer': 0xFF5D4037,
       'onTertiaryContainer': 0xFFFFDBC8,
       'surface': 0xFF1F1A12,
@@ -110,14 +110,14 @@ abstract final class ThemePresets {
   );
 
   /// Gallery order.
-  static const List<ThemeSpec> all = [koshaDynamic, koshaGold, lavender, ocean, mint, coral, rose, graphite];
+  static const List<ThemeSpec> all = [incogboardDynamic, incogboardGold, lavender, ocean, mint, coral, rose, graphite];
 
-  /// The preset with [id], or [koshaDynamic] if unknown.
+  /// The preset with [id], or [incogboardDynamic] if unknown.
   static ThemeSpec byId(String id) {
     for (final p in all) {
       if (p.id == id) return p;
     }
-    return koshaDynamic;
+    return incogboardDynamic;
   }
 
   static bool isPresetId(String id) => all.any((p) => p.id == id);

@@ -8,8 +8,8 @@
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/engine/lang/japanese/japanese_dictionary.dart';
-import 'package:kosha/src/engine/lang/japanese/lattice.dart';
+import 'package:incogboard/src/engine/lang/japanese/japanese_dictionary.dart';
+import 'package:incogboard/src/engine/lang/japanese/lattice.dart';
 
 String? _packDir() {
   final env = Platform.environment['KOSHA_JA_DICT'];

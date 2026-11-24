@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// OWNER: Wave 4-A. Chinese typing options (route KoshaRoutes.chinese): Traditional output, fuzzy
+// OWNER: Wave 4-A. Chinese typing options (route IncogBoardRoutes.chinese): Traditional output, fuzzy
 // pinyin, the dictionary pack status and clearing the learned phrases. Writes the `chinese` section.
 import 'dart:async';
 
@@ -10,7 +10,7 @@ import '../../bridge/messages.g.dart';
 import '../../core/data_sections.dart';
 import '../../engine/lang/chinese/learned_phrases.dart';
 import '../../packs/installed_packs.dart';
-import '../../settings/kosha_settings.dart';
+import '../../settings/incogboard_settings.dart';
 import '../app_services.dart';
 import '../common/settings_widgets.dart';
 import '../routes.dart';
@@ -132,7 +132,7 @@ class _PackTileState extends State<_PackTile> {
     builder: (context, snap) {
       final loading = snap.connectionState != ConnectionState.done;
       final packs = snap.data ?? const <PackInfoMessage>[];
-      void open() => unawaited(Navigator.of(context).pushNamed(KoshaRoutes.packs));
+      void open() => unawaited(Navigator.of(context).pushNamed(IncogBoardRoutes.packs));
       if (loading) {
         return SettingsTile(icon: Icons.inventory_2_outlined, title: context.l10n.chineseLooking);
       }

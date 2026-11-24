@@ -26,7 +26,7 @@ abstract interface class VoiceTextSink {
 /// Where a session is. The panel shows a message for every state except listening and stopping.
 enum VoicePhase { disabled, checking, listening, stopping, cancelling, finished, noPermission, noModel, busy, failed }
 
-/// The language choice shown on the panel's chip: a Kosha language id, or null for Auto (Whisper detects).
+/// The language choice shown on the panel's chip: a IncogBoard language id, or null for Auto (Whisper detects).
 typedef VoiceLanguageChoice = String?;
 
 /// Text the controller needs to place one utterance: the separator before it and whether it starts a sentence.
@@ -111,7 +111,7 @@ class VoiceController extends ChangeNotifier {
   /// Whether the next session asks Whisper to detect the language.
   bool get autoDetect => _choice == null;
 
-  /// The Kosha language a session uses when [languageChoice] is not Auto.
+  /// The IncogBoard language a session uses when [languageChoice] is not Auto.
   String get language => _choice ?? _languages.first;
 
   List<VoiceLanguageChoice> get choices => VoiceText.cycle(_languages);
@@ -164,9 +164,9 @@ class VoiceController extends ChangeNotifier {
         case VoiceStartStatus.failed:
           _set(VoicePhase.failed);
       }
-      KoshaLog.d('Voice', 'start status ${status.name}');
+      IncogBoardLog.d('Voice', 'start status ${status.name}');
     } on Object catch (e) {
-      KoshaLog.w('Voice', 'start failed', e.runtimeType);
+      IncogBoardLog.w('Voice', 'start failed', e.runtimeType);
       if (!_disposed) _set(VoicePhase.failed);
     }
   }
@@ -311,7 +311,7 @@ class VoiceController extends ChangeNotifier {
   /// Runs text work one step at a time, in order.
   void _enqueue(Future<void> Function() op) {
     _queue = _queue.then((_) => op()).catchError((Object e) {
-      KoshaLog.w('Voice', 'text step failed', e.runtimeType);
+      IncogBoardLog.w('Voice', 'text step failed', e.runtimeType);
     });
   }
 
@@ -319,7 +319,7 @@ class VoiceController extends ChangeNotifier {
     try {
       await host.stopVoice();
     } on Object catch (e) {
-      KoshaLog.w('Voice', 'stop failed', e.runtimeType);
+      IncogBoardLog.w('Voice', 'stop failed', e.runtimeType);
     }
   }
 
@@ -327,7 +327,7 @@ class VoiceController extends ChangeNotifier {
     try {
       await host.cancelVoice();
     } on Object catch (e) {
-      KoshaLog.w('Voice', 'cancel failed', e.runtimeType);
+      IncogBoardLog.w('Voice', 'cancel failed', e.runtimeType);
     }
   }
 

@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/bridge/messages.g.dart';
-import 'package:kosha/src/keyboard/view/keyboard_metrics.dart';
-import 'package:kosha/src/settings/kosha_settings.dart';
+import 'package:incogboard/src/bridge/messages.g.dart';
+import 'package:incogboard/src/keyboard/view/keyboard_metrics.dart';
+import 'package:incogboard/src/settings/incogboard_settings.dart';
 
 WindowMetricsMessage _metrics({required bool landscape, required int smallestDp}) => WindowMetricsMessage(
   screenWidthPx: 2400,
@@ -24,7 +24,7 @@ void main() {
   });
 
   test('split needs a tablet, a 600 dp keyboard and the setting', () {
-    const s = KoshaSettings();
+    const s = IncogBoardSettings();
     final tablet = _metrics(landscape: true, smallestDp: 800);
     expect(KeyboardMetrics.isSplit(s, 900, tablet), isTrue);
     expect(KeyboardMetrics.isSplit(s, 599, tablet), isFalse);
@@ -35,7 +35,7 @@ void main() {
   });
 
   test('compact caps each row at 44 dp, so the window is 4 x 44 dp of keys', () {
-    const s = KoshaSettings();
+    const s = IncogBoardSettings();
     expect(KeyboardMetrics.rowsHeight(s, landscape: true), 4 * 56);
     expect(KeyboardMetrics.rowsHeight(s, landscape: true, compact: true), 4 * 44);
   });

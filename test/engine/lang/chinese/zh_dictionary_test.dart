@@ -2,7 +2,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/engine/lang/chinese/zh_dictionary.dart';
+import 'package:incogboard/src/engine/lang/chinese/zh_dictionary.dart';
 
 import '../../../../tool/chinese/zh_dict_writer.dart';
 import 'zh_fixture.dart';

@@ -19,7 +19,7 @@ import 'privacy_deps.dart';
 import 'privacy_format.dart';
 import 'privacy_widgets.dart';
 
-import 'package:kosha/src/app/l10n.dart';
+import 'package:incogboard/src/app/l10n.dart';
 
 class BackupScreen extends StatefulWidget {
   const BackupScreen({super.key});
@@ -120,7 +120,7 @@ class _BackupScreenState extends State<BackupScreen> {
   String _fileName() {
     final now = DateTime.now();
     String two(int v) => v.toString().padLeft(2, '0');
-    return 'kosha-${now.year}${two(now.month)}${two(now.day)}.koshabackup';
+    return 'incogboard-${now.year}${two(now.month)}${two(now.day)}.koshabackup';
   }
 
   // ---- import -------------------------------------------------------------------

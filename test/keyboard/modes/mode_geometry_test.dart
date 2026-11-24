@@ -2,7 +2,7 @@
 import 'dart:ui';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/keyboard/modes/mode_geometry.dart';
+import 'package:incogboard/src/keyboard/modes/mode_geometry.dart';
 
 void main() {
   group('height scale', () {

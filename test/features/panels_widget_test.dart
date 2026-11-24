@@ -4,15 +4,15 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:kosha/src/bridge/messages.g.dart';
-import 'package:kosha/src/core/input_field_info.dart';
-import 'package:kosha/src/engine/contracts.dart';
-import 'package:kosha/src/features/emoji/emoji_repository.dart';
-import 'package:kosha/src/features/features.dart';
-import 'package:kosha/src/keyboard/keyboard_app.dart';
-import 'package:kosha/src/keyboard/keyboard_session.dart';
-import 'package:kosha/src/keyboard/layout/layout_model.dart';
-import 'package:kosha/src/settings/kosha_settings.dart';
+import 'package:incogboard/src/bridge/messages.g.dart';
+import 'package:incogboard/src/core/input_field_info.dart';
+import 'package:incogboard/src/engine/contracts.dart';
+import 'package:incogboard/src/features/emoji/emoji_repository.dart';
+import 'package:incogboard/src/features/features.dart';
+import 'package:incogboard/src/keyboard/keyboard_app.dart';
+import 'package:incogboard/src/keyboard/keyboard_session.dart';
+import 'package:incogboard/src/keyboard/layout/layout_model.dart';
+import 'package:incogboard/src/settings/incogboard_settings.dart';
 
 import '../keyboard/support/app_harness.dart';
 
@@ -28,11 +28,11 @@ class _Probe extends KeyboardFeature {
 }
 
 /// Settings that keep the strip showing the toolbar (no next-word predictions).
-const KoshaSettings _quiet = KoshaSettings(typing: TypingSettings(nextWordPrediction: false));
+const IncogBoardSettings _quiet = IncogBoardSettings(typing: TypingSettings(nextWordPrediction: false));
 
 Future<(AppHarness, _Probe, KeyFinder)> boot(
   WidgetTester tester, {
-  KoshaSettings settings = _quiet,
+  IncogBoardSettings settings = _quiet,
   EditorInfoMessage? field,
   KeyboardLayoutDef? layout,
 }) async {
@@ -137,7 +137,7 @@ void main() {
     });
 
     testWidgets('an exact keyword in the typed word suggests one emoji in the strip', (tester) async {
-      final (_, probe, keys) = await boot(tester, settings: const KoshaSettings());
+      final (_, probe, keys) = await boot(tester, settings: const IncogBoardSettings());
       for (final c in ['p', 'i', 'z', 'z', 'a']) {
         await tester.tapAt(keys.output(c));
         await tester.pump(const Duration(milliseconds: 20));
@@ -154,7 +154,7 @@ void main() {
       addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
       final (h, _, _) = await boot(
         tester,
-        settings: const KoshaSettings(
+        settings: const IncogBoardSettings(
           typing: TypingSettings(nextWordPrediction: false),
           clipboard: ClipboardSettings(recentChip: false),
         ),
@@ -209,7 +209,7 @@ void main() {
       // No recent-copy chip here: a chip replaces the toolbar, and the Clipboard button is what we tap.
       final (h, _, _) = await boot(
         tester,
-        settings: const KoshaSettings(
+        settings: const IncogBoardSettings(
           typing: TypingSettings(nextWordPrediction: false),
           clipboard: ClipboardSettings(recentChip: false),
         ),
@@ -227,7 +227,7 @@ void main() {
     testWidgets('a sensitive copy is never kept in the history', (tester) async {
       final (h, _, _) = await boot(
         tester,
-        settings: const KoshaSettings(
+        settings: const IncogBoardSettings(
           typing: TypingSettings(nextWordPrediction: false),
           clipboard: ClipboardSettings(recentChip: false),
         ),
@@ -243,7 +243,7 @@ void main() {
     testWidgets('incognito keeps nothing, and shows no chip', (tester) async {
       final (h, _, _) = await boot(
         tester,
-        settings: const KoshaSettings(
+        settings: const IncogBoardSettings(
           privacy: PrivacySettings(incognito: true),
           typing: TypingSettings(nextWordPrediction: false),
         ),

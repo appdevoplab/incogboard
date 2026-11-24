@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// OWNER: Wave 2-A. Home: the mascot header, a setup card while Kosha is not enabled or selected,
+// OWNER: Wave 2-A. Home: the mascot header, a setup card while IncogBoard is not enabled or selected,
 // and the section tiles.
 import 'dart:async';
 
@@ -11,7 +11,7 @@ import '../../theme/presets.dart';
 import '../app_services.dart';
 import '../common/settings_widgets.dart';
 import '../l10n.dart';
-import '../onboarding/kosha_mascot.dart';
+import '../onboarding/incogboard_mascot.dart';
 import '../routes.dart';
 import '../shell/language_catalog.dart';
 import '../shell/settings_actions.dart';
@@ -55,15 +55,15 @@ class _HomeScreenState extends State<HomeScreen> {
     final services = _services;
     if (services == null) return;
     try {
-      final enabled = await services.app.isKoshaEnabled();
-      final selected = await services.app.isKoshaSelected();
+      final enabled = await services.app.isIncogBoardEnabled();
+      final selected = await services.app.isIncogBoardSelected();
       if (!mounted) return;
       setState(() {
         _enabled = enabled;
         _selected = selected;
       });
     } on Object catch (e) {
-      KoshaLog.w('Home', 'setup status unavailable', e.runtimeType);
+      IncogBoardLog.w('Home', 'setup status unavailable', e.runtimeType);
     }
   }
 
@@ -82,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
       return SettingsPage(
         title: l10n.appName,
         header: SettingsHero(
-          mascot: const KoshaMascot(size: 76),
+          mascot: const IncogBoardMascot(size: 76),
           title: l10n.homeTagline,
           subtitle: l10n.homeOfflinePromise,
         ),
@@ -94,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   icon: Icons.task_alt_outlined,
                   title: context.l10n.homeFinishSetup,
                   subtitle: _setupText,
-                  onTap: () => open(KoshaRoutes.onboarding),
+                  onTap: () => open(IncogBoardRoutes.onboarding),
                 ),
               ],
             ),
@@ -104,43 +104,43 @@ class _HomeScreenState extends State<HomeScreen> {
                 icon: Icons.translate,
                 title: context.l10n.settingsLanguages,
                 subtitle: languageLabel(settings.languages.active),
-                onTap: () => open(KoshaRoutes.languages),
+                onTap: () => open(IncogBoardRoutes.languages),
               ),
               SettingsTile(
                 icon: Icons.keyboard_outlined,
                 title: context.l10n.settingsTyping,
                 subtitle: context.l10n.homeTypingSubtitle,
-                onTap: () => open(KoshaRoutes.typing),
+                onTap: () => open(IncogBoardRoutes.typing),
               ),
               SettingsTile(
                 icon: Icons.vibration,
                 title: context.l10n.settingsFeel,
                 subtitle: context.l10n.homeFeelSubtitle,
-                onTap: () => open(KoshaRoutes.feel),
+                onTap: () => open(IncogBoardRoutes.feel),
               ),
               SettingsTile(
                 icon: Icons.palette_outlined,
                 title: context.l10n.settingsThemes,
                 subtitle: ThemePresets.byId(settings.appearance.themeId).name,
-                onTap: () => open(KoshaRoutes.themes),
+                onTap: () => open(IncogBoardRoutes.themes),
               ),
               SettingsTile(
                 icon: Icons.dashboard_customize_outlined,
                 title: context.l10n.settingsPanels,
                 subtitle: context.l10n.homePanelsSubtitle,
-                onTap: () => open(KoshaRoutes.panels),
+                onTap: () => open(IncogBoardRoutes.panels),
               ),
               SettingsTile(
                 icon: Icons.mic_none_outlined,
                 title: context.l10n.settingsVoice,
                 subtitle: context.l10n.homeVoiceSubtitle,
-                onTap: () => open(KoshaRoutes.voice),
+                onTap: () => open(IncogBoardRoutes.voice),
               ),
               SettingsTile(
                 icon: Icons.translate,
                 title: context.l10n.settingsTranslation,
                 subtitle: context.l10n.homeTranslationSubtitle,
-                onTap: () => open(KoshaRoutes.translate),
+                onTap: () => open(IncogBoardRoutes.translate),
               ),
             ],
           ),
@@ -150,13 +150,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 icon: Icons.shield_outlined,
                 title: context.l10n.settingsPrivacy,
                 subtitle: context.l10n.homePrivacySubtitle,
-                onTap: () => open(KoshaRoutes.privacy),
+                onTap: () => open(IncogBoardRoutes.privacy),
               ),
               SettingsTile(
                 icon: Icons.info_outline,
                 title: context.l10n.settingsAbout,
                 subtitle: context.l10n.homeAboutSubtitle,
-                onTap: () => open(KoshaRoutes.about),
+                onTap: () => open(IncogBoardRoutes.about),
               ),
             ],
           ),

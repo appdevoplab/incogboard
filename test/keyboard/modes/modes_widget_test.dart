@@ -5,17 +5,17 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:kosha/src/bridge/messages.g.dart';
-import 'package:kosha/src/keyboard/layout/layout_model.dart';
-import 'package:kosha/src/keyboard/modes/modes.dart';
-import 'package:kosha/src/keyboard/view/keyboard_view.dart';
-import 'package:kosha/src/settings/kosha_settings.dart';
+import 'package:incogboard/src/bridge/messages.g.dart';
+import 'package:incogboard/src/keyboard/layout/layout_model.dart';
+import 'package:incogboard/src/keyboard/modes/modes.dart';
+import 'package:incogboard/src/keyboard/view/keyboard_view.dart';
+import 'package:incogboard/src/settings/incogboard_settings.dart';
 
 import '../support/app_harness.dart';
 
 final KeyboardLayoutDef qwerty = loadLayoutSync('qwerty');
 
-const KoshaSettings noPredictions = KoshaSettings(typing: TypingSettings(nextWordPrediction: false));
+const IncogBoardSettings noPredictions = IncogBoardSettings(typing: TypingSettings(nextWordPrediction: false));
 
 /// A booted keyboard with every window layout it sent, in order.
 class BootedRun {
@@ -37,7 +37,7 @@ Future<void> settle(WidgetTester tester) => tester.pump(const Duration(milliseco
 
 Future<BootedRun> boot(
   WidgetTester tester, {
-  KoshaSettings settings = noPredictions,
+  IncogBoardSettings settings = noPredictions,
   String text = '',
   int Function()? clock,
 }) async {

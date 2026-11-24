@@ -5,11 +5,11 @@
 import 'dart:ui' show Rect, Size;
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/core/secure_blob_store.dart';
-import 'package:kosha/src/engine/contracts.dart';
-import 'package:kosha/src/engine/dictionary/lexicon_factory.dart';
-import 'package:kosha/src/engine/dictionary/text_fold.dart';
-import 'package:kosha/src/engine/suggest/text_predictor.dart';
+import 'package:incogboard/src/core/secure_blob_store.dart';
+import 'package:incogboard/src/engine/contracts.dart';
+import 'package:incogboard/src/engine/dictionary/lexicon_factory.dart';
+import 'package:incogboard/src/engine/dictionary/text_fold.dart';
+import 'package:incogboard/src/engine/suggest/text_predictor.dart';
 
 import 'support.dart';
 
@@ -34,8 +34,8 @@ void main() {
   late LexiconSource lexicons;
   final english = qwertyGeometry();
 
-  Future<KoshaTextPredictor> predictorFor(List<LanguageId> languages, {KeyboardGeometry? geometry}) async {
-    final p = KoshaTextPredictor(
+  Future<IncogBoardTextPredictor> predictorFor(List<LanguageId> languages, {KeyboardGeometry? geometry}) async {
+    final p = IncogBoardTextPredictor(
       lexicons: lexicons,
       store: InMemorySecureBlobStore(),
       saveDelay: const Duration(hours: 1),

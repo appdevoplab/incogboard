@@ -2,9 +2,9 @@
 //
 // The rule-based romanisation (English letters to native script) and the Indic punctuation rules.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/engine/lang/indic.dart';
-import 'package:kosha/src/engine/lang/indic/scheme.dart';
-import 'package:kosha/src/engine/lang/registry.dart';
+import 'package:incogboard/src/engine/lang/indic.dart';
+import 'package:incogboard/src/engine/lang/indic/scheme.dart';
+import 'package:incogboard/src/engine/lang/registry.dart';
 
 void main() {
   group('Hindi scheme', () {

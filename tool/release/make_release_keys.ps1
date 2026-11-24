@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
-# Generates Kosha's release signing material OUTSIDE the repository. Run it once, on the release
+# Generates IncogBoard's release signing material OUTSIDE the repository. Run it once, on the release
 # machine, after the Wave 5 merge. It never runs against the real folder in development:
 # tests pass -OutDir pointing at a throwaway folder.
 #
 #   powershell -ExecutionPolicy Bypass -File tool\release\make_release_keys.ps1
-#   powershell -ExecutionPolicy Bypass -File tool\release\make_release_keys.ps1 -OutDir $env:TEMP\kosha-keytest
+#   powershell -ExecutionPolicy Bypass -File tool\release\make_release_keys.ps1 -OutDir $env:TEMP\incogboard-keytest
 #
 # Creates, in OutDir (default %USERPROFILE%\.kosha\release):
 #   kosha-release.p12          upload/release keystore: RSA 4096, PKCS#12, valid 30 years
@@ -98,7 +98,7 @@ Restrict-Acl $passwordFile
 Write-Step "Creating the RSA 4096 release keystore (valid 30 years)"
 & $keytool -genkeypair -noprompt `
     -alias $KeyAlias -keyalg RSA -keysize 4096 -sigalg SHA256withRSA -validity 10950 `
-    -dname 'CN=Kosha release key, O=Kosha project' `
+    -dname 'CN=IncogBoard release key, O=IncogBoard project' `
     -storetype PKCS12 -keystore $keystore `
     -storepass:file $passwordFile -keypass:file $passwordFile
 if ($LASTEXITCODE -ne 0) { throw 'keytool failed to create the keystore' }
@@ -111,7 +111,7 @@ Write-Step "Creating the ECDSA P-256 pack-signing key"
 if ($LASTEXITCODE -ne 0) { throw 'openssl failed to create the pack key' }
 Restrict-Acl $packPem
 
-$tmp = Join-Path ([System.IO.Path]::GetTempPath()) ('kosha-packkey-' + [guid]::NewGuid().ToString('N'))
+$tmp = Join-Path ([System.IO.Path]::GetTempPath()) ('incogboard-packkey-' + [guid]::NewGuid().ToString('N'))
 New-Item -ItemType Directory -Force -Path $tmp | Out-Null
 try {
     $packDer = Join-Path $tmp 'pub.der'

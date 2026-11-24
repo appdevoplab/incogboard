@@ -9,7 +9,7 @@
 # Usage (from the repo root):
 #   powershell -ExecutionPolicy Bypass -File tool\onnxruntime\check_aar.ps1
 param(
-  [string]$Aar = "$PSScriptRoot\..\..\android\app\libs\onnxruntime-kosha-1.28.0.aar",
+  [string]$Aar = "$PSScriptRoot\..\..\android\app\libs\onnxruntime-incogboard-1.28.0.aar",
   [string]$Ndk = "$env:LOCALAPPDATA\Android\Sdk\ndk\28.2.13676358",
   [string]$Config = "$PSScriptRoot\ops.config",
   [string]$OpsList = "$PSScriptRoot\model_ops.txt"
@@ -21,7 +21,7 @@ Add-Type -AssemblyName System.IO.Compression.FileSystem
 $failures = New-Object System.Collections.Generic.List[string]
 $Aar = (Resolve-Path $Aar).Path
 
-$tmp = Join-Path $env:TEMP ("kosha-aar-" + [guid]::NewGuid().ToString('N'))
+$tmp = Join-Path $env:TEMP ("incogboard-aar-" + [guid]::NewGuid().ToString('N'))
 New-Item -ItemType Directory -Path $tmp | Out-Null
 try {
   $zipCopy = Join-Path $tmp 'aar.zip'

@@ -9,14 +9,14 @@ import 'package:material_ui/material_ui.dart';
 import '../../bridge/messages.g.dart';
 import '../../engine/lang/registry.dart';
 import '../../features/translate/translate_languages.dart';
-import '../../settings/kosha_settings.dart';
+import '../../settings/incogboard_settings.dart';
 import '../app_services.dart';
 import '../common/settings_widgets.dart';
 import '../privacy/privacy_format.dart';
 import '../routes.dart';
 import '../packs/pack_text.dart';
 
-import 'package:kosha/src/app/l10n.dart';
+import 'package:incogboard/src/app/l10n.dart';
 
 /// The directions offered as the default pair: English with each supported language, both ways.
 const List<(String, String)> defaultPairChoices = [
@@ -176,8 +176,9 @@ class _TranslateScreenState extends State<TranslateScreen> {
                       icon: Icons.download_for_offline_outlined,
                       title: context.l10n.settingsModelPacks,
                       subtitle: context.l10n.translateModelPacksBody,
-                      onTap: () =>
-                          unawaited(Navigator.of(context).pushNamed(KoshaRoutes.packs).then((_) => _reloadPacks())),
+                      onTap: () => unawaited(
+                        Navigator.of(context).pushNamed(IncogBoardRoutes.packs).then((_) => _reloadPacks()),
+                      ),
                     ),
                   ],
                 ),

@@ -8,10 +8,10 @@ import 'dart:math' as math;
 import 'dart:typed_data';
 import 'dart:ui' show Rect, Size;
 
-import 'package:kosha/src/engine/contracts.dart';
-import 'package:kosha/src/engine/gesture/gesture_engine.dart';
-import 'package:kosha/src/engine/gesture/template_index.dart';
-import 'package:kosha/src/engine/in_memory_lexicon.dart';
+import 'package:incogboard/src/engine/contracts.dart';
+import 'package:incogboard/src/engine/gesture/gesture_engine.dart';
+import 'package:incogboard/src/engine/gesture/template_index.dart';
+import 'package:incogboard/src/engine/in_memory_lexicon.dart';
 
 /// QWERTY letter rows of 10, 9 and 7 keys on a 1080 px wide keyboard.
 KeyboardGeometry qwertyGeometry({double width = 1080, double rowHeight = 150}) {

@@ -10,7 +10,7 @@ import '../../bridge/messages.g.dart';
 import '../../core/data_sections.dart';
 import '../../core/secure_blob_store.dart';
 import '../../engine/learn/learned_data.dart';
-import '../../settings/kosha_settings.dart';
+import '../../settings/incogboard_settings.dart';
 import '../../settings/settings_store.dart';
 import '../custom_theme_files.dart';
 import '../shortcuts_store.dart';
@@ -130,7 +130,7 @@ class BackupRestorer {
     // half-applied restore (in replace mode the learned blobs are deleted first).
     final incomingSettings = contents.settings;
     final parsedSettings = include.contains(BackupSection.settings) && incomingSettings != null
-        ? KoshaSettings.fromJson(incomingSettings)
+        ? IncogBoardSettings.fromJson(incomingSettings)
         : null;
     final blobNames = {for (final b in await platform.secureList()) b.name};
 

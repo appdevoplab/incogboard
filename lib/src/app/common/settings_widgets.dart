@@ -5,7 +5,7 @@
 // large headers, shape morphing) but must keep these constructors and
 // parameters working, because Wave 2-B and 2-C build on them in parallel.
 import 'package:material_ui/material_ui.dart';
-import 'package:kosha/src/app/l10n.dart';
+import 'package:incogboard/src/app/l10n.dart';
 
 /// A screen with a large collapsing header and a scrolling body.
 class SettingsPage extends StatelessWidget {
@@ -15,7 +15,7 @@ class SettingsPage extends StatelessWidget {
   final List<Widget> children;
   final List<Widget>? actions;
 
-  /// Optional illustration or summary shown under the header (for example the Kosha mascot).
+  /// Optional illustration or summary shown under the header (for example the IncogBoard mascot).
   final Widget? header;
 
   @override
@@ -37,7 +37,7 @@ class SettingsPage extends StatelessWidget {
 class SettingsHero extends StatelessWidget {
   const SettingsHero({super.key, required this.mascot, required this.title, this.subtitle});
 
-  /// Usually a `KoshaMascot`.
+  /// Usually a `IncogBoardMascot`.
   final Widget mascot;
   final String title;
   final String? subtitle;

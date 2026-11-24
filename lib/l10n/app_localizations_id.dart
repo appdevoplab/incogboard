@@ -10,14 +10,14 @@ class AppLocalizationsId extends AppLocalizations {
   AppLocalizationsId([String locale = 'id']) : super(locale);
 
   @override
-  String get appName => 'Kosha';
+  String get appName => 'IncogBoard';
 
   @override
   String get homeTagline => 'Pengetikan pribadi, di ponsel ini';
 
   @override
   String get homeOfflinePromise =>
-      'Kosha berfungsi luring dan tidak mengirim apa pun ke mana pun.';
+      'IncogBoard berfungsi luring dan tidak mengirim apa pun ke mana pun.';
 
   @override
   String get cancel => 'Batal';
@@ -71,13 +71,15 @@ class AppLocalizationsId extends AppLocalizations {
   String get settingsModelPacks => 'Paket model';
 
   @override
-  String get homeSetupTurnOn => 'Aktifkan Kosha di daftar keyboard Android.';
+  String get homeSetupTurnOn =>
+      'Aktifkan IncogBoard di daftar keyboard Android.';
 
   @override
-  String get homeSetupChoose => 'Pilih Kosha sebagai keyboard untuk mengetik.';
+  String get homeSetupChoose =>
+      'Pilih IncogBoard sebagai keyboard untuk mengetik.';
 
   @override
-  String get homeFinishSetup => 'Selesaikan pengaturan Kosha';
+  String get homeFinishSetup => 'Selesaikan pengaturan IncogBoard';
 
   @override
   String get homeTypingSubtitle => 'Koreksi, saran, tombol, dan geser';
@@ -121,7 +123,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get aboutPrivacy => 'Privasi';
 
   @override
-  String get aboutNoInternet => 'Kosha tidak dapat menggunakan internet';
+  String get aboutNoInternet => 'IncogBoard tidak dapat menggunakan internet';
 
   @override
   String get aboutNoInternetBody =>
@@ -135,14 +137,14 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get aboutGplBody =>
-      'Kosha adalah perangkat lunak bebas. Anda boleh mempelajari, mengubah, dan membagikannya di bawah GPL.';
+      'IncogBoard adalah perangkat lunak bebas. Anda boleh mempelajari, mengubah, dan membagikannya di bawah GPL.';
 
   @override
   String get aboutSourceCode => 'Kode sumber';
 
   @override
   String get aboutSourceBody =>
-      'Kosha adalah GPL-3.0-or-later. Kode sumbernya tersedia di halaman proyek.';
+      'IncogBoard adalah GPL-3.0-or-later. Kode sumbernya tersedia di halaman proyek.';
 
   @override
   String get aboutLicences => 'Lisensi';
@@ -152,7 +154,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get aboutOpenSourceBody =>
-      'Flutter, material_ui, dan setiap paket yang dipakai Kosha';
+      'Flutter, material_ui, dan setiap paket yang dipakai IncogBoard';
 
   @override
   String get aboutTextLoadFailed => 'Teks ini tidak dapat dimuat.';
@@ -494,7 +496,7 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get packsOpenFailed => 'Kosha tidak dapat membuka pemilih file.';
+  String get packsOpenFailed => 'IncogBoard tidak dapat membuka pemilih file.';
 
   @override
   String packsInstalled(String name) {
@@ -517,7 +519,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String packsDeleteFailed(String name) {
-    return 'Kosha tidak dapat menghapus $name. Coba lagi.';
+    return 'IncogBoard tidak dapat menghapus $name. Coba lagi.';
   }
 
   @override
@@ -582,7 +584,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get packsPlayNote =>
-      'Google Play yang mengunduh paket ini, bukan Kosha. Kosha sendiri tidak pernah memakai jaringan.';
+      'Google Play yang mengunduh paket ini, bukan IncogBoard. IncogBoard sendiri tidak pernah memakai jaringan.';
 
   @override
   String get packsGet => 'Dapatkan';
@@ -627,11 +629,11 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get packsVerifyUnavailable =>
-      'Pemeriksaan paket belum tersedia di versi Kosha ini.';
+      'Pemeriksaan paket belum tersedia di versi IncogBoard ini.';
 
   @override
   String get packsVerifyFailed =>
-      'Kosha tidak dapat memeriksa paket. Tidak ada yang diubah.';
+      'IncogBoard tidak dapat memeriksa paket. Tidak ada yang diubah.';
 
   @override
   String packsFreeSpace(Object size) {
@@ -648,11 +650,11 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get packErrorBadSignature =>
-      'Paket ini tidak ditandatangani untuk Kosha, jadi tidak ada yang dipasang.';
+      'Paket ini tidak ditandatangani untuk IncogBoard, jadi tidak ada yang dipasang.';
 
   @override
   String get packErrorBadFormat =>
-      'File ini bukan paket Kosha. Tidak ada yang dipasang.';
+      'File ini bukan paket IncogBoard. Tidak ada yang dipasang.';
 
   @override
   String get packErrorTooLarge =>
@@ -660,7 +662,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get packErrorVersion =>
-      'Paket ini memerlukan versi Kosha yang lebih baru.';
+      'Paket ini memerlukan versi IncogBoard yang lebih baru.';
 
   @override
   String get packErrorNoSpace =>
@@ -716,14 +718,14 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get privacyUnlockReason =>
-      'Buka kunci Kosha untuk melihat pengaturan dan data Anda';
+      'Buka kunci IncogBoard untuk melihat pengaturan dan data Anda';
 
   @override
   String get privacyLockUnavailable =>
       'Kunci perangkat tidak tersedia sekarang. Coba lagi sebentar lagi.';
 
   @override
-  String get privacyLockedTitle => 'Kosha terkunci';
+  String get privacyLockedTitle => 'IncogBoard terkunci';
 
   @override
   String get privacyLockedBody =>
@@ -751,15 +753,15 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get backupInvalidFile =>
-      'File ini bukan cadangan Kosha yang valid. Tidak ada yang diubah.';
+      'File ini bukan cadangan IncogBoard yang valid. Tidak ada yang diubah.';
 
   @override
   String get backupTooLarge =>
-      'File ini terlalu besar untuk menjadi cadangan Kosha.';
+      'File ini terlalu besar untuk menjadi cadangan IncogBoard.';
 
   @override
   String get backupNewerVersion =>
-      'Cadangan ini dibuat oleh versi Kosha yang lebih baru. Perbarui Kosha untuk memulihkannya.';
+      'Cadangan ini dibuat oleh versi IncogBoard yang lebih baru. Perbarui IncogBoard untuk memulihkannya.';
 
   @override
   String get backupBusy => 'Tutup dulu jendela file yang lain, lalu coba lagi.';
@@ -776,7 +778,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String backupMadeBy(String date, String version) {
-    return 'Dibuat $date oleh Kosha $version.';
+    return 'Dibuat $date oleh IncogBoard $version.';
   }
 
   @override
@@ -809,7 +811,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get backupRestoreFailed =>
-      'Kosha tidak dapat menyelesaikan pemulihan. Sebagian data mungkin belum tertulis.';
+      'IncogBoard tidak dapat menyelesaikan pemulihan. Sebagian data mungkin belum tertulis.';
 
   @override
   String get restoreNothingNew => 'Tidak ada yang baru dipulihkan.';
@@ -997,15 +999,15 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get privacyCouldNotReadWords =>
-      'Kosha tidak dapat membaca kata-kata ini.';
+      'IncogBoard tidak dapat membaca kata-kata ini.';
 
   @override
   String get privacyCannotReadWordsNow =>
-      'Kosha tidak dapat membaca kata-kata ini sekarang. Buka kunci ponsel, lalu coba lagi.';
+      'IncogBoard tidak dapat membaca kata-kata ini sekarang. Buka kunci ponsel, lalu coba lagi.';
 
   @override
   String get privacyNoWordsLanguage =>
-      'Belum ada kata yang dipelajari dalam bahasa ini. Kosha mempelajari kata setelah Anda mengetiknya beberapa kali.';
+      'Belum ada kata yang dipelajari dalam bahasa ini. IncogBoard mempelajari kata setelah Anda mengetiknya beberapa kali.';
 
   @override
   String privacyBlockedWordsTooltip(num count) {
@@ -1048,7 +1050,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get privacyBlockedExplain =>
-      'Kosha tidak akan menyarankan atau mengoreksi ke kata-kata ini.';
+      'IncogBoard tidak akan menyarankan atau mengoreksi ke kata-kata ini.';
 
   @override
   String get privacyNoBlockedWords => 'Tidak ada kata yang diblokir.';
@@ -1093,15 +1095,15 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get privacyCenterLoadFailed =>
-      'Kosha tidak dapat membaca data privasinya. Coba lagi nanti.';
+      'IncogBoard tidak dapat membaca data privasinya. Coba lagi nanti.';
 
   @override
   String get privacyDevBuildNetwork =>
-      'Build ini meminta akses internet. Kosha seharusnya tidak pernah melakukannya. Mohon laporkan.';
+      'Build ini meminta akses internet. IncogBoard seharusnya tidak pernah melakukannya. Mohon laporkan.';
 
   @override
   String get privacyNoInternetPermission =>
-      'Kosha tidak memiliki izin internet. Tidak ada yang bisa dikirim.';
+      'IncogBoard tidak memiliki izin internet. Tidak ada yang bisa dikirim.';
 
   @override
   String get privacyDevBuildNote =>
@@ -1109,7 +1111,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get privacyDevBuildShort =>
-      'Build pengembangan. Kosha tetap tidak memiliki izin internet.';
+      'Build pengembangan. IncogBoard tetap tidak memiliki izin internet.';
 
   @override
   String privacyStorageSize(String size, String when) {
@@ -1134,11 +1136,11 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get privacyWhatKoshaStores => 'Yang disimpan Kosha';
+  String get privacyWhatIncogBoardStores => 'Yang disimpan IncogBoard';
 
   @override
   String get privacyShowsSizesOnly =>
-      'Kosha hanya menampilkan ukuran di sini, tidak pernah isinya. Ukuran menyertakan salinan terakhir yang disimpan, yang menjaga data Anda jika penyimpanan terputus.';
+      'IncogBoard hanya menampilkan ukuran di sini, tidak pernah isinya. Ukuran menyertakan salinan terakhir yang disimpan, yang menjaga data Anda jika penyimpanan terputus.';
 
   @override
   String get privacyTypingPrivacy => 'Privasi saat mengetik';
@@ -1169,7 +1171,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get privacyAutoOffAppsBody =>
-      'Kosha hanya menyimpan nama aplikasi untuk mengisi daftar ini. Nama itu terenkripsi, tidak pernah dicatat saat penyamaran, dan dapat dihapus di bawah.';
+      'IncogBoard hanya menyimpan nama aplikasi untuk mengisi daftar ini. Nama itu terenkripsi, tidak pernah dicatat saat penyamaran, dan dapat dihapus di bawah.';
 
   @override
   String get privacyNoAppsYet => 'Belum ada aplikasi';
@@ -1206,7 +1208,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get privacyWordsLearnedBody =>
-      'Kata yang Anda ketik dipelajari di sini setelah Kosha melihatnya beberapa kali.';
+      'Kata yang Anda ketik dipelajari di sini setelah IncogBoard melihatnya beberapa kali.';
 
   @override
   String privacyReviewWords(String when) {
@@ -1226,10 +1228,10 @@ class AppLocalizationsId extends AppLocalizations {
   String get privacyAppLock => 'Kunci aplikasi';
 
   @override
-  String get privacyLockKosha => 'Kunci Kosha';
+  String get privacyLockIncogBoard => 'Kunci IncogBoard';
 
   @override
-  String get privacyLockKoshaBody =>
+  String get privacyLockIncogBoardBody =>
       'Meminta sidik jari atau PIN perangkat saat aplikasi dibuka, atau setelah berada di latar belakang.';
 
   @override
@@ -1244,7 +1246,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get privacyTurnOnAppLockReason =>
-      'Nyalakan kunci aplikasi untuk Kosha';
+      'Nyalakan kunci aplikasi untuk IncogBoard';
 
   @override
   String get privacyNotAvailable => 'Tidak tersedia sekarang';
@@ -1296,7 +1298,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get privacyDeleteFailed =>
-      'Kosha tidak dapat menghapus semuanya. Coba lagi.';
+      'IncogBoard tidak dapat menghapus semuanya. Coba lagi.';
 
   @override
   String get privacyOk => 'OK';
@@ -1475,7 +1477,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get shortcutExpandsTo => 'Diperluas menjadi';
 
   @override
-  String get privacyMascotLabel => 'Maskot privasi Kosha';
+  String get privacyMascotLabel => 'Maskot privasi IncogBoard';
 
   @override
   String get privacyStoredEmoji => 'Emoji terbaru';
@@ -1533,37 +1535,38 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get onboardingTurnOnTitle => 'Nyalakan Kosha';
+  String get onboardingTurnOnTitle => 'Nyalakan IncogBoard';
 
   @override
   String get onboardingTurnOnBody =>
-      'Android menyimpan daftar keyboard yang aktif. Nyalakan Kosha di daftar itu, lalu kembali ke sini. Kosha mendeteksi perubahannya sendiri.';
+      'Android menyimpan daftar keyboard yang aktif. Nyalakan IncogBoard di daftar itu, lalu kembali ke sini. IncogBoard mendeteksi perubahannya sendiri.';
 
   @override
-  String get onboardingKeyboardOn => 'Kosha aktif.';
+  String get onboardingKeyboardOn => 'IncogBoard aktif.';
 
   @override
-  String get onboardingKeyboardOff => 'Kosha belum aktif.';
+  String get onboardingKeyboardOff => 'IncogBoard belum aktif.';
 
   @override
   String get onboardingOpenKeyboardSettings => 'Buka pengaturan keyboard';
 
   @override
-  String get onboardingSwitchTitle => 'Beralih ke Kosha';
+  String get onboardingSwitchTitle => 'Beralih ke IncogBoard';
 
   @override
   String get onboardingSwitchBody =>
-      'Pilih Kosha sebagai keyboard untuk mengetik. Android mungkin menampilkan daftar singkat dulu. Layar ini diperbarui sendiri.';
+      'Pilih IncogBoard sebagai keyboard untuk mengetik. Android mungkin menampilkan daftar singkat dulu. Layar ini diperbarui sendiri.';
 
   @override
-  String get onboardingKeyboardIsYours => 'Kosha adalah keyboard Anda.';
+  String get onboardingKeyboardIsYours => 'IncogBoard adalah keyboard Anda.';
 
   @override
-  String get onboardingKeyboardNotYours => 'Kosha belum menjadi keyboard Anda.';
+  String get onboardingKeyboardNotYours =>
+      'IncogBoard belum menjadi keyboard Anda.';
 
   @override
   String get onboardingTurnOnFirst =>
-      'Nyalakan Kosha di langkah sebelumnya terlebih dahulu.';
+      'Nyalakan IncogBoard di langkah sebelumnya terlebih dahulu.';
 
   @override
   String get onboardingChooseKeyboard => 'Pilih keyboard';
@@ -1580,14 +1583,14 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get onboardingNoInternet =>
-      'Kosha tidak punya izin internet, jadi tidak bisa mengirim apa pun ke mana pun.';
+      'IncogBoard tidak punya izin internet, jadi tidak bisa mengirim apa pun ke mana pun.';
 
   @override
   String get onboardingWarningTitle => 'Mengapa peringatan ini tidak berlaku';
 
   @override
   String get onboardingWarningBody =>
-      'Android memperingatkan bahwa keyboard apa pun dapat mengumpulkan apa yang Anda ketik. Peringatan itu tentang keyboard yang bisa mengakses internet. Kosha tidak bisa.';
+      'Android memperingatkan bahwa keyboard apa pun dapat mengumpulkan apa yang Anda ketik. Peringatan itu tentang keyboard yang bisa mengakses internet. IncogBoard tidak bisa.';
 
   @override
   String get onboardingInternetAccess => 'Akses internet';
@@ -1640,10 +1643,10 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get onboardingAllSetBody =>
-      'Kosha siap. Semuanya bisa diubah nanti di Pengaturan: bahasa, pengetikan, rasa, panel, dan tema. Ketuk Selesai untuk mengakhiri.';
+      'IncogBoard siap. Semuanya bisa diubah nanti di Pengaturan: bahasa, pengetikan, rasa, panel, dan tema. Ketuk Selesai untuk mengakhiri.';
 
   @override
-  String get onboardingSetUp => 'Siapkan Kosha';
+  String get onboardingSetUp => 'Siapkan IncogBoard';
 
   @override
   String onboardingStepOf(String step, String total) {
@@ -1711,7 +1714,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get themeTryLabel => 'Ketik di sini untuk mencoba tema';
 
   @override
-  String get themeTryHelper => 'Keyboard muncul di sini saat Kosha dipilih.';
+  String get themeTryHelper =>
+      'Keyboard muncul di sini saat IncogBoard dipilih.';
 
   @override
   String get themeRenameTitle => 'Ganti nama tema';
@@ -2109,7 +2113,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get themeDeleteSelectedBody =>
-      'Tema ini sedang dipilih. Kosha Dynamic akan dipakai sebagai gantinya. Tidak bisa dibatalkan.';
+      'Tema ini sedang dipilih. IncogBoard Dynamic akan dipakai sebagai gantinya. Tidak bisa dibatalkan.';
 
   @override
   String get themeDeleteBody => 'Tidak bisa dibatalkan.';
@@ -2130,11 +2134,11 @@ class AppLocalizationsId extends AppLocalizations {
   String get themeSystemColoursUnavailable => 'Warna sistem tidak tersedia.';
 
   @override
-  String get themeKoshaDynamicFollows =>
-      'Kosha Dynamic mengikuti wallpaper Anda';
+  String get themeIncogBoardDynamicFollows =>
+      'IncogBoard Dynamic mengikuti wallpaper Anda';
 
   @override
-  String get themeKoshaDynamicBody =>
+  String get themeIncogBoardDynamicBody =>
       'Warnanya diperbarui saat wallpaper berubah';
 
   @override
@@ -2180,7 +2184,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get backupExplainer =>
-      'Cadangan adalah satu file yang dienkripsi dengan frasa sandi pilihan Anda. Hanya frasa sandi itu yang bisa membukanya. Jika Anda lupa frasa sandinya, tidak ada yang bisa memulihkan cadangan, termasuk Kosha.';
+      'Cadangan adalah satu file yang dienkripsi dengan frasa sandi pilihan Anda. Hanya frasa sandi itu yang bisa membukanya. Jika Anda lupa frasa sandinya, tidak ada yang bisa memulihkan cadangan, termasuk IncogBoard.';
 
   @override
   String privacyCategoryLine(String detail, String title) {
@@ -2209,7 +2213,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get onboardingCloseSetup => 'Tutup pengaturan';
 
   @override
-  String get packsCouldNotRead => 'Kosha tidak dapat membaca paketnya';
+  String get packsCouldNotRead => 'IncogBoard tidak dapat membaca paketnya';
 
   @override
   String packsDeleteTooltip(String name) {

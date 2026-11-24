@@ -6,14 +6,14 @@ import 'dart:io';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/core/input_field_info.dart';
-import 'package:kosha/src/features/features.dart';
-import 'package:kosha/src/features/emoji/emoji_repository.dart';
-import 'package:kosha/src/keyboard/input/keyboard_page.dart';
-import 'package:kosha/src/keyboard/keyboard_app.dart';
-import 'package:kosha/src/keyboard/keyboard_session.dart';
-import 'package:kosha/src/keyboard/layout/layout_model.dart';
-import 'package:kosha/src/settings/kosha_settings.dart';
+import 'package:incogboard/src/core/input_field_info.dart';
+import 'package:incogboard/src/features/features.dart';
+import 'package:incogboard/src/features/emoji/emoji_repository.dart';
+import 'package:incogboard/src/keyboard/input/keyboard_page.dart';
+import 'package:incogboard/src/keyboard/keyboard_app.dart';
+import 'package:incogboard/src/keyboard/keyboard_session.dart';
+import 'package:incogboard/src/keyboard/layout/layout_model.dart';
+import 'package:incogboard/src/settings/incogboard_settings.dart';
 
 import '../../keyboard/support/app_harness.dart';
 
@@ -28,7 +28,7 @@ class _Probe extends KeyboardFeature {
 }
 
 /// Arabic active. The strip shows next-word predictions unless [predictions] is off (then the toolbar).
-KoshaSettings _arabic({required bool predictions}) => KoshaSettings(
+IncogBoardSettings _arabic({required bool predictions}) => IncogBoardSettings(
   languages: const LanguageSettings(enabled: ['ar'], active: 'ar'),
   typing: TypingSettings(nextWordPrediction: predictions),
 );

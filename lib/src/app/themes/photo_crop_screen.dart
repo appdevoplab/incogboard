@@ -14,7 +14,7 @@ import '../../core/log.dart';
 import '../../theme/custom/background_image.dart';
 import '../../theme/custom/custom_theme_store.dart';
 
-import 'package:kosha/src/app/l10n.dart';
+import 'package:incogboard/src/app/l10n.dart';
 
 /// Blur slider range, in logical pixels of the frame.
 const double kMaxBlur = 24;
@@ -139,7 +139,7 @@ class _PhotoCropScreenState extends State<PhotoCropScreen> {
       if (!mounted) return;
       Navigator.of(context).pop(PhotoCropResult(uuid: widget.photoUuid, blur: _blur));
     } on Object catch (e) {
-      KoshaLog.w(context.l10n.onboardingThemeTitle, 'photo render failed', e.runtimeType);
+      IncogBoardLog.w(context.l10n.onboardingThemeTitle, 'photo render failed', e.runtimeType);
       if (mounted) {
         setState(() {
           _saving = false;

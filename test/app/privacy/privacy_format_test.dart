@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/app/l10n.dart';
-import 'package:kosha/src/app/privacy/privacy_format.dart';
-import 'package:kosha/src/security/shortcuts_store.dart';
+import 'package:incogboard/src/app/l10n.dart';
+import 'package:incogboard/src/app/privacy/privacy_format.dart';
+import 'package:incogboard/src/security/shortcuts_store.dart';
 
 void main() {
   // The helpers take the localisations directly, so the tests look up English without a widget.

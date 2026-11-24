@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// OWNER: Wave 2-B. Review what Kosha learned for one language: search, sort, forget a word, never
+// OWNER: Wave 2-B. Review what IncogBoard learned for one language: search, sort, forget a word, never
 // suggest it again, or clear the language. Shown with FLAG_SECURE (no screenshots, no recents).
 //
 // PRIVACY: words are displayed only here. Nothing is logged.
@@ -15,7 +15,7 @@ import '../app_services.dart';
 import 'privacy_format.dart';
 import 'privacy_widgets.dart';
 
-import 'package:kosha/src/app/l10n.dart';
+import 'package:incogboard/src/app/l10n.dart';
 
 class LearnedWordsScreen extends StatefulWidget {
   const LearnedWordsScreen({super.key, required this.languageId});

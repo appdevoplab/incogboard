@@ -4,10 +4,10 @@
 // the variants the keyboard adds (native digits, the email/URL .com key) still work on them.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/core/input_field_info.dart';
-import 'package:kosha/src/engine/lang/registry.dart';
-import 'package:kosha/src/keyboard/layout/layout_model.dart';
-import 'package:kosha/src/keyboard/layout/layout_repository.dart';
+import 'package:incogboard/src/core/input_field_info.dart';
+import 'package:incogboard/src/engine/lang/registry.dart';
+import 'package:incogboard/src/keyboard/layout/layout_model.dart';
+import 'package:incogboard/src/keyboard/layout/layout_repository.dart';
 
 import '../keyboard/support/app_harness.dart';
 

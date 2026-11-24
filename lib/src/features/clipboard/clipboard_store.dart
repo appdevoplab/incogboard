@@ -78,7 +78,7 @@ class ClipboardStore {
       _loaded = !_locked;
       prune();
     } on Object catch (e) {
-      KoshaLog.w('Clipboard', 'history unreadable', e.runtimeType);
+      IncogBoardLog.w('Clipboard', 'history unreadable', e.runtimeType);
     }
   }
 
@@ -97,7 +97,7 @@ class ClipboardStore {
       }
       return out;
     } on Object catch (e) {
-      KoshaLog.w('Clipboard', 'history discarded', e.runtimeType);
+      IncogBoardLog.w('Clipboard', 'history discarded', e.runtimeType);
       return [];
     }
   }
@@ -188,7 +188,7 @@ class ClipboardStore {
       await _blob.store.write(DataBlobs.clipboard, Uint8List.fromList(utf8.encode(json)));
     } on Object catch (e) {
       _dirty = true;
-      KoshaLog.w('Clipboard', 'save failed', e.runtimeType);
+      IncogBoardLog.w('Clipboard', 'save failed', e.runtimeType);
     }
   }
 

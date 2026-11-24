@@ -2,13 +2,13 @@
 //
 // Emoji suggestions: one emoji for an exact keyword or short name, never for predictions, and cheap.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/core/secure_blob_store.dart';
-import 'package:kosha/src/engine/contracts.dart';
-import 'package:kosha/src/features/emoji/emoji_repository.dart';
-import 'package:kosha/src/features/emoji/emoji_store.dart';
-import 'package:kosha/src/features/emoji/emoji_suggestions.dart';
-import 'package:kosha/src/keyboard/input/input_controller.dart';
-import 'package:kosha/src/core/input_field_info.dart';
+import 'package:incogboard/src/core/secure_blob_store.dart';
+import 'package:incogboard/src/engine/contracts.dart';
+import 'package:incogboard/src/features/emoji/emoji_repository.dart';
+import 'package:incogboard/src/features/emoji/emoji_store.dart';
+import 'package:incogboard/src/features/emoji/emoji_suggestions.dart';
+import 'package:incogboard/src/keyboard/input/input_controller.dart';
+import 'package:incogboard/src/core/input_field_info.dart';
 
 SuggestionQuery _query(String composing) =>
     SuggestionQuery(composing: composing, previousWords: const [], field: InputFieldInfo.plainText);

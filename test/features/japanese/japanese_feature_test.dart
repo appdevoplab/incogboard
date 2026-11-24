@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/bridge/messages.g.dart';
-import 'package:kosha/src/core/input_field_info.dart';
-import 'package:kosha/src/engine/lang/japanese/japanese_composer.dart';
-import 'package:kosha/src/features/japanese/japanese_feature.dart';
-import 'package:kosha/src/keyboard/keyboard_app.dart';
-import 'package:kosha/src/keyboard/keyboard_session.dart';
-import 'package:kosha/src/settings/kosha_settings.dart';
+import 'package:incogboard/src/bridge/messages.g.dart';
+import 'package:incogboard/src/core/input_field_info.dart';
+import 'package:incogboard/src/engine/lang/japanese/japanese_composer.dart';
+import 'package:incogboard/src/features/japanese/japanese_feature.dart';
+import 'package:incogboard/src/keyboard/keyboard_app.dart';
+import 'package:incogboard/src/keyboard/keyboard_session.dart';
+import 'package:incogboard/src/settings/incogboard_settings.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../keyboard/support/app_harness.dart';
@@ -21,14 +21,14 @@ class _Probe extends KeyboardFeature {
   }
 }
 
-const _romaji = KoshaSettings(
+const _romaji = IncogBoardSettings(
   languages: LanguageSettings(enabled: ['ja'], active: 'ja', layouts: {'ja': 'romaji_ja'}),
 );
 
 void main() {
   Future<(AppHarness, KeyboardSession)> boot(
     WidgetTester tester,
-    KoshaSettings settings, {
+    IncogBoardSettings settings, {
     EditorInfoMessage? info,
   }) async {
     final h = AppHarness(settings: settings);
@@ -45,7 +45,7 @@ void main() {
   });
 
   testWidgets('English leaves the composer unset', (tester) async {
-    final (_, s) = await boot(tester, const KoshaSettings());
+    final (_, s) = await boot(tester, const IncogBoardSettings());
     expect(s.input.composer.value, isNull);
   });
 

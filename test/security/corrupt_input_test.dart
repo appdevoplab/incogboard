@@ -11,15 +11,15 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/engine/dictionary/mdict_lexicon.dart';
-import 'package:kosha/src/engine/dictionary/mdict_writer.dart';
-import 'package:kosha/src/engine/lang/chinese/zh_dictionary.dart';
-import 'package:kosha/src/engine/lang/indic/translit_table.dart';
-import 'package:kosha/src/engine/lang/japanese/japanese_dictionary.dart';
-import 'package:kosha/src/engine/learn/learned_data.dart';
-import 'package:kosha/src/features/emoji/emoji_data.dart';
-import 'package:kosha/src/security/backup/backup_collect.dart';
-import 'package:kosha/src/security/backup/backup_payload.dart';
+import 'package:incogboard/src/engine/dictionary/mdict_lexicon.dart';
+import 'package:incogboard/src/engine/dictionary/mdict_writer.dart';
+import 'package:incogboard/src/engine/lang/chinese/zh_dictionary.dart';
+import 'package:incogboard/src/engine/lang/indic/translit_table.dart';
+import 'package:incogboard/src/engine/lang/japanese/japanese_dictionary.dart';
+import 'package:incogboard/src/engine/learn/learned_data.dart';
+import 'package:incogboard/src/features/emoji/emoji_data.dart';
+import 'package:incogboard/src/security/backup/backup_collect.dart';
+import 'package:incogboard/src/security/backup/backup_payload.dart';
 
 /// Passes when [body] returns or throws one of the typed errors a parser may use. Anything else fails.
 void expectContained(void Function() body) {

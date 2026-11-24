@@ -120,7 +120,7 @@ dependencies {
 Kotlin, in the play flavour:
 
 1. move `android/asset_packs/PlayAssetPackSource.kt.txt` to
-   `android/app/src/play/kotlin/app/kosha/keyboard/packs/PlayAssetPackSource.kt`;
+   `android/app/src/play/kotlin/app/incogboard/keyboard/packs/PlayAssetPackSource.kt`;
 2. in `packs/PackSource.kt`, change `PackSources.forBuild` to `return PlayAssetPackSource(context)` (this is the
    only change in main code; the foss build keeps `FilePackSource`).
 

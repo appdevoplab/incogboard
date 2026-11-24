@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
-# Helpers for driving Kosha on an emulator/device. Dot-source it:
+# Helpers for driving IncogBoard on an emulator/device. Dot-source it:
 #   . .\tool\adb_ime.ps1
-#   Install-Kosha; Enable-Kosha; Open-Testbed -Field text; Send-Taps ...; Get-TestbedText text
+#   Install-IncogBoard; Enable-IncogBoard; Open-Testbed -Field text; Send-Taps ...; Get-TestbedText text
 $ErrorActionPreference = 'Stop'
 $script:Adb = Join-Path $env:ANDROID_HOME 'platform-tools\adb.exe'
-$script:Pkg = 'app.kosha.keyboard'
-$script:ImeId = "$script:Pkg/.ime.KoshaImeService"
+$script:Pkg = 'app.incogboard.keyboard'
+$script:ImeId = "$script:Pkg/.ime.IncogBoardImeService"
 
 function Invoke-Adb { & $script:Adb @args }
 
@@ -15,11 +15,11 @@ function Wait-Device {
     while ((Invoke-Adb shell getprop sys.boot_completed 2>$null).Trim() -ne '1') { Start-Sleep -Milliseconds 500 }
 }
 
-function Install-Kosha([string]$Apk = 'build\app\outputs\flutter-apk\app-debug.apk') {
+function Install-IncogBoard([string]$Apk = 'build\app\outputs\flutter-apk\app-debug.apk') {
     Invoke-Adb install -r -t $Apk | Select-Object -Last 1
 }
 
-function Enable-Kosha {
+function Enable-IncogBoard {
     Invoke-Adb shell ime enable $script:ImeId | Out-Null
     Invoke-Adb shell ime set $script:ImeId | Out-Null
     (Invoke-Adb shell settings get secure default_input_method).Trim()
@@ -34,7 +34,7 @@ function Clear-TestbedLog { Invoke-Adb logcat -c }
 
 # Latest logged value of a testbed field.
 function Get-TestbedText([string]$Field = 'text') {
-    $lines = Invoke-Adb logcat -d -s KoshaTestbed:I | Select-String -SimpleMatch " $Field="
+    $lines = Invoke-Adb logcat -d -s IncogBoardTestbed:I | Select-String -SimpleMatch " $Field="
     if (-not $lines) { return $null }
     $json = ($lines[-1].Line -split " $Field=", 2)[1]
     return ($json | ConvertFrom-Json)
@@ -47,7 +47,7 @@ function Send-Swipe([int]$X1, [int]$Y1, [int]$X2, [int]$Y2, [int]$Ms = 300) {
 }
 
 function Save-Screen([string]$Path) {
-    $remote = '/sdcard/kosha_screen.png'
+    $remote = '/sdcard/incogboard_screen.png'
     Invoke-Adb shell screencap -p $remote | Out-Null
     Invoke-Adb pull $remote $Path | Out-Null
     Invoke-Adb shell rm $remote | Out-Null

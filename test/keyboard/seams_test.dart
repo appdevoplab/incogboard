@@ -6,15 +6,15 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:kosha/src/bridge/messages.g.dart';
-import 'package:kosha/src/core/data_sections.dart';
-import 'package:kosha/src/core/input_field_info.dart';
-import 'package:kosha/src/engine/contracts.dart';
-import 'package:kosha/src/keyboard/keyboard_app.dart';
-import 'package:kosha/src/keyboard/keyboard_session.dart';
-import 'package:kosha/src/keyboard/layout/layout_model.dart';
-import 'package:kosha/src/keyboard/view/keyboard_view.dart';
-import 'package:kosha/src/settings/kosha_settings.dart';
+import 'package:incogboard/src/bridge/messages.g.dart';
+import 'package:incogboard/src/core/data_sections.dart';
+import 'package:incogboard/src/core/input_field_info.dart';
+import 'package:incogboard/src/engine/contracts.dart';
+import 'package:incogboard/src/keyboard/keyboard_app.dart';
+import 'package:incogboard/src/keyboard/keyboard_session.dart';
+import 'package:incogboard/src/keyboard/layout/layout_model.dart';
+import 'package:incogboard/src/keyboard/view/keyboard_view.dart';
+import 'package:incogboard/src/settings/incogboard_settings.dart';
 
 import 'support/app_harness.dart';
 
@@ -99,7 +99,7 @@ void main() {
 
   Future<(AppHarness, _ProbeFeature, KeyFinder)> boot(
     WidgetTester tester, {
-    KoshaSettings settings = const KoshaSettings(),
+    IncogBoardSettings settings = const IncogBoardSettings(),
     KeyboardHooks hooks = const KeyboardHooks(),
     KeyboardFrame? frame,
     EditorInfoMessage? field,
@@ -247,7 +247,7 @@ void main() {
       final (h, _, _) = await boot(
         tester,
         hooks: KeyboardHooks(onEmoji: () => emoji++),
-        settings: const KoshaSettings(typing: TypingSettings(nextWordPrediction: false)),
+        settings: const IncogBoardSettings(typing: TypingSettings(nextWordPrediction: false)),
       );
       await tester.tap(find.bySemanticsLabel('Emoji'));
       expect(emoji, 1);
@@ -255,7 +255,7 @@ void main() {
       verify(() => h.host.openSettings('themes')).called(1);
     });
 
-    const noPredictions = KoshaSettings(typing: TypingSettings(nextWordPrediction: false));
+    const noPredictions = IncogBoardSettings(typing: TypingSettings(nextWordPrediction: false));
 
     testWidgets('no Editing or Modes toolbar buttons without a feature', (tester) async {
       await boot(tester, settings: noPredictions);
@@ -305,11 +305,11 @@ void main() {
   });
 
   group('data', () {
-    testWidgets('records apps with their label once, never Kosha itself or while incognito', (tester) async {
+    testWidgets('records apps with their label once, never IncogBoard itself or while incognito', (tester) async {
       final (h, probe, _) = await boot(tester);
       when(() => h.host.getAppLabel('com.bank')).thenAnswer((_) async => 'Bank');
       await h.focus(tester, editorInfo(packageName: 'com.bank'));
-      await h.focus(tester, editorInfo(packageName: 'app.kosha.keyboard'));
+      await h.focus(tester, editorInfo(packageName: 'app.incogboard.keyboard'));
       await h.focus(tester, editorInfo(packageName: 'com.bank'));
       await h.store.update((s) => s.copyWith(privacy: s.privacy.copyWith(incognito: true)), sections: ['privacy']);
       await h.focus(tester, editorInfo(packageName: 'com.secret'));

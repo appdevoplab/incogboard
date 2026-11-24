@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// MDICT: Kosha's compact, versioned dictionary file format (version 1).
+// MDICT: IncogBoard's compact, versioned dictionary file format (version 1).
 //
 // A `.mdict` file is a 4-byte magic `MDZ1` followed by a zlib stream of the
 // payload below, or just the raw payload (magic `MDCT`) for tests. All

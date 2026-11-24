@@ -27,7 +27,7 @@ re-check before the F-Droid merge request and before the first GitHub release.
   Console. **Not confirmed** on the official page I checked; the FAQ
   (https://developer.android.com/developer-verification/guides/faq.md.txt) is the place to confirm it.
 
-## What it means for Kosha
+## What it means for IncogBoard
 
 | Channel | Effect |
 |---|---|

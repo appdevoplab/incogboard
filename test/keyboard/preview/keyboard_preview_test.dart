@@ -4,11 +4,11 @@
 // number-row setting, and never throws. Layouts load from the bundle, so the test waits for them.
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/keyboard/preview/keyboard_preview.dart';
-import 'package:kosha/src/keyboard/view/keys_painter.dart';
-import 'package:kosha/src/settings/kosha_settings.dart';
-import 'package:kosha/src/theme/presets.dart';
-import 'package:kosha/src/theme/theme_resolver.dart';
+import 'package:incogboard/src/keyboard/preview/keyboard_preview.dart';
+import 'package:incogboard/src/keyboard/view/keys_painter.dart';
+import 'package:incogboard/src/settings/incogboard_settings.dart';
+import 'package:incogboard/src/theme/presets.dart';
+import 'package:incogboard/src/theme/theme_resolver.dart';
 
 final Finder _paint = find.descendant(of: find.byType(KeyboardPreview), matching: find.byType(CustomPaint));
 
@@ -43,8 +43,8 @@ void main() {
     ('pure black', true, true),
   ]) {
     testWidgets('paints 26 letter keys in $label without errors', (tester) async {
-      final theme = resolveKeyboardThemeFromSpec(ThemePresets.koshaGold, dark: dark, pureBlack: pureBlack);
-      await _pumpPreview(tester, KeyboardPreview(theme: theme, settings: const KoshaSettings()));
+      final theme = resolveKeyboardThemeFromSpec(ThemePresets.incogboardGold, dark: dark, pureBlack: pureBlack);
+      await _pumpPreview(tester, KeyboardPreview(theme: theme, settings: const IncogBoardSettings()));
       expect(tester.takeException(), isNull);
       expect(_paint, findsOneWidget);
       expect(_letterKeys(tester), 26);
@@ -53,7 +53,7 @@ void main() {
 
   testWidgets('the number row adds digit keys and keeps the 26 letters', (tester) async {
     final theme = resolveKeyboardThemeFromSpec(ThemePresets.lavender, dark: false);
-    const settings = KoshaSettings(typing: TypingSettings(numberRow: true));
+    const settings = IncogBoardSettings(typing: TypingSettings(numberRow: true));
     await _pumpPreview(tester, KeyboardPreview(theme: theme, settings: settings));
     expect(tester.takeException(), isNull);
     expect(_letterKeys(tester), 26);
@@ -61,7 +61,7 @@ void main() {
 
   testWidgets('the strip can be left out', (tester) async {
     final theme = resolveKeyboardThemeFromSpec(ThemePresets.ocean, dark: true);
-    await _pumpPreview(tester, KeyboardPreview(theme: theme, settings: const KoshaSettings(), showStrip: false));
+    await _pumpPreview(tester, KeyboardPreview(theme: theme, settings: const IncogBoardSettings(), showStrip: false));
     expect(tester.takeException(), isNull);
     expect(_letterKeys(tester), 26);
   });

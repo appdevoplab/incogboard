@@ -1,18 +1,18 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
 // OWNER: Wave 3-A. The language step of onboarding: pick one or more languages, with search. The
-// system locale is pre-selected when Kosha supports it. Writes the `languages` section.
+// system locale is pre-selected when IncogBoard supports it. Writes the `languages` section.
 import 'dart:ui' show PlatformDispatcher;
 
 import 'package:material_ui/material_ui.dart';
 
-import '../../settings/kosha_settings.dart';
+import '../../settings/incogboard_settings.dart';
 import '../app_services.dart';
 import '../common/settings_widgets.dart';
 import '../shell/language_catalog.dart';
 import '../shell/settings_actions.dart';
 
-import 'package:kosha/src/app/l10n.dart';
+import 'package:incogboard/src/app/l10n.dart';
 
 class OnboardingLanguagePicker extends StatefulWidget {
   const OnboardingLanguagePicker({super.key});

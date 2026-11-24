@@ -34,7 +34,7 @@ class EmojiGlyphs {
     try {
       app = await platform.getAppInfo();
     } on Object catch (e) {
-      KoshaLog.w('Emoji', 'app info unavailable', e.runtimeType);
+      IncogBoardLog.w('Emoji', 'app info unavailable', e.runtimeType);
       return false;
     }
     final key = '${app.sdkInt}|${app.versionName}';
@@ -62,11 +62,11 @@ class EmojiGlyphs {
         }
       }
     } on Object catch (e) {
-      KoshaLog.w('Emoji', 'glyph check failed', e.runtimeType);
+      IncogBoardLog.w('Emoji', 'glyph check failed', e.runtimeType);
       return false;
     }
     store.setHidden(key, hidden);
-    KoshaLog.d(
+    IncogBoardLog.d(
       'Emoji',
       'glyph check: ${candidates.length} checked, ${hidden.length} hidden in ${sw.elapsedMilliseconds} ms',
     );

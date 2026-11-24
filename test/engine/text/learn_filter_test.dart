@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/engine/learn/learn_filter.dart';
-import 'package:kosha/src/engine/learn/learned_data.dart';
+import 'package:incogboard/src/engine/learn/learn_filter.dart';
+import 'package:incogboard/src/engine/learn/learned_data.dart';
 
 void main() {
   group('isLearnableWord', () {

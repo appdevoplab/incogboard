@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:kosha/src/design/design.dart';
+import 'package:incogboard/src/design/design.dart';
 
 void main() {
   group('contrast helpers', () {
@@ -50,43 +50,43 @@ void main() {
 
   group('shape tokens', () {
     test('scale is ascending and full is a pill', () {
-      for (var i = 1; i < KoshaShape.scale.length; i++) {
-        expect(KoshaShape.scale[i], greaterThan(KoshaShape.scale[i - 1]));
+      for (var i = 1; i < IncogBoardShape.scale.length; i++) {
+        expect(IncogBoardShape.scale[i], greaterThan(IncogBoardShape.scale[i - 1]));
       }
-      expect(KoshaShape.full, greaterThan(KoshaShape.scale.last));
+      expect(IncogBoardShape.full, greaterThan(IncogBoardShape.scale.last));
     });
 
     test('keyRadius clamps the factor', () {
-      expect(KoshaShape.keyRadius(0.5, 40), 20);
-      expect(KoshaShape.keyRadius(0, 40), 0);
-      expect(KoshaShape.keyRadius(2, 40), 20);
-      expect(KoshaShape.keyRadius(-1, 40), 0);
+      expect(IncogBoardShape.keyRadius(0.5, 40), 20);
+      expect(IncogBoardShape.keyRadius(0, 40), 0);
+      expect(IncogBoardShape.keyRadius(2, 40), 20);
+      expect(IncogBoardShape.keyRadius(-1, 40), 0);
     });
   });
 
   group('motion tokens', () {
     test('fast spatial matches the Material 3 Expressive spec', () {
-      expect(KoshaMotion.fastSpatial, const SpringToken(800, 0.6));
+      expect(IncogBoardMotion.fastSpatial, const SpringToken(800, 0.6));
     });
 
     test('spatial springs overshoot, effects springs do not', () {
-      for (final s in [KoshaMotion.fastSpatial, KoshaMotion.defaultSpatial, KoshaMotion.slowSpatial]) {
+      for (final s in [IncogBoardMotion.fastSpatial, IncogBoardMotion.defaultSpatial, IncogBoardMotion.slowSpatial]) {
         expect(s.dampingRatio, lessThan(1));
       }
-      for (final s in [KoshaMotion.fastEffects, KoshaMotion.defaultEffects, KoshaMotion.slowEffects]) {
+      for (final s in [IncogBoardMotion.fastEffects, IncogBoardMotion.defaultEffects, IncogBoardMotion.slowEffects]) {
         expect(s.dampingRatio, 1);
       }
     });
 
     test('speeds are ordered', () {
-      expect(KoshaMotion.fastSpatial.stiffness, greaterThan(KoshaMotion.defaultSpatial.stiffness));
-      expect(KoshaMotion.defaultSpatial.stiffness, greaterThan(KoshaMotion.slowSpatial.stiffness));
-      expect(KoshaMotion.fastEffects.stiffness, greaterThan(KoshaMotion.defaultEffects.stiffness));
-      expect(KoshaMotion.defaultEffects.stiffness, greaterThan(KoshaMotion.slowEffects.stiffness));
+      expect(IncogBoardMotion.fastSpatial.stiffness, greaterThan(IncogBoardMotion.defaultSpatial.stiffness));
+      expect(IncogBoardMotion.defaultSpatial.stiffness, greaterThan(IncogBoardMotion.slowSpatial.stiffness));
+      expect(IncogBoardMotion.fastEffects.stiffness, greaterThan(IncogBoardMotion.defaultEffects.stiffness));
+      expect(IncogBoardMotion.defaultEffects.stiffness, greaterThan(IncogBoardMotion.slowEffects.stiffness));
     });
 
     test('scaled keeps damping', () {
-      final s = KoshaMotion.fastSpatial.scaled(2);
+      final s = IncogBoardMotion.fastSpatial.scaled(2);
       expect(s.stiffness, 1600);
       expect(s.dampingRatio, 0.6);
     });
@@ -94,7 +94,7 @@ void main() {
 
   group('type tokens', () {
     test('variations clamp to the font axes', () {
-      final v = KoshaType.variations(weight: 5000, roundness: -5);
+      final v = IncogBoardType.variations(weight: 5000, roundness: -5);
       expect(v[0].axis, 'wght');
       expect(v[0].value, 1000);
       expect(v[1].axis, 'ROND');

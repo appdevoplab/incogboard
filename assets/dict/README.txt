@@ -1,1 +1,1 @@
-Kosha dict data. See THIRD_PARTY_NOTICES.md for sources and licenses.
+IncogBoard dict data. See THIRD_PARTY_NOTICES.md for sources and licenses.

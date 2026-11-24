@@ -26,7 +26,7 @@ class SpringToken {
   String toString() => 'SpringToken($stiffness, $dampingRatio)';
 }
 
-abstract final class KoshaMotion {
+abstract final class IncogBoardMotion {
   // Spatial (expressive: slight overshoot).
   static const SpringToken fastSpatial = SpringToken(800, 0.6);
   static const SpringToken defaultSpatial = SpringToken(380, 0.8);

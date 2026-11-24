@@ -2,8 +2,8 @@
 import 'package:mocktail/mocktail.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:kosha/src/app/privacy/learned_words_screen.dart';
-import 'package:kosha/src/engine/learn/learned_data.dart';
+import 'package:incogboard/src/app/privacy/learned_words_screen.dart';
+import 'package:incogboard/src/engine/learn/learned_data.dart';
 
 import 'privacy_harness.dart';
 
