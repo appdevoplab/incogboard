@@ -1,7 +1,8 @@
 # Play on-demand asset packs (play flavour)
 
-Owner: Wave 5-C. Status: code and build scripts written; **not yet compiled into the app** (the play flavour
-does not exist on this branch yet). Facts below were checked on 2026-11-23.
+Owner: Wave 5-C. Status: **wired and tested with bundletool local testing on 2026-11-24** (see "Result" below).
+Real Play delivery is not tested yet (needs a Play account and an internal test track). Facts below were checked
+on 2026-11-23.
 
 ## What is delivered this way
 
@@ -90,7 +91,34 @@ rejected and nothing is left behind.
 
 The `local-testing` set is a development artefact. Do not upload it.
 
-## Patches for Agent B's files (not applied by Wave 5-C)
+## Result of the wiring and local test (2026-11-24)
+
+Applied as in the patches below, with these differences: `PackSources.forBuild` is not in main code. It lives in
+`src/foss/.../PackSources.kt` (returns `FilePackSource`) and `src/play/.../PackSources.kt` (one
+`PlayAssetPackSource` per process), so the foss build never sees the Play library.
+
+- `flutter build appbundle --flavor play --release`: 326.7 MB bundle with the four asset packs; `bundletool validate`
+  passes. bundletool 1.18.3 jar SHA-256 `a099cfa1543f55593bc2ed16a70a7c67fe54b1747bb7301f37fdfd6d91028e29`
+  (downloaded from github.com/google/bundletool on 2026-11-24, kept in `%USERPROFILE%\.kosha	ools\`).
+- Local test on emulator-5554 (`bundletool install-apks --apks=build/packs/bundle/local-testing.apks`, after
+  uninstalling the foss build: the signatures differ): Model packs shows "Get through Google Play" and the four packs;
+  tapping Get on the Japanese dictionary delivers, verifies and installs it ("Installed Japanese dictionary (Mozc)"),
+  Verify reports "1 installed packs checked. All files match." Not exercised: the other three packs, a damaged pack
+  inside the local set, and real Play downloads.
+- **Bug found and fixed:** the first play bundle crashed at start-up (`androidx.startup.InitializationProvider` ->
+  `WorkDatabase`): WorkManager, pulled in by the library, creates its Room database by reflection and R8 stripped it.
+  `proguard-rules.pro` now keeps `RoomDatabase` constructors and `WorkDatabase_Impl`. A release build of the play
+  flavour must always be started once on a device: the permission gate and unit tests cannot see this.
+- Permissions in the merged `play` manifest: `INSTALL_PACKAGES` and `RECEIVE_BOOT_COMPLETED` are removed
+  (`src/play/AndroidManifest.xml`). `FOREGROUND_SERVICE`, `FOREGROUND_SERVICE_DATA_SYNC` and `WAKE_LOCK` remain
+  (extraction service and WorkManager). No network permission (gate passes). Removing the three needs a real Play
+  test; Play Console will ask for a foreground-service declaration for the data-sync permission.
+- Play status mapping: `COMPLETED` means ready (the keyboard then verifies and installs it); the library has no
+  `INSTALLING` status. The Model packs screen polls while a pack is in flight and installs a ready pack by itself
+  (`installDeliveredPack`).
+- `tool/packs/build_bundle.ps1` had a PowerShell argument bug (`--output=(Join-Path ...)`); fixed.
+
+## Patches for Agent B's files (applied 2026-11-24, kept for reference)
 
 `android/settings.gradle.kts`:
 
@@ -128,10 +156,8 @@ The `play` source set is the only place that uses the library, so the foss build
 
 ## Known gaps
 
-- The Play source (`PlayAssetPackSource`) is written against the library's documented API but has not been
-  compiled, because the play flavour does not exist yet. Check the class names (`AssetPackState`,
-  `AssetPackStatus`, `AssetPackLocation.assetsPath`) against the 2.3.0 classes when moving the file.
-- The Dart bridge calls for store delivery are not in Pigeon yet (see `docs/packs/README.md`, "Bridge additions").
+- `PlayAssetPackSource` compiles against 2.3.0 (`AssetPackState`, `AssetPackStatus`, `AssetPackLocation.assetsPath`,
+  `getPackStates`, `fetch`) and works with bundletool local testing; real Play delivery is untested.
 - The asset-pack names must stay in step with `StoreCatalog`, the Gradle module names and
   `tool/packs/copy_asset_packs.ps1`. A unit test checks the catalogue; nothing checks the Gradle files.
 

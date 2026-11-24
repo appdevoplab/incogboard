@@ -46,6 +46,9 @@ class _PacksScreenState extends State<PacksScreen> {
   Future<_PackPage>? _page;
   PackMaintenance _maintenance = const UnavailablePackMaintenance();
   bool _busy = false;
+  Timer? _poll;
+  int _extraPolls = 0;
+  final _failedInstalls = <String>{};
 
   @override
   void didChangeDependencies() {
@@ -55,10 +58,65 @@ class _PacksScreenState extends State<PacksScreen> {
     _reload();
   }
 
+  @override
+  void dispose() {
+    _poll?.cancel();
+    super.dispose();
+  }
+
   void _reload() {
     setState(() {
       _page = _readPage();
     });
+  }
+
+  /// Store deliveries (play): while Play is working the page re-reads every two seconds, and a pack Play has
+  /// finished is verified and installed by the keyboard itself. Only the real bridge does this: a screen given
+  /// its own [PackMaintenance] (tests) stays still.
+  void _followDeliveries(_PackPage page) {
+    _poll?.cancel();
+    if (widget.maintenance != null || !mounted) return;
+    final installed = {for (final p in page.packs) p.id};
+    final waiting = [
+      for (final o in page.offers)
+        if (!installed.contains(o.id) && !_failedInstalls.contains(o.id)) o,
+    ];
+    final ready = waiting.where((o) => o.status == PackOfferStatus.ready).toList();
+    final settling = _extraPolls > 0 && waiting.isNotEmpty;
+    if (settling) _extraPolls--;
+    if (ready.isNotEmpty) {
+      unawaited(_installDelivered(ready.first));
+    } else if (settling ||
+        waiting.any(
+          (o) =>
+              o.status == PackOfferStatus.downloading ||
+              o.status == PackOfferStatus.installing ||
+              o.status == PackOfferStatus.waitingForNetwork,
+        )) {
+      _poll = Timer(const Duration(seconds: 2), () {
+        if (mounted) _reload();
+      });
+    }
+  }
+
+  Future<void> _installDelivered(PackOffer offer) async {
+    final l10n = context.l10n;
+    final services = _services!;
+    setState(() => _busy = true);
+    try {
+      final name = await _maintenance.installDelivered(offer.id);
+      await services.notifyDataChanged(const [DataSections.packs]);
+      _show(l10n.packsInstalled(name));
+    } on PlatformException catch (e) {
+      _failedInstalls.add(offer.id);
+      _show(importErrorText(e.code, l10n));
+    } on Object {
+      _failedInstalls.add(offer.id);
+      _show(l10n.packsStatusFailed);
+    } finally {
+      if (mounted) setState(() => _busy = false);
+      _reload();
+    }
   }
 
   /// Async, so a failure (or a missing answer) shows as an error state instead of throwing while building.
@@ -69,7 +127,9 @@ class _PacksScreenState extends State<PacksScreen> {
         widget.maintenance ?? await _optional(() => BridgePackMaintenance.load(_services!.app), _maintenance);
     final offers = await _optional(_maintenance.offers, const <PackOffer>[]);
     final storage = await _optional(_maintenance.storage, null);
-    return _PackPage(packs, offers, storage);
+    final page = _PackPage(packs, offers, storage);
+    WidgetsBinding.instance.addPostFrameCallback((_) => _followDeliveries(page));
+    return page;
   }
 
   static Future<T> _optional<T>(Future<T> Function() read, T fallback) async {
@@ -122,6 +182,7 @@ class _PacksScreenState extends State<PacksScreen> {
     setState(() => _busy = true);
     try {
       await _maintenance.request(offer.id);
+      _extraPolls = 6; // Play reports the new state a moment later: keep looking for a few seconds.
     } on Object {
       _show(l10n.packsStatusFailed);
     } finally {

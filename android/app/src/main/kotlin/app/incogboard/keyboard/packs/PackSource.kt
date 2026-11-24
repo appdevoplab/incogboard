@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 package app.incogboard.keyboard.packs
 
-import android.content.Context
 import java.io.InputStream
 
 /**
@@ -52,19 +51,13 @@ object StoreCatalog {
     fun byId(id: String): Entry? = entries.firstOrNull { it.id == id }
 }
 
-/** Import-only source: the foss flavour, and the default until a flavour supplies a store source. */
+/** Import-only source: the foss flavour. `PackSources.forBuild` lives in each flavour's source set. */
 class FilePackSource : PackSource {
     override val storeDelivered: Boolean get() = false
     override fun offers(): List<PackOffer> = emptyList()
     override fun request(id: String): Unit = throw UnsupportedOperationException("packs are imported from a file")
     override fun openDelivered(id: String): InputStream? = null
     override fun release(id: String) = Unit
-}
-
-/** The source this build uses. The play flavour replaces the body with `PlayAssetPackSource(context)`. */
-object PackSources {
-    @Suppress("UNUSED_PARAMETER")
-    fun forBuild(context: Context): PackSource = FilePackSource()
 }
 
 object DeliveredPacks {

@@ -1,12 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// PLAY FLAVOUR ONLY. OWNER: Wave 5-C. Not compiled yet, on purpose: the default build has no Play
-// library. When Agent B's `play` flavour lands:
-//   1. move this file to android/app/src/play/kotlin/app/incogboard/keyboard/packs/PlayAssetPackSource.kt
-//   2. in packs/PackSource.kt, make PackSources.forBuild return PlayAssetPackSource(context)
-//   3. add the dependencies and asset packs (docs/release/asset-packs.md, "Patches for Agent B")
-// The API names below follow the Play Asset Delivery reference (AssetPackManager, AssetPackState,
-// AssetPackLocation); check them against the library version you build with before moving the file.
+// PLAY FLAVOUR ONLY (src/play). OWNER: Wave 5-C. Compiled against com.google.android.play:asset-delivery 2.3.0.
+// Play delivers the asset packs; DeliveredPacks.install verifies the .koshapack before it is trusted.
 package app.incogboard.keyboard.packs
 
 import android.content.Context
@@ -14,7 +9,9 @@ import com.google.android.play.core.assetpacks.AssetPackManager
 import com.google.android.play.core.assetpacks.AssetPackManagerFactory
 import com.google.android.play.core.assetpacks.AssetPackState
 import com.google.android.play.core.assetpacks.AssetPackStateUpdateListener
+import com.google.android.play.core.assetpacks.AssetPackStates
 import com.google.android.play.core.assetpacks.model.AssetPackStatus
+import com.google.android.gms.tasks.Task
 import java.io.File
 import java.io.InputStream
 import java.util.concurrent.ConcurrentHashMap
@@ -36,7 +33,16 @@ class PlayAssetPackSource(context: Context) : PackSource {
 
     override val storeDelivered: Boolean get() = true
 
-    override fun offers(): List<PackOffer> = StoreCatalog.entries.map { entry ->
+    private fun remember(task: Task<AssetPackStates>) {
+        task.addOnSuccessListener { result -> states.putAll(result.packStates()) }
+    }
+
+    /** Reads what Play knows now (the listener only reports changes); the answer lands before the next read. */
+    override fun offers(): List<PackOffer> = refreshed().let { _ -> currentOffers() }
+
+    private fun refreshed() = remember(manager.getPackStates(StoreCatalog.entries.map { it.packName }))
+
+    private fun currentOffers(): List<PackOffer> = StoreCatalog.entries.map { entry ->
         val state = states[entry.packName]
         PackOffer(
             id = entry.id,
@@ -49,7 +55,7 @@ class PlayAssetPackSource(context: Context) : PackSource {
     /** Asks Play to deliver the pack. Play requires the app to be in the foreground for this call. */
     override fun request(id: String) {
         val entry = StoreCatalog.byId(id) ?: throw IllegalArgumentException("not a store pack")
-        manager.fetch(listOf(entry.packName))
+        remember(manager.fetch(listOf(entry.packName)))
     }
 
     /** The `.koshapack` the asset pack carries (src/main/assets/<id>.koshapack), or null until Play has it. */
@@ -69,7 +75,8 @@ class PlayAssetPackSource(context: Context) : PackSource {
         null, AssetPackStatus.NOT_INSTALLED -> OfferStatus.NOT_REQUESTED
         AssetPackStatus.PENDING, AssetPackStatus.DOWNLOADING, AssetPackStatus.TRANSFERRING -> OfferStatus.DOWNLOADING
         AssetPackStatus.WAITING_FOR_WIFI, AssetPackStatus.REQUIRES_USER_CONFIRMATION -> OfferStatus.WAITING_FOR_NETWORK
-        AssetPackStatus.COMPLETED, AssetPackStatus.INSTALLING -> OfferStatus.INSTALLING
+        // Play has finished: the file is there and the keyboard still has to verify and install it.
+        AssetPackStatus.COMPLETED -> OfferStatus.READY
         AssetPackStatus.FAILED, AssetPackStatus.CANCELED -> OfferStatus.FAILED
         else -> OfferStatus.NOT_REQUESTED
     }

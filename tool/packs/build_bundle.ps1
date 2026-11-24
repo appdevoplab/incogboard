@@ -56,13 +56,15 @@ $hash = (Get-FileHash -LiteralPath $jar -Algorithm SHA256).Hash.ToLowerInvariant
 Write-Output "bundletool $BundletoolVersion sha256 $hash"
 
 $bundle = Join-Path $out 'app-play-release.aab'
-& java -jar $jar validate --bundle=$bundle
+& java -jar $jar validate "--bundle=$bundle"
 if ($LASTEXITCODE -ne 0) { throw 'bundletool validate failed' }
 
-& java -jar $jar build-apks --bundle=$bundle --output=(Join-Path $out 'universal.apks') --mode=universal --overwrite
+$universalApks = Join-Path $out 'universal.apks'
+& java -jar $jar build-apks "--bundle=$bundle" "--output=$universalApks" --mode=universal --overwrite
 if ($LASTEXITCODE -ne 0) { throw 'bundletool build-apks (universal) failed' }
 
-& java -jar $jar build-apks --bundle=$bundle --output=(Join-Path $out 'local-testing.apks') --local-testing --overwrite
+$localApks = Join-Path $out 'local-testing.apks'
+& java -jar $jar build-apks "--bundle=$bundle" "--output=$localApks" --local-testing --overwrite
 if ($LASTEXITCODE -ne 0) { throw 'bundletool build-apks --local-testing failed' }
 
 Write-Output "done: $out"

@@ -24,3 +24,10 @@ plugins {
 }
 
 include(":app")
+
+// Play on-demand asset packs (docs/release/asset-packs.md). Only the play flavour's bundle uses them.
+include(":pack_dict_zh", ":pack_dict_ja", ":pack_voice_base", ":pack_translate_en_es")
+project(":pack_dict_zh").projectDir = file("asset_packs/pack_dict_zh")
+project(":pack_dict_ja").projectDir = file("asset_packs/pack_dict_ja")
+project(":pack_voice_base").projectDir = file("asset_packs/pack_voice_base")
+project(":pack_translate_en_es").projectDir = file("asset_packs/pack_translate_en_es")

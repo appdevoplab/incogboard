@@ -56,6 +56,9 @@ android {
     //   foss: GitHub and F-Droid. The full build, signed-pack import, no Google libraries.
     //   play: Google Play. Same code; large data arrives as Play on-demand asset packs (Wave 5-C).
     // Until the asset-pack modules land, play behaves exactly like foss.
+    // Large packs reach the play flavour as on-demand Play asset packs (bundle only; APK builds ignore this).
+    assetPacks += listOf(":pack_dict_zh", ":pack_dict_ja", ":pack_voice_base", ":pack_translate_en_es")
+
     flavorDimensions += "distribution"
     productFlavors {
         create("foss") {
@@ -130,6 +133,11 @@ gradle.taskGraph.whenReady {
 }
 
 dependencies {
+    // Play Asset Delivery (play flavour only; Play Core SDK terms, see docs/release/asset-packs.md). It talks to the
+    // Play Store app over IPC and adds no network permission; its extra permissions are removed in src/play.
+    "playImplementation"("com.google.android.play:asset-delivery:2.3.0")
+    "playImplementation"("com.google.android.play:asset-delivery-ktx:2.3.0")
+
     // Inline autofill chip styling (UiVersions). Pure UI helpers, Apache-2.0, no network code.
     implementation("androidx.autofill:autofill:1.3.0")
     // Pigeon's @async host methods are generated as suspend functions. Already on the classpath
