@@ -1,4 +1,33 @@
-# Trademark check: "Kosha" (Wave 5-A, Part 3)
+# Trademark check: "IncogBoard" (2026-11-24), then the older check for "Kosha"
+
+## IncogBoard (current name, checked 2026-11-24)
+
+Not legal advice. A first screen by web search; the official registers (USPTO, EUIPO, WIPO, IP India, UKIPO) were
+not queried directly, so their status must be confirmed on the official sites or by a professional search.
+
+- **Exact name:** a web search for "IncogBoard" found no product, app, company or register entry with that name.
+- **Close names found:** Incogneato (anonymous feedback service, formerly Corpell Anonymous Box), IncogNote
+  (an "incognito notepad" Android app), "Incog: Campus Rant & Real Talk" (a social app on Google Play) and
+  "Incognito Away - Disable Incog" (a browser-incognito blocker). None is a keyboard or input method. No register
+  record for "INCOG" or "INCOGBOARD" showed up in the snippets.
+- **Descriptive-word risk:** "incognito" is a common word that keyboards (SwiftKey, Gboard) and browsers (Chrome)
+  use for a no-learning or private mode. "IncogBoard" builds on it, so it is easy to understand but weaker as a mark,
+  and the store text should not suggest an affiliation with any browser's or keyboard's incognito mode.
+- **Overall risk: low to medium** (no identical name found; descriptive root). **Before the Play submission:** search
+  INCOGBOARD and INCOG in classes 9 and 42 on USPTO (Trademark Search), EUIPO (eSearch plus), WIPO Global Brand
+  Database and IP India; consider a professional clearance search if the app is to be monetised or widely promoted.
+- **Store wording:** "IncogBoard Keyboard" or "IncogBoard: private keyboard" in the title helps users and examiners;
+  avoid "incognito mode" claims beyond what the app does (it has an incognito switch and auto-incognito apps).
+
+Sources (web search, 2026-11-24): [Incogneato](https://www.coursera.org/user/8af605693882a4ec4a05292cf99436f2),
+[IncogNote](https://appgoblin.info/apps/com.incognote.incognote/keywords/discovery),
+[Incognito Away](https://similarweb.com/tr/app/google/com.smajenterprise.incognitoaway),
+[Incogno developer page](https://play.google.com/store/apps/developer?id=Incogno),
+[SwiftKey incognito mode](https://www.gsmarena.com/swiftkey_for_android_is_now_smarter_with_incognito_mode-blog-21598.php).
+
+---
+
+## Kosha (old name, Wave 5-A, Part 3)
 
 Date of the checks: 2026-11-23. Not legal advice. This is a first screen so the user can decide whether to keep the name. Nothing has been filed, registered or reserved.
 

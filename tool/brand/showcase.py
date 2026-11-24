@@ -7,8 +7,8 @@ Input:  docs/showcase/raw/<name>.png   (1080 x 2400 screenshots, `adb shell scre
 Output: docs/showcase/<card>.png        (720 x 1280 cards: caption + framed screenshot)
         docs/showcase/hero.png          (1600 x 760 banner for the top of the README)
 
-Colours and font follow the brand (docs/brand): chest brown #3E2723, gold #EFB33A, light gold #FFE3A1,
-Google Sans Flex. "keyboard" crops keep the message box and the keyboard; "screen" crops drop the
+Colours and font follow the brand (docs/brand, the Aurora ghost): ghost tile #17141F, aurora violet #B57BFF
+and blue #6E8BFF, white and lavender text, Google Sans Flex. "keyboard" crops keep the message box and the keyboard; "screen" crops drop the
 status bar.
 """
 from pathlib import Path
@@ -21,10 +21,12 @@ OUT = ROOT / 'docs' / 'showcase'
 FONT = ROOT / 'assets' / 'fonts' / 'GoogleSansFlex.ttf'
 ICON = ROOT / 'docs' / 'brand' / 'play_icon_512.png'
 
-BROWN = (62, 39, 35)
-BROWN_LIGHT = (78, 52, 46)
-GOLD = (239, 179, 58)
-GOLD_LIGHT = (255, 227, 161)
+TILE = (23, 20, 31)          # #17141F, the icon tile
+TILE_LIGHT = (40, 35, 54)
+VIOLET = (181, 123, 255)     # aurora
+BLUE = (110, 139, 255)
+WHITE = (255, 255, 255)
+LAVENDER = (232, 222, 248)
 
 STATUS_BAR = 96       # px at the top of a 1080 x 2400 capture
 KEYBOARD_TOP = 1360   # message box + keyboard
@@ -79,16 +81,16 @@ def wrap(draw, text, fnt, width):
 
 def card(out_name, raw_name, kind, title, subtitle):
     W, H = 720, (940 if kind == 'keyboard' else 1280)
-    canvas = Image.new('RGBA', (W, H), BROWN + (255,))
+    canvas = Image.new('RGBA', (W, H), TILE + (255,))
     draw = ImageDraw.Draw(canvas)
     ft, fs = font(50, 650), font(28, 420)
     y = 56
     for line in wrap(draw, title, ft, W - 96):
-        draw.text((48, y), line, font=ft, fill=GOLD_LIGHT)
+        draw.text((48, y), line, font=ft, fill=WHITE)
         y += 62
     y += 6
     for line in wrap(draw, subtitle, fs, W - 96):
-        draw.text((48, y), line, font=fs, fill=(230, 214, 190))
+        draw.text((48, y), line, font=fs, fill=LAVENDER)
         y += 38
     y += 30
     shot = crop(raw_name, kind)
@@ -102,18 +104,18 @@ def card(out_name, raw_name, kind, title, subtitle):
 
 def hero(raw_names):
     W, H = 1600, 760
-    canvas = Image.new('RGBA', (W, H), BROWN + (255,))
+    canvas = Image.new('RGBA', (W, H), TILE + (255,))
     draw = ImageDraw.Draw(canvas)
-    # soft gold glow behind the phones
+    # soft aurora glow behind the phones
     glow = Image.new('RGBA', (W, H), (0, 0, 0, 0))
-    ImageDraw.Draw(glow).ellipse((860, 80, 1560, 820), fill=GOLD + (60,))
+    ImageDraw.Draw(glow).ellipse((860, 80, 1560, 820), fill=VIOLET + (70,))
     canvas.alpha_composite(glow.filter(ImageFilter.GaussianBlur(90)))
     icon = Image.open(ICON).convert('RGBA').resize((120, 120), Image.LANCZOS)
     canvas.alpha_composite(rounded(icon, 28), (80, 110))
-    draw.text((80, 250), 'IncogBoard', font=font(100, 700), fill=GOLD_LIGHT)
+    draw.text((80, 250), 'IncogBoard', font=font(100, 700), fill=WHITE)
     y = 384
     for line in ('The keyboard that cannot phone home.', 'No internet permission.', 'Everything stays on your phone.'):
-        draw.text((84, y), line, font=font(36, 430), fill=(240, 226, 204))
+        draw.text((84, y), line, font=font(36, 430), fill=LAVENDER)
         y += 48
     chips = ['18 languages', 'Swipe', 'Offline voice', 'Offline translate', 'Encrypted', 'GPL-3.0']
     x, y = 84, 572
@@ -122,8 +124,8 @@ def hero(raw_names):
         tw = draw.textlength(c, font=fc)
         if x + tw + 40 > 820:
             x, y = 84, y + 62
-        draw.rounded_rectangle((x, y, x + tw + 40, y + 48), 24, fill=BROWN_LIGHT, outline=GOLD, width=2)
-        draw.text((x + 20, y + 8), c, font=fc, fill=GOLD_LIGHT)
+        draw.rounded_rectangle((x, y, x + tw + 40, y + 48), 24, fill=TILE_LIGHT, outline=BLUE, width=2)
+        draw.text((x + 20, y + 8), c, font=fc, fill=WHITE)
         x += tw + 56
     # three phones, the middle one raised
     xs, ys = (960, 1170, 1380), (140, 60, 140)

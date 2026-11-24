@@ -59,15 +59,15 @@ void main() {
     expect(File('$_res/mipmap-anydpi-v26/ic_launcher.xml').existsSync(), isTrue);
   });
 
-  test('values-v31 sets the Android 12+ splash items to the chest and the splash colour', () {
+  test('values-v31 sets the Android 12+ splash items to the ghost and the splash colour', () {
     final styles = _read('$_res/values-v31/styles.xml');
     expect(styles, contains('name="LaunchTheme"'));
     expect(styles, contains('android:windowSplashScreenBackground">@color/incogboard_splash_background<'));
-    expect(styles, contains('android:windowSplashScreenAnimatedIcon">@drawable/splash_chest<'));
-    expect(File('$_res/drawable/splash_chest.xml').existsSync(), isTrue);
+    expect(styles, contains('android:windowSplashScreenAnimatedIcon">@drawable/splash_ghost<'));
+    expect(File('$_res/drawable/splash_ghost.xml').existsSync(), isTrue);
     final dark = _read('$_res/values-night-v31/styles.xml');
     expect(dark, contains('android:windowSplashScreenBackground">@color/incogboard_splash_background<'));
-    expect(dark, contains('android:windowSplashScreenAnimatedIcon">@drawable/splash_chest<'));
+    expect(dark, contains('android:windowSplashScreenAnimatedIcon">@drawable/splash_ghost<'));
   });
 
   test('the splash colour exists in light and dark, and the launch and normal themes survive', () {
@@ -80,7 +80,7 @@ void main() {
       expect(styles, contains('@drawable/launch_background'), reason: dir);
     }
     final launch = _read('$_res/drawable/launch_background.xml');
-    expect(launch, contains('@drawable/splash_chest'));
+    expect(launch, contains('@drawable/splash_ghost'));
     expect(launch, contains('@color/incogboard_splash_background'));
   });
 

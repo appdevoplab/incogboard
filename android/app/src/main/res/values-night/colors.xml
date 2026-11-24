@@ -5,5 +5,5 @@
     <color name="inline_chip_text">#FFE6E0E9</color>
     <color name="inline_chip_subtext">#FFCAC4D0</color>
     <!-- IncogBoard brand: the splash colour in dark mode. -->
-    <color name="incogboard_splash_background">#FF211714</color>
+    <color name="incogboard_splash_background">#FF17141F</color>
 </resources>

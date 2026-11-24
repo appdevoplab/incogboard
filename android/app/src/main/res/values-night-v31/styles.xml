@@ -4,6 +4,6 @@
          is the dark one from values-night/colors.xml. -->
     <style name="LaunchTheme" parent="@android:style/Theme.DeviceDefault.NoActionBar">
         <item name="android:windowSplashScreenBackground">@color/incogboard_splash_background</item>
-        <item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_chest</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_ghost</item>
     </style>
 </resources>

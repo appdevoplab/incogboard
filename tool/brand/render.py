@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
 """Renders the IncogBoard brand: SVG sources, Android vector drawables, launcher PNGs and store art.
 
-The app icon is the Aurora ghost (see "the ghost" below); the launcher icons, the themed icon, the legacy
-PNGs, the Play icon and icon-masks.png use it. The treasure chest is defined once below on a 108 x 108 grid (the adaptive-icon canvas; the
-safe zone is the inner 66 x 66 square). Every output is generated from these shapes:
+The brand is the Aurora ghost (see "the ghost" below): the launcher icons, the themed icon, the legacy PNGs,
+the splash, the mascot poses, the Play icon, the feature graphic and the screenshot frame use it (the splash
+and store art moved from the treasure chest on 2026-11-24; the chest geometry below is kept for reference).
+Shapes live on a 108 x 108 grid (the adaptive-icon canvas; the safe zone is the inner 66 x 66 square).
+Every output is generated from these shapes:
 
   assets/brand/*.svg                             SVG sources (icon, monochrome, poses)
   android/app/src/main/res/drawable/ic_launcher_foreground.xml
   android/app/src/main/res/drawable/ic_launcher_monochrome.xml
-  android/app/src/main/res/drawable/splash_chest.xml
+  android/app/src/main/res/drawable/splash_ghost.xml
   android/app/src/main/res/mipmap-*dpi/ic_launcher.png  legacy launcher icons
   docs/brand/play_icon_512.png                   Play Store icon (opaque)
   docs/brand/feature_graphic_1024x500.png        Play feature graphic
@@ -172,7 +174,7 @@ def quiet_layers():
 # a violet -> blue -> green outline, on a near-black tile. The shape is a round head, straight sides and a hem
 # of three full round lobes; every outline below is that shape grown by a fixed distance, built exactly from
 # circle arcs (the union of grown circles is the grown union), so the rings keep an even width.
-# The chest above stays for the splash, the mascot poses and the store art until those move to the ghost too.
+# Since 2026-11-24 the splash, the mascot poses and the store art use the ghost too.
 
 GHOST_TILE = '#17141F'
 GHOST_WHITE = '#FFFFFF'
@@ -280,11 +282,90 @@ def ghost_icon_layers():
     return ghost_background_layers() + ghost_foreground_layers()
 
 
+# ---------------------------------------------------------------- ghost poses (mascot, since 2026-11-24)
+#
+# The in-app mascot (lib/src/app/onboarding/incogboard_mascot.dart) draws the same four poses in Dart.
+
+GHOST_MUTE_HALO = '#9E98AE'
+GHOST_MUTE_BODY = '#E6E3EE'
+GHOST_MUTE_INK = '#6B6680'
+
+
+def _arc_band(cx, cy, r, w, a0, a1, n=24):
+    """A curved stroke: the ring between radius r - w/2 and r + w/2, from angle a0 to a1 (degrees, y down)."""
+    outer = [(cx + (r + w / 2) * math.cos(math.radians(a0 + (a1 - a0) * i / n)),
+              cy + (r + w / 2) * math.sin(math.radians(a0 + (a1 - a0) * i / n))) for i in range(n + 1)]
+    inner = [(cx + (r - w / 2) * math.cos(math.radians(a1 - (a1 - a0) * i / n)),
+              cy + (r - w / 2) * math.sin(math.radians(a1 - (a1 - a0) * i / n))) for i in range(n + 1)]
+    return outer + inner
+
+
+def _moved(layers, scale, dx, dy):
+    """Scales layers about the canvas centre, then shifts them (gradients follow)."""
+    def f(x, y):
+        return 54 + (x - 54) * scale + dx, 54 + (y - 54) * scale + dy
+    out = []
+    for lay in layers:
+        new = dict(lay, subs=[[f(x, y) for x, y in pts] for pts in lay['subs']])
+        g = lay.get('gradient')
+        if g:
+            x1, y1 = f(g['x1'], g['y1'])
+            x2, y2 = f(g['x2'], g['y2'])
+            new['gradient'] = dict(g, x1=x1, y1=y1, x2=x2, y2=y2)
+        out.append(new)
+    return out
+
+
+def ghost_pose_open():
+    """Welcome: the ghost with two sparkles."""
+    return ghost_foreground_layers() + [
+        layer(AURORA[0][1], sparkle(90, 18, 6)),
+        layer(AURORA[2][1], sparkle(98, 38, 4)),
+    ]
+
+
+def ghost_pose_locked():
+    """Privacy and app lock: the ghost with a padlock badge."""
+    bx, by = 80, 80
+    shackle = _arc_band(bx, by - 3.5, 4.6, 2.4, 180, 360)
+    return _moved(ghost_foreground_layers(), 0.9, -5, -5) + [
+        layer(GHOST_INK, circle(bx, by, 15)),
+        layer(AURORA[1][1], circle(bx, by, 13)),
+        layer(GHOST_WHITE, shackle, rect(bx - 5.8, by - 3.6, 1.2, 3.2), rect(bx + 4.6, by - 3.6, 1.2, 3.2)),
+        layer(GHOST_WHITE, rrect(bx - 7, by - 1, 14, 10, 2.2)),
+        layer(AURORA[1][1], circle(bx, by + 3.5, 1.6, n=24)),
+    ]
+
+
+def ghost_pose_glowing():
+    """Voice, translation, work in progress: an aurora glow behind the ghost and sparkles."""
+    return [
+        layer(AURORA[1][1], circle(54, 54, 52), alpha=0.14),
+        layer(AURORA[0][1], circle(54, 54, 44), alpha=0.18),
+    ] + ghost_foreground_layers() + [
+        layer(AURORA[2][1], sparkle(14, 24, 5)),
+        layer(AURORA[0][1], sparkle(96, 20, 4.5)),
+        layer(AURORA[1][1], sparkle(96, 84, 3.5)),
+    ]
+
+
+def ghost_pose_quiet():
+    """Incognito and empty states: a muted ghost with closed eyes."""
+    closed = [_place(_arc_band(ex + 1.2, 48.0, 4.6, 2.2, 20, 160)) for ex in (45.0, 63.0)]
+    return [
+        layer(GHOST_MUTE_HALO, _place(_ghost_outline(_G_HALO))),
+        layer(GHOST_MUTE_INK, _place(_ghost_outline(_G_GAP))),
+        layer(GHOST_MUTE_BODY, _place(_ghost_outline(0))),
+        layer(GHOST_MUTE_INK, *closed),
+        layer(GHOST_MUTE_HALO, circle(46, 8, 2.4, n=24), circle(54, 8, 2.4, n=24), circle(62, 8, 2.4, n=24)),
+    ]
+
+
 POSES = {
-    'pose_open': open_layers,
-    'pose_locked': foreground_layers,
-    'pose_glowing': glowing_layers,
-    'pose_quiet': quiet_layers,
+    'pose_open': ghost_pose_open,
+    'pose_locked': ghost_pose_locked,
+    'pose_glowing': ghost_pose_glowing,
+    'pose_quiet': ghost_pose_quiet,
 }
 
 
@@ -430,46 +511,53 @@ def save_png(img, path):
 # ---------------------------------------------------------------- store art
 
 def screenshot_frame_svg():
-    chest = path_d([p for lay in foreground_layers() for p in lay['subs']])
-    body_paths = []
-    for lay in foreground_layers():
-        body_paths.append(f'    <path fill="{lay["color"]}" fill-rule="evenodd" d="{path_d(lay["subs"])}"/>')
+    # The ghost mark: its SVG body (gradient defs included), without the XML header and outer <svg>.
+    mark = to_svg(ghost_foreground_layers(), 'mark').splitlines()[3:-1]
+    body_paths = ['    ' + line.strip() for line in mark]
     return '\n'.join([
         '<?xml version="1.0" encoding="UTF-8"?>',
         '<!-- Store screenshot frame (1080 x 1920). Generated by tool/brand/render.py. -->',
         '<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920">',
-        f'  <rect width="1080" height="1920" fill="{BROWN}"/>',
-        '  <!-- Chest mark, top left. Keep it small: it is a sign-off, not the hero. -->',
-        '  <g transform="translate(80,80) scale(1.5)">',
+        f'  <rect width="1080" height="1920" fill="{GHOST_TILE}"/>',
+        '  <!-- Ghost mark, top left. Keep it small: it is a sign-off, not the hero. -->',
+        '  <g transform="translate(60,60) scale(1.8)">',
         *body_paths,
         '  </g>',
         '  <!-- Caption: one short line, large. Replace the placeholder text. -->',
         f'  <text x="80" y="420" font-family="Google Sans Flex, Roboto, sans-serif" font-size="96" '
-        f'font-weight="600" fill="{GOLD_LIGHT}">Your caption goes here</text>',
+        f'font-weight="600" fill="{GHOST_WHITE}">Your caption goes here</text>',
         f'  <text x="80" y="500" font-family="Google Sans Flex, Roboto, sans-serif" font-size="48" '
-        f'fill="{MUTE_LIGHT}">One supporting line, if needed</text>',
+        f'fill="{TONAL_LIGHT}">One supporting line, if needed</text>',
         '  <!-- Screenshot slot: 920 x 1200 at 3:4, rounded. Place the device capture here. -->',
-        f'  <rect x="80" y="620" width="920" height="1200" rx="56" fill="{NIGHT}" stroke="{GOLD}" '
+        f'  <rect x="80" y="620" width="920" height="1200" rx="56" fill="#0E0C14" stroke="{AURORA[1][1]}" '
         'stroke-width="6" stroke-dasharray="24 16"/>',
         f'  <text x="540" y="1230" text-anchor="middle" font-family="Google Sans Flex, Roboto, sans-serif" '
-        f'font-size="44" fill="{MUTE}">Screenshot</text>',
+        f'font-size="44" fill="{GHOST_MUTE_HALO}">Screenshot</text>',
         '</svg>',
         '',
     ])
 
 
 def feature_graphic():
-    img = Image.new('RGBA', (1024, 500), hex_rgba(BROWN))
-    mark = raster(icon_layers(), 340)
-    img.alpha_composite(mark, (90, 80))
+    img = Image.new('RGBA', (1024, 500), hex_rgba(GHOST_TILE))
+    mark = raster(ghost_foreground_layers(), 380)
+    img.alpha_composite(mark, (60, 60))
     font_path = os.path.join(ROOT, 'assets', 'fonts', 'GoogleSansFlex.ttf')
-    title = ImageFont.truetype(font_path, 168)
     sub = ImageFont.truetype(font_path, 44)
     small = ImageFont.truetype(font_path, 28)
     draw = ImageDraw.Draw(img)
-    draw.text((440, 96), 'IncogBoard', font=title, fill=hex_rgba(GOLD))
-    draw.text((446, 300), 'Your words, kept with you.', font=sub, fill=hex_rgba(CREAM))
-    draw.text((446, 362), 'Works offline. Nothing leaves your phone.', font=small, fill=hex_rgba(MUTE_LIGHT))
+    # The largest title that fits between the mark and the right edge.
+    size = 168
+    while size > 40:
+        title = ImageFont.truetype(font_path, size)
+        title.set_variation_by_axes([144, 100, 600, 0, 0])
+        if draw.textlength('IncogBoard', font=title) <= 1024 - 446 - 48:
+            break
+        size -= 4
+    title.set_variation_by_axes([144, 100, 600, 0, 0])  # optical size, width, weight 600, roundness, slant
+    draw.text((440, 278 - int(size * 1.25)), 'IncogBoard', font=title, fill=hex_rgba(GHOST_WHITE))
+    draw.text((446, 300), 'Your words, kept with you.', font=sub, fill=hex_rgba(TONAL_LIGHT))
+    draw.text((446, 362), 'Works offline. Nothing leaves your phone.', font=small, fill=hex_rgba(GHOST_MUTE_HALO))
     return img.convert('RGB').convert('RGBA')
 
 
@@ -555,7 +643,7 @@ def main():
     write_text('assets/brand/icon_monochrome.svg', to_svg(ghost_monochrome_layers(), 'IncogBoard themed (monochrome) icon'))
     write_text('assets/brand/incogboard_icon.svg', to_svg(ghost_icon_layers(), 'IncogBoard icon, full colour (ghost)'))
     for name, make in POSES.items():
-        write_text(f'assets/brand/{name}.svg', to_svg(make(), f'IncogBoard chest pose: {name[5:]}'))
+        write_text(f'assets/brand/{name}.svg', to_svg(make(), f'IncogBoard ghost pose: {name[5:]}'))
     write_text('docs/brand/screenshot_frame.svg', screenshot_frame_svg())
 
     # Android vector drawables.
@@ -564,8 +652,8 @@ def main():
                to_vector_drawable(ghost_foreground_layers(), 'IncogBoard adaptive icon foreground (ghost)'))
     write_text(f'{res}/ic_launcher_monochrome.xml',
                to_vector_drawable(ghost_monochrome_layers(), 'IncogBoard themed icon (Android 13+), eyes as negative space'))
-    write_text(f'{res}/splash_chest.xml',
-               to_vector_drawable(foreground_layers(), 'IncogBoard splash chest (SplashScreen API and launch background)'))
+    write_text(f'{res}/splash_ghost.xml',
+               to_vector_drawable(ghost_foreground_layers(), 'IncogBoard splash ghost (SplashScreen API and launch background)'))
 
     # Legacy launcher PNGs (pre-Android 8 and fallback).
     for density, px in (('mdpi', 48), ('hdpi', 72), ('xhdpi', 96), ('xxhdpi', 144), ('xxxhdpi', 192)):

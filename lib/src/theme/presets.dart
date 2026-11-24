@@ -5,7 +5,7 @@
 // all derived from the same spec (see theme_resolver.dart).
 import 'theme_spec.dart';
 
-/// Brand gold (the IncogBoard treasure chest; the seed of the brand scheme) and brand dark brown
+/// Brand gold (the colour of the first IncogBoard icon, a treasure chest; the seed of the brand scheme) and brand dark brown
 /// (the chest's straps and keycap, and the launcher background). See tool/brand/render.py.
 const int incogboardYellow = 0xFFEFB33A;
 const int incogboardBrown = 0xFF3E2723;

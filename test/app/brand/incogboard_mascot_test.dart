@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// The IncogBoard chest: every pose builds at the sizes it is used at, in light and dark, at font scale 1.3,
+// The IncogBoard ghost: every pose builds at the sizes it is used at, in light and dark, at font scale 1.3,
 // with its TalkBack label, and springs between poses without overflowing.
 import 'package:flutter_test/flutter_test.dart';
 import 'package:incogboard/src/app/l10n.dart';
@@ -34,7 +34,7 @@ void main() {
           await tester.pumpWidget(
             _host(
               brightness: brightness,
-              child: IncogBoardMascot(size: size, pose: pose, label: 'IncogBoard chest'),
+              child: IncogBoardMascot(size: size, pose: pose, label: 'IncogBoard ghost'),
             ),
           );
           await tester.pumpAndSettle();
@@ -45,7 +45,7 @@ void main() {
             tester.getSize(find.descendant(of: find.byType(IncogBoardMascot), matching: find.byType(CustomPaint))),
             Size(size, size),
           );
-          expect(find.bySemanticsLabel('IncogBoard chest'), findsOneWidget);
+          expect(find.bySemanticsLabel('IncogBoard ghost'), findsOneWidget);
           semantics.dispose();
         });
       }
@@ -63,14 +63,14 @@ void main() {
   });
 
   testWidgets('switching poses springs without exceptions and ends on the new pose', (tester) async {
-    Widget chest(IncogBoardPose pose) => _host(
+    Widget ghost(IncogBoardPose pose) => _host(
       brightness: Brightness.light,
       child: IncogBoardMascot(size: 96, pose: pose),
     );
-    await tester.pumpWidget(chest(IncogBoardPose.open));
+    await tester.pumpWidget(ghost(IncogBoardPose.open));
     await tester.pumpAndSettle();
     for (final pose in [IncogBoardPose.locked, IncogBoardPose.glowing, IncogBoardPose.quiet, IncogBoardPose.open]) {
-      await tester.pumpWidget(chest(pose));
+      await tester.pumpWidget(ghost(pose));
       await tester.pump(const Duration(milliseconds: 150));
       expect(tester.takeException(), isNull);
       await tester.pumpAndSettle();

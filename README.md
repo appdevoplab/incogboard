@@ -3,10 +3,10 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/appdevoplab/incogboard/releases/latest/download/app-arm64-v8a-foss-release.apk"><img alt="Download APK" src="https://img.shields.io/badge/Download-APK-EFB33A?style=for-the-badge&logo=android&logoColor=3E2723&labelColor=FFE3A1"></a>
-  <a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/appdevoplab/incogboard"><img alt="Get it on Obtainium" src="https://img.shields.io/badge/Obtainium-auto%20updates-3E2723?style=for-the-badge&labelColor=4E342E"></a>
-  <a href="https://github.com/appdevoplab/incogboard/releases"><img alt="All releases" src="https://img.shields.io/github/v/release/appdevoplab/incogboard?style=for-the-badge&label=release&color=4E342E"></a>
-  <a href="LICENSE"><img alt="GPL-3.0" src="https://img.shields.io/badge/license-GPL--3.0-4E342E?style=for-the-badge"></a>
+  <a href="https://github.com/appdevoplab/incogboard/releases/latest/download/app-arm64-v8a-foss-release.apk"><img alt="Download APK" src="https://img.shields.io/badge/Download-APK-6E8BFF?style=for-the-badge&logo=android&logoColor=white&labelColor=17141F"></a>
+  <a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/appdevoplab/incogboard"><img alt="Get it on Obtainium" src="https://img.shields.io/badge/Obtainium-auto%20updates-17141F?style=for-the-badge&labelColor=2A2438"></a>
+  <a href="https://github.com/appdevoplab/incogboard/releases"><img alt="All releases" src="https://img.shields.io/github/v/release/appdevoplab/incogboard?style=for-the-badge&label=release&color=2A2438"></a>
+  <a href="LICENSE"><img alt="GPL-3.0" src="https://img.shields.io/badge/license-GPL--3.0-2A2438?style=for-the-badge"></a>
 </p>
 
 <h3 align="center">Your keyboard sees everything you type.<br>This one has no way to tell anyone.</h3>
