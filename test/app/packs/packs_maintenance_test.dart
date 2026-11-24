@@ -58,6 +58,9 @@ class _FakeMaintenance implements PackMaintenance {
     if (verifyError != null) throw verifyError!;
     return checks ?? const [];
   }
+
+  @override
+  Future<String> installDelivered(String id) async => id;
 }
 
 Future<void> _pump(WidgetTester tester, AppFakes f, PackMaintenance maintenance) => pumpWithServices(

@@ -21,3 +21,9 @@
 # Wave 3: native inference. JNI looks these classes, fields and methods up by name.
 -keep class com.k2fsa.sherpa.onnx.** { *; }
 -keep class ai.onnxruntime.** { *; }
+
+# Play flavour: WorkManager (pulled in by Play Asset Delivery) creates its Room database by reflection
+# (WorkDatabase_Impl). Without these rules R8 strips the constructor and the app crashes at start-up
+# ("Failed to create an instance of class androidx.work.impl.WorkDatabase"). Harmless in the foss build.
+-keep class * extends androidx.room.RoomDatabase { <init>(); }
+-keep class androidx.work.impl.WorkDatabase_Impl { <init>(); }

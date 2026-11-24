@@ -76,6 +76,10 @@ abstract interface class PackMaintenance {
 
   /// Re-checks every installed pack. Throws [PackMaintenanceUnavailable] when this build cannot.
   Future<List<PackCheck>> verifyInstalled();
+
+  /// Verifies and installs the pack the store has delivered for [id], and returns its display name. Throws
+  /// a PlatformException with code `not_delivered` when the store has not delivered it yet, or with the import codes.
+  Future<String> installDelivered(String id);
 }
 
 /// The default until the bridge supports maintenance: import-only, nothing to check, storage unknown.
@@ -96,6 +100,9 @@ class UnavailablePackMaintenance implements PackMaintenance {
 
   @override
   Future<List<PackCheck>> verifyInstalled() async => throw const PackMaintenanceUnavailable();
+
+  @override
+  Future<String> installDelivered(String id) async => throw const PackMaintenanceUnavailable();
 }
 
 /// The real thing: maintenance through the settings-app Pigeon calls. Create it with [load], which reads
@@ -140,6 +147,9 @@ class BridgePackMaintenance implements PackMaintenance {
         PackCheck(id: c.id, manifestOk: c.manifestOk, missingFiles: c.missingFiles, damagedFiles: c.damagedFiles),
     ];
   }
+
+  @override
+  Future<String> installDelivered(String id) async => (await _api.installDeliveredPack(id)).name;
 
   static PackOfferStatus _status(PackOfferStatusMessage m) => switch (m) {
     PackOfferStatusMessage.notRequested => PackOfferStatus.notRequested,

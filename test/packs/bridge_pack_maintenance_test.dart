@@ -29,7 +29,14 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   tearDown(() {
-    for (final call in ['packDelivery', 'packOffers', 'requestPack', 'packStorage', 'verifyPacks']) {
+    for (final call in [
+      'packDelivery',
+      'packOffers',
+      'requestPack',
+      'packStorage',
+      'verifyPacks',
+      'installDeliveredPack',
+    ]) {
       _messenger.setMockMessageHandler('$_host$call', null);
     }
   });
@@ -88,5 +95,29 @@ void main() {
     _fail('requestPack', 'unsupported');
     final m = await BridgePackMaintenance.load(AppHostApi());
     await expectLater(m.request('x'), throwsA(isA<PlatformException>().having((e) => e.code, 'code', 'unsupported')));
+  });
+
+  test('installing a delivered pack returns its name; not delivered surfaces the code', () async {
+    _answer('packDelivery', 'store');
+    _answer(
+      'installDeliveredPack',
+      PackInfoMessage(
+        id: 'dict-ja-mozc',
+        kind: PackKind.dictionary,
+        name: 'Japanese dictionary (Mozc)',
+        version: 1,
+        languages: ['ja'],
+        sizeBytes: 1,
+        engine: 'mozc',
+        license: 'BSD-3-Clause',
+      ),
+    );
+    final m = await BridgePackMaintenance.load(AppHostApi());
+    expect(await m.installDelivered('dict-ja-mozc'), 'Japanese dictionary (Mozc)');
+    _fail('installDeliveredPack', 'not_delivered');
+    await expectLater(
+      m.installDelivered('dict-ja-mozc'),
+      throwsA(isA<PlatformException>().having((e) => e.code, 'code', 'not_delivered')),
+    );
   });
 }
