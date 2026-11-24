@@ -8,6 +8,7 @@ import 'package:incogboard/src/app/l10n.dart';
 import 'package:incogboard/src/app/packs/packs_screen.dart';
 import 'package:incogboard/src/app/privacy/privacy_format.dart';
 import 'package:incogboard/src/bridge/messages.g.dart';
+import 'package:incogboard/src/packs/pack_catalog.dart';
 import 'package:incogboard/src/packs/pack_maintenance.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:mocktail/mocktail.dart';
@@ -91,7 +92,7 @@ void main() {
       find.text('Google Play downloads these packs, not IncogBoard. IncogBoard itself never uses the network.'),
       findsNothing,
     );
-    expect(find.text('Download'), findsNWidgets(4), reason: 'every published pack is offered');
+    expect(find.text('Download'), findsNWidgets(kPackCatalog.length), reason: 'every published pack is offered');
 
     final copy = find.text('Copy the release page link');
     await tester.ensureVisible(copy);
@@ -108,7 +109,11 @@ void main() {
 
     await _pump(tester, f, _FakeMaintenance());
 
-    expect(find.text('Download'), findsNWidgets(3), reason: 'the installed translation pack is not offered');
+    expect(
+      find.text('Download'),
+      findsNWidgets(kPackCatalog.length - 1),
+      reason: 'the installed translation pack is not offered',
+    );
     expect(find.text('English → Spanish'), findsOneWidget, reason: 'only as an installed pack');
     final voice = find.ancestor(
       of: find.text('Voice typing (Whisper base, 16 languages)'),
