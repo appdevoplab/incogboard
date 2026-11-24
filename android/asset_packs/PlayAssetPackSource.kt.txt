@@ -2,12 +2,12 @@
 //
 // PLAY FLAVOUR ONLY. OWNER: Wave 5-C. Not compiled yet, on purpose: the default build has no Play
 // library. When Agent B's `play` flavour lands:
-//   1. move this file to android/app/src/play/kotlin/app/kosha/keyboard/packs/PlayAssetPackSource.kt
+//   1. move this file to android/app/src/play/kotlin/app/incogboard/keyboard/packs/PlayAssetPackSource.kt
 //   2. in packs/PackSource.kt, make PackSources.forBuild return PlayAssetPackSource(context)
 //   3. add the dependencies and asset packs (docs/release/asset-packs.md, "Patches for Agent B")
 // The API names below follow the Play Asset Delivery reference (AssetPackManager, AssetPackState,
 // AssetPackLocation); check them against the library version you build with before moving the file.
-package app.kosha.keyboard.packs
+package app.incogboard.keyboard.packs
 
 import android.content.Context
 import com.google.android.play.core.assetpacks.AssetPackManager

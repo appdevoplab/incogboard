@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// Advisory check (Wave 5-A): sends the pub.dev and Maven coordinates of Kosha's release build to the
+// Advisory check (Wave 5-A): sends the pub.dev and Maven coordinates of IncogBoard's release build to the
 // OSV database (https://api.osv.dev, query API) and prints the known advisories.
 //
 // Usage, from the repository root (after `flutter pub get`):

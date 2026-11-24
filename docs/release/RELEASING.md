@@ -1,6 +1,6 @@
-# Releasing Kosha
+# Releasing IncogBoard
 
-This is the procedure for building, signing, checking and publishing Kosha. Nothing in the repository
+This is the procedure for building, signing, checking and publishing IncogBoard. Nothing in the repository
 publishes by itself. The steps that need a person (accounts, keys, store consoles) are listed in
 `checklist.md`.
 
@@ -16,7 +16,7 @@ in Gradle (`android/app/build.gradle.kts`) and resources (`android/app/src/foss/
 Neither flavour requests `INTERNET`, and `play` must never add it. The permission gate runs on both.
 
 The Dart code cannot see the flavour yet. Showing "Built for Google Play" in the About screen needs a Pigeon
-method (for example `getDistribution()`) that returns the `kosha_distribution` resource. That change is not
+method (for example `getDistribution()`) that returns the `incogboard_distribution` resource. That change is not
 made in Wave 5.
 
 Commands:
@@ -37,24 +37,24 @@ APK names follow Flutter: `app-<abi>-<flavour>-release.apk` (for example `app-ar
 
 ## applicationId and namespace
 
-The applicationId is a placeholder: `app.kosha.keyboard`. It becomes `io.github.<username>.kosha` before the
+The applicationId is a placeholder: `app.incogboard.keyboard`. It becomes `io.github.<username>.incogboard` before the
 first store release, once the username is known. The change is made in one command:
 
 ```
-powershell -ExecutionPolicy Bypass -File tool\release\set_application_id.ps1 io.github.<username>.kosha -DryRun
-powershell -ExecutionPolicy Bypass -File tool\release\set_application_id.ps1 io.github.<username>.kosha
+powershell -ExecutionPolicy Bypass -File tool\release\set_application_id.ps1 io.github.<username>.incogboard -DryRun
+powershell -ExecutionPolicy Bypass -File tool\release\set_application_id.ps1 io.github.<username>.incogboard
 ```
 
 The places that name the applicationId:
 
-- `android/app/build.gradle.kts`: the constant `koshaApplicationId`. This is the only value the build reads.
-- `tool/adb_ime.ps1`: `$script:Pkg`. The IME component (`<id>/.ime.KoshaImeService`) is derived from it.
+- `android/app/build.gradle.kts`: the constant `incogboardApplicationId`. This is the only value the build reads.
+- `tool/adb_ime.ps1`: `$script:Pkg`. The IME component (`<id>/.ime.IncogBoardImeService`) is derived from it.
 - `tool/bench/device_bench.ps1`: the `-Package` default.
-- `metadata/app.kosha.keyboard.yml`: the F-Droid recipe. The file is renamed to match the id.
+- `metadata/app.incogboard.keyboard.yml`: the F-Droid recipe. The file is renamed to match the id.
 - Release documents under `docs/release/`: every mention of the id, except lines that talk about the namespace.
 - Not changed: the About source link (`KOSHA_SOURCE_URL`, a build define), which the user sets when the repository URL is final.
 
-The namespace and Kotlin package stay `app.kosha.keyboard`. Android allows the applicationId and the namespace
+The namespace and Kotlin package stay `app.incogboard.keyboard`. Android allows the applicationId and the namespace
 to differ: the namespace is only the Kotlin package and the generated `R` class, and it does not appear on
 the device. Changing it would mean renaming every Kotlin file and the JNI names, so it is deliberately kept.
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Renders the Kosha brand: SVG sources, Android vector drawables, launcher PNGs and store art.
+"""Renders the IncogBoard brand: SVG sources, Android vector drawables, launcher PNGs and store art.
 
 The treasure chest is defined once below on a 108 x 108 grid (the adaptive-icon canvas; the
 safe zone is the inner 66 x 66 square). Every output is generated from these shapes:
@@ -14,7 +14,7 @@ safe zone is the inner 66 x 66 square). Every output is generated from these sha
   docs/brand/screenshot_frame.svg                store screenshot template with caption space
   docs/brand/icon-masks.png                      preview: masks, themed icon, 48 px
 
-The Dart poses in lib/src/app/onboarding/kosha_mascot.dart are a hand port of the same layout
+The Dart poses in lib/src/app/onboarding/incogboard_mascot.dart are a hand port of the same layout
 (drawn with the theme's colour scheme). Keep the two in step when the geometry changes.
 
 Run from anywhere:  python tool/brand/render.py
@@ -29,7 +29,7 @@ from PIL import Image, ImageChops, ImageDraw, ImageFont
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 SS = 4  # supersampling factor for anti-aliased rasters
 
-# Palette. Gold is the seed colour of the brand scheme (koshaYellow); brown is koshaBrown.
+# Palette. Gold is the seed colour of the brand scheme (incogboardYellow); brown is incogboardBrown.
 GOLD = '#EFB33A'
 GOLD_LIGHT = '#FFE3A1'
 GOLD_GLOW = '#FFF1C7'
@@ -298,7 +298,7 @@ def feature_graphic():
     sub = ImageFont.truetype(font_path, 44)
     small = ImageFont.truetype(font_path, 28)
     draw = ImageDraw.Draw(img)
-    draw.text((440, 96), 'Kosha', font=title, fill=hex_rgba(GOLD))
+    draw.text((440, 96), 'IncogBoard', font=title, fill=hex_rgba(GOLD))
     draw.text((446, 300), 'Your words, kept with you.', font=sub, fill=hex_rgba(CREAM))
     draw.text((446, 362), 'Works offline. Nothing leaves your phone.', font=small, fill=hex_rgba(MUTE_LIGHT))
     return img.convert('RGB').convert('RGBA')
@@ -381,22 +381,22 @@ def masks_sheet():
 
 def main():
     # SVG sources.
-    write_text('assets/brand/icon_background.svg', to_svg(background_layers(), 'Kosha icon background'))
-    write_text('assets/brand/icon_foreground.svg', to_svg(foreground_layers(), 'Kosha icon foreground'))
-    write_text('assets/brand/icon_monochrome.svg', to_svg(monochrome_layers(), 'Kosha themed (monochrome) icon'))
-    write_text('assets/brand/kosha_icon.svg', to_svg(icon_layers(), 'Kosha icon, full colour'))
+    write_text('assets/brand/icon_background.svg', to_svg(background_layers(), 'IncogBoard icon background'))
+    write_text('assets/brand/icon_foreground.svg', to_svg(foreground_layers(), 'IncogBoard icon foreground'))
+    write_text('assets/brand/icon_monochrome.svg', to_svg(monochrome_layers(), 'IncogBoard themed (monochrome) icon'))
+    write_text('assets/brand/incogboard_icon.svg', to_svg(icon_layers(), 'IncogBoard icon, full colour'))
     for name, make in POSES.items():
-        write_text(f'assets/brand/{name}.svg', to_svg(make(), f'Kosha chest pose: {name[5:]}'))
+        write_text(f'assets/brand/{name}.svg', to_svg(make(), f'IncogBoard chest pose: {name[5:]}'))
     write_text('docs/brand/screenshot_frame.svg', screenshot_frame_svg())
 
     # Android vector drawables.
     res = 'android/app/src/main/res/drawable'
     write_text(f'{res}/ic_launcher_foreground.xml',
-               to_vector_drawable(foreground_layers(), 'Kosha adaptive icon foreground (chest)'))
+               to_vector_drawable(foreground_layers(), 'IncogBoard adaptive icon foreground (chest)'))
     write_text(f'{res}/ic_launcher_monochrome.xml',
-               to_vector_drawable(monochrome_layers(), 'Kosha themed icon (Android 13+), keycap as negative space'))
+               to_vector_drawable(monochrome_layers(), 'IncogBoard themed icon (Android 13+), keycap as negative space'))
     write_text(f'{res}/splash_chest.xml',
-               to_vector_drawable(foreground_layers(), 'Kosha splash chest (SplashScreen API and launch background)'))
+               to_vector_drawable(foreground_layers(), 'IncogBoard splash chest (SplashScreen API and launch background)'))
 
     # Legacy launcher PNGs (pre-Android 8 and fallback).
     for density, px in (('mdpi', 48), ('hdpi', 72), ('xhdpi', 96), ('xxhdpi', 144), ('xxxhdpi', 192)):

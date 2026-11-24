@@ -42,7 +42,7 @@ chmod 600 "$PASSFILE"
 echo "==> Creating the RSA 4096 release keystore (valid 30 years)"
 keytool -genkeypair -noprompt \
   -alias "$ALIAS" -keyalg RSA -keysize 4096 -sigalg SHA256withRSA -validity 10950 \
-  -dname 'CN=Kosha release key, O=Kosha project' \
+  -dname 'CN=IncogBoard release key, O=IncogBoard project' \
   -storetype PKCS12 -keystore "$KEYSTORE" \
   -storepass:file "$PASSFILE" -keypass:file "$PASSFILE"
 chmod 600 "$KEYSTORE"

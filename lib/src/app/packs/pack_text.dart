@@ -7,7 +7,7 @@ import '../../engine/lang/registry.dart';
 import '../../packs/pack_maintenance.dart';
 import '../privacy/privacy_format.dart';
 
-import 'package:kosha/src/app/l10n.dart';
+import 'package:incogboard/src/app/l10n.dart';
 
 /// The message for an import that failed with [code] (the codes of `AppHostApi.importPack`).
 String importErrorText(String code, AppLocalizations l10n) => switch (code) {

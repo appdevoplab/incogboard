@@ -46,8 +46,8 @@ class _VoiceFeature extends KeyboardFeature {
     };
     panel = VoicePanel(
       controller: controller,
-      openSettings: () => _openRoute(session, KoshaRoutes.voice),
-      openPacks: () => _openRoute(session, KoshaRoutes.packs),
+      openSettings: () => _openRoute(session, IncogBoardRoutes.voice),
+      openPacks: () => _openRoute(session, IncogBoardRoutes.packs),
     );
     session.openPanel(panel);
     unawaited(controller.begin());

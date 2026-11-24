@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   Languages the settings app is translated into. Android 13 and later lets the user pick one of
-  these per app (Settings > Apps > Kosha > Language). Must match lib/l10n/app_*.arb.
+  these per app (Settings > Apps > IncogBoard > Language). Must match lib/l10n/app_*.arb.
   The manifest refers to this file with android:localeConfig="@xml/locales_config".
 -->
 <locale-config xmlns:android="http://schemas.android.com/apk/res/android">

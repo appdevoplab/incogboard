@@ -25,7 +25,7 @@ before the listing goes live (see `checklist.md`).
 
 - **Play:** Tools (primary). Alternative: Productivity. Tags are not a Play field; use the keyword text in the
   description only.
-- **F-Droid:** Writing (in `metadata/app.kosha.keyboard.yml`).
+- **F-Droid:** Writing (in `metadata/app.incogboard.keyboard.yml`).
 - **Content rating:** see `data-safety.md`, section 5. Expected lowest age band.
 - **Contact details:** the developer email is `<contact email>` in `privacy-policy.md`. Play requires a contact
   email and a privacy policy URL; the website is optional (the repository URL can be given).

@@ -3,9 +3,9 @@
 // Small widgets shared by the privacy screens.
 import 'package:material_ui/material_ui.dart';
 
-import '../onboarding/kosha_mascot.dart';
+import '../onboarding/incogboard_mascot.dart';
 
-import 'package:kosha/src/app/l10n.dart';
+import 'package:incogboard/src/app/l10n.dart';
 
 /// The mascot at the top of the privacy screens.
 class PrivacyMascotSlot extends StatelessWidget {
@@ -15,7 +15,7 @@ class PrivacyMascotSlot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) =>
-      KoshaMascot(size: size, label: context.l10n.privacyMascotLabel, pose: KoshaPose.locked);
+      IncogBoardMascot(size: size, label: context.l10n.privacyMascotLabel, pose: IncogBoardPose.locked);
 }
 
 /// A status card: a green card for good news, an error card for problems, neutral otherwise.

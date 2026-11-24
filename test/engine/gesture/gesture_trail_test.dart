@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/engine/contracts.dart';
-import 'package:kosha/src/keyboard/gesture_layer/gesture_trail.dart';
-import 'package:kosha/src/theme/keyboard_theme_data.dart';
+import 'package:incogboard/src/engine/contracts.dart';
+import 'package:incogboard/src/keyboard/gesture_layer/gesture_trail.dart';
+import 'package:incogboard/src/theme/keyboard_theme_data.dart';
 
 void main() {
   group('GestureTrailController', () {

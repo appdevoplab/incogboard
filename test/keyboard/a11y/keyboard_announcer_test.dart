@@ -4,10 +4,10 @@
 // typed text: every message is one of the fixed event names below.
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/keyboard/a11y/candidate_labels.dart';
-import 'package:kosha/src/keyboard/a11y/keyboard_announcer.dart';
-import 'package:kosha/src/keyboard/input/input_controller.dart';
-import 'package:kosha/src/keyboard/input/keyboard_page.dart';
+import 'package:incogboard/src/keyboard/a11y/candidate_labels.dart';
+import 'package:incogboard/src/keyboard/a11y/keyboard_announcer.dart';
+import 'package:incogboard/src/keyboard/input/input_controller.dart';
+import 'package:incogboard/src/keyboard/input/keyboard_page.dart';
 
 void main() {
   late List<String> sent;

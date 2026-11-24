@@ -5,16 +5,16 @@
 // and the voice event stream.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/bridge/messages.g.dart';
-import 'package:kosha/src/core/input_field_info.dart';
-import 'package:kosha/src/engine/contracts.dart';
-import 'package:kosha/src/engine/lang/registry.dart';
-import 'package:kosha/src/keyboard/input/keyboard_page.dart';
-import 'package:kosha/src/keyboard/keyboard_app.dart';
-import 'package:kosha/src/keyboard/keyboard_session.dart';
-import 'package:kosha/src/keyboard/layout/layout_model.dart';
-import 'package:kosha/src/keyboard/layout/layout_repository.dart';
-import 'package:kosha/src/settings/kosha_settings.dart';
+import 'package:incogboard/src/bridge/messages.g.dart';
+import 'package:incogboard/src/core/input_field_info.dart';
+import 'package:incogboard/src/engine/contracts.dart';
+import 'package:incogboard/src/engine/lang/registry.dart';
+import 'package:incogboard/src/keyboard/input/keyboard_page.dart';
+import 'package:incogboard/src/keyboard/keyboard_app.dart';
+import 'package:incogboard/src/keyboard/keyboard_session.dart';
+import 'package:incogboard/src/keyboard/layout/layout_model.dart';
+import 'package:incogboard/src/keyboard/layout/layout_repository.dart';
+import 'package:incogboard/src/settings/incogboard_settings.dart';
 
 import 'support/app_harness.dart';
 
@@ -31,7 +31,7 @@ class _Probe extends KeyboardFeature {
   }
 }
 
-const _multi = KoshaSettings(
+const _multi = IncogBoardSettings(
   languages: LanguageSettings(enabled: ['en', 'de', 'hi', 'ru'], layouts: {'de': 'qwerty'}),
 );
 
@@ -161,7 +161,7 @@ void main() {
 
     Future<(AppHarness, KeyboardSession)> boot(
       WidgetTester tester,
-      KoshaSettings settings, [
+      IncogBoardSettings settings, [
       EditorInfoMessage? f,
     ]) async {
       final h = AppHarness(settings: settings);
@@ -180,7 +180,7 @@ void main() {
     }
 
     testWidgets('space commits the native word even with autocorrect off', (tester) async {
-      final (h, s) = await boot(tester, const KoshaSettings(typing: TypingSettings(autoCorrect: false)));
+      final (h, s) = await boot(tester, const IncogBoardSettings(typing: TypingSettings(autoCorrect: false)));
       type(s, 'namaste');
       await tester.pump();
       expect(h.editor.text, 'नमस्ते ');
@@ -189,7 +189,7 @@ void main() {
     testWidgets('never in URL fields', (tester) async {
       final (h, s) = await boot(
         tester,
-        const KoshaSettings(),
+        const IncogBoardSettings(),
         editorInfo(inputType: AndroidInputType.classText | AndroidInputType.textVariationUri),
       );
       type(s, 'namaste');

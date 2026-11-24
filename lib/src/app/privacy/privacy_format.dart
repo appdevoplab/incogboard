@@ -7,7 +7,7 @@ import '../../core/data_sections.dart';
 import '../../engine/lang/registry.dart';
 import '../../security/shortcuts_store.dart';
 
-import 'package:kosha/src/app/l10n.dart';
+import 'package:incogboard/src/app/l10n.dart';
 
 /// The language's name in English (LanguageInfo), or its code when it is not known.
 String languageName(String code) => languageInfo(code).englishName;

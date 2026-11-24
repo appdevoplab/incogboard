@@ -6,7 +6,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:material_ui/material_ui.dart' show Icons;
 
-import '../../settings/kosha_settings.dart';
+import '../../settings/incogboard_settings.dart';
 import '../../theme/keyboard_theme_data.dart';
 import '../panels/keyboard_panel.dart';
 import 'mode_geometry.dart';

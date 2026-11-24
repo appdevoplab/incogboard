@@ -12,7 +12,7 @@ import '../../engine/contracts.dart' show LanguageId;
 import '../../engine/lang/registry.dart';
 import '../../keyboard/keyboard_session.dart';
 import '../../keyboard/panels/keyboard_panel.dart';
-import '../../settings/kosha_settings.dart';
+import '../../settings/incogboard_settings.dart';
 import '../shared/panel_style.dart';
 
 /// The space-bar language picker (opened with [KeyboardSession.openPanel]).

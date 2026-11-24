@@ -5,10 +5,10 @@
 import 'package:material_ui/material_ui.dart';
 
 import '../../keyboard/preview/keyboard_preview.dart';
-import '../../settings/kosha_settings.dart';
+import '../../settings/incogboard_settings.dart';
 import '../../theme/keyboard_theme_data.dart';
 
-import 'package:kosha/src/app/l10n.dart';
+import 'package:incogboard/src/app/l10n.dart';
 
 class ThemeCard extends StatelessWidget {
   const ThemeCard({
@@ -23,7 +23,7 @@ class ThemeCard extends StatelessWidget {
   });
 
   final KeyboardThemeData theme;
-  final KoshaSettings settings;
+  final IncogBoardSettings settings;
   final String name;
   final bool selected;
   final VoidCallback onTap;

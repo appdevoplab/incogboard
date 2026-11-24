@@ -111,7 +111,7 @@ abstract class AppLocalizations {
   /// The app's name. Never translated; keep it as it is in every language
   ///
   /// In en, this message translates to:
-  /// **'Kosha'**
+  /// **'IncogBoard'**
   String get appName;
 
   /// Home screen header, under the app name. Max 40 characters
@@ -123,7 +123,7 @@ abstract class AppLocalizations {
   /// Home screen header: the privacy promise. Two lines at most
   ///
   /// In en, this message translates to:
-  /// **'Kosha works offline and sends nothing anywhere.'**
+  /// **'IncogBoard works offline and sends nothing anywhere.'**
   String get homeOfflinePromise;
 
   /// Dialog and sheet cancel button
@@ -228,22 +228,22 @@ abstract class AppLocalizations {
   /// **'Model packs'**
   String get settingsModelPacks;
 
-  /// Home hint while Kosha is off. Two lines at most
+  /// Home hint while IncogBoard is off. Two lines at most
   ///
   /// In en, this message translates to:
-  /// **'Turn Kosha on in Android\'s keyboard list.'**
+  /// **'Turn IncogBoard on in Android\'s keyboard list.'**
   String get homeSetupTurnOn;
 
-  /// Home hint when Kosha is on but not chosen. Two lines at most
+  /// Home hint when IncogBoard is on but not chosen. Two lines at most
   ///
   /// In en, this message translates to:
-  /// **'Choose Kosha as the keyboard you type with.'**
+  /// **'Choose IncogBoard as the keyboard you type with.'**
   String get homeSetupChoose;
 
   /// Home card title while setup is unfinished. Max 40 characters
   ///
   /// In en, this message translates to:
-  /// **'Finish setting up Kosha'**
+  /// **'Finish setting up IncogBoard'**
   String get homeFinishSetup;
 
   /// Home row subtitle for typing. Max 60 characters
@@ -321,7 +321,7 @@ abstract class AppLocalizations {
   /// About privacy tile title. Max 50 characters
   ///
   /// In en, this message translates to:
-  /// **'Kosha cannot use the internet'**
+  /// **'IncogBoard cannot use the internet'**
   String get aboutNoInternet;
 
   /// About privacy tile. Two lines at most
@@ -345,7 +345,7 @@ abstract class AppLocalizations {
   /// About licence tile. Two lines at most
   ///
   /// In en, this message translates to:
-  /// **'Kosha is free software. You may study, change and share it under the GPL.'**
+  /// **'IncogBoard is free software. You may study, change and share it under the GPL.'**
   String get aboutGplBody;
 
   /// About section title
@@ -357,7 +357,7 @@ abstract class AppLocalizations {
   /// About source tile. Two lines at most
   ///
   /// In en, this message translates to:
-  /// **'Kosha is GPL-3.0-or-later. Its source code is available from the project page.'**
+  /// **'IncogBoard is GPL-3.0-or-later. Its source code is available from the project page.'**
   String get aboutSourceBody;
 
   /// About section title, for the open-source list
@@ -375,7 +375,7 @@ abstract class AppLocalizations {
   /// About tile subtitle. Lists the libraries. Two lines at most
   ///
   /// In en, this message translates to:
-  /// **'Flutter, material_ui and every package Kosha uses'**
+  /// **'Flutter, material_ui and every package IncogBoard uses'**
   String get aboutOpenSourceBody;
 
   /// About screen: a licence text failed to load
@@ -981,7 +981,7 @@ abstract class AppLocalizations {
   /// Packs: shown when the file picker fails
   ///
   /// In en, this message translates to:
-  /// **'Kosha could not open the file picker.'**
+  /// **'IncogBoard could not open the file picker.'**
   String get packsOpenFailed;
 
   /// Packs: snackbar after a pack installs. {name} is the pack name
@@ -1011,7 +1011,7 @@ abstract class AppLocalizations {
   /// Packs: shown when a delete fails. {name} is the pack name
   ///
   /// In en, this message translates to:
-  /// **'Kosha could not delete {name}. Try again.'**
+  /// **'IncogBoard could not delete {name}. Try again.'**
   String packsDeleteFailed(String name);
 
   /// Packs: explains packs. Two lines at most
@@ -1122,10 +1122,10 @@ abstract class AppLocalizations {
   /// **'Get through Google Play'**
   String get packsPlayTitle;
 
-  /// Packs: note that Google Play downloads the packs and Kosha does not use the network
+  /// Packs: note that Google Play downloads the packs and IncogBoard does not use the network
   ///
   /// In en, this message translates to:
-  /// **'Google Play downloads these packs, not Kosha. Kosha itself never uses the network.'**
+  /// **'Google Play downloads these packs, not IncogBoard. IncogBoard itself never uses the network.'**
   String get packsPlayNote;
 
   /// Packs: button that asks Google Play for a pack
@@ -1152,7 +1152,7 @@ abstract class AppLocalizations {
   /// **'Downloading through Google Play'**
   String get packsStatusDownloading;
 
-  /// Packs: status while Kosha verifies and installs a pack from Play
+  /// Packs: status while IncogBoard verifies and installs a pack from Play
   ///
   /// In en, this message translates to:
   /// **'Checking and installing'**
@@ -1197,13 +1197,13 @@ abstract class AppLocalizations {
   /// Packs: shown when this build cannot verify packs yet
   ///
   /// In en, this message translates to:
-  /// **'Checking installed packs is not available in this version of Kosha.'**
+  /// **'Checking installed packs is not available in this version of IncogBoard.'**
   String get packsVerifyUnavailable;
 
   /// Packs: shown when the verify action itself failed
   ///
   /// In en, this message translates to:
-  /// **'Kosha could not check the packs. Nothing was changed.'**
+  /// **'IncogBoard could not check the packs. Nothing was changed.'**
   String get packsVerifyFailed;
 
   /// Packs: free storage for packs. Max 60 characters
@@ -1227,13 +1227,13 @@ abstract class AppLocalizations {
   /// Pack install error: the signature is wrong. Two lines at most
   ///
   /// In en, this message translates to:
-  /// **'This pack is not signed for Kosha, so nothing was installed.'**
+  /// **'This pack is not signed for IncogBoard, so nothing was installed.'**
   String get packErrorBadSignature;
 
   /// Pack install error: wrong file. Two lines at most
   ///
   /// In en, this message translates to:
-  /// **'This file is not a Kosha pack. Nothing was installed.'**
+  /// **'This file is not a IncogBoard pack. Nothing was installed.'**
   String get packErrorBadFormat;
 
   /// Pack install error: too big. Two lines at most
@@ -1245,7 +1245,7 @@ abstract class AppLocalizations {
   /// Pack install error: version too old. Two lines at most
   ///
   /// In en, this message translates to:
-  /// **'This pack needs a newer version of Kosha.'**
+  /// **'This pack needs a newer version of IncogBoard.'**
   String get packErrorVersion;
 
   /// Pack install error: no storage. Two lines at most
@@ -1335,7 +1335,7 @@ abstract class AppLocalizations {
   /// Shown by the system fingerprint prompt. Max 60 characters
   ///
   /// In en, this message translates to:
-  /// **'Unlock Kosha to see your settings and data'**
+  /// **'Unlock IncogBoard to see your settings and data'**
   String get privacyUnlockReason;
 
   /// App lock: the device lock cannot be used now. Two lines at most
@@ -1347,7 +1347,7 @@ abstract class AppLocalizations {
   /// App lock screen title. Max 30 characters
   ///
   /// In en, this message translates to:
-  /// **'Kosha is locked'**
+  /// **'IncogBoard is locked'**
   String get privacyLockedTitle;
 
   /// App lock screen: explains how to unlock. Two lines at most
@@ -1389,19 +1389,19 @@ abstract class AppLocalizations {
   /// Restore: wrong file type. Two lines at most
   ///
   /// In en, this message translates to:
-  /// **'This file is not a valid Kosha backup. Nothing was changed.'**
+  /// **'This file is not a valid IncogBoard backup. Nothing was changed.'**
   String get backupInvalidFile;
 
   /// Restore: file too big. Two lines at most
   ///
   /// In en, this message translates to:
-  /// **'This file is too large to be a Kosha backup.'**
+  /// **'This file is too large to be a IncogBoard backup.'**
   String get backupTooLarge;
 
   /// Restore: backup from a newer app. Two lines at most
   ///
   /// In en, this message translates to:
-  /// **'This backup was made by a newer version of Kosha. Update Kosha to restore it.'**
+  /// **'This backup was made by a newer version of IncogBoard. Update IncogBoard to restore it.'**
   String get backupNewerVersion;
 
   /// Restore: another file window is open. Two lines at most
@@ -1431,7 +1431,7 @@ abstract class AppLocalizations {
   /// Restore: when and with which version the backup was made. {date} and {version} are text
   ///
   /// In en, this message translates to:
-  /// **'Made {date} by Kosha {version}.'**
+  /// **'Made {date} by IncogBoard {version}.'**
   String backupMadeBy(String date, String version);
 
   /// Restore: choice to add to existing data. Max 20 characters
@@ -1485,7 +1485,7 @@ abstract class AppLocalizations {
   /// Restore: failed partway. Two lines at most
   ///
   /// In en, this message translates to:
-  /// **'Kosha could not finish the restore. Some data may not have been written.'**
+  /// **'IncogBoard could not finish the restore. Some data may not have been written.'**
   String get backupRestoreFailed;
 
   /// Restore summary when nothing was added. Max 40 characters
@@ -1641,19 +1641,19 @@ abstract class AppLocalizations {
   /// Learned words: failed to load. Two lines at most
   ///
   /// In en, this message translates to:
-  /// **'Kosha could not read these words.'**
+  /// **'IncogBoard could not read these words.'**
   String get privacyCouldNotReadWords;
 
   /// Learned words: locked data. Two lines at most
   ///
   /// In en, this message translates to:
-  /// **'Kosha cannot read these words right now. Unlock your phone, then try again.'**
+  /// **'IncogBoard cannot read these words right now. Unlock your phone, then try again.'**
   String get privacyCannotReadWordsNow;
 
   /// Learned words: empty list. Two lines at most
   ///
   /// In en, this message translates to:
-  /// **'No words learned in this language yet. Kosha learns a word after you type it a few times.'**
+  /// **'No words learned in this language yet. IncogBoard learns a word after you type it a few times.'**
   String get privacyNoWordsLanguage;
 
   /// Learned words: button tooltip with the blocked count. Max 30 characters
@@ -1725,7 +1725,7 @@ abstract class AppLocalizations {
   /// Learned words: explains blocked words. Two lines at most
   ///
   /// In en, this message translates to:
-  /// **'Kosha will not suggest or correct to these words.'**
+  /// **'IncogBoard will not suggest or correct to these words.'**
   String get privacyBlockedExplain;
 
   /// Learned words: empty blocked list. Max 40 characters
@@ -1791,19 +1791,19 @@ abstract class AppLocalizations {
   /// Privacy center: failed to load. Two lines at most
   ///
   /// In en, this message translates to:
-  /// **'Kosha could not read its privacy data. Try again later.'**
+  /// **'IncogBoard could not read its privacy data. Try again later.'**
   String get privacyCenterLoadFailed;
 
   /// Privacy center: a release build asks for internet. Two lines at most
   ///
   /// In en, this message translates to:
-  /// **'This build requests internet access. Kosha should never do that. Please report it.'**
+  /// **'This build requests internet access. IncogBoard should never do that. Please report it.'**
   String get privacyDevBuildNetwork;
 
   /// Privacy center: release build status. Two lines at most
   ///
   /// In en, this message translates to:
-  /// **'Kosha has no internet permission. It cannot send anything.'**
+  /// **'IncogBoard has no internet permission. It cannot send anything.'**
   String get privacyNoInternetPermission;
 
   /// Privacy center: debug build status. Two lines at most
@@ -1815,7 +1815,7 @@ abstract class AppLocalizations {
   /// Privacy center: short debug build status. Two lines at most
   ///
   /// In en, this message translates to:
-  /// **'Development build. Kosha still has no internet permission.'**
+  /// **'Development build. IncogBoard still has no internet permission.'**
   String get privacyDevBuildShort;
 
   /// Privacy center: stored data size and when it changed. {size} is a size, {when} a time phrase
@@ -1845,13 +1845,13 @@ abstract class AppLocalizations {
   /// Privacy center: group title. Max 30 characters
   ///
   /// In en, this message translates to:
-  /// **'What Kosha stores'**
-  String get privacyWhatKoshaStores;
+  /// **'What IncogBoard stores'**
+  String get privacyWhatIncogBoardStores;
 
   /// Privacy center: explains sizes. Three lines at most
   ///
   /// In en, this message translates to:
-  /// **'Kosha shows only sizes here, never what is inside. Sizes include the last saved copy, which keeps your data safe if a save is interrupted.'**
+  /// **'IncogBoard shows only sizes here, never what is inside. Sizes include the last saved copy, which keeps your data safe if a save is interrupted.'**
   String get privacyShowsSizesOnly;
 
   /// Privacy center: section title. Max 30 characters
@@ -1896,7 +1896,7 @@ abstract class AppLocalizations {
   /// **'Stop screenshots and screen recordings of the keyboard in every app. Password fields are always hidden.'**
   String get privacyHideScreenshotsBody;
 
-  /// Privacy center: section title for apps where Kosha turns off. Max 50 characters
+  /// Privacy center: section title for apps where IncogBoard turns off. Max 50 characters
   ///
   /// In en, this message translates to:
   /// **'Turned off automatically in these apps'**
@@ -1905,7 +1905,7 @@ abstract class AppLocalizations {
   /// Privacy center: explains the app list. Three lines at most
   ///
   /// In en, this message translates to:
-  /// **'Kosha keeps app names only to fill this list. They are encrypted, never recorded while incognito, and you can clear them below.'**
+  /// **'IncogBoard keeps app names only to fill this list. They are encrypted, never recorded while incognito, and you can clear them below.'**
   String get privacyAutoOffAppsBody;
 
   /// Privacy center: empty app list. Max 30 characters
@@ -1971,7 +1971,7 @@ abstract class AppLocalizations {
   /// Privacy center: explains learned words. Two lines at most
   ///
   /// In en, this message translates to:
-  /// **'Words you type are learned here once Kosha has seen them a few times.'**
+  /// **'Words you type are learned here once IncogBoard has seen them a few times.'**
   String get privacyWordsLearnedBody;
 
   /// Privacy center: row subtitle for learned words. {when} is a time phrase
@@ -2001,14 +2001,14 @@ abstract class AppLocalizations {
   /// Privacy center: switch title. Max 30 characters
   ///
   /// In en, this message translates to:
-  /// **'Lock Kosha'**
-  String get privacyLockKosha;
+  /// **'Lock IncogBoard'**
+  String get privacyLockIncogBoard;
 
   /// Privacy center: switch subtitle. Three lines at most
   ///
   /// In en, this message translates to:
   /// **'Ask for your fingerprint or device PIN when the app opens, or after it was in the background.'**
-  String get privacyLockKoshaBody;
+  String get privacyLockIncogBoardBody;
 
   /// Privacy center: slider and dialog title. Max 30 characters
   ///
@@ -2031,7 +2031,7 @@ abstract class AppLocalizations {
   /// Shown by the system fingerprint prompt when turning on app lock. Max 60 characters
   ///
   /// In en, this message translates to:
-  /// **'Turn on app lock for Kosha'**
+  /// **'Turn on app lock for IncogBoard'**
   String get privacyTurnOnAppLockReason;
 
   /// Privacy center: dialog title when the device lock cannot be used. Max 40 characters
@@ -2121,7 +2121,7 @@ abstract class AppLocalizations {
   /// Privacy center: deletion failed. Two lines at most
   ///
   /// In en, this message translates to:
-  /// **'Kosha could not delete everything. Try again.'**
+  /// **'IncogBoard could not delete everything. Try again.'**
   String get privacyDeleteFailed;
 
   /// Dialog confirm button for information dialogs. Max 10 characters
@@ -2397,7 +2397,7 @@ abstract class AppLocalizations {
   /// Accessibility label of the privacy mascot picture. Max 40 characters
   ///
   /// In en, this message translates to:
-  /// **'Kosha privacy mascot'**
+  /// **'IncogBoard privacy mascot'**
   String get privacyMascotLabel;
 
   /// Privacy: stored data name. Max 30 characters
@@ -2481,25 +2481,25 @@ abstract class AppLocalizations {
   /// Onboarding: step title. Max 30 characters
   ///
   /// In en, this message translates to:
-  /// **'Turn on Kosha'**
+  /// **'Turn on IncogBoard'**
   String get onboardingTurnOnTitle;
 
   /// Onboarding: step explanation. Three lines at most
   ///
   /// In en, this message translates to:
-  /// **'Android keeps a list of the keyboards you have turned on. Turn Kosha on in that list, then come back here. Kosha notices the change by itself.'**
+  /// **'Android keeps a list of the keyboards you have turned on. Turn IncogBoard on in that list, then come back here. IncogBoard notices the change by itself.'**
   String get onboardingTurnOnBody;
 
-  /// Onboarding: status when Kosha is on. Max 40 characters
+  /// Onboarding: status when IncogBoard is on. Max 40 characters
   ///
   /// In en, this message translates to:
-  /// **'Kosha is turned on.'**
+  /// **'IncogBoard is turned on.'**
   String get onboardingKeyboardOn;
 
-  /// Onboarding: status when Kosha is off. Max 40 characters
+  /// Onboarding: status when IncogBoard is off. Max 40 characters
   ///
   /// In en, this message translates to:
-  /// **'Kosha is not turned on yet.'**
+  /// **'IncogBoard is not turned on yet.'**
   String get onboardingKeyboardOff;
 
   /// Onboarding: button. Max 30 characters
@@ -2511,31 +2511,31 @@ abstract class AppLocalizations {
   /// Onboarding: step title. Max 30 characters
   ///
   /// In en, this message translates to:
-  /// **'Switch to Kosha'**
+  /// **'Switch to IncogBoard'**
   String get onboardingSwitchTitle;
 
   /// Onboarding: step explanation. Three lines at most
   ///
   /// In en, this message translates to:
-  /// **'Choose Kosha as the keyboard you type with. Android may show a short list first. This screen updates by itself.'**
+  /// **'Choose IncogBoard as the keyboard you type with. Android may show a short list first. This screen updates by itself.'**
   String get onboardingSwitchBody;
 
-  /// Onboarding: status when Kosha is chosen. Max 40 characters
+  /// Onboarding: status when IncogBoard is chosen. Max 40 characters
   ///
   /// In en, this message translates to:
-  /// **'Kosha is your keyboard.'**
+  /// **'IncogBoard is your keyboard.'**
   String get onboardingKeyboardIsYours;
 
-  /// Onboarding: status when Kosha is on but not chosen. Max 40 characters
+  /// Onboarding: status when IncogBoard is on but not chosen. Max 40 characters
   ///
   /// In en, this message translates to:
-  /// **'Kosha is not your keyboard yet.'**
+  /// **'IncogBoard is not your keyboard yet.'**
   String get onboardingKeyboardNotYours;
 
   /// Onboarding: status when the previous step is not done. Two lines at most
   ///
   /// In en, this message translates to:
-  /// **'Turn Kosha on in the previous step first.'**
+  /// **'Turn IncogBoard on in the previous step first.'**
   String get onboardingTurnOnFirst;
 
   /// Onboarding: button. Max 30 characters
@@ -2565,7 +2565,7 @@ abstract class AppLocalizations {
   /// Onboarding: privacy note. Two lines at most
   ///
   /// In en, this message translates to:
-  /// **'Kosha has no internet permission, so it cannot send anything anywhere.'**
+  /// **'IncogBoard has no internet permission, so it cannot send anything anywhere.'**
   String get onboardingNoInternet;
 
   /// Onboarding: explanation title. Max 40 characters
@@ -2577,7 +2577,7 @@ abstract class AppLocalizations {
   /// Onboarding: explanation. Four lines at most
   ///
   /// In en, this message translates to:
-  /// **'Android warns that any keyboard may collect what you type. That warning is about keyboards that can reach the internet. Kosha cannot.'**
+  /// **'Android warns that any keyboard may collect what you type. That warning is about keyboards that can reach the internet. IncogBoard cannot.'**
   String get onboardingWarningBody;
 
   /// Onboarding: privacy row title. Max 30 characters
@@ -2673,13 +2673,13 @@ abstract class AppLocalizations {
   /// Onboarding: last step explanation. Three lines at most
   ///
   /// In en, this message translates to:
-  /// **'Kosha is ready. Everything can be changed later in Settings: languages, typing, feel, panels and themes. Tap Done to finish.'**
+  /// **'IncogBoard is ready. Everything can be changed later in Settings: languages, typing, feel, panels and themes. Tap Done to finish.'**
   String get onboardingAllSetBody;
 
   /// Onboarding: screen title in the app bar. Max 30 characters
   ///
   /// In en, this message translates to:
-  /// **'Set up Kosha'**
+  /// **'Set up IncogBoard'**
   String get onboardingSetUp;
 
   /// Onboarding: progress label for screen readers. {step} and {total} are numbers
@@ -2793,7 +2793,7 @@ abstract class AppLocalizations {
   /// Themes: helper under the try-it field. Two lines at most
   ///
   /// In en, this message translates to:
-  /// **'The keyboard appears here when Kosha is selected.'**
+  /// **'The keyboard appears here when IncogBoard is selected.'**
   String get themeTryHelper;
 
   /// Themes: rename dialog title. Max 30 characters
@@ -3537,7 +3537,7 @@ abstract class AppLocalizations {
   /// Themes gallery: delete dialog text for the selected theme. Three lines at most
   ///
   /// In en, this message translates to:
-  /// **'This theme is selected. Kosha Dynamic will be used instead. This cannot be undone.'**
+  /// **'This theme is selected. IncogBoard Dynamic will be used instead. This cannot be undone.'**
   String get themeDeleteSelectedBody;
 
   /// Themes gallery: delete dialog text. Max 60 characters
@@ -3579,14 +3579,14 @@ abstract class AppLocalizations {
   /// Themes gallery: switch title. Max 50 characters
   ///
   /// In en, this message translates to:
-  /// **'Kosha Dynamic follows your wallpaper'**
-  String get themeKoshaDynamicFollows;
+  /// **'IncogBoard Dynamic follows your wallpaper'**
+  String get themeIncogBoardDynamicFollows;
 
   /// Themes gallery: switch subtitle. Two lines at most
   ///
   /// In en, this message translates to:
   /// **'Its colours update when the wallpaper changes'**
-  String get themeKoshaDynamicBody;
+  String get themeIncogBoardDynamicBody;
 
   /// Themes gallery: section title. Max 20 characters
   ///
@@ -3651,7 +3651,7 @@ abstract class AppLocalizations {
   /// Backup screen: explains how backups are protected. Three lines at most
   ///
   /// In en, this message translates to:
-  /// **'A backup is one file, encrypted with a passphrase you choose. Only that passphrase opens it. If you forget the passphrase, nobody can recover the backup, including Kosha.'**
+  /// **'A backup is one file, encrypted with a passphrase you choose. Only that passphrase opens it. If you forget the passphrase, nobody can recover the backup, including IncogBoard.'**
   String get backupExplainer;
 
   /// Privacy center: one line of a deletion list, a category name and what it holds. {title} and {detail} are text. Max 80 characters
@@ -3705,7 +3705,7 @@ abstract class AppLocalizations {
   /// Packs: list failed to load. Two lines at most
   ///
   /// In en, this message translates to:
-  /// **'Kosha could not read its packs'**
+  /// **'IncogBoard could not read its packs'**
   String get packsCouldNotRead;
 
   /// Packs: delete button tooltip. {name} is the pack name. Max 40 characters

@@ -10,4 +10,4 @@ TextPredictor createTextPredictor({
   required PackRepository packs,
   required LexiconSource lexicons,
   required SecureBlobStore store,
-}) => KoshaTextPredictor(lexicons: lexicons, store: store);
+}) => IncogBoardTextPredictor(lexicons: lexicons, store: store);

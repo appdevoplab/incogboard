@@ -18,7 +18,7 @@ import '../common/settings_widgets.dart';
 import '../privacy/privacy_format.dart';
 import 'pack_text.dart';
 
-import 'package:kosha/src/app/l10n.dart';
+import 'package:incogboard/src/app/l10n.dart';
 
 class PacksScreen extends StatefulWidget {
   const PacksScreen({super.key, this.maintenance = const UnavailablePackMaintenance()});

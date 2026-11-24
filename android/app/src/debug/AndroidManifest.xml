@@ -8,7 +8,7 @@
         <activity
             android:name=".testbed.TestbedActivity"
             android:exported="true"
-            android:label="Kosha testbed"
+            android:label="IncogBoard testbed"
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.Material.Light.NoActionBar"
             android:windowSoftInputMode="adjustResize" />

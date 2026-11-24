@@ -7,7 +7,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:kosha/src/engine/lang/chinese/zh_dictionary.dart';
+import 'package:incogboard/src/engine/lang/chinese/zh_dictionary.dart';
 
 /// One word or character to index.
 class ZhDictEntryInput {

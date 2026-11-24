@@ -5,7 +5,7 @@
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/engine/dictionary/mdict_lexicon.dart';
+import 'package:incogboard/src/engine/dictionary/mdict_lexicon.dart';
 
 final RegExp _notNormal = RegExp('[ـً-ٰٟ‌]|[A-Za-z0-9]');
 

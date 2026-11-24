@@ -52,7 +52,7 @@ class LayoutRepository {
       _cache[id] = layout;
       return layout;
     } on Object catch (e) {
-      KoshaLog.w('Layout', 'layout "$id" unreadable, using the built-in one', e.runtimeType);
+      IncogBoardLog.w('Layout', 'layout "$id" unreadable, using the built-in one', e.runtimeType);
       final fallback = id == 'qwerty' ? builtInQwerty() : (_cache['qwerty'] ?? builtInQwerty());
       _cache[id] = fallback;
       return fallback;

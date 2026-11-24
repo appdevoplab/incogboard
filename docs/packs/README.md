@@ -1,6 +1,6 @@
 # Model packs: format, trust, signing and key rotation
 
-Owner: Wave 5-C. Code: `android/app/src/main/kotlin/app/kosha/keyboard/packs/`, `lib/src/packs/`,
+Owner: Wave 5-C. Code: `android/app/src/main/kotlin/app/incogboard/keyboard/packs/`, `lib/src/packs/`,
 `lib/src/app/packs/`, `tool/make_pack.dart`. Tests: `android/app/src/test/.../packs/`, `test/app/packs/`.
 
 A pack is a signed bundle of data files: voice models, translation models, and Chinese and Japanese
@@ -73,8 +73,8 @@ before Wave 5 still install in debug builds.
 
 | Code | Meaning | Shown as |
 |---|---|---|
-| `bad_signature` | not signed by a trusted key, or a file's hash does not match | "not signed for Kosha" |
-| `bad_format` | not a pack, truncated, bad path, duplicate name, too many files, size larger than the data, bad manifest | "not a Kosha pack" |
+| `bad_signature` | not signed by a trusted key, or a file's hash does not match | "not signed for IncogBoard" |
+| `bad_format` | not a pack, truncated, bad path, duplicate name, too many files, size larger than the data, bad manifest | "not a IncogBoard pack" |
 | `unsupported_version` | format version other than 1 | "needs a newer version" |
 | `too_large` | total file size over the limit | "too large to install" |
 | `no_space` | not enough free space for the pack plus margin | "not enough free space" |
@@ -168,6 +168,6 @@ the import summary.
 
 ## Development notes
 
-- `flutter test test/app/packs` covers every screen state. `./gradlew :app:testDebugUnitTest --tests "app.kosha.keyboard.packs.*"` covers the Kotlin side.
+- `flutter test test/app/packs` covers every screen state. `./gradlew :app:testDebugUnitTest --tests "app.incogboard.keyboard.packs.*"` covers the Kotlin side.
 - `tool/make_pack.dart` was exercised with throwaway keys: build, refuse without `--key`, verify OK, verify
   with the wrong key (exit 1), key id from private and public PEM. The tool does not require the Flutter SDK.

@@ -14,7 +14,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../../bridge/messages.g.dart';
-import '../../settings/kosha_settings.dart';
+import '../../settings/incogboard_settings.dart';
 import '../../theme/keyboard_theme_data.dart';
 import '../input/input_controller.dart';
 import '../keyboard_session.dart';
@@ -64,7 +64,7 @@ class PanelContext {
 
   final KeyboardSession session;
   final KeyboardThemeData theme;
-  final KoshaSettings settings;
+  final IncogBoardSettings settings;
 
   /// The area the panel fills, in dp.
   final Size size;
@@ -125,7 +125,7 @@ class FrameInfo {
     required this.contentHeight,
   });
 
-  final KoshaSettings settings;
+  final IncogBoardSettings settings;
   final KeyboardThemeData theme;
 
   /// The IME window's width and the screen height, in dp.

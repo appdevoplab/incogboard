@@ -4,19 +4,19 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/core/data_sections.dart';
-import 'package:kosha/src/core/seen_apps.dart';
-import 'package:kosha/src/engine/lang/chinese/learned_phrases.dart';
-import 'package:kosha/src/engine/lang/japanese/japanese_learning.dart';
-import 'package:kosha/src/engine/learn/learned_data.dart';
-import 'package:kosha/src/security/backup/backup_collect.dart';
-import 'package:kosha/src/security/backup/backup_payload.dart';
-import 'package:kosha/src/security/backup/backup_restore.dart';
-import 'package:kosha/src/security/custom_theme_files.dart';
-import 'package:kosha/src/security/data_wiper.dart';
-import 'package:kosha/src/security/shortcuts_store.dart';
-import 'package:kosha/src/settings/kosha_settings.dart';
-import 'package:kosha/src/settings/settings_store.dart';
+import 'package:incogboard/src/core/data_sections.dart';
+import 'package:incogboard/src/core/seen_apps.dart';
+import 'package:incogboard/src/engine/lang/chinese/learned_phrases.dart';
+import 'package:incogboard/src/engine/lang/japanese/japanese_learning.dart';
+import 'package:incogboard/src/engine/learn/learned_data.dart';
+import 'package:incogboard/src/security/backup/backup_collect.dart';
+import 'package:incogboard/src/security/backup/backup_payload.dart';
+import 'package:incogboard/src/security/backup/backup_restore.dart';
+import 'package:incogboard/src/security/custom_theme_files.dart';
+import 'package:incogboard/src/security/data_wiper.dart';
+import 'package:incogboard/src/security/shortcuts_store.dart';
+import 'package:incogboard/src/settings/incogboard_settings.dart';
+import 'package:incogboard/src/settings/settings_store.dart';
 
 import 'support/fakes.dart';
 
@@ -96,7 +96,7 @@ void main() {
       stubPlatform(platform, store);
       shortcuts = ShortcutsStore(store);
       settings = SettingsStore.memory();
-      themesRoot = Directory.systemTemp.createTempSync('kosha_restore_test');
+      themesRoot = Directory.systemTemp.createTempSync('incogboard_restore_test');
       themes = CustomThemeFiles(themesRoot.path);
       notified = [];
       restorer = BackupRestorer(
@@ -226,7 +226,7 @@ void main() {
               'learned_en': _learned('en', words: {'world': 1}),
             },
             shortcuts: const [PersonalShortcut(trigger: 'omw', expansion: 'on my way')],
-            settings: KoshaSettings(privacy: const PrivacySettings(learning: false)).toJson(),
+            settings: IncogBoardSettings(privacy: const PrivacySettings(learning: false)).toJson(),
           ),
           include: all(),
           mode: RestoreMode.merge,
@@ -313,7 +313,7 @@ void main() {
 
     test('settings are applied and every restore notifies the keyboard', () async {
       final report = await restorer.apply(
-        BackupContents(settings: KoshaSettings(privacy: const PrivacySettings(learning: false)).toJson()),
+        BackupContents(settings: IncogBoardSettings(privacy: const PrivacySettings(learning: false)).toJson()),
         include: {BackupSection.settings},
         mode: RestoreMode.merge,
       );
@@ -385,7 +385,7 @@ void main() {
       settings = SettingsStore.memory();
       shortcuts = ShortcutsStore(store);
       seenApps = SeenAppsStore(store);
-      root = Directory.systemTemp.createTempSync('kosha_wipe_test');
+      root = Directory.systemTemp.createTempSync('incogboard_wipe_test');
       notified = [];
       wiper = DataWiper(
         store: store,
@@ -442,7 +442,7 @@ void main() {
       await wiper.wipe({WipeCategory.themes});
 
       expect(await CustomThemeFiles('${root.path}/themes').list(), isEmpty);
-      expect(settings.value.appearance.themeId, 'kosha_dynamic');
+      expect(settings.value.appearance.themeId, 'incogboard_dynamic');
     });
 
     test('erase everything wipes the store and custom themes, and resets settings only when asked', () async {

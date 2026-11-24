@@ -8,19 +8,19 @@ import 'dart:ui';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:kosha/src/bridge/ime_events.dart';
-import 'package:kosha/src/bridge/messages.g.dart';
-import 'package:kosha/src/core/input_field_info.dart';
-import 'package:kosha/src/core/keyboard_services.dart';
-import 'package:kosha/src/core/secure_blob_store.dart';
-import 'package:kosha/src/engine/in_memory_lexicon.dart';
-import 'package:kosha/src/keyboard/keyboard_app.dart';
-import 'package:kosha/src/keyboard/layout/layout_engine.dart';
-import 'package:kosha/src/keyboard/layout/layout_model.dart';
-import 'package:kosha/src/keyboard/layout/layout_repository.dart';
-import 'package:kosha/src/keyboard/view/keyboard_view.dart';
-import 'package:kosha/src/settings/kosha_settings.dart';
-import 'package:kosha/src/settings/settings_store.dart';
+import 'package:incogboard/src/bridge/ime_events.dart';
+import 'package:incogboard/src/bridge/messages.g.dart';
+import 'package:incogboard/src/core/input_field_info.dart';
+import 'package:incogboard/src/core/keyboard_services.dart';
+import 'package:incogboard/src/core/secure_blob_store.dart';
+import 'package:incogboard/src/engine/in_memory_lexicon.dart';
+import 'package:incogboard/src/keyboard/keyboard_app.dart';
+import 'package:incogboard/src/keyboard/layout/layout_engine.dart';
+import 'package:incogboard/src/keyboard/layout/layout_model.dart';
+import 'package:incogboard/src/keyboard/layout/layout_repository.dart';
+import 'package:incogboard/src/keyboard/view/keyboard_view.dart';
+import 'package:incogboard/src/settings/incogboard_settings.dart';
+import 'package:incogboard/src/settings/settings_store.dart';
 
 import '../../support/fake_editor.dart';
 import 'fakes.dart';
@@ -55,7 +55,7 @@ EditorInfoMessage editorInfo({
 );
 
 class AppHarness {
-  AppHarness({KoshaSettings settings = const KoshaSettings(), String text = ''}) {
+  AppHarness({IncogBoardSettings settings = const IncogBoardSettings(), String text = ''}) {
     registerKeyboardFallbacks();
     editor = FakeEditor(text: text);
     host = MockImeHost();
@@ -73,7 +73,7 @@ class AppHarness {
     when(() => platform.getSystemColors()).thenAnswer((_) async => null);
     when(() => platform.getAppInfo()).thenAnswer(
       (_) async => AppInfoMessage(
-        packageName: 'app.kosha.keyboard',
+        packageName: 'app.incogboard.keyboard',
         versionName: '0',
         versionCode: 0,
         sdkInt: 37,

@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/bridge/messages.g.dart';
-import 'package:kosha/src/core/input_field_info.dart';
-import 'package:kosha/src/engine/in_memory_lexicon.dart';
-import 'package:kosha/src/keyboard/layout/layout_model.dart';
-import 'package:kosha/src/settings/kosha_settings.dart';
-import 'package:kosha/src/settings/settings_store.dart';
+import 'package:incogboard/src/bridge/messages.g.dart';
+import 'package:incogboard/src/core/input_field_info.dart';
+import 'package:incogboard/src/engine/in_memory_lexicon.dart';
+import 'package:incogboard/src/keyboard/layout/layout_model.dart';
+import 'package:incogboard/src/settings/incogboard_settings.dart';
+import 'package:incogboard/src/settings/settings_store.dart';
 
 import 'support/fake_editor.dart';
 
@@ -80,10 +80,10 @@ void main() {
 
   group('Settings', () {
     test('round-trips and tolerates junk', () {
-      const s = KoshaSettings(typing: TypingSettings(autoCorrect: false));
-      final back = KoshaSettings.fromJson(jsonDecode(jsonEncode(s.toJson())) as Map<String, Object?>);
+      const s = IncogBoardSettings(typing: TypingSettings(autoCorrect: false));
+      final back = IncogBoardSettings.fromJson(jsonDecode(jsonEncode(s.toJson())) as Map<String, Object?>);
       expect(back.typing.autoCorrect, isFalse);
-      final junk = KoshaSettings.fromJson({
+      final junk = IncogBoardSettings.fromJson({
         'typing': 'oops',
         'languages': {'enabled': <String>[], 'active': 'xx'},
       });
@@ -93,7 +93,7 @@ void main() {
     });
 
     test('store persists atomically and notifies the other engine', () async {
-      final dir = await Directory.systemTemp.createTemp('kosha_settings');
+      final dir = await Directory.systemTemp.createTemp('incogboard_settings');
       final notified = <String>[];
       final store = await SettingsStore.open(directory: dir.path, notifyOther: (s) async => notified.addAll(s));
       await store.update((v) => v.copyWith(swipe: v.swipe.copyWith(enabled: false)), sections: [SettingsSection.swipe]);

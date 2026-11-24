@@ -57,7 +57,7 @@ jobs:
             echo "::error::KOSHA_KEYSTORE_BASE64 is not set in the release environment."
             exit 1
           fi
-          dir="$RUNNER_TEMP/kosha-keys"
+          dir="$RUNNER_TEMP/incogboard-keys"
           mkdir -p "$dir"
           printf '%s' "$KEYSTORE_B64" | base64 --decode > "$dir/kosha-release.p12"
           echo "KOSHA_KEYSTORE_PATH=$dir/kosha-release.p12" >> "$GITHUB_ENV"
@@ -129,7 +129,7 @@ jobs:
 
       - name: Remove the keystore
         if: always()
-        run: rm -rf "$RUNNER_TEMP/kosha-keys"
+        run: rm -rf "$RUNNER_TEMP/incogboard-keys"
 
   draft-release:
     # Only for a version tag. A workflow_dispatch run stops after the build (no release).
@@ -153,5 +153,5 @@ jobs:
         run: |
           set -euo pipefail
           cd release
-          gh release create "$TAG" --draft --verify-tag --title "Kosha $TAG" --generate-notes \
+          gh release create "$TAG" --draft --verify-tag --title "IncogBoard $TAG" --generate-notes \
             app-*-release.apk SHA256SUMS.txt permission-report.txt sizes.txt

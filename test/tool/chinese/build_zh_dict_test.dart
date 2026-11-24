@@ -2,8 +2,8 @@
 import 'dart:math' as math;
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/engine/lang/chinese/s2twp.dart';
-import 'package:kosha/src/engine/lang/chinese/zh_dictionary.dart';
+import 'package:incogboard/src/engine/lang/chinese/s2twp.dart';
+import 'package:incogboard/src/engine/lang/chinese/zh_dictionary.dart';
 
 import '../../../tool/chinese/zh_dict_writer.dart';
 import '../../../tool/chinese/zh_sources.dart';

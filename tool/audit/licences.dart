@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// Licence audit for Kosha (Wave 5-A). Covers the Dart packages in pubspec.lock and the Gradle
+// Licence audit for IncogBoard (Wave 5-A). Covers the Dart packages in pubspec.lock and the Gradle
 // artifacts of the release runtime classpath. Native libraries and bundled data are listed by hand in
 // docs/security/licences.md.
 //

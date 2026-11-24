@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/engine/lang/chinese/pinyin_segmenter.dart';
+import 'package:incogboard/src/engine/lang/chinese/pinyin_segmenter.dart';
 
 import 'zh_fixture.dart';
 

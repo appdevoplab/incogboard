@@ -4,20 +4,20 @@
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/app/chinese/chinese_screen.dart';
-import 'package:kosha/src/app/l10n.dart';
-import 'package:kosha/src/engine/lang/chinese/learned_phrases.dart';
-import 'package:kosha/src/settings/kosha_settings.dart';
+import 'package:incogboard/src/app/chinese/chinese_screen.dart';
+import 'package:incogboard/src/app/l10n.dart';
+import 'package:incogboard/src/engine/lang/chinese/learned_phrases.dart';
+import 'package:incogboard/src/settings/incogboard_settings.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../support/app_fakes.dart';
 
-Future<AppFakes> _pump(WidgetTester tester, {KoshaSettings settings = const KoshaSettings()}) async {
+Future<AppFakes> _pump(WidgetTester tester, {IncogBoardSettings settings = const IncogBoardSettings()}) async {
   final fakes = AppFakes(settings: settings);
   await pumpWithServices(
     tester,
     fakes.services,
-    const MaterialApp(localizationsDelegates: koshaLocalizationsDelegates, home: ChineseScreen()),
+    const MaterialApp(localizationsDelegates: incogboardLocalizationsDelegates, home: ChineseScreen()),
   );
   return fakes;
 }
@@ -26,14 +26,14 @@ void main() {
   testWidgets('the Traditional switch writes the chinese section', (tester) async {
     final fakes = await _pump(tester);
     await tapText(tester, 'Traditional characters');
-    final next = capturedUpdate(fakes.store, SettingsSection.chinese)(const KoshaSettings());
+    final next = capturedUpdate(fakes.store, SettingsSection.chinese)(const IncogBoardSettings());
     expect(next.chinese.traditional, isTrue);
   });
 
   testWidgets('the fuzzy pinyin switch is on by default and writes off', (tester) async {
     final fakes = await _pump(tester);
     await tapText(tester, 'Fuzzy pinyin');
-    final next = capturedUpdate(fakes.store, SettingsSection.chinese)(const KoshaSettings());
+    final next = capturedUpdate(fakes.store, SettingsSection.chinese)(const IncogBoardSettings());
     expect(next.chinese.fuzzyPinyin, isFalse);
   });
 

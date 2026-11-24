@@ -5,8 +5,8 @@
 import 'dart:io';
 
 import 'package:flutter/services.dart';
-import 'package:kosha/src/engine/contracts.dart';
-import 'package:kosha/src/packs/pack_repository.dart';
+import 'package:incogboard/src/engine/contracts.dart';
+import 'package:incogboard/src/packs/pack_repository.dart';
 
 class FakePredictor implements TextPredictor {
   FakePredictor({

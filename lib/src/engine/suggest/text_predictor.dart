@@ -68,8 +68,8 @@ class _Entry {
   bool get isCompletion => kind == SuggestionKind.completion;
 }
 
-class KoshaTextPredictor implements TextPredictor {
-  KoshaTextPredictor({
+class IncogBoardTextPredictor implements TextPredictor {
+  IncogBoardTextPredictor({
     required LexiconSource lexicons,
     required SecureBlobStore store,
     DateTime Function()? clock,
@@ -115,7 +115,7 @@ class KoshaTextPredictor implements TextPredictor {
         source = await _lexicons.load(language);
       } on Object catch (e) {
         // A language without a dictionary is skipped; the rest of the blend still works.
-        KoshaLog.w('predictor', 'no dictionary for a language, skipped', e.runtimeType);
+        IncogBoardLog.w('predictor', 'no dictionary for a language, skipped', e.runtimeType);
         continue;
       }
       next.add(_activeFor(language, source));
@@ -728,7 +728,7 @@ class KoshaTextPredictor implements TextPredictor {
         }
       } on Object catch (e) {
         data.dirty = true;
-        KoshaLog.w('learn', 'could not save learned data', e.runtimeType);
+        IncogBoardLog.w('learn', 'could not save learned data', e.runtimeType);
       }
     }
   }
@@ -746,7 +746,7 @@ class KoshaTextPredictor implements TextPredictor {
         _learned[a.id] = LearnedData.decode(a.id, await _store.read(_blobName(a.id)));
       } on Object catch (e) {
         _learned[a.id] = LearnedData(a.id);
-        KoshaLog.w('learn', 'could not reload learned data', e.runtimeType);
+        IncogBoardLog.w('learn', 'could not reload learned data', e.runtimeType);
       }
     }
   }
@@ -765,7 +765,7 @@ class KoshaTextPredictor implements TextPredictor {
       try {
         await _store.delete(_blobName(language));
       } on Object catch (e) {
-        KoshaLog.w('learn', 'could not delete learned data', e.runtimeType);
+        IncogBoardLog.w('learn', 'could not delete learned data', e.runtimeType);
       }
     }
   }

@@ -2,14 +2,14 @@
 import 'dart:ui';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/bridge/messages.g.dart';
-import 'package:kosha/src/keyboard/modes/modes_plan.dart';
-import 'package:kosha/src/keyboard/panels/keyboard_panel.dart';
-import 'package:kosha/src/settings/kosha_settings.dart';
-import 'package:kosha/src/theme/theme_resolver.dart';
+import 'package:incogboard/src/bridge/messages.g.dart';
+import 'package:incogboard/src/keyboard/modes/modes_plan.dart';
+import 'package:incogboard/src/keyboard/panels/keyboard_panel.dart';
+import 'package:incogboard/src/settings/incogboard_settings.dart';
+import 'package:incogboard/src/theme/theme_resolver.dart';
 
 FrameInfo infoFor({
-  KoshaSettings settings = const KoshaSettings(),
+  IncogBoardSettings settings = const IncogBoardSettings(),
   Size screen = const Size(360, 700),
   bool landscape = false,
   double inset = 0,
@@ -59,7 +59,7 @@ void main() {
 
   test('one-handed: 80% wide on the chosen side, docked window of the same height', () {
     final info = infoFor(
-      settings: const KoshaSettings(modes: ModeSettings(oneHanded: OneHandedMode.left)),
+      settings: const IncogBoardSettings(modes: ModeSettings(oneHanded: OneHandedMode.left)),
     );
     final p = plan(info, modes: const ModeSettings(oneHanded: OneHandedMode.left));
     expect(p.layout, ModeLayout.oneHanded);
@@ -84,7 +84,7 @@ void main() {
   test('floating: the window is 85% of the screen and the rect is placed by the free-space fractions', () {
     const modes = ModeSettings(floating: true, floatingX: 0.5, floatingY: 0.5, floatingWidth: 0.8);
     final p = plan(
-      infoFor(settings: const KoshaSettings(modes: modes)),
+      infoFor(settings: const IncogBoardSettings(modes: modes)),
       modes: modes,
     );
     expect(p.layout, ModeLayout.floating);
@@ -108,7 +108,7 @@ void main() {
 
   test('a previewed floating rect is clamped to the window and keeps its keys aspect', () {
     const modes = ModeSettings(floating: true);
-    final info = infoFor(settings: const KoshaSettings(modes: modes));
+    final info = infoFor(settings: const IncogBoardSettings(modes: modes));
     final p = plan(info, modes: modes, previewRect: const Rect.fromLTWH(400, -30, 216, 0));
     final r = p.floating!;
     expect(r.width, closeTo(216, 1e-9));
@@ -119,7 +119,7 @@ void main() {
 
   test('landscape uses its own row scale', () {
     final info = infoFor(
-      settings: const KoshaSettings(appearance: AppearanceSettings(landscapeHeightScale: 0.6)),
+      settings: const IncogBoardSettings(appearance: AppearanceSettings(landscapeHeightScale: 0.6)),
       landscape: true,
     );
     expect(currentScaleOf(info), 0.6);

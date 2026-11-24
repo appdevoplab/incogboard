@@ -14,7 +14,7 @@ import 'package:material_ui/material_ui.dart';
 import '../../core/log.dart';
 import '../../keyboard/preview/keyboard_preview.dart';
 import '../../keyboard/view/keyboard_metrics.dart';
-import '../../settings/kosha_settings.dart';
+import '../../settings/incogboard_settings.dart';
 import '../../theme/custom/background_image.dart';
 import '../../theme/custom/custom_theme_store.dart';
 import '../../theme/presets.dart';
@@ -26,7 +26,7 @@ import 'color_picker_dialog.dart';
 import 'photo_crop_screen.dart';
 import 'theme_support.dart';
 
-import 'package:kosha/src/app/l10n.dart';
+import 'package:incogboard/src/app/l10n.dart';
 
 /// Motion presets and the press-animation intensity each maps to (see [ThemeSpec.motionIntensity]).
 /// The press-animation intensity of each motion preset, in the order the choices are shown.
@@ -144,7 +144,7 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
     try {
       _palettes = (await services.platform.getSystemColors())?.palettes;
     } on Object catch (e) {
-      KoshaLog.w(l10n.onboardingThemeTitle, 'system colours unavailable', e.runtimeType);
+      IncogBoardLog.w(l10n.onboardingThemeTitle, 'system colours unavailable', e.runtimeType);
     }
     final dataDir = await services.platform.getDataDirectory();
     _themesDir = themesDirectoryFor(dataDir);
@@ -181,7 +181,7 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
     id: newCustomThemeId(),
     name: context.l10n.themeDefaultName,
     colorSource: ThemeColorSource.seed,
-    seedColor: koshaYellow,
+    seedColor: incogboardYellow,
     variant: ThemeSchemeVariant.tonalSpot,
   );
 
@@ -216,7 +216,7 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
   );
 
   /// The global settings as the draft would leave them (the preview uses these).
-  KoshaSettings _settingsDraft(KoshaSettings base) => base.copyWith(
+  IncogBoardSettings _settingsDraft(IncogBoardSettings base) => base.copyWith(
     appearance: base.appearance.copyWith(
       darkMode: _darkMode,
       pureBlack: _pureBlack,
@@ -310,7 +310,7 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
       _isNew = false;
       _dirty = false;
     } on Object catch (e) {
-      KoshaLog.w(l10n.onboardingThemeTitle, 'save failed', e.runtimeType);
+      IncogBoardLog.w(l10n.onboardingThemeTitle, 'save failed', e.runtimeType);
       if (mounted) setState(() => _saving = false);
       _snack(l10n.themeSaveFailed);
       return;
@@ -331,7 +331,7 @@ class _ThemeEditorScreenState extends State<ThemeEditorScreen> {
     try {
       picked = await ImagePicker().pickImage(source: ImageSource.gallery);
     } on Object catch (e) {
-      KoshaLog.w(l10n.onboardingThemeTitle, 'photo picker failed', e.runtimeType);
+      IncogBoardLog.w(l10n.onboardingThemeTitle, 'photo picker failed', e.runtimeType);
       _snack(l10n.themePhotoPickerFailed);
       return;
     }

@@ -6,7 +6,7 @@
 import 'dart:async';
 
 import '../../bridge/messages.g.dart';
-import '../../settings/kosha_settings.dart';
+import '../../settings/incogboard_settings.dart';
 import '../keyboard_session.dart';
 import '../panels/keyboard_panel.dart';
 import 'backspace_swipe.dart';

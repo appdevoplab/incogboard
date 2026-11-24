@@ -13,7 +13,7 @@
 //   * a word-final consonant gets a virama in Tamil and Telugu; in Hindi, Marathi and Bengali
 //     the inherent vowel is silent by convention and is written without one
 //   * "n" before a consonant becomes an anusvara (ं) in Devanagari, Bengali and Telugu
-/// The scripts Kosha romanises. Each has its own letters and conventions.
+/// The scripts IncogBoard romanises. Each has its own letters and conventions.
 class IndicScheme {
   IndicScheme({
     required this.language,

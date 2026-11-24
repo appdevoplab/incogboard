@@ -8,7 +8,7 @@
 // Suggestions and learning are gated separately and do respect the two flags. The skipped test pins the
 // planned rule; see SEC-12 in docs/security/audit.md.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/core/input_field_info.dart';
+import 'package:incogboard/src/core/input_field_info.dart';
 
 InputFieldInfo _field({int variation = 0, int flags = 0, int ime = 0}) =>
     InputFieldInfo(inputType: AndroidInputType.classText | variation | flags, imeOptions: ime);

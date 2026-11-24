@@ -4,11 +4,11 @@
 // delivery, verify, storage) and what each action does.
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/app/l10n.dart';
-import 'package:kosha/src/app/packs/packs_screen.dart';
-import 'package:kosha/src/app/privacy/privacy_format.dart';
-import 'package:kosha/src/bridge/messages.g.dart';
-import 'package:kosha/src/packs/pack_maintenance.dart';
+import 'package:incogboard/src/app/l10n.dart';
+import 'package:incogboard/src/app/packs/packs_screen.dart';
+import 'package:incogboard/src/app/privacy/privacy_format.dart';
+import 'package:incogboard/src/bridge/messages.g.dart';
+import 'package:incogboard/src/packs/pack_maintenance.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -64,7 +64,7 @@ Future<void> _pump(WidgetTester tester, AppFakes f, PackMaintenance maintenance)
   tester,
   f.services,
   MaterialApp(
-    localizationsDelegates: koshaLocalizationsDelegates,
+    localizationsDelegates: incogboardLocalizationsDelegates,
     home: PacksScreen(maintenance: maintenance),
   ),
 );
@@ -90,7 +90,7 @@ void main() {
       findsOneWidget,
     );
     expect(
-      find.text('Google Play downloads these packs, not Kosha. Kosha itself never uses the network.'),
+      find.text('Google Play downloads these packs, not IncogBoard. IncogBoard itself never uses the network.'),
       findsNothing,
     );
 
@@ -125,7 +125,7 @@ void main() {
 
     expect(find.text('Get through Google Play'), findsOneWidget);
     expect(
-      find.text('Google Play downloads these packs, not Kosha. Kosha itself never uses the network.'),
+      find.text('Google Play downloads these packs, not IncogBoard. IncogBoard itself never uses the network.'),
       findsOneWidget,
     );
     expect(find.text('Packs are files you add yourself.'), findsNothing);
@@ -176,7 +176,7 @@ void main() {
     await _pump(tester, f, const UnavailablePackMaintenance());
     await tester.tap(find.text('Verify installed packs'));
     await tester.pumpAndSettle();
-    expect(find.text('Checking installed packs is not available in this version of Kosha.'), findsOneWidget);
+    expect(find.text('Checking installed packs is not available in this version of IncogBoard.'), findsOneWidget);
   });
 
   testWidgets('a failed verify says nothing was changed', (tester) async {
@@ -185,7 +185,7 @@ void main() {
     await _pump(tester, f, _FakeMaintenance(verifyError: StateError('storage error')));
     await tester.tap(find.text('Verify installed packs'));
     await tester.pumpAndSettle();
-    expect(find.text('Kosha could not check the packs. Nothing was changed.'), findsOneWidget);
+    expect(find.text('IncogBoard could not check the packs. Nothing was changed.'), findsOneWidget);
   });
 
   testWidgets('verify is not offered when nothing is installed', (tester) async {
@@ -195,7 +195,7 @@ void main() {
     await tester.tap(find.text('Verify installed packs'));
     await tester.pumpAndSettle();
     expect(find.text('1 installed packs checked. All files match.'), findsNothing);
-    expect(find.text('Checking installed packs is not available in this version of Kosha.'), findsNothing);
+    expect(find.text('Checking installed packs is not available in this version of IncogBoard.'), findsNothing);
   });
 
   testWidgets('the footer shows free space when the build can tell', (tester) async {

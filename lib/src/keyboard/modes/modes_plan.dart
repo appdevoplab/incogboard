@@ -8,7 +8,7 @@ import 'dart:ui' show Rect;
 import 'package:meta/meta.dart';
 
 import '../../bridge/messages.g.dart';
-import '../../settings/kosha_settings.dart';
+import '../../settings/incogboard_settings.dart';
 import '../panels/keyboard_panel.dart';
 import '../view/keyboard_metrics.dart';
 import 'mode_geometry.dart';

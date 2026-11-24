@@ -20,15 +20,15 @@ import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/core/input_field_info.dart';
-import 'package:kosha/src/core/secure_blob_store.dart';
-import 'package:kosha/src/engine/contracts.dart';
-import 'package:kosha/src/engine/dictionary/lexicon_factory.dart';
-import 'package:kosha/src/engine/gesture/isolate_gesture_decoder.dart';
-import 'package:kosha/src/engine/suggest/predictor_factory.dart';
-import 'package:kosha/src/keyboard/input/input_controller.dart';
-import 'package:kosha/src/keyboard/layout/layout_model.dart';
-import 'package:kosha/src/settings/kosha_settings.dart';
+import 'package:incogboard/src/core/input_field_info.dart';
+import 'package:incogboard/src/core/secure_blob_store.dart';
+import 'package:incogboard/src/engine/contracts.dart';
+import 'package:incogboard/src/engine/dictionary/lexicon_factory.dart';
+import 'package:incogboard/src/engine/gesture/isolate_gesture_decoder.dart';
+import 'package:incogboard/src/engine/suggest/predictor_factory.dart';
+import 'package:incogboard/src/keyboard/input/input_controller.dart';
+import 'package:incogboard/src/keyboard/layout/layout_model.dart';
+import 'package:incogboard/src/settings/incogboard_settings.dart';
 
 import '../engine/gesture/gesture_test_support.dart';
 import '../keyboard/support/app_harness.dart';
@@ -67,7 +67,7 @@ void main() {
         input: editor,
         predictor: predictor,
         gestureDecoder: FakeGestureDecoder(),
-        settings: () => const KoshaSettings(),
+        settings: () => const IncogBoardSettings(),
       );
       editor.onSelectionChanged = c.onSelectionChanged;
       await c.startInput(InputFieldInfo.plainText);

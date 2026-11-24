@@ -137,7 +137,7 @@ class ChineseFeature extends KeyboardFeature {
         icon: Icons.inventory_2_outlined,
         semanticLabel: 'Chinese needs a dictionary pack. Open model packs.',
         priority: 1,
-        onTap: () => unawaited(s.services.host.openSettings(KoshaRoutes.packs)),
+        onTap: () => unawaited(s.services.host.openSettings(IncogBoardRoutes.packs)),
       ),
     );
   }
@@ -162,7 +162,7 @@ class ChineseFeature extends KeyboardFeature {
       final custom = loader;
       loaded = custom != null ? await custom() : await loadInstalledChinesePack(s.services.platform);
     } on Object catch (e) {
-      KoshaLog.w('Chinese', 'pack load failed', e.runtimeType);
+      IncogBoardLog.w('Chinese', 'pack load failed', e.runtimeType);
       loaded = null;
     }
     _loadingPack = false;
@@ -174,7 +174,7 @@ class ChineseFeature extends KeyboardFeature {
       return;
     }
     lexicon.install(loaded);
-    KoshaLog.d('Chinese', 'pack loaded: ${loaded.dictionary.entryCount} entries');
+    IncogBoardLog.d('Chinese', 'pack loaded: ${loaded.dictionary.entryCount} entries');
     _sync();
   }
 
@@ -195,7 +195,7 @@ class ChineseFeature extends KeyboardFeature {
       if (_s == null) return;
       _learned.replaceWith(LearnedPhrases.decode(bytes));
     } on Object catch (e) {
-      KoshaLog.w('Chinese', 'learned phrases unreadable', e.runtimeType);
+      IncogBoardLog.w('Chinese', 'learned phrases unreadable', e.runtimeType);
     }
   }
 
@@ -211,7 +211,7 @@ class ChineseFeature extends KeyboardFeature {
       await s.services.secureStore.write(learnedZhBlobName, _learned.encode());
       _learned.dirty = false;
     } on Object catch (e) {
-      KoshaLog.w('Chinese', 'learned phrases not saved', e.runtimeType);
+      IncogBoardLog.w('Chinese', 'learned phrases not saved', e.runtimeType);
     }
   }
 }

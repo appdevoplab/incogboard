@@ -12,7 +12,7 @@ import '../../core/data_sections.dart';
 import '../../core/seen_apps.dart';
 import '../../security/app_auth.dart';
 import '../../security/data_wiper.dart';
-import '../../settings/kosha_settings.dart';
+import '../../settings/incogboard_settings.dart';
 import '../app_services.dart';
 import '../common/settings_widgets.dart';
 import '../routes.dart';
@@ -23,7 +23,7 @@ import 'privacy_format.dart';
 import 'privacy_widgets.dart';
 import 'shortcuts_screen.dart';
 
-import 'package:kosha/src/app/l10n.dart';
+import 'package:incogboard/src/app/l10n.dart';
 
 class PrivacyCenterScreen extends StatefulWidget {
   const PrivacyCenterScreen({super.key, this.authenticator});
@@ -243,14 +243,14 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
         subtitle: d.packs.isEmpty
             ? context.l10n.privacyNoPacks
             : context.l10n.privacyPacksSize(d.packs.length, formatBytes(d.packBytes)),
-        onTap: () => unawaited(Navigator.of(context).pushNamed(KoshaRoutes.packs).then((_) => _reload())),
+        onTap: () => unawaited(Navigator.of(context).pushNamed(IncogBoardRoutes.packs).then((_) => _reload())),
       ),
       if (d.blobs.isEmpty && d.themeFiles == 0 && d.packs.isEmpty)
         SettingsTile(icon: Icons.inbox_outlined, title: context.l10n.privacyNothingStored),
     ];
     return Column(
       children: [
-        SettingsGroup(title: context.l10n.privacyWhatKoshaStores, children: blobTiles),
+        SettingsGroup(title: context.l10n.privacyWhatIncogBoardStores, children: blobTiles),
         Padding(padding: EdgeInsets.fromLTRB(16, 0, 16, 20), child: Text(context.l10n.privacyShowsSizesOnly)),
       ],
     );
@@ -391,7 +391,7 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
           subtitle: clipboard == null
               ? context.l10n.privacyClipboardHistoryEmpty
               : context.l10n.privacyClipboardInHistory(formatBytes(clipboard.sizeBytes)),
-          onTap: () => Navigator.of(context).pushNamed(KoshaRoutes.panels),
+          onTap: () => Navigator.of(context).pushNamed(IncogBoardRoutes.panels),
         ),
       ],
     );
@@ -404,8 +404,8 @@ class _PrivacyCenterScreenState extends State<PrivacyCenterScreen> {
     children: [
       SettingsSwitchTile(
         icon: Icons.fingerprint,
-        title: context.l10n.privacyLockKosha,
-        subtitle: context.l10n.privacyLockKoshaBody,
+        title: context.l10n.privacyLockIncogBoard,
+        subtitle: context.l10n.privacyLockIncogBoardBody,
         value: p.appLock,
         onChanged: (v) => unawaited(_setAppLock(v)),
       ),

@@ -7,12 +7,12 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/settings/sections/appearance_settings.dart';
-import 'package:kosha/src/theme/custom/custom_theme_store.dart';
-import 'package:kosha/src/theme/keyboard_theme_data.dart';
-import 'package:kosha/src/theme/presets.dart';
-import 'package:kosha/src/theme/theme_resolver.dart';
-import 'package:kosha/src/theme/theme_spec.dart';
+import 'package:incogboard/src/settings/sections/appearance_settings.dart';
+import 'package:incogboard/src/theme/custom/custom_theme_store.dart';
+import 'package:incogboard/src/theme/keyboard_theme_data.dart';
+import 'package:incogboard/src/theme/presets.dart';
+import 'package:incogboard/src/theme/theme_resolver.dart';
+import 'package:incogboard/src/theme/theme_spec.dart';
 
 const String kUuid = '1b4e28ba-2fa1-41d2-883f-0016d3cca427';
 const String kPhoto = '7c9e6679-7425-40de-944b-e07fc1f90ae7';
@@ -36,7 +36,7 @@ void main() {
         'custom:${kUuid.toUpperCase()}',
         'custom:',
         'custom:not-a-uuid',
-        'kosha_gold',
+        'incogboard_gold',
         '../custom:$kUuid',
       ]) {
         expect(CustomThemeIds.uuidOf(bad), isNull, reason: bad);
@@ -56,7 +56,7 @@ void main() {
   late String themes;
 
   setUp(() {
-    root = Directory.systemTemp.createTempSync('kosha_custom_theme_');
+    root = Directory.systemTemp.createTempSync('incogboard_custom_theme_');
     themes = '${root.path}/themes';
   });
 
@@ -78,7 +78,7 @@ void main() {
 
     test('write refuses an id that is not a custom id', () async {
       final store = CustomThemeStore(themes);
-      await expectLater(store.write(ThemePresets.koshaGold), throwsArgumentError);
+      await expectLater(store.write(ThemePresets.incogboardGold), throwsArgumentError);
     });
 
     test('a version 0 file is migrated on read', () async {
@@ -184,12 +184,12 @@ void main() {
   });
 
   group('resolution by id', () {
-    test('specForId: custom ids read the file; missing, broken or malformed give Kosha Dynamic', () async {
+    test('specForId: custom ids read the file; missing, broken or malformed give IncogBoard Dynamic', () async {
       await CustomThemeStore(themes).write(_spec(name: 'Saved'));
       expect(specForId('custom:$kUuid', themes).name, 'Saved');
-      expect(specForId('custom:$kPhoto', themes).id, ThemePresets.koshaDynamic.id);
-      expect(specForId('custom:../x', themes).id, ThemePresets.koshaDynamic.id);
-      expect(specForId('custom:$kUuid', null).id, ThemePresets.koshaDynamic.id);
+      expect(specForId('custom:$kPhoto', themes).id, ThemePresets.incogboardDynamic.id);
+      expect(specForId('custom:../x', themes).id, ThemePresets.incogboardDynamic.id);
+      expect(specForId('custom:$kUuid', null).id, ThemePresets.incogboardDynamic.id);
       expect(specForId('lavender', themes).id, 'lavender');
     });
 
@@ -205,7 +205,7 @@ void main() {
       expect(t.id, CustomThemeIds.idFor(kUuid));
     });
 
-    test('a missing custom theme falls back to Kosha Dynamic', () {
+    test('a missing custom theme falls back to IncogBoard Dynamic', () {
       final t = resolveKeyboardTheme(
         appearance: AppearanceSettings(themeId: CustomThemeIds.idFor(kUuid)),
         systemColors: null,
@@ -213,7 +213,7 @@ void main() {
         disableAnimations: false,
         customThemesDirectory: themes,
       );
-      expect(t.id, ThemePresets.koshaDynamic.id);
+      expect(t.id, ThemePresets.incogboardDynamic.id);
     });
 
     test('a revision bump re-resolves, and an edited file is picked up', () async {

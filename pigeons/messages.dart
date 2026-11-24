@@ -9,10 +9,10 @@ import 'package:pigeon/pigeon.dart';
   PigeonOptions(
     dartOut: 'lib/src/bridge/messages.g.dart',
     dartOptions: DartOptions(),
-    kotlinOut: 'android/app/src/main/kotlin/app/kosha/keyboard/bridge/Messages.g.kt',
-    kotlinOptions: KotlinOptions(package: 'app.kosha.keyboard.bridge'),
+    kotlinOut: 'android/app/src/main/kotlin/app/incogboard/keyboard/bridge/Messages.g.kt',
+    kotlinOptions: KotlinOptions(package: 'app.incogboard.keyboard.bridge'),
     copyrightHeader: 'pigeons/copyright.txt',
-    dartPackageName: 'kosha',
+    dartPackageName: 'incogboard',
   ),
 )
 // ---------------------------------------------------------------------------
@@ -422,8 +422,8 @@ abstract class PlatformHostApi {
 /// Registered only on the settings-app engine.
 @HostApi()
 abstract class AppHostApi {
-  bool isKoshaEnabled();
-  bool isKoshaSelected();
+  bool isIncogBoardEnabled();
+  bool isIncogBoardSelected();
   void openInputMethodSettings();
   void showInputMethodPicker();
 

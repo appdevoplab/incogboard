@@ -4,10 +4,10 @@
 import 'package:flutter/services.dart' show PlatformException;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:kosha/src/app/l10n.dart';
-import 'package:kosha/src/app/packs/packs_screen.dart';
+import 'package:incogboard/src/app/l10n.dart';
+import 'package:incogboard/src/app/packs/packs_screen.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:kosha/src/bridge/messages.g.dart';
+import 'package:incogboard/src/bridge/messages.g.dart';
 
 import '../support/app_fakes.dart';
 
@@ -40,7 +40,7 @@ void main() {
     await pumpWithServices(
       tester,
       f.services,
-      const MaterialApp(localizationsDelegates: koshaLocalizationsDelegates, home: PacksScreen()),
+      const MaterialApp(localizationsDelegates: incogboardLocalizationsDelegates, home: PacksScreen()),
     );
 
     expect(find.text('Voice'), findsOneWidget);
@@ -61,7 +61,7 @@ void main() {
     await pumpWithServices(
       tester,
       f.services,
-      const MaterialApp(localizationsDelegates: koshaLocalizationsDelegates, home: PacksScreen()),
+      const MaterialApp(localizationsDelegates: incogboardLocalizationsDelegates, home: PacksScreen()),
     );
     expect(find.text('No voice packs installed'), findsOneWidget);
     expect(find.text('No translation packs installed'), findsOneWidget);
@@ -75,12 +75,12 @@ void main() {
     await pumpWithServices(
       tester,
       f.services,
-      const MaterialApp(localizationsDelegates: koshaLocalizationsDelegates, home: PacksScreen()),
+      const MaterialApp(localizationsDelegates: incogboardLocalizationsDelegates, home: PacksScreen()),
     );
 
     await tester.tap(find.text('Import a pack file'));
     await tester.pumpAndSettle();
-    expect(find.text('This pack is not signed for Kosha, so nothing was installed.'), findsOneWidget);
+    expect(find.text('This pack is not signed for IncogBoard, so nothing was installed.'), findsOneWidget);
     verifyNever(() => f.platform.notifySettingsChanged(any()));
   });
 
@@ -91,7 +91,7 @@ void main() {
     await pumpWithServices(
       tester,
       f.services,
-      const MaterialApp(localizationsDelegates: koshaLocalizationsDelegates, home: PacksScreen()),
+      const MaterialApp(localizationsDelegates: incogboardLocalizationsDelegates, home: PacksScreen()),
     );
 
     await tester.tap(find.text('Import a pack file'));
@@ -106,7 +106,7 @@ void main() {
     await pumpWithServices(
       tester,
       f.services,
-      const MaterialApp(localizationsDelegates: koshaLocalizationsDelegates, home: PacksScreen()),
+      const MaterialApp(localizationsDelegates: incogboardLocalizationsDelegates, home: PacksScreen()),
     );
 
     await tester.tap(find.byTooltip('Delete English → Spanish'));
@@ -126,7 +126,7 @@ void main() {
     await pumpWithServices(
       tester,
       f.services,
-      const MaterialApp(localizationsDelegates: koshaLocalizationsDelegates, home: PacksScreen()),
+      const MaterialApp(localizationsDelegates: incogboardLocalizationsDelegates, home: PacksScreen()),
     );
 
     await tester.tap(find.byTooltip('Delete English → Spanish'));

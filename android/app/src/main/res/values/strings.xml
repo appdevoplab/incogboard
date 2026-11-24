@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Kosha</string>
-    <string name="ime_name">Kosha</string>
-    <string name="subtype_label">Kosha</string>
+    <string name="app_name">IncogBoard</string>
+    <string name="ime_name">IncogBoard</string>
+    <string name="subtype_label">IncogBoard</string>
 </resources>

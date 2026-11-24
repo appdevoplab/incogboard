@@ -2,10 +2,10 @@
 import 'dart:ui' show Offset, Rect;
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/engine/contracts.dart';
-import 'package:kosha/src/engine/gesture/decoder_factory.dart';
-import 'package:kosha/src/engine/gesture/isolate_gesture_decoder.dart';
-import 'package:kosha/src/engine/in_memory_lexicon.dart';
+import 'package:incogboard/src/engine/contracts.dart';
+import 'package:incogboard/src/engine/gesture/decoder_factory.dart';
+import 'package:incogboard/src/engine/gesture/isolate_gesture_decoder.dart';
+import 'package:incogboard/src/engine/in_memory_lexicon.dart';
 
 import 'gesture_test_support.dart';
 
@@ -141,23 +141,26 @@ void main() {
     test('learned extraWords can be decoded, and are flagged as learned', () async {
       final decoder = small(['the', 'then', 'there', 'hello']);
       await decoder.prepare(geometry: geometry, languages: ['en']);
-      final before = await decoder.decode(swipeOf(geometry, 'koshaboard'));
-      expect(before.any((s) => s.text == 'koshaboard'), isFalse);
+      final before = await decoder.decode(swipeOf(geometry, 'incogboardboard'));
+      expect(before.any((s) => s.text == 'incogboardboard'), isFalse);
 
       await decoder.prepare(
         geometry: geometry,
         languages: ['en'],
-        extraWords: const [LexiconEntry('koshaboard', -9), LexiconEntry('xylophone', -9)],
+        extraWords: const [LexiconEntry('incogboardboard', -9), LexiconEntry('xylophone', -9)],
       );
-      final after = await decoder.decode(swipeOf(geometry, 'koshaboard'));
-      expect(after.first.text, 'koshaboard');
+      final after = await decoder.decode(swipeOf(geometry, 'incogboardboard'));
+      expect(after.first.text, 'incogboardboard');
       expect(after.first.isLearned, isTrue);
       expect(after.first.language, isNull);
       expect((await decoder.decode(swipeOf(geometry, 'xylophone'))).first.text, 'xylophone');
 
       // Forgetting the word removes it again.
       await decoder.prepare(geometry: geometry, languages: ['en']);
-      expect((await decoder.decode(swipeOf(geometry, 'koshaboard'))).any((s) => s.text == 'koshaboard'), isFalse);
+      expect(
+        (await decoder.decode(swipeOf(geometry, 'incogboardboard'))).any((s) => s.text == 'incogboardboard'),
+        isFalse,
+      );
     });
 
     test('changing only the learned words does not rebuild the base templates', () async {

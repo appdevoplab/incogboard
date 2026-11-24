@@ -32,7 +32,7 @@ $Whisper = @{
 $SileroName = 'silero_vad.onnx'
 $SileroSha256 = '9e2449e1087496d8d4caba907f23e0bd3f78d91fa552479bb9c23ac09cbb1fd6'
 
-# Kosha language ids that Whisper supports (all are valid tokenizer codes; see VoiceLanguages.kt).
+# IncogBoard language ids that Whisper supports (all are valid tokenizer codes; see VoiceLanguages.kt).
 $Languages = 'en,es,fr,de,pt-BR,pt-PT,id,ru,uk,hi,mr,bn,ta,te,ar,ur'
 
 $download = Join-Path $RepoRoot 'build\packs\download'

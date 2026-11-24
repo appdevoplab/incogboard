@@ -4,10 +4,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:material_ui/material_ui.dart';
-import 'package:kosha/src/app/l10n.dart';
-import 'package:kosha/src/app/translate/translate_screen.dart';
-import 'package:kosha/src/bridge/messages.g.dart';
-import 'package:kosha/src/settings/kosha_settings.dart';
+import 'package:incogboard/src/app/l10n.dart';
+import 'package:incogboard/src/app/translate/translate_screen.dart';
+import 'package:incogboard/src/bridge/messages.g.dart';
+import 'package:incogboard/src/settings/incogboard_settings.dart';
 
 import '../support/app_fakes.dart';
 
@@ -23,7 +23,7 @@ PackInfoMessage _pack() => PackInfoMessage(
 );
 
 void main() {
-  const settings = KoshaSettings(
+  const settings = IncogBoardSettings(
     translate: TranslateSettings(enabled: true, from: 'en', to: 'es'),
   );
 
@@ -33,7 +33,7 @@ void main() {
     await pumpWithServices(
       tester,
       f.services,
-      const MaterialApp(localizationsDelegates: koshaLocalizationsDelegates, home: TranslateScreen()),
+      const MaterialApp(localizationsDelegates: incogboardLocalizationsDelegates, home: TranslateScreen()),
     );
 
     expect(find.text('Offline translation'), findsOneWidget);
@@ -44,7 +44,7 @@ void main() {
 
   testWidgets('a pair without a pack says so', (tester) async {
     final f = AppFakes(
-      settings: const KoshaSettings(
+      settings: const IncogBoardSettings(
         translate: TranslateSettings(from: 'en', to: 'ru'),
       ),
     );
@@ -52,7 +52,7 @@ void main() {
     await pumpWithServices(
       tester,
       f.services,
-      const MaterialApp(localizationsDelegates: koshaLocalizationsDelegates, home: TranslateScreen()),
+      const MaterialApp(localizationsDelegates: incogboardLocalizationsDelegates, home: TranslateScreen()),
     );
     expect(find.text('Pack not installed. Get it in Model packs.'), findsOneWidget);
     expect(find.text('No translation packs installed'), findsOneWidget);
@@ -64,7 +64,7 @@ void main() {
     await pumpWithServices(
       tester,
       f.services,
-      const MaterialApp(localizationsDelegates: koshaLocalizationsDelegates, home: TranslateScreen()),
+      const MaterialApp(localizationsDelegates: incogboardLocalizationsDelegates, home: TranslateScreen()),
     );
 
     await tester.tap(find.byType(Switch));
@@ -78,7 +78,7 @@ void main() {
     await pumpWithServices(
       tester,
       f.services,
-      const MaterialApp(localizationsDelegates: koshaLocalizationsDelegates, home: TranslateScreen()),
+      const MaterialApp(localizationsDelegates: incogboardLocalizationsDelegates, home: TranslateScreen()),
     );
 
     await tester.tap(find.text('English → Spanish').first);

@@ -3,10 +3,10 @@ import 'dart:async';
 
 import 'package:flutter/services.dart' show PlatformException;
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/features/translate/translate_controller.dart';
-import 'package:kosha/src/features/translate/translate_languages.dart';
-import 'package:kosha/src/features/translate/translate_panel.dart';
-import 'package:kosha/src/bridge/messages.g.dart';
+import 'package:incogboard/src/features/translate/translate_controller.dart';
+import 'package:incogboard/src/features/translate/translate_languages.dart';
+import 'package:incogboard/src/features/translate/translate_panel.dart';
+import 'package:incogboard/src/bridge/messages.g.dart';
 
 const _debounce = Duration(milliseconds: 5);
 

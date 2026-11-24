@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/engine/lang/japanese/japanese_composer.dart';
-import 'package:kosha/src/engine/lang/japanese/japanese_dictionary.dart';
-import 'package:kosha/src/engine/lang/japanese/japanese_learning.dart';
-import 'package:kosha/src/keyboard/input/composer.dart';
-import 'package:kosha/src/settings/kosha_settings.dart';
+import 'package:incogboard/src/engine/lang/japanese/japanese_composer.dart';
+import 'package:incogboard/src/engine/lang/japanese/japanese_dictionary.dart';
+import 'package:incogboard/src/engine/lang/japanese/japanese_learning.dart';
+import 'package:incogboard/src/keyboard/input/composer.dart';
+import 'package:incogboard/src/settings/incogboard_settings.dart';
 
 import 'japanese_fixture.dart';
 
@@ -15,7 +15,7 @@ class _Clock {
 JapaneseComposer _composer({
   String layout = 'romaji_ja',
   JapaneseDictionary? dictionary,
-  KoshaSettings settings = const KoshaSettings(),
+  IncogBoardSettings settings = const IncogBoardSettings(),
   bool learningAllowed = true,
   _Clock? clock,
   JapaneseLearning? learning,
@@ -111,7 +111,7 @@ void main() {
 
     test('space with nothing typed types a full-width space, or a half-width one when set', () {
       expect(_commit(_composer().onSpace()), '　');
-      final half = _composer(settings: const KoshaSettings(japanese: JapaneseSettings(halfWidthSpace: true)));
+      final half = _composer(settings: const IncogBoardSettings(japanese: JapaneseSettings(halfWidthSpace: true)));
       expect(half.onSpace().handled, isFalse);
     });
 
@@ -161,7 +161,7 @@ void main() {
       final c = _composer(
         layout: 'kana12_ja',
         clock: clock,
-        settings: const KoshaSettings(japanese: JapaneseSettings(flickOnly: true)),
+        settings: const IncogBoardSettings(japanese: JapaneseSettings(flickOnly: true)),
       );
       c.onText('あ');
       clock.now = 100;

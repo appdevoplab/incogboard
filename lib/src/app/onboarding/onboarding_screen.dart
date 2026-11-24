@@ -9,13 +9,13 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../bridge/messages.g.dart';
 import '../../core/log.dart';
-import '../../settings/kosha_settings.dart';
+import '../../settings/incogboard_settings.dart';
 import '../app_services.dart';
 import '../routes.dart';
 import '../shell/settings_actions.dart';
 import 'onboarding_steps.dart';
 
-import 'package:kosha/src/app/l10n.dart';
+import 'package:incogboard/src/app/l10n.dart';
 
 const int _stepCount = 6;
 const Duration _switchPoll = Duration(milliseconds: 500);
@@ -65,7 +65,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       final info = await services.platform.getAppInfo();
       if (mounted) setState(() => _debugBuild = info.isDebugBuild);
     } on Object catch (e) {
-      KoshaLog.w('Onboarding', 'app info unavailable', e.runtimeType);
+      IncogBoardLog.w('Onboarding', 'app info unavailable', e.runtimeType);
     }
   }
 
@@ -73,8 +73,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     final services = _services;
     if (services == null) return;
     try {
-      final enabled = await services.app.isKoshaEnabled();
-      final selected = await services.app.isKoshaSelected();
+      final enabled = await services.app.isIncogBoardEnabled();
+      final selected = await services.app.isIncogBoardSelected();
       final internet = await services.platform.hasInternetPermission();
       if (!mounted) return;
       setState(() {
@@ -83,7 +83,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         _internet = internet;
       });
     } on Object catch (e) {
-      KoshaLog.w('Onboarding', 'status check failed', e.runtimeType);
+      IncogBoardLog.w('Onboarding', 'status check failed', e.runtimeType);
     }
   }
 
@@ -120,7 +120,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     if (navigator.canPop()) {
       navigator.pop();
     } else {
-      unawaited(navigator.pushReplacementNamed(KoshaRoutes.home));
+      unawaited(navigator.pushReplacementNamed(IncogBoardRoutes.home));
     }
   }
 

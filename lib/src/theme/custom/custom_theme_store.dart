@@ -85,19 +85,19 @@ class CustomThemeStore {
     try {
       final file = File(path);
       if (!file.existsSync()) {
-        KoshaLog.w('Theme', 'custom theme file missing');
+        IncogBoardLog.w('Theme', 'custom theme file missing');
         return null;
       }
       final stat = file.statSync();
       if (stat.size > maxSpecBytes) {
-        KoshaLog.w('Theme', 'custom theme file too large');
+        IncogBoardLog.w('Theme', 'custom theme file too large');
         return null;
       }
       final hit = _parsed[path];
       if (hit != null && hit.$1 == stat.modified && hit.$2 == stat.size) return hit.$3;
       final decoded = jsonDecode(file.readAsStringSync());
       if (decoded is! Map<String, Object?>) {
-        KoshaLog.w('Theme', 'custom theme file is not an object');
+        IncogBoardLog.w('Theme', 'custom theme file is not an object');
         return null;
       }
       // The file name is the authority for the id, whatever the JSON says.
@@ -107,7 +107,7 @@ class CustomThemeStore {
       if (_parsed.length > _parsedCapacity) _parsed.remove(_parsed.keys.first);
       return spec;
     } on Object catch (e) {
-      KoshaLog.w('Theme', 'custom theme unreadable, using the default', e.runtimeType);
+      IncogBoardLog.w('Theme', 'custom theme unreadable, using the default', e.runtimeType);
       return null;
     }
   }

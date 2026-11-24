@@ -7,13 +7,13 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../engine/contracts.dart' show LanguageId;
 import '../../engine/lang/registry.dart';
-import '../../settings/kosha_settings.dart';
+import '../../settings/incogboard_settings.dart';
 import '../common/settings_widgets.dart';
 import '../routes.dart';
 import '../shell/language_catalog.dart';
 import '../shell/settings_actions.dart';
 
-import 'package:kosha/src/app/l10n.dart';
+import 'package:incogboard/src/app/l10n.dart';
 
 class LanguagesScreen extends StatelessWidget {
   const LanguagesScreen({super.key});
@@ -96,14 +96,14 @@ class LanguagesScreen extends StatelessWidget {
                     icon: Icons.translate,
                     title: '中文 (Chinese)',
                     subtitle: context.l10n.languagesZhSubtitle,
-                    onTap: () => Navigator.of(context).pushNamed(KoshaRoutes.chinese),
+                    onTap: () => Navigator.of(context).pushNamed(IncogBoardRoutes.chinese),
                   ),
                 if (l.enabled.contains('ja'))
                   SettingsTile(
                     icon: Icons.translate,
                     title: '日本語 (Japanese)',
                     subtitle: context.l10n.languagesJaSubtitle,
-                    onTap: () => Navigator.of(context).pushNamed(KoshaRoutes.japanese),
+                    onTap: () => Navigator.of(context).pushNamed(IncogBoardRoutes.japanese),
                   ),
               ],
             ),

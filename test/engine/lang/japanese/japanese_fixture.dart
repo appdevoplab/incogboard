@@ -5,8 +5,8 @@
 // intended segmentation is the cheapest path.
 import 'dart:typed_data';
 
-import 'package:kosha/src/engine/lang/japanese/japanese_dictionary.dart';
-import 'package:kosha/src/engine/lang/japanese/japanese_learning.dart';
+import 'package:incogboard/src/engine/lang/japanese/japanese_dictionary.dart';
+import 'package:incogboard/src/engine/lang/japanese/japanese_learning.dart';
 
 import '../../../../tool/japanese/lexicon_writer.dart';
 

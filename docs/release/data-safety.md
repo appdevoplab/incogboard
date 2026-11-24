@@ -17,7 +17,7 @@ sent to the developer or to any third party is not "collected" under Play's defi
 **Is all of the user data collected by your app encrypted in transit?** Not applicable. No data is transmitted.
 (If the form forces a choice, pick "Yes" with the note that nothing is transmitted.)
 
-**Do you provide a way for users to request that their data is deleted?** Yes. Kosha has an in-app privacy
+**Do you provide a way for users to request that their data is deleted?** Yes. IncogBoard has an in-app privacy
 centre that wipes everything or one category at a time. Uninstalling removes all app data. Nothing is kept on
 any server, so no request needs a server-side deletion.
 
@@ -56,22 +56,22 @@ and the voice audio held in memory during a voice session (never saved or sent).
 | `VIBRATE` | Key feedback | Not sensitive | No declaration needed |
 
 There are **no** accessibility-service, contacts, location, storage, query-all-packages, notification,
-foreground-service or background-location permissions. Kosha's keyboard is an input method service (`BIND_INPUT_METHOD`),
+foreground-service or background-location permissions. IncogBoard's keyboard is an input method service (`BIND_INPUT_METHOD`),
 not an accessibility service.
 
 ## 3. Keyboard (input method) policy
 
 Play's policy for keyboard apps requires:
 
-1. **Collection and transmission of typed text.** Kosha does not collect or transmit the text the user types.
+1. **Collection and transmission of typed text.** IncogBoard does not collect or transmit the text the user types.
    Typed text is handled on the device only. The app has no internet permission (checked on every release by
    `tool/check_release_permissions.sh`).
 2. **In-app disclosure before the keyboard is enabled.** Onboarding step 3 (`onboarding_steps.dart`,
    `PrivacyStep`) says: "Android warns that any keyboard may collect what you type. That warning is about
-   keyboards that can reach the internet. Kosha cannot." Play's wording expects the disclosure to state that a
+   keyboards that can reach the internet. IncogBoard cannot." Play's wording expects the disclosure to state that a
    keyboard can collect all text you type. **The current sentence does not say that. It is a requested change**
    (see `checklist.md`): the text should say that a keyboard can collect everything you type, including
-   passwords, and that Kosha has no internet access and so cannot send anything.
+   passwords, and that IncogBoard has no internet access and so cannot send anything.
 3. **Sensitive fields.** Password and other sensitive fields get no suggestions, no learning, no key pop-ups and
    no voice input. (Suggestions and learning are switched off in code through `allowsLearning` and
    `isSensitive`; key pop-ups and voice in those fields are not yet verified, see `checklist.md`.)
@@ -80,10 +80,10 @@ Play's policy for keyboard apps requires:
 
 ## 4. Store review notes (for the reviewer)
 
-Kosha is a keyboard. To test it, a reviewer must enable it:
+IncogBoard is a keyboard. To test it, a reviewer must enable it:
 
-1. Install the app and open Kosha. Onboarding explains the keyboard and the privacy position.
-2. Follow the onboarding steps to turn Kosha on in the system keyboard settings, then select it as the current
+1. Install the app and open IncogBoard. Onboarding explains the keyboard and the privacy position.
+2. Follow the onboarding steps to turn IncogBoard on in the system keyboard settings, then select it as the current
    keyboard in any text field.
 3. Type in any text app. Suggestions and the keyboard panels work with no internet connection.
 4. Voice typing: the microphone key asks for the microphone permission the first time. Voice needs a voice model
@@ -98,7 +98,7 @@ Answer as follows. The result is expected to be the lowest age band (for example
 generates the rating from the answers.
 
 - Violence, blood, fear, gambling, sexual content, profanity, drugs, alcohol, tobacco: No.
-- User-generated content or chat between users: No. (Kosha has no other users.)
+- User-generated content or chat between users: No. (IncogBoard has no other users.)
 - Users can interact or exchange content with other users: No.
 - Shares the user's location with others: No.
 - Digital purchases (in-app purchases, paid features): No.

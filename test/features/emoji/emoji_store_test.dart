@@ -4,10 +4,10 @@
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/core/data_sections.dart';
-import 'package:kosha/src/core/secure_blob_store.dart';
-import 'package:kosha/src/features/shared/panel_blob.dart';
-import 'package:kosha/src/features/emoji/emoji_store.dart';
+import 'package:incogboard/src/core/data_sections.dart';
+import 'package:incogboard/src/core/secure_blob_store.dart';
+import 'package:incogboard/src/features/shared/panel_blob.dart';
+import 'package:incogboard/src/features/emoji/emoji_store.dart';
 
 const _day = 24 * 3600 * 1000;
 

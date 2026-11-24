@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// OWNER: Wave 4-B. Japanese typing options (route KoshaRoutes.japanese). Writes the `japanese`
+// OWNER: Wave 4-B. Japanese typing options (route IncogBoardRoutes.japanese). Writes the `japanese`
 // settings section (flick only, half-width space) and the default Japanese layout
 // (`languages.layouts['ja']`), shows the dictionary pack status, and clears the learned words.
 import 'dart:async';
@@ -11,7 +11,7 @@ import '../../bridge/messages.g.dart';
 import '../../core/data_sections.dart';
 import '../../engine/lang/japanese/japanese_learning.dart';
 import '../../packs/installed_packs.dart';
-import '../../settings/kosha_settings.dart';
+import '../../settings/incogboard_settings.dart';
 import '../app_services.dart';
 import '../common/settings_widgets.dart';
 import '../routes.dart';
@@ -109,7 +109,7 @@ class _JapaneseScreenState extends State<JapaneseScreen> {
                         : installed
                         ? context.l10n.japaneseInstalled(packs.first.name)
                         : context.l10n.japaneseNotInstalled,
-                    onTap: () => unawaited(Navigator.of(context).pushNamed(KoshaRoutes.packs)),
+                    onTap: () => unawaited(Navigator.of(context).pushNamed(IncogBoardRoutes.packs)),
                   );
                 },
               ),

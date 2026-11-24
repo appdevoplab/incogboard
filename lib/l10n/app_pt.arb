@@ -1,8 +1,8 @@
 {
   "@@locale": "pt",
-  "appName": "Kosha",
+  "appName": "IncogBoard",
   "homeTagline": "Digitação privada, neste celular",
-  "homeOfflinePromise": "O Kosha funciona offline e não envia nada a lugar nenhum.",
+  "homeOfflinePromise": "O IncogBoard funciona offline e não envia nada a lugar nenhum.",
   "@homeOfflinePromise": {
     "x-review": true
   },
@@ -29,9 +29,9 @@
   "settingsPrivacy": "Privacidade",
   "settingsAbout": "Sobre",
   "settingsModelPacks": "Pacotes de modelos",
-  "homeSetupTurnOn": "Ative o Kosha na lista de teclados do Android.",
-  "homeSetupChoose": "Escolha o Kosha como o teclado que você usa.",
-  "homeFinishSetup": "Concluir a configuração do Kosha",
+  "homeSetupTurnOn": "Ative o IncogBoard na lista de teclados do Android.",
+  "homeSetupChoose": "Escolha o IncogBoard como o teclado que você usa.",
+  "homeFinishSetup": "Concluir a configuração do IncogBoard",
   "homeTypingSubtitle": "Correções, sugestões, teclas e deslizar",
   "@homeTypingSubtitle": {
     "x-review": true
@@ -62,7 +62,7 @@
   },
   "aboutReadingVersion": "Lendo a versão…",
   "aboutPrivacy": "Privacidade",
-  "aboutNoInternet": "O Kosha não pode usar a internet",
+  "aboutNoInternet": "O IncogBoard não pode usar a internet",
   "aboutNoInternetBody": "As versões de lançamento não têm permissão de internet, então nada do que você digita sai deste celular.",
   "aboutLicence": "Licença",
   "@aboutLicence": {
@@ -72,18 +72,18 @@
   "@aboutGplTitle": {
     "x-review": true
   },
-  "aboutGplBody": "O Kosha é software livre. Você pode estudá-lo, alterá-lo e compartilhá-lo sob a GPL.",
+  "aboutGplBody": "O IncogBoard é software livre. Você pode estudá-lo, alterá-lo e compartilhá-lo sob a GPL.",
   "@aboutGplBody": {
     "x-review": true
   },
   "aboutSourceCode": "Código-fonte",
-  "aboutSourceBody": "O Kosha é GPL-3.0-or-later. O código-fonte está disponível na página do projeto.",
+  "aboutSourceBody": "O IncogBoard é GPL-3.0-or-later. O código-fonte está disponível na página do projeto.",
   "@aboutSourceBody": {
     "x-review": true
   },
   "aboutLicences": "Licenças",
   "aboutOpenSource": "Licenças de código aberto",
-  "aboutOpenSourceBody": "Flutter, material_ui e todos os pacotes que o Kosha usa",
+  "aboutOpenSourceBody": "Flutter, material_ui e todos os pacotes que o IncogBoard usa",
   "@aboutOpenSourceBody": {
     "x-review": true
   },
@@ -283,7 +283,7 @@
   "megabytes": "{count} MB",
   "milliseconds": "{count} ms",
   "dpValue": "{count} dp",
-  "packsOpenFailed": "O Kosha não conseguiu abrir o seletor de arquivos.",
+  "packsOpenFailed": "O IncogBoard não conseguiu abrir o seletor de arquivos.",
   "packsInstalled": "{name} instalado.",
   "packsDeleteTitle": "Excluir {name}?",
   "packsDeleteBody": "Os arquivos dele são removidos deste celular. Você pode importar o pacote de novo depois, a partir do arquivo.",
@@ -291,7 +291,7 @@
     "x-review": true
   },
   "packsDeleted": "{name} excluído.",
-  "packsDeleteFailed": "O Kosha não conseguiu excluir {name}. Tente de novo.",
+  "packsDeleteFailed": "O IncogBoard não conseguiu excluir {name}. Tente de novo.",
   "packsIntro": "Os pacotes são verificados antes de serem instalados. Contêm apenas dados, nunca código.",
   "packsImport": "Importar",
   "@packsImport": {
@@ -352,7 +352,7 @@
   "@packsPlayTitle": {
     "x-review": true
   },
-  "packsPlayNote": "O Google Play baixa estes pacotes, não o Kosha. O próprio Kosha nunca usa a rede.",
+  "packsPlayNote": "O Google Play baixa estes pacotes, não o IncogBoard. O próprio IncogBoard nunca usa a rede.",
   "@packsPlayNote": {
     "x-review": true
   },
@@ -400,11 +400,11 @@
   "@packsVerifyDamaged": {
     "x-review": true
   },
-  "packsVerifyUnavailable": "A verificação de pacotes não está disponível nesta versão do Kosha.",
+  "packsVerifyUnavailable": "A verificação de pacotes não está disponível nesta versão do IncogBoard.",
   "@packsVerifyUnavailable": {
     "x-review": true
   },
-  "packsVerifyFailed": "O Kosha não conseguiu verificar os pacotes. Nada foi alterado.",
+  "packsVerifyFailed": "O IncogBoard não conseguiu verificar os pacotes. Nada foi alterado.",
   "@packsVerifyFailed": {
     "x-review": true
   },
@@ -414,11 +414,11 @@
   },
   "packsNothingStored": "Nada guardado ainda.",
   "packsInstalledUse": "Os pacotes instalados usam {size} neste celular.",
-  "packErrorBadSignature": "Este pacote não está assinado para o Kosha, então nada foi instalado.",
+  "packErrorBadSignature": "Este pacote não está assinado para o IncogBoard, então nada foi instalado.",
   "@packErrorBadSignature": {
     "x-review": true
   },
-  "packErrorBadFormat": "Este arquivo não é um pacote do Kosha. Nada foi instalado.",
+  "packErrorBadFormat": "Este arquivo não é um pacote do IncogBoard. Nada foi instalado.",
   "@packErrorBadFormat": {
     "x-review": true
   },
@@ -426,7 +426,7 @@
   "@packErrorTooLarge": {
     "x-review": true
   },
-  "packErrorVersion": "Este pacote precisa de uma versão mais nova do Kosha.",
+  "packErrorVersion": "Este pacote precisa de uma versão mais nova do IncogBoard.",
   "@packErrorVersion": {
     "x-review": true
   },
@@ -474,12 +474,12 @@
   "@translateRunsOnPhone": {
     "x-review": true
   },
-  "privacyUnlockReason": "Desbloqueie o Kosha para ver suas configurações e dados",
+  "privacyUnlockReason": "Desbloqueie o IncogBoard para ver suas configurações e dados",
   "privacyLockUnavailable": "O bloqueio do dispositivo não está disponível agora. Tente novamente em instantes.",
   "@privacyLockUnavailable": {
     "x-review": true
   },
-  "privacyLockedTitle": "O Kosha está bloqueado",
+  "privacyLockedTitle": "O IncogBoard está bloqueado",
   "@privacyLockedTitle": {
     "x-review": true
   },
@@ -501,15 +501,15 @@
   "@backupWrongPassphrase": {
     "x-review": true
   },
-  "backupInvalidFile": "Este arquivo não é um backup válido do Kosha. Nada foi alterado.",
+  "backupInvalidFile": "Este arquivo não é um backup válido do IncogBoard. Nada foi alterado.",
   "@backupInvalidFile": {
     "x-review": true
   },
-  "backupTooLarge": "Este arquivo é grande demais para ser um backup do Kosha.",
+  "backupTooLarge": "Este arquivo é grande demais para ser um backup do IncogBoard.",
   "@backupTooLarge": {
     "x-review": true
   },
-  "backupNewerVersion": "Este backup foi feito por uma versão mais nova do Kosha. Atualize o Kosha para restaurá-lo.",
+  "backupNewerVersion": "Este backup foi feito por uma versão mais nova do IncogBoard. Atualize o IncogBoard para restaurá-lo.",
   "@backupNewerVersion": {
     "x-review": true
   },
@@ -526,7 +526,7 @@
   "@backupRestoreTitle": {
     "x-review": true
   },
-  "backupMadeBy": "Feito em {date} pelo Kosha {version}.",
+  "backupMadeBy": "Feito em {date} pelo IncogBoard {version}.",
   "backupMerge": "Mesclar",
   "backupMergeBody": "Mantém o que está neste celular e adiciona o que está no backup.",
   "@backupMergeBody": {
@@ -541,7 +541,7 @@
   "backupReplaceTitle": "Substituir os dados deste celular?",
   "backupReplaceConfirm": "As seções escolhidas neste celular são apagadas e substituídas. Não é possível desfazer.",
   "backupUnlockRetryChanged": "Desbloqueie o celular e tente de novo. Nada foi alterado.",
-  "backupRestoreFailed": "O Kosha não conseguiu concluir a restauração. Alguns dados podem não ter sido gravados.",
+  "backupRestoreFailed": "O IncogBoard não conseguiu concluir a restauração. Alguns dados podem não ter sido gravados.",
   "@backupRestoreFailed": {
     "x-review": true
   },
@@ -585,9 +585,9 @@
   "privacyClearLanguageBody": "Isso apaga todas as palavras aprendidas neste idioma e as palavras bloqueadas. Não é possível desfazer.",
   "privacyClear": "Limpar",
   "privacySaveFailed": "Não foi possível salvar a alteração. Tente novamente.",
-  "privacyCouldNotReadWords": "O Kosha não conseguiu ler estas palavras.",
-  "privacyCannotReadWordsNow": "O Kosha não pode ler estas palavras agora. Desbloqueie o celular e tente de novo.",
-  "privacyNoWordsLanguage": "Nenhuma palavra aprendida neste idioma ainda. O Kosha aprende uma palavra depois que você a digita algumas vezes.",
+  "privacyCouldNotReadWords": "O IncogBoard não conseguiu ler estas palavras.",
+  "privacyCannotReadWordsNow": "O IncogBoard não pode ler estas palavras agora. Desbloqueie o celular e tente de novo.",
+  "privacyNoWordsLanguage": "Nenhuma palavra aprendida neste idioma ainda. O IncogBoard aprende uma palavra depois que você a digita algumas vezes.",
   "privacyBlockedWordsTooltip": "Palavras bloqueadas ({count})",
   "privacySortTooltip": "Ordenar",
   "privacySortMostUsed": "Mais usadas primeiro",
@@ -599,7 +599,7 @@
   "privacyNoWordsYet": "Nenhuma palavra ainda.",
   "privacyNoWordsMatch": "Nenhuma palavra corresponde a \"{query}\".",
   "privacyNeverSuggested": "Nunca sugeridas",
-  "privacyBlockedExplain": "O Kosha não vai sugerir nem corrigir para estas palavras.",
+  "privacyBlockedExplain": "O IncogBoard não vai sugerir nem corrigir para estas palavras.",
   "privacyNoBlockedWords": "Nenhuma palavra bloqueada.",
   "privacyAllowAgain": "Permitir de novo",
   "privacyWordLastUsed": "Digitada {count, plural, one {uma vez} other {{count} vezes}} · última vez {when}",
@@ -610,17 +610,17 @@
   "privacyForgetWord": "Esquecer esta palavra",
   "privacyNeverSuggestWord": "Nunca sugerir esta palavra",
   "privacyTryAgain": "Tentar de novo",
-  "privacyCenterLoadFailed": "O Kosha não conseguiu ler seus dados de privacidade. Tente mais tarde.",
-  "privacyDevBuildNetwork": "Esta versão pede acesso à internet. O Kosha nunca deveria fazer isso. Por favor, informe.",
+  "privacyCenterLoadFailed": "O IncogBoard não conseguiu ler seus dados de privacidade. Tente mais tarde.",
+  "privacyDevBuildNetwork": "Esta versão pede acesso à internet. O IncogBoard nunca deveria fazer isso. Por favor, informe.",
   "@privacyDevBuildNetwork": {
     "x-review": true
   },
-  "privacyNoInternetPermission": "O Kosha não tem permissão de internet. Ele não pode enviar nada.",
+  "privacyNoInternetPermission": "O IncogBoard não tem permissão de internet. Ele não pode enviar nada.",
   "privacyDevBuildNote": "Esta é uma versão de desenvolvimento. Sua permissão de rede é só para ferramentas de desenvolvimento.",
   "@privacyDevBuildNote": {
     "x-review": true
   },
-  "privacyDevBuildShort": "Versão de desenvolvimento. O Kosha continua sem permissão de internet.",
+  "privacyDevBuildShort": "Versão de desenvolvimento. O IncogBoard continua sem permissão de internet.",
   "@privacyDevBuildShort": {
     "x-review": true
   },
@@ -634,8 +634,8 @@
   "@privacyPacksSize": {
     "x-review": true
   },
-  "privacyWhatKoshaStores": "O que o Kosha armazena",
-  "privacyShowsSizesOnly": "O Kosha mostra aqui só tamanhos, nunca o conteúdo. Os tamanhos incluem a última cópia salva, que protege seus dados se um salvamento for interrompido.",
+  "privacyWhatIncogBoardStores": "O que o IncogBoard armazena",
+  "privacyShowsSizesOnly": "O IncogBoard mostra aqui só tamanhos, nunca o conteúdo. Os tamanhos incluem a última cópia salva, que protege seus dados se um salvamento for interrompido.",
   "privacyTypingPrivacy": "Privacidade ao digitar",
   "privacyLearnNewWords": "Aprender palavras novas",
   "privacyLearnNewWordsBody": "Aprende palavras e frases do que você digita. Nunca em campos de senha ou no modo anônimo.",
@@ -653,7 +653,7 @@
   "privacyHideScreenshots": "Ocultar de capturas de tela",
   "privacyHideScreenshotsBody": "Impede capturas e gravações de tela do teclado em todos os apps. Campos de senha estão sempre ocultos.",
   "privacyAutoOffApps": "Desativado automaticamente nestes apps",
-  "privacyAutoOffAppsBody": "O Kosha guarda nomes de apps só para preencher esta lista. Eles são criptografados, nunca registrados no anônimo, e você pode limpá-los abaixo.",
+  "privacyAutoOffAppsBody": "O IncogBoard guarda nomes de apps só para preencher esta lista. Eles são criptografados, nunca registrados no anônimo, e você pode limpá-los abaixo.",
   "@privacyAutoOffAppsBody": {
     "x-review": true
   },
@@ -673,7 +673,7 @@
     "x-review": true
   },
   "privacyNoWordsLearnedYet": "Nenhuma palavra aprendida ainda",
-  "privacyWordsLearnedBody": "As palavras que você digita são aprendidas aqui depois que o Kosha as viu algumas vezes.",
+  "privacyWordsLearnedBody": "As palavras que você digita são aprendidas aqui depois que o IncogBoard as viu algumas vezes.",
   "privacyReviewWords": "Revise, remova ou bloqueie palavras · {when}",
   "privacyClipboardHistoryEmpty": "O histórico está vazio. Altere as configurações da área de transferência em Painéis.",
   "@privacyClipboardHistoryEmpty": {
@@ -687,12 +687,12 @@
   "@privacyAppLock": {
     "x-review": true
   },
-  "privacyLockKosha": "Bloquear o Kosha",
-  "@privacyLockKosha": {
+  "privacyLockIncogBoard": "Bloquear o IncogBoard",
+  "@privacyLockIncogBoard": {
     "x-review": true
   },
-  "privacyLockKoshaBody": "Pede sua digital ou o PIN do dispositivo ao abrir o app ou depois de ficar em segundo plano.",
-  "@privacyLockKoshaBody": {
+  "privacyLockIncogBoardBody": "Pede sua digital ou o PIN do dispositivo ao abrir o app ou depois de ficar em segundo plano.",
+  "@privacyLockIncogBoardBody": {
     "x-review": true
   },
   "privacyLockAfter": "Bloquear após",
@@ -707,7 +707,7 @@
   "@privacySetScreenLockBody": {
     "x-review": true
   },
-  "privacyTurnOnAppLockReason": "Ativar o bloqueio do app para o Kosha",
+  "privacyTurnOnAppLockReason": "Ativar o bloqueio do app para o IncogBoard",
   "@privacyTurnOnAppLockReason": {
     "x-review": true
   },
@@ -734,7 +734,7 @@
   "privacyResetSettings": "Também redefinir todas as configurações para o padrão",
   "privacyCannotBeUndone": "Não é possível desfazer.",
   "privacyDeleted": "Excluído.",
-  "privacyDeleteFailed": "O Kosha não conseguiu excluir tudo. Tente novamente.",
+  "privacyDeleteFailed": "O IncogBoard não conseguiu excluir tudo. Tente novamente.",
   "privacyOk": "OK",
   "backupMakeTitle": "Fazer um backup",
   "@backupMakeTitle": {
@@ -837,7 +837,7 @@
   },
   "shortcutShortForm": "Abreviação",
   "shortcutExpandsTo": "Expande para",
-  "privacyMascotLabel": "Mascote de privacidade do Kosha",
+  "privacyMascotLabel": "Mascote de privacidade do IncogBoard",
   "privacyStoredEmoji": "Emojis recentes",
   "@privacyStoredEmoji": {
     "x-review": true
@@ -857,16 +857,16 @@
     "x-review": true
   },
   "shortcutProblemTooMany": "Você pode manter no máximo {count} atalhos.",
-  "onboardingTurnOnTitle": "Ative o Kosha",
-  "onboardingTurnOnBody": "O Android mantém uma lista dos teclados ativados. Ative o Kosha nessa lista e volte aqui. O Kosha percebe a mudança sozinho.",
-  "onboardingKeyboardOn": "O Kosha está ativado.",
-  "onboardingKeyboardOff": "O Kosha ainda não está ativado.",
+  "onboardingTurnOnTitle": "Ative o IncogBoard",
+  "onboardingTurnOnBody": "O Android mantém uma lista dos teclados ativados. Ative o IncogBoard nessa lista e volte aqui. O IncogBoard percebe a mudança sozinho.",
+  "onboardingKeyboardOn": "O IncogBoard está ativado.",
+  "onboardingKeyboardOff": "O IncogBoard ainda não está ativado.",
   "onboardingOpenKeyboardSettings": "Abrir configurações do teclado",
-  "onboardingSwitchTitle": "Mude para o Kosha",
-  "onboardingSwitchBody": "Escolha o Kosha como teclado de digitação. O Android pode mostrar uma lista curta primeiro. Esta tela se atualiza sozinha.",
-  "onboardingKeyboardIsYours": "O Kosha é o seu teclado.",
-  "onboardingKeyboardNotYours": "O Kosha ainda não é o seu teclado.",
-  "onboardingTurnOnFirst": "Primeiro ative o Kosha na etapa anterior.",
+  "onboardingSwitchTitle": "Mude para o IncogBoard",
+  "onboardingSwitchBody": "Escolha o IncogBoard como teclado de digitação. O Android pode mostrar uma lista curta primeiro. Esta tela se atualiza sozinha.",
+  "onboardingKeyboardIsYours": "O IncogBoard é o seu teclado.",
+  "onboardingKeyboardNotYours": "O IncogBoard ainda não é o seu teclado.",
+  "onboardingTurnOnFirst": "Primeiro ative o IncogBoard na etapa anterior.",
   "onboardingChooseKeyboard": "Escolher teclado",
   "onboardingCheckingPermissions": "Verificando as permissões do app…",
   "onboardingDebugInternet": "Esta versão de depuração pode acessar a internet. Builds de depuração têm essa permissão só para desenvolvimento.",
@@ -877,9 +877,9 @@
   "@onboardingReleaseInternet": {
     "x-review": true
   },
-  "onboardingNoInternet": "O Kosha não tem permissão de internet, então não pode enviar nada a lugar nenhum.",
+  "onboardingNoInternet": "O IncogBoard não tem permissão de internet, então não pode enviar nada a lugar nenhum.",
   "onboardingWarningTitle": "Por que o aviso não se aplica",
-  "onboardingWarningBody": "O Android avisa que qualquer teclado pode coletar o que você digita. Esse aviso é sobre teclados que podem acessar a internet. O Kosha não pode.",
+  "onboardingWarningBody": "O Android avisa que qualquer teclado pode coletar o que você digita. Esse aviso é sobre teclados que podem acessar a internet. O IncogBoard não pode.",
   "onboardingInternetAccess": "Acesso à internet",
   "onboardingEverythingHere": "Tudo fica neste celular",
   "onboardingEverythingHereBody": "Palavras aprendidas, área de transferência e configurações são criptografadas com uma chave do Android Keystore.",
@@ -907,8 +907,8 @@
   "onboardingTryField": "Digite aqui para testar",
   "onboardingChecklist": "Lista de verificação",
   "onboardingAllSetTitle": "Tudo pronto",
-  "onboardingAllSetBody": "O Kosha está pronto. Tudo pode ser mudado depois nas Configurações: idiomas, digitação, sensação, painéis e temas. Toque em Concluir para terminar.",
-  "onboardingSetUp": "Configurar o Kosha",
+  "onboardingAllSetBody": "O IncogBoard está pronto. Tudo pode ser mudado depois nas Configurações: idiomas, digitação, sensação, painéis e temas. Toque em Concluir para terminar.",
+  "onboardingSetUp": "Configurar o IncogBoard",
   "onboardingStepOf": "Etapa {step} de {total}",
   "onboardingStepFraction": "{step}/{total}",
   "onboardingBack": "Voltar",
@@ -933,7 +933,7 @@
   "@themeTryLabel": {
     "x-review": true
   },
-  "themeTryHelper": "O teclado aparece aqui quando o Kosha está selecionado.",
+  "themeTryHelper": "O teclado aparece aqui quando o IncogBoard está selecionado.",
   "themeRenameTitle": "Renomear tema",
   "@themeRenameTitle": {
     "x-review": true
@@ -1105,7 +1105,7 @@
   "themeCopySuffix": "cópia",
   "themeCopyName": "Cópia de {name}",
   "themeDeleteTitle": "Excluir \"{name}\"?",
-  "themeDeleteSelectedBody": "Este tema está selecionado. O Kosha Dynamic será usado no lugar. Não é possível desfazer.",
+  "themeDeleteSelectedBody": "Este tema está selecionado. O IncogBoard Dynamic será usado no lugar. Não é possível desfazer.",
   "@themeDeleteSelectedBody": {
     "x-review": true
   },
@@ -1124,8 +1124,8 @@
   },
   "themeSettingFailed": "Não foi possível salvar a configuração.",
   "themeSystemColoursUnavailable": "As cores do sistema não estão disponíveis.",
-  "themeKoshaDynamicFollows": "O Kosha Dynamic segue seu papel de parede",
-  "themeKoshaDynamicBody": "Suas cores são atualizadas quando o papel de parede muda",
+  "themeIncogBoardDynamicFollows": "O IncogBoard Dynamic segue seu papel de parede",
+  "themeIncogBoardDynamicBody": "Suas cores são atualizadas quando o papel de parede muda",
   "themeSectionPresets": "Predefinições",
   "themeSectionMyThemes": "Meus temas",
   "themeSectionTry": "Teste digitando",
@@ -1142,7 +1142,7 @@
   },
   "privacyStoredLearned": "Palavras aprendidas ({language})",
   "settingsComingLater": "Disponível em uma atualização futura",
-  "backupExplainer": "Um backup é um único arquivo, criptografado com uma frase-senha que você escolhe. Só essa frase o abre. Se você esquecer a frase-senha, ninguém consegue recuperar o backup, nem mesmo o Kosha.",
+  "backupExplainer": "Um backup é um único arquivo, criptografado com uma frase-senha que você escolhe. Só essa frase o abre. Se você esquecer a frase-senha, ninguém consegue recuperar o backup, nem mesmo o IncogBoard.",
   "@backupExplainer": {
     "x-review": true
   },
@@ -1154,7 +1154,7 @@
   "durationDay": "1 dia",
   "durationWeek": "1 semana",
   "onboardingCloseSetup": "Fechar configuração",
-  "packsCouldNotRead": "O Kosha não conseguiu ler seus pacotes",
+  "packsCouldNotRead": "O IncogBoard não conseguiu ler seus pacotes",
   "packsDeleteTooltip": "Excluir {name}",
   "privacyNothingStored": "Nada guardado ainda",
   "privacyRemoveAppTooltip": "Remover {app} da lista",

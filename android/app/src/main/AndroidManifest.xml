@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <!--
-      Kosha never needs the network. The only permissions are listed here; the
+      IncogBoard never needs the network. The only permissions are listed here; the
       release manifest (src/release) additionally strips INTERNET in case any
       library ever tries to add it, and CI fails the build if it appears.
     -->
@@ -12,7 +12,7 @@
 
     <application
         android:localeConfig="@xml/locales_config"
-        android:name=".KoshaApplication"
+        android:name=".IncogBoardApplication"
         android:label="@string/app_name"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -51,7 +51,7 @@
 
         <!-- The keyboard. Only the system can bind it (BIND_INPUT_METHOD). -->
         <service
-            android:name=".ime.KoshaImeService"
+            android:name=".ime.IncogBoardImeService"
             android:label="@string/ime_name"
             android:permission="android.permission.BIND_INPUT_METHOD"
             android:exported="true">

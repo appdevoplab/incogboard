@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "appName": "Kosha",
+  "appName": "IncogBoard",
   "@appName": {
     "description": "The app's name. Never translated; keep it as it is in every language"
   },
@@ -8,7 +8,7 @@
   "@homeTagline": {
     "description": "Home screen header, under the app name. Max 40 characters"
   },
-  "homeOfflinePromise": "Kosha works offline and sends nothing anywhere.",
+  "homeOfflinePromise": "IncogBoard works offline and sends nothing anywhere.",
   "@homeOfflinePromise": {
     "description": "Home screen header: the privacy promise. Two lines at most"
   },
@@ -80,15 +80,15 @@
   "@settingsModelPacks": {
     "description": "Title of the packs screen, and a row that opens it. Max 24 characters"
   },
-  "homeSetupTurnOn": "Turn Kosha on in Android's keyboard list.",
+  "homeSetupTurnOn": "Turn IncogBoard on in Android's keyboard list.",
   "@homeSetupTurnOn": {
-    "description": "Home hint while Kosha is off. Two lines at most"
+    "description": "Home hint while IncogBoard is off. Two lines at most"
   },
-  "homeSetupChoose": "Choose Kosha as the keyboard you type with.",
+  "homeSetupChoose": "Choose IncogBoard as the keyboard you type with.",
   "@homeSetupChoose": {
-    "description": "Home hint when Kosha is on but not chosen. Two lines at most"
+    "description": "Home hint when IncogBoard is on but not chosen. Two lines at most"
   },
-  "homeFinishSetup": "Finish setting up Kosha",
+  "homeFinishSetup": "Finish setting up IncogBoard",
   "@homeFinishSetup": {
     "description": "Home card title while setup is unfinished. Max 40 characters"
   },
@@ -156,7 +156,7 @@
   "@aboutPrivacy": {
     "description": "About section title"
   },
-  "aboutNoInternet": "Kosha cannot use the internet",
+  "aboutNoInternet": "IncogBoard cannot use the internet",
   "@aboutNoInternet": {
     "description": "About privacy tile title. Max 50 characters"
   },
@@ -172,7 +172,7 @@
   "@aboutGplTitle": {
     "description": "About licence tile title. Keep the licence name"
   },
-  "aboutGplBody": "Kosha is free software. You may study, change and share it under the GPL.",
+  "aboutGplBody": "IncogBoard is free software. You may study, change and share it under the GPL.",
   "@aboutGplBody": {
     "description": "About licence tile. Two lines at most"
   },
@@ -180,7 +180,7 @@
   "@aboutSourceCode": {
     "description": "About section title"
   },
-  "aboutSourceBody": "Kosha is GPL-3.0-or-later. Its source code is available from the project page.",
+  "aboutSourceBody": "IncogBoard is GPL-3.0-or-later. Its source code is available from the project page.",
   "@aboutSourceBody": {
     "description": "About source tile. Two lines at most"
   },
@@ -192,7 +192,7 @@
   "@aboutOpenSource": {
     "description": "About tile title. Max 40 characters"
   },
-  "aboutOpenSourceBody": "Flutter, material_ui and every package Kosha uses",
+  "aboutOpenSourceBody": "Flutter, material_ui and every package IncogBoard uses",
   "@aboutOpenSourceBody": {
     "description": "About tile subtitle. Lists the libraries. Two lines at most"
   },
@@ -647,7 +647,7 @@
       }
     }
   },
-  "packsOpenFailed": "Kosha could not open the file picker.",
+  "packsOpenFailed": "IncogBoard could not open the file picker.",
   "@packsOpenFailed": {
     "description": "Packs: shown when the file picker fails"
   },
@@ -682,7 +682,7 @@
       }
     }
   },
-  "packsDeleteFailed": "Kosha could not delete {name}. Try again.",
+  "packsDeleteFailed": "IncogBoard could not delete {name}. Try again.",
   "@packsDeleteFailed": {
     "description": "Packs: shown when a delete fails. {name} is the pack name",
     "placeholders": {
@@ -763,9 +763,9 @@
   "@packsPlayTitle": {
     "description": "Packs: heading of the section for packs the Play store delivers"
   },
-  "packsPlayNote": "Google Play downloads these packs, not Kosha. Kosha itself never uses the network.",
+  "packsPlayNote": "Google Play downloads these packs, not IncogBoard. IncogBoard itself never uses the network.",
   "@packsPlayNote": {
-    "description": "Packs: note that Google Play downloads the packs and Kosha does not use the network"
+    "description": "Packs: note that Google Play downloads the packs and IncogBoard does not use the network"
   },
   "packsGet": "Get",
   "@packsGet": {
@@ -785,7 +785,7 @@
   },
   "packsStatusInstalling": "Checking and installing",
   "@packsStatusInstalling": {
-    "description": "Packs: status while Kosha verifies and installs a pack from Play"
+    "description": "Packs: status while IncogBoard verifies and installs a pack from Play"
   },
   "packsStatusFailed": "Google Play could not deliver it. Try again.",
   "@packsStatusFailed": {
@@ -811,11 +811,11 @@
   "@packsVerifyDamaged": {
     "description": "Packs: result of verifying, some packs damaged. Max 120 characters"
   },
-  "packsVerifyUnavailable": "Checking installed packs is not available in this version of Kosha.",
+  "packsVerifyUnavailable": "Checking installed packs is not available in this version of IncogBoard.",
   "@packsVerifyUnavailable": {
     "description": "Packs: shown when this build cannot verify packs yet"
   },
-  "packsVerifyFailed": "Kosha could not check the packs. Nothing was changed.",
+  "packsVerifyFailed": "IncogBoard could not check the packs. Nothing was changed.",
   "@packsVerifyFailed": {
     "description": "Packs: shown when the verify action itself failed"
   },
@@ -836,11 +836,11 @@
       }
     }
   },
-  "packErrorBadSignature": "This pack is not signed for Kosha, so nothing was installed.",
+  "packErrorBadSignature": "This pack is not signed for IncogBoard, so nothing was installed.",
   "@packErrorBadSignature": {
     "description": "Pack install error: the signature is wrong. Two lines at most"
   },
-  "packErrorBadFormat": "This file is not a Kosha pack. Nothing was installed.",
+  "packErrorBadFormat": "This file is not a IncogBoard pack. Nothing was installed.",
   "@packErrorBadFormat": {
     "description": "Pack install error: wrong file. Two lines at most"
   },
@@ -848,7 +848,7 @@
   "@packErrorTooLarge": {
     "description": "Pack install error: too big. Two lines at most"
   },
-  "packErrorVersion": "This pack needs a newer version of Kosha.",
+  "packErrorVersion": "This pack needs a newer version of IncogBoard.",
   "@packErrorVersion": {
     "description": "Pack install error: version too old. Two lines at most"
   },
@@ -924,7 +924,7 @@
   "@translateRunsOnPhone": {
     "description": "Translation: footnote. Two lines at most"
   },
-  "privacyUnlockReason": "Unlock Kosha to see your settings and data",
+  "privacyUnlockReason": "Unlock IncogBoard to see your settings and data",
   "@privacyUnlockReason": {
     "description": "Shown by the system fingerprint prompt. Max 60 characters"
   },
@@ -932,7 +932,7 @@
   "@privacyLockUnavailable": {
     "description": "App lock: the device lock cannot be used now. Two lines at most"
   },
-  "privacyLockedTitle": "Kosha is locked",
+  "privacyLockedTitle": "IncogBoard is locked",
   "@privacyLockedTitle": {
     "description": "App lock screen title. Max 30 characters"
   },
@@ -965,15 +965,15 @@
   "@backupWrongPassphrase": {
     "description": "Restore: wrong passphrase or broken file. Two lines at most"
   },
-  "backupInvalidFile": "This file is not a valid Kosha backup. Nothing was changed.",
+  "backupInvalidFile": "This file is not a valid IncogBoard backup. Nothing was changed.",
   "@backupInvalidFile": {
     "description": "Restore: wrong file type. Two lines at most"
   },
-  "backupTooLarge": "This file is too large to be a Kosha backup.",
+  "backupTooLarge": "This file is too large to be a IncogBoard backup.",
   "@backupTooLarge": {
     "description": "Restore: file too big. Two lines at most"
   },
-  "backupNewerVersion": "This backup was made by a newer version of Kosha. Update Kosha to restore it.",
+  "backupNewerVersion": "This backup was made by a newer version of IncogBoard. Update IncogBoard to restore it.",
   "@backupNewerVersion": {
     "description": "Restore: backup from a newer app. Two lines at most"
   },
@@ -993,7 +993,7 @@
   "@backupRestoreTitle": {
     "description": "Restore: dialog title. Max 30 characters"
   },
-  "backupMadeBy": "Made {date} by Kosha {version}.",
+  "backupMadeBy": "Made {date} by IncogBoard {version}.",
   "@backupMadeBy": {
     "description": "Restore: when and with which version the backup was made. {date} and {version} are text",
     "placeholders": {
@@ -1037,7 +1037,7 @@
   "@backupUnlockRetryChanged": {
     "description": "Restore: needs the phone unlocked. Two lines at most"
   },
-  "backupRestoreFailed": "Kosha could not finish the restore. Some data may not have been written.",
+  "backupRestoreFailed": "IncogBoard could not finish the restore. Some data may not have been written.",
   "@backupRestoreFailed": {
     "description": "Restore: failed partway. Two lines at most"
   },
@@ -1245,15 +1245,15 @@
   "@privacySaveFailed": {
     "description": "Privacy: a change failed to save. Two lines at most"
   },
-  "privacyCouldNotReadWords": "Kosha could not read these words.",
+  "privacyCouldNotReadWords": "IncogBoard could not read these words.",
   "@privacyCouldNotReadWords": {
     "description": "Learned words: failed to load. Two lines at most"
   },
-  "privacyCannotReadWordsNow": "Kosha cannot read these words right now. Unlock your phone, then try again.",
+  "privacyCannotReadWordsNow": "IncogBoard cannot read these words right now. Unlock your phone, then try again.",
   "@privacyCannotReadWordsNow": {
     "description": "Learned words: locked data. Two lines at most"
   },
-  "privacyNoWordsLanguage": "No words learned in this language yet. Kosha learns a word after you type it a few times.",
+  "privacyNoWordsLanguage": "No words learned in this language yet. IncogBoard learns a word after you type it a few times.",
   "@privacyNoWordsLanguage": {
     "description": "Learned words: empty list. Two lines at most"
   },
@@ -1319,7 +1319,7 @@
   "@privacyNeverSuggested": {
     "description": "Learned words: section title for blocked words. Max 30 characters"
   },
-  "privacyBlockedExplain": "Kosha will not suggest or correct to these words.",
+  "privacyBlockedExplain": "IncogBoard will not suggest or correct to these words.",
   "@privacyBlockedExplain": {
     "description": "Learned words: explains blocked words. Two lines at most"
   },
@@ -1381,15 +1381,15 @@
   "@privacyTryAgain": {
     "description": "Error state button. Max 20 characters"
   },
-  "privacyCenterLoadFailed": "Kosha could not read its privacy data. Try again later.",
+  "privacyCenterLoadFailed": "IncogBoard could not read its privacy data. Try again later.",
   "@privacyCenterLoadFailed": {
     "description": "Privacy center: failed to load. Two lines at most"
   },
-  "privacyDevBuildNetwork": "This build requests internet access. Kosha should never do that. Please report it.",
+  "privacyDevBuildNetwork": "This build requests internet access. IncogBoard should never do that. Please report it.",
   "@privacyDevBuildNetwork": {
     "description": "Privacy center: a release build asks for internet. Two lines at most"
   },
-  "privacyNoInternetPermission": "Kosha has no internet permission. It cannot send anything.",
+  "privacyNoInternetPermission": "IncogBoard has no internet permission. It cannot send anything.",
   "@privacyNoInternetPermission": {
     "description": "Privacy center: release build status. Two lines at most"
   },
@@ -1397,7 +1397,7 @@
   "@privacyDevBuildNote": {
     "description": "Privacy center: debug build status. Two lines at most"
   },
-  "privacyDevBuildShort": "Development build. Kosha still has no internet permission.",
+  "privacyDevBuildShort": "Development build. IncogBoard still has no internet permission.",
   "@privacyDevBuildShort": {
     "description": "Privacy center: short debug build status. Two lines at most"
   },
@@ -1433,11 +1433,11 @@
       }
     }
   },
-  "privacyWhatKoshaStores": "What Kosha stores",
-  "@privacyWhatKoshaStores": {
+  "privacyWhatIncogBoardStores": "What IncogBoard stores",
+  "@privacyWhatIncogBoardStores": {
     "description": "Privacy center: group title. Max 30 characters"
   },
-  "privacyShowsSizesOnly": "Kosha shows only sizes here, never what is inside. Sizes include the last saved copy, which keeps your data safe if a save is interrupted.",
+  "privacyShowsSizesOnly": "IncogBoard shows only sizes here, never what is inside. Sizes include the last saved copy, which keeps your data safe if a save is interrupted.",
   "@privacyShowsSizesOnly": {
     "description": "Privacy center: explains sizes. Three lines at most"
   },
@@ -1471,9 +1471,9 @@
   },
   "privacyAutoOffApps": "Turned off automatically in these apps",
   "@privacyAutoOffApps": {
-    "description": "Privacy center: section title for apps where Kosha turns off. Max 50 characters"
+    "description": "Privacy center: section title for apps where IncogBoard turns off. Max 50 characters"
   },
-  "privacyAutoOffAppsBody": "Kosha keeps app names only to fill this list. They are encrypted, never recorded while incognito, and you can clear them below.",
+  "privacyAutoOffAppsBody": "IncogBoard keeps app names only to fill this list. They are encrypted, never recorded while incognito, and you can clear them below.",
   "@privacyAutoOffAppsBody": {
     "description": "Privacy center: explains the app list. Three lines at most"
   },
@@ -1517,7 +1517,7 @@
   "@privacyNoWordsLearnedYet": {
     "description": "Privacy center: empty learned words. Max 40 characters"
   },
-  "privacyWordsLearnedBody": "Words you type are learned here once Kosha has seen them a few times.",
+  "privacyWordsLearnedBody": "Words you type are learned here once IncogBoard has seen them a few times.",
   "@privacyWordsLearnedBody": {
     "description": "Privacy center: explains learned words. Two lines at most"
   },
@@ -1547,12 +1547,12 @@
   "@privacyAppLock": {
     "description": "Privacy center: section title. Max 30 characters"
   },
-  "privacyLockKosha": "Lock Kosha",
-  "@privacyLockKosha": {
+  "privacyLockIncogBoard": "Lock IncogBoard",
+  "@privacyLockIncogBoard": {
     "description": "Privacy center: switch title. Max 30 characters"
   },
-  "privacyLockKoshaBody": "Ask for your fingerprint or device PIN when the app opens, or after it was in the background.",
-  "@privacyLockKoshaBody": {
+  "privacyLockIncogBoardBody": "Ask for your fingerprint or device PIN when the app opens, or after it was in the background.",
+  "@privacyLockIncogBoardBody": {
     "description": "Privacy center: switch subtitle. Three lines at most"
   },
   "privacyLockAfter": "Lock after",
@@ -1567,7 +1567,7 @@
   "@privacySetScreenLockBody": {
     "description": "Privacy center: dialog text. Three lines at most"
   },
-  "privacyTurnOnAppLockReason": "Turn on app lock for Kosha",
+  "privacyTurnOnAppLockReason": "Turn on app lock for IncogBoard",
   "@privacyTurnOnAppLockReason": {
     "description": "Shown by the system fingerprint prompt when turning on app lock. Max 60 characters"
   },
@@ -1632,7 +1632,7 @@
   "@privacyDeleted": {
     "description": "Privacy center: snackbar after deleting. Max 30 characters"
   },
-  "privacyDeleteFailed": "Kosha could not delete everything. Try again.",
+  "privacyDeleteFailed": "IncogBoard could not delete everything. Try again.",
   "@privacyDeleteFailed": {
     "description": "Privacy center: deletion failed. Two lines at most"
   },
@@ -1867,7 +1867,7 @@
   "@shortcutExpandsTo": {
     "description": "Shortcuts: field label. Max 20 characters"
   },
-  "privacyMascotLabel": "Kosha privacy mascot",
+  "privacyMascotLabel": "IncogBoard privacy mascot",
   "@privacyMascotLabel": {
     "description": "Accessibility label of the privacy mascot picture. Max 40 characters"
   },
@@ -1953,43 +1953,43 @@
       }
     }
   },
-  "onboardingTurnOnTitle": "Turn on Kosha",
+  "onboardingTurnOnTitle": "Turn on IncogBoard",
   "@onboardingTurnOnTitle": {
     "description": "Onboarding: step title. Max 30 characters"
   },
-  "onboardingTurnOnBody": "Android keeps a list of the keyboards you have turned on. Turn Kosha on in that list, then come back here. Kosha notices the change by itself.",
+  "onboardingTurnOnBody": "Android keeps a list of the keyboards you have turned on. Turn IncogBoard on in that list, then come back here. IncogBoard notices the change by itself.",
   "@onboardingTurnOnBody": {
     "description": "Onboarding: step explanation. Three lines at most"
   },
-  "onboardingKeyboardOn": "Kosha is turned on.",
+  "onboardingKeyboardOn": "IncogBoard is turned on.",
   "@onboardingKeyboardOn": {
-    "description": "Onboarding: status when Kosha is on. Max 40 characters"
+    "description": "Onboarding: status when IncogBoard is on. Max 40 characters"
   },
-  "onboardingKeyboardOff": "Kosha is not turned on yet.",
+  "onboardingKeyboardOff": "IncogBoard is not turned on yet.",
   "@onboardingKeyboardOff": {
-    "description": "Onboarding: status when Kosha is off. Max 40 characters"
+    "description": "Onboarding: status when IncogBoard is off. Max 40 characters"
   },
   "onboardingOpenKeyboardSettings": "Open keyboard settings",
   "@onboardingOpenKeyboardSettings": {
     "description": "Onboarding: button. Max 30 characters"
   },
-  "onboardingSwitchTitle": "Switch to Kosha",
+  "onboardingSwitchTitle": "Switch to IncogBoard",
   "@onboardingSwitchTitle": {
     "description": "Onboarding: step title. Max 30 characters"
   },
-  "onboardingSwitchBody": "Choose Kosha as the keyboard you type with. Android may show a short list first. This screen updates by itself.",
+  "onboardingSwitchBody": "Choose IncogBoard as the keyboard you type with. Android may show a short list first. This screen updates by itself.",
   "@onboardingSwitchBody": {
     "description": "Onboarding: step explanation. Three lines at most"
   },
-  "onboardingKeyboardIsYours": "Kosha is your keyboard.",
+  "onboardingKeyboardIsYours": "IncogBoard is your keyboard.",
   "@onboardingKeyboardIsYours": {
-    "description": "Onboarding: status when Kosha is chosen. Max 40 characters"
+    "description": "Onboarding: status when IncogBoard is chosen. Max 40 characters"
   },
-  "onboardingKeyboardNotYours": "Kosha is not your keyboard yet.",
+  "onboardingKeyboardNotYours": "IncogBoard is not your keyboard yet.",
   "@onboardingKeyboardNotYours": {
-    "description": "Onboarding: status when Kosha is on but not chosen. Max 40 characters"
+    "description": "Onboarding: status when IncogBoard is on but not chosen. Max 40 characters"
   },
-  "onboardingTurnOnFirst": "Turn Kosha on in the previous step first.",
+  "onboardingTurnOnFirst": "Turn IncogBoard on in the previous step first.",
   "@onboardingTurnOnFirst": {
     "description": "Onboarding: status when the previous step is not done. Two lines at most"
   },
@@ -2009,7 +2009,7 @@
   "@onboardingReleaseInternet": {
     "description": "Onboarding: privacy note for a build that can reach the internet. Two lines at most"
   },
-  "onboardingNoInternet": "Kosha has no internet permission, so it cannot send anything anywhere.",
+  "onboardingNoInternet": "IncogBoard has no internet permission, so it cannot send anything anywhere.",
   "@onboardingNoInternet": {
     "description": "Onboarding: privacy note. Two lines at most"
   },
@@ -2017,7 +2017,7 @@
   "@onboardingWarningTitle": {
     "description": "Onboarding: explanation title. Max 40 characters"
   },
-  "onboardingWarningBody": "Android warns that any keyboard may collect what you type. That warning is about keyboards that can reach the internet. Kosha cannot.",
+  "onboardingWarningBody": "Android warns that any keyboard may collect what you type. That warning is about keyboards that can reach the internet. IncogBoard cannot.",
   "@onboardingWarningBody": {
     "description": "Onboarding: explanation. Four lines at most"
   },
@@ -2081,11 +2081,11 @@
   "@onboardingAllSetTitle": {
     "description": "Onboarding: last step title. Max 30 characters"
   },
-  "onboardingAllSetBody": "Kosha is ready. Everything can be changed later in Settings: languages, typing, feel, panels and themes. Tap Done to finish.",
+  "onboardingAllSetBody": "IncogBoard is ready. Everything can be changed later in Settings: languages, typing, feel, panels and themes. Tap Done to finish.",
   "@onboardingAllSetBody": {
     "description": "Onboarding: last step explanation. Three lines at most"
   },
-  "onboardingSetUp": "Set up Kosha",
+  "onboardingSetUp": "Set up IncogBoard",
   "@onboardingSetUp": {
     "description": "Onboarding: screen title in the app bar. Max 30 characters"
   },
@@ -2192,7 +2192,7 @@
   "@themeTryLabel": {
     "description": "Themes: label of the try-it field. Max 40 characters"
   },
-  "themeTryHelper": "The keyboard appears here when Kosha is selected.",
+  "themeTryHelper": "The keyboard appears here when IncogBoard is selected.",
   "@themeTryHelper": {
     "description": "Themes: helper under the try-it field. Two lines at most"
   },
@@ -2731,7 +2731,7 @@
       }
     }
   },
-  "themeDeleteSelectedBody": "This theme is selected. Kosha Dynamic will be used instead. This cannot be undone.",
+  "themeDeleteSelectedBody": "This theme is selected. IncogBoard Dynamic will be used instead. This cannot be undone.",
   "@themeDeleteSelectedBody": {
     "description": "Themes gallery: delete dialog text for the selected theme. Three lines at most"
   },
@@ -2759,12 +2759,12 @@
   "@themeSystemColoursUnavailable": {
     "description": "Themes: snackbar when the system colours cannot be read. Max 60 characters"
   },
-  "themeKoshaDynamicFollows": "Kosha Dynamic follows your wallpaper",
-  "@themeKoshaDynamicFollows": {
+  "themeIncogBoardDynamicFollows": "IncogBoard Dynamic follows your wallpaper",
+  "@themeIncogBoardDynamicFollows": {
     "description": "Themes gallery: switch title. Max 50 characters"
   },
-  "themeKoshaDynamicBody": "Its colours update when the wallpaper changes",
-  "@themeKoshaDynamicBody": {
+  "themeIncogBoardDynamicBody": "Its colours update when the wallpaper changes",
+  "@themeIncogBoardDynamicBody": {
     "description": "Themes gallery: switch subtitle. Two lines at most"
   },
   "themeSectionPresets": "Presets",
@@ -2820,7 +2820,7 @@
   "@settingsComingLater": {
     "description": "Settings: tooltip on an option that is not available yet. Max 40 characters"
   },
-  "backupExplainer": "A backup is one file, encrypted with a passphrase you choose. Only that passphrase opens it. If you forget the passphrase, nobody can recover the backup, including Kosha.",
+  "backupExplainer": "A backup is one file, encrypted with a passphrase you choose. Only that passphrase opens it. If you forget the passphrase, nobody can recover the backup, including IncogBoard.",
   "@backupExplainer": {
     "description": "Backup screen: explains how backups are protected. Three lines at most"
   },
@@ -2864,7 +2864,7 @@
   "@onboardingCloseSetup": {
     "description": "Onboarding: close button tooltip. Max 30 characters"
   },
-  "packsCouldNotRead": "Kosha could not read its packs",
+  "packsCouldNotRead": "IncogBoard could not read its packs",
   "@packsCouldNotRead": {
     "description": "Packs: list failed to load. Two lines at most"
   },

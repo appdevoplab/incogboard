@@ -13,7 +13,7 @@ import '../../security/app_auth.dart';
 import '../app_services.dart';
 import 'privacy_widgets.dart';
 
-import 'package:kosha/src/app/l10n.dart';
+import 'package:incogboard/src/app/l10n.dart';
 
 class AppLockGate extends StatefulWidget {
   const AppLockGate({super.key, required this.child, this.authenticator, this.clock});

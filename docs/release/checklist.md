@@ -35,7 +35,7 @@ merge agent does it, in the repository or on the device). Order matters within e
 13. **Write down the SHA-256 fingerprints** the script prints (keystore and pack key). They go into the Console and
     the release notes. (user)
 14. **Set the local signing**: copy `key.properties` to `android\key.properties` (git-ignored), or set the four
-    `KOSHA_*` variables for the session. (user)
+    `INCOGBOARD_*` variables for the session. (user)
 15. **For GitHub, set the release environment secrets and variables** listed in `RELEASING.md`, section
     "Secrets for GitHub": `KOSHA_KEYSTORE_BASE64`, `KOSHA_KEYSTORE_PASSWORD`, `KOSHA_KEY_PASSWORD`,
     `KOSHA_KEY_ALIAS`, the variables `KOSHA_SOURCE_URL` and `KOSHA_RELEASE_CERT_SHA256`. (user)
@@ -98,12 +98,12 @@ These need the owner of each file. None of them is needed to build the release A
 
 1. **Onboarding disclosure** (`lib/l10n/app_en.arb`, key `onboardingWarningBody`, and its translations). Play's
    keyboard policy expects the disclosure to say that a keyboard can collect everything you type. Proposed English:
-   "A keyboard can collect everything you type, including passwords. Kosha has no internet access, so it cannot
+   "A keyboard can collect everything you type, including passwords. IncogBoard has no internet access, so it cannot
    send anything you type anywhere." Then re-run the x-review marking for the translations.
 2. **Flavour visible to Dart** (only when the About screen should show it): a Pigeon method on `PlatformHostApi`
    (`String getDistribution()`), implemented in `PlatformHostApiImpl.kt` by reading the resource
-   `R.string.kosha_distribution`. Not done: it changes the Pigeon contract.
-3. **Pack keys** (`android/app/src/main/kotlin/app/kosha/keyboard/packs/PackKeys.kt`, orchestrator-owned): trust the
+   `R.string.incogboard_distribution`. Not done: it changes the Pigeon contract.
+3. **Pack keys** (`android/app/src/main/kotlin/app/incogboard/keyboard/packs/PackKeys.kt`, orchestrator-owned): trust the
    release public key (`pack-release.pub.b64`) and keep the development key only for debug builds. Exact change:
    `listOf(PackStore.publicKey(RELEASE_KEY))` in release, the development key added only through a debug source
    set. Wave 5-C implements the mechanism; this is the key value.
@@ -135,7 +135,7 @@ Not confirmed (check before publication):
 1. **Sensitive fields get no key pop-ups and no voice input.** Suggestions and learning are switched off in code
    (`allowsLearning`, `isSensitive`). Pop-ups and voice in those fields were not traced.
 2. **Release logs contain no typed text, words, app names or paths.** Dart logging is a no-op in release
-   (`KoshaLog`). Kotlin `Log.w` and `Log.e` calls (about 19 `Log.*` calls outside the debug code, the `d/v/i`
+   (`IncogBoardLog`). Kotlin `Log.w` and `Log.e` calls (about 19 `Log.*` calls outside the debug code, the `d/v/i`
    levels stripped by R8) were not each read.
 3. **The voice session ends after silence and the audio is never written to disk.** The recording path was read
    (`AudioRecord` into memory). The silence limit is documented in `HANDOFF.md`. The absence of any file write

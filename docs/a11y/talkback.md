@@ -1,4 +1,4 @@
-# TalkBack on Kosha
+# TalkBack on IncogBoard
 
 How to test the keyboard and the settings app with TalkBack, and what to try first. The keyboard is an
 input method, so TalkBack users explore it with one finger and type by lifting the finger (TalkBack's
@@ -7,7 +7,7 @@ default IME typing mode) or by double-tapping.
 ## Setup on the phone
 
 1. Enable TalkBack: Settings, Accessibility, TalkBack.
-2. Select Kosha as the keyboard: Settings, System, Keyboard, On-screen keyboard, Kosha.
+2. Select IncogBoard as the keyboard: Settings, System, Keyboard, On-screen keyboard, IncogBoard.
 3. Open any text field (Messages, Notes). Turn on the keyboard with one finger: explore by moving a finger
    across the keys. Each key is announced when touched.
 4. Typing: lift the finger on a key to type it (TalkBack's IME typing mode). Double-tap types a focused key too.
@@ -51,7 +51,7 @@ No announcement ever carries typed text. The announcer only receives events.
 
 ### Settings app
 
-- Settings in Hindi and German: switch the phone's language, then open Kosha settings. Check that headings,
+- Settings in Hindi and German: switch the phone's language, then open IncogBoard settings. Check that headings,
   switches and descriptions are read in the right language and that no screen has text cut off at font
   scale 1.3 (Settings, Display, Font size).
 

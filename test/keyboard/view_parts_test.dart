@@ -2,19 +2,19 @@
 import 'dart:ui';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/core/input_field_info.dart';
-import 'package:kosha/src/engine/contracts.dart';
-import 'package:kosha/src/keyboard/input/input_controller.dart';
-import 'package:kosha/src/keyboard/input/keyboard_page.dart';
-import 'package:kosha/src/keyboard/layout/layout_engine.dart';
-import 'package:kosha/src/keyboard/layout/layout_model.dart';
-import 'package:kosha/src/keyboard/view/key_press_animator.dart';
-import 'package:kosha/src/keyboard/view/key_visuals.dart';
-import 'package:kosha/src/keyboard/view/keys_painter.dart';
-import 'package:kosha/src/keyboard/view/popup_layer.dart';
-import 'package:kosha/src/keyboard/view/suggestion_strip.dart';
-import 'package:kosha/src/settings/kosha_settings.dart';
-import 'package:kosha/src/theme/keyboard_theme_data.dart';
+import 'package:incogboard/src/core/input_field_info.dart';
+import 'package:incogboard/src/engine/contracts.dart';
+import 'package:incogboard/src/keyboard/input/input_controller.dart';
+import 'package:incogboard/src/keyboard/input/keyboard_page.dart';
+import 'package:incogboard/src/keyboard/layout/layout_engine.dart';
+import 'package:incogboard/src/keyboard/layout/layout_model.dart';
+import 'package:incogboard/src/keyboard/view/key_press_animator.dart';
+import 'package:incogboard/src/keyboard/view/key_visuals.dart';
+import 'package:incogboard/src/keyboard/view/keys_painter.dart';
+import 'package:incogboard/src/keyboard/view/popup_layer.dart';
+import 'package:incogboard/src/keyboard/view/suggestion_strip.dart';
+import 'package:incogboard/src/settings/incogboard_settings.dart';
+import 'package:incogboard/src/theme/keyboard_theme_data.dart';
 
 import 'support/app_harness.dart';
 

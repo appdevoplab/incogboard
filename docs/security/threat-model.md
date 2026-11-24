@@ -1,8 +1,8 @@
-# Kosha threat model
+# IncogBoard threat model
 
 Status: Wave 5-A, 2026-11-23. Companion documents: `audit.md` (findings and coverage), `licences.md`, `../brand/trademark-check.md`, and `SECURITY.md` at the repository root. The plan section "Privacy and security" is the design; this file checks the code against it.
 
-Kosha is a private, offline, multilingual Android keyboard. The app has no network permission in the release build and no analytics. Everything it learns stays on the phone.
+IncogBoard is a private, offline, multilingual Android keyboard. The app has no network permission in the release build and no analytics. Everything it learns stays on the phone.
 
 ## 1. Assets
 
@@ -24,7 +24,7 @@ Each row gives the defence, what remains, and the residual risk (low, medium or 
 
 ### 2.1 Other apps on the phone
 
-- **Defence:** the app is sandboxed by Android. The IME receives text only through `InputConnection` for the field that is focused. The IME service is `exported=true` but protected by `BIND_INPUT_METHOD` (`AndroidManifest.xml`). No other component is exported except the launcher activity (`SettingsActivity`) and the mic activity is `exported=false`. Kosha holds no network permission (release manifest removes INTERNET, ACCESS_NETWORK_STATE and ACCESS_WIFI_STATE; `tool/check_release_permissions.sh` and `tool/audit/network_audit.sh` enforce it).
+- **Defence:** the app is sandboxed by Android. The IME receives text only through `InputConnection` for the field that is focused. The IME service is `exported=true` but protected by `BIND_INPUT_METHOD` (`AndroidManifest.xml`). No other component is exported except the launcher activity (`SettingsActivity`) and the mic activity is `exported=false`. IncogBoard holds no network permission (release manifest removes INTERNET, ACCESS_NETWORK_STATE and ACCESS_WIFI_STATE; `tool/check_release_permissions.sh` and `tool/audit/network_audit.sh` enforce it).
 - **Remains:** an installed IME necessarily sees everything typed in every field it is allowed in. Password fields and fields with TYPE_TEXT_FLAG_NO_SUGGESTIONS or IME_FLAG_NO_PERSONALIZED_LEARNING get no suggestions and no learning, but see finding SEC-12 for FLAG_SECURE, voice and translation in those fields.
 - **Residual:** medium (inherent to any keyboard; mitigated by offline operation and the absence of any sender).
 
@@ -63,7 +63,7 @@ Each row gives the defence, what remains, and the residual risk (low, medium or 
 
 ### 2.7 Supply-chain compromise (a dependency, a pack, a CI action)
 
-- **Defence:** pinned dependencies (`onnxruntime-android` 1.28.0, Flutter 3.50.0, pinned lockfile); the licence and dependency audit (`tool/audit/licences.dart`, `tool/audit/osv_check.dart`); the network audit of release APKs (`tool/audit/network_audit.sh`); CI with every action pinned to a commit SHA, `permissions: contents: read`, `persist-credentials: false`, and no secrets (`.github/workflows/ci.yml`); Dependabot for Actions, Gradle and pub with the onnxruntime pin ignored above 1.28 (`.github/dependabot.yml`); the repository hygiene gate (no key material, no Kosha data files, nothing over 5 MB).
+- **Defence:** pinned dependencies (`onnxruntime-android` 1.28.0, Flutter 3.50.0, pinned lockfile); the licence and dependency audit (`tool/audit/licences.dart`, `tool/audit/osv_check.dart`); the network audit of release APKs (`tool/audit/network_audit.sh`); CI with every action pinned to a commit SHA, `permissions: contents: read`, `persist-credentials: false`, and no secrets (`.github/workflows/ci.yml`); Dependabot for Actions, Gradle and pub with the onnxruntime pin ignored above 1.28 (`.github/dependabot.yml`); the repository hygiene gate (no key material, no IncogBoard data files, nothing over 5 MB).
 - **Remains:** the Gradle wrapper is not tracked (android/.gitignore excludes `gradlew` and `gradlew.bat`), so a fresh clone cannot build until Flutter writes the wrapper (SEC-13). The release build is still signed with the debug key (SEC-02, Agent B). No reproducible-build check or SBOM exists yet. Only the release APK is audited; AAR manifests are not.
 - **Residual:** medium until SEC-02 and SEC-13 are fixed.
 
@@ -71,7 +71,7 @@ Each row gives the defence, what remains, and the residual risk (low, medium or 
 
 - **Defence:**
   - Permissions: the release allowlist is VIBRATE, RECORD_AUDIO, USE_BIOMETRIC, USE_FINGERPRINT and the app-private receiver permission. The gate fails on INTERNET, ACCESS_NETWORK_STATE, ACCESS_WIFI_STATE or telemetry classes (`tool/check_release_permissions.sh`). `tool/audit/network_audit.sh` fails on any permission outside the allowlist and on the network or telemetry SDK families.
-  - Logs: Dart `KoshaLog` is a no-op in release (`kReleaseMode`). Kotlin logs at `w` and `e` carry exception class names, and `d` logs only timings (`PackTranslationService`, `SherpaVoiceService`). R8 removes `v`, `d` and `i` calls (`proguard-rules.pro`).
+  - Logs: Dart `IncogBoardLog` is a no-op in release (`kReleaseMode`). Kotlin logs at `w` and `e` carry exception class names, and `d` logs only timings (`PackTranslationService`, `SherpaVoiceService`). R8 removes `v`, `d` and `i` calls (`proguard-rules.pro`).
   - Backups: `allowBackup=false`, `fullBackupContent=false` and `dataExtractionRules` exclude every domain from cloud backup and device transfer. `debuggable` is absent in the release manifest. The testbed activity exists only in the debug source set.
 - **Remains:** R8 keeps `Log.w` and `Log.e` (the plan says `Log.*` is stripped; SEC-14). Debug and profile builds print the gesture decoder's error text (`isolate_gesture_decoder.dart:331`); these builds are not released.
 - **Residual:** low.

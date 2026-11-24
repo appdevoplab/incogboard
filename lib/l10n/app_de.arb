@@ -1,8 +1,8 @@
 {
   "@@locale": "de",
-  "appName": "Kosha",
+  "appName": "IncogBoard",
   "homeTagline": "Private Eingabe, auf diesem Gerät",
-  "homeOfflinePromise": "Kosha funktioniert offline und sendet nichts irgendwohin.",
+  "homeOfflinePromise": "IncogBoard funktioniert offline und sendet nichts irgendwohin.",
   "@homeOfflinePromise": {
     "x-review": true
   },
@@ -29,9 +29,9 @@
   "settingsPrivacy": "Datenschutz",
   "settingsAbout": "Info",
   "settingsModelPacks": "Modellpakete",
-  "homeSetupTurnOn": "Aktiviere Kosha in der Tastaturliste von Android.",
-  "homeSetupChoose": "Wähle Kosha als Tastatur zum Schreiben aus.",
-  "homeFinishSetup": "Kosha einrichten abschließen",
+  "homeSetupTurnOn": "Aktiviere IncogBoard in der Tastaturliste von Android.",
+  "homeSetupChoose": "Wähle IncogBoard als Tastatur zum Schreiben aus.",
+  "homeFinishSetup": "IncogBoard einrichten abschließen",
   "homeTypingSubtitle": "Korrekturen, Vorschläge, Tasten und Wischen",
   "@homeTypingSubtitle": {
     "x-review": true
@@ -62,7 +62,7 @@
   },
   "aboutReadingVersion": "Version wird gelesen…",
   "aboutPrivacy": "Datenschutz",
-  "aboutNoInternet": "Kosha kann das Internet nicht nutzen",
+  "aboutNoInternet": "IncogBoard kann das Internet nicht nutzen",
   "aboutNoInternetBody": "Veröffentlichte Versionen haben keine Internetberechtigung, daher verlässt nichts, was du tippst, dieses Gerät.",
   "aboutLicence": "Lizenz",
   "@aboutLicence": {
@@ -72,18 +72,18 @@
   "@aboutGplTitle": {
     "x-review": true
   },
-  "aboutGplBody": "Kosha ist freie Software. Du darfst sie unter der GPL untersuchen, ändern und weitergeben.",
+  "aboutGplBody": "IncogBoard ist freie Software. Du darfst sie unter der GPL untersuchen, ändern und weitergeben.",
   "@aboutGplBody": {
     "x-review": true
   },
   "aboutSourceCode": "Quellcode",
-  "aboutSourceBody": "Kosha steht unter GPL-3.0-or-later. Der Quellcode ist auf der Projektseite verfügbar.",
+  "aboutSourceBody": "IncogBoard steht unter GPL-3.0-or-later. Der Quellcode ist auf der Projektseite verfügbar.",
   "@aboutSourceBody": {
     "x-review": true
   },
   "aboutLicences": "Lizenzen",
   "aboutOpenSource": "Open-Source-Lizenzen",
-  "aboutOpenSourceBody": "Flutter, material_ui und jedes Paket, das Kosha verwendet",
+  "aboutOpenSourceBody": "Flutter, material_ui und jedes Paket, das IncogBoard verwendet",
   "@aboutOpenSourceBody": {
     "x-review": true
   },
@@ -283,7 +283,7 @@
   "megabytes": "{count} MB",
   "milliseconds": "{count} ms",
   "dpValue": "{count} dp",
-  "packsOpenFailed": "Kosha konnte die Dateiauswahl nicht öffnen.",
+  "packsOpenFailed": "IncogBoard konnte die Dateiauswahl nicht öffnen.",
   "packsInstalled": "{name} installiert.",
   "packsDeleteTitle": "{name} löschen?",
   "packsDeleteBody": "Die Dateien werden von diesem Telefon entfernt. Du kannst das Paket später aus seiner Datei wieder importieren.",
@@ -291,7 +291,7 @@
     "x-review": true
   },
   "packsDeleted": "{name} gelöscht.",
-  "packsDeleteFailed": "Kosha konnte {name} nicht löschen. Versuche es erneut.",
+  "packsDeleteFailed": "IncogBoard konnte {name} nicht löschen. Versuche es erneut.",
   "packsIntro": "Pakete werden vor der Installation geprüft. Sie enthalten nur Daten, niemals Code.",
   "packsImport": "Importieren",
   "@packsImport": {
@@ -352,7 +352,7 @@
   "@packsPlayTitle": {
     "x-review": true
   },
-  "packsPlayNote": "Google Play lädt diese Pakete herunter, nicht Kosha. Kosha selbst nutzt nie das Netzwerk.",
+  "packsPlayNote": "Google Play lädt diese Pakete herunter, nicht IncogBoard. IncogBoard selbst nutzt nie das Netzwerk.",
   "@packsPlayNote": {
     "x-review": true
   },
@@ -400,11 +400,11 @@
   "@packsVerifyDamaged": {
     "x-review": true
   },
-  "packsVerifyUnavailable": "Die Prüfung installierter Pakete ist in dieser Version von Kosha nicht verfügbar.",
+  "packsVerifyUnavailable": "Die Prüfung installierter Pakete ist in dieser Version von IncogBoard nicht verfügbar.",
   "@packsVerifyUnavailable": {
     "x-review": true
   },
-  "packsVerifyFailed": "Kosha konnte die Pakete nicht prüfen. Es wurde nichts geändert.",
+  "packsVerifyFailed": "IncogBoard konnte die Pakete nicht prüfen. Es wurde nichts geändert.",
   "@packsVerifyFailed": {
     "x-review": true
   },
@@ -414,11 +414,11 @@
   },
   "packsNothingStored": "Noch nichts gespeichert.",
   "packsInstalledUse": "Installierte Pakete belegen {size} auf diesem Gerät.",
-  "packErrorBadSignature": "Dieses Paket ist nicht für Kosha signiert, daher wurde nichts installiert.",
+  "packErrorBadSignature": "Dieses Paket ist nicht für IncogBoard signiert, daher wurde nichts installiert.",
   "@packErrorBadSignature": {
     "x-review": true
   },
-  "packErrorBadFormat": "Diese Datei ist kein Kosha-Paket. Es wurde nichts installiert.",
+  "packErrorBadFormat": "Diese Datei ist kein IncogBoard-Paket. Es wurde nichts installiert.",
   "@packErrorBadFormat": {
     "x-review": true
   },
@@ -426,7 +426,7 @@
   "@packErrorTooLarge": {
     "x-review": true
   },
-  "packErrorVersion": "Dieses Paket benötigt eine neuere Version von Kosha.",
+  "packErrorVersion": "Dieses Paket benötigt eine neuere Version von IncogBoard.",
   "@packErrorVersion": {
     "x-review": true
   },
@@ -474,12 +474,12 @@
   "@translateRunsOnPhone": {
     "x-review": true
   },
-  "privacyUnlockReason": "Entsperre Kosha, um deine Einstellungen und Daten zu sehen",
+  "privacyUnlockReason": "Entsperre IncogBoard, um deine Einstellungen und Daten zu sehen",
   "privacyLockUnavailable": "Die Gerätesperre ist gerade nicht verfügbar. Versuche es gleich noch einmal.",
   "@privacyLockUnavailable": {
     "x-review": true
   },
-  "privacyLockedTitle": "Kosha ist gesperrt",
+  "privacyLockedTitle": "IncogBoard ist gesperrt",
   "@privacyLockedTitle": {
     "x-review": true
   },
@@ -501,15 +501,15 @@
   "@backupWrongPassphrase": {
     "x-review": true
   },
-  "backupInvalidFile": "Diese Datei ist kein gültiges Kosha-Backup. Es wurde nichts geändert.",
+  "backupInvalidFile": "Diese Datei ist kein gültiges IncogBoard-Backup. Es wurde nichts geändert.",
   "@backupInvalidFile": {
     "x-review": true
   },
-  "backupTooLarge": "Diese Datei ist zu groß für ein Kosha-Backup.",
+  "backupTooLarge": "Diese Datei ist zu groß für ein IncogBoard-Backup.",
   "@backupTooLarge": {
     "x-review": true
   },
-  "backupNewerVersion": "Dieses Backup wurde mit einer neueren Kosha-Version erstellt. Aktualisiere Kosha, um es wiederherzustellen.",
+  "backupNewerVersion": "Dieses Backup wurde mit einer neueren IncogBoard-Version erstellt. Aktualisiere IncogBoard, um es wiederherzustellen.",
   "@backupNewerVersion": {
     "x-review": true
   },
@@ -526,7 +526,7 @@
   "@backupRestoreTitle": {
     "x-review": true
   },
-  "backupMadeBy": "Erstellt am {date} mit Kosha {version}.",
+  "backupMadeBy": "Erstellt am {date} mit IncogBoard {version}.",
   "backupMerge": "Zusammenführen",
   "backupMergeBody": "Behält, was auf diesem Gerät ist, und fügt hinzu, was im Backup ist.",
   "@backupMergeBody": {
@@ -541,7 +541,7 @@
   "backupReplaceTitle": "Daten auf diesem Gerät ersetzen?",
   "backupReplaceConfirm": "Die gewählten Bereiche auf diesem Gerät werden gelöscht und ersetzt. Das kann nicht rückgängig gemacht werden.",
   "backupUnlockRetryChanged": "Entsperre das Gerät und versuche es erneut. Es wurde nichts geändert.",
-  "backupRestoreFailed": "Kosha konnte die Wiederherstellung nicht abschließen. Einige Daten wurden möglicherweise nicht geschrieben.",
+  "backupRestoreFailed": "IncogBoard konnte die Wiederherstellung nicht abschließen. Einige Daten wurden möglicherweise nicht geschrieben.",
   "@backupRestoreFailed": {
     "x-review": true
   },
@@ -585,9 +585,9 @@
   "privacyClearLanguageBody": "Dadurch werden alle in dieser Sprache gelernten Wörter und die gesperrten Wörter gelöscht. Das kann nicht rückgängig gemacht werden.",
   "privacyClear": "Leeren",
   "privacySaveFailed": "Die Änderung konnte nicht gespeichert werden. Versuche es erneut.",
-  "privacyCouldNotReadWords": "Kosha konnte diese Wörter nicht lesen.",
-  "privacyCannotReadWordsNow": "Kosha kann diese Wörter gerade nicht lesen. Entsperre das Gerät und versuche es erneut.",
-  "privacyNoWordsLanguage": "In dieser Sprache wurden noch keine Wörter gelernt. Kosha lernt ein Wort, nachdem du es ein paar Mal getippt hast.",
+  "privacyCouldNotReadWords": "IncogBoard konnte diese Wörter nicht lesen.",
+  "privacyCannotReadWordsNow": "IncogBoard kann diese Wörter gerade nicht lesen. Entsperre das Gerät und versuche es erneut.",
+  "privacyNoWordsLanguage": "In dieser Sprache wurden noch keine Wörter gelernt. IncogBoard lernt ein Wort, nachdem du es ein paar Mal getippt hast.",
   "privacyBlockedWordsTooltip": "Gesperrte Wörter ({count})",
   "privacySortTooltip": "Sortieren",
   "privacySortMostUsed": "Am häufigsten zuerst",
@@ -599,7 +599,7 @@
   "privacyNoWordsYet": "Noch keine Wörter.",
   "privacyNoWordsMatch": "Keine Wörter passen zu „{query}“.",
   "privacyNeverSuggested": "Nie vorgeschlagen",
-  "privacyBlockedExplain": "Kosha schlägt diese Wörter nicht vor und korrigiert nicht zu ihnen.",
+  "privacyBlockedExplain": "IncogBoard schlägt diese Wörter nicht vor und korrigiert nicht zu ihnen.",
   "privacyNoBlockedWords": "Keine gesperrten Wörter.",
   "privacyAllowAgain": "Wieder erlauben",
   "privacyWordLastUsed": "{count, plural, one {Einmal getippt} other {{count} Mal getippt}} · zuletzt {when}",
@@ -610,17 +610,17 @@
   "privacyForgetWord": "Dieses Wort vergessen",
   "privacyNeverSuggestWord": "Dieses Wort nie vorschlagen",
   "privacyTryAgain": "Erneut versuchen",
-  "privacyCenterLoadFailed": "Kosha konnte seine Datenschutzdaten nicht lesen. Versuche es später erneut.",
-  "privacyDevBuildNetwork": "Dieser Build fordert Internetzugriff an. Kosha sollte das nie tun. Bitte melde es.",
+  "privacyCenterLoadFailed": "IncogBoard konnte seine Datenschutzdaten nicht lesen. Versuche es später erneut.",
+  "privacyDevBuildNetwork": "Dieser Build fordert Internetzugriff an. IncogBoard sollte das nie tun. Bitte melde es.",
   "@privacyDevBuildNetwork": {
     "x-review": true
   },
-  "privacyNoInternetPermission": "Kosha hat keine Internetberechtigung. Es kann nichts senden.",
+  "privacyNoInternetPermission": "IncogBoard hat keine Internetberechtigung. Es kann nichts senden.",
   "privacyDevBuildNote": "Dies ist ein Entwicklungs-Build. Seine Netzwerkberechtigung gilt nur für Entwicklungswerkzeuge.",
   "@privacyDevBuildNote": {
     "x-review": true
   },
-  "privacyDevBuildShort": "Entwicklungs-Build. Kosha hat weiterhin keine Internetberechtigung.",
+  "privacyDevBuildShort": "Entwicklungs-Build. IncogBoard hat weiterhin keine Internetberechtigung.",
   "@privacyDevBuildShort": {
     "x-review": true
   },
@@ -634,8 +634,8 @@
   "@privacyPacksSize": {
     "x-review": true
   },
-  "privacyWhatKoshaStores": "Was Kosha speichert",
-  "privacyShowsSizesOnly": "Kosha zeigt hier nur Größen, nie den Inhalt. Die Größen enthalten die letzte gespeicherte Kopie, die deine Daten schützt, wenn ein Speichern unterbrochen wird.",
+  "privacyWhatIncogBoardStores": "Was IncogBoard speichert",
+  "privacyShowsSizesOnly": "IncogBoard zeigt hier nur Größen, nie den Inhalt. Die Größen enthalten die letzte gespeicherte Kopie, die deine Daten schützt, wenn ein Speichern unterbrochen wird.",
   "privacyTypingPrivacy": "Datenschutz beim Tippen",
   "privacyLearnNewWords": "Neue Wörter lernen",
   "privacyLearnNewWordsBody": "Lernt Wörter und Wendungen aus deinen Eingaben. Nie in Passwortfeldern oder im Inkognito-Modus.",
@@ -653,7 +653,7 @@
   "privacyHideScreenshots": "Vor Screenshots verbergen",
   "privacyHideScreenshotsBody": "Verhindert Screenshots und Bildschirmaufnahmen der Tastatur in jeder App. Passwortfelder sind immer verborgen.",
   "privacyAutoOffApps": "In diesen Apps automatisch ausgeschaltet",
-  "privacyAutoOffAppsBody": "Kosha speichert App-Namen nur, um diese Liste zu füllen. Sie sind verschlüsselt, werden im Inkognito-Modus nie gespeichert, und du kannst sie unten löschen.",
+  "privacyAutoOffAppsBody": "IncogBoard speichert App-Namen nur, um diese Liste zu füllen. Sie sind verschlüsselt, werden im Inkognito-Modus nie gespeichert, und du kannst sie unten löschen.",
   "@privacyAutoOffAppsBody": {
     "x-review": true
   },
@@ -673,7 +673,7 @@
     "x-review": true
   },
   "privacyNoWordsLearnedYet": "Noch keine Wörter gelernt",
-  "privacyWordsLearnedBody": "Wörter, die du tippst, werden hier gelernt, sobald Kosha sie ein paar Mal gesehen hat.",
+  "privacyWordsLearnedBody": "Wörter, die du tippst, werden hier gelernt, sobald IncogBoard sie ein paar Mal gesehen hat.",
   "privacyReviewWords": "Wörter prüfen, entfernen oder sperren · {when}",
   "privacyClipboardHistoryEmpty": "Der Verlauf ist leer. Ändere die Zwischenablage-Einstellungen unter Bereiche.",
   "@privacyClipboardHistoryEmpty": {
@@ -687,12 +687,12 @@
   "@privacyAppLock": {
     "x-review": true
   },
-  "privacyLockKosha": "Kosha sperren",
-  "@privacyLockKosha": {
+  "privacyLockIncogBoard": "IncogBoard sperren",
+  "@privacyLockIncogBoard": {
     "x-review": true
   },
-  "privacyLockKoshaBody": "Fragt beim Öffnen der App oder nach dem Hintergrundbetrieb nach Fingerabdruck oder Geräte-PIN.",
-  "@privacyLockKoshaBody": {
+  "privacyLockIncogBoardBody": "Fragt beim Öffnen der App oder nach dem Hintergrundbetrieb nach Fingerabdruck oder Geräte-PIN.",
+  "@privacyLockIncogBoardBody": {
     "x-review": true
   },
   "privacyLockAfter": "Sperren nach",
@@ -707,7 +707,7 @@
   "@privacySetScreenLockBody": {
     "x-review": true
   },
-  "privacyTurnOnAppLockReason": "App-Sperre für Kosha einschalten",
+  "privacyTurnOnAppLockReason": "App-Sperre für IncogBoard einschalten",
   "@privacyTurnOnAppLockReason": {
     "x-review": true
   },
@@ -734,7 +734,7 @@
   "privacyResetSettings": "Alle Einstellungen außerdem auf die Standardwerte zurücksetzen",
   "privacyCannotBeUndone": "Das kann nicht rückgängig gemacht werden.",
   "privacyDeleted": "Gelöscht.",
-  "privacyDeleteFailed": "Kosha konnte nicht alles löschen. Versuche es erneut.",
+  "privacyDeleteFailed": "IncogBoard konnte nicht alles löschen. Versuche es erneut.",
   "privacyOk": "OK",
   "backupMakeTitle": "Backup erstellen",
   "@backupMakeTitle": {
@@ -837,7 +837,7 @@
   },
   "shortcutShortForm": "Kurzform",
   "shortcutExpandsTo": "Wird erweitert zu",
-  "privacyMascotLabel": "Kosha-Datenschutzmaskottchen",
+  "privacyMascotLabel": "IncogBoard-Datenschutzmaskottchen",
   "privacyStoredEmoji": "Zuletzt verwendete Emoji",
   "@privacyStoredEmoji": {
     "x-review": true
@@ -857,16 +857,16 @@
     "x-review": true
   },
   "shortcutProblemTooMany": "Du kannst höchstens {count} Kürzel behalten.",
-  "onboardingTurnOnTitle": "Kosha einschalten",
-  "onboardingTurnOnBody": "Android führt eine Liste der aktivierten Tastaturen. Aktiviere Kosha dort und komm dann hierher zurück. Kosha bemerkt die Änderung selbst.",
-  "onboardingKeyboardOn": "Kosha ist eingeschaltet.",
-  "onboardingKeyboardOff": "Kosha ist noch nicht eingeschaltet.",
+  "onboardingTurnOnTitle": "IncogBoard einschalten",
+  "onboardingTurnOnBody": "Android führt eine Liste der aktivierten Tastaturen. Aktiviere IncogBoard dort und komm dann hierher zurück. IncogBoard bemerkt die Änderung selbst.",
+  "onboardingKeyboardOn": "IncogBoard ist eingeschaltet.",
+  "onboardingKeyboardOff": "IncogBoard ist noch nicht eingeschaltet.",
   "onboardingOpenKeyboardSettings": "Tastatureinstellungen öffnen",
-  "onboardingSwitchTitle": "Zu Kosha wechseln",
-  "onboardingSwitchBody": "Wähle Kosha als Tastatur aus. Android zeigt eventuell zuerst eine kurze Liste. Dieser Bildschirm aktualisiert sich selbst.",
-  "onboardingKeyboardIsYours": "Kosha ist deine Tastatur.",
-  "onboardingKeyboardNotYours": "Kosha ist noch nicht deine Tastatur.",
-  "onboardingTurnOnFirst": "Schalte Kosha zuerst im vorherigen Schritt ein.",
+  "onboardingSwitchTitle": "Zu IncogBoard wechseln",
+  "onboardingSwitchBody": "Wähle IncogBoard als Tastatur aus. Android zeigt eventuell zuerst eine kurze Liste. Dieser Bildschirm aktualisiert sich selbst.",
+  "onboardingKeyboardIsYours": "IncogBoard ist deine Tastatur.",
+  "onboardingKeyboardNotYours": "IncogBoard ist noch nicht deine Tastatur.",
+  "onboardingTurnOnFirst": "Schalte IncogBoard zuerst im vorherigen Schritt ein.",
   "onboardingChooseKeyboard": "Tastatur wählen",
   "onboardingCheckingPermissions": "App-Berechtigungen werden geprüft…",
   "onboardingDebugInternet": "Dieser Debug-Build kann das Internet erreichen. Debug-Builds haben diese Berechtigung nur für die Entwicklung.",
@@ -877,9 +877,9 @@
   "@onboardingReleaseInternet": {
     "x-review": true
   },
-  "onboardingNoInternet": "Kosha hat keine Internetberechtigung und kann deshalb nichts irgendwohin senden.",
+  "onboardingNoInternet": "IncogBoard hat keine Internetberechtigung und kann deshalb nichts irgendwohin senden.",
   "onboardingWarningTitle": "Warum die Warnung nicht zutrifft",
-  "onboardingWarningBody": "Android warnt, dass jede Tastatur eingeben kann, was du tippst. Diese Warnung betrifft Tastaturen, die das Internet erreichen können. Kosha kann das nicht.",
+  "onboardingWarningBody": "Android warnt, dass jede Tastatur eingeben kann, was du tippst. Diese Warnung betrifft Tastaturen, die das Internet erreichen können. IncogBoard kann das nicht.",
   "onboardingInternetAccess": "Internetzugriff",
   "onboardingEverythingHere": "Alles bleibt auf diesem Gerät",
   "onboardingEverythingHereBody": "Gelernte Wörter, Zwischenablage und Einstellungen sind mit einem Schlüssel im Android Keystore verschlüsselt.",
@@ -907,8 +907,8 @@
   "onboardingTryField": "Hier tippen zum Ausprobieren",
   "onboardingChecklist": "Checkliste",
   "onboardingAllSetTitle": "Alles eingerichtet",
-  "onboardingAllSetBody": "Kosha ist bereit. Alles lässt sich später in den Einstellungen ändern: Sprachen, Tippen, Gefühl, Bereiche und Designs. Tippe auf Fertig, um abzuschließen.",
-  "onboardingSetUp": "Kosha einrichten",
+  "onboardingAllSetBody": "IncogBoard ist bereit. Alles lässt sich später in den Einstellungen ändern: Sprachen, Tippen, Gefühl, Bereiche und Designs. Tippe auf Fertig, um abzuschließen.",
+  "onboardingSetUp": "IncogBoard einrichten",
   "onboardingStepOf": "Schritt {step} von {total}",
   "onboardingStepFraction": "{step}/{total}",
   "onboardingBack": "Zurück",
@@ -933,7 +933,7 @@
   "@themeTryLabel": {
     "x-review": true
   },
-  "themeTryHelper": "Die Tastatur erscheint hier, wenn Kosha ausgewählt ist.",
+  "themeTryHelper": "Die Tastatur erscheint hier, wenn IncogBoard ausgewählt ist.",
   "themeRenameTitle": "Design umbenennen",
   "@themeRenameTitle": {
     "x-review": true
@@ -1105,7 +1105,7 @@
   "themeCopySuffix": "Kopie",
   "themeCopyName": "Kopie von {name}",
   "themeDeleteTitle": "„{name}“ löschen?",
-  "themeDeleteSelectedBody": "Dieses Design ist ausgewählt. Stattdessen wird Kosha Dynamic verwendet. Das kann nicht rückgängig gemacht werden.",
+  "themeDeleteSelectedBody": "Dieses Design ist ausgewählt. Stattdessen wird IncogBoard Dynamic verwendet. Das kann nicht rückgängig gemacht werden.",
   "@themeDeleteSelectedBody": {
     "x-review": true
   },
@@ -1124,8 +1124,8 @@
   },
   "themeSettingFailed": "Die Einstellung konnte nicht gespeichert werden.",
   "themeSystemColoursUnavailable": "Systemfarben sind nicht verfügbar.",
-  "themeKoshaDynamicFollows": "Kosha Dynamic folgt deinem Hintergrundbild",
-  "themeKoshaDynamicBody": "Seine Farben aktualisieren sich, wenn sich das Hintergrundbild ändert",
+  "themeIncogBoardDynamicFollows": "IncogBoard Dynamic folgt deinem Hintergrundbild",
+  "themeIncogBoardDynamicBody": "Seine Farben aktualisieren sich, wenn sich das Hintergrundbild ändert",
   "themeSectionPresets": "Voreinstellungen",
   "themeSectionMyThemes": "Meine Designs",
   "themeSectionTry": "Ausprobieren",
@@ -1142,7 +1142,7 @@
   },
   "privacyStoredLearned": "Gelernte Wörter ({language})",
   "settingsComingLater": "Kommt in einem späteren Update",
-  "backupExplainer": "Ein Backup ist eine einzelne Datei, verschlüsselt mit einer Passphrase deiner Wahl. Nur diese Passphrase öffnet sie. Wenn du die Passphrase vergisst, kann niemand das Backup wiederherstellen, auch Kosha nicht.",
+  "backupExplainer": "Ein Backup ist eine einzelne Datei, verschlüsselt mit einer Passphrase deiner Wahl. Nur diese Passphrase öffnet sie. Wenn du die Passphrase vergisst, kann niemand das Backup wiederherstellen, auch IncogBoard nicht.",
   "@backupExplainer": {
     "x-review": true
   },
@@ -1154,7 +1154,7 @@
   "durationDay": "1 Tag",
   "durationWeek": "1 Woche",
   "onboardingCloseSetup": "Einrichtung schließen",
-  "packsCouldNotRead": "Kosha konnte seine Pakete nicht lesen",
+  "packsCouldNotRead": "IncogBoard konnte seine Pakete nicht lesen",
   "packsDeleteTooltip": "{name} löschen",
   "privacyNothingStored": "Noch nichts gespeichert",
   "privacyRemoveAppTooltip": "{app} aus der Liste entfernen",

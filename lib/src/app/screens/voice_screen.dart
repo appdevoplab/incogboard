@@ -7,13 +7,13 @@ import 'dart:async';
 import 'package:material_ui/material_ui.dart';
 
 import '../../bridge/messages.g.dart';
-import '../../settings/kosha_settings.dart';
+import '../../settings/incogboard_settings.dart';
 import '../common/settings_widgets.dart';
 import '../app_services.dart';
 import '../routes.dart';
 import '../shell/settings_actions.dart';
 
-import 'package:kosha/src/app/l10n.dart';
+import 'package:incogboard/src/app/l10n.dart';
 
 class VoiceScreen extends StatelessWidget {
   const VoiceScreen({super.key});
@@ -59,7 +59,7 @@ class VoiceScreen extends StatelessWidget {
                 icon: Icons.inventory_2_outlined,
                 title: context.l10n.settingsModelPacks,
                 subtitle: context.l10n.voiceModelPacksBody,
-                onTap: () => unawaited(Navigator.of(context).pushNamed(KoshaRoutes.packs)),
+                onTap: () => unawaited(Navigator.of(context).pushNamed(IncogBoardRoutes.packs)),
               ),
             ],
           ),

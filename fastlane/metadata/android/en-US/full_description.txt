@@ -1,4 +1,4 @@
-Kosha is a private keyboard for Android. It works offline. The app has no internet permission and no network code, so what you type, say or copy stays on your phone.
+IncogBoard is a private keyboard for Android. It works offline. The app has no internet permission and no network code, so what you type, say or copy stays on your phone.
 
 TYPING
 - Suggestions, autocorrect and next-word prediction for the languages whose dictionaries ship with the app, including English, Spanish, French, German, Portuguese, Indonesian, Russian, Ukrainian, Hindi, Marathi, Bengali, Tamil, Telugu, Arabic and Urdu.
@@ -15,9 +15,9 @@ LANGUAGES THAT NEED A DOWNLOAD
 - Offline voice typing and offline translation need the matching model pack, which you import the same way.
 
 PRIVACY BY DESIGN
-- No internet permission. Kosha asks for vibration, the microphone (only the first time you tap the microphone key; audio is processed in memory and never saved) and biometrics for the optional app lock.
+- No internet permission. IncogBoard asks for vibration, the microphone (only the first time you tap the microphone key; audio is processed in memory and never saved) and biometrics for the optional app lock.
 - Password and other sensitive fields: no suggestions, no learning, no key pop-ups and no voice input.
-- Incognito: a switch that stops Kosha from learning new words, and a list of apps where it is always on (for example banking apps).
+- Incognito: a switch that stops IncogBoard from learning new words, and a list of apps where it is always on (for example banking apps).
 - Privacy centre: app lock, wipe everything or one category at a time, and encrypted backups protected with your own passphrase.
 - No analytics, no advertising, no crash reporting, no accounts.
 
@@ -26,4 +26,4 @@ ACCESSIBILITY
 
 PLEASE NOTE
 - Some translations of the app are first drafts and are being checked by native speakers. Corrections are welcome.
-- Kosha is free software under the GNU GPL v3 or later. Source code, licences and third-party notices are in the project repository.
+- IncogBoard is free software under the GNU GPL v3 or later. Source code, licences and third-party notices are in the project repository.

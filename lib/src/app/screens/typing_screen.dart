@@ -4,11 +4,11 @@
 // because they change how typing feels; they write the `swipe` section.
 import 'package:material_ui/material_ui.dart';
 
-import '../../settings/kosha_settings.dart';
+import '../../settings/incogboard_settings.dart';
 import '../common/settings_widgets.dart';
 import '../shell/settings_actions.dart';
 
-import 'package:kosha/src/app/l10n.dart';
+import 'package:incogboard/src/app/l10n.dart';
 
 class TypingScreen extends StatelessWidget {
   const TypingScreen({super.key});
@@ -19,9 +19,9 @@ class TypingScreen extends StatelessWidget {
       final t = settings.typing;
       final w = settings.swipe;
 
-      void typing(KoshaSettings Function(KoshaSettings s, TypingSettings t) change) =>
+      void typing(IncogBoardSettings Function(IncogBoardSettings s, TypingSettings t) change) =>
           writeSettings(context, SettingsSection.typing, (s) => change(s, s.typing));
-      void swipe(KoshaSettings Function(KoshaSettings s, SwipeSettings w) change) =>
+      void swipe(IncogBoardSettings Function(IncogBoardSettings s, SwipeSettings w) change) =>
           writeSettings(context, SettingsSection.swipe, (s) => change(s, s.swipe));
 
       return SettingsPage(

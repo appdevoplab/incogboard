@@ -4,15 +4,15 @@
 // status values and passes them in; each step only shows them and calls back.
 import 'package:material_ui/material_ui.dart';
 
-import '../../settings/kosha_settings.dart';
+import '../../settings/incogboard_settings.dart';
 import '../../theme/presets.dart';
 import '../common/settings_widgets.dart';
 import '../routes.dart';
 import '../shell/settings_actions.dart';
-import 'kosha_mascot.dart';
+import 'incogboard_mascot.dart';
 import 'onboarding_languages.dart';
 
-import 'package:kosha/src/app/l10n.dart';
+import 'package:incogboard/src/app/l10n.dart';
 
 /// Shared layout: a scrollable column with a heading and body text.
 class _StepPage extends StatelessWidget {
@@ -82,7 +82,7 @@ class _StatusCard extends StatelessWidget {
   }
 }
 
-/// Step 1: turn Kosha on in Android's keyboard list.
+/// Step 1: turn IncogBoard on in Android's keyboard list.
 class EnableStep extends StatelessWidget {
   const EnableStep({super.key, required this.enabled, required this.onOpenSettings});
 
@@ -91,7 +91,7 @@ class EnableStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => _StepPage(
-    mascot: const KoshaMascot(size: 112),
+    mascot: const IncogBoardMascot(size: 112),
     title: context.l10n.onboardingTurnOnTitle,
     body: context.l10n.onboardingTurnOnBody,
     children: [
@@ -110,7 +110,7 @@ class EnableStep extends StatelessWidget {
   );
 }
 
-/// Step 2: choose Kosha as the keyboard in use. The screen polls while this step shows.
+/// Step 2: choose IncogBoard as the keyboard in use. The screen polls while this step shows.
 class SwitchStep extends StatelessWidget {
   const SwitchStep({super.key, required this.enabled, required this.selected, required this.onChoose});
 
@@ -138,7 +138,7 @@ class SwitchStep extends StatelessWidget {
   );
 }
 
-/// Step 3: why Android's "may collect your text" warning does not apply to Kosha.
+/// Step 3: why Android's "may collect your text" warning does not apply to IncogBoard.
 class PrivacyStep extends StatelessWidget {
   const PrivacyStep({super.key, required this.internet, required this.debugBuild});
 
@@ -208,7 +208,7 @@ class PersonaliseStep extends StatelessWidget {
               const SizedBox(height: 8),
               Builder(
                 builder: (context) => TextButton(
-                  onPressed: () => Navigator.of(context).pushNamed(KoshaRoutes.themes),
+                  onPressed: () => Navigator.of(context).pushNamed(IncogBoardRoutes.themes),
                   child: Text(context.l10n.onboardingMoreThemes),
                 ),
               ),
@@ -269,7 +269,7 @@ class FinishStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => _StepPage(
-    mascot: const KoshaMascot(size: 112),
+    mascot: const IncogBoardMascot(size: 112),
     title: context.l10n.onboardingAllSetTitle,
     body: context.l10n.onboardingAllSetBody,
     children: const [],

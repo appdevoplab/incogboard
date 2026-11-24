@@ -14,7 +14,7 @@
 // PRIVACY: never logs the buffer, the preedit, the readings or the candidates.
 import 'package:flutter/foundation.dart';
 
-import '../../../settings/kosha_settings.dart';
+import '../../../settings/incogboard_settings.dart';
 import '../../../keyboard/input/composer.dart';
 import 'japanese_dictionary.dart';
 import 'japanese_learning.dart';
@@ -37,7 +37,7 @@ class JapaneseComposer extends TextComposer {
   final String Function() layoutId;
 
   /// The settings read on each key (flick only, half-width space).
-  final KoshaSettings Function() settings;
+  final IncogBoardSettings Function() settings;
 
   /// True when picks may be learned (see InputController.learningAllowed).
   final bool Function() learningAllowed;

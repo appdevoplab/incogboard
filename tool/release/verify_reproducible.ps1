@@ -13,7 +13,7 @@
 param(
     [string]$Flavor = 'foss',
     [string]$Abi = 'android-arm64',
-    [string]$WorkRoot = (Join-Path $env:TEMP 'kosha-repro'),
+    [string]$WorkRoot = (Join-Path $env:TEMP 'incogboard-repro'),
     [switch]$KeepClones,
     [switch]$SameDirectory
 )

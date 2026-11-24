@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
-# On-device benchmark for Kosha (Wave 4-D). The ORCHESTRATOR runs this, on the emulator only.
+# On-device benchmark for IncogBoard (Wave 4-D). The ORCHESTRATOR runs this, on the emulator only.
 # It refuses to run unless the emulator-5554 is attached and it is the only device, because a
 # personal phone is plugged into this PC.
 #
@@ -10,13 +10,13 @@
 #   - memory: `dumpsys meminfo` TOTAL PSS;
 #   - jank: `dumpsys gfxinfo` janky frames while it types.
 #
-# Usage (the text field must already be focused with Kosha as the active keyboard):
+# Usage (the text field must already be focused with IncogBoard as the active keyboard):
 #   powershell -ExecutionPolicy Bypass -File tool\bench\device_bench.ps1 -Phase latin
 #   powershell -ExecutionPolicy Bypass -File tool\bench\device_bench.ps1 -Phase voice   # after voice is loaded
 # The script prints a Markdown results table for docs/perf/budgets.md. It writes nothing else.
 param(
   [ValidateSet('latin', 'voice')][string]$Phase = 'latin',
-  [string]$Package = 'app.kosha.keyboard',
+  [string]$Package = 'app.incogboard.keyboard',
   [int]$TapX = 540,
   [int]$TapY = 1800,
   [string]$Text = 'the quick brown fox jumps over the lazy dog',
@@ -40,7 +40,7 @@ function Invoke-Adb {
   & adb -s $serial @Arguments
 }
 
-function Get-KoshaTimings {
+function Get-IncogBoardTimings {
   # Lines the app logs as "[Boot] ...", "[Keyboard] ..." and "[dict] ...", with the ms they report.
   $lines = Invoke-Adb -Arguments @('logcat', '-d')
   return @($lines | Where-Object { $_ -match '\[(Boot|Keyboard|dict)\]' })
@@ -66,7 +66,7 @@ Invoke-Adb -Arguments @('shell', 'am', 'force-stop', $Package) | Out-Null
 Invoke-Adb -Arguments @('logcat', '-c') | Out-Null
 Invoke-Adb -Arguments @('shell', 'input', 'tap', "$TapX", "$TapY") | Out-Null
 Start-Sleep -Milliseconds 1500
-$coldLines = Get-KoshaTimings
+$coldLines = Get-IncogBoardTimings
 
 # Later show: hide the keyboard and show it again by tapping the field.
 Invoke-Adb -Arguments @('shell', 'input', 'keyevent', 'KEYCODE_BACK') | Out-Null
@@ -74,7 +74,7 @@ Start-Sleep -Milliseconds 300
 Invoke-Adb -Arguments @('logcat', '-c') | Out-Null
 Invoke-Adb -Arguments @('shell', 'input', 'tap', "$TapX", "$TapY") | Out-Null
 Start-Sleep -Milliseconds 800
-$warmLines = Get-KoshaTimings
+$warmLines = Get-IncogBoardTimings
 
 # Typing: reset jank stats, type the sentence key by key, time each tap on the host.
 Invoke-Adb -Arguments @('shell', 'dumpsys', 'gfxinfo', $Package, 'reset') | Out-Null

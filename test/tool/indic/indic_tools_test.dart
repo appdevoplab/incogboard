@@ -6,8 +6,8 @@
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/engine/dictionary/mdict_lexicon.dart';
-import 'package:kosha/src/engine/dictionary/mdict_writer.dart';
+import 'package:incogboard/src/engine/dictionary/mdict_lexicon.dart';
+import 'package:incogboard/src/engine/dictionary/mdict_writer.dart';
 
 void main() {
   test('a Devanagari word list keeps the short words and their order', () {

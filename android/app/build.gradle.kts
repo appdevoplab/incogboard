@@ -8,17 +8,17 @@ plugins {
 
 // -----------------------------------------------------------------------------------------------
 // Release identity. ONE place for the applicationId.
-// The value is a PLACEHOLDER until the store release: it becomes io.github.<username>.kosha once the
+// The value is a PLACEHOLDER until the store release: it becomes io.github.<username>.incogboard once the
 // username is known. Change it only with tool/release/set_application_id.ps1, which rewrites this
 // line and every other place listed in docs/release/RELEASING.md ("applicationId" section).
-// The namespace (Kotlin package, R class, JNI names) stays app.kosha.keyboard for good.
+// The namespace (Kotlin package, R class, JNI names) stays app.incogboard.keyboard for good.
 // -----------------------------------------------------------------------------------------------
-val koshaApplicationId = "app.kosha.keyboard" // PLACEHOLDER: becomes io.github.<username>.kosha
-val koshaNamespace = "app.kosha.keyboard"
+val incogboardApplicationId = "app.incogboard.keyboard" // PLACEHOLDER: becomes io.github.<username>.incogboard
+val incogboardNamespace = "app.incogboard.keyboard"
 
 // Pinned NDK. Flutter 3.50.0 defaults to the same version; the pin keeps it from moving with the SDK.
 // Flutter version: tool/release/flutter-version.txt. Gradle: android/gradle/wrapper (9.5.0).
-val koshaNdkVersion = "28.2.13676358"
+val incogboardNdkVersion = "28.2.13676358"
 
 // -----------------------------------------------------------------------------------------------
 // Release signing. Read from android/key.properties (git-ignored; keys: storeFile, storePassword,
@@ -43,9 +43,9 @@ val hasReleaseSigning =
     listOf(releaseStoreFile, releaseStorePassword, releaseKeyAlias, releaseKeyPassword).all { it != null }
 
 android {
-    namespace = koshaNamespace
+    namespace = incogboardNamespace
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = koshaNdkVersion
+    ndkVersion = incogboardNdkVersion
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -78,7 +78,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = koshaApplicationId
+        applicationId = incogboardApplicationId
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = 26 // PBKDF2-SHA256, modern Keystore, contentMimeTypes
@@ -94,7 +94,7 @@ android {
 
     // Vital lint on release builds crashes inside the lint tool (a JavaDoc parser mismatch while
     // scanning ExifDataCopier.java in a dependency; reproduced on the play flavour, AGP 9.3 / Kotlin 2.4).
-    // That is a tool bug, not Kosha code, and it blocks assemble*Release. Release builds skip vital
+    // That is a tool bug, not IncogBoard code, and it blocks assemble*Release. Release builds skip vital
     // lint; run lint on the debug build instead. Re-enable when the lint tool is fixed.
     lint {
         checkReleaseBuilds = false

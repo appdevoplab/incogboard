@@ -10,7 +10,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 
 import '../core/log.dart';
-import 'kosha_settings.dart';
+import 'incogboard_settings.dart';
 
 /// Announces changed sections to the other engine (PlatformHostApi in prod).
 typedef SettingsChangeNotifier = Future<void> Function(List<String> sections);
@@ -27,17 +27,21 @@ class SettingsStore extends ChangeNotifier {
 
   /// In-memory store for tests and previews.
   @visibleForTesting
-  factory SettingsStore.memory([KoshaSettings value = const KoshaSettings()]) => SettingsStore._(null, null, value);
+  factory SettingsStore.memory([IncogBoardSettings value = const IncogBoardSettings()]) =>
+      SettingsStore._(null, null, value);
 
   final File? _file;
   final SettingsChangeNotifier? _notifyOther;
-  KoshaSettings _value;
+  IncogBoardSettings _value;
   Future<void> _writeChain = Future.value();
 
-  KoshaSettings get value => _value;
+  IncogBoardSettings get value => _value;
 
   /// Applies [change], persists it, notifies listeners here and the other engine.
-  Future<void> update(KoshaSettings Function(KoshaSettings current) change, {required List<String> sections}) {
+  Future<void> update(
+    IncogBoardSettings Function(IncogBoardSettings current) change, {
+    required List<String> sections,
+  }) {
     _value = change(_value);
     notifyListeners();
     final snapshot = _value;
@@ -56,18 +60,18 @@ class SettingsStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  static Future<KoshaSettings> _read(File file) async {
+  static Future<IncogBoardSettings> _read(File file) async {
     try {
-      if (!file.existsSync()) return const KoshaSettings();
+      if (!file.existsSync()) return const IncogBoardSettings();
       final json = jsonDecode(await file.readAsString());
-      if (json is Map<String, Object?>) return KoshaSettings.fromJson(json);
+      if (json is Map<String, Object?>) return IncogBoardSettings.fromJson(json);
     } on Object catch (e) {
-      KoshaLog.w('Settings', 'settings file unreadable, using defaults', e.runtimeType);
+      IncogBoardLog.w('Settings', 'settings file unreadable, using defaults', e.runtimeType);
     }
-    return const KoshaSettings();
+    return const IncogBoardSettings();
   }
 
-  Future<void> _write(KoshaSettings settings) async {
+  Future<void> _write(IncogBoardSettings settings) async {
     final file = _file;
     if (file == null) return;
     final tmp = File('${file.path}.tmp');

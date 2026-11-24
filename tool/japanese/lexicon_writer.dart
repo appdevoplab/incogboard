@@ -6,7 +6,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:kosha/src/engine/lang/japanese/japanese_dictionary.dart';
+import 'package:incogboard/src/engine/lang/japanese/japanese_dictionary.dart';
 
 /// One dictionary word before it is packed.
 class LexiconEntry {

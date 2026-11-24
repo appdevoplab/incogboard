@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Launch background before the Flutter engine draws (and on Android 11 and earlier): the chest, centred on the splash colour. -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/kosha_splash_background" />
+    <item android:drawable="@color/incogboard_splash_background" />
     <item
         android:drawable="@drawable/splash_chest"
         android:width="160dp"

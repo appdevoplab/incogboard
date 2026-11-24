@@ -1,14 +1,14 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
-# Changes Kosha's applicationId everywhere it is named. Run once, at the very end of the release work,
-# when the GitHub username is known (io.github.<username>.kosha). The Kotlin namespace and package
-# (app.kosha.keyboard) do NOT change: the applicationId and the namespace may differ in Android.
+# Changes IncogBoard's applicationId everywhere it is named. Run once, at the very end of the release work,
+# when the GitHub username is known (io.github.<username>.incogboard). The Kotlin namespace and package
+# (app.incogboard.keyboard) do NOT change: the applicationId and the namespace may differ in Android.
 #
-#   powershell -ExecutionPolicy Bypass -File tool\release\set_application_id.ps1 io.github.exampleuser.kosha -DryRun
-#   powershell -ExecutionPolicy Bypass -File tool\release\set_application_id.ps1 io.github.exampleuser.kosha
+#   powershell -ExecutionPolicy Bypass -File tool\release\set_application_id.ps1 io.github.exampleuser.incogboard -DryRun
+#   powershell -ExecutionPolicy Bypass -File tool\release\set_application_id.ps1 io.github.exampleuser.incogboard
 #
 # Places it changes (the list also appears in docs/release/RELEASING.md):
-#   1. android/app/build.gradle.kts        the single constant koshaApplicationId
+#   1. android/app/build.gradle.kts        the single constant incogboardApplicationId
 #   2. tool/adb_ime.ps1                    $script:Pkg (the IME component is derived from it)
 #   3. tool/bench/device_bench.ps1         -Package default
 #   4. metadata/<old id>.yml               renamed to metadata/<new id>.yml, and its mentions
@@ -35,8 +35,8 @@ Set-Location $repoRoot
 
 $gradlePath = 'android\app\build.gradle.kts'
 $gradleText = [System.IO.File]::ReadAllText((Join-Path $repoRoot $gradlePath))
-$match = [regex]::Match($gradleText, 'val koshaApplicationId = "([^"]+)"')
-if (-not $match.Success) { throw "Cannot find 'val koshaApplicationId' in $gradlePath." }
+$match = [regex]::Match($gradleText, 'val incogboardApplicationId = "([^"]+)"')
+if (-not $match.Success) { throw "Cannot find 'val incogboardApplicationId' in $gradlePath." }
 $oldId = $match.Groups[1].Value
 if ($oldId -eq $NewId) { Write-Host "The applicationId is already $NewId. Nothing to do."; return }
 
@@ -54,7 +54,7 @@ function Update-File([string]$RelativePath, [scriptblock]$Transform) {
 
 # 1. Gradle constant (the only value the build reads).
 Update-File $gradlePath {
-    param($t) $t.Replace("val koshaApplicationId = `"$oldId`"", "val koshaApplicationId = `"$NewId`"")
+    param($t) $t.Replace("val incogboardApplicationId = `"$oldId`"", "val incogboardApplicationId = `"$NewId`"")
 }
 
 # 2. adb helpers (the IME component id is derived from the package).

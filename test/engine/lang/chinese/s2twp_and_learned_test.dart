@@ -2,8 +2,8 @@
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/engine/lang/chinese/learned_phrases.dart';
-import 'package:kosha/src/engine/lang/chinese/s2twp.dart';
+import 'package:incogboard/src/engine/lang/chinese/learned_phrases.dart';
+import 'package:incogboard/src/engine/lang/chinese/s2twp.dart';
 
 import 'zh_fixture.dart';
 

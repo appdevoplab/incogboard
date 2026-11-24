@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart' show IconData;
 import 'package:material_ui/material_ui.dart' show Icons;
 
 import '../../core/input_field_info.dart';
-import '../../settings/kosha_settings.dart';
+import '../../settings/incogboard_settings.dart';
 import '../input/input_controller.dart';
 import '../input/keyboard_page.dart';
 import '../layout/layout_model.dart';
@@ -231,7 +231,7 @@ const Map<int, String> _markNames = {
   0x0640: 'tatweel',
 };
 
-/// Code point ranges of combining marks in the scripts Kosha types (Latin accents, Indic vowel
+/// Code point ranges of combining marks in the scripts IncogBoard types (Latin accents, Indic vowel
 /// signs and viramas, Arabic harakat). Used only to avoid speaking an unnamed mark as a lone glyph.
 const List<(int, int)> _combiningRanges = [
   (0x0300, 0x036F),

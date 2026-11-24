@@ -4,13 +4,13 @@
 import 'package:flutter/services.dart' show PlatformException;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:kosha/src/bridge/messages.g.dart';
-import 'package:kosha/src/core/input_field_info.dart';
-import 'package:kosha/src/features/translate/translate_feature.dart';
-import 'package:kosha/src/features/translate/translate_panel.dart';
-import 'package:kosha/src/keyboard/keyboard_app.dart';
-import 'package:kosha/src/keyboard/keyboard_session.dart';
-import 'package:kosha/src/settings/kosha_settings.dart';
+import 'package:incogboard/src/bridge/messages.g.dart';
+import 'package:incogboard/src/core/input_field_info.dart';
+import 'package:incogboard/src/features/translate/translate_feature.dart';
+import 'package:incogboard/src/features/translate/translate_panel.dart';
+import 'package:incogboard/src/keyboard/keyboard_app.dart';
+import 'package:incogboard/src/keyboard/keyboard_session.dart';
+import 'package:incogboard/src/settings/incogboard_settings.dart';
 
 import '../../keyboard/support/app_harness.dart';
 
@@ -26,14 +26,14 @@ class _Probe extends KeyboardFeature {
 }
 
 /// Settings that keep the strip on the toolbar, with translation on for en -> es.
-KoshaSettings _settings({bool enabled = true, String from = 'en', String to = 'es'}) => KoshaSettings(
+IncogBoardSettings _settings({bool enabled = true, String from = 'en', String to = 'es'}) => IncogBoardSettings(
   typing: const TypingSettings(nextWordPrediction: false),
   translate: TranslateSettings(enabled: enabled, from: from, to: to),
 );
 
 Future<(AppHarness, _Probe)> boot(
   WidgetTester tester, {
-  KoshaSettings? settings,
+  IncogBoardSettings? settings,
   EditorInfoMessage? field,
   String text = '',
 }) async {

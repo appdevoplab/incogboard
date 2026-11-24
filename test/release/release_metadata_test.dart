@@ -12,7 +12,7 @@ String _read(String path) => File(path).readAsStringSync();
 /// Length in Unicode code points (the unit the stores count).
 int _runes(String s) => s.trim().runes.length;
 
-final String _applicationId = RegExp(r'val koshaApplicationId = "([^"]+)"')
+final String _applicationId = RegExp(r'val incogboardApplicationId = "([^"]+)"')
     .firstMatch(_read('android/app/build.gradle.kts'))!
     .group(1)!;
 
@@ -77,8 +77,8 @@ void main() {
       expect(_read('tool/bench/device_bench.ps1'), contains("[string]\$Package = '$_applicationId'"));
     });
 
-    test('the Kotlin namespace stays app.kosha.keyboard', () {
-      expect(_read('android/app/build.gradle.kts'), contains('val koshaNamespace = "app.kosha.keyboard"'));
+    test('the Kotlin namespace stays app.incogboard.keyboard', () {
+      expect(_read('android/app/build.gradle.kts'), contains('val incogboardNamespace = "app.incogboard.keyboard"'));
     });
   });
 
@@ -189,7 +189,7 @@ void main() {
   group('make_release_keys.ps1', () {
     test('creates throwaway keys in a temp folder, refuses to overwrite, and never prints a secret', () async {
       if (!Platform.isWindows) return;
-      final out = Directory.systemTemp.createTempSync('kosha-keytest-').path;
+      final out = Directory.systemTemp.createTempSync('incogboard-keytest-').path;
       final target = '$out${Platform.pathSeparator}keys';
       final script = 'tool/release/make_release_keys.ps1';
       try {

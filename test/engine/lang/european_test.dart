@@ -2,9 +2,9 @@
 //
 // Wave 3-A: language info and punctuation rules of the European languages.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/engine/contracts.dart';
-import 'package:kosha/src/engine/lang/registry.dart';
-import 'package:kosha/src/settings/sections/language_settings.dart';
+import 'package:incogboard/src/engine/contracts.dart';
+import 'package:incogboard/src/engine/lang/registry.dart';
+import 'package:incogboard/src/settings/sections/language_settings.dart';
 
 void main() {
   group('European language info', () {

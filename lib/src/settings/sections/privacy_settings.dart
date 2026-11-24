@@ -31,7 +31,7 @@ class PrivacySettings {
   /// Manual incognito toggle.
   final bool incognito;
 
-  /// Packages where Kosha is always incognito (e.g. banking apps).
+  /// Packages where IncogBoard is always incognito (e.g. banking apps).
   final List<String> incognitoApps;
 
   /// FLAG_SECURE on the keyboard window in every app (always on in password fields).

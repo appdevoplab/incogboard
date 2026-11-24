@@ -8,8 +8,8 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/app/app.dart';
-import 'package:kosha/src/app/app_services.dart';
+import 'package:incogboard/src/app/app.dart';
+import 'package:incogboard/src/app/app_services.dart';
 
 const StandardMessageCodec _codec = StandardMessageCodec();
 
@@ -20,20 +20,20 @@ void _answer(String channel, Object? value) {
   _messenger.setMockMessageHandler(channel, (_) async => _codec.encodeMessage(<Object?>[value]));
 }
 
-const String _host = 'dev.flutter.pigeon.kosha.';
+const String _host = 'dev.flutter.pigeon.incogboard.';
 
 void main() {
   late Directory dir;
 
   setUp(() {
-    dir = Directory.systemTemp.createTempSync('kosha_route_test');
+    dir = Directory.systemTemp.createTempSync('incogboard_route_test');
     _answer('${_host}PlatformHostApi.getDataDirectory', dir.path);
     _answer('${_host}PlatformHostApi.getSystemColors', null);
     _answer('${_host}PlatformHostApi.hasInternetPermission', false);
     _answer('${_host}PlatformHostApi.notifySettingsChanged', null);
     _answer('${_host}AppHostApi.takeLaunchRoute', 'home');
-    _answer('${_host}AppHostApi.isKoshaEnabled', true);
-    _answer('${_host}AppHostApi.isKoshaSelected', true);
+    _answer('${_host}AppHostApi.isIncogBoardEnabled', true);
+    _answer('${_host}AppHostApi.isIncogBoardSelected', true);
   });
 
   tearDown(() {
@@ -43,8 +43,8 @@ void main() {
       'PlatformHostApi.hasInternetPermission',
       'PlatformHostApi.notifySettingsChanged',
       'AppHostApi.takeLaunchRoute',
-      'AppHostApi.isKoshaEnabled',
-      'AppHostApi.isKoshaSelected',
+      'AppHostApi.isIncogBoardEnabled',
+      'AppHostApi.isIncogBoardSelected',
     ]) {
       _messenger.setMockMessageHandler('$_host$name', null);
     }
@@ -55,7 +55,7 @@ void main() {
   testWidgets('a route request from the keyboard opens that screen on top of home', (tester) async {
     final services = await tester.runAsync(AppServices.create);
     expect(services, isNotNull);
-    await tester.pumpWidget(AppScope(services: services!, child: const KoshaSettingsApp()));
+    await tester.pumpWidget(AppScope(services: services!, child: const IncogBoardSettingsApp()));
     await tester.pumpAndSettle();
     expect(find.byKey(const ValueKey<String>('route:home')), findsOneWidget);
 

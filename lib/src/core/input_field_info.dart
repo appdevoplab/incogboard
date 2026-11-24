@@ -80,7 +80,7 @@ abstract final class AndroidCapsMode {
   static const int all = characters | words | sentences;
 }
 
-/// android.view.KeyEvent key codes used by Kosha.
+/// android.view.KeyEvent key codes used by IncogBoard.
 abstract final class AndroidKeyCode {
   static const int dpadUp = 19;
   static const int dpadDown = 20;

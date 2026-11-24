@@ -12,7 +12,7 @@ import '../app_services.dart';
 import 'privacy_format.dart';
 import 'privacy_widgets.dart';
 
-import 'package:kosha/src/app/l10n.dart';
+import 'package:incogboard/src/app/l10n.dart';
 
 class ShortcutsScreen extends StatefulWidget {
   const ShortcutsScreen({super.key});

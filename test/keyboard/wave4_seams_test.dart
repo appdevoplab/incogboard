@@ -8,20 +8,20 @@ import 'dart:io';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kosha/src/app/l10n.dart';
-import 'package:kosha/src/bridge/messages.g.dart';
-import 'package:kosha/src/core/input_field_info.dart';
-import 'package:kosha/src/engine/lang/registry.dart';
-import 'package:kosha/src/keyboard/candidates/candidate_grid_panel.dart';
-import 'package:kosha/src/keyboard/input/input_controller.dart';
-import 'package:kosha/src/keyboard/input/keyboard_page.dart';
-import 'package:kosha/src/keyboard/keyboard_app.dart';
-import 'package:kosha/src/keyboard/keyboard_session.dart';
-import 'package:kosha/src/keyboard/layout/layout_model.dart';
-import 'package:kosha/src/keyboard/view/keyboard_view.dart';
-import 'package:kosha/src/keyboard/view/popup_layer.dart';
-import 'package:kosha/src/packs/installed_packs.dart';
-import 'package:kosha/src/settings/kosha_settings.dart';
+import 'package:incogboard/src/app/l10n.dart';
+import 'package:incogboard/src/bridge/messages.g.dart';
+import 'package:incogboard/src/core/input_field_info.dart';
+import 'package:incogboard/src/engine/lang/registry.dart';
+import 'package:incogboard/src/keyboard/candidates/candidate_grid_panel.dart';
+import 'package:incogboard/src/keyboard/input/input_controller.dart';
+import 'package:incogboard/src/keyboard/input/keyboard_page.dart';
+import 'package:incogboard/src/keyboard/keyboard_app.dart';
+import 'package:incogboard/src/keyboard/keyboard_session.dart';
+import 'package:incogboard/src/keyboard/layout/layout_model.dart';
+import 'package:incogboard/src/keyboard/view/keyboard_view.dart';
+import 'package:incogboard/src/keyboard/view/popup_layer.dart';
+import 'package:incogboard/src/packs/installed_packs.dart';
+import 'package:incogboard/src/settings/incogboard_settings.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../support/fake_editor.dart';
@@ -128,7 +128,7 @@ class _Ctl {
       input: editor,
       predictor: FakePredictor(),
       gestureDecoder: FakeGestureDecoder(),
-      settings: () => const KoshaSettings(),
+      settings: () => const IncogBoardSettings(),
       clock: () => now += 200,
     );
     editor.onSelectionChanged = controller.onSelectionChanged;
@@ -354,7 +354,7 @@ void main() {
   });
 
   group('flick input', () {
-    const ja = KoshaSettings(
+    const ja = IncogBoardSettings(
       languages: LanguageSettings(enabled: ['ja'], active: 'ja'),
     );
 
@@ -446,8 +446,11 @@ void main() {
 
   group('settings and l10n', () {
     test('the chinese and japanese sections round-trip', () {
-      const s = KoshaSettings(chinese: ChineseSettings(traditional: true), japanese: JapaneseSettings(flickOnly: true));
-      final back = KoshaSettings.fromJson(s.toJson());
+      const s = IncogBoardSettings(
+        chinese: ChineseSettings(traditional: true),
+        japanese: JapaneseSettings(flickOnly: true),
+      );
+      final back = IncogBoardSettings.fromJson(s.toJson());
       expect(back.chinese.traditional, isTrue);
       expect(back.chinese.fuzzyPinyin, isTrue);
       expect(back.japanese.flickOnly, isTrue);
@@ -455,8 +458,8 @@ void main() {
     });
 
     test('the delegates include the app strings', () {
-      expect(koshaLocalizationsDelegates.first, AppLocalizations.delegate);
-      expect(koshaSupportedLocales, contains(const Locale('en')));
+      expect(incogboardLocalizationsDelegates.first, AppLocalizations.delegate);
+      expect(incogboardSupportedLocales, contains(const Locale('en')));
     });
   });
 }

@@ -10,10 +10,10 @@ import 'package:material_ui/material_ui.dart';
 import '../../bridge/messages.g.dart';
 import '../app_services.dart';
 import '../common/settings_widgets.dart';
-import '../onboarding/kosha_mascot.dart';
+import '../onboarding/incogboard_mascot.dart';
 import 'notices.dart';
 
-import 'package:kosha/src/app/l10n.dart';
+import 'package:incogboard/src/app/l10n.dart';
 
 class AboutScreen extends StatefulWidget {
   const AboutScreen({super.key});
@@ -41,7 +41,7 @@ class _AboutScreenState extends State<AboutScreen> {
           : 'Version ${info.versionName} (${info.versionCode})${info.isDebugBuild ? ' · debug build' : ''}';
       return SettingsPage(
         title: context.l10n.settingsAbout,
-        header: SettingsHero(mascot: KoshaMascot(size: 72), title: context.l10n.appName, subtitle: version),
+        header: SettingsHero(mascot: IncogBoardMascot(size: 72), title: context.l10n.appName, subtitle: version),
         children: [
           SettingsGroup(
             title: context.l10n.settingsPrivacy,
@@ -60,7 +60,7 @@ class _AboutScreenState extends State<AboutScreen> {
                 icon: Icons.gavel_outlined,
                 title: context.l10n.aboutGplTitle,
                 subtitle: context.l10n.aboutGplBody,
-                onTap: () => _openNotice(context, KoshaNotices.all.first),
+                onTap: () => _openNotice(context, IncogBoardNotices.all.first),
               ),
             ],
           ),
@@ -69,9 +69,9 @@ class _AboutScreenState extends State<AboutScreen> {
             children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
-                child: koshaSourceCodeUrl.isEmpty
+                child: incogboardSourceCodeUrl.isEmpty
                     ? Text(context.l10n.aboutSourceBody, style: Theme.of(context).textTheme.bodyMedium)
-                    : SelectableText(koshaSourceCodeUrl, style: Theme.of(context).textTheme.bodyLarge),
+                    : SelectableText(incogboardSourceCodeUrl, style: Theme.of(context).textTheme.bodyLarge),
               ),
             ],
           ),
@@ -88,7 +88,7 @@ class _AboutScreenState extends State<AboutScreen> {
                   applicationVersion: info?.versionName,
                 ),
               ),
-              for (final notice in KoshaNotices.all.skip(1))
+              for (final notice in IncogBoardNotices.all.skip(1))
                 SettingsTile(
                   icon: Icons.description_outlined,
                   title: notice.title,
@@ -101,7 +101,7 @@ class _AboutScreenState extends State<AboutScreen> {
     },
   );
 
-  void _openNotice(BuildContext context, KoshaNotice notice) {
+  void _openNotice(BuildContext context, IncogBoardNotice notice) {
     unawaited(
       Navigator.of(context).push(
         MaterialPageRoute<void>(
