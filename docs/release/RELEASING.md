@@ -37,12 +37,14 @@ APK names follow Flutter: `app-<abi>-<flavour>-release.apk` (for example `app-ar
 
 ## applicationId and namespace
 
-The applicationId is a placeholder: `app.incogboard.keyboard`. It becomes `io.github.<username>.incogboard` before the
-first store release, once the username is known. The change is made in one command:
+The applicationId is final: `io.github.appdevoplab.incogboard` (GitHub user `appdevoplab`, repository
+https://github.com/appdevoplab/incogboard; set on 2026-11-24, replacing the placeholder `app.incogboard.keyboard`).
+Once a build is published under it, it must not change. If it ever had to (before any publication), the change
+is made in one command:
 
 ```
-powershell -ExecutionPolicy Bypass -File tool\release\set_application_id.ps1 io.github.<username>.incogboard -DryRun
-powershell -ExecutionPolicy Bypass -File tool\release\set_application_id.ps1 io.github.<username>.incogboard
+powershell -ExecutionPolicy Bypass -File tool\release\set_application_id.ps1 <new id> -DryRun
+powershell -ExecutionPolicy Bypass -File tool\release\set_application_id.ps1 <new id>
 ```
 
 The places that name the applicationId:
@@ -50,9 +52,10 @@ The places that name the applicationId:
 - `android/app/build.gradle.kts`: the constant `incogboardApplicationId`. This is the only value the build reads.
 - `tool/adb_ime.ps1`: `$script:Pkg`. The IME component (`<id>/.ime.IncogBoardImeService`) is derived from it.
 - `tool/bench/device_bench.ps1`: the `-Package` default.
-- `metadata/app.incogboard.keyboard.yml`: the F-Droid recipe. The file is renamed to match the id.
+- `metadata/io.github.appdevoplab.incogboard.yml`: the F-Droid recipe. The file is renamed to match the id.
 - Release documents under `docs/release/`: every mention of the id, except lines that talk about the namespace.
-- Not changed: the About source link (`KOSHA_SOURCE_URL`, a build define), which the user sets when the repository URL is final.
+- Not changed: the About source link (`KOSHA_SOURCE_URL`, a build define). `build_release.ps1 -SourceUrl` now
+  defaults to https://github.com/appdevoplab/incogboard; CI reads the repository variable `KOSHA_SOURCE_URL`.
 
 The namespace and Kotlin package stay `app.incogboard.keyboard`. Android allows the applicationId and the namespace
 to differ: the namespace is only the Kotlin package and the generated `R` class, and it does not appear on

@@ -1,6 +1,6 @@
 # F-Droid
 
-Status: **draft, not submitted.** The recipe is `metadata/app.incogboard.keyboard.yml`. The file is named after the
+Status: **draft, not submitted.** The recipe is `metadata/io.github.appdevoplab.incogboard.yml`. The file is named after the
 applicationId, and `set_application_id.ps1` renames it when the id changes.
 
 Nothing here has been run through `fdroidserver`. `fdroid lint`, `fdroid readmeta`, `fdroid checkupdates` and

@@ -8,12 +8,12 @@ plugins {
 
 // -----------------------------------------------------------------------------------------------
 // Release identity. ONE place for the applicationId.
-// The value is a PLACEHOLDER until the store release: it becomes io.github.<username>.incogboard once the
-// username is known. Change it only with tool/release/set_application_id.ps1, which rewrites this
+// Final id (GitHub user appdevoplab), set 2026-11-24. Once an app is published under it, it must never
+// change again. Change it only with tool/release/set_application_id.ps1, which rewrites this
 // line and every other place listed in docs/release/RELEASING.md ("applicationId" section).
 // The namespace (Kotlin package, R class, JNI names) stays app.incogboard.keyboard for good.
 // -----------------------------------------------------------------------------------------------
-val incogboardApplicationId = "app.incogboard.keyboard" // PLACEHOLDER: becomes io.github.<username>.incogboard
+val incogboardApplicationId = "io.github.appdevoplab.incogboard"
 val incogboardNamespace = "app.incogboard.keyboard"
 
 // Pinned NDK. Flutter 3.50.0 defaults to the same version; the pin keeps it from moving with the SDK.

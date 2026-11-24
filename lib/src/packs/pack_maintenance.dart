@@ -15,7 +15,7 @@ import '../bridge/messages.g.dart';
 /// The website where packs are published. One constant, so the release docs can fill it in.
 /// PLACEHOLDER until the project's public URL exists (Wave 5-B docs). The app cannot open links itself
 /// (no INTERNET permission); it shows this text and lets the user copy it.
-const String kPackReleasePageUrl = 'https://example.invalid/incogboard/releases';
+const String kPackReleasePageUrl = 'https://github.com/appdevoplab/incogboard/releases';
 
 /// How packs reach this build: files the user imports, or packs the store delivers too (play flavour).
 enum PackDelivery { importOnly, storeDelivery }

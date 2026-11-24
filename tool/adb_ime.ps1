@@ -5,7 +5,7 @@
 #   Install-IncogBoard; Enable-IncogBoard; Open-Testbed -Field text; Send-Taps ...; Get-TestbedText text
 $ErrorActionPreference = 'Stop'
 $script:Adb = Join-Path $env:ANDROID_HOME 'platform-tools\adb.exe'
-$script:Pkg = 'app.incogboard.keyboard'
+$script:Pkg = 'io.github.appdevoplab.incogboard'
 $script:ImeId = "$script:Pkg/.ime.IncogBoardImeService"
 
 function Invoke-Adb { & $script:Adb @args }

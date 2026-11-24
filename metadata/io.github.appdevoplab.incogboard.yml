@@ -4,7 +4,6 @@
 # applicationId mentions below when the placeholder id changes.
 #
 # Open items before a merge request:
-#   - username in the URLs (io.github.<username>.kosha is the target id)
 #   - the first tag (v1.0.0) and its commit
 #   - a flutter srclib at 3.50.0 in fdroiddata (srclibs/flutter.yml); if only older versions exist, ask first
 #   - the committed prebuilt .so files (src/main/jniLibs: libsherpa-onnx-jni.so) need source provenance or removal,
@@ -15,14 +14,14 @@ Categories:
   - Writing
 License: GPL-3.0-or-later
 AuthorName: IncogBoard contributors
-WebSite: https://github.com/<username>/incogboard
-SourceCode: https://github.com/<username>/incogboard
-IssueTracker: https://github.com/<username>/incogboard/issues
-Changelog: https://github.com/<username>/incogboard/releases
+WebSite: https://github.com/appdevoplab/incogboard
+SourceCode: https://github.com/appdevoplab/incogboard
+IssueTracker: https://github.com/appdevoplab/incogboard/issues
+Changelog: https://github.com/appdevoplab/incogboard/releases
 Donate: ""
 AutoName: IncogBoard
 RepoType: git
-Repo: https://github.com/<username>/incogboard.git
+Repo: https://github.com/appdevoplab/incogboard.git
 
 Builds:
   - versionName: 1.0.0
@@ -50,5 +49,5 @@ AutoUpdateMode: Version
 UpdateCheckMode: Tags
 # Prebuilt binaries: F-Droid builds from source only. Once the binaries are rebuilt from source, the
 # developer-signed APK published with the release is the verification reference (Binaries:).
-# Binaries: https://github.com/<username>/incogboard/releases/download/v%v/app-arm64-v8a-foss-release.apk
+# Binaries: https://github.com/appdevoplab/incogboard/releases/download/v%v/app-arm64-v8a-foss-release.apk
 AntiFeatures: []

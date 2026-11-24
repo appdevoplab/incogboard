@@ -16,7 +16,7 @@
 # The script prints a Markdown results table for docs/perf/budgets.md. It writes nothing else.
 param(
   [ValidateSet('latin', 'voice')][string]$Phase = 'latin',
-  [string]$Package = 'app.incogboard.keyboard',
+  [string]$Package = 'io.github.appdevoplab.incogboard',
   [int]$TapX = 540,
   [int]$TapY = 1800,
   [string]$Text = 'the quick brown fox jumps over the lazy dog',
