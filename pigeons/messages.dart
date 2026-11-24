@@ -243,6 +243,41 @@ class PackInfoMessage {
   String license;
 }
 
+/// Result of re-checking one installed pack against its signed manifest. Counts only, never paths.
+class PackCheckMessage {
+  PackCheckMessage({
+    required this.id,
+    required this.manifestOk,
+    required this.missingFiles,
+    required this.damagedFiles,
+  });
+
+  String id;
+  bool manifestOk;
+  int missingFiles;
+  int damagedFiles;
+}
+
+/// Free space on the storage that holds packs.
+class PackStorageMessage {
+  PackStorageMessage({required this.freeBytes});
+
+  int freeBytes;
+}
+
+/// Where a store delivery stands (play flavour). Mirrors `PackOfferStatus` in lib/src/packs/pack_maintenance.dart.
+enum PackOfferStatusMessage { notRequested, waitingForNetwork, downloading, installing, failed, ready }
+
+/// A pack the store can deliver to this phone. Empty list in import-only builds (foss).
+class PackOfferMessage {
+  PackOfferMessage({required this.id, required this.name, required this.sizeBytes, required this.status});
+
+  String id;
+  String name;
+  int sizeBytes;
+  PackOfferStatusMessage status;
+}
+
 enum VoiceStartStatus { started, noPermission, noModel, busy, failed }
 
 class VoiceRequestMessage {
@@ -474,6 +509,33 @@ abstract class AppHostApi {
 
   @TaskQueue(type: TaskQueueType.serialBackgroundThread)
   void deletePack(String id);
+
+  // Pack maintenance (Wave 5-C, wired in the rename session) ----------------------------
+
+  /// Re-checks every installed pack against its signed manifest and file hashes.
+  @TaskQueue(type: TaskQueueType.serialBackgroundThread)
+  List<PackCheckMessage> verifyPacks();
+
+  /// Usable space on the storage that holds packs, or null when it cannot be read.
+  @TaskQueue(type: TaskQueueType.serialBackgroundThread)
+  PackStorageMessage? packStorage();
+
+  /// 'import' (packs come from files the user imports: foss) or 'store' (the store delivers some: play).
+  String packDelivery();
+
+  /// Packs the store can deliver, with their state. Empty for 'import'.
+  @TaskQueue(type: TaskQueueType.serialBackgroundThread)
+  List<PackOfferMessage> packOffers();
+
+  /// Asks the store to deliver pack [id]. Throws code `unsupported` in import-only builds.
+  @TaskQueue(type: TaskQueueType.serialBackgroundThread)
+  void requestPack(String id);
+
+  /// Installs the store's copy of [id] with the same signature and hash checks as an imported file.
+  /// Throws code `not_delivered` when the store has not delivered it yet, or the import codes
+  /// (`bad_signature`, `bad_format`, `too_large`, `unsupported_version`, `no_space`).
+  @TaskQueue(type: TaskQueueType.serialBackgroundThread)
+  PackInfoMessage installDeliveredPack(String id);
 }
 
 // ---------------------------------------------------------------------------

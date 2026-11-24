@@ -21,11 +21,12 @@ import 'pack_text.dart';
 import 'package:incogboard/src/app/l10n.dart';
 
 class PacksScreen extends StatefulWidget {
-  const PacksScreen({super.key, this.maintenance = const UnavailablePackMaintenance()});
+  const PacksScreen({super.key, this.maintenance});
 
-  /// Store delivery, free space and verification. The default is import-only, with those features
-  /// reported as not available in this build.
-  final PackMaintenance maintenance;
+  /// Store delivery, free space and verification. Null (the app) uses the platform through Pigeon; tests
+  /// pass their own. When the platform cannot be reached the screen falls back to import-only, with those
+  /// features reported as not available in this build.
+  final PackMaintenance? maintenance;
 
   @override
   State<PacksScreen> createState() => _PacksScreenState();
@@ -43,6 +44,7 @@ class _PackPage {
 class _PacksScreenState extends State<PacksScreen> {
   AppServices? _services;
   Future<_PackPage>? _page;
+  PackMaintenance _maintenance = const UnavailablePackMaintenance();
   bool _busy = false;
 
   @override
@@ -63,8 +65,10 @@ class _PacksScreenState extends State<PacksScreen> {
   /// Store and storage details are optional: when they fail, the page still shows the installed packs.
   Future<_PackPage> _readPage() async {
     final packs = await _services!.platform.listPacks();
-    final offers = await _optional(widget.maintenance.offers, const <PackOffer>[]);
-    final storage = await _optional(widget.maintenance.storage, null);
+    _maintenance =
+        widget.maintenance ?? await _optional(() => BridgePackMaintenance.load(_services!.app), _maintenance);
+    final offers = await _optional(_maintenance.offers, const <PackOffer>[]);
+    final storage = await _optional(_maintenance.storage, null);
     return _PackPage(packs, offers, storage);
   }
 
@@ -117,7 +121,7 @@ class _PacksScreenState extends State<PacksScreen> {
     final l10n = context.l10n;
     setState(() => _busy = true);
     try {
-      await widget.maintenance.request(offer.id);
+      await _maintenance.request(offer.id);
     } on Object {
       _show(l10n.packsStatusFailed);
     } finally {
@@ -130,7 +134,7 @@ class _PacksScreenState extends State<PacksScreen> {
     final l10n = context.l10n;
     setState(() => _busy = true);
     try {
-      final checks = await widget.maintenance.verifyInstalled();
+      final checks = await _maintenance.verifyInstalled();
       final damaged = checks.where((c) => !c.ok).length;
       _show(damaged == 0 ? l10n.packsVerifyOk('${checks.length}') : l10n.packsVerifyDamaged('$damaged'));
     } on PackMaintenanceUnavailable {
@@ -196,7 +200,7 @@ class _PacksScreenState extends State<PacksScreen> {
           for (final o in page.offers)
             if (!installedIds.contains(o.id)) o,
         ];
-        final importOnly = widget.maintenance.delivery == PackDelivery.importOnly;
+        final importOnly = _maintenance.delivery == PackDelivery.importOnly;
         final l10n = context.l10n;
         final free = page.storage?.freeBytes;
         return SettingsPage(
