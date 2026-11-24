@@ -76,6 +76,8 @@ data class PackManifest(
             if (f.size < 0) fail("size")
             if (!HEX_RE.matches(f.sha256)) fail("sha256")
         }
+        // A file "a" and a file "a/b" cannot both exist: the second write would fail with an untyped error (SEC-05).
+        if (seen.any { p -> seen.any { other -> other.startsWith("$p/") } }) fail("path is a prefix of another path")
     }
 }
 

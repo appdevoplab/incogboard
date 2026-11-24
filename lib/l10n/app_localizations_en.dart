@@ -803,6 +803,36 @@ class AppLocalizationsEn extends AppLocalizations {
       'The chosen sections on this phone are deleted and replaced. This cannot be undone.';
 
   @override
+  String get backupPrivacyChangesTitle =>
+      'This backup changes your privacy settings';
+
+  @override
+  String get backupPrivacyChangesBody =>
+      'Restoring the settings will change these privacy settings on this phone. Check them before you continue.';
+
+  @override
+  String backupPrivacyChangeLine(String setting, String from, String to) {
+    return '$setting: $from → $to';
+  }
+
+  @override
+  String get backupStateOn => 'On';
+
+  @override
+  String backupAppsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count apps',
+      one: '1 app',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get backupRestoreAndChange => 'Restore and change';
+
+  @override
   String get backupUnlockRetryChanged =>
       'Unlock your phone, then try again. Nothing was changed.';
 

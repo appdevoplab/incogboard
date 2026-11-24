@@ -42,10 +42,17 @@ internal class BackupDocuments(private val activity: ComponentActivity) {
     suspend fun open(mimeTypes: List<String>): String? =
         pick { openLauncher.launch(mimeTypes) }?.toString()
 
+    /** Only `content://` documents from the system picker are accepted: never a `file://` or other scheme (SEC-15). */
+    private fun contentUri(uri: String): Uri {
+        val parsed = Uri.parse(uri)
+        if (parsed.scheme != "content") throw BackupException(BackupException.IO, "not a content document")
+        return parsed
+    }
+
     /** Replaces the document's contents. */
     fun write(uri: String, data: ByteArray) {
         try {
-            val stream = resolver.openOutputStream(Uri.parse(uri), "wt")
+            val stream = resolver.openOutputStream(contentUri(uri), "wt")
                 ?: throw BackupException(BackupException.IO, "document cannot be opened for writing")
             stream.use { it.write(data) }
         } catch (e: IOException) {
@@ -56,7 +63,7 @@ internal class BackupDocuments(private val activity: ComponentActivity) {
     /** Reads at most [maxBytes]; throws [BackupException.TOO_LARGE] beyond that. */
     fun read(uri: String, maxBytes: Long): ByteArray {
         try {
-            val stream = resolver.openInputStream(Uri.parse(uri))
+            val stream = resolver.openInputStream(contentUri(uri))
                 ?: throw BackupException(BackupException.IO, "document cannot be opened for reading")
             stream.use { input ->
                 val out = ByteArrayOutputStream()

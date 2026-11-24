@@ -79,7 +79,9 @@ internal class AppHostApiImpl(
     // ---- Model packs (Wave 3) ---------------------------------------------------------
 
     override fun importPack(uri: String): PackInfoMessage {
-        val input = activity.contentResolver.openInputStream(Uri.parse(uri))
+        val parsed = Uri.parse(uri)
+        if (parsed.scheme != "content") throw FlutterError("bad_format", "not a content document", null)
+        val input = activity.contentResolver.openInputStream(parsed)
             ?: throw FlutterError("bad_format", "cannot open document", null)
         return try {
             input.use { PackStore.get(activity).install(it).toMessage() }

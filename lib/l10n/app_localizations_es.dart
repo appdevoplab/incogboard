@@ -819,6 +819,36 @@ class AppLocalizationsEs extends AppLocalizations {
       'Las secciones elegidas de este teléfono se borran y se reemplazan. No se puede deshacer.';
 
   @override
+  String get backupPrivacyChangesTitle =>
+      'Esta copia cambia tus ajustes de privacidad';
+
+  @override
+  String get backupPrivacyChangesBody =>
+      'Al restaurar los ajustes, cambiarán estos ajustes de privacidad en este teléfono. Revísalos antes de continuar.';
+
+  @override
+  String backupPrivacyChangeLine(String setting, String from, String to) {
+    return '$setting: $from → $to';
+  }
+
+  @override
+  String get backupStateOn => 'Activado';
+
+  @override
+  String backupAppsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count apps',
+      one: '1 app',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get backupRestoreAndChange => 'Restaurar y cambiar';
+
+  @override
   String get backupUnlockRetryChanged =>
       'Desbloquea el teléfono y vuelve a intentarlo. No se cambió nada.';
 

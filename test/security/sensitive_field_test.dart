@@ -4,9 +4,8 @@
 // password variations, IME_FLAG_NO_PERSONALIZED_LEARNING and TYPE_TEXT_FLAG_NO_SUGGESTIONS get no
 // suggestions, no learning, no popups, no voice and FLAG_SECURE).
 //
-// The code today uses InputFieldInfo.isSensitive = isPassword for FLAG_SECURE, voice and translation.
-// Suggestions and learning are gated separately and do respect the two flags. The skipped test pins the
-// planned rule; see SEC-12 in docs/security/audit.md.
+// InputFieldInfo.isSensitive covers passwords and the two flags (decision D1, 2026-11-24, SEC-12 in
+// docs/security/audit.md), so those fields get no popups, no voice, no translation and FLAG_SECURE.
 import 'package:flutter_test/flutter_test.dart';
 import 'package:incogboard/src/core/input_field_info.dart';
 
@@ -41,5 +40,5 @@ void main() {
   test('no-personalised-learning and no-suggestions fields are sensitive as the plan requires', () {
     expect(_field(ime: AndroidImeOptions.flagNoPersonalizedLearning).isSensitive, isTrue);
     expect(_field(flags: AndroidInputType.textFlagNoSuggestions).isSensitive, isTrue);
-  }, skip: 'SEC-12: isSensitive is isPassword only, so these fields get FLAG_SECURE, voice and translation (audit.md)');
+  });
 }

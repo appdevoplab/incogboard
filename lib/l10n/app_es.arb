@@ -540,6 +540,12 @@
   "commonContinue": "Continuar",
   "backupReplaceTitle": "¿Reemplazar los datos de este teléfono?",
   "backupReplaceConfirm": "Las secciones elegidas de este teléfono se borran y se reemplazan. No se puede deshacer.",
+  "backupPrivacyChangesTitle": "Esta copia cambia tus ajustes de privacidad",
+  "backupPrivacyChangesBody": "Al restaurar los ajustes, cambiarán estos ajustes de privacidad en este teléfono. Revísalos antes de continuar.",
+  "backupPrivacyChangeLine": "{setting}: {from} → {to}",
+  "backupStateOn": "Activado",
+  "backupAppsCount": "{count, plural, one {1 app} other {{count} apps}}",
+  "backupRestoreAndChange": "Restaurar y cambiar",
   "backupUnlockRetryChanged": "Desbloquea el teléfono y vuelve a intentarlo. No se cambió nada.",
   "backupRestoreFailed": "IncogBoard no pudo terminar la restauración. Es posible que algunos datos no se escribieran.",
   "@backupRestoreFailed": {

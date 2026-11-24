@@ -540,6 +540,12 @@
   "commonContinue": "Weiter",
   "backupReplaceTitle": "Daten auf diesem Gerät ersetzen?",
   "backupReplaceConfirm": "Die gewählten Bereiche auf diesem Gerät werden gelöscht und ersetzt. Das kann nicht rückgängig gemacht werden.",
+  "backupPrivacyChangesTitle": "Dieses Backup ändert deine Datenschutz-Einstellungen",
+  "backupPrivacyChangesBody": "Beim Wiederherstellen der Einstellungen werden diese Datenschutz-Einstellungen auf diesem Telefon geändert. Prüfe sie, bevor du fortfährst.",
+  "backupPrivacyChangeLine": "{setting}: {from} → {to}",
+  "backupStateOn": "An",
+  "backupAppsCount": "{count, plural, one {1 App} other {{count} Apps}}",
+  "backupRestoreAndChange": "Wiederherstellen und ändern",
   "backupUnlockRetryChanged": "Entsperre das Gerät und versuche es erneut. Es wurde nichts geändert.",
   "backupRestoreFailed": "IncogBoard konnte die Wiederherstellung nicht abschließen. Einige Daten wurden möglicherweise nicht geschrieben.",
   "@backupRestoreFailed": {

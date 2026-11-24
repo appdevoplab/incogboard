@@ -6,7 +6,7 @@
 // per-word object. All lookups are allocation-free except those that return
 // strings.
 import 'dart:convert';
-import 'dart:io' show ZLibCodec;
+import 'dart:io' show ZLibDecoder;
 import 'dart:math' as math;
 import 'dart:typed_data';
 
@@ -15,11 +15,41 @@ import 'mdict_format.dart';
 import 'mdict_writer.dart';
 import 'text_fold.dart';
 
+/// The most an `MDZ1` payload may inflate to. The largest bundled dictionary is a few MB; the cap only stops
+/// a corrupt or hostile file from filling memory (SEC-10).
+const int _maxInflatedBytes = 64 * 1024 * 1024;
+
+/// A sink that collects inflated chunks and refuses to hold more than [_maxInflatedBytes].
+class _CappedSink implements Sink<List<int>> {
+  final BytesBuilder _out = BytesBuilder(copy: false);
+
+  @override
+  void add(List<int> data) {
+    if (_out.length + data.length > _maxInflatedBytes) {
+      throw const FormatException('MDICT payload inflates to more than the allowed size');
+    }
+    _out.add(data);
+  }
+
+  @override
+  void close() {}
+
+  Uint8List takeBytes() => _out.takeBytes();
+}
+
+Uint8List _inflate(Uint8List compressed) {
+  final sink = _CappedSink();
+  final decoder = ZLibDecoder().startChunkedConversion(sink);
+  decoder.add(compressed);
+  decoder.close();
+  return sink.takeBytes();
+}
+
 /// Inflates an `MDZ1` file to the raw payload (cheap to run in an isolate).
 /// Raw payloads are returned unchanged.
 Uint8List inflateMdict(Uint8List bytes) {
   if (bytes.length < 4 || ascii.decode(bytes.sublist(0, 4), allowInvalid: true) != kMdictMagicZlib) return bytes;
-  return Uint8List.fromList(ZLibCodec().decode(Uint8List.sublistView(bytes, 4)));
+  return _inflate(Uint8List.sublistView(bytes, 4));
 }
 
 class MdictLexicon implements Lexicon {
@@ -54,13 +84,16 @@ class MdictLexicon implements Lexicon {
 
   /// Parses raw or zlib-compressed MDICT bytes.
   factory MdictLexicon.fromBytes(Uint8List bytes) {
+    if (bytes.length < 4) throw const FormatException('Not an MDICT file');
     var data = bytes;
     final magic = ascii.decode(bytes.sublist(0, 4), allowInvalid: true);
     if (magic == kMdictMagicZlib) {
-      data = Uint8List.fromList(ZLibCodec().decode(Uint8List.sublistView(bytes, 4)));
+      data = _inflate(Uint8List.sublistView(bytes, 4));
     } else if (magic != kMdictMagicRaw) {
       throw const FormatException('Not an MDICT file');
     }
+    // The fixed header is 37 bytes plus the language code; every section is checked against the file length.
+    if (data.length < 37) throw const FormatException('MDICT file is truncated');
     final version = data[4];
     if (version != kMdictVersion) throw FormatException('Unsupported MDICT version $version');
     final flags = data[5];
@@ -72,9 +105,11 @@ class MdictLexicon implements Lexicon {
     final bigramLen = readU32(data, 28);
     final corrLen = readU32(data, 32);
     final langLen = data[36];
+    if (37 + langLen > data.length) throw const FormatException('MDICT file is truncated');
     final language = ascii.decode(data.sublist(37, 37 + langLen));
     var pos = 37 + langLen;
     Uint8List take(int len) {
+      if (len < 0 || pos + len > data.length) throw const FormatException('MDICT file is truncated');
       final view = Uint8List.sublistView(data, pos, pos + len);
       pos += len;
       return view;

@@ -800,6 +800,36 @@ class AppLocalizationsHi extends AppLocalizations {
       'इस फ़ोन पर चुने गए भाग मिटाकर बदल दिए जाएँगे। इसे वापस नहीं लाया जा सकता।';
 
   @override
+  String get backupPrivacyChangesTitle =>
+      'यह बैकअप आपकी गोपनीयता सेटिंग बदलता है';
+
+  @override
+  String get backupPrivacyChangesBody =>
+      'सेटिंग बहाल करने पर इस फ़ोन की ये गोपनीयता सेटिंग बदल जाएँगी। आगे बढ़ने से पहले इन्हें देख लें।';
+
+  @override
+  String backupPrivacyChangeLine(String setting, String from, String to) {
+    return '$setting: $from → $to';
+  }
+
+  @override
+  String get backupStateOn => 'चालू';
+
+  @override
+  String backupAppsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ऐप',
+      one: '1 ऐप',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get backupRestoreAndChange => 'बहाल करें और बदलें';
+
+  @override
   String get backupUnlockRetryChanged =>
       'फ़ोन अनलॉक करके फिर कोशिश करें। कुछ भी नहीं बदला गया।';
 

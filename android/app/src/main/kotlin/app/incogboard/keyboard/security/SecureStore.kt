@@ -60,7 +60,9 @@ class SecureStoreException(val code: String, message: String, cause: Throwable? 
  *   [SecureStoreException]. A permanently invalidated key is replaced; the data sealed under
  *   the old key is unreadable by design and is discarded.
  *
- * File format: [1 byte version=1][1 byte iv length][iv][ciphertext+tag].
+ * File format: [1 byte version=2][1 byte iv length][iv][ciphertext+tag]. The blob name is authenticated as
+ * AES-GCM additional data, so a file copied over another blob's name does not decrypt. Version 1 (no name
+ * binding) is unreadable: no data had shipped when version 2 was introduced.
  *
  * Instances for one directory must be shared: use [SecureStore.get] on Android.
  */
@@ -78,7 +80,7 @@ class SecureStore(private val dir: File, private val keys: KeyProvider) {
         if (data.size > MAX_BLOB_BYTES) {
             throw SecureStoreException(SecureStoreException.TOO_LARGE, "blob exceeds $MAX_BLOB_BYTES bytes")
         }
-        val sealed = seal(data)
+        val sealed = seal(name, data)
         val tmp = File(dir, name + TMP_SUFFIX)
         try {
             tmp.outputStream().use { out ->
@@ -87,7 +89,7 @@ class SecureStore(private val dir: File, private val keys: KeyProvider) {
             }
             // Keep the previous copy as .bak, but only when it is itself good, so a corrupt
             // target can never replace the last good backup.
-            if (target.exists() && decrypt(target) != null) {
+            if (target.exists() && decrypt(target, name) != null) {
                 move(target, File(dir, name + BAK_SUFFIX))
             }
             move(tmp, target)
@@ -105,7 +107,7 @@ class SecureStore(private val dir: File, private val keys: KeyProvider) {
     fun read(name: String): ByteArray? {
         val target = fileFor(name)
         return try {
-            decryptOrThrow(target) ?: decryptOrThrow(File(dir, name + BAK_SUFFIX))
+            decryptOrThrow(target, name) ?: decryptOrThrow(File(dir, name + BAK_SUFFIX), name)
         } catch (e: KeyUnavailable) {
             null
         }
@@ -145,9 +147,9 @@ class SecureStore(private val dir: File, private val keys: KeyProvider) {
 
     private class KeyUnavailable : Exception()
 
-    private fun seal(data: ByteArray): ByteArray {
+    private fun seal(name: String, data: ByteArray): ByteArray {
         return try {
-            sealOnce(data)
+            sealOnce(name, data)
         } catch (e: Exception) {
             when (keys.classify(e)) {
                 KeyFailure.LOCKED -> throw SecureStoreException(
@@ -156,7 +158,7 @@ class SecureStore(private val dir: File, private val keys: KeyProvider) {
                 KeyFailure.INVALIDATED -> {
                     recreateKey()
                     try {
-                        sealOnce(data)
+                        sealOnce(name, data)
                     } catch (retry: Exception) {
                         throw SecureStoreException(SecureStoreException.CRYPTO, "encryption failed", retry)
                     }
@@ -166,9 +168,10 @@ class SecureStore(private val dir: File, private val keys: KeyProvider) {
         }
     }
 
-    private fun sealOnce(data: ByteArray): ByteArray {
+    private fun sealOnce(name: String, data: ByteArray): ByteArray {
         val cipher = Cipher.getInstance(TRANSFORMATION)
         cipher.init(Cipher.ENCRYPT_MODE, keys.key())
+        cipher.updateAAD(name.toByteArray(Charsets.US_ASCII)) // binds the ciphertext to its blob name
         val iv = cipher.iv
         val body = cipher.doFinal(data)
         val out = ByteArray(2 + iv.size + body.size)
@@ -180,7 +183,7 @@ class SecureStore(private val dir: File, private val keys: KeyProvider) {
     }
 
     /** Null on any problem except an unusable key, which throws [KeyUnavailable] (after recovery). */
-    private fun decryptOrThrow(file: File): ByteArray? {
+    private fun decryptOrThrow(file: File, name: String): ByteArray? {
         if (!file.isFile || file.length() > MAX_BLOB_BYTES + OVERHEAD_BYTES) return null
         val bytes = try {
             file.readBytes()
@@ -194,6 +197,7 @@ class SecureStore(private val dir: File, private val keys: KeyProvider) {
         return try {
             val cipher = Cipher.getInstance(TRANSFORMATION)
             cipher.init(Cipher.DECRYPT_MODE, keys.key(), GCMParameterSpec(TAG_BITS, iv))
+            cipher.updateAAD(name.toByteArray(Charsets.US_ASCII))
             cipher.doFinal(bytes, 2 + ivLen, bytes.size - 2 - ivLen)
         } catch (e: Exception) {
             when (keys.classify(e)) {
@@ -207,8 +211,8 @@ class SecureStore(private val dir: File, private val keys: KeyProvider) {
         }
     }
 
-    private fun decrypt(file: File): ByteArray? = try {
-        decryptOrThrow(file)
+    private fun decrypt(file: File, name: String): ByteArray? = try {
+        decryptOrThrow(file, name)
     } catch (e: KeyUnavailable) {
         null
     }
@@ -241,7 +245,7 @@ class SecureStore(private val dir: File, private val keys: KeyProvider) {
         private const val OVERHEAD_BYTES = 64
         private const val TAG_BITS = 128
         private const val TRANSFORMATION = "AES/GCM/NoPadding"
-        private const val FORMAT_VERSION = 1
+        private const val FORMAT_VERSION = 2
         private const val TMP_SUFFIX = ".tmp"
         private const val BAK_SUFFIX = ".bak"
         private val NAME = Regex("^[a-z0-9_.-]{1,64}$")

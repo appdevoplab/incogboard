@@ -806,6 +806,36 @@ class AppLocalizationsId extends AppLocalizations {
       'Bagian yang dipilih di ponsel ini akan dihapus dan diganti. Tidak bisa dibatalkan.';
 
   @override
+  String get backupPrivacyChangesTitle =>
+      'Cadangan ini mengubah pengaturan privasi Anda';
+
+  @override
+  String get backupPrivacyChangesBody =>
+      'Memulihkan pengaturan akan mengubah pengaturan privasi ini di ponsel ini. Periksa dulu sebelum melanjutkan.';
+
+  @override
+  String backupPrivacyChangeLine(String setting, String from, String to) {
+    return '$setting: $from → $to';
+  }
+
+  @override
+  String get backupStateOn => 'Aktif';
+
+  @override
+  String backupAppsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count aplikasi',
+      one: '1 aplikasi',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get backupRestoreAndChange => 'Pulihkan dan ubah';
+
+  @override
   String get backupUnlockRetryChanged =>
       'Buka kunci ponsel, lalu coba lagi. Tidak ada yang diubah.';
 

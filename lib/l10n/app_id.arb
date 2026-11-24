@@ -541,6 +541,12 @@
   "commonContinue": "Lanjut",
   "backupReplaceTitle": "Ganti data di ponsel ini?",
   "backupReplaceConfirm": "Bagian yang dipilih di ponsel ini akan dihapus dan diganti. Tidak bisa dibatalkan.",
+  "backupPrivacyChangesTitle": "Cadangan ini mengubah pengaturan privasi Anda",
+  "backupPrivacyChangesBody": "Memulihkan pengaturan akan mengubah pengaturan privasi ini di ponsel ini. Periksa dulu sebelum melanjutkan.",
+  "backupPrivacyChangeLine": "{setting}: {from} → {to}",
+  "backupStateOn": "Aktif",
+  "backupAppsCount": "{count, plural, one {1 aplikasi} other {{count} aplikasi}}",
+  "backupRestoreAndChange": "Pulihkan dan ubah",
   "backupUnlockRetryChanged": "Buka kunci ponsel, lalu coba lagi. Tidak ada yang diubah.",
   "backupRestoreFailed": "IncogBoard tidak dapat menyelesaikan pemulihan. Sebagian data mungkin belum tertulis.",
   "@backupRestoreFailed": {

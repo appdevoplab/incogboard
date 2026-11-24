@@ -160,6 +160,17 @@ class PackStoreTest {
     }
 
     @Test
+    fun rejectsAFileNameThatIsAFolderOfAnotherFile() {
+        val a = """{"path":"a","size":1,"sha256":"${sha256(byteArrayOf(1))}"}"""
+        val b = """{"path":"a/b","size":1,"sha256":"${sha256(byteArrayOf(2))}"}"""
+        val manifest = manifestJson(files = "$a,$b")
+        expect("bad_format") {
+            PackStore(root, listOf(keys.public)).install(ByteArrayInputStream(packRaw(manifest, listOf(byteArrayOf(1), byteArrayOf(2)))))
+        }
+        assertNothingInstalled()
+    }
+
+    @Test
     fun rejectsASizeLargerThanTheData() {
         val entry = """{"path":"a.bin","size":10,"sha256":"${sha256(byteArrayOf(1, 2, 3))}"}"""
         expect("bad_format") {

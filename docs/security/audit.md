@@ -10,6 +10,13 @@ Companion documents: `threat-model.md`, `licences.md`, `../brand/trademark-check
 - **No finding in the core privacy promises checked:** no INTERNET permission in the release manifest or APK (verified on the Wave 4 APK), no network or telemetry class in the dex, `allowBackup` and cloud backup off, no typed text in logs, voice and translation write nothing to disk, the backup format and crypto are sound, and the Keystore key is unlocked-device only.
 - **Findings:** 20 in total. 1 High (release blocker), 4 Medium, 10 Low, 4 Info. Each has an owner and, where needed, an exact patch below. **No code file outside my ownership was changed.** Three findings are pinned by skipped tests.
 
+## Status of the patches (2026-11-24)
+
+User decisions: D1 wider sensitive-field rule, D2 confirm before a restore changes privacy settings, SEC-03 AAD now.
+
+- **Fixed:** SEC-01 (P1), SEC-03 (P3: name bound as AAD, format version 2, version 1 unreadable), SEC-04 (P4), SEC-05 (a file path that is a folder of another file is rejected), SEC-07 (P5), SEC-09, SEC-10 (inflate capped at 64 MiB, section lengths checked), SEC-11 (header tables checked at open), SEC-12 (P2: `isSensitive` also covers no-personalised-learning and no-suggestions fields), SEC-13 (P6: wrapper scripts tracked, `distributionSha256Sum` pinned to the -all zip checksum published on gradle.org and equal to the zip on this PC; the wrapper jar is not pinned), SEC-15 (only `content://` URIs), SEC-17 (D2: `lib/src/security/backup/privacy_changes.dart` and a confirmation dialog in `backup_screen.dart`; the dialog itself has no widget test).
+- **Not done:** SEC-06 (making a locked device throw instead of reading as empty changes every caller of `SecureBlobStore.read`; needs its own design), SEC-08 (export overwrites the chosen file; a UI warning), SEC-14, SEC-16, SEC-18, SEC-19, SEC-20 (Info, accepted or later). D3 is done (release pack key). D4 unchanged (R8 strips v, d, i only).
+
 ## Findings (highest first)
 
 Owner key: O = orchestrator (`lib/src/core`, `lib/src/security`, `lib/src/engine`, `lib/src/keyboard`, `android/**` except what a brief names); B = release engineering; C = data packs. "Test" names the test that pins it (`skip` = currently fails).

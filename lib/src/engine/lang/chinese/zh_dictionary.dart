@@ -76,11 +76,43 @@ class ZhDictionary {
     if (dict._field(ZhDictFormat.fTotalLength) != bytes.length) {
       throw const FormatException('zh.kdict length does not match its header');
     }
+    dict._checkTables();
     return dict;
   }
 
   final Uint8List _bytes;
   final ByteData _data;
+
+  /// Every table the header points to must lie inside the file (SEC-11), so a lookup can never read past
+  /// the end. Blobs have no stored size: their start must be inside the file. Tables have sizes from counts.
+  void _checkTables() {
+    final end = _bytes.length;
+    void blob(int field, String what) {
+      if (_field(field) > end) throw FormatException('zh.kdict $what starts past the end of the file');
+    }
+
+    // [n] items, plus [extra] closing items. A table with no items is not read, so it is not checked.
+    void table(int field, int n, int itemBytes, String what, {int extra = 0}) {
+      if (n == 0) return;
+      final off = _field(field);
+      if (off < ZhDictFormat.dataStart || off + (n + extra) * itemBytes > end) {
+        throw FormatException('zh.kdict $what lies outside the file');
+      }
+    }
+
+    final keys = _field(ZhDictFormat.fKeyCount);
+    final inits = _field(ZhDictFormat.fInitCount);
+    blob(ZhDictFormat.fKeyBlob, 'key text');
+    blob(ZhDictFormat.fTextBlob, 'entry text');
+    blob(ZhDictFormat.fSylBlob, 'syllable text');
+    blob(ZhDictFormat.fInitBlob, 'initials text');
+    table(ZhDictFormat.fKeyOffs, keys, 4, 'key offsets', extra: 1);
+    table(ZhDictFormat.fKeyStart, keys, 4, 'key starts', extra: 1);
+    table(ZhDictFormat.fEntries, _field(ZhDictFormat.fEntryCount), ZhDictFormat.entryBytes, 'entries');
+    table(ZhDictFormat.fInitOffs, inits, 4, 'initials offsets', extra: 1);
+    table(ZhDictFormat.fInitStart, inits, 4, 'initials starts', extra: 1);
+    table(ZhDictFormat.fInitIdx, _field(ZhDictFormat.fInitIdxCount), 4, 'initials index');
+  }
 
   /// Unique pinyin keys.
   int get keyCount => _field(ZhDictFormat.fKeyCount);

@@ -1033,6 +1033,46 @@
   "@backupReplaceConfirm": {
     "description": "Restore: replace confirmation. Three lines at most"
   },
+  "backupPrivacyChangesTitle": "This backup changes your privacy settings",
+  "@backupPrivacyChangesTitle": {
+    "description": "Restore: title of the confirmation that lists privacy settings the backup would change"
+  },
+  "backupPrivacyChangesBody": "Restoring the settings will change these privacy settings on this phone. Check them before you continue.",
+  "@backupPrivacyChangesBody": {
+    "description": "Restore: explains the list of privacy settings below it"
+  },
+  "backupPrivacyChangeLine": "{setting}: {from} → {to}",
+  "@backupPrivacyChangeLine": {
+    "description": "Restore: one changed privacy setting. {setting} is the setting's name, {from} and {to} are the old and new value (On, Off, or a number of apps)",
+    "placeholders": {
+      "setting": {
+        "type": "String"
+      },
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "backupStateOn": "On",
+  "@backupStateOn": {
+    "description": "A privacy setting's value: on (the off value is the existing 'off' string)"
+  },
+  "backupAppsCount": "{count, plural, one {1 app} other {{count} apps}}",
+  "@backupAppsCount": {
+    "description": "Restore: number of apps in the always-incognito list",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "backupRestoreAndChange": "Restore and change",
+  "@backupRestoreAndChange": {
+    "description": "Restore: button that restores and changes the listed privacy settings"
+  },
   "backupUnlockRetryChanged": "Unlock your phone, then try again. Nothing was changed.",
   "@backupUnlockRetryChanged": {
     "description": "Restore: needs the phone unlocked. Two lines at most"

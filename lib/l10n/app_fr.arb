@@ -540,6 +540,12 @@
   "commonContinue": "Continuer",
   "backupReplaceTitle": "Remplacer les données de ce téléphone ?",
   "backupReplaceConfirm": "Les sections choisies sur ce téléphone sont supprimées et remplacées. Action irréversible.",
+  "backupPrivacyChangesTitle": "Cette sauvegarde modifie vos réglages de confidentialité",
+  "backupPrivacyChangesBody": "La restauration des réglages modifiera ces réglages de confidentialité sur ce téléphone. Vérifiez-les avant de continuer.",
+  "backupPrivacyChangeLine": "{setting} : {from} → {to}",
+  "backupStateOn": "Activé",
+  "backupAppsCount": "{count, plural, one {1 appli} other {{count} applis}}",
+  "backupRestoreAndChange": "Restaurer et modifier",
   "backupUnlockRetryChanged": "Déverrouillez le téléphone, puis réessayez. Rien n'a été modifié.",
   "backupRestoreFailed": "IncogBoard n'a pas pu terminer la restauration. Certaines données n'ont peut-être pas été écrites.",
   "@backupRestoreFailed": {
