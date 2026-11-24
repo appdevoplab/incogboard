@@ -577,6 +577,41 @@ class AppLocalizationsId extends AppLocalizations {
   String get packsCopyLink => 'Salin tautan halaman rilis';
 
   @override
+  String get packsPrivateTitle => 'Cara unduhan tetap pribadi';
+
+  @override
+  String get packsPrivateBody =>
+      'IncogBoard tidak punya izin internet dan tidak pernah terhubung. Unduh membuka browser Anda, yang mengambil paket dari rilis GitHub proyek. Lalu IncogBoard memeriksa tanda tangan paket di ponsel ini sebelum memasang apa pun.';
+
+  @override
+  String get packsAvailableTitle => 'Paket yang bisa ditambahkan';
+
+  @override
+  String get packsDownload => 'Unduh';
+
+  @override
+  String packsDownloadMeta(String size) {
+    return '$size · membuka browser Anda';
+  }
+
+  @override
+  String packsDownloadStarted(String name) {
+    return 'Browser Anda sedang mengunduh $name. Setelah selesai, ketuk Impor file paket.';
+  }
+
+  @override
+  String get packsNoBrowser =>
+      'Tidak ada browser yang bisa membuka tautan. Salin tautan halaman rilis sebagai gantinya.';
+
+  @override
+  String get packsImportCheckedBody =>
+      'Pilih file .koshapack yang diunduh. File diperiksa di ponsel ini, lalu dipasang.';
+
+  @override
+  String get packsAllInstalled =>
+      'Semua paket yang diterbitkan sudah terpasang.';
+
+  @override
   String get packsLinkCopied => 'Tautan disalin. Buka di perangkat lain.';
 
   @override

@@ -344,6 +344,42 @@
   "@packsCopyLink": {
     "x-review": true
   },
+  "packsPrivateTitle": "Des téléchargements qui restent privés",
+  "@packsPrivateTitle": {
+    "x-review": true
+  },
+  "packsPrivateBody": "IncogBoard n'a pas l'autorisation d'accès à internet et ne se connecte jamais. Télécharger ouvre votre navigateur, qui récupère le pack depuis la publication GitHub du projet. IncogBoard vérifie ensuite la signature du pack sur ce téléphone avant d'installer quoi que ce soit.",
+  "@packsPrivateBody": {
+    "x-review": true
+  },
+  "packsAvailableTitle": "Packs que vous pouvez ajouter",
+  "@packsAvailableTitle": {
+    "x-review": true
+  },
+  "packsDownload": "Télécharger",
+  "@packsDownload": {
+    "x-review": true
+  },
+  "packsDownloadMeta": "{size} · ouvre votre navigateur",
+  "@packsDownloadMeta": {
+    "x-review": true
+  },
+  "packsDownloadStarted": "Votre navigateur télécharge {name}. Une fois terminé, touchez Importer un fichier de pack.",
+  "@packsDownloadStarted": {
+    "x-review": true
+  },
+  "packsNoBrowser": "Aucun navigateur ne peut ouvrir le lien. Copiez plutôt le lien de la page des publications.",
+  "@packsNoBrowser": {
+    "x-review": true
+  },
+  "packsImportCheckedBody": "Choisissez le fichier .koshapack téléchargé. Il est vérifié sur ce téléphone, puis installé.",
+  "@packsImportCheckedBody": {
+    "x-review": true
+  },
+  "packsAllInstalled": "Tous les packs publiés sont installés.",
+  "@packsAllInstalled": {
+    "x-review": true
+  },
   "packsLinkCopied": "Lien copié. Ouvrez-le sur un autre appareil.",
   "@packsLinkCopied": {
     "x-review": true

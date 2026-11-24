@@ -21,7 +21,7 @@ const String emojiTestUrl = 'https://unicode.org/Public/emoji/latest/emoji-test.
 const String cldrRawUrl = 'https://raw.githubusercontent.com/unicode-org/cldr';
 const String defaultCldrTag = 'release-49';
 const List<String> emojiLanguages = [
-  'en', 'es', 'fr', 'de', 'pt', 'id', 'hi', 'mr', 'bn', 'ta', 'te', 'ar', 'ur', 'ru', 'uk', 'zh', 'ja', //
+  'en', 'es', 'fr', 'de', 'pt', 'id', 'hi', 'mr', 'bn', 'ta', 'te', 'ar', 'ur', 'ru', 'uk', 'zh', 'ja', 'fil', //
 ];
 
 /// Skin-tone modifiers U+1F3FB..U+1F3FF are the five tones 1..5.

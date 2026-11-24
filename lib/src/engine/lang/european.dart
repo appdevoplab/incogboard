@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// OWNER: Wave 3-A. European languages (es, fr, de, pt-BR, pt-PT, id, ru, uk): their info and rules.
+// OWNER: Wave 3-A. Latin and Cyrillic alphabet languages (es, fr, de, pt-BR, pt-PT, id, fil, ru, uk): their
+// info and rules.
 import '../contracts.dart';
 import 'language_info.dart';
 
@@ -71,6 +72,20 @@ const List<LanguageInfo> europeanLanguages = [
     layouts: [LayoutChoice('qwerty', 'QWERTY', script: 'Latn')],
     currency: 'Rp',
     domains: ['.co.id', '.id'],
+  ),
+  // Filipino (added 2026-11-24): the Filipino alphabet has Ñ (and Ng, typed as two letters), so the Spanish
+  // QWERTY with Ñ is the default. The dictionary is the Tagalog list (Taglish words included).
+  LanguageInfo(
+    id: 'fil',
+    englishName: 'Filipino',
+    nativeName: 'Filipino',
+    script: 'Latn',
+    layouts: [
+      LayoutChoice('qwerty_es', 'QWERTY (Ñ)', script: 'Latn'),
+      LayoutChoice('qwerty', 'QWERTY', script: 'Latn'),
+    ],
+    currency: '₱',
+    domains: ['.ph', '.com.ph'],
   ),
   LanguageInfo(
     id: 'ru',
@@ -153,7 +168,7 @@ LanguageRules? europeanRules(LanguageId language) => switch (language) {
   'fr' => EuropeanRules(language, quotes: ('« ', ' »'), frenchSpacing: true),
   'de' => EuropeanRules(language, quotes: ('„', '“')),
   'pt-BR' || 'pt-PT' => EuropeanRules(language, quotes: ('“', '”')),
-  'id' => EuropeanRules(language, quotes: ('"', '"')),
+  'id' || 'fil' => EuropeanRules(language, quotes: ('"', '"')),
   'ru' || 'uk' => EuropeanRules(language, quotes: ('«', '»')),
   _ => null,
 };

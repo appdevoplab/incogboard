@@ -536,6 +536,12 @@ abstract class AppHostApi {
   /// (`bad_signature`, `bad_format`, `too_large`, `unsupported_version`, `no_space`).
   @TaskQueue(type: TaskQueueType.serialBackgroundThread)
   PackInfoMessage installDeliveredPack(String id);
+
+  /// Opens the download of the published pack file [fileName] in the user's browser. IncogBoard has no
+  /// internet permission: the browser downloads the file, and the user imports it afterwards. Only the
+  /// project's own release files are accepted (the URL is built on the platform side). Throws code
+  /// `bad_link` for an unknown file name and `no_browser` when no app can open the link.
+  void openPackDownload(String fileName);
 }
 
 // ---------------------------------------------------------------------------

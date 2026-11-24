@@ -241,13 +241,18 @@ void main() {
     expect(h.editor.text, 'as');
   });
 
-  testWidgets('feedback: haptic on touch-down, sound only when enabled', (tester) async {
+  testWidgets('feedback: off by default; haptic on touch-down and sound only when enabled', (tester) async {
     final (h, k) = await boot(tester);
     await tap(tester, k.output('a'));
-    verify(() => h.host.performHaptic(HapticKind.keyTap)).called(1);
+    verifyNever(() => h.host.performHaptic(any()));
     verifyNever(() => h.host.playKeySound(any()));
-    await h.store.update((s) => s.copyWith(feedback: s.feedback.copyWith(sounds: true)), sections: ['feedback']);
+    await h.store.update(
+      (s) => s.copyWith(feedback: s.feedback.copyWith(haptics: true, sounds: true)),
+      sections: ['feedback'],
+    );
     await tester.pump();
+    await tap(tester, k.output('b'));
+    verify(() => h.host.performHaptic(HapticKind.keyTap)).called(1);
     await tap(tester, k.type(KeyType.space));
     verify(() => h.host.playKeySound(KeySoundKind.space)).called(1);
     // The config was pushed at start and again after the change.

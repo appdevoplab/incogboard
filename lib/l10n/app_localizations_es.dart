@@ -588,6 +588,41 @@ class AppLocalizationsEs extends AppLocalizations {
   String get packsCopyLink => 'Copiar el enlace de la página de publicaciones';
 
   @override
+  String get packsPrivateTitle => 'Cómo las descargas siguen siendo privadas';
+
+  @override
+  String get packsPrivateBody =>
+      'IncogBoard no tiene permiso de internet y nunca se conecta. Descargar abre tu navegador, que obtiene el paquete de la publicación del proyecto en GitHub. Después, IncogBoard comprueba la firma del paquete en este teléfono antes de instalar nada.';
+
+  @override
+  String get packsAvailableTitle => 'Paquetes que puedes añadir';
+
+  @override
+  String get packsDownload => 'Descargar';
+
+  @override
+  String packsDownloadMeta(String size) {
+    return '$size · abre tu navegador';
+  }
+
+  @override
+  String packsDownloadStarted(String name) {
+    return 'Tu navegador está descargando $name. Cuando termine, toca Importar un archivo de paquete.';
+  }
+
+  @override
+  String get packsNoBrowser =>
+      'Ningún navegador puede abrir el enlace. Copia el enlace de la página de publicaciones.';
+
+  @override
+  String get packsImportCheckedBody =>
+      'Elige el archivo .koshapack descargado. Se comprueba en este teléfono y después se instala.';
+
+  @override
+  String get packsAllInstalled =>
+      'Todos los paquetes publicados están instalados.';
+
+  @override
   String get packsLinkCopied => 'Enlace copiado. Ábrelo en otro dispositivo.';
 
   @override

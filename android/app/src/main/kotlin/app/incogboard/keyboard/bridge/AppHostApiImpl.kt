@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 package app.incogboard.keyboard.bridge
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -10,6 +11,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.activity.ComponentActivity
 import android.net.Uri
 import app.incogboard.keyboard.packs.DeliveredPacks
+import app.incogboard.keyboard.packs.PackDownloads
 import app.incogboard.keyboard.packs.PackException
 import app.incogboard.keyboard.packs.PackSources
 import app.incogboard.keyboard.packs.PackStore
@@ -123,6 +125,16 @@ internal class AppHostApiImpl(
             throw FlutterError(e.code, e.message, null)
         } ?: throw FlutterError("not_delivered", "the store has not delivered this pack yet", null)
         return installed.toMessage()
+    }
+
+    override fun openPackDownload(fileName: String) {
+        val url = PackDownloads.urlFor(fileName) ?: throw FlutterError("bad_link", "not a pack file name", null)
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url)).addCategory(Intent.CATEGORY_BROWSABLE)
+        try {
+            activity.startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            throw FlutterError("no_browser", "no app can open the link", null)
+        }
     }
 
     /** Maps [BackupException] to the FlutterError code Dart matches on. */

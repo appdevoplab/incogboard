@@ -164,6 +164,24 @@ void main() {
       expect(paintBox(tester), isNot(paints..rrect()));
     });
 
+    testWidgets('a finished swipe is not redrawn when the layer is rebuilt (emoji panel and back)', (tester) async {
+      final c = await swipe(tester, preview: false);
+      c.end();
+      await tester.pump();
+      // The emoji panel replaces the keys: the layer goes away while the trail still holds the old points.
+      await tester.pumpWidget(const SizedBox());
+      // Back to the keys: a new layer with the same controller.
+      await tester.pumpWidget(host(c));
+      expect(paintBox(tester), isNot(paints..path()));
+      expect(paintBox(tester), isNot(paints..circle()));
+      // The next swipe still draws normally.
+      c.begin(const TouchPoint(60, 220, 9000));
+      c.add(const TouchPoint(160, 200, 9020));
+      c.add(const TouchPoint(260, 180, 9040));
+      await tester.pump();
+      expect(paintBox(tester), paints..path());
+    });
+
     testWidgets('changing the controller rewires repaints without leaking listeners', (tester) async {
       final a = GestureTrailController();
       final b = GestureTrailController();

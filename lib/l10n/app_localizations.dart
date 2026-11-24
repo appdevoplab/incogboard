@@ -1110,6 +1110,60 @@ abstract class AppLocalizations {
   /// **'Copy the release page link'**
   String get packsCopyLink;
 
+  /// Title of the tile that explains that the browser, not IncogBoard, downloads packs.
+  ///
+  /// In en, this message translates to:
+  /// **'How downloads stay private'**
+  String get packsPrivateTitle;
+
+  /// Body of the tile that explains private pack downloads.
+  ///
+  /// In en, this message translates to:
+  /// **'IncogBoard has no internet permission and never connects. Download opens your browser, which fetches the pack from the project\'s GitHub release. IncogBoard then checks the pack\'s signature on this phone before it installs anything.'**
+  String get packsPrivateBody;
+
+  /// Group title for the published packs that are not installed.
+  ///
+  /// In en, this message translates to:
+  /// **'Packs you can add'**
+  String get packsAvailableTitle;
+
+  /// Button that opens a pack download in the browser.
+  ///
+  /// In en, this message translates to:
+  /// **'Download'**
+  String get packsDownload;
+
+  /// Subtitle of a downloadable pack.
+  ///
+  /// In en, this message translates to:
+  /// **'{size} · opens your browser'**
+  String packsDownloadMeta(String size);
+
+  /// Snackbar after the browser was asked to download a pack.
+  ///
+  /// In en, this message translates to:
+  /// **'Your browser is downloading {name}. When it is done, tap Import a pack file.'**
+  String packsDownloadStarted(String name);
+
+  /// Snackbar when no browser app is installed.
+  ///
+  /// In en, this message translates to:
+  /// **'No browser can open the link. Copy the release page link instead.'**
+  String get packsNoBrowser;
+
+  /// Subtitle of the import tile.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick the downloaded .koshapack file. It is checked on this phone, then installed.'**
+  String get packsImportCheckedBody;
+
+  /// Shown when nothing is left to download.
+  ///
+  /// In en, this message translates to:
+  /// **'Every published pack is installed.'**
+  String get packsAllInstalled;
+
   /// Packs: shown after the link is copied
   ///
   /// In en, this message translates to:

@@ -13,13 +13,23 @@ import app.incogboard.keyboard.packs.PackManifest
 internal object VoiceLanguages {
     /** Codes Whisper's multilingual tokenizer knows and IncogBoard supports. */
     val WHISPER_CODES: Set<String> = setOf(
-        "en", "es", "fr", "de", "pt", "id", "ru", "uk", "hi", "mr", "bn", "ta", "te", "ar", "ur",
+        "en", "es", "fr", "de", "pt", "id", "ru", "uk", "hi", "mr", "bn", "ta", "te", "ar", "ur", "tl",
     )
+
+    /** IncogBoard ids whose Whisper code differs: Filipino is Whisper's Tagalog. */
+    private val ALIASES = mapOf("fil" to "tl")
+
+    /**
+     * Languages added after the published voice pack was signed: every multilingual Whisper pack understands
+     * them, but older pack manifests do not list them.
+     */
+    val ANY_MULTILINGUAL_PACK: Set<String> = setOf("fil")
 
     /** Whisper code for a IncogBoard id ('pt-BR' gives 'pt'), or "" to let Whisper detect the language. */
     fun whisperCode(language: String?): String {
         if (language.isNullOrBlank()) return ""
-        val code = language.substringBefore('-').lowercase()
+        val base = language.substringBefore('-').lowercase()
+        val code = ALIASES[base] ?: base
         return if (code in WHISPER_CODES) code else ""
     }
 }
@@ -40,5 +50,7 @@ internal fun resolveVoicePack(
     if (packId.isNotEmpty()) open(packId)?.takeIf(voice)?.let { return it }
     val voicePacks = list().filter(voice)
     if (language.isNullOrBlank()) return voicePacks.firstOrNull()
-    return voicePacks.firstOrNull { it.manifest.languages.contains(language) }
+    voicePacks.firstOrNull { it.manifest.languages.contains(language) }?.let { return it }
+    if (language !in VoiceLanguages.ANY_MULTILINGUAL_PACK) return null
+    return voicePacks.firstOrNull { it.manifest.engine == "sherpa-onnx-whisper" && it.manifest.languages.size > 1 }
 }

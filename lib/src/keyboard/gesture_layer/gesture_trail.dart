@@ -101,7 +101,7 @@ class _GestureTrailLayerState extends State<GestureTrailLayer> with SingleTicker
   @override
   void initState() {
     super.initState();
-    _wasActive = widget.controller.isActive;
+    _adopt();
     widget.controller.addListener(_onController);
   }
 
@@ -111,9 +111,16 @@ class _GestureTrailLayerState extends State<GestureTrailLayer> with SingleTicker
     if (oldWidget.controller != widget.controller) {
       oldWidget.controller.removeListener(_onController);
       widget.controller.addListener(_onController);
-      _wasActive = widget.controller.isActive;
-      _lift.value = 0;
+      _adopt();
     }
+  }
+
+  /// Takes over the controller's current state. A trail that already ended (for example when the keys come
+  /// back after the emoji panel replaced them) counts as faded: this layer never saw the finger lift, so it
+  /// would otherwise draw the old swipe until the next touch.
+  void _adopt() {
+    _wasActive = widget.controller.isActive;
+    _lift.value = _wasActive ? 0 : 1;
   }
 
   void _onController() {

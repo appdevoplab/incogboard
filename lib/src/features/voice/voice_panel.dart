@@ -213,6 +213,8 @@ class _VoicePanelViewState extends State<VoicePanelView> with SingleTickerProvid
               style: style.text(size: 15, color: theme.suggestionText),
             ),
           ),
+          // Keeps the message off the buttons below.
+          const SizedBox(height: 10),
         ],
       ),
     );
@@ -235,7 +237,8 @@ class _VoicePanelViewState extends State<VoicePanelView> with SingleTickerProvid
       case VoicePhase.noPermission:
         return 'IncogBoard needs the microphone to hear you. Allow it when asked, then try again.';
       case VoicePhase.noModel:
-        return 'Voice needs a voice pack. Install one under Model packs.';
+        return 'Voice typing runs on this phone and needs the voice pack (154 MB). IncogBoard never goes online: '
+            'your browser downloads the pack, IncogBoard checks it here.';
       case VoicePhase.busy:
         return 'The microphone is busy in another app. Close it, then try again.';
       case VoicePhase.failed:
@@ -277,7 +280,7 @@ class _VoicePanelViewState extends State<VoicePanelView> with SingleTickerProvid
         ];
       case VoicePhase.noModel:
         buttons = [
-          Expanded(child: action('Open model packs', 'Voice packs', widget.openPacks, primary: true)),
+          Expanded(child: action('Get the voice pack', 'Get voice pack', widget.openPacks, primary: true)),
           const SizedBox(width: gap),
           Expanded(child: action('Close voice panel', 'Close', widget.panel.close)),
         ];

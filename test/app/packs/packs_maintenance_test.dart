@@ -85,22 +85,50 @@ void main() {
 
     await _pump(tester, f, _FakeMaintenance());
 
-    expect(find.text('Packs are files you add yourself.'), findsOneWidget);
-    expect(
-      find.text(
-        "Download them from the project's release page on another device, copy them to this phone, then import.",
-      ),
-      findsOneWidget,
-    );
+    expect(find.text('How downloads stay private'), findsOneWidget);
+    expect(find.textContaining('IncogBoard has no internet permission and never connects.'), findsOneWidget);
     expect(
       find.text('Google Play downloads these packs, not IncogBoard. IncogBoard itself never uses the network.'),
       findsNothing,
     );
+    expect(find.text('Download'), findsNWidgets(4), reason: 'every published pack is offered');
 
-    await tester.tap(find.text('Copy the release page link'));
+    final copy = find.text('Copy the release page link');
+    await tester.ensureVisible(copy);
+    await tester.tap(copy);
     await tester.pumpAndSettle();
     expect(copied, [kPackReleasePageUrl]);
     expect(find.text('Link copied. Open it on another device.'), findsOneWidget);
+  });
+
+  testWidgets('Download hands only the pack file name to the browser and skips installed packs', (tester) async {
+    final f = AppFakes();
+    when(() => f.platform.listPacks()).thenAnswer((_) async => [_translation()]);
+    when(() => f.app.openPackDownload(any())).thenAnswer((_) async {});
+
+    await _pump(tester, f, _FakeMaintenance());
+
+    expect(find.text('Download'), findsNWidgets(3), reason: 'the installed translation pack is not offered');
+    expect(find.text('English → Spanish'), findsOneWidget, reason: 'only as an installed pack');
+    final voice = find.ancestor(
+      of: find.text('Voice typing (Whisper base, 16 languages)'),
+      matching: find.byType(ListTile),
+    );
+    await tester.tap(find.descendant(of: voice, matching: find.text('Download')));
+    await tester.pumpAndSettle();
+    verify(() => f.app.openPackDownload('voice-whisper-base.koshapack')).called(1);
+    expect(find.textContaining('Your browser is downloading'), findsOneWidget);
+  });
+
+  testWidgets('without a browser the screen says to copy the link instead', (tester) async {
+    final f = AppFakes();
+    when(() => f.platform.listPacks()).thenAnswer((_) async => const []);
+    when(() => f.app.openPackDownload(any())).thenThrow(PlatformException(code: 'no_browser'));
+
+    await _pump(tester, f, _FakeMaintenance());
+    await tester.tap(find.text('Download').first);
+    await tester.pumpAndSettle();
+    expect(find.text('No browser can open the link. Copy the release page link instead.'), findsOneWidget);
   });
 
   testWidgets('store delivery offers the packs that are not installed, with a Get button', (tester) async {

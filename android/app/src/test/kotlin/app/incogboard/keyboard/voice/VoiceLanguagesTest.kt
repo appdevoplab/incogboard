@@ -17,6 +17,15 @@ class VoiceLanguagesTest {
         assertEquals("en", VoiceLanguages.whisperCode("en"))
         assertEquals("hi", VoiceLanguages.whisperCode("hi"))
         assertEquals("ur", VoiceLanguages.whisperCode("ur"))
+        assertEquals("Filipino is Whisper's Tagalog", "tl", VoiceLanguages.whisperCode("fil"))
+    }
+
+    @Test
+    fun filipinoUsesAMultilingualWhisperPackThatPredatesIt() {
+        assertSame(base, resolve("", "fil"))
+        // Only Whisper voice packs with several languages qualify.
+        val single = pack("voice-en-only", "voice", listOf("en"))
+        assertNull(resolve("", "fil", listOf(translation, single)))
     }
 
     @Test
@@ -31,7 +40,7 @@ class VoiceLanguagesTest {
 
     @Test
     fun everyCodeIsOneWhisperKnows() {
-        val expected = setOf("en", "es", "fr", "de", "pt", "id", "ru", "uk", "hi", "mr", "bn", "ta", "te", "ar", "ur")
+        val expected = setOf("en", "es", "fr", "de", "pt", "id", "ru", "uk", "hi", "mr", "bn", "ta", "te", "ar", "ur", "tl")
         assertEquals(expected, VoiceLanguages.WHISPER_CODES)
     }
 

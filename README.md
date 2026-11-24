@@ -28,8 +28,9 @@ Want updates without an app store? Add the repository to [Obtainium](https://git
 badge above. Google Play and F-Droid listings are being prepared.
 
 Optional **packs** (voice, translation, Chinese and Japanese dictionaries) are separate signed files on the
-releases page. Copy one to your phone and import it in *Settings → Voice → Model packs*. Packs hold data only, never
-code, and are checked against the release key before they are installed.
+releases page. Get them without IncogBoard ever going online: in *Settings → Voice → Model packs* (or the **Get**
+button in the keyboard), **Download** opens the pack in your browser, and **Import** installs the file. Packs hold
+data only, never code, and are checked against the release key on your phone before they are installed.
 
 ## Why IncogBoard
 
@@ -95,7 +96,7 @@ code, and are checked against the release key before they are installed.
 Autocorrect, next-word prediction, swipe typing, emoji search in every language, clipboard history with pins,
 a text-editing pad, personal shortcuts ("omw"), one-handed and floating modes, adjustable height, haptics and sounds.
 
-### 17 languages
+### 18 languages
 
 <table>
   <tr>
@@ -110,7 +111,8 @@ a text-editing pad, personal shortcuts ("omw"), one-handed and floating modes, a
   </tr>
 </table>
 
-English, Spanish, French, German, Portuguese (Brazil and Portugal), Indonesian, Hindi (Devanagari, InScript or
+English, Spanish, French, German, Portuguese (Brazil and Portugal), Indonesian, Filipino (with Ñ, Taglish words
+included), Hindi (Devanagari, InScript or
 English letters, plus Hinglish), Marathi, Bengali, Tamil, Telugu, Arabic, Urdu, Russian, Ukrainian, Chinese
 (Simplified, pinyin) and Japanese (12-key flick or romaji). Several can be on at once.
 
@@ -123,7 +125,7 @@ English letters, plus Hinglish), Marathi, Bengali, Tamil, Telugu, Arabic, Urdu, 
   </tr>
 </table>
 
-Voice typing uses Whisper through sherpa-onnx and recognises 16 languages. Audio stays in memory and is never saved.
+Voice typing uses Whisper through sherpa-onnx and recognises 17 languages, Filipino included. Audio stays in memory and is never saved.
 Translation uses Opus-MT models in signed packs. English → Spanish is available now; more directions (French,
 German, Portuguese, Hindi, Russian) are planned.
 

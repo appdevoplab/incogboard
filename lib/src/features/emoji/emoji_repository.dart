@@ -101,7 +101,7 @@ class EmojiRepository {
   static bool _known(String lang) => supports(lang);
 
   static const Set<String> _supported = {
-    'en', 'es', 'fr', 'de', 'pt', 'id', 'hi', 'mr', 'bn', 'ta', 'te', 'ar', 'ur', 'ru', 'uk', 'zh', 'ja', //
+    'en', 'es', 'fr', 'de', 'pt', 'id', 'hi', 'mr', 'bn', 'ta', 'te', 'ar', 'ur', 'ru', 'uk', 'zh', 'ja', 'fil', //
   };
 }
 

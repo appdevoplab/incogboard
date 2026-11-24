@@ -345,6 +345,42 @@
   "@packsCopyLink": {
     "x-review": true
   },
+  "packsPrivateTitle": "Cara unduhan tetap pribadi",
+  "@packsPrivateTitle": {
+    "x-review": true
+  },
+  "packsPrivateBody": "IncogBoard tidak punya izin internet dan tidak pernah terhubung. Unduh membuka browser Anda, yang mengambil paket dari rilis GitHub proyek. Lalu IncogBoard memeriksa tanda tangan paket di ponsel ini sebelum memasang apa pun.",
+  "@packsPrivateBody": {
+    "x-review": true
+  },
+  "packsAvailableTitle": "Paket yang bisa ditambahkan",
+  "@packsAvailableTitle": {
+    "x-review": true
+  },
+  "packsDownload": "Unduh",
+  "@packsDownload": {
+    "x-review": true
+  },
+  "packsDownloadMeta": "{size} · membuka browser Anda",
+  "@packsDownloadMeta": {
+    "x-review": true
+  },
+  "packsDownloadStarted": "Browser Anda sedang mengunduh {name}. Setelah selesai, ketuk Impor file paket.",
+  "@packsDownloadStarted": {
+    "x-review": true
+  },
+  "packsNoBrowser": "Tidak ada browser yang bisa membuka tautan. Salin tautan halaman rilis sebagai gantinya.",
+  "@packsNoBrowser": {
+    "x-review": true
+  },
+  "packsImportCheckedBody": "Pilih file .koshapack yang diunduh. File diperiksa di ponsel ini, lalu dipasang.",
+  "@packsImportCheckedBody": {
+    "x-review": true
+  },
+  "packsAllInstalled": "Semua paket yang diterbitkan sudah terpasang.",
+  "@packsAllInstalled": {
+    "x-review": true
+  },
   "packsLinkCopied": "Tautan disalin. Buka di perangkat lain.",
   "@packsLinkCopied": {
     "x-review": true

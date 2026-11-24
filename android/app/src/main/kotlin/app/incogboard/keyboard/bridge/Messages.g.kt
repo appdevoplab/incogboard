@@ -2635,6 +2635,13 @@ interface AppHostApi {
    * (`bad_signature`, `bad_format`, `too_large`, `unsupported_version`, `no_space`).
    */
   fun installDeliveredPack(id: String): PackInfoMessage
+  /**
+   * Opens the download of the published pack file [fileName] in the user's browser. IncogBoard has no
+   * internet permission: the browser downloads the file, and the user imports it afterwards. Only the
+   * project's own release files are accepted (the URL is built on the platform side). Throws code
+   * `bad_link` for an unknown file name and `no_browser` when no app can open the link.
+   */
+  fun openPackDownload(fileName: String)
 
   companion object {
     /** The codec used by AppHostApi. */
@@ -2974,6 +2981,24 @@ interface AppHostApi {
             val idArg = args[0] as String
             val wrapped: List<Any?> = try {
               listOf(api.installDeliveredPack(idArg))
+            } catch (exception: Throwable) {
+              MessagesPigeonUtils.wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.incogboard.AppHostApi.openPackDownload$separatedMessageChannelSuffix", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val fileNameArg = args[0] as String
+            val wrapped: List<Any?> = try {
+              api.openPackDownload(fileNameArg)
+              listOf(null)
             } catch (exception: Throwable) {
               MessagesPigeonUtils.wrapError(exception)
             }

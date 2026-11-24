@@ -972,6 +972,16 @@ class InputController {
     unawaited(_refreshCaps());
   }
 
+  /// Inserts a phrase that stands on its own (a translation): like [insertText], but a space goes first when
+  /// the text before the cursor ends in a word or punctuation, so the phrase never sticks to it.
+  void insertPhrase(String text) {
+    final phrase = text.trim();
+    if (phrase.isEmpty) return;
+    final last = _composing.isNotEmpty || _shownPreedit.isNotEmpty ? 'x' : _prevChar;
+    final glued = last != null && last.trim().isNotEmpty;
+    insertText(glued ? ' $phrase' : phrase);
+  }
+
   /// Ends composing (the word stays as typed). Call before editing through [editor] directly.
   void finishComposing() {
     if (_composing.isEmpty && _shownPreedit.isEmpty) return;

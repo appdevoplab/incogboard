@@ -755,6 +755,52 @@
   "@packsCopyLink": {
     "description": "Packs: button that copies the release page link to the clipboard"
   },
+  "packsPrivateTitle": "How downloads stay private",
+  "@packsPrivateTitle": {
+    "description": "Title of the tile that explains that the browser, not IncogBoard, downloads packs."
+  },
+  "packsPrivateBody": "IncogBoard has no internet permission and never connects. Download opens your browser, which fetches the pack from the project's GitHub release. IncogBoard then checks the pack's signature on this phone before it installs anything.",
+  "@packsPrivateBody": {
+    "description": "Body of the tile that explains private pack downloads."
+  },
+  "packsAvailableTitle": "Packs you can add",
+  "@packsAvailableTitle": {
+    "description": "Group title for the published packs that are not installed."
+  },
+  "packsDownload": "Download",
+  "@packsDownload": {
+    "description": "Button that opens a pack download in the browser."
+  },
+  "packsDownloadMeta": "{size} · opens your browser",
+  "@packsDownloadMeta": {
+    "description": "Subtitle of a downloadable pack.",
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "packsDownloadStarted": "Your browser is downloading {name}. When it is done, tap Import a pack file.",
+  "@packsDownloadStarted": {
+    "description": "Snackbar after the browser was asked to download a pack.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "packsNoBrowser": "No browser can open the link. Copy the release page link instead.",
+  "@packsNoBrowser": {
+    "description": "Snackbar when no browser app is installed."
+  },
+  "packsImportCheckedBody": "Pick the downloaded .koshapack file. It is checked on this phone, then installed.",
+  "@packsImportCheckedBody": {
+    "description": "Subtitle of the import tile."
+  },
+  "packsAllInstalled": "Every published pack is installed.",
+  "@packsAllInstalled": {
+    "description": "Shown when nothing is left to download."
+  },
   "packsLinkCopied": "Link copied. Open it on another device.",
   "@packsLinkCopied": {
     "description": "Packs: shown after the link is copied"

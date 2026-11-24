@@ -6,6 +6,6 @@
     <color name="inline_chip_text">#FF1D1B20</color>
     <color name="inline_chip_subtext">#FF49454F</color>
     <!-- IncogBoard brand: the launcher background and the splash colour (light). -->
-    <color name="incogboard_icon_background">#FF3E2723</color>
+    <color name="incogboard_icon_background">#FF17141F</color>
     <color name="incogboard_splash_background">#FFFFF6E3</color>
 </resources>

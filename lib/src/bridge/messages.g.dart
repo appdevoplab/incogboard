@@ -2670,6 +2670,23 @@ class AppHostApi {
     );
     return pigeonVar_replyValue! as PackInfoMessage;
   }
+
+  /// Opens the download of the published pack file [fileName] in the user's browser. IncogBoard has no
+  /// internet permission: the browser downloads the file, and the user imports it afterwards. Only the
+  /// project's own release files are accepted (the URL is built on the platform side). Throws code
+  /// `bad_link` for an unknown file name and `no_browser` when no app can open the link.
+  Future<void> openPackDownload(String fileName) async {
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.incogboard.AppHostApi.openPackDownload$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[fileName]);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    _extractReplyValueOrThrow(pigeonVar_replyList, pigeonVar_channelName, isNullValid: true);
+  }
 }
 
 abstract class ImeFlutterApi {

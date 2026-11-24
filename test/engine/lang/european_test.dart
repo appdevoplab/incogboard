@@ -1,15 +1,18 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
 // Wave 3-A: language info and punctuation rules of the European languages.
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:incogboard/src/engine/contracts.dart';
 import 'package:incogboard/src/engine/lang/registry.dart';
+import 'package:incogboard/src/features/emoji/emoji_repository.dart';
 import 'package:incogboard/src/settings/sections/language_settings.dart';
 
 void main() {
   group('European language info', () {
     test('every language is in the registry with its currency and domains', () {
-      for (final id in ['es', 'fr', 'de', 'pt-BR', 'pt-PT', 'id', 'ru', 'uk']) {
+      for (final id in ['es', 'fr', 'de', 'pt-BR', 'pt-PT', 'id', 'fil', 'ru', 'uk']) {
         final info = languageInfo(id);
         expect(info.id, id);
         expect(isKnownLanguage(id), isTrue, reason: id);
@@ -100,8 +103,25 @@ void main() {
       expect(uk.isWordChar('ї'), isTrue);
     });
 
+    test('Filipino: QWERTY with Ñ by default, plain QWERTY too, plain quotes, peso and .ph', () {
+      final fil = languageInfo('fil');
+      expect(fil.englishName, 'Filipino');
+      expect(fil.defaultLayout.id, 'qwerty_es');
+      expect(fil.layout('qwerty'), isNotNull);
+      expect(fil.currency, '₱');
+      expect(fil.domains, contains('.ph'));
+      expect(rulesForLanguage('fil').quotes, ('"', '"'));
+      expect(rulesForLanguage('fil').isWordChar('ñ'), isTrue);
+      expect(rulesForLanguage('fil').isWordChar('-'), isTrue, reason: 'pag-ibig, mag-aral');
+    });
+
+    test('Filipino ships its dictionary and emoji keywords', () {
+      expect(File('assets/dict/fil.mdict').existsSync(), isTrue);
+      expect(File('assets/emoji/keywords_fil.dat').existsSync(), isTrue);
+      expect(EmojiRepository.supports('fil'), isTrue);
+    });
     test('every European language ends sentences like English and has case', () {
-      for (final id in ['es', 'fr', 'de', 'pt-BR', 'pt-PT', 'id', 'ru', 'uk']) {
+      for (final id in ['es', 'fr', 'de', 'pt-BR', 'pt-PT', 'id', 'fil', 'ru', 'uk']) {
         final rules = rulesForLanguage(id);
         expect(rules.language, id);
         expect(rules.hasCase, isTrue, reason: id);

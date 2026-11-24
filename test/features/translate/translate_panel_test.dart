@@ -112,19 +112,40 @@ void main() {
       expect(h.editor.text, 'EN:xy');
     });
 
-    testWidgets('a missing pack says which pack to get and opens the Model packs screen', (tester) async {
+    testWidgets('Insert puts a space between existing text and the translation', (tester) async {
+      final (h, probe) = await boot(tester, text: 'where is the station');
+      await tap(tester, find.bySemanticsLabel('Translate'));
+      probe.session!.input.redirect.value!.onText('hi');
+      await waitForTranslation(tester);
+      await tap(tester, find.bySemanticsLabel('Insert translation'));
+      expect(h.editor.text, 'where is the station EN:hi');
+    });
+
+    testWidgets('a missing pack says which pack to get, privately, and Get opens Model packs', (tester) async {
       final (h, probe) = await boot(tester);
       when(() => h.host.translate(any(), any(), any()))
           .thenAnswer((_) async => throw PlatformException(code: 'no_pack'));
       await tap(tester, find.bySemanticsLabel('Translate'));
       probe.session!.input.redirect.value!.onText('hi');
       await waitForTranslation(tester);
-      expect(find.text('Get the English → Spanish pack'), findsOneWidget);
-      await tap(tester, find.bySemanticsLabel('Open model packs'));
+      expect(find.textContaining('No English → Spanish pack yet'), findsOneWidget);
+      expect(find.textContaining('your browser downloads it'), findsOneWidget);
+      await tap(tester, find.bySemanticsLabel('Get the translation pack'));
       verify(() => h.host.openSettings('packs')).called(1);
     });
 
-    testWidgets('the pair picker changes the pair, saves it, and marks installed pairs', (tester) async {
+    testWidgets('a pair whose pack is not published says so and offers no Get', (tester) async {
+      final (h, probe) = await boot(tester, settings: _settings(to: 'de'));
+      when(() => h.host.translate(any(), any(), any()))
+          .thenAnswer((_) async => throw PlatformException(code: 'no_pack'));
+      await tap(tester, find.bySemanticsLabel('Translate'));
+      probe.session!.input.redirect.value!.onText('hi');
+      await waitForTranslation(tester);
+      expect(find.textContaining('not published yet'), findsOneWidget);
+      expect(find.bySemanticsLabel('Get the translation pack'), findsNothing);
+    });
+
+    testWidgets('the pair picker lists pairs, installed first, and one tap picks and saves a pair', (tester) async {
       final (h, probe) = await boot(tester);
       when(() => h.platform.listPacks()).thenAnswer(
         (_) async => [
@@ -142,17 +163,37 @@ void main() {
       );
       await tap(tester, find.bySemanticsLabel('Translate'));
       await tap(tester, find.bySemanticsLabel('Language pair English to Spanish. Change languages'));
-      expect(find.text('Translate between'), findsOneWidget);
       await tester.pump();
-      expect(find.bySemanticsLabel('French, pack installed'), findsOneWidget, reason: 'the installed pair is marked');
+      final french = find.bySemanticsLabel('English to French, pack installed');
+      final spanish = find.bySemanticsLabel('English to Spanish, pack not installed, selected');
+      expect(french, findsOneWidget, reason: 'the installed pair is marked');
+      expect(spanish, findsOneWidget, reason: 'the current pair is marked');
+      expect(tester.getTopLeft(french).dy, lessThan(tester.getTopLeft(spanish).dy), reason: 'installed first');
+      expect(find.text('English → Français'), findsOneWidget, reason: 'rows use the language\'s own name');
 
-      await tapScrolling(tester, find.bySemanticsLabel('French, pack installed'));
-      await tapScrolling(tester, find.bySemanticsLabel('Use this language pair'));
+      await tapScrolling(tester, french);
       await tester.pump(const Duration(milliseconds: 20));
       expect(h.store.value.translate.to, 'fr');
       expect(h.store.value.translate.from, 'en');
       expect(find.text('EN → FR'), findsOneWidget, reason: 'the translate panel is back with the new pair');
       expect(probe.session!.panel.value, isA<TranslatePanel>());
+    });
+
+    testWidgets('the picker turns direction, Get only shows for published packs and opens Model packs', (tester) async {
+      final (h, _) = await boot(tester);
+      await tap(tester, find.bySemanticsLabel('Translate'));
+      await tap(tester, find.bySemanticsLabel('Language pair English to Spanish. Change languages'));
+      await tester.pump();
+      expect(find.bySemanticsLabel('Get the English to German pack'), findsNothing, reason: 'not published');
+      expect(find.bySemanticsLabel('English to German, pack not published yet'), findsOneWidget);
+      await tapScrolling(tester, find.bySemanticsLabel('Get the English to Spanish pack'));
+      verify(() => h.host.openSettings('packs')).called(1);
+
+      await tap(tester, find.bySemanticsLabel('To English'));
+      await tapScrolling(tester, find.bySemanticsLabel('German to English, pack not published yet'));
+      await tester.pump(const Duration(milliseconds: 20));
+      expect(h.store.value.translate.from, 'de');
+      expect(h.store.value.translate.to, 'en');
     });
 
     testWidgets('nothing opens while translation is off', (tester) async {

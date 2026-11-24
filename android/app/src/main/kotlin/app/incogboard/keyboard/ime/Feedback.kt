@@ -20,7 +20,7 @@ import app.incogboard.keyboard.bridge.KeySoundKind
 internal class Feedback(private val context: Context) {
 
     private var config = FeedbackConfigMessage(
-        hapticsEnabled = true,
+        hapticsEnabled = false, // off by default, like FeedbackSettings in Dart
         hapticStrength = HapticPlanner.DEFAULT_STRENGTH,
         soundsEnabled = false,
         soundVolume = -1.0,

@@ -47,8 +47,9 @@ void main() {
     await tapMic(tester);
     await tester.pump(const Duration(milliseconds: 300));
 
-    expect(find.text('Voice needs a voice pack. Install one under Model packs.'), findsOneWidget);
-    await tester.tap(find.bySemanticsLabel('Open model packs'));
+    expect(find.textContaining('needs the voice pack'), findsOneWidget);
+    expect(find.textContaining('IncogBoard never goes online'), findsOneWidget);
+    await tester.tap(find.bySemanticsLabel('Get the voice pack'));
     await tester.pump();
     verify(() => h.host.openSettings('packs')).called(1);
   });

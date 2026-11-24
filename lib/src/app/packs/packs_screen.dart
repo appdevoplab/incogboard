@@ -12,6 +12,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../bridge/messages.g.dart';
 import '../../core/data_sections.dart';
+import '../../packs/pack_catalog.dart';
 import '../../packs/pack_maintenance.dart';
 import '../app_services.dart';
 import '../common/settings_widgets.dart';
@@ -171,6 +172,17 @@ class _PacksScreenState extends State<PacksScreen> {
     }
   }
 
+  /// Hands the pack's release link to the browser. IncogBoard itself never connects.
+  Future<void> _download(CatalogPack pack) async {
+    final l10n = context.l10n;
+    try {
+      await _services!.app.openPackDownload(pack.fileName);
+      _show(l10n.packsDownloadStarted(pack.name));
+    } on PlatformException {
+      _show(l10n.packsNoBrowser);
+    }
+  }
+
   Future<void> _copyLink() async {
     final l10n = context.l10n;
     await Clipboard.setData(const ClipboardData(text: kPackReleasePageUrl));
@@ -262,6 +274,10 @@ class _PacksScreenState extends State<PacksScreen> {
             if (!installedIds.contains(o.id)) o,
         ];
         final importOnly = _maintenance.delivery == PackDelivery.importOnly;
+        final downloadable = [
+          for (final p in kPackCatalog)
+            if (!installedIds.contains(p.id)) p,
+        ];
         final l10n = context.l10n;
         final free = page.storage?.freeBytes;
         return SettingsPage(
@@ -273,10 +289,27 @@ class _PacksScreenState extends State<PacksScreen> {
                 title: l10n.packsGetTitle,
                 children: [
                   SettingsTile(
-                    icon: Icons.info_outline,
-                    title: l10n.packsExplainTitle,
-                    subtitle: l10n.packsExplainBody,
+                    icon: Icons.lock_outline,
+                    title: l10n.packsPrivateTitle,
+                    subtitle: l10n.packsPrivateBody,
                   ),
+                  if (downloadable.isEmpty)
+                    SettingsTile(icon: Icons.check_circle_outline, title: l10n.packsAllInstalled)
+                  else
+                    for (final p in downloadable)
+                      SettingsTile(
+                        icon: switch (p.kind) {
+                          PackKind.voice => Icons.mic_none,
+                          PackKind.translation => Icons.translate,
+                          PackKind.dictionary => Icons.menu_book_outlined,
+                        },
+                        title: p.name,
+                        subtitle: l10n.packsDownloadMeta(formatBytes(p.sizeBytes)),
+                        trailing: TextButton(
+                          onPressed: _busy ? null : () => unawaited(_download(p)),
+                          child: Text(l10n.packsDownload),
+                        ),
+                      ),
                   SettingsTile(
                     icon: Icons.link,
                     title: l10n.packsCopyLink,
@@ -314,7 +347,7 @@ class _PacksScreenState extends State<PacksScreen> {
                 SettingsTile(
                   icon: Icons.file_open_outlined,
                   title: l10n.packsImportTitle,
-                  subtitle: _busy ? l10n.packsChecking : l10n.packsImportBody,
+                  subtitle: _busy ? l10n.packsChecking : l10n.packsImportCheckedBody,
                   enabled: !_busy,
                   onTap: _busy ? null : () => unawaited(_import()),
                 ),

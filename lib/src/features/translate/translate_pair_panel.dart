@@ -1,16 +1,20 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// OWNER: Wave 3-T. The language-pair picker (PanelPlacement.keys): From and To chips over the IncogBoard
-// languages that translate with English, a swap button, and a mark on the pairs whose pack is installed.
-// Done saves the pair in settings.translate and goes back to the translate panel.
+// OWNER: Wave 3-T, redesigned 2026-11-24. The language-pair picker (PanelPlacement.keys). Every translation
+// pack is English with one other language, so the picker is one list of pairs: a direction toggle (from
+// English / to English), then one row per language with its own name, and on each row either "Installed"
+// or a Get button that opens Model packs (IncogBoard never downloads anything itself). Installed pairs come
+// first. Tapping a row saves the pair in settings.translate and goes straight back to the translate panel.
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 import 'package:material_ui/material_ui.dart' show Icons;
 
+import '../../app/routes.dart';
 import '../../engine/lang/registry.dart';
 import '../../keyboard/keyboard_session.dart';
 import '../../keyboard/panels/keyboard_panel.dart';
+import '../../packs/pack_catalog.dart';
 import '../../settings/incogboard_settings.dart';
 import '../../theme/keyboard_theme_data.dart';
 import '../shared/panel_style.dart';
@@ -55,9 +59,12 @@ class TranslatePairView extends StatefulWidget {
 }
 
 class _TranslatePairViewState extends State<TranslatePairView> {
-  late String _from = widget.pickerState.from;
-  late String _to = widget.pickerState.to;
+  /// True: English → other. False: other → English.
+  late bool _fromEnglish = widget.pickerState.from == 'en';
   Set<String> _installed = const {};
+
+  /// The non-English side of the current pair.
+  late final String _current = widget.pickerState.from == 'en' ? widget.pickerState.to : widget.pickerState.from;
 
   @override
   void initState() {
@@ -70,29 +77,39 @@ class _TranslatePairViewState extends State<TranslatePairView> {
       final keys = await widget.pickerState.installedPairs();
       if (mounted) setState(() => _installed = keys);
     } on Object {
-      // Without the list the pairs simply carry no mark.
+      // Without the list every row offers Get.
     }
   }
 
-  bool get _valid => isSupportedPair(_from, _to);
+  (String, String) _pair(String other) => _fromEnglish ? ('en', other) : (other, 'en');
 
-  bool _installedPair(String from, String to) => _installed.contains(pairKey(from, to));
+  bool _isInstalled(String other) {
+    final (f, t) = _pair(other);
+    return _installed.contains(pairKey(f, t));
+  }
 
-  void _pickFrom(String id) => setState(() => _from = id);
+  /// True when the pair's pack is published (Get leads somewhere); false for directions not released yet.
+  bool _isPublished(String other) {
+    final (f, t) = _pair(other);
+    return catalogTranslation(pairKey(f, t)) != null;
+  }
 
-  void _pickTo(String id) => setState(() => _to = id);
+  /// The non-English languages, installed pairs first, otherwise in the usual order.
+  List<String> get _languages {
+    final others = [
+      for (final id in translatableLanguages)
+        if (id != 'en') id,
+    ];
+    final installed = others.where(_isInstalled).toList();
+    final published = others.where((id) => !_isInstalled(id) && _isPublished(id)).toList();
+    final later = others.where((id) => !_isInstalled(id) && !_isPublished(id)).toList();
+    return [...installed, ...published, ...later];
+  }
 
-  void _swap() => setState(() {
-    final f = _from;
-    _from = _to;
-    _to = f;
-  });
-
-  Future<void> _done() async {
-    if (!_valid) return;
+  Future<void> _choose(String other) async {
+    final (from, to) = _pair(other);
+    if (!isSupportedPair(from, to)) return;
     final session = widget.pickerState.session;
-    final from = _from;
-    final to = _to;
     await session.services.settings.update(
       (s) => s.copyWith(
         translate: s.translate.copyWith(from: from, to: to),
@@ -100,29 +117,25 @@ class _TranslatePairViewState extends State<TranslatePairView> {
       sections: const [SettingsSection.translate],
     );
     if (!mounted) return;
-    widget.panel.open(
-      TranslatePanel(
-        session: session,
-        from: from,
-        to: to,
-        installedPairs: widget.pickerState.installedPairs,
-        initialSource: widget.pickerState.source,
-      ),
-    );
+    _openTranslate(from, to);
   }
 
-  void _back() {
+  void _openTranslate(String from, String to) {
     final state = widget.pickerState;
     widget.panel.open(
       TranslatePanel(
         session: state.session,
-        from: state.from,
-        to: state.to,
+        from: from,
+        to: to,
         installedPairs: state.installedPairs,
         initialSource: state.source,
       ),
     );
   }
+
+  void _back() => _openTranslate(widget.pickerState.from, widget.pickerState.to);
+
+  void _getPack() => unawaited(widget.pickerState.session.services.host.openSettings(IncogBoardRoutes.packs));
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +144,7 @@ class _TranslatePairViewState extends State<TranslatePairView> {
     final size = widget.panel.size;
     final fill = theme.background;
     final pressed = theme.suggestionHighlightFill;
-    final valid = _valid;
+    final languages = _languages;
     return SizedBox(
       width: size.width,
       height: size.height,
@@ -143,7 +156,7 @@ class _TranslatePairViewState extends State<TranslatePairView> {
               children: [
                 PanelButton(
                   semanticsLabel: 'Back to translation',
-                  width: 64,
+                  width: 56,
                   height: 48,
                   fill: fill,
                   pressedFill: pressed,
@@ -153,79 +166,48 @@ class _TranslatePairViewState extends State<TranslatePairView> {
                 ),
                 Expanded(
                   child: Text(
-                    'Translate between',
-                    textAlign: TextAlign.center,
-                    style: style.text(size: 15, color: theme.suggestionText, weight: FontWeight.w600),
+                    'Translate',
+                    style: style.text(size: 16, color: theme.suggestionText, weight: FontWeight.w600),
                   ),
                 ),
-                PanelButton(
-                  semanticsLabel: 'Swap languages',
-                  width: 64,
-                  height: 48,
-                  fill: fill,
-                  pressedFill: pressed,
-                  radius: BorderRadius.zero,
-                  onTap: _swap,
-                  child: Icon(Icons.swap_horiz, size: 24, color: theme.toolbarIcon),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.lock_outline, size: 14, color: theme.toolbarIcon),
+                      const SizedBox(width: 4),
+                      Text('Offline', style: style.hint(size: 12)),
+                    ],
+                  ),
                 ),
               ],
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(12, 0, 12, 6),
+            child: Row(
+              children: [
+                Expanded(child: _directionButton('From English', true, theme, style)),
+                const SizedBox(width: 6),
+                Expanded(child: _directionButton('To English', false, theme, style)),
+              ],
+            ),
+          ),
           Expanded(
-            child: SingleChildScrollView(
+            child: ListView(
               padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _caption('From', style),
-                  _chips(
-                    selected: _from,
-                    enabledFor: (id) => isSupportedPair(id, _to),
-                    mark: (id) => isSupportedPair(id, _to) && _installedPair(id, _to),
-                    onPick: _pickFrom,
+              children: [
+                for (final id in languages) _row(id, theme, style),
+                Padding(
+                  padding: const EdgeInsets.only(top: 6, left: 4, right: 4),
+                  child: Text(
+                    'Packs run on this phone. Get opens IncogBoard, and your browser downloads the pack: '
+                    'IncogBoard itself never goes online.',
+                    style: style.hint(size: 12),
                   ),
-                  const SizedBox(height: 8),
-                  _caption('To', style),
-                  _chips(
-                    selected: _to,
-                    enabledFor: (id) => isSupportedPair(_from, id),
-                    mark: (id) => isSupportedPair(_from, id) && _installedPair(_from, id),
-                    onPick: _pickTo,
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          valid
-                              ? (_installedPair(_from, _to)
-                                    ? 'Pack installed. Works offline.'
-                                    : 'Pack not installed. Get it in Model packs.')
-                              : 'Pick English on one side.',
-                          style: style.hint(size: 12),
-                        ),
-                      ),
-                      PanelButton(
-                        semanticsLabel: 'Use this language pair',
-                        width: 88,
-                        height: 40,
-                        fill: valid ? theme.actionKey.fill : fill,
-                        pressedFill: pressed,
-                        radius: style.radius(40),
-                        onTap: valid ? () => unawaited(_done()) : null,
-                        child: Text(
-                          'Done',
-                          style: style.text(
-                            size: 14,
-                            color: valid ? theme.actionKey.label : theme.toolbarIcon,
-                            weight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ],
@@ -233,80 +215,110 @@ class _TranslatePairViewState extends State<TranslatePairView> {
     );
   }
 
-  Widget _caption(String text, PanelStyle style) => Padding(
-    padding: const EdgeInsets.only(top: 6, bottom: 4),
-    child: Text(text, style: style.hint(size: 12)),
-  );
-
-  Widget _chips({
-    required String selected,
-    required bool Function(String id) enabledFor,
-    required bool Function(String id) mark,
-    required void Function(String id) onPick,
-  }) {
-    final theme = widget.panel.theme;
-    final style = PanelStyle(theme);
-    return Wrap(
-      spacing: 6,
-      runSpacing: 6,
-      children: [
-        for (final id in translatableLanguages)
-          _Chip(
-            label: languageInfo(id).englishName,
-            marked: mark(id),
-            selected: id == selected,
-            enabled: enabledFor(id),
-            theme: theme,
-            style: style,
-            onTap: () => onPick(id),
-          ),
-      ],
-    );
-  }
-}
-
-class _Chip extends StatelessWidget {
-  const _Chip({
-    required this.label,
-    required this.marked,
-    required this.selected,
-    required this.enabled,
-    required this.theme,
-    required this.style,
-    required this.onTap,
-  });
-
-  final String label;
-  final bool marked;
-  final bool selected;
-  final bool enabled;
-  final KeyboardThemeData theme;
-  final PanelStyle style;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final text = marked ? '$label ✓' : label;
+  Widget _directionButton(String label, bool fromEnglish, KeyboardThemeData theme, PanelStyle style) {
+    final selected = _fromEnglish == fromEnglish;
     return PanelButton(
-      semanticsLabel: marked ? '$label, pack installed' : label,
+      semanticsLabel: selected ? '$label, selected' : label,
       height: 40,
-      width: null,
-      fill: selected ? theme.actionKey.fill : theme.background,
-      pressedFill: theme.suggestionHighlightFill,
+      fill: selected ? theme.actionKey.fill : theme.functionKey.fill,
+      // A selected PanelButton paints its pressedFill, so the selected one keeps the action colour there too.
+      pressedFill: selected ? theme.actionKey.fill : theme.suggestionHighlightFill,
       radius: style.radius(40),
       selected: selected,
-      onTap: enabled ? onTap : null,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 14),
-        child: Text(
-          text,
-          maxLines: 1,
-          textScaler: TextScaler.noScaling,
-          style: style.text(
-            size: 13,
-            color: !enabled ? theme.toolbarIcon : (selected ? theme.actionKey.label : theme.suggestionText),
-          ),
+      onTap: () => setState(() => _fromEnglish = fromEnglish),
+      child: Text(
+        label,
+        maxLines: 1,
+        textScaler: TextScaler.noScaling,
+        style: style.text(
+          size: 14,
+          color: selected ? theme.actionKey.label : theme.functionKey.label,
+          weight: FontWeight.w600,
         ),
+      ),
+    );
+  }
+
+  Widget _row(String other, KeyboardThemeData theme, PanelStyle style) {
+    final info = languageInfo(other);
+    final installed = _isInstalled(other);
+    final published = _isPublished(other);
+    final current = other == _current && _fromEnglish == (widget.pickerState.from == 'en');
+    final (from, to) = _pair(other);
+    final pairName = '${languageInfo(from).englishName} to ${languageInfo(to).englishName}';
+    final direction = _fromEnglish ? 'English → ${info.nativeName}' : '${info.nativeName} → English';
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 6),
+      child: Row(
+        children: [
+          Expanded(
+            child: PanelButton(
+              semanticsLabel: [
+                pairName,
+                installed ? 'pack installed' : (published ? 'pack not installed' : 'pack not published yet'),
+                if (current) 'selected',
+              ].join(', '),
+              height: 52,
+              fill: current ? theme.suggestionHighlightFill : theme.functionKey.fill,
+              pressedFill: theme.suggestionHighlightFill,
+              radius: style.radius(52),
+              selected: current,
+              onTap: () => unawaited(_choose(other)),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 14),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            direction,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            textScaler: TextScaler.noScaling,
+                            style: style.text(
+                              size: 15,
+                              color: current ? theme.suggestionHighlightText : theme.suggestionText,
+                              weight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            installed
+                                ? '${info.englishName} · installed, works offline'
+                                : (published ? info.englishName : '${info.englishName} · pack not published yet'),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            textScaler: TextScaler.noScaling,
+                            style: style.hint(size: 12),
+                          ),
+                        ],
+                      ),
+                    ),
+                    if (installed) Icon(Icons.check_circle, size: 20, color: theme.actionKey.fill),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          if (!installed && published) ...[
+            const SizedBox(width: 6),
+            PanelButton(
+              semanticsLabel: 'Get the $pairName pack',
+              width: 64,
+              height: 52,
+              fill: theme.actionKey.fill,
+              pressedFill: theme.suggestionHighlightFill,
+              radius: style.radius(52),
+              onTap: _getPack,
+              child: Text(
+                'Get',
+                style: style.text(size: 14, color: theme.actionKey.label, weight: FontWeight.w600),
+              ),
+            ),
+          ],
+        ],
       ),
     );
   }

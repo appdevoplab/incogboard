@@ -115,7 +115,7 @@ def hero(raw_names):
     for line in ('The keyboard that cannot phone home.', 'No internet permission.', 'Everything stays on your phone.'):
         draw.text((84, y), line, font=font(36, 430), fill=(240, 226, 204))
         y += 48
-    chips = ['17 languages', 'Swipe', 'Offline voice', 'Offline translate', 'Encrypted', 'GPL-3.0']
+    chips = ['18 languages', 'Swipe', 'Offline voice', 'Offline translate', 'Encrypted', 'GPL-3.0']
     x, y = 84, 572
     fc = font(28, 560)
     for c in chips:
@@ -150,14 +150,14 @@ CARDS = [
      '12-key flick with kana-kanji conversion, fully offline.'),
     ('07-arabic', 'lang-arabic', 'keyboard', 'Right-to-left done right',
      'Arabic and Urdu layouts with their own suggestions.'),
-    ('08-russian', 'lang-russian', 'keyboard', '17 languages',
-     'English, Spanish, French, German, Portuguese, Indonesian, Russian, Ukrainian and more.'),
+    ('08-russian', 'lang-russian', 'keyboard', '18 languages',
+     'English, Spanish, French, German, Portuguese, Indonesian, Filipino, Russian and more.'),
     ('09-voice', 'voice', 'keyboard', 'Voice typing, on-device',
      'Whisper runs on your phone. Audio is never saved and never sent.'),
     ('10-translate', 'translate', 'keyboard', 'Translate as you type',
      'Offline translation packs. Nothing leaves the phone.'),
     ('11-emoji', 'panel-emoji-search', 'keyboard', 'Emoji search',
-     'Keywords in all 17 languages.'),
+     'Keywords in all 18 languages.'),
     ('12-clipboard', 'panel-clipboard', 'keyboard', 'Clipboard history',
      'Encrypted, with pins. Turn it off any time.'),
     ('13-editing', 'panel-editing', 'keyboard', 'Text editing pad',

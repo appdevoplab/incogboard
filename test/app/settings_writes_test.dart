@@ -55,7 +55,8 @@ void main() {
   testWidgets('a feel switch writes the feedback section', (tester) async {
     final fakes = await _pump(tester, const FeelScreen());
     await tapText(tester, 'Haptic feedback');
-    expect(capturedUpdate(fakes.store, SettingsSection.feedback)(const IncogBoardSettings()).feedback.haptics, isFalse);
+    // Haptics start off, so the switch turns them on.
+    expect(capturedUpdate(fakes.store, SettingsSection.feedback)(const IncogBoardSettings()).feedback.haptics, isTrue);
   });
 
   testWidgets('the one-handed control writes the modes section', (tester) async {

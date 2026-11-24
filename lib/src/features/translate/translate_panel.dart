@@ -12,6 +12,7 @@ import '../../app/routes.dart';
 import '../../engine/lang/registry.dart';
 import '../../keyboard/keyboard_session.dart';
 import '../../keyboard/panels/keyboard_panel.dart';
+import '../../packs/pack_catalog.dart';
 import '../../theme/keyboard_theme_data.dart';
 import '../shared/panel_style.dart';
 import 'translate_controller.dart';
@@ -37,7 +38,7 @@ class TranslatePanel extends KeyboardPanel {
     this.initialSource = '',
   }) : controller = TranslateController(
          translate: (text, f, t) => session.services.host.translate(text, f, t),
-         insert: session.input.insertText,
+         insert: session.input.insertPhrase,
          from: from,
          to: to,
        ) {
@@ -153,6 +154,8 @@ class TranslateStrip extends StatelessWidget {
       listenable: controller,
       builder: (context, _) {
         final noPack = controller.status == TranslateStatus.noPack;
+        // Get only leads somewhere when the pack is published; other directions say so plainly.
+        final published = catalogTranslation(pairKey(from, to)) != null;
         final waiting = controller.status == TranslateStatus.waiting;
         final ready = controller.canInsert;
         final translation = controller.translation;
@@ -191,7 +194,11 @@ class TranslateStrip extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 6),
                   child: noPack
                       ? _message(
-                          'Get the ${languageInfo(from).englishName} → ${languageInfo(to).englishName} pack',
+                          published
+                              ? 'No ${languageInfo(from).englishName} → ${languageInfo(to).englishName} pack yet. '
+                                    'Get it privately: your browser downloads it.'
+                              : 'The ${languageInfo(from).englishName} → ${languageInfo(to).englishName} pack is '
+                                    'not published yet. Tap the pair to pick another.',
                           style,
                         )
                       : Column(
@@ -214,16 +221,21 @@ class TranslateStrip extends StatelessWidget {
                         ),
                 ),
               ),
-              if (noPack)
+              if (noPack && !published)
+                const SizedBox(width: 8)
+              else if (noPack)
                 PanelButton(
-                  semanticsLabel: 'Open model packs',
+                  semanticsLabel: 'Get the translation pack',
                   width: 64,
                   height: size.height,
-                  fill: fill,
+                  fill: theme.actionKey.fill,
                   pressedFill: pressed,
                   radius: BorderRadius.zero,
                   onTap: onGetPack,
-                  child: Text('Packs', style: style.text(size: 13, color: theme.suggestionText)),
+                  child: Text(
+                    'Get',
+                    style: style.text(size: 13, color: theme.actionKey.label, weight: FontWeight.w600),
+                  ),
                 )
               else
                 PanelButton(
@@ -257,7 +269,7 @@ class TranslateStrip extends StatelessWidget {
     alignment: Alignment.centerLeft,
     child: Text(
       text,
-      maxLines: 1,
+      maxLines: 2,
       overflow: TextOverflow.ellipsis,
       textScaler: TextScaler.noScaling,
       style: style.text(size: 13, color: theme.suggestionText),
