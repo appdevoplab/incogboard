@@ -275,7 +275,7 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
         SizedBox(
           height: 268,
           child: CarouselView(
-            itemExtent: 232,
+            itemExtent: kThemeCardWidth,
             itemSnapping: true,
             // The cards handle their own taps (and menus); the default splash layer would cover them.
             enableSplash: false,
@@ -296,7 +296,7 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
         SizedBox(
           height: 268,
           child: CarouselView(
-            itemExtent: 232,
+            itemExtent: kThemeCardWidth,
             itemSnapping: true,
             // The cards handle their own taps (and menus); the default splash layer would cover them.
             enableSplash: false,

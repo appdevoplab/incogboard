@@ -57,6 +57,10 @@ class ModesPlan {
   /// Floating only: the keyboard rect in window coordinates.
   final Rect? floating;
 
+  /// Floating: the part of the window the card may use. The bottom inset (navigation bar) is left
+  /// free, so the bottom row never sits under the system's buttons.
+  double get floatAreaH => windowH - bottomInset;
+
   /// Whether this is the plain docked full-width layout the keyboard had before modes.
   bool get isPlainDocked => layout == ModeLayout.docked && !wide && !topBar && keyboardH == naturalH;
 
@@ -102,11 +106,13 @@ ModesPlan planModes({
         : floatingWidthFraction(modes.floatingWidth);
     final rectW = screenW * fw;
     final rectH = kbH * fw + topH;
-    final windowH = floatingWindowHeight(screenH: screenH, contentH: kbH + topH);
+    final inset = info.bottomInset;
+    final windowH = floatingWindowHeight(screenH: screenH, contentH: kbH + topH + inset);
+    final areaH = windowH - inset;
     final rect = previewRect == null
         ? floatingRect(
             windowW: screenW,
-            windowH: windowH,
+            windowH: areaH,
             width: rectW,
             height: rectH,
             x: modes.floatingX,
@@ -115,7 +121,7 @@ ModesPlan planModes({
         : clampRectToWindow(
             Rect.fromLTWH(previewRect.left, previewRect.top, rectW, rectH),
             windowW: screenW,
-            windowH: windowH,
+            windowH: areaH,
           );
     return ModesPlan(
       layout: ModeLayout.floating,
@@ -125,7 +131,7 @@ ModesPlan planModes({
       naturalH: natural,
       topBar: topBar,
       topH: topH,
-      bottomInset: 0,
+      bottomInset: inset,
       windowH: windowH,
       scale: scale,
       wide: false,

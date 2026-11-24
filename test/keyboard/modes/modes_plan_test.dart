@@ -99,6 +99,24 @@ void main() {
     expect(p.message.floatingRect!.width, closeTo(288, 1e-9));
   });
 
+  test('floating keeps the card above the navigation bar, even at the bottom edge', () {
+    const modes = ModeSettings(floating: true, floatingY: 1, floatingWidth: 0.8);
+    final p = plan(
+      infoFor(settings: const IncogBoardSettings(modes: modes), inset: 48),
+      modes: modes,
+    );
+    expect(p.windowH, closeTo(595, 1e-9));
+    expect(p.bottomInset, 48);
+    expect(p.floatAreaH, closeTo(595 - 48, 1e-9));
+    expect(p.floating!.bottom, closeTo(595 - 48, 1e-9), reason: 'the bottom row must not sit under the system buttons');
+    final dragged = plan(
+      infoFor(settings: const IncogBoardSettings(modes: modes), inset: 48),
+      modes: modes,
+      previewRect: const Rect.fromLTWH(0, 900, 288, 0),
+    );
+    expect(dragged.floating!.bottom, closeTo(595 - 48, 1e-9));
+  });
+
   test('a previewed height changes the keyboard and the window together', () {
     final p = plan(infoFor(inset: 10), previewScale: 1.5);
     expect(p.keyboardH, closeTo(380, 1e-9));

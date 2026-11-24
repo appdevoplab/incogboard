@@ -53,7 +53,13 @@ class ThemeCard extends StatelessWidget {
               Expanded(
                 child: ClipRRect(
                   borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-                  child: KeyboardPreview(theme: theme, settings: settings, height: 150, demoPress: demoPress),
+                  // Carousels narrow the cards near their edges: keep the preview at the full card width
+                  // and let the card crop it, so the keys never look squashed.
+                  child: OverflowBox(
+                    minWidth: kThemeCardWidth,
+                    maxWidth: kThemeCardWidth,
+                    child: KeyboardPreview(theme: theme, settings: settings, height: 150, demoPress: demoPress),
+                  ),
                 ),
               ),
               Padding(
@@ -85,6 +91,9 @@ class ThemeCard extends StatelessWidget {
     );
   }
 }
+
+/// Width of a theme card in the gallery carousels ([CarouselView.itemExtent]).
+const double kThemeCardWidth = 232;
 
 /// The "Create theme" card at the end of My themes.
 class CreateThemeCard extends StatelessWidget {

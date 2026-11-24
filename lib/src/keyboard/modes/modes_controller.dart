@@ -135,9 +135,9 @@ class ModesController extends ChangeNotifier {
     if (start == null || p == null) return;
     final r = start.shift(Offset(dx, dy));
     _previewRect = snapFloatingRect(
-      clampRectToWindow(r, windowW: p.screenW, windowH: p.windowH),
+      clampRectToWindow(r, windowW: p.screenW, windowH: p.floatAreaH),
       windowW: p.screenW,
-      windowH: p.windowH,
+      windowH: p.floatAreaH,
     );
     _changed();
   }
@@ -150,7 +150,7 @@ class ModesController extends ChangeNotifier {
     _previewRect = clampRectToWindow(
       Rect.fromLTWH(start.left, start.top, w, start.height),
       windowW: p.screenW,
-      windowH: p.windowH,
+      windowH: p.floatAreaH,
     );
     _changed();
   }
@@ -162,12 +162,12 @@ class ModesController extends ChangeNotifier {
     final r = _previewRect;
     final p = plan;
     if (start == null || r == null || p == null) return;
-    final snapped = snapFloatingRect(r, windowW: p.screenW, windowH: p.windowH);
+    final snapped = snapFloatingRect(r, windowW: p.screenW, windowH: p.floatAreaH);
     _write(
       (s) => s.copyWith(
         modes: s.modes.copyWith(
           floatingX: floatingXFraction(snapped, windowW: p.screenW),
-          floatingY: floatingYFraction(snapped, windowH: p.windowH),
+          floatingY: floatingYFraction(snapped, windowH: p.floatAreaH),
           floatingWidth: floatingWidthFraction(snapped.width / p.screenW),
         ),
       ),
