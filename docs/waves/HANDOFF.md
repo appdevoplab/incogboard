@@ -10,10 +10,25 @@ The app is now **IncogBoard** (was Kosha). Package and namespace `app.incogboard
 
 Steps 1 to 4 below were NOT started in this session (the rename came first). Read paths below with `kosha` as `incogboard`.
 
+## Emulator retest result (2026-11-24)
+
+Foss release APK (`app-x86_64-foss-release.apk`, built after the Pigeon wiring) on emulator-5554 (`Medium_Phone_API_37.0`, API 37, started with `-port 5554`; it was not running at the start of the session). Results:
+
+- Model packs screen shows the foss import-only state (so `packDelivery` answered 'import').
+- Imported `dict-zh-rime-ice` and `dict-ja-mozc` from `%USERPROFILE%\.kosha\packs\signed` (release-key signed; pushed to /sdcard/Download): both accepted.
+- Verify installed packs: "2 installed packs checked. All files match."
+- Footer shows free space ("6924 MB free on this phone"), from `packStorage`.
+- Chinese: "nihao" gives candidate 你好 first (10 candidates); tapping it commits 你好.
+- Japanese (12-key flick layout, not romaji): flicks に ほ ん ご give 日本語 first (22 candidates).
+- Delete: deleting the Japanese pack asks for confirmation, removes it, footer drops to 36 MB.
+- Logcat: no FATAL EXCEPTION, no ANR, no `flutter` W/E lines.
+
+Not covered: the play flavour on a device, store offers (no Play delivery yet), the voice and translation packs (release builds reject the old dev-signed copies still on the emulator's Download folder). The emulator was left running with the Chinese pack installed.
+
 ## Do next (in order)
 
 1. **DONE 2026-11-24 (commit after 4c8961e): Pigeon wiring for pack maintenance** so Verify installed packs works (`docs/packs/README.md`, "Bridge additions"): add the methods to `pigeons/messages.dart`, regenerate (`dart run pigeon --input pigeons/messages.dart`, then `dart format --line-length 120 lib/src/bridge/messages.g.dart`), implement in `PlatformHostApiImpl.kt` (CRLF file: edit with Python, not sed), replace `UnavailablePackMaintenance`. Add a Dart-visible flavour value in the same change if cheap.
-2. **Retest on the emulator** with the foss release APK (emulator-5554 only, `. .\tool\adb_ime.ps1`, `tool\ui_smoke.ps1`; release builds have no testbed and no `run-as`: type in Android Settings search, `am start -a android.settings.APP_SEARCH_SETTINGS`): Chinese "nihao", Japanese "nihongo" with both packs imported from `signed\`, Verify, delete a pack.
+2. **DONE 2026-11-24 (see "Emulator retest result" below): Retest on the emulator** with the foss release APK (emulator-5554 only, `. .\tool\adb_ime.ps1`, `tool\ui_smoke.ps1`; release builds have no testbed and no `run-as`: type in Android Settings search, `am start -a android.settings.APP_SEARCH_SETTINGS`): Chinese "nihao", Japanese "nihongo" with both packs imported from `signed\`, Verify, delete a pack.
 3. **Play bundle:** move `PlayAssetPackSource.kt.txt`, add the includes and `play` dependencies (patches in `docs/release/asset-packs.md`), remove the extra permissions with `tools:node="remove"`, `tool/packs/build_bundle.ps1`, bundletool `--local-testing` on the emulator, gate on the merged `play` manifest.
 4. **Apply the remaining audit patches** (P2/P3/P6 and SEC-05/06/08-11/15) after the user answers D1, D2 and the SEC-03 question; change the onboarding disclosure text (all ARBs, x-review).
 5. Polish items from "Open work" below; then, when the user has their GitHub username, `tool/release/set_application_id.ps1`, a clean-clone build, `tool/release/verify_reproducible.ps1`, and the store steps in `docs/release/checklist.md`.
