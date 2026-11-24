@@ -142,7 +142,7 @@ dependencies {
     implementation("androidx.autofill:autofill:1.3.0")
     // Pigeon's @async host methods are generated as suspend functions. Already on the classpath
     // through AndroidX (same version); pinned so the generated bindings don't rely on that. Apache-2.0.
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.11.0")
 
     // ONNX Runtime (MIT): the one native inference runtime, shared by voice (sherpa-onnx, Wave 3-D) and
     // translation (Wave 3-T). Pinned to 1.28.0: 1.29+ adds an HTTP telemetry client, a startup provider,
@@ -152,7 +152,7 @@ dependencies {
 
     testImplementation("junit:junit:4.13.2")
     // Real org.json for JVM tests (Android's stub throws "not mocked").
-    testImplementation("org.json:json:20240303")
+    testImplementation("org.json:json:20260814")
     testImplementation("com.microsoft.onnxruntime:onnxruntime:1.28.0")
 }
 
