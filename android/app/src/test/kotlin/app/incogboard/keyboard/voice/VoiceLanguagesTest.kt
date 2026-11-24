@@ -44,14 +44,19 @@ class VoiceLanguagesTest {
         assertEquals(expected, VoiceLanguages.WHISPER_CODES)
     }
 
-    private fun pack(id: String, kind: String, languages: List<String>) = InstalledPack(
+    private fun pack(
+        id: String,
+        kind: String,
+        languages: List<String>,
+        engine: String = "sherpa-onnx-whisper",
+    ) = InstalledPack(
         manifest = PackManifest(
             id = id,
             kind = kind,
             name = id,
             version = 1,
             languages = languages,
-            engine = "sherpa-onnx-whisper",
+            engine = engine,
             license = "MIT",
             files = emptyList(),
         ),
@@ -106,5 +111,21 @@ class VoiceLanguagesTest {
     fun noVoicePackMeansNoModel() {
         assertNull(resolve("", "en", emptyList()))
         assertNull(resolve("missing", "en", listOf(translation)))
+    }
+
+    @Test
+    fun anEnglishOnlyPackIsChosenForEnglishAndAutoButNeverForOtherLanguages() {
+        val parakeet = pack("voice-parakeet-en", "voice", listOf("en"), engine = VoiceEngines.NEMO_TRANSDUCER)
+        val installed = listOf(parakeet, base)
+        assertSame(parakeet, resolve("voice-parakeet-en", "en", installed))
+        assertSame(parakeet, resolve("voice-parakeet-en", null, installed))
+        assertSame(base, resolve("voice-parakeet-en", "hi", installed))
+        assertSame(base, resolve("voice-parakeet-en", "fil", installed))
+        assertNull(resolve("voice-parakeet-en", "hi", listOf(parakeet)))
+    }
+
+    @Test
+    fun aNamedMultilingualWhisperPackTakesEveryWhisperLanguage() {
+        assertSame(small, resolve("voice-whisper-small", "ur"))
     }
 }

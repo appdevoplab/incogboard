@@ -47,10 +47,19 @@ internal fun resolveVoicePack(
     list: () -> List<InstalledPack>,
 ): InstalledPack? {
     val voice = { p: InstalledPack -> p.manifest.kind == PackManifest.KIND_VOICE }
-    if (packId.isNotEmpty()) open(packId)?.takeIf(voice)?.let { return it }
+    // A chosen pack is used for its own languages (and for Auto); a single-language pack such as Parakeet
+    // English must not transcribe Hindi as English when the keyboard language is Hindi.
+    val fits = { p: InstalledPack ->
+        language.isNullOrBlank() || p.manifest.languages.contains(language) ||
+            (isMultilingualWhisper(p) && VoiceLanguages.whisperCode(language).isNotEmpty())
+    }
+    if (packId.isNotEmpty()) open(packId)?.takeIf { voice(it) && fits(it) }?.let { return it }
     val voicePacks = list().filter(voice)
     if (language.isNullOrBlank()) return voicePacks.firstOrNull()
     voicePacks.firstOrNull { it.manifest.languages.contains(language) }?.let { return it }
     if (language !in VoiceLanguages.ANY_MULTILINGUAL_PACK) return null
-    return voicePacks.firstOrNull { it.manifest.engine == "sherpa-onnx-whisper" && it.manifest.languages.size > 1 }
+    return voicePacks.firstOrNull(::isMultilingualWhisper)
 }
+
+private fun isMultilingualWhisper(p: InstalledPack): Boolean =
+    p.manifest.engine == VoiceEngines.WHISPER && p.manifest.languages.size > 1

@@ -29,7 +29,7 @@ internal interface SpeechEngine {
     fun isSpeaking(): Boolean
 
     /** The next finished utterance, or null when none is ready. */
-    fun nextSegment(): FloatArray?
+    fun nextSegment(): VoiceSegment?
 
     /** Ends the open utterance so that [nextSegment] returns it. */
     fun flushAudio()
@@ -39,6 +39,12 @@ internal interface SpeechEngine {
 
     fun release()
 }
+
+/**
+ * One utterance from the voice-activity detector. [start] counts samples since [SpeechEngine.resetAudio],
+ * so the session can cut the utterance from its own recent audio with some room before and after.
+ */
+internal class VoiceSegment(val start: Long, val samples: FloatArray)
 
 /** Microphone capture. [read] blocks for about one buffer of audio. */
 internal interface Microphone {
@@ -77,6 +83,11 @@ internal data class VoiceLimits(
     val silenceLimitSamples: Long = 16_000L * 5,
     val sessionLimitSamples: Long = 16_000L * 60,
     val pollMs: Long = 50,
+    /** Audio kept before and after each utterance: the detector starts late and cuts word endings. */
+    val prerollSamples: Int = 6_400,
+    val postrollSamples: Int = 4_800,
+    /** Recent audio kept for that padding (longer than the detector's 12 s utterance cap). */
+    val historySamples: Int = 16_000 * 20,
 )
 
 /**
@@ -133,6 +144,43 @@ internal class SpeechBuffer(private val maxSamples: Int) {
     fun clear() {
         data.fill(0f, 0, size)
         size = 0
+    }
+}
+
+/**
+ * The last [capacity] samples of everything the microphone heard, indexed from the start of the session.
+ * Zeroed when cleared.
+ */
+internal class AudioHistory(private val capacity: Int) {
+    private val ring = FloatArray(capacity)
+
+    /** Samples written since the session started (the index after the newest sample). */
+    var total = 0L
+        private set
+
+    fun append(chunk: FloatArray) {
+        for (sample in chunk) {
+            ring[(total % capacity).toInt()] = sample
+            total++
+        }
+    }
+
+    /**
+     * A copy of samples [from] until [to], clamped to what is still kept, or null when [mustCover] (a
+     * start index) has already been overwritten or lies in the future. The caller zeroes it after use.
+     */
+    fun slice(from: Long, to: Long, mustCover: Long): FloatArray? {
+        val oldest = maxOf(0L, total - capacity)
+        if (mustCover < oldest || mustCover >= total) return null
+        val a = maxOf(from, oldest)
+        val b = minOf(to, total)
+        if (b <= a) return null
+        return FloatArray((b - a).toInt()) { ring[((a + it) % capacity).toInt()] }
+    }
+
+    fun clear() {
+        ring.fill(0f)
+        total = 0
     }
 }
 
@@ -197,6 +245,7 @@ internal class VoiceSession(
 
     private fun decodeLoop() {
         val speech = SpeechBuffer(limits.maxBufferedSamples)
+        val history = AudioHistory(limits.historySamples)
         try {
             engine.resetAudio()
             var totalSamples = 0L
@@ -208,12 +257,13 @@ internal class VoiceSession(
                 if (item === END) {
                     if (!cancelRequested.get()) {
                         engine.flushAudio()
-                        drain(speech)
+                        drain(speech, history)
                     }
                     break
                 }
                 val chunk = item as FloatArray
                 totalSamples += chunk.size
+                history.append(chunk)
                 engine.acceptAudio(chunk)
                 val speaking = engine.isSpeaking()
                 if (speaking) {
@@ -223,7 +273,7 @@ internal class VoiceSession(
                     silentSamples += chunk.size
                 }
                 chunk.fill(0f)
-                drain(speech)
+                drain(speech, history)
 
                 // Partial text: re-decode the growing utterance about every 700 ms, but only while the
                 // decoder keeps up with the microphone (an empty queue) and the last decode was quick.
@@ -253,17 +303,34 @@ internal class VoiceSession(
             fail("model_failed")
         } finally {
             speech.clear()
+            history.clear()
             finish()
         }
     }
 
-    /** Decodes every finished utterance and posts its text as a final event. */
-    private fun drain(speech: SpeechBuffer) {
+    /**
+     * Decodes every finished utterance and posts its text as a final event. The utterance is decoded with
+     * [VoiceLimits.prerollSamples] before and [VoiceLimits.postrollSamples] after it, taken from [history]:
+     * without that room the first word after a pause was often lost.
+     */
+    private fun drain(speech: SpeechBuffer, history: AudioHistory) {
         while (true) {
             val segment = engine.nextSegment() ?: break
             speech.clear()
-            val text = if (segment.size >= limits.minPartialSamples / 3) engine.decode(segment) else ""
-            segment.fill(0f)
+            val raw = segment.samples
+            val text = if (raw.size >= limits.minPartialSamples / 3) {
+                val end = segment.start + raw.size
+                val padded = history.slice(segment.start - limits.prerollSamples, end + limits.postrollSamples, segment.start)
+                val audio = if (padded != null && padded.size >= raw.size) padded else raw
+                try {
+                    engine.decode(audio)
+                } finally {
+                    if (audio !== raw) audio.fill(0f)
+                }
+            } else {
+                ""
+            }
+            raw.fill(0f)
             if (text.isNotBlank()) {
                 val final = text.trim()
                 main.post { emit(VoiceEventMessage(kind = VoiceEventKind.FINAL_TEXT, text = final, level = 0.0)) }

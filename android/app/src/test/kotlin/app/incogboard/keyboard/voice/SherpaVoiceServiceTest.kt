@@ -47,7 +47,7 @@ class SherpaVoiceServiceTest {
             VoiceDeps(
                 openPack = { id -> packs.firstOrNull { it.manifest.id == id } },
                 listPacks = { packs },
-                loadEngine = { _, code ->
+                loadEngine = { _, _, code ->
                     loads.add(code)
                     engine
                 },

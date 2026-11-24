@@ -65,6 +65,18 @@ of the same tag: `FeatureConfig.kt`, `HomophoneReplacerConfig.kt`, `QnnConfig.kt
 The brief's pinned hashes come from the first download. The Whisper archives have no digest in the GitHub
 API, so re-pin only on purpose.
 
+## 2b. Parakeet TDT 0.6B v2 (English speech recognition, optional pack, int8)
+
+| Item | Value |
+|---|---|
+| Model | NVIDIA Parakeet TDT 0.6B v2 (English), int8 ONNX export by the sherpa-onnx project |
+| Licence | CC BY 4.0 (weights, NVIDIA: https://huggingface.co/nvidia/parakeet-tdt-0.6b-v2); the export scripts are Apache-2.0 (sherpa-onnx). NVIDIA does not endorse IncogBoard or this pack. |
+| Attribution | "parakeet-tdt-0.6b-v2" by NVIDIA, licensed under CC BY 4.0. Converted to int8 ONNX by sherpa-onnx; IncogBoard renames no files and adds Silero VAD (section 3). |
+| Source | sherpa-onnx release `asr-models`: `sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8.tar.bz2` (asset dated 2026-11-07) |
+| Archive SHA-256 | `6fc4426b54aa549a0019b8a75b8dea59164e71790a37ac56a045ad57f915f714` (482,440,461 bytes) |
+| Files in a pack | `encoder.int8.onnx` (652,282,309), `decoder.int8.onnx` (7,257,753), `joiner.int8.onnx` (1,739,080), `tokens.txt` (9,384), `silero_vad.onnx` |
+| Languages | en only. Pack id `voice-parakeet-en`, engine `sherpa-onnx-nemo-transducer` (optional; Whisper base stays the default) |
+
 ## 3. Silero VAD (voice activity detection)
 
 | Item | Value |

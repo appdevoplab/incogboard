@@ -109,6 +109,22 @@ void main() {
     expect(_applied(fakes).voice.modelId, 'voice-whisper-small');
   });
 
+  testWidgets('a pack imported after the screen opened is offered', (tester) async {
+    await pump(tester, const IncogBoardSettings());
+    when(() => fakes.platform.listPacks()).thenAnswer(
+      (_) async => [
+        _pack('voice-whisper-base', PackKind.voice, 'Whisper base'),
+        _pack('voice-parakeet-en', PackKind.voice, 'Parakeet English'),
+      ],
+    );
+
+    await tester.tap(find.text('Voice pack'));
+    await tester.pumpAndSettle();
+
+    expect(find.textContaining('Parakeet English'), findsOneWidget);
+    expect(find.textContaining('Whisper small'), findsNothing);
+  });
+
   testWidgets('automatic detection switch writes autoDetectLanguage', (tester) async {
     await pump(tester, const IncogBoardSettings());
 

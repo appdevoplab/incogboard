@@ -7,6 +7,7 @@ import android.media.MediaRecorder
 import com.k2fsa.sherpa.onnx.OfflineModelConfig
 import com.k2fsa.sherpa.onnx.OfflineRecognizer
 import com.k2fsa.sherpa.onnx.OfflineRecognizerConfig
+import com.k2fsa.sherpa.onnx.OfflineTransducerModelConfig
 import com.k2fsa.sherpa.onnx.OfflineWhisperModelConfig
 import com.k2fsa.sherpa.onnx.SileroVadModelConfig
 import com.k2fsa.sherpa.onnx.Vad
@@ -21,30 +22,56 @@ import java.io.File
 private const val SAMPLE_RATE = 16_000
 private const val WHISPER_THREADS = 2
 
-/** Loads Whisper and Silero VAD from a voice pack folder. [whisperCode] '' lets Whisper detect the language. */
-internal fun loadSherpaEngine(dir: File, whisperCode: String): SpeechEngine {
-    val recognizer = OfflineRecognizer(
-        config = OfflineRecognizerConfig(
-            modelConfig = OfflineModelConfig(
-                whisper = OfflineWhisperModelConfig(
-                    encoder = File(dir, "encoder.int8.onnx").path,
-                    decoder = File(dir, "decoder.int8.onnx").path,
-                    language = whisperCode,
-                    task = "transcribe",
-                ),
-                tokens = File(dir, "tokens.txt").path,
-                numThreads = WHISPER_THREADS,
-                provider = "cpu",
+/** Voice pack engine ids (the manifest's `engine`). */
+internal object VoiceEngines {
+    /** Whisper (multilingual or `.en`): encoder, decoder, tokens. */
+    const val WHISPER = "sherpa-onnx-whisper"
+
+    /** NVIDIA NeMo transducer such as Parakeet TDT: encoder, decoder, joiner, tokens. One language set, no detection. */
+    const val NEMO_TRANSDUCER = "sherpa-onnx-nemo-transducer"
+
+    val ALL = setOf(WHISPER, NEMO_TRANSDUCER)
+}
+
+/**
+ * Loads the recognizer named by [engine] and Silero VAD from a voice pack folder. [whisperCode] '' lets
+ * Whisper detect the language; other engines ignore it.
+ */
+internal fun loadSherpaEngine(dir: File, engine: String, whisperCode: String): SpeechEngine {
+    val modelConfig = when (engine) {
+        VoiceEngines.NEMO_TRANSDUCER -> OfflineModelConfig(
+            transducer = OfflineTransducerModelConfig(
+                encoder = File(dir, "encoder.int8.onnx").path,
+                decoder = File(dir, "decoder.int8.onnx").path,
+                joiner = File(dir, "joiner.int8.onnx").path,
             ),
-        ),
-    )
+            modelType = "nemo_transducer",
+            tokens = File(dir, "tokens.txt").path,
+            numThreads = WHISPER_THREADS,
+            provider = "cpu",
+        )
+        VoiceEngines.WHISPER -> OfflineModelConfig(
+            whisper = OfflineWhisperModelConfig(
+                encoder = File(dir, "encoder.int8.onnx").path,
+                decoder = File(dir, "decoder.int8.onnx").path,
+                language = whisperCode,
+                task = "transcribe",
+            ),
+            tokens = File(dir, "tokens.txt").path,
+            numThreads = WHISPER_THREADS,
+            provider = "cpu",
+        )
+        else -> throw VoiceFailure("model_failed")
+    }
+    val recognizer = OfflineRecognizer(config = OfflineRecognizerConfig(modelConfig = modelConfig))
     val vad = try {
         Vad(
             config = VadModelConfig(
                 sileroVadModelConfig = SileroVadModelConfig(
                     model = File(dir, "silero_vad.onnx").path,
                     threshold = 0.5f,
-                    minSilenceDuration = 0.5f,
+                    // 1 s: shorter pauses inside a sentence no longer split it (Whisper needs the context).
+                    minSilenceDuration = 1.0f,
                     minSpeechDuration = 0.25f,
                     windowSize = 512,
                     maxSpeechDuration = 12f,
@@ -80,11 +107,11 @@ internal class SherpaSpeechEngine(
 
     override fun isSpeaking(): Boolean = vad.isSpeechDetected()
 
-    override fun nextSegment(): FloatArray? {
+    override fun nextSegment(): VoiceSegment? {
         if (vad.empty()) return null
         val segment = vad.front()
         vad.pop()
-        return segment.samples
+        return VoiceSegment(segment.start, segment.samples)
     }
 
     override fun flushAudio() = vad.flush()

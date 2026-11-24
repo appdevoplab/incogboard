@@ -83,7 +83,7 @@ class FakeMicrophone(
  * Speech for the first [speechChunks] accepted chunks, then silence. When speech ends, one segment (all the
  * speech samples) is ready. [decode] returns [text]. Counts calls for assertions.
  */
-class FakeEngine(
+internal class FakeEngine(
     private val speechChunks: Int = 0,
     private val text: String = "hello world",
     private val failOnAccept: Boolean = false,
@@ -91,6 +91,7 @@ class FakeEngine(
 ) : SpeechEngine {
     val accepted = AtomicInteger(0)
     val decodes = AtomicInteger(0)
+    val decodedSizes = ConcurrentLinkedQueue<Int>()
     private var speechSamples = 0
     private var segmentReady = false
     @Volatile
@@ -99,6 +100,7 @@ class FakeEngine(
 
     override fun decode(samples: FloatArray): String {
         decodes.incrementAndGet()
+        decodedSizes.add(samples.size)
         if (decodeDelayMs > 0) Thread.sleep(decodeDelayMs)
         return text
     }
@@ -116,12 +118,12 @@ class FakeEngine(
     override fun isSpeaking(): Boolean = accepted.get() <= speechChunks
 
     @Synchronized
-    override fun nextSegment(): FloatArray? {
+    override fun nextSegment(): VoiceSegment? {
         if (!segmentReady) return null
         segmentReady = false
         val size = speechSamples
         speechSamples = 0
-        return FloatArray(size) { 0.5f }
+        return VoiceSegment(0, FloatArray(size) { 0.5f })
     }
 
     override fun flushAudio() {

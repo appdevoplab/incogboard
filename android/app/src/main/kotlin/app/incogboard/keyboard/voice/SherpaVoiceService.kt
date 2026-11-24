@@ -20,7 +20,7 @@ import kotlinx.coroutines.withContext
 internal class VoiceDeps(
     val openPack: (String) -> InstalledPack?,
     val listPacks: () -> List<InstalledPack>,
-    val loadEngine: (dir: File, whisperCode: String) -> SpeechEngine,
+    val loadEngine: (dir: File, engine: String, whisperCode: String) -> SpeechEngine,
     val newMicrophone: () -> Microphone,
     val main: MainThread,
     val clock: Clock,
@@ -111,7 +111,7 @@ internal class SherpaVoiceService(private val deps: VoiceDeps) : VoiceService {
         unloadEngine()
         val t0 = deps.clock.nowMs()
         val engine = try {
-            withContext(Dispatchers.IO) { deps.loadEngine(pack.dir, code) }
+            withContext(Dispatchers.IO) { deps.loadEngine(pack.dir, pack.manifest.engine, code) }
         } catch (e: Throwable) {
             // Includes UnsatisfiedLinkError when the native library does not load: report FAILED, never crash.
             deps.log("model load failed: ${e.javaClass.simpleName}")
@@ -167,7 +167,7 @@ internal fun newSherpaVoiceService(context: Context, packs: PackStore): VoiceSer
         VoiceDeps(
             openPack = { id -> packs.open(id) },
             listPacks = { packs.list() },
-            loadEngine = { dir, code -> loadSherpaEngine(dir, code) },
+            loadEngine = { dir, engine, code -> loadSherpaEngine(dir, engine, code) },
             newMicrophone = { AudioRecordMicrophone() },
             main = main,
             clock = Clock { SystemClock.elapsedRealtime() },

@@ -176,4 +176,35 @@ class VoiceSessionTest {
         assertEquals(20, log.events.count { it.kind == VoiceEventKind.LEVEL })
         assertFalse(log.events.any { it.kind == VoiceEventKind.ERROR })
     }
+
+    @Test
+    fun finalTextIsDecodedWithAudioAroundTheUtterance() {
+        val log = EventLog()
+        // Speech in chunks 0-2 (4800 samples); the detector reports it when chunk 3 arrives.
+        val engine = FakeEngine(speechChunks = 3, text = "padded")
+        val session = run(FakeMicrophone(frames(8)), engine, log)
+        session.start()
+        waitUntil { engine.accepted.get() == 8 }
+        session.requestStop()
+        assertTrue(log.awaitStopped())
+
+        assertEquals(listOf("padded"), log.finals())
+        // Nothing before the start of the session; after it, the post-roll reaches into chunk 3 (6400).
+        assertTrue(engine.decodedSizes.toString(), engine.decodedSizes.contains(6_400))
+    }
+
+    @Test
+    fun audioHistoryKeepsTheNewestSamplesAndRefusesLostStarts() {
+        val h = AudioHistory(10)
+        h.append(FloatArray(8) { it.toFloat() })
+        assertEquals(listOf(0f, 1f, 2f, 3f, 4f, 5f, 6f), h.slice(-3, 7, 2)!!.toList())
+        h.append(FloatArray(6) { (8 + it).toFloat() })
+        // 14 samples written, the oldest kept is 4.
+        assertEquals(null, h.slice(0, 6, 3))
+        assertEquals(listOf(4f, 5f, 6f, 7f, 8f), h.slice(0, 9, 4)!!.toList())
+        assertEquals(listOf(12f, 13f), h.slice(12, 40, 12)!!.toList())
+        assertEquals(null, h.slice(14, 20, 14))
+        h.clear()
+        assertEquals(0L, h.total)
+    }
 }

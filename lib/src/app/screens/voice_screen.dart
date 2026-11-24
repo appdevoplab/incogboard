@@ -110,7 +110,14 @@ class _VoicePackTileState extends State<_VoicePackTile> {
     return widget.selectedId;
   }
 
-  Future<void> _choose(List<PackInfoMessage> packs) async {
+  Future<void> _choose() async {
+    // Read the list again: a pack may have been imported or deleted under Model packs since this screen opened.
+    final fresh = _loadVoicePacks(AppScope.of(context));
+    setState(() {
+      _packs = fresh;
+    });
+    final packs = await fresh;
+    if (!mounted) return;
     final chosen = await showDialog<String>(
       context: context,
       builder: (context) => SimpleDialog(
@@ -153,7 +160,7 @@ class _VoicePackTileState extends State<_VoicePackTile> {
         title: context.l10n.voicePack,
         subtitle: loading ? context.l10n.voiceLooking : null,
         trailing: Text(loading ? '' : _label(packs)),
-        onTap: loading ? null : () => unawaited(_choose(packs)),
+        onTap: loading ? null : () => unawaited(_choose()),
       );
     },
   );
