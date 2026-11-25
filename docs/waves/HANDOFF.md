@@ -1,5 +1,25 @@
 # Handoff: continue from here after /clear
 
+## Current state (2026-11-25)
+
+- **Pushed:** `origin/main` is at `7dc6ffb` (release 1.2.0 build 3). Earlier this day: 11 commits pushed, from `5402ec3` to `64bc1de`.
+- **Releases:** v1.0.0, v1.1.0 and **v1.2.0 (Latest, beta, 2026-11-25)**. v1.2.0 has the three foss APKs (release key `6e07c8bc…7db41d`), five packs (dict-ja-mozc, dict-zh-rime-ice, translate-en-es, voice-parakeet-en (English only, about 700 MB free memory while dictating), voice-whisper-base) and `SHA256SUMS.txt`. Checked after publish: the Download APK link and the Parakeet pack link resolve, and the published arm64 APK matches its checksum.
+- **In 1.2.0:** Oceanblue is the only built-in theme and the default for new installs; existing users keep their saved theme (older themes still resolve). Swipe and emoji work in no-suggestion fields (Chrome's address bar). Private-browsing fields turn off only learning. Voice keeps words after pauses.
+- **Oceanblue values** are read from the editor on the test device, not the exact theme: gradient `#E4C0FF`→`#8DF5F4` at 69°, seed `#4D5D8B`; the key colours come from the seed. The dark version uses dark keys on the same gradient. Confirm with the user's own theme.
+- **Open, in order:**
+  1. The user tries voice on their own phone (never install on it): Whisper base with the pause fix, then Parakeet English. Ask how it feels and whether Auto-detect picks the wrong language.
+  2. Contributors box still shows Claude. `refs/pull/1/head` and `refs/pull/2/head` cannot be deleted by git (GitHub refuses "hidden ref"); GitHub Support must remove them. Draft message is in the last chat reply; ask the user to send it.
+  3. Two "Oceanblue" entries on the user's phone and emulator (the built-in one and the user's custom one). Ask whether to delete the custom copy.
+  4. The gallery's wallpaper note still says "IncogBoard Dynamic", which is no longer in the app. Remove it or keep it (ask).
+  5. Onboarding warning text in all ARBs: show the proposed text first (see "Open work").
+  6. Wider sensitive-field retest on the emulator, now that no-suggestion fields keep swipe and emoji (the user confirmed that rule).
+  7. Official trademark register searches: the user does them; tell them what to search.
+  8. Whether HANDOFF, NEXT_SESSION_PROMPT and this file stay on GitHub. They are public from the pushes above; the user has not answered.
+  9. Play steps (`docs/release/checklist.md`).
+- **Local only:** `backup/before-author-rewrite` branch and `refs/original/refs/heads/main` hold the pre-rewrite history with Claude trailers. Never pushed. Delete only if the user says so.
+
+## Earlier state (superseded)
+
 State as of 2026-11-24, night (third session that day). Branch `main` of the public repo https://github.com/appdevoplab/incogboard (`origin`, GPL-3.0, ruleset "protect main" blocks deletion and force pushes). The app is **IncogBoard**, application id `io.github.appdevoplab.incogboard`, version **1.1.0+2**. Published GitHub releases: **v1.0.0** and **v1.1.0 (Latest)**, both beta. Last pushed commit `88fd8ba` (release 1.1.0). **Everything after it is local only, nothing was pushed this session:** `a0275cb` (floating + Gold fixes), `2a1bb39` (voice pause fix, Parakeet engine, fresh pack list), `b75479d` (SEC-06, SEC-08, public contact, Parakeet listing), `50b36c1` (test fix), `5dca837` (ghost brand step 2), plus this HANDOFF commit. Ask before pushing (HANDOFF is the user's notebook; it is public once pushed).
 
 **Commits are authored as `appdevoplab <355776004+appdevoplab@users.noreply.github.com>` with no Claude/Co-Authored-By lines** (the user's rule). Check `git config user.email` before committing.

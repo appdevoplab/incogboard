@@ -134,8 +134,8 @@ German, Portuguese, Hindi, Russian) are planned.
 
 ### Make it yours
 
-Material You colours that follow your wallpaper, a gold preset, light, dark and pure black, three contrast levels,
-and a theme editor with a live preview.
+Oceanblue, the default theme: a soft lavender-to-aqua gradient with slate-blue keys. Light, dark and pure black,
+three contrast levels, and a theme editor with a live preview.
 
 ## Build it yourself
 
