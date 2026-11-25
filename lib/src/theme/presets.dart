@@ -10,7 +10,8 @@ import 'theme_spec.dart';
 const int incogboardYellow = 0xFFEFB33A;
 const int incogboardBrown = 0xFF3E2723;
 
-const String defaultThemeId = 'incogboard_dynamic';
+/// The theme new installs start with (decision 2026-11-25: Oceanblue is the only theme in the app).
+const String defaultThemeId = 'incogboard_oceanblue';
 
 abstract final class ThemePresets {
   /// Wallpaper colours on Android 12+, brand seed otherwise.
@@ -109,16 +110,52 @@ abstract final class ThemePresets {
     keyRadius: 0.32,
   );
 
-  /// Gallery order.
-  static const List<ThemeSpec> all = [incogboardDynamic, incogboardGold, lavender, ocean, mint, coral, rose, graphite];
+  /// The Oceanblue theme: a gradient background from lavender to aqua with slate-blue keys. It is the default
+  /// for new installs and the only theme shown in the app. Values read from the Oceanblue editor (2026-11-25).
+  static const ThemeSpec oceanBlue = ThemeSpec(
+    id: 'incogboard_oceanblue',
+    name: 'Oceanblue',
+    colorSource: ThemeColorSource.seed,
+    seedColor: 0xFF4D5D8B,
+    variant: ThemeSchemeVariant.tonalSpot,
+    keyRadius: 0.45,
+    borderWidth: 2,
+    keyGap: 4,
+    labelWeight: 500,
+    labelScale: 0.79,
+    showHints: false,
+    background: ThemeBackgroundSpec(
+      type: ThemeBackgroundType.gradient,
+      gradientColors: [0xFFE4C0FF, 0xFF8DF5F4],
+      gradientAngle: 69,
+    ),
+    accents: ThemeAccentOverrides(trailStart: 0xFF4D5D8B, trailEnd: 0xFF6B567E),
+    motionIntensity: 2,
+  );
 
-  /// The preset with [id], or [incogboardDynamic] if unknown.
+  /// Shown in the app: only Oceanblue.
+  static const List<ThemeSpec> all = [oceanBlue];
+
+  /// Older built-in themes. They are no longer shown, but a theme saved before the change still resolves to
+  /// itself, so existing users keep the theme they had.
+  static const List<ThemeSpec> legacy = [
+    incogboardDynamic,
+    incogboardGold,
+    lavender,
+    ocean,
+    mint,
+    coral,
+    rose,
+    graphite,
+  ];
+
+  /// The preset with [id] (shown or legacy), or Oceanblue if unknown.
   static ThemeSpec byId(String id) {
-    for (final p in all) {
+    for (final p in [...all, ...legacy]) {
       if (p.id == id) return p;
     }
-    return incogboardDynamic;
+    return oceanBlue;
   }
 
-  static bool isPresetId(String id) => all.any((p) => p.id == id);
+  static bool isPresetId(String id) => [...all, ...legacy].any((p) => p.id == id);
 }

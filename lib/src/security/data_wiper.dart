@@ -115,7 +115,7 @@ class DataWiper {
     final appearance = settings.value.appearance;
     if (!ThemePresets.isPresetId(appearance.themeId)) {
       await settings.update(
-        (s) => s.copyWith(appearance: s.appearance.copyWith(themeId: ThemePresets.incogboardDynamic.id)),
+        (s) => s.copyWith(appearance: s.appearance.copyWith(themeId: ThemePresets.oceanBlue.id)),
         sections: const [SettingsSection.appearance],
       );
     }

@@ -130,11 +130,11 @@ void main() {
       await _pumpGallery(tester);
       // Taps the card's InkWell directly: the label sits under a neighbouring card's hit area in the carousel.
       final card = tester.widget<InkWell>(
-        find.ancestor(of: find.text('Lavender'), matching: find.byType(InkWell)).first,
+        find.ancestor(of: find.text(ThemePresets.oceanBlue.name), matching: find.byType(InkWell)).first,
       );
       card.onTap!();
       await _settle(tester);
-      expect(_services.settings.value.appearance.themeId, 'lavender');
+      expect(_services.settings.value.appearance.themeId, ThemePresets.oceanBlue.id);
       await tester.pumpWidget(const SizedBox());
     });
 
@@ -142,7 +142,7 @@ void main() {
       // CarouselView covers its items with an InkWell unless enableSplash is false; on a device the
       // cards then never saw a tap. These taps go through hit testing like a finger.
       await _pumpGallery(tester);
-      final second = ThemePresets.all[1];
+      final second = ThemePresets.oceanBlue;
       await tester.tap(find.text(second.name).first);
       await _settle(tester);
       expect(_services.settings.value.appearance.themeId, second.id);
@@ -171,19 +171,19 @@ void main() {
       await tester.pumpWidget(const SizedBox());
     });
 
-    testWidgets('the wallpaper note appears only when system colours exist', (tester) async {
+    testWidgets('the wallpaper note stays hidden for Oceanblue, even with system colours', (tester) async {
       await _pumpGallery(tester);
-      expect(find.text('IncogBoard Dynamic follows your wallpaper'), findsNothing);
+      expect(find.text('Oceanblue follows your wallpaper'), findsNothing);
       await tester.pumpWidget(const SizedBox());
 
       _tearDownServices();
       _setUpServices(palettes: syntheticPalettes());
       await _pumpGallery(tester);
-      expect(find.text('IncogBoard Dynamic follows your wallpaper'), findsOneWidget);
+      expect(find.text('Oceanblue follows your wallpaper'), findsNothing);
       await tester.pumpWidget(const SizedBox());
     });
 
-    testWidgets('deleting the selected custom theme asks first and falls back to IncogBoard Dynamic', (tester) async {
+    testWidgets('deleting the selected custom theme asks first and falls back to Oceanblue', (tester) async {
       final id = CustomThemeIds.idFor(_uuid);
       final store = CustomThemeStore('${_dataDir.path}/themes');
       await tester.runAsync(() => store.write(ThemeSpec(id: id, name: 'Saved look')));
@@ -210,7 +210,7 @@ void main() {
       await tester.tap(find.widgetWithText(FilledButton, 'Delete'));
       await _settle(tester);
       expect(File('${_dataDir.path}/themes/$_uuid.json').existsSync(), isFalse);
-      expect(_services.settings.value.appearance.themeId, ThemePresets.incogboardDynamic.id);
+      expect(_services.settings.value.appearance.themeId, ThemePresets.oceanBlue.id);
       await tester.pumpWidget(const SizedBox());
     });
   });

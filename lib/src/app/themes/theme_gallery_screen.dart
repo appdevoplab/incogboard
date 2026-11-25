@@ -185,7 +185,7 @@ class _ThemeGalleryScreenState extends State<ThemeGalleryScreen> {
     if (ok != true || store == null) return;
     try {
       await store.delete(spec.id);
-      await _commit((c) => _bumpRevision(c, themeId: inUse ? ThemePresets.incogboardDynamic.id : null));
+      await _commit((c) => _bumpRevision(c, themeId: inUse ? ThemePresets.oceanBlue.id : null));
       await _reloadCustom();
     } on Object catch (e) {
       IncogBoardLog.w(l10n.onboardingThemeTitle, 'delete failed', e.runtimeType);

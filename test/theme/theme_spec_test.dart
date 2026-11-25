@@ -158,28 +158,21 @@ void main() {
   });
 
   group('presets', () {
-    test('ids are unique and the required presets exist', () {
-      final ids = ThemePresets.all.map((p) => p.id).toList();
+    test('only Oceanblue is shown; the older presets stay resolvable for saved choices', () {
+      expect([for (final p in ThemePresets.all) p.id], ['incogboard_oceanblue']);
+      final legacy = [for (final p in ThemePresets.legacy) p.id];
+      final ids = [...ThemePresets.all, ...ThemePresets.legacy].map((p) => p.id).toList();
       expect(ids.toSet().length, ids.length);
-      expect(
-        ids,
-        containsAll([
-          'incogboard_dynamic',
-          'incogboard_gold',
-          'lavender',
-          'ocean',
-          'mint',
-          'coral',
-          'rose',
-          'graphite',
-        ]),
-      );
+      expect(legacy, containsAll(['incogboard_dynamic', 'incogboard_gold', 'lavender', 'graphite']));
+      expect(defaultThemeId, 'incogboard_oceanblue');
     });
 
-    test('byId falls back to IncogBoard Dynamic', () {
+    test('byId resolves a legacy id to itself and falls back to Oceanblue', () {
       expect(ThemePresets.byId('ocean').id, 'ocean');
-      expect(ThemePresets.byId('nope').id, 'incogboard_dynamic');
+      expect(ThemePresets.byId('incogboard_dynamic').id, 'incogboard_dynamic');
+      expect(ThemePresets.byId('nope').id, 'incogboard_oceanblue');
       expect(ThemePresets.isPresetId('nope'), isFalse);
+      expect(ThemePresets.isPresetId('incogboard_dynamic'), isTrue);
     });
 
     test('brand colours', () {

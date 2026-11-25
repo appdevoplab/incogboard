@@ -461,7 +461,7 @@ void main() {
       await wiper.wipe({WipeCategory.themes});
 
       expect(await CustomThemeFiles('${root.path}/themes').list(), isEmpty);
-      expect(settings.value.appearance.themeId, 'incogboard_dynamic');
+      expect(settings.value.appearance.themeId, 'incogboard_oceanblue');
     });
 
     test('erase everything wipes the store and custom themes, and resets settings only when asked', () async {

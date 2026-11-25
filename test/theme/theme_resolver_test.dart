@@ -8,7 +8,7 @@ import 'package:incogboard/src/theme/theme.dart';
 import 'theme_test_support.dart';
 
 KeyboardThemeData _resolve({
-  String themeId = 'incogboard_dynamic',
+  String themeId = 'incogboard_oceanblue',
   DarkModePreference darkMode = DarkModePreference.light,
   bool pureBlack = false,
   ContrastPreference contrast = ContrastPreference.standard,
@@ -26,7 +26,7 @@ void main() {
   final systemColors = syntheticSystemColors();
 
   group('every preset resolves and passes contrast', () {
-    for (final preset in ThemePresets.all) {
+    for (final preset in [...ThemePresets.all, ...ThemePresets.legacy]) {
       for (final dark in [false, true]) {
         for (final pureBlack in dark ? [false, true] : [false]) {
           for (final contrast in ContrastPreference.values) {
@@ -46,9 +46,11 @@ void main() {
                 for (final (name, fg, bg) in labelFillPairs(t)) {
                   expect(contrastRatio(fg, bg), greaterThanOrEqualTo(min), reason: '$label: $name');
                 }
-                // Swipe trail marks must stay visible against the background.
-                expect(contrastRatio(t.trailStart, t.background), greaterThanOrEqualTo(3.0), reason: '$label trail');
-                expect(contrastRatio(t.trailEnd, t.background), greaterThanOrEqualTo(3.0), reason: '$label trail');
+                // Swipe trail marks must stay visible against what is painted behind them (each gradient stop).
+                for (final b in paintedBackdrops(t)) {
+                  expect(contrastRatio(t.trailStart, b), greaterThanOrEqualTo(3.0), reason: '$label trail');
+                  expect(contrastRatio(t.trailEnd, b), greaterThanOrEqualTo(3.0), reason: '$label trail');
+                }
                 if (pureBlack) {
                   expect(t.background, const Color(0xFF000000));
                   expect(relativeLuminance(t.letterKey.fill), lessThan(0.05), reason: '$label near-black keys');
@@ -125,16 +127,16 @@ void main() {
   });
 
   group('fallback and selection', () {
-    test('unknown themeId falls back to IncogBoard Dynamic', () {
+    test('unknown themeId falls back to Oceanblue', () {
       final unknown = _resolve(themeId: 'no_such_theme', colors: systemColors);
       final dyn = _resolve(colors: systemColors);
-      expect(unknown.id, 'incogboard_dynamic');
+      expect(unknown.id, 'incogboard_oceanblue');
       expect(unknown.background, dyn.background);
       expect(unknown.actionKey.fill, dyn.actionKey.fill);
     });
 
-    test('IncogBoard Dynamic uses the system palettes', () {
-      final t = _resolve(colors: systemColors);
+    test('legacy IncogBoard Dynamic uses the system palettes', () {
+      final t = _resolve(themeId: 'incogboard_dynamic', colors: systemColors);
       final expected = materialYouScheme(systemColors.palettes, Brightness.light)!;
       // The accent may be nudged slightly to reach label contrast; it must stay close.
       expect((t.actionKey.fill.r - expected.primary.r).abs(), lessThan(0.08));
@@ -142,9 +144,11 @@ void main() {
       expect(t.background, expected.surfaceContainer);
     });
 
-    test('IncogBoard Dynamic falls back to the brand seed without or with invalid palettes', () {
+    test('Oceanblue ignores system palettes and uses its own seed', () {
       final none = _resolve();
       final bad = _resolve(colors: SystemColorsMessage(palettes: [1, 2, 3], isNightMode: false));
+      final withSystem = _resolve(colors: systemColors);
+      expect(withSystem.actionKey.fill, none.actionKey.fill);
       expect(bad.actionKey.fill, none.actionKey.fill);
       expect(bad.background, none.background);
       expect(none.actionKey.fill, isNot(materialYouScheme(systemColors.palettes, Brightness.light)!.primary));

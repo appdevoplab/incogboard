@@ -21,8 +21,18 @@ List<int> syntheticPalettes({List<double> hues = const [210, 260, 330, 200, 250]
 SystemColorsMessage syntheticSystemColors({bool night = false}) =>
     SystemColorsMessage(palettes: syntheticPalettes(), isNightMode: night);
 
+/// The colours text is actually painted on: each stop of a gradient background, otherwise the solid background.
+/// A gradient paints over `background`, so checking text only against `background` would test the wrong colour.
+List<Color> paintedBackdrops(KeyboardThemeData t) {
+  final g = t.backgroundGradient;
+  if (g is LinearGradient) return g.colors;
+  return [t.background];
+}
+
 /// Every (label, fill) pair the keyboard paints, with a description.
 List<(String, Color, Color)> labelFillPairs(KeyboardThemeData t) => [
+  for (final b in paintedBackdrops(t)) ('suggestion text', t.suggestionText, b),
+  for (final b in paintedBackdrops(t)) ('toolbar icon', t.toolbarIcon, b),
   ('letter label', t.letterKey.label, t.letterKey.fill),
   ('letter hint', t.letterKey.hint, t.letterKey.fill),
   ('letter label pressed', t.letterKey.label, t.letterKey.pressedFill),
@@ -35,7 +45,5 @@ List<(String, Color, Color)> labelFillPairs(KeyboardThemeData t) => [
   ('space label pressed', t.spaceKey.label, t.spaceKey.pressedFill),
   ('popup', t.popupLabel, t.popupFill),
   ('popup selected', t.popupSelectedLabel, t.popupSelectedFill),
-  ('suggestion text', t.suggestionText, t.background),
   ('suggestion highlight', t.suggestionHighlightText, t.suggestionHighlightFill),
-  ('toolbar icon', t.toolbarIcon, t.background),
 ];

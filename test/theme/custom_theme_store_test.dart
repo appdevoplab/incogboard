@@ -184,12 +184,12 @@ void main() {
   });
 
   group('resolution by id', () {
-    test('specForId: custom ids read the file; missing, broken or malformed give IncogBoard Dynamic', () async {
+    test('specForId: custom ids read the file; missing, broken or malformed give Oceanblue', () async {
       await CustomThemeStore(themes).write(_spec(name: 'Saved'));
       expect(specForId('custom:$kUuid', themes).name, 'Saved');
-      expect(specForId('custom:$kPhoto', themes).id, ThemePresets.incogboardDynamic.id);
-      expect(specForId('custom:../x', themes).id, ThemePresets.incogboardDynamic.id);
-      expect(specForId('custom:$kUuid', null).id, ThemePresets.incogboardDynamic.id);
+      expect(specForId('custom:$kPhoto', themes).id, ThemePresets.oceanBlue.id);
+      expect(specForId('custom:../x', themes).id, ThemePresets.oceanBlue.id);
+      expect(specForId('custom:$kUuid', null).id, ThemePresets.oceanBlue.id);
       expect(specForId('lavender', themes).id, 'lavender');
     });
 
@@ -205,7 +205,7 @@ void main() {
       expect(t.id, CustomThemeIds.idFor(kUuid));
     });
 
-    test('a missing custom theme falls back to IncogBoard Dynamic', () {
+    test('a missing custom theme falls back to Oceanblue', () {
       final t = resolveKeyboardTheme(
         appearance: AppearanceSettings(themeId: CustomThemeIds.idFor(kUuid)),
         systemColors: null,
@@ -213,7 +213,7 @@ void main() {
         disableAnimations: false,
         customThemesDirectory: themes,
       );
-      expect(t.id, ThemePresets.incogboardDynamic.id);
+      expect(t.id, ThemePresets.oceanBlue.id);
     });
 
     test('a revision bump re-resolves, and an edited file is picked up', () async {

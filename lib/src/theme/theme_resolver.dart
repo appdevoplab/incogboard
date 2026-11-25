@@ -61,12 +61,12 @@ KeyboardThemeData resolveKeyboardTheme({
 }
 
 /// The spec for a theme id: a preset, or a custom theme read from [customThemesDirectory].
-/// Unknown presets, and custom themes that are missing or broken, give IncogBoard Dynamic.
+/// Unknown presets, and custom themes that are missing or broken, give Oceanblue.
 ThemeSpec specForId(String themeId, String? customThemesDirectory) {
   if (CustomThemeIds.isCustom(themeId)) {
     final dir = customThemesDirectory;
     final spec = dir == null ? null : CustomThemeStore.readSpecSync(dir, themeId);
-    return spec ?? ThemePresets.incogboardDynamic;
+    return spec ?? ThemePresets.oceanBlue;
   }
   return ThemePresets.byId(themeId);
 }

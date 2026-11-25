@@ -80,11 +80,10 @@ void main() {
       await tester.pumpAndSettle();
     }
     expect(find.text('Pick languages and a theme'), findsOneWidget);
-    await tester.tap(find.text('IncogBoard Gold'));
-    await tester.pumpAndSettle();
-
-    final update = capturedUpdate(fakes.store, 'appearance');
-    expect(update(const IncogBoardSettings()).appearance.themeId, 'incogboard_gold');
+    // Oceanblue is the only theme and already the default, so the step offers it and no older theme.
+    expect(find.text('Oceanblue'), findsWidgets);
+    expect(find.text('IncogBoard Gold'), findsNothing);
+    expect(find.text('IncogBoard Dynamic'), findsNothing);
     await tester.pumpWidget(const SizedBox());
   });
 
