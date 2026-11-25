@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// Sensitive-field rules. Password variations and TYPE_TEXT_FLAG_NO_SUGGESTIONS fields are sensitive: no
-// suggestions, no learning, no popups, no swipe, no emoji, no voice, no translation and FLAG_SECURE.
+// Sensitive-field rules. Password variations are sensitive: no suggestions, no learning, no popups, no swipe,
+// no emoji, no voice, no translation and FLAG_SECURE. TYPE_TEXT_FLAG_NO_SUGGESTIONS fields are sensitive too
+// (no suggestions, no learning, no popups, no voice, no translation, FLAG_SECURE) but keep swipe and emoji
+// (decision 2026-11-25).
 //
 // IME_FLAG_NO_PERSONALIZED_LEARNING (private browsing) is not sensitive since 2026-11-25: only learning is
 // off there, everything else works. It still gets FLAG_SECURE (`shouldSecureWindow`).
@@ -34,9 +36,16 @@ void main() {
     expect(f.allowsAutoCorrect, isTrue);
   });
 
-  test('TYPE_TEXT_FLAG_NO_SUGGESTIONS turns suggestions off', () {
+  test('TYPE_TEXT_FLAG_NO_SUGGESTIONS turns suggestions and learning off, but keeps swipe', () {
     final f = _field(flags: AndroidInputType.textFlagNoSuggestions);
     expect(f.allowsSuggestions, isFalse);
+    expect(f.allowsLearning, isFalse);
+    expect(f.allowsSwipe, isTrue);
+  });
+
+  test('swipe is off only in password fields', () {
+    expect(_field(variation: AndroidInputType.textVariationPassword).allowsSwipe, isFalse);
+    expect(_field().allowsSwipe, isTrue);
   });
 
   test('no-suggestions fields are sensitive; no-personalised-learning fields are not', () {

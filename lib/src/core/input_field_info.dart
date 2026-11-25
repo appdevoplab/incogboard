@@ -284,11 +284,15 @@ class InputFieldInfo {
   /// send raw key events instead.
   bool get isRawKeyMode => kind == FieldKind.none;
 
-  /// Sensitive = a password, or a field that asks for no suggestions: no popups, no suggestions, no swipe,
-  /// no emoji, no learning, no voice, no translation, FLAG_SECURE. A field that only asks for no personalised
+  /// Sensitive = a password, or a field that asks for no suggestions: no popups, no suggestions, no learning,
+  /// no voice, no translation, FLAG_SECURE. Swipe typing and the emoji panel still work in a no-suggestions field
+  /// (`allowsSwipe`, `KeyboardPanel.allowedInNoSuggestionFields`). A field that only asks for no personalised
   /// learning (private browsing) is not sensitive: it keeps every feature, and only learning is off
   /// (`allowsLearning`, `InputController.learningAllowed`, and `shouldSecureWindow` still blocks screenshots).
   bool get isSensitive => isPassword || noSuggestionsFlag;
+
+  /// Swipe typing works everywhere except password fields (decision 2026-11-25: no-suggestions fields keep swipe).
+  bool get allowsSwipe => !isPassword;
 
   bool get allowsSuggestions => kind == FieldKind.text && !isPassword && !noSuggestionsFlag;
 
@@ -304,7 +308,7 @@ class InputFieldInfo {
       };
 
   /// The app permits learning (incognito settings are applied on top of this).
-  bool get allowsLearning => !isPassword && !noPersonalizedLearning;
+  bool get allowsLearning => !isPassword && !noPersonalizedLearning && !noSuggestionsFlag;
 
   bool get acceptsImages => contentMimeTypes.any((m) => m.startsWith('image/'));
 

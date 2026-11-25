@@ -65,9 +65,11 @@ class KeyboardSession {
   final Map<String, Timer> _chipTimers = {};
   String? _ownPackage;
 
-  /// Shows [panel] (replacing any open one). Ignored in sensitive fields.
+  /// Shows [panel] (replacing any open one). Ignored in password fields, and in no-suggestions fields unless
+  /// the panel allows them ([KeyboardPanel.allowedInNoSuggestionFields]).
   void openPanel(KeyboardPanel next) {
-    if (_disposed || input.currentField.isSensitive) return;
+    final f = input.currentField;
+    if (_disposed || (f.isSensitive && (f.isPassword || !next.allowedInNoSuggestionFields))) return;
     final old = panel.value;
     if (identical(old, next)) return;
     input.redirect.value = null;

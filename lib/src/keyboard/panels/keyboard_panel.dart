@@ -48,6 +48,9 @@ abstract class KeyboardPanel {
 
   PanelPlacement get placement;
 
+  /// True when the panel may open in a no-suggestions field (not a password). Only the emoji panels say yes.
+  bool get allowedInNoSuggestionFields => false;
+
   /// For [PanelPlacement.strip] only: receives the typed keys while the panel is open.
   KeyRedirect? get keyRedirect => null;
 

@@ -31,6 +31,9 @@ class EmojiSearchPanel extends KeyboardPanel {
   PanelPlacement get placement => PanelPlacement.strip;
 
   @override
+  bool get allowedInNoSuggestionFields => true;
+
+  @override
   KeyRedirect? get keyRedirect => _redirect;
 
   @override

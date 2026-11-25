@@ -59,11 +59,13 @@ period of silence.
 
 ## 6. Sensitive fields
 
-In password fields and in fields where the app asks for no suggestions, IncogBoard does not show suggestions,
-does not learn from what you type, does not show key pop-ups, and does not offer voice input. In fields where
-the app asks for no personalised learning (for example a private browsing window), IncogBoard only stops
-learning from what you type; suggestions, swipe typing, emoji and the other keyboard features keep working.
-Screenshots of the keyboard in both kinds of field are blocked by the system.
+In password fields IncogBoard does not show suggestions, does not learn from what you type, does not show key
+pop-ups, does not offer swipe typing or emoji, and does not offer voice input. In fields where the app asks for
+no suggestions, IncogBoard does not show suggestions, does not learn from what you type, does not show key
+pop-ups, and does not offer voice input; swipe typing and emoji still work. In fields where the app asks for no
+personalised learning (for example a private browsing window), IncogBoard only stops learning from what you
+type; the other keyboard features keep working. Screenshots of the keyboard in password and no-suggestion fields
+are blocked by the system.
 
 ## 7. Incognito
 

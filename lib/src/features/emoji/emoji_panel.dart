@@ -62,6 +62,9 @@ class EmojiPanel extends KeyboardPanel {
   PanelPlacement get placement => PanelPlacement.full;
 
   @override
+  bool get allowedInNoSuggestionFields => true;
+
+  @override
   Widget build(BuildContext context, PanelContext panel) => EmojiPanelView(services: services, panel: panel);
 
   @override

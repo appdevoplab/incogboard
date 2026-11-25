@@ -1144,9 +1144,11 @@ class InputController {
   // ---- Gesture typing ---------------------------------------------------
 
   /// Decodes and commits a swiped path. Safe to call without checking the
-  /// field: sensitive and raw fields ignore it.
+  /// field: password and raw fields ignore it.
   Future<void> commitSwipe(GesturePath path) async {
-    if (_sensitive || _raw || !settings.swipe.enabled || redirect.value != null || composerActive) return;
+    if (!field.value.allowsSwipe || _raw || !settings.swipe.enabled || redirect.value != null || composerActive) {
+      return;
+    }
     var candidates = await _decoder.decode(path, previousWords: List.of(_previous));
     final t = swipeTransform.value;
     if (t != null) {

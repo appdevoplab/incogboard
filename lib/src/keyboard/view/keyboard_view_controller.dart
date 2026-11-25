@@ -317,7 +317,7 @@ class KeyboardViewController {
 
   bool _canSwipe(_Touch t) {
     if (!_s.swipe.enabled || _touches.length != 1) return false;
-    if (_input.currentField.isSensitive || _input.currentField.isRawKeyMode) return false;
+    if (!_input.currentField.allowsSwipe || _input.currentField.isRawKeyMode) return false;
     if (_input.page.value != KeyboardPage.letters) return false;
     // A panel's search box has the keys: no swipe typing into it.
     if (_input.redirect.value != null) return false;
