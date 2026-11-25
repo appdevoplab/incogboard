@@ -24,7 +24,7 @@ void main() {
 
   setUp(() async {
     repository = EmojiRepository.fromDirectory('assets/emoji');
-    store = EmojiStore(blobs: InMemorySecureBlobStore(), isIncognito: () => false, saveDelay: Duration.zero);
+    store = EmojiStore(blobs: InMemorySecureBlobStore(), learningOff: () => false, saveDelay: Duration.zero);
     enabled = true;
     languages = ['en'];
     suggestions = EmojiSuggestions(

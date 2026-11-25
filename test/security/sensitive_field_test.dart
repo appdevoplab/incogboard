@@ -1,11 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// Wave 5-A: sensitive-field rules, checked against the privacy plan (plan section "Sensitive fields":
-// password variations, IME_FLAG_NO_PERSONALIZED_LEARNING and TYPE_TEXT_FLAG_NO_SUGGESTIONS get no
-// suggestions, no learning, no popups, no voice and FLAG_SECURE).
+// Sensitive-field rules. Password variations and TYPE_TEXT_FLAG_NO_SUGGESTIONS fields are sensitive: no
+// suggestions, no learning, no popups, no swipe, no emoji, no voice, no translation and FLAG_SECURE.
 //
-// InputFieldInfo.isSensitive covers passwords and the two flags (decision D1, 2026-11-24, SEC-12 in
-// docs/security/audit.md), so those fields get no popups, no voice, no translation and FLAG_SECURE.
+// IME_FLAG_NO_PERSONALIZED_LEARNING (private browsing) is not sensitive since 2026-11-25: only learning is
+// off there, everything else works. It still gets FLAG_SECURE (`shouldSecureWindow`).
 import 'package:flutter_test/flutter_test.dart';
 import 'package:incogboard/src/core/input_field_info.dart';
 
@@ -27,9 +26,12 @@ void main() {
     expect(f.allowsLearning, isTrue);
   });
 
-  test('IME_FLAG_NO_PERSONALIZED_LEARNING turns learning off', () {
+  test('IME_FLAG_NO_PERSONALIZED_LEARNING turns learning off and nothing else', () {
     final f = _field(ime: AndroidImeOptions.flagNoPersonalizedLearning);
     expect(f.allowsLearning, isFalse);
+    expect(f.isSensitive, isFalse);
+    expect(f.allowsSuggestions, isTrue);
+    expect(f.allowsAutoCorrect, isTrue);
   });
 
   test('TYPE_TEXT_FLAG_NO_SUGGESTIONS turns suggestions off', () {
@@ -37,8 +39,8 @@ void main() {
     expect(f.allowsSuggestions, isFalse);
   });
 
-  test('no-personalised-learning and no-suggestions fields are sensitive as the plan requires', () {
-    expect(_field(ime: AndroidImeOptions.flagNoPersonalizedLearning).isSensitive, isTrue);
+  test('no-suggestions fields are sensitive; no-personalised-learning fields are not', () {
     expect(_field(flags: AndroidInputType.textFlagNoSuggestions).isSensitive, isTrue);
+    expect(_field(ime: AndroidImeOptions.flagNoPersonalizedLearning).isSensitive, isFalse);
   });
 }

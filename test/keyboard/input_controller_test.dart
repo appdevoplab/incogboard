@@ -516,6 +516,10 @@ void main() {
       expect(shouldSecureWindow(pw, const PrivacySettings()), isTrue);
       expect(shouldSecureWindow(textField(), const PrivacySettings()), isFalse);
       expect(shouldSecureWindow(textField(), const PrivacySettings(hideFromScreenshots: true)), isTrue);
+      expect(
+        shouldSecureWindow(textField(ime: AndroidImeOptions.flagNoPersonalizedLearning), const PrivacySettings()),
+        isTrue,
+      );
     });
   });
 

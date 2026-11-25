@@ -26,7 +26,7 @@ int displayRef(EmojiData data, EmojiStore store, int item) {
 class EmojiStore {
   EmojiStore({
     required SecureBlobStore blobs,
-    required this.isIncognito,
+    required this.learningOff,
     BlobExists? exists,
     int Function()? clock,
     this.saveDelay = const Duration(seconds: 2),
@@ -40,7 +40,9 @@ class EmojiStore {
   static const double halfLifeMs = 7 * 24 * 3600 * 1000.0;
 
   final PanelBlob _blob;
-  final bool Function() isIncognito;
+
+  /// True when nothing may be learned here (incognito, the learning switch, or a private field).
+  final bool Function() learningOff;
   final int Function() _clock;
   final Duration saveDelay;
 
@@ -120,9 +122,9 @@ class EmojiStore {
     return [for (final r in ranked.take(maxRecents)) r.text];
   }
 
-  /// Counts one use of [text] (the emoji as inserted, with its tone). Ignored while incognito.
+  /// Counts one use of [text] (the emoji as inserted, with its tone). Ignored while learning is off.
   void recordUse(String text) {
-    if (isIncognito() || _disposed || text.isEmpty) return;
+    if (learningOff() || _disposed || text.isEmpty) return;
     final now = _clock();
     final i = _recents.indexWhere((r) => r.text == text);
     if (i >= 0) {
@@ -144,9 +146,9 @@ class EmojiStore {
   /// The choice is remembered per emoji; a new emoji starts with the last choice made.
   int toneFor(String base) => _tones[base] ?? _lastTone;
 
-  /// Remembers [tone] for [base] and makes it the default for emoji not chosen yet. Ignored while incognito.
+  /// Remembers [tone] for [base] and makes it the default for emoji not chosen yet. Ignored while learning is off.
   void rememberTone(String base, int tone) {
-    if (isIncognito() || _disposed) return;
+    if (learningOff() || _disposed) return;
     _tones[base] = tone;
     _lastTone = tone;
     _scheduleSave();
@@ -175,7 +177,7 @@ class EmojiStore {
   Future<void> flush() async {
     _saveTimer?.cancel();
     _saveTimer = null;
-    if (!_dirty || _locked || isIncognito()) return;
+    if (!_dirty || _locked || learningOff()) return;
     _dirty = false;
     final now = _clock();
     final json = jsonEncode({

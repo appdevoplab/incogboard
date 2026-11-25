@@ -72,9 +72,10 @@ Play's policy for keyboard apps requires:
    keyboard can collect all text you type. **The current sentence does not say that. It is a requested change**
    (see `checklist.md`): the text should say that a keyboard can collect everything you type, including
    passwords, and that IncogBoard has no internet access and so cannot send anything.
-3. **Sensitive fields.** Password and other sensitive fields get no suggestions, no learning, no key pop-ups and
-   no voice input. (Suggestions and learning are switched off in code through `allowsLearning` and
-   `isSensitive`; key pop-ups and voice in those fields are not yet verified, see `checklist.md`.)
+3. **Sensitive fields.** Password and no-suggestion fields get no suggestions, no learning, no key pop-ups and
+   no voice input. Fields that only ask for no personalised learning (private browsing) get no learning and
+   nothing else changes. (Learning is switched off in code through `allowsLearning`; `isSensitive` covers the
+   rest; key pop-ups and voice in the sensitive fields are not yet verified, see `checklist.md`.)
 4. **Declaration in the Play Console.** The Console asks for an input-method declaration. Answer it with the
    wording of point 1, and mention that the keyboard works with no network.
 

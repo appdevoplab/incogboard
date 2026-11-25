@@ -39,7 +39,7 @@ void main() {
     now = 0;
     store = EmojiStore(
       blobs: InMemorySecureBlobStore(),
-      isIncognito: () => false,
+      learningOff: () => false,
       clock: () => now,
       saveDelay: Duration.zero,
     );

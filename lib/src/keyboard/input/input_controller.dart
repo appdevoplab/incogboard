@@ -91,7 +91,7 @@ class SuggestionBarState {
 
 /// Whether the keyboard window must hide from screenshots.
 bool shouldSecureWindow(InputFieldInfo field, PrivacySettings privacy) =>
-    field.isSensitive || privacy.hideFromScreenshots;
+    field.isSensitive || field.noPersonalizedLearning || privacy.hideFromScreenshots;
 
 enum _SpaceState {
   none,

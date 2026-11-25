@@ -284,9 +284,11 @@ class InputFieldInfo {
   /// send raw key events instead.
   bool get isRawKeyMode => kind == FieldKind.none;
 
-  /// Sensitive = a password, or a field that asks for no personalised learning or no suggestions (decision D1,
-  /// 2026-11-24): no popups, no suggestions, no learning, no voice, no translation, FLAG_SECURE.
-  bool get isSensitive => isPassword || noPersonalizedLearning || noSuggestionsFlag;
+  /// Sensitive = a password, or a field that asks for no suggestions: no popups, no suggestions, no swipe,
+  /// no emoji, no learning, no voice, no translation, FLAG_SECURE. A field that only asks for no personalised
+  /// learning (private browsing) is not sensitive: it keeps every feature, and only learning is off
+  /// (`allowsLearning`, `InputController.learningAllowed`, and `shouldSecureWindow` still blocks screenshots).
+  bool get isSensitive => isPassword || noSuggestionsFlag;
 
   bool get allowsSuggestions => kind == FieldKind.text && !isPassword && !noSuggestionsFlag;
 

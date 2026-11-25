@@ -35,7 +35,7 @@ void main() {
 
   EmojiStore make({BlobExists? exists}) => EmojiStore(
     blobs: blobs,
-    isIncognito: () => incognito,
+    learningOff: () => incognito,
     exists: exists,
     clock: () => now,
     saveDelay: Duration.zero,
@@ -123,7 +123,7 @@ void main() {
       final locked = _LockedBlobs();
       final store = EmojiStore(
         blobs: locked,
-        isIncognito: () => false,
+        learningOff: () => false,
         exists: (_) async => true,
         clock: () => now,
         saveDelay: Duration.zero,

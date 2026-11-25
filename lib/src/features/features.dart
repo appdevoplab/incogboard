@@ -49,7 +49,7 @@ class _PanelsFeature extends KeyboardFeature {
 
     final store = EmojiStore(
       blobs: services.secureStore,
-      isIncognito: () => session.input.isIncognito,
+      learningOff: () => !session.input.learningAllowed,
       exists: onDevice,
     );
     final repository = _emojiRepository ?? EmojiRepository.assets();
