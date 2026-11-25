@@ -126,6 +126,9 @@ English letters, plus Hinglish), Marathi, Bengali, Tamil, Telugu, Arabic, Urdu, 
 </table>
 
 Voice typing uses Whisper through sherpa-onnx and recognises 17 languages, Filipino included. Audio stays in memory and is never saved.
+For English there will be an optional high-accuracy pack (NVIDIA Parakeet, 662 MB; it needs about 700 MB of free
+memory while you dictate) with the next release. Like every pack, you download it with your browser and import it;
+IncogBoard itself never goes online.
 Translation uses Opus-MT models in signed packs. English → Spanish is available now; more directions (French,
 German, Portuguese, Hindi, Russian) are planned.
 
